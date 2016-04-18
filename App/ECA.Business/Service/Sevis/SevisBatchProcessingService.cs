@@ -38,6 +38,11 @@ namespace ECA.Business.Service.Sevis
         /// The DS2019 file content type.
         /// </summary>
         public const string DS2019_CONTENT_TYPE = "application/pdf";
+        
+        /// <summary>
+        /// A generic message to set when the batch was cancelled for an indeterminate reason.
+        /// </summary>
+        public const string GENERIC_BATCH_CANCELLED_REASON_MESSAGE = "The batch was cancelled for an unknown reason.  Inspect the batch values to determine errors.";
 
         /// <summary>
         /// The number of queued to submit participants to page.
@@ -243,6 +248,71 @@ namespace ECA.Business.Service.Sevis
             batch.LastDownloadTry = DateTimeOffset.UtcNow;
         }
 
+        /// <summary>
+        /// Cancels the given batch for the given reason.
+        /// </summary>
+        /// <param name="batch">The batch to cancel.</param>
+        /// <param name="reason">The reasoning for the cancel.</param>
+        public void Cancel(SevisBatchProcessing batch, string reason)
+        {
+            var participantIds = CreateGetParticipantIdsByBatchId(batch.BatchId).ToList();
+            DoCancelBatch(batch, participantIds, reason);
+        }
+
+        /// <summary>
+        /// Cancels the given batch for the given reason.
+        /// </summary>
+        /// <param name="batch">The batch to cancel.</param>
+        /// <param name="reason">The reasoning for the cancel.</param>
+        public async Task CancelAsync(SevisBatchProcessing batch, string reason)
+        {
+            var participantIds = await CreateGetParticipantIdsByBatchId(batch.BatchId).ToListAsync();
+            DoCancelBatch(batch, participantIds, reason);
+        }
+
+        private void DoCancelBatch(SevisBatchProcessing batch, List<int> cancelledParticipantsById, string reason)
+        {
+            Contract.Requires(batch != null, "The batch must not be null.");
+            Contract.Requires(reason != null, "The reason must not be null.");
+            Contract.Requires(cancelledParticipantsById != null, "The cancelledParticipantsById list must not be null.");
+            var now = DateTimeOffset.UtcNow;
+            var cancelledBatch = new CancelledSevisBatchProcessing
+            {
+                BatchId = batch.BatchId,
+                CancelledOn = now,
+                DownloadDispositionCode = batch.DownloadDispositionCode,
+                DownloadTries = batch.DownloadTries,
+                LastDownloadTry = batch.LastDownloadTry,
+                LastUploadTry = batch.LastUploadTry,
+                ProcessDispositionCode = batch.ProcessDispositionCode,
+                Reason = reason,
+                RetrieveDate = batch.RetrieveDate,
+                SendString = batch.SendString,
+                SevisOrgId = batch.SevisOrgId,
+                SevisUsername = batch.SevisUsername,
+                SubmitDate = batch.SubmitDate,
+                TransactionLogString = batch.TransactionLogString,
+                UploadDispositionCode = batch.UploadDispositionCode,
+                UploadTries = batch.UploadTries
+            };
+            foreach (var id in cancelledParticipantsById)
+            {
+                var commStatus = new ParticipantPersonSevisCommStatus
+                {
+                    AddedOn = now,
+                    BatchId = batch.BatchId,
+                    ParticipantId = id,
+                    SevisCommStatusId = SevisCommStatus.BatchCancelledBySystem.Id,
+                    SevisOrgId = batch.SevisOrgId,
+                    SevisUsername = batch.SevisUsername,
+                };
+                Context.ParticipantPersonSevisCommStatuses.Add(commStatus);
+            }
+            Context.CancelledSevisBatchProcessings.Add(cancelledBatch);
+            Context.SevisBatchProcessings.Remove(batch);
+        }
+
+
         #endregion
 
         #region Process Transaction Log
@@ -357,8 +427,18 @@ namespace ECA.Business.Service.Sevis
                 }
                 else
                 {
-                    batch.UploadTries++;
-                    batch.LastUploadTry = DateTimeOffset.UtcNow;
+                    if (dispositionCode == DispositionCode.DuplicateBatchId 
+                        || dispositionCode == DispositionCode.DocumentNameInvalid
+                        || dispositionCode == DispositionCode.MalformedXml
+                        || dispositionCode == DispositionCode.InvalidXml)
+                    {
+                        Cancel(batch, dispositionCode.Description);
+                    }
+                    else
+                    {
+                        batch.UploadTries++;
+                        batch.LastUploadTry = DateTimeOffset.UtcNow;
+                    }
                 }
                 notificationService.NotifyUploadedBatchProcessed(batch.BatchId, dispositionCode);
             }
@@ -384,8 +464,18 @@ namespace ECA.Business.Service.Sevis
                 }
                 else
                 {
-                    batch.UploadTries++;
-                    batch.LastUploadTry = DateTimeOffset.UtcNow;
+                    if (dispositionCode == DispositionCode.DuplicateBatchId
+                        || dispositionCode == DispositionCode.DocumentNameInvalid
+                        || dispositionCode == DispositionCode.MalformedXml
+                        || dispositionCode == DispositionCode.InvalidXml)
+                    {
+                        Cancel(batch, dispositionCode.Description);
+                    }
+                    else
+                    {
+                        batch.UploadTries++;
+                        batch.LastUploadTry = DateTimeOffset.UtcNow;
+                    }
                 }
                 notificationService.NotifyUploadedBatchProcessed(batch.BatchId, dispositionCode);
             }

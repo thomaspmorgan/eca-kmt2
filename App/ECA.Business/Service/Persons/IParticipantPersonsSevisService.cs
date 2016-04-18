@@ -1,4 +1,5 @@
 ﻿using ECA.Business.Queries.Models.Persons;
+using ECA.Business.Queries.Models.Sevis;
 using ECA.Core.DynamicLinq;
 using ECA.Core.Query;
 using ECA.Core.Service;
@@ -80,5 +81,25 @@ namespace ECA.Business.Service.Persons
         /// <param name="queryOperator">The query operator.</param>
         /// <returns>The paged, filtered, and sorted sevis comm statuses.</returns>
         Task<PagedQueryResults<ParticipantPersonSevisCommStatusDTO>> GetSevisCommStatusesByParticipantIdAsync(int projectId, int participantId, QueryableOperator<ParticipantPersonSevisCommStatusDTO> queryOperator);
+
+        /// <summary>
+        /// Returns the batch info with the given batch id.
+        /// </summary>
+        /// <param name="batchId">The batch id.</param>
+        /// /// <param name="userId">The id of the user requesting the batch status.</param>
+        /// <param name="participantId">The participant to get the status for.</param>
+        /// <param name="projectId">The project id of the participant.</param>
+        /// <returns>The info dto or null of it does not exist.</returns>
+        SevisBatchInfoDTO GetBatchInfoByBatchId(int userId, int projectId, int participantId, string batchId);
+
+        /// <summary>
+        /// Returns the batch info with the given batch id.
+        /// </summary>
+        /// <param name="batchId">The batch id.</param>
+        /// /// <param name="userId">The id of the user requesting the batch status.</param>
+        /// <param name="participantId">The participant to get the status for.</param>
+        /// <param name="projectId">The project id of the participant.</param>
+        /// <returns>The info dto or null of it does not exist.</returns>
+        Task<SevisBatchInfoDTO> GetBatchInfoByBatchIdAsync(int userId, int projectId, int participantId, string batchId);
     }
 }

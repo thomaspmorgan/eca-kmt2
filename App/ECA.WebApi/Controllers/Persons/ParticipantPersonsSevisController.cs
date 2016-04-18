@@ -1,5 +1,6 @@
 ﻿using CAM.Data;
 using ECA.Business.Queries.Models.Persons;
+using ECA.Business.Queries.Models.Sevis;
 using ECA.Business.Service.Persons;
 using ECA.Business.Validation.Sevis;
 using ECA.Core.DynamicLinq;
@@ -61,7 +62,8 @@ namespace ECA.WebApi.Controllers.Persons
             {
                 var results = await participantService.GetSevisParticipantsByProjectIdAsync(projectId, queryModel.ToQueryableOperator(DEFAULT_SORTER, x => x.FullName, x => x.SevisStatus, x => x.SevisId));
                 return Ok(results);
-            } else
+            }
+            else
             {
                 return BadRequest(ModelState);
             }
@@ -111,6 +113,24 @@ namespace ECA.WebApi.Controllers.Persons
         }
 
         /// <summary>
+        /// Retrieves the participantPersonSevis comm statuses with the given id.
+        /// </summary>
+        /// <param name="participantId">The id of the participant.</param>
+        /// <param name
+        /// <param name="projectId">The id of the project.</param>
+        /// <param name="model">The query operator binding model.</param>
+        /// <returns>The participantPersonSevis with the given id.</returns>
+        [ResponseType(typeof(SevisBatchInfoDTO))]
+        [Route("Project/{projectId:int}/ParticipantPersonsSevis/{participantId:int}/Batch/{batchId}")]
+        public async Task<IHttpActionResult> GetSevisBatchProcessingInfoAsync(int projectId, int participantId, string batchId)
+        {
+            var currentUser = this.userProvider.GetCurrentUser();
+            var businessUser = this.userProvider.GetBusinessUser(currentUser);
+            var info = await participantService.GetBatchInfoByBatchIdAsync(businessUser.Id, projectId, participantId, batchId);
+            return Ok(info);
+        }
+
+        /// <summary>
         /// Updates the new participantPersonSevis with the given participantId.
         /// </summary>
         /// <param name="model">The new email address.</param>
@@ -121,7 +141,7 @@ namespace ECA.WebApi.Controllers.Persons
         [ResourceAuthorize(Permission.EDIT_SEVIS_VALUE, ResourceType.PROJECT_VALUE, "projectId")]
         [ResponseType(typeof(ParticipantPersonSevisDTO))]
         public async Task<IHttpActionResult> PutParticipantPersonsSevisAsync(int projectId, [FromBody]UpdatedParticipantPersonSevisBindingModel model)
-        {   
+        {
             if (ModelState.IsValid)
             {
                 var currentUser = userProvider.GetCurrentUser();
@@ -151,7 +171,7 @@ namespace ECA.WebApi.Controllers.Persons
         {
             if (ModelState.IsValid)
             {
-                var currentUser = userProvider.GetCurrentUser();                
+                var currentUser = userProvider.GetCurrentUser();
                 var businessUser = userProvider.GetBusinessUser(currentUser);
                 var hasSevisCredentials = await userProvider.HasSevisUserAccountAsync(currentUser, model.SevisUsername, model.SevisOrgId);
                 if (!hasSevisCredentials)

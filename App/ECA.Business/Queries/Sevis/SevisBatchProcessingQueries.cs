@@ -15,7 +15,68 @@ namespace ECA.Business.Queries.Sevis
     /// </summary>
     public static class SevisBatchProcessingQueries
     {
-        #region SevisBatchProcessingDTOs
+        /// <summary>
+        /// Returns a query to retrieve sevis batch info dtos from the given context.
+        /// </summary>
+        /// <param name="context">The context to query.</param>
+        /// <returns>The query.</returns>
+        public static IQueryable<SevisBatchInfoDTO> CreateGetSevisBatchInfoDTOsQuery(EcaContext context)
+        {
+            Contract.Requires(context != null, "The context must not be null.");
+            var activeBatches = from batch in context.SevisBatchProcessings
+                                select new SevisBatchInfoDTO
+                                {
+                                    BatchId = batch.BatchId,
+                                    CancelledOn = null,
+                                    CancelledReason = null,
+                                    DownloadDispositionCode = batch.DownloadDispositionCode,
+                                    DownloadTries = batch.DownloadTries,
+                                    Id = batch.Id,
+                                    IsCancelled = false,
+                                    LastDownloadTry = batch.LastDownloadTry,
+                                    LastUploadTry = batch.LastUploadTry,
+                                    ProcessDispositionCode = batch.ProcessDispositionCode,
+                                    RetrieveDate = batch.RetrieveDate,
+                                    SevisUsername = batch.SevisUsername,
+                                    SubmitDate = batch.SubmitDate,
+                                    UploadDispositionCode = batch.UploadDispositionCode,
+                                    UploadTries = batch.UploadTries
+                                };
+
+            var cancelledBatches = from batch in context.CancelledSevisBatchProcessings
+                                   select new SevisBatchInfoDTO
+                                   {
+                                       BatchId = batch.BatchId,
+                                       CancelledOn = batch.CancelledOn,
+                                       CancelledReason = batch.Reason,
+                                       DownloadDispositionCode = batch.DownloadDispositionCode,
+                                       DownloadTries = batch.DownloadTries,
+                                       Id = batch.Id,
+                                       IsCancelled = true,
+                                       LastDownloadTry = batch.LastDownloadTry,
+                                       LastUploadTry = batch.LastUploadTry,
+                                       ProcessDispositionCode = batch.ProcessDispositionCode,
+                                       RetrieveDate = batch.RetrieveDate,
+                                       SevisUsername = batch.SevisUsername,
+                                       SubmitDate = batch.SubmitDate,
+                                       UploadDispositionCode = batch.UploadDispositionCode,
+                                       UploadTries = batch.UploadTries
+                                   };
+            return activeBatches.Union(cancelledBatches);
+        }
+
+        /// <summary>
+        /// Returns a query to retrieve the sevis batch info dto with the given batch id.
+        /// </summary>
+        /// <param name="context">The context to query.</param>
+        /// <param name="batchId">The batch id.</param>
+        /// <returns>The query to get the sevis batch info dto with the given batch id.</returns>
+        public static IQueryable<SevisBatchInfoDTO> CreateGetSevisBatchInfoDTOByBatchIdQuery(EcaContext context, string batchId)
+        {
+            Contract.Requires(context != null, "The context must not be null.");
+            return CreateGetSevisBatchInfoDTOsQuery(context).Where(x => x.BatchId == batchId);
+        }
+
         /// <summary>
         /// Returns a query to get SEVIS batch processing dtos from the given context.
         /// </summary>
@@ -55,7 +116,7 @@ namespace ECA.Business.Queries.Sevis
             var generalUploadDownloadFailureCode = DispositionCode.GeneralUploadDownloadFailure.Code;
             var batchNeverSubmittedFailureCode = DispositionCode.BatchNeverSubmitted.Code;
             var query = from dto in CreateGetSevisBatchProcessingDTOQuery(context)
-                        where !dto.SubmitDate.HasValue 
+                        where !dto.SubmitDate.HasValue
                         || dto.UploadDispositionCode == generalUploadDownloadFailureCode
                         || dto.DownloadDispositionCode == batchNeverSubmittedFailureCode
                         orderby dto.Id descending
@@ -82,8 +143,6 @@ namespace ECA.Business.Queries.Sevis
             return query;
         }
 
-        #endregion
-
         /// <summary>
         /// Returns a query to retrieve participants that are included in a batch with the given batch id.
         /// </summary>
@@ -97,7 +156,7 @@ namespace ECA.Business.Queries.Sevis
                         where commStatus.BatchId == batchId
                         select commStatus.ParticipantPerson;
             return query.Distinct();
-        } 
+        }
 
         /// <summary>
         /// Returns a query to get participants that are queued to submit.
