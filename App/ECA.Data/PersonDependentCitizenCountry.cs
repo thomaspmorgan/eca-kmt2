@@ -22,19 +22,21 @@ namespace ECA.Data
         public int LocationId { get; set; }
 
         /// <summary>
-        /// Gets or sets the location.
+        /// Gets or sets the is primary flag.
         /// </summary>
-        public virtual Location Location { get; set; }
+        public bool IsPrimary { get; set; }
 
         /// <summary>
         /// Gets or sets the citizenship country dependent
         /// </summary>
+        [ForeignKey("DependentId")]
         public virtual PersonDependent Dependent { get; set; }
 
         /// <summary>
-        /// Gets or sets the is primary flag.
+        /// Gets or sets the location.
         /// </summary>
-        public bool IsPrimary { get; set; }
+        [ForeignKey("LocationId")]
+        public virtual Location Location { get; set; }
 
     }
 }

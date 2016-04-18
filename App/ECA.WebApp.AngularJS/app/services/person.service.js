@@ -16,7 +16,7 @@ angular.module('staticApp')
               DragonBreath.get('people/' + id + '/evaluationNotes')
                 .success(function (data) {
                     defer.resolve(data);
-                })
+                });
               return defer.promise;
           },
           getGeneralById: function (id) {
@@ -24,7 +24,7 @@ angular.module('staticApp')
               DragonBreath.get('people/' + id + '/general')
                 .success(function (data) {
                     defer.resolve(data);
-                })
+                });
               return defer.promise;
           },
           getPiiById: function (id) {
@@ -32,7 +32,7 @@ angular.module('staticApp')
               DragonBreath.get('people/' + id + '/pii')
                 .success(function (data) {
                     defer.resolve(data);
-                })
+                });
               return defer.promise;
           },
           getContactInfoById: function (id) {

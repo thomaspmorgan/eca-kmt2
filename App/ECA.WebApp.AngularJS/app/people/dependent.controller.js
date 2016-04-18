@@ -30,8 +30,19 @@ angular.module('staticApp')
                  if ($scope.dependent.dateOfBirth) {
                      $scope.dependent.dateOfBirth = DateTimeService.getDateAsLocalDisplayMoment($scope.dependent.dateOfBirth).toDate();
                  }
-             });
-      };
+             }), 
+            function (error) {
+                if (error.status == 400) {
+                    if (error.data.message && error.data.modelState) {
+                        for (var key in error.data.modelState) {
+                            NotificationService.showErrorMessage(error.data.modelState[key][0]);
+                        }
+                    } else {
+                        NotificationService.showErrorMessage(error.data);
+                    }
+                }
+            };
+      }
 
       $scope.onCloseViewDependentClick = function () {
           $modalInstance.dismiss('cancel');

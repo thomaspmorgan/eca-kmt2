@@ -215,11 +215,6 @@ namespace ECA.Business.Service.Persons
             return query.Where(p => p.DependentId == dependentId);
         }
         
-        private async Task<PersonDependent> GetPersonDependentAsync(int dependentId)
-        {
-            return await Context.PersonDependents.FindAsync(dependentId);
-        }
-
         /// <summary>
         /// Create a person dependent
         /// </summary>

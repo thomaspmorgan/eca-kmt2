@@ -116,13 +116,13 @@ namespace ECA.WebApi.Test.Controllers.Persons
         //    Assert.IsInstanceOfType(response, typeof(OkResult));
         //}
 
-        [TestMethod]
-        public async Task TestPostPersonDependentAsync_Invalid()
-        {
-            controller.ModelState.AddModelError("key", "error");
-            var response = await controller.PostPersonDependentAsync(new DependentBindingModel());
-            Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
-        }
+        //[TestMethod]
+        //public async Task TestPostPersonDependentAsync_Invalid()
+        //{
+        //    controller.ModelState.AddModelError("key", "error");
+        //    var response = await controller.PostPersonDependentAsync(new DependentBindingModel());
+        //    Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
+        //}
 
         #endregion
 
@@ -154,13 +154,31 @@ namespace ECA.WebApi.Test.Controllers.Persons
             personService.Verify(x => x.GetPeopleAsync(It.IsAny<QueryableOperator<SimplePersonDTO>>()), Times.Once());
         }
 
-        [TestMethod]
-        public async Task TestGetPeopleAsync_InvalidModel()
-        {
-            controller.ModelState.AddModelError("key", "error");
-            var response = await controller.GetPeopleAsync(new PagingQueryBindingModel<SimplePersonDTO>());
-            Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
-        }
+        //[TestMethod]
+        //public async Task TestGetPeopleAsync_InvalidModel()
+        //{
+        //    controller.ModelState.AddModelError("key", "error");
+        //    var response = await controller.GetPeopleAsync(new PagingQueryBindingModel<SimplePersonDTO>());
+        //    Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
+        //}
+
+        //public async Task TestGetPersonDependentById()
+        //{
+        //    personService.Setup(x => x.GetPersonDependentByIdAsync(It.IsAny<int>()))
+        //        .ReturnsAsync(new SimplePersonDependentDTO());
+        //    var response = await controller.GetPersonDependentByIdAsync(1);
+        //    Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<SimplePersonDependentDTO>));
+        //}
+
+        //[TestMethod]
+        //public async Task TestGetPersonDependentById_InvalidModel()
+        //{
+        //    personService.Setup(x => x.GetPersonDependentByIdAsync(It.IsAny<int>()))
+        //        .ReturnsAsync(null);
+        //    var response = await controller.GetPersonDependentByIdAsync(1);
+        //    Assert.IsInstanceOfType(response, typeof(NotFoundResult));
+        //}
+
         #endregion
 
         #region Addresses

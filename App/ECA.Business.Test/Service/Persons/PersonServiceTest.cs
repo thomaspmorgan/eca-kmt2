@@ -2171,6 +2171,7 @@ namespace ECA.Business.Test.Service.Persons
                 isPlaceOfBirthUnknown: isPlaceOfBirthUnknown,
                 cityOfBirth: cityOfBirth,
                 countriesOfCitizenship: countriesOfCitizenship);
+
             var person = await service.GetExistingPersonAsync(newPerson);
             Assert.IsNotNull(person);
         }
@@ -2214,6 +2215,7 @@ namespace ECA.Business.Test.Service.Persons
                 isPlaceOfBirthUnknown: isPlaceOfBirthUnknown,
                 cityOfBirth: cityOfBirth,
                 countriesOfCitizenship: countriesOfCitizenship);
+
             var person = await service.GetExistingPersonAsync(newPerson);
             Assert.IsNotNull(person);
         }
@@ -2221,6 +2223,42 @@ namespace ECA.Business.Test.Service.Persons
         #endregion
 
         #region Dependent
+
+        [TestMethod]
+        public async Task TestGetExistingPersonDependentAsync_CheckProperties()
+        {
+            var newDependent = new PersonDependent
+            {
+                PersonId = 1,
+                DependentTypeId = DependentType.Spouse.Id,
+                FirstName = "first",
+                LastName = "last",
+                NameSuffix = "jr",
+                PassportName = "first last",
+                PreferredName = "first last",
+                GenderId = Gender.Female.Id,
+                DateOfBirth = DateTime.Now,
+                PlaceOfBirthId = 67,
+                BirthCountryReasonId = BirthCountryReason.BornToForeignDiplomat.Id,
+                EmailAddresses = new List<EmailAddress>(),
+                CountriesOfCitizenship = new List<PersonDependentCitizenCountry>(),
+                PlaceOfResidenceId = 193,
+                IsTravellingWithParticipant = true
+            };
+
+            context.PersonDependents.Add(newDependent);
+            var user = new User(1);
+
+            var newPerson = new NewPersonDependent(createdBy: user, personId: newDependent.PersonId, dependentTypeId: newDependent.DependentTypeId,
+            firstName: newDependent.FirstName, lastName: newDependent.LastName, nameSuffix: newDependent.NameSuffix, passportName: newDependent.PassportName, 
+            preferredName: newDependent.PreferredName, genderId: newDependent.GenderId, dateOfBirth: newDependent.DateOfBirth, 
+            placeOfBirthId: newDependent.PlaceOfBirthId, placeOfResidenceId: newDependent.PlaceOfResidenceId, 
+            birthCountryReasonId: newDependent.BirthCountryReasonId, emailAddress: newDependent.EmailAddresses.Select(x => x.Address).FirstOrDefault(), 
+            countriesOfCitizenship: newDependent.CountriesOfCitizenship.ToList(), isTravelWithParticipant: newDependent.IsTravellingWithParticipant);
+            
+            var dependent = await service.GetExistingDependentAsync(newPerson);
+            Assert.IsNotNull(dependent);
+        }
 
         [TestMethod]
         public async Task TestCreateDependentAsync_CheckProperties()
