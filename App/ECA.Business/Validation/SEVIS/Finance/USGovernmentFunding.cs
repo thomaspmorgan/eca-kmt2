@@ -91,5 +91,25 @@ namespace ECA.Business.Validation.Sevis.Finance
             };
             return instance;
         }
+
+        /// <summary>
+        /// Returns the total funding.
+        /// </summary>
+        /// <returns>The total funding.</returns>
+        public decimal GetTotalFunding()
+        {
+            var total = 0.0m;
+            decimal amount1;
+            decimal amount2;
+            if (!string.IsNullOrWhiteSpace(this.Amount1) && decimal.TryParse(this.Amount1, out amount1))
+            {
+                total += amount1;
+            }
+            if (!string.IsNullOrWhiteSpace(this.Amount2) && decimal.TryParse(this.Amount2, out amount2))
+            {
+                total += amount2;
+            }
+            return total;
+        }
     }
 }

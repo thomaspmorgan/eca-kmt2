@@ -2,13 +2,14 @@
 using ECA.Business.Validation.Sevis.ErrorPaths;
 using FluentValidation;
 using System;
+using System.Text.RegularExpressions;
 
 namespace ECA.Business.Validation.Sevis.Bio
 {
     /// <summary>
     /// A FullName validator is used to validate a sevis exchange visitor's name.
     /// </summary>
-    public class FullNameValidator : AbstractValidator<FullName> 
+    public class FullNameValidator : AbstractValidator<FullName>
     {
         /// <summary>
         /// The max length of the first name.
@@ -33,23 +34,23 @@ namespace ECA.Business.Validation.Sevis.Bio
         /// <summary>
         /// The error message to format when a person's first name is to long.
         /// </summary>
-        public const string FIRST_NAME_ERROR_MESSAGE = "The {0} person's first name can be up to {1} characters.";
+        public const string FIRST_NAME_ERROR_MESSAGE = "The {0} person's first name is required, can be up to {1} characters long, and may not contain digits.";
 
         /// <summary>
         /// The error message to format when a person's last name is to long.
         /// </summary>
-        public const string LAST_NAME_ERROR_MESSAGE = "The {0} person's last name can be up to {1} characters.";
+        public const string LAST_NAME_ERROR_MESSAGE = "The {0} person's last name, is required, can be up to {1} characters long, and may not contain digits.";
 
         /// <summary>
         /// The error message to return when a person's passport name is to long.
         /// </summary>
-        public const string PASSPORT_NAME_ERROR_MESSAGE = "The {0} person's passport name can be up to {1} characters.";
+        public const string PASSPORT_NAME_ERROR_MESSAGE = "The {0} person's passport name can be up to {1} characters long and may not contain digits.";
 
         /// <summary>
         /// The error message to return when a person's preferred name is to long.
         /// </summary>
 
-        public const string PREFFERED_NAME_ERROR_MESSAGE = "The {0} person's preferred name can be up to {1} characters.";
+        public const string PREFFERED_NAME_ERROR_MESSAGE = "The {0} person's preferred name can be up to {1} characters long and may not contain digits.";
 
         /// <summary>
         /// The sevis junior suffix.
@@ -91,13 +92,23 @@ namespace ECA.Business.Validation.Sevis.Bio
         /// </summary>
         public const string SUFFIX_VALUE_ERROR_MESSAGE = "The {0} name suffix '{1}' is invalid and must be one of the following values:  '{2}'.";
 
+
+
         /// <summary>
         /// Creates a new default instance.
         /// </summary>
         public FullNameValidator(string personType)
         {
+            var firstNameRegex = new Regex(String.Format("^\\D{{1,{0}}}$", FIRST_NAME_MAX_LENGTH));
+            var lastNameRegex = new Regex(String.Format("^\\D{{1,{0}}}$", LAST_NAME_MAX_LENGTH));
+            var passportRegex = new Regex(String.Format("^\\D{{0,{0}}}$", PASSPORT_NAME_MAX_LENGTH));
+            var preferredNameRegex = new Regex(String.Format("^\\D{{0,{0}}}$", PREFERRED_NAME_MAX_LENGTH));
+
             RuleFor(visitor => visitor.FirstName)
-                .Length(1, FIRST_NAME_MAX_LENGTH)
+                .NotNull()
+                .WithMessage(FIRST_NAME_ERROR_MESSAGE, (n) => personType, (n) => FIRST_NAME_MAX_LENGTH)
+                .WithState(x => new FullNameErrorPath())
+                .Matches(firstNameRegex)
                 .WithMessage(FIRST_NAME_ERROR_MESSAGE, (n) => personType, (n) => FIRST_NAME_MAX_LENGTH)
                 .WithState(x => new FullNameErrorPath());
 
@@ -105,7 +116,7 @@ namespace ECA.Business.Validation.Sevis.Bio
                 .NotNull()
                 .WithMessage(LAST_NAME_ERROR_MESSAGE, (n) => personType, (n) => LAST_NAME_MAX_LENGTH)
                 .WithState(x => new FullNameErrorPath())
-                .Length(1, LAST_NAME_MAX_LENGTH)
+                .Matches(lastNameRegex)
                 .WithMessage(LAST_NAME_ERROR_MESSAGE, (n) => personType, (n) => LAST_NAME_MAX_LENGTH)
                 .WithState(x => new FullNameErrorPath());
 
@@ -125,12 +136,12 @@ namespace ECA.Business.Validation.Sevis.Bio
                 .WithState(x => new FullNameErrorPath());
 
             RuleFor(visitor => visitor.PassportName)
-                .Length(0, PASSPORT_NAME_MAX_LENGTH)
+                .Matches(passportRegex)
                 .WithMessage(PASSPORT_NAME_ERROR_MESSAGE, (n) => personType, (n) => PASSPORT_NAME_MAX_LENGTH)
                 .WithState(x => new FullNameErrorPath());
 
             RuleFor(visitor => visitor.PreferredName)
-                .Length(0, PREFERRED_NAME_MAX_LENGTH)
+                .Matches(preferredNameRegex)
                 .WithMessage(PREFFERED_NAME_ERROR_MESSAGE, (n) => personType, (n) => PREFERRED_NAME_MAX_LENGTH)
                 .WithState(x => new FullNameErrorPath());
         }
