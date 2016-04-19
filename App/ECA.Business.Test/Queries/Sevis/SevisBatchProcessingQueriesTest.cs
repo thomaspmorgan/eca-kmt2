@@ -547,7 +547,6 @@ namespace ECA.Business.Test.Queries.Sevis
             Assert.AreEqual(batch.LastUploadTry, first.LastUploadTry);
             Assert.AreEqual(batch.ProcessDispositionCode, first.ProcessDispositionCode);
             Assert.AreEqual(batch.RetrieveDate, first.RetrieveDate);
-            Assert.AreEqual(batch.SevisUsername, first.SevisUsername);
             Assert.AreEqual(batch.SubmitDate, first.SubmitDate);
             Assert.AreEqual(batch.UploadDispositionCode, first.UploadDispositionCode);
             Assert.AreEqual(batch.UploadTries, first.UploadTries);
@@ -592,7 +591,6 @@ namespace ECA.Business.Test.Queries.Sevis
             Assert.AreEqual(batch.LastUploadTry, first.LastUploadTry);
             Assert.AreEqual(batch.ProcessDispositionCode, first.ProcessDispositionCode);
             Assert.AreEqual(batch.RetrieveDate, first.RetrieveDate);
-            Assert.AreEqual(batch.SevisUsername, first.SevisUsername);
             Assert.AreEqual(batch.SubmitDate, first.SubmitDate);
             Assert.AreEqual(batch.UploadDispositionCode, first.UploadDispositionCode);
             Assert.AreEqual(batch.UploadTries, first.UploadTries);

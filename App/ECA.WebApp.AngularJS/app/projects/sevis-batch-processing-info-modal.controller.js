@@ -29,7 +29,6 @@ angular.module('staticApp')
       $scope.view.isLoadingDetails = true;
       ParticipantPersonsSevisService.getBatchInfo(projectId, sevisCommStatus.participantId, sevisCommStatus.batchId)
       .then(function (response) {
-          debugger;
           $scope.view.isLoadingDetails = false;
           $scope.view.details = response.data;
       })

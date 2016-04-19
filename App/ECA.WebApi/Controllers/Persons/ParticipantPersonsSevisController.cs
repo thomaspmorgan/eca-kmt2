@@ -9,6 +9,7 @@ using ECA.Core.Query;
 using ECA.WebApi.Models.Person;
 using ECA.WebApi.Models.Query;
 using ECA.WebApi.Security;
+using System;
 using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
 using System.Web.Http;

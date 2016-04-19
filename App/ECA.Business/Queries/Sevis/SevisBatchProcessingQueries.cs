@@ -37,7 +37,6 @@ namespace ECA.Business.Queries.Sevis
                                     LastUploadTry = batch.LastUploadTry,
                                     ProcessDispositionCode = batch.ProcessDispositionCode,
                                     RetrieveDate = batch.RetrieveDate,
-                                    SevisUsername = batch.SevisUsername,
                                     SubmitDate = batch.SubmitDate,
                                     UploadDispositionCode = batch.UploadDispositionCode,
                                     UploadTries = batch.UploadTries
@@ -57,7 +56,6 @@ namespace ECA.Business.Queries.Sevis
                                        LastUploadTry = batch.LastUploadTry,
                                        ProcessDispositionCode = batch.ProcessDispositionCode,
                                        RetrieveDate = batch.RetrieveDate,
-                                       SevisUsername = batch.SevisUsername,
                                        SubmitDate = batch.SubmitDate,
                                        UploadDispositionCode = batch.UploadDispositionCode,
                                        UploadTries = batch.UploadTries
