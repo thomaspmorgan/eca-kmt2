@@ -310,8 +310,8 @@ namespace ECA.Business.Service.Sevis
             }
             Context.CancelledSevisBatchProcessings.Add(cancelledBatch);
             Context.SevisBatchProcessings.Remove(batch);
+            notificationService.NotifyCancelledSevisBatch(batch.BatchId, reason);
         }
-
 
         #endregion
 

@@ -517,7 +517,7 @@ namespace ECA.Business.Test.Validation.Sevis
         }
 
         [TestMethod]
-        public void TestProgramEndDate_ProgramEndDateIsBeforeProggramStartDate()
+        public void TestProgramEndDate_ProgramEndDateIsBeforeProgramStartDate()
         {
             var exchangeVisitorSevisId = "sevis id";
             var state = "TN";
@@ -603,7 +603,7 @@ namespace ECA.Business.Test.Validation.Sevis
             Assert.IsTrue(results.IsValid);
 
             startDate = DateTime.UtcNow;
-            endDate = DateTime.UtcNow.AddDays(-1.0);
+            endDate = DateTime.UtcNow.AddDays(-10.0);
 
             instance = createEntity();
             results = validator.Validate(instance);

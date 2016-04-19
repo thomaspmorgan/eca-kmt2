@@ -3874,10 +3874,12 @@ namespace ECA.Business.Test.Service.Sevis
             context.Revert();
             service.Cancel(batch, reason);
             tester();
+            notificationService.Verify(x => x.NotifyCancelledSevisBatch(It.IsAny<string>(), It.IsAny<string>()), Times.Once());
 
             context.Revert();
             await service.CancelAsync(batch, reason);
             tester();
+            notificationService.Verify(x => x.NotifyCancelledSevisBatch(It.IsAny<string>(), It.IsAny<string>()), Times.Exactly(2));
         }
         #endregion
 
