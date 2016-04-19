@@ -13,20 +13,20 @@ angular.module('staticApp')
       return {
           getDependentById: function (dependentId) {
               var defer = $q.defer();
-              DragonBreath.get('person/' + dependentId + '/dependent')
+              DragonBreath.get('dependents/' + dependentId)
                 .success(function (data) {
                     defer.resolve(data);
                 });
               return defer.promise;
           },
           update: function (dependent) {
-              return DragonBreath.save(dependent, 'person/dependent');
+              return DragonBreath.save(dependent, 'dependents');
           },
           create: function (dependent) {
-              return DragonBreath.create(dependent, 'person/dependent');
+              return DragonBreath.create(dependent, 'people/dependents');
           },
           delete: function (dependent) {
-              return DragonBreath.save(dependent, 'person/dependent/' + dependent.dependentId);
+              return DragonBreath.save(dependent, 'dependents/' + dependent.dependentId);
           }
       };
   });
