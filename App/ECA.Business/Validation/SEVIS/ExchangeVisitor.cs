@@ -202,14 +202,13 @@ namespace ECA.Business.Validation.Sevis
             {
                 instance.OccupationCategoryCodeSpecified = false;
             }
-
             instance.ResidentialAddress = null;
             instance.PositionCode = (short)Int32.Parse(this.Person.PositionCode);
             instance.PrgEndDate = this.ProgramEndDate;
             instance.PrgStartDate = this.ProgramStartDate;
             instance.printForm = true;
-            instance.requestID = new RequestId(this.Person).ToString();
             instance.SubjectField = this.Person.SubjectField.GetEVPersonTypeSubjectField();
+            instance.SetRequestId(this.Person.ParticipantId);
             SetDependents(instance);
 
             var key = new ParticipantSevisKey(this.Person);
@@ -262,17 +261,17 @@ namespace ECA.Business.Validation.Sevis
                     userID = sevisUsername
                 };
             };
-            visitors.Add(createUpdateExchangeVisitor(this.Person.GetSEVISEVBatchTypeExchangeVisitorBiographical(), new RequestId(this.Person)));
-            visitors.Add(createUpdateExchangeVisitor(this.FinancialInfo.GetSEVISEVBatchTypeExchangeVisitorFinancialInfo(), new RequestId(this.Person, this.FinancialInfo)));
+            visitors.Add(createUpdateExchangeVisitor(this.Person.GetSEVISEVBatchTypeExchangeVisitorBiographical(), new RequestId(this.Person.ParticipantId, RequestIdType.Participant, RequestActionType.Update)));
+            visitors.Add(createUpdateExchangeVisitor(this.FinancialInfo.GetSEVISEVBatchTypeExchangeVisitorFinancialInfo(), new RequestId(this.Person.ParticipantId, RequestIdType.FinancialInfo, RequestActionType.Update)));
             foreach (var dependent in this.Dependents)
-            {
+            {   
                 var modifiedDependent = new ModifiedParticipantDependent(dependent);
-                visitors.Add(createUpdateExchangeVisitor(modifiedDependent.GetSEVISEVBatchTypeExchangeVisitorDependent(), new RequestId(dependent)));
+                visitors.Add(createUpdateExchangeVisitor(modifiedDependent.GetSEVISEVBatchTypeExchangeVisitorDependent(), dependent.GetRequestId()));
             }
 
             var exchangeVisitorProgram = new SEVISEVBatchTypeExchangeVisitorProgram();
             exchangeVisitorProgram.Item = this.Person.SubjectField.GetSEVISEVBatchTypeExchangeVisitorProgramEditSubject();
-            visitors.Add(createUpdateExchangeVisitor(exchangeVisitorProgram, new RequestId(this.Person, this.Person.SubjectField)));
+            visitors.Add(createUpdateExchangeVisitor(exchangeVisitorProgram, new RequestId(this.Person.ParticipantId, RequestIdType.SubjectField, RequestActionType.Update)));
 
             return visitors;
         }

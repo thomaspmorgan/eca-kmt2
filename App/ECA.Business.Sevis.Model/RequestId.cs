@@ -1,15 +1,8 @@
-﻿using ECA.Business.Sevis.Model.TransLog;
-using ECA.Business.Validation.Sevis.Bio;
-using ECA.Business.Validation.Sevis.Finance;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Diagnostics.Contracts;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
-namespace ECA.Business.Validation.Sevis
+namespace ECA.Business.Sevis.Model
 {
     /// <summary>
     /// A RequestIdType details what the sevis batch request is related to.
@@ -37,74 +30,40 @@ namespace ECA.Business.Validation.Sevis
         SubjectField
     }    
 
+    public enum RequestActionType
+    {
+        /// <summary>
+        /// The request is to create a sevis record.
+        /// </summary>
+        Create = 1,
+
+        /// <summary>
+        /// The request is to update a sevis record.
+        /// </summary>
+        Update
+    }
+
     /// <summary>
     /// A RequestId is used to encode information about the individual requests made in a sevis batch, including the participant id or person dependent id,
-    /// and the request type.  The format of the string will be [RequestIdType][P|D][ParticipantId|PersonDependentId]
+    /// and the request type.  According to the api documentation a request id
+    /// may be up to 20 characters long.  An Int32 max number is 10 characters long, leaving 10 characters for additional information. 
+    /// 
+    /// The string format will be [RequestIdType]-[RequestActionTypeId]-[ParticipantId|DependentId] where request type id is the enum integer value, [RequestEntityTypeId] 
+    /// the request Id will be up to 16 characters long.
     /// </summary>
     public class RequestId
     {
-        private static Regex REQUEST_ID_REGEX = new Regex(@"^\d+[P|D]\d+$");
+        private static Regex REQUEST_ID_REGEX = new Regex(@"^\d+[-]\d+[-]\d+$");
 
-        private const string REQUEST_ID_FORMAT_STRING = "{0}{1}{2}";
+        private const string SPLIT_CHAR = "-";
 
-        private const string PARTICIPANT_CHAR = "P";
-
-        private const string DEPENDENT_CHAR = "D";
-
-        private string requestId;
-
-        /// <summary>
-        /// Creates a new RequestId with the given person.
-        /// </summary>
-        /// <param name="person">The person.</param>
-        public RequestId(Bio.Person person)
-            : this(person.ParticipantId, PARTICIPANT_CHAR, RequestIdType.Participant)
+        private const string REQUEST_ID_FORMAT_STRING = "{0}-{1}-{2}";
+        
+        public RequestId(int id, RequestIdType requestIdType, RequestActionType actionType)
         {
-            Contract.Requires(person != null, "The person must not be null.");
-        }
-
-        /// <summary>
-        /// Creates a new RequestId with the given dependent.
-        /// </summary>
-        /// <param name="dependent">The dependent.</param>
-        public RequestId(Dependent dependent)
-            : this(dependent.PersonId, DEPENDENT_CHAR, RequestIdType.Dependent)
-        {
-            Contract.Requires(dependent != null, "The dependent must not be null.");
-        }
-
-        /// <summary>
-        /// Creates a new Request Id with the given person and financial info.
-        /// </summary>
-        /// <param name="person"></param>
-        /// <param name="financialInfo"></param>
-        public RequestId(Bio.Person person, FinancialInfo financialInfo)
-            : this(person.ParticipantId, PARTICIPANT_CHAR, RequestIdType.FinancialInfo)
-        {
-            Contract.Requires(person != null, "The person must not be null.");
-            Contract.Requires(financialInfo != null, "The financial info must not be null.");
-        }
-
-        /// <summary>
-        /// Creates a new RequestId instance with the given person and subject field.
-        /// </summary>
-        /// <param name="person">The person.</param>
-        /// <param name="subjectField">The subject field.</param>
-        public RequestId(Bio.Person person, SubjectField subjectField)
-            : this(person.ParticipantId, PARTICIPANT_CHAR, RequestIdType.SubjectField)
-        {
-            Contract.Requires(person != null, "The person must not be null.");
-            Contract.Requires(subjectField != null, "The subject field must not be null.");
-        }
-
-        /// <summary>
-        /// Creates a new RequestId instance from the given process record.
-        /// </summary>
-        /// <param name="record">The process record.</param>
-        public RequestId(TransactionLogTypeBatchDetailProcessRecord record)
-            :this(record.requestID)
-        {
-            Contract.Requires(record != null, "The record must not be null.");
+            this.Id = id;
+            this.RequestActionType = actionType;
+            this.RequestIdType = requestIdType;
         }
 
         /// <summary>
@@ -119,21 +78,16 @@ namespace ECA.Business.Validation.Sevis
                 throw new NotSupportedException("The request id string is not a valid request id.");
             }
             Parse(requestId);
-            this.requestId = requestId;
-        }
-
-        private RequestId(int objectId, string objectTypeChar, RequestIdType requestIdType)
-        {
-            this.RequestIdType = requestIdType;
-            this.Id = objectId;
-            this.requestId = String.Format(REQUEST_ID_FORMAT_STRING, (int)requestIdType, objectTypeChar, objectId);
         }
 
         private void Parse(string requestId)
         {
-            var splitStrings = requestId.Split(new string[] { PARTICIPANT_CHAR, DEPENDENT_CHAR }, StringSplitOptions.RemoveEmptyEntries);
+            Contract.Requires(requestId != null, "The requestId must not be null.");
+            var splitStrings = requestId.Split(new string[] { SPLIT_CHAR }, StringSplitOptions.RemoveEmptyEntries);
+            Contract.Assert(splitStrings.Length == 3, "The array should have 3 items in it.");
             this.RequestIdType = (RequestIdType)Enum.Parse(typeof(RequestIdType), splitStrings[0]);
-            this.Id = Int32.Parse(splitStrings[1]);
+            this.RequestActionType = (RequestActionType)Enum.Parse(typeof(RequestActionType), splitStrings[1]);
+            this.Id = Int32.Parse(splitStrings[2]);
         }
 
         /// <summary>
@@ -143,7 +97,7 @@ namespace ECA.Business.Validation.Sevis
         {
             get
             {
-                return this.requestId.Contains(PARTICIPANT_CHAR);
+                return !this.IsPersonDependentId;
             }
         }
 
@@ -154,7 +108,7 @@ namespace ECA.Business.Validation.Sevis
         {
             get
             {
-                return this.requestId.Contains(DEPENDENT_CHAR);
+                return this.RequestIdType == RequestIdType.Dependent;
             }
         }
 
@@ -162,6 +116,11 @@ namespace ECA.Business.Validation.Sevis
         /// Gets the request id type.
         /// </summary>
         public RequestIdType RequestIdType { get; private set; }
+
+        /// <summary>
+        /// Gets the request action type.
+        /// </summary>
+        public RequestActionType RequestActionType { get; private set; }
 
         /// <summary>
         /// Gets the id of either the participant or the person dependent.  The id will be a person dependent
@@ -175,7 +134,7 @@ namespace ECA.Business.Validation.Sevis
         /// <returns>A string of this id.</returns>
         public override string ToString()
         {
-            return this.requestId;
+            return String.Format(REQUEST_ID_FORMAT_STRING, (int)this.RequestIdType, (int)this.RequestActionType, this.Id);
         }
 
         /// <summary>

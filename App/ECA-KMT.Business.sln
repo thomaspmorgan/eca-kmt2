@@ -25,6 +25,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECA.Business.Sevis.Model", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECA.Business.Sevis.Model.Test", "ECA.Business.Sevis.Model.Test\ECA.Business.Sevis.Model.Test.csproj", "{8CE29632-50B7-4963-BC00-85DBF3CBC380}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECA.Business.Storage.Test", "ECA.Business.Storage.Test\ECA.Business.Storage.Test.csproj", "{ABE76500-54DB-43F7-97F8-59577520479F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECA.Business.Storage", "ECA.Business.Storage\ECA.Business.Storage.csproj", "{8DD0C39A-6734-402F-8FDB-BAF9FB7697E0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -71,6 +75,14 @@ Global
 		{8CE29632-50B7-4963-BC00-85DBF3CBC380}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8CE29632-50B7-4963-BC00-85DBF3CBC380}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8CE29632-50B7-4963-BC00-85DBF3CBC380}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ABE76500-54DB-43F7-97F8-59577520479F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ABE76500-54DB-43F7-97F8-59577520479F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ABE76500-54DB-43F7-97F8-59577520479F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ABE76500-54DB-43F7-97F8-59577520479F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8DD0C39A-6734-402F-8FDB-BAF9FB7697E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8DD0C39A-6734-402F-8FDB-BAF9FB7697E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8DD0C39A-6734-402F-8FDB-BAF9FB7697E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8DD0C39A-6734-402F-8FDB-BAF9FB7697E0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -80,5 +92,6 @@ Global
 		{1F65DC2C-B293-4C1A-8CF2-37704405D6FF} = {8B8F98E1-4E76-476C-8A40-39F13FD30686}
 		{4E5A97B6-E992-4D27-B119-0DCCEE3773DA} = {8B8F98E1-4E76-476C-8A40-39F13FD30686}
 		{8CE29632-50B7-4963-BC00-85DBF3CBC380} = {8B8F98E1-4E76-476C-8A40-39F13FD30686}
+		{ABE76500-54DB-43F7-97F8-59577520479F} = {8B8F98E1-4E76-476C-8A40-39F13FD30686}
 	EndGlobalSection
 EndGlobal

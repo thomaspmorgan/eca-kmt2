@@ -95,7 +95,7 @@ namespace ECA.Business.Validation.Sevis.Bio
             {
                 return new SEVISEVBatchTypeExchangeVisitorDependentDelete
                 {
-                    dependentSevisID = this.SevisId
+                    dependentSevisID = this.SevisId,
                 };
             }
             else
@@ -113,7 +113,6 @@ namespace ECA.Business.Validation.Sevis.Bio
                     Gender = this.Gender.GetEVGenderCodeType(),
                     PermanentResidenceCountryCode = this.PermanentResidenceCountryCode.GetCountryCodeWithType(),
                     printForm = this.PrintForm,
-                    
                     RelationshipSpecified = isCodeSpecified(this.Relationship),
                     Remarks = this.Remarks,
                 };
@@ -137,6 +136,15 @@ namespace ECA.Business.Validation.Sevis.Bio
         public override bool IgnoreDependentValidation()
         {
             return this.IsDeleted;
+        }
+
+        /// <summary>
+        /// Returns a request id for this dependent.
+        /// </summary>
+        /// <returns>A request id for this dependent.</returns>
+        public override RequestId GetRequestId()
+        {
+            return new RequestId(this.PersonId, RequestIdType.Dependent, RequestActionType.Update);
         }
     }
 }
