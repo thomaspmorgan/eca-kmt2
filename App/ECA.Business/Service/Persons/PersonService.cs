@@ -234,7 +234,7 @@ namespace ECA.Business.Service.Persons
                 };
                 emails.Add(email);
             }
-            var dependent = CreatePersonDependent(newDependent, emails);
+            var dependent = await CreatePersonDependentAsync(newDependent, emails);
             this.logger.Trace("Creating new person dependent {0}.", newDependent);
 
             return dependent;
@@ -244,10 +244,12 @@ namespace ECA.Business.Service.Persons
         /// Creates a person dependent
         /// </summary>
         /// <param name="newPerson">The person to create</param>
-        /// <param name="countriesOfCitizenship">The countries of citizenship</param>
+        /// <param name="emails">The email addresses</param>
         /// <returns></returns>
-        private PersonDependent CreatePersonDependent(NewPersonDependent newPerson, List<EmailAddress> emails)
+        private async Task<PersonDependent> CreatePersonDependentAsync(NewPersonDependent newPerson, List<EmailAddress> emails)
         {
+            var countriesOfCitizenship = await GetCitizenshipCountriesByIdAsync(0, newPerson.CountriesOfCitizenship);
+
             var dependent = new PersonDependent
             {
                 PersonId = newPerson.PersonId,
@@ -263,7 +265,7 @@ namespace ECA.Business.Service.Persons
                 PlaceOfResidenceId = newPerson.PlaceOfResidenceId,
                 BirthCountryReasonId = newPerson.BirthCountryReasonId,
                 EmailAddresses = emails,
-                CountriesOfCitizenship = newPerson.CountriesOfCitizenship,
+                CountriesOfCitizenship = countriesOfCitizenship,
                 IsTravellingWithParticipant = newPerson.IsTravellingWithParticipant
             };
             newPerson.Audit.SetHistory(dependent);
@@ -828,14 +830,14 @@ namespace ECA.Business.Service.Persons
             return query.Where(p => p.PersonId == personId);
         }
         
-        private void SetDependentCountriesOfCitizenship(List<PersonDependentCitizenCountry> countriesOfCitizenship, PersonDependent dependent)
+        private void SetDependentCountriesOfCitizenship(List<CitizenCountryDTO> countriesOfCitizenship, PersonDependent dependent)
         {
             Contract.Requires(countriesOfCitizenship != null, "The country ids must not be null.");
             Contract.Requires(dependent != null, "The dependent entity must not be null.");
             dependent.CountriesOfCitizenship.Clear();
             countriesOfCitizenship.ForEach(x =>
             {
-                dependent.CountriesOfCitizenship.Add(x);
+                dependent.CountriesOfCitizenship.Add(new PersonDependentCitizenCountry { DependentId = dependent.DependentId, LocationId = x.LocationId, IsPrimary = x.IsPrimary });
             });
         }
 

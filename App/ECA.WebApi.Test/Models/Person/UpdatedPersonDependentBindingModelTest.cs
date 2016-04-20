@@ -4,6 +4,7 @@ using ECA.Data;
 using ECA.Business.Service;
 using System;
 using System.Collections.Generic;
+using ECA.Business.Queries.Models.Persons;
 
 namespace ECA.WebApi.Test.Models.Person
 {
@@ -34,6 +35,12 @@ namespace ECA.WebApi.Test.Models.Person
             bool isDeleted = false;
             bool isSevisDeleted = false;
 
+            var countries = new List<CitizenCountryDTO>();
+            foreach (var citizenship in countriesOfCitizenship)
+            {
+                countries.Add(new CitizenCountryDTO { LocationId = citizenship.LocationId, LocationName = citizenship.Location.LocationName, IsPrimary = citizenship.IsPrimary });
+            }
+
             var model = new UpdatedPersonDependentBindingModel
             {
                 DependentId = dependentId,
@@ -51,7 +58,7 @@ namespace ECA.WebApi.Test.Models.Person
                 PlaceOfResidenceId = permanentResidenceCountryCode,
                 BirthCountryReasonId = birthCountryReasonId,
                 EmailAddress = emailAddress,
-                CountriesOfCitizenship = countriesOfCitizenship,
+                CountriesOfCitizenship = countries,
                 IsTravellingWithParticipant = isTravellingWithParticipant,
                 IsDeleted = isDeleted,
                 IsSevisDeleted = isSevisDeleted

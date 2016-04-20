@@ -35,23 +35,41 @@ namespace ECA.WebApi.Test.Controllers.Persons
         }
 
         [TestMethod]
-        public async Task TestPostDependentAsync()
+        public async Task TestGetPersonDependentById()
         {
-            userProvider.Setup(x => x.GetBusinessUser(It.IsAny<IWebApiUser>())).Returns(new Business.Service.User(0));
-            personService.Setup(x => x.CreateDependentAsync(It.IsAny<NewPersonDependent>())).ReturnsAsync(new PersonDependent());
-            personService.Setup(x => x.SaveChangesAsync()).ReturnsAsync(1);
-            var response = await controller.PostPersonDependentAsync(new DependentBindingModel { });
-            personService.Verify(x => x.SaveChangesAsync(), Times.Once());
-            Assert.IsInstanceOfType(response, typeof(OkResult));
+            personService.Setup(x => x.GetPersonDependentByIdAsync(It.IsAny<int>()))
+                .ReturnsAsync(new SimplePersonDependentDTO());
+            var response = await controller.GetPersonDependentByIdAsync(1);
+            Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<SimplePersonDependentDTO>));
         }
 
         [TestMethod]
-        public async Task TestPostPersonDependentAsync_Invalid()
+        public async Task TestGetPersonDependentById_InvalidModel()
         {
-            controller.ModelState.AddModelError("key", "error");
-            var response = await controller.PostPersonDependentAsync(new DependentBindingModel());
-            Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
+            personService.Setup(x => x.GetPersonDependentByIdAsync(It.IsAny<int>()))
+                .ReturnsAsync(null);
+            var response = await controller.GetPersonDependentByIdAsync(1);
+            Assert.IsInstanceOfType(response, typeof(NotFoundResult));
         }
+
+        //[TestMethod]
+        //public async Task TestPostDependentAsync()
+        //{
+        //    userProvider.Setup(x => x.GetBusinessUser(It.IsAny<IWebApiUser>())).Returns(new Business.Service.User(0));
+        //    personService.Setup(x => x.CreateDependentAsync(It.IsAny<NewPersonDependent>())).ReturnsAsync(new PersonDependent());
+        //    personService.Setup(x => x.SaveChangesAsync()).ReturnsAsync(1);
+        //    var response = await controller.PostPersonDependentAsync(new DependentBindingModel { });
+        //    personService.Verify(x => x.SaveChangesAsync(), Times.Once());
+        //    Assert.IsInstanceOfType(response, typeof(OkResult));
+        //}
+
+        //[TestMethod]
+        //public async Task TestPostPersonDependentAsync_Invalid()
+        //{
+        //    controller.ModelState.AddModelError("key", "error");
+        //    var response = await controller.PostPersonDependentAsync(new DependentBindingModel());
+        //    Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
+        //}
 
         [TestMethod]
         public async Task TestGetDependentTypesAsync()
@@ -70,22 +88,5 @@ namespace ECA.WebApi.Test.Controllers.Persons
             dependentTypeService.Verify(x => x.GetAsync(It.IsAny<QueryableOperator<DependentTypeDTO>>()), Times.Never());
         }
         
-        public async Task TestGetPersonDependentById()
-        {
-            personService.Setup(x => x.GetPersonDependentByIdAsync(It.IsAny<int>()))
-                .ReturnsAsync(new SimplePersonDependentDTO());
-            var response = await controller.GetPersonDependentByIdAsync(1);
-            Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<SimplePersonDependentDTO>));
-        }
-
-        [TestMethod]
-        public async Task TestGetPersonDependentById_InvalidModel()
-        {
-            personService.Setup(x => x.GetPersonDependentByIdAsync(It.IsAny<int>()))
-                .ReturnsAsync(null);
-            var response = await controller.GetPersonDependentByIdAsync(1);
-            Assert.IsInstanceOfType(response, typeof(NotFoundResult));
-        }
-
     }
 }

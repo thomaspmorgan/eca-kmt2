@@ -52,8 +52,8 @@ namespace ECA.WebApi.Controllers.Persons
         /// </summary>
         /// <param name="dependentId">The dependent id to find</param>
         /// <returns></returns>
-        [Route("Dependents/{dependentId:int}")]
         [ResponseType(typeof(SimplePersonDependentDTO))]
+        [Route("People/{dependentId:int}/Dependent")]
         public async Task<IHttpActionResult> GetPersonDependentByIdAsync(int dependentId)
         {
             var dependent = await service.GetPersonDependentByIdAsync(dependentId);
@@ -72,8 +72,8 @@ namespace ECA.WebApi.Controllers.Persons
         /// </summary>
         /// <param name="model">The model to create</param>
         /// <returns></returns>
+        [Route("Dependent")]
         [ResponseType(typeof(SimplePersonDependentDTO))]
-        [Route("People/Dependents")]
         public async Task<IHttpActionResult> PostPersonDependentAsync(DependentBindingModel model)
         {
             if (ModelState.IsValid)
@@ -96,8 +96,7 @@ namespace ECA.WebApi.Controllers.Persons
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        [ResponseType(typeof(OkResult))]
-        [Route("Dependents")]
+        [Route("People/Dependent")]
         public async Task<IHttpActionResult> PutDependentAsync(UpdatedPersonDependentBindingModel model)
         {
             if (ModelState.IsValid)
@@ -120,7 +119,7 @@ namespace ECA.WebApi.Controllers.Persons
         /// <param name="model"></param>
         /// <returns></returns>
         [ResponseType(typeof(OkResult))]
-        [Route("Dependents/{dependentId:int}")]
+        [Route("People/Dependent/{dependentId:int}")]
         public async Task<IHttpActionResult> PutDependentDeleteAsync(UpdatedPersonDependentBindingModel model)
         {
             var currentUser = userProvider.GetCurrentUser();

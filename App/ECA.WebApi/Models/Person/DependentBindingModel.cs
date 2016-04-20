@@ -1,6 +1,6 @@
-﻿using ECA.Business.Service;
+﻿using ECA.Business.Queries.Models.Persons;
+using ECA.Business.Service;
 using ECA.Business.Service.Persons;
-using ECA.Data;
 using System;
 using System.Collections.Generic;
 
@@ -79,7 +79,7 @@ namespace ECA.WebApi.Models.Person
         /// <summary>
         /// Gets and sets the countries of citizenship
         /// </summary>
-        public List<PersonDependentCitizenCountry> CountriesOfCitizenship { get; set; }
+        public List<CitizenCountryDTO> CountriesOfCitizenship { get; set; }
 
         /// <summary>
         /// Gets or sets depended travelling with participant

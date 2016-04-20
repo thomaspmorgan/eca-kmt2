@@ -1285,7 +1285,7 @@ namespace ECA.Business.Test
 			this.DataPointConfigurations = new DataPointConfigurationTestDbSet();
 			this.DefaultExchangeVisitorFunding = new DefaultExchangeVisitorFundingTestDbSet();
 			this.DependentTypes = new DependentTypeTestDbSet();
-			this.EducationLevels = new EducationLevelTestDbSet();
+            this.EducationLevels = new EducationLevelTestDbSet();
 			this.EmailAddresses = new EmailAddressTestDbSet();
 			this.EmailAddressTypes = new EmailAddressTypeTestDbSet();
 			this.ExternalIds = new ExternalIdTestDbSet();
