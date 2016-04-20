@@ -87,6 +87,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECA.Business.Sevis.Model", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECA.Business.Sevis.Model.Test", "ECA.Business.Sevis.Model.Test\ECA.Business.Sevis.Model.Test.csproj", "{8CE29632-50B7-4963-BC00-85DBF3CBC380}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECA.Business.Storage", "ECA.Business.Storage\ECA.Business.Storage.csproj", "{8DD0C39A-6734-402F-8FDB-BAF9FB7697E0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECA.Business.Storage.Test", "ECA.Business.Storage.Test\ECA.Business.Storage.Test.csproj", "{ABE76500-54DB-43F7-97F8-59577520479F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -416,6 +420,26 @@ Global
 		{8CE29632-50B7-4963-BC00-85DBF3CBC380}.QA|Any CPU.Build.0 = Release|Any CPU
 		{8CE29632-50B7-4963-BC00-85DBF3CBC380}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8CE29632-50B7-4963-BC00-85DBF3CBC380}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8DD0C39A-6734-402F-8FDB-BAF9FB7697E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8DD0C39A-6734-402F-8FDB-BAF9FB7697E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8DD0C39A-6734-402F-8FDB-BAF9FB7697E0}.Dev|Any CPU.ActiveCfg = Debug|Any CPU
+		{8DD0C39A-6734-402F-8FDB-BAF9FB7697E0}.Dev|Any CPU.Build.0 = Debug|Any CPU
+		{8DD0C39A-6734-402F-8FDB-BAF9FB7697E0}.PRE|Any CPU.ActiveCfg = Release|Any CPU
+		{8DD0C39A-6734-402F-8FDB-BAF9FB7697E0}.PRE|Any CPU.Build.0 = Release|Any CPU
+		{8DD0C39A-6734-402F-8FDB-BAF9FB7697E0}.QA|Any CPU.ActiveCfg = Release|Any CPU
+		{8DD0C39A-6734-402F-8FDB-BAF9FB7697E0}.QA|Any CPU.Build.0 = Release|Any CPU
+		{8DD0C39A-6734-402F-8FDB-BAF9FB7697E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8DD0C39A-6734-402F-8FDB-BAF9FB7697E0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ABE76500-54DB-43F7-97F8-59577520479F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ABE76500-54DB-43F7-97F8-59577520479F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ABE76500-54DB-43F7-97F8-59577520479F}.Dev|Any CPU.ActiveCfg = Debug|Any CPU
+		{ABE76500-54DB-43F7-97F8-59577520479F}.Dev|Any CPU.Build.0 = Debug|Any CPU
+		{ABE76500-54DB-43F7-97F8-59577520479F}.PRE|Any CPU.ActiveCfg = Release|Any CPU
+		{ABE76500-54DB-43F7-97F8-59577520479F}.PRE|Any CPU.Build.0 = Release|Any CPU
+		{ABE76500-54DB-43F7-97F8-59577520479F}.QA|Any CPU.ActiveCfg = Release|Any CPU
+		{ABE76500-54DB-43F7-97F8-59577520479F}.QA|Any CPU.Build.0 = Release|Any CPU
+		{ABE76500-54DB-43F7-97F8-59577520479F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ABE76500-54DB-43F7-97F8-59577520479F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
