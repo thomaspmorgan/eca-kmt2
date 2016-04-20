@@ -50,11 +50,11 @@ angular.module('staticApp')
       };
 
       function updateCountries(country) {
-          var index = $scope.$parent.$parent.$parent.$parent.dependent.countriesOfCitizenship.map(function (e) { return e.locationId; }).indexOf(country.locationId);
+          var index = $scope.$parent.$parent.$parent.model.countriesOfCitizenship.map(function (e) { return e.locationId; }).indexOf(country.locationId);
           if (index < 0) {
-              $scope.$parent.$parent.$parent.$parent.dependent.countriesOfCitizenship.splice(0, 0, country);
+              $scope.$parent.$parent.$parent.model.countriesOfCitizenship.splice(0, 0, country);
           } else {
-              $scope.$parent.$parent.$parent.$parent.dependent.countriesOfCitizenship[index] = country;
+              $scope.$parent.$parent.$parent.model.countriesOfCitizenship[index] = country;
           }
       };
 

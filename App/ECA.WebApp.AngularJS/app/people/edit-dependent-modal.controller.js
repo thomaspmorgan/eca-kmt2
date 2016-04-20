@@ -134,9 +134,9 @@ angular.module('staticApp')
               if (search) {
                   params.filter.push({ property: 'name', comparison: ConstantsService.likeComparisonType, value: search });
               }
-              else if ($scope.dependent.placeOfBirthId) {
-                  params.filter.push({ property: 'id', comparison: ConstantsService.equalComparisonType, value: $scope.dependent.placeOfBirthId });
-              }
+              //else if ($scope.dependent.placeOfBirthId) {
+              //    params.filter.push({ property: 'id', comparison: ConstantsService.equalComparisonType, value: $scope.dependent.placeOfBirthId });
+              //}
               return LocationService.get(params)
                 .then(function (data) {
                     $scope.cities = data.results;
