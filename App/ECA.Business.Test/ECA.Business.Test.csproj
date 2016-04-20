@@ -416,7 +416,6 @@
     <Compile Include="Validation\SevisEnumHelperTest.cs" />
     <Compile Include="Validation\ParticipantSevisKeyTest.cs" />
     <Compile Include="Validation\SuccessfulValidationResultTest.cs" />
-    <Compile Include="Validation\Sevis\RequestIdTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

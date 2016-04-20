@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ECA.Business.Sevis.Model;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -15,15 +16,16 @@ namespace ECA.Business.Service.Sevis
         /// <summary>
         /// Returns the file stream for the file with the given file name.
         /// </summary>
+        /// <param name="requestId">The request id.</param>
         /// <param name="fileName">The filename of the file to retrieve.</param>
         /// <returns>The file stream.</returns>
-        Stream GetDS2019FileStream(int participantId, string batchId, string sevisId);
+        Stream GetDS2019FileStream(RequestId requestId, string sevisId);
 
         /// <summary>
         /// Returns the file stream for the file with the given file name.
         /// </summary>
         /// <param name="fileName">The filename of the file to retrieve.</param>
         /// <returns>The file stream.</returns>
-        Task<Stream> GetDS2019FileStreamAsync(int participantId, string batchId, string sevisId);
+        Task<Stream> GetDS2019FileStreamAsync(RequestId requestId, string sevisId);
     }
 }

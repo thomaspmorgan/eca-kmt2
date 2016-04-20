@@ -38,7 +38,7 @@ namespace ECA.Business.Service.Sevis
         /// The DS2019 file content type.
         /// </summary>
         public const string DS2019_CONTENT_TYPE = "application/pdf";
-        
+
         /// <summary>
         /// A generic message to set when the batch was cancelled for an indeterminate reason.
         /// </summary>
@@ -422,12 +422,12 @@ namespace ECA.Business.Service.Sevis
                 batch.SubmitDate = uploadDetail.dateTimeStamp.ToUniversalTime();
                 if (dispositionCode == DispositionCode.Success)
                 {
-                    var participantIds = CreateGetParticipantIdsByBatchId(batch.BatchId).ToList();
+                    var participantIds = CreateGetParticipantIdsWhoNeedSuccessfulUploadStatus(batch.BatchId).ToList();
                     AddSuccessfulUploadSevisCommStatus(participantIds, batch);
                 }
                 else
                 {
-                    if (dispositionCode == DispositionCode.DuplicateBatchId 
+                    if (dispositionCode == DispositionCode.DuplicateBatchId
                         || dispositionCode == DispositionCode.DocumentNameInvalid
                         || dispositionCode == DispositionCode.MalformedXml
                         || dispositionCode == DispositionCode.InvalidXml)
@@ -459,7 +459,7 @@ namespace ECA.Business.Service.Sevis
                 batch.SubmitDate = uploadDetail.dateTimeStamp.ToUniversalTime();
                 if (dispositionCode == DispositionCode.Success)
                 {
-                    var participantIds = await CreateGetParticipantIdsByBatchId(batch.BatchId).ToListAsync();
+                    var participantIds = await CreateGetParticipantIdsWhoNeedSuccessfulUploadStatus(batch.BatchId).ToListAsync();
                     AddSuccessfulUploadSevisCommStatus(participantIds, batch);
                 }
                 else
@@ -537,14 +537,25 @@ namespace ECA.Business.Service.Sevis
                 var sevisBatchCreateUpdateEV = DeserializeSEVISBatchCreateUpdateEV(batch.SendString);
                 foreach (var record in process.Record)
                 {
-                    var participantKey = new ParticipantSevisKey(record);
-                    var participant = CreateGetParticipantAndDependentsQuery(participantKey.ParticipantId).FirstOrDefault();
-                    var participantPerson = Context.ParticipantPersons.Find(participantKey.ParticipantId);
+                    var requestId = record.GetRequestId();
+                    if (requestId.IsPersonDependentId)
+                    {
+                        var personDependent = Context.PersonDependents.Find(requestId.Id);
+                        UpdateDependent(user, sevisBatchCreateUpdateEV, record, personDependent);
+                        UploadDS2019(requestId, record, personDependent, fileProvider);
+                    }
+                    else if (requestId.IsParticipantId)
+                    {
+                        Contract.Assert(requestId.IsParticipantId, "The request id should be for a participant.");
+                        var participant = CreateGetParticipantAndDependentsQuery(requestId.Id).FirstOrDefault();
+                        var participantPerson = Context.ParticipantPersons.Find(requestId.Id);
+                        UpdateParticipant(user, participantPerson, record);
+                        UploadDS2019(requestId, record, participantPerson, fileProvider);
 
-                    var dependents = participant.Person.Family.ToList();
-                    UpdateParticipant(user, participantPerson, record);
-                    UpdateDependents(user, dependents, sevisBatchCreateUpdateEV, record);
-                    UploadDS2019(record, participantPerson, batch, fileProvider);
+                        var dependents = participant.Person.Family.ToList();
+                        UpdateDependents(user, dependents, sevisBatchCreateUpdateEV, record);
+                        UploadDS2019(requestId, record, dependents, fileProvider);
+                    }
                 }
                 notificationService.NotifyFinishedProcessingSevisBatchDetails(batch.BatchId, process.DispositionCode);
             }
@@ -569,54 +580,132 @@ namespace ECA.Business.Service.Sevis
                 var sevisBatchCreateUpdateEV = DeserializeSEVISBatchCreateUpdateEV(batch.SendString);
                 foreach (var record in process.Record)
                 {
-                    var participantKey = new ParticipantSevisKey(record);
-                    var participant = await CreateGetParticipantAndDependentsQuery(participantKey.ParticipantId).FirstOrDefaultAsync();
-                    var participantPerson = await Context.ParticipantPersons.FindAsync(participantKey.ParticipantId);
+                    var requestId = record.GetRequestId();
+                    if (requestId.IsPersonDependentId)
+                    {
+                        var personDependent = await Context.PersonDependents.FindAsync(requestId.Id);
+                        UpdateDependent(user, sevisBatchCreateUpdateEV, record, personDependent);
+                        await UploadDS2019Async(requestId, record, personDependent, fileProvider);
+                    }
+                    else
+                    {
+                        Contract.Assert(requestId.IsParticipantId, "The request id should be for a participant.");
+                        var participant = await CreateGetParticipantAndDependentsQuery(requestId.Id).FirstOrDefaultAsync();
+                        var participantPerson = await Context.ParticipantPersons.FindAsync(requestId.Id);
+                        UpdateParticipant(user, participantPerson, record);
+                        await UploadDS2019Async(requestId, record, participantPerson, fileProvider);
 
-                    var dependents = participant.Person.Family.ToList();
-                    UpdateParticipant(user, participantPerson, record);
-                    UpdateDependents(user, dependents, sevisBatchCreateUpdateEV, record);
-                    await UploadDS2019Async(record, participantPerson, batch, fileProvider);
+                        var dependents = participant.Person.Family.ToList();
+                        UpdateDependents(user, dependents, sevisBatchCreateUpdateEV, record);
+                        await UploadDS2019Async(requestId, record, dependents, fileProvider);
+                    }
                 }
                 notificationService.NotifyFinishedProcessingSevisBatchDetails(batch.BatchId, process.DispositionCode);
             }
         }
 
-        private async Task UploadDS2019Async(TransactionLogTypeBatchDetailProcessRecord record, ParticipantPerson participantPerson, SevisBatchProcessing batch, IDS2019FileProvider fileProvider)
+        private async Task UploadDS2019Async(RequestId requestId, TransactionLogTypeBatchDetailProcessRecord record, ParticipantPerson participantPerson, IDS2019FileProvider fileProvider)
         {
             Contract.Requires(record != null, "The record must not be null.");
             Contract.Requires(fileProvider != null, "The file provider must not be null.");
+            Contract.Requires(requestId != null, "The request id must not be null.");
+            Contract.Requires(participantPerson != null, "The participant person must not be null.");
             if (record.Result.status)
             {
-                var stream = await fileProvider.GetDS2019FileStreamAsync(participantPerson.ParticipantId, batch.BatchId, record.sevisID);
+                var stream = await fileProvider.GetDS2019FileStreamAsync(requestId, record.sevisID);
                 if (stream != null)
                 {
                     using (stream)
                     {
-                        var url = await SaveDS2019FormAsync(participantPerson.ParticipantId, record.sevisID, stream);
+                        var url = await SaveDS2019FormAsync(record.sevisID, stream);
                         participantPerson.DS2019FileUrl = url;
                     }
                 }
             }
         }
 
-        private void UploadDS2019(TransactionLogTypeBatchDetailProcessRecord record, ParticipantPerson participantPerson, SevisBatchProcessing batch, IDS2019FileProvider fileProvider)
+        private void UploadDS2019(RequestId requestId, TransactionLogTypeBatchDetailProcessRecord record, ParticipantPerson participantPerson, IDS2019FileProvider fileProvider)
         {
             Contract.Requires(record != null, "The record must not be null.");
             Contract.Requires(fileProvider != null, "The file provider must not be null.");
+            Contract.Requires(requestId != null, "The request id must not be null.");
+            Contract.Requires(participantPerson != null, "The participant person must not be null.");
             if (record.Result.status)
             {
-                var stream = fileProvider.GetDS2019FileStream(participantPerson.ParticipantId, batch.BatchId, record.sevisID);
+                var stream = fileProvider.GetDS2019FileStream(requestId, record.sevisID);
                 if (stream != null)
                 {
                     using (stream)
                     {
-                        var url = SaveDS2019Form(participantPerson.ParticipantId, record.sevisID, stream);
+                        var url = SaveDS2019Form(record.sevisID, stream);
                         participantPerson.DS2019FileUrl = url;
                     }
                 }
             }
         }
+
+        private async Task UploadDS2019Async(RequestId requestId, TransactionLogTypeBatchDetailProcessRecord record, PersonDependent dependent, IDS2019FileProvider fileProvider)
+        {
+            Contract.Requires(record != null, "The record must not be null.");
+            Contract.Requires(fileProvider != null, "The file provider must not be null.");
+            Contract.Requires(requestId != null, "The request id must not be null.");
+            Contract.Requires(dependent != null, "The dependent must not be null.");
+            if (record.Result.status)
+            {
+                var stream = await fileProvider.GetDS2019FileStreamAsync(requestId, record.sevisID);
+                if (stream != null)
+                {
+                    using (stream)
+                    {
+                        var url = await SaveDS2019FormAsync(record.sevisID, stream);
+                    }
+                }
+            }
+        }
+
+        private void UploadDS2019(RequestId requestId, TransactionLogTypeBatchDetailProcessRecord record, PersonDependent dependent, IDS2019FileProvider fileProvider)
+        {
+            Contract.Requires(record != null, "The record must not be null.");
+            Contract.Requires(fileProvider != null, "The file provider must not be null.");
+            Contract.Requires(requestId != null, "The request id must not be null.");
+            Contract.Requires(dependent != null, "The dependent must not be null.");
+            if (record.Result.status)
+            {
+                var stream = fileProvider.GetDS2019FileStream(requestId, record.sevisID);
+                if (stream != null)
+                {
+                    using (stream)
+                    {
+                        var url = SaveDS2019Form(record.sevisID, stream);
+                    }
+                }
+            }
+        }
+
+        private async Task UploadDS2019Async(RequestId requestId, TransactionLogTypeBatchDetailProcessRecord record, List<PersonDependent> dependents, IDS2019FileProvider fileProvider)
+        {
+            Contract.Requires(record != null, "The record must not be null.");
+            Contract.Requires(fileProvider != null, "The file provider must not be null.");
+            Contract.Requires(requestId != null, "The request id must not be null.");
+            Contract.Requires(dependents != null, "The dependents must not be null.");
+            foreach (var dependent in dependents)
+            {
+                await UploadDS2019Async(requestId, record, dependent, fileProvider);
+            }
+        }
+
+        private void UploadDS2019(RequestId requestId, TransactionLogTypeBatchDetailProcessRecord record, List<PersonDependent> dependents, IDS2019FileProvider fileProvider)
+        {
+            Contract.Requires(record != null, "The record must not be null.");
+            Contract.Requires(fileProvider != null, "The file provider must not be null.");
+            Contract.Requires(requestId != null, "The request id must not be null.");
+            Contract.Requires(dependents != null, "The dependents must not be null.");
+            foreach (var dependent in dependents)
+            {
+                UploadDS2019(requestId, record, dependent, fileProvider);
+            }
+        }
+
 
         private void DoNotifyStartedProcessingBatchDetailProcessed(SevisBatchProcessing batch, TransactionLogTypeBatchDetailProcess process)
         {
@@ -651,6 +740,13 @@ namespace ECA.Business.Service.Sevis
             }
         }
 
+        /// <summary>
+        /// Updates the dependents in the system.
+        /// </summary>
+        /// <param name="user">The user performing the updates.</param>
+        /// <param name="dependents">The dependents to update.</param>
+        /// <param name="batch">The sent batch.</param>
+        /// <param name="record">The sevis api process record.</param>
         public void UpdateDependents(User user, List<PersonDependent> dependents, SEVISBatchCreateUpdateEV batch, TransactionLogTypeBatchDetailProcessRecord record)
         {
             Contract.Requires(user != null, "The user must not be null.");
@@ -681,9 +777,31 @@ namespace ECA.Business.Service.Sevis
         {
             Contract.Requires(user != null, "The user must not be null.");
             Contract.Requires(batch != null, "The batch must not be null.");
-            if (dependent != null && dependentRecord != null)
+            Contract.Requires(dependentRecord != null, "The dependent record must not be null.");
+            UpdateDependent(user, batch, dependentRecord.dependentSevisID, dependent);
+        }
+
+        /// <summary>
+        /// Updates the dependent with the process record from the transaction log.
+        /// </summary>
+        /// <param name="user">The user processing the dependents.</param>
+        /// <param name="dependentRecord">The dependent record from the transaction log.</param>
+        /// <param name="dependent">The dependent to update.</param>
+        /// <param name="batch">The sevis batch that was sent to the batch api.</param>
+        public void UpdateDependent(User user, SEVISBatchCreateUpdateEV batch, TransactionLogTypeBatchDetailProcessRecord dependentRecord, PersonDependent dependent)
+        {
+            Contract.Requires(user != null, "The user must not be null.");
+            Contract.Requires(batch != null, "The batch must not be null.");
+            Contract.Requires(dependentRecord != null, "The dependent record must not be null.");
+            UpdateDependent(user, batch, dependentRecord.sevisID, dependent);
+        }
+
+        private void UpdateDependent(User user, SEVISBatchCreateUpdateEV batch, string dependentSevisId, PersonDependent dependent)
+        {
+            Contract.Requires(user != null, "The user must not be null.");
+            Contract.Requires(batch != null, "The batch must not be null.");
+            if (dependent != null && dependentSevisId != null)
             {
-                var dependentSevisId = dependentRecord.dependentSevisID;
                 dependent.SevisId = dependentSevisId;
                 dependent.IsSevisDeleted = batch.ContainsDeletedParticipantDependent(dependentSevisId);
                 var update = new Update(user);
@@ -791,6 +909,18 @@ namespace ECA.Business.Service.Sevis
         private IQueryable<int> CreateGetParticipantIdsByBatchId(string batchId)
         {
             return SevisBatchProcessingQueries.CreateGetParticipantPersonsByBatchId(this.Context, batchId).Select(x => x.ParticipantId);
+        }
+
+        private IQueryable<int> CreateGetParticipantIdsWhoNeedSuccessfulUploadStatus(string batchId)
+        {
+            var query = from participantPerson in Context.ParticipantPersons
+                        let latestCommStatus = participantPerson.ParticipantPersonSevisCommStatuses
+                            .OrderBy(x => x.AddedOn)
+                            .FirstOrDefault()
+                        where latestCommStatus == null
+                            || (latestCommStatus.SevisCommStatusId != SevisCommStatus.SentByBatch.Id && latestCommStatus.BatchId == batchId)
+                        select participantPerson.ParticipantId;
+            return query;
         }
 
         #endregion        
@@ -1006,9 +1136,9 @@ namespace ECA.Business.Service.Sevis
         /// <param name="sevisId">The sevis id.</param>
         /// <param name="stream">The file stream.</param>
         /// <returns>The url of the saved file.</returns>
-        public string SaveDS2019Form(int participantId, string sevisId, Stream stream)
+        public string SaveDS2019Form(string sevisId, Stream stream)
         {
-            var fileName = GetDS2019FileName(participantId, sevisId);
+            var fileName = GetDS2019FileName(sevisId);
             return this.cloudStorageService.SaveFile(fileName, stream, DS2019_CONTENT_TYPE);
         }
 
@@ -1019,9 +1149,9 @@ namespace ECA.Business.Service.Sevis
         /// <param name="sevisId">The sevis id.</param>
         /// <param name="stream">The file stream.</param>
         /// /// <returns>The url of the saved file.</returns>
-        public async Task<string> SaveDS2019FormAsync(int participantId, string sevisId, Stream stream)
+        public async Task<string> SaveDS2019FormAsync(string sevisId, Stream stream)
         {
-            var fileName = GetDS2019FileName(participantId, sevisId);
+            var fileName = GetDS2019FileName(sevisId);
             return await cloudStorageService.SaveFileAsync(fileName, stream, DS2019_CONTENT_TYPE);
         }
 
@@ -1031,10 +1161,10 @@ namespace ECA.Business.Service.Sevis
         /// <param name="participantId">The participant id.</param>
         /// <param name="sevisId">The sevis id.</param>
         /// <returns></returns>
-        public static string GetDS2019FileName(int participantId, string sevisId)
+        public static string GetDS2019FileName(string sevisId)
         {
             Contract.Requires(sevisId != null, "The sevis id must not be null.");
-            return string.Format("{0}_{1}.{2}", participantId, sevisId, "pdf");
+            return string.Format("{0}.{1}", sevisId, "pdf");
         }
 
         #endregion
