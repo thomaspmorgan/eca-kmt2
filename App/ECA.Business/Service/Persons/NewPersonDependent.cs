@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ECA.Business.Queries.Models.Persons;
+using System;
 using System.Collections.Generic;
 
 namespace ECA.Business.Service.Persons
@@ -39,7 +40,7 @@ namespace ECA.Business.Service.Persons
             int placeOfResidenceId,
             int? birthCountryReasonId,
             string emailAddress,
-            List<int> countriesOfCitizenship,
+            List<CitizenCountryDTO> countriesOfCitizenship,
             bool isTravelWithParticipant)
         {
             this.PersonId = personId;
@@ -123,7 +124,7 @@ namespace ECA.Business.Service.Persons
         /// <summary>
         /// Gets and sets the countries of citizenship
         /// </summary>
-        public List<int> CountriesOfCitizenship { get; set; }
+        public List<CitizenCountryDTO> CountriesOfCitizenship { get; set; }
 
         /// <summary>
         /// Gets and sets the email address

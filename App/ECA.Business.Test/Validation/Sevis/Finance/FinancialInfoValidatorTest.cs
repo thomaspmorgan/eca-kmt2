@@ -9,36 +9,7 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
     [TestClass]
     public class FinancialInfoValidatorTest
     {
-        [TestMethod]
-        public void TestFinancialInfo_MustHaveMinimumFunding()
-        {
-            var otherFunds = new OtherFunds(null, null, null, null, null, null);
-            var programSponsorFunds = "100";
-            var receivedUsGovtFunds = true;
-            var printForm = true;
-            Func<FinancialInfo> createEntity = () =>
-            {
-                var financialInfo = new FinancialInfo(
-                    printForm: printForm,
-                    receivedUSGovtFunds: receivedUsGovtFunds,
-                    programSponsorFunds: programSponsorFunds,
-                    otherFunds: otherFunds);
-                return financialInfo;
-            };
 
-            var validator = new FinancialInfoValidator();
-            var instance = createEntity();
-            var result = validator.Validate(instance);
-            Assert.IsTrue(result.IsValid);
-
-            programSponsorFunds = "0";
-            instance = createEntity();
-            result = validator.Validate(instance);
-            Assert.IsFalse(result.IsValid);
-            Assert.AreEqual(1, result.Errors.Count);
-            Assert.AreEqual(FinancialInfoValidator.FUNDING_LESS_THAN_MINIMUM_AMOUNT_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
-            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(FundingErrorPath));
-        }
 
         [TestMethod]
         public void TestProgramSponsor_ExceedsMaxLength()
@@ -62,7 +33,7 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
 
-            programSponsorFunds = new string('1', FinancialInfoValidator.SPONSOR_MAX_LENGTH + 1);
+            programSponsorFunds = new string('c', FinancialInfoValidator.SPONSOR_MAX_LENGTH + 1);
             instance = createEntity();
             result = validator.Validate(instance);
             Assert.IsFalse(result.IsValid);
@@ -74,7 +45,7 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
         [TestMethod]
         public void TestProgramSponsor_ContainsCharacters()
         {
-            var otherFunds = new OtherFunds("10", null, null, null, null, null);
+            var otherFunds = new OtherFunds(null, null, null, null, null, null);
             var programSponsorFunds = "100";
             var receivedUsGovtFunds = true;
             var printForm = true;
@@ -105,7 +76,7 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
         [TestMethod]
         public void TestProgramSponsor_Null()
         {
-            var otherFunds = new OtherFunds("10", null, null, null, null, null);
+            var otherFunds = new OtherFunds(null, null, null, null, null, null);
             var programSponsorFunds = "100";
             var receivedUsGovtFunds = true;
             var printForm = true;

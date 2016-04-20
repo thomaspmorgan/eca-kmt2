@@ -24,7 +24,6 @@ using ECA.Core.Generation;
 using Newtonsoft.Json.Serialization;
 using ECA.Core.Settings;
 using System.Xml;
-using System.Data.Entity.Core.Objects;
 
 namespace ECA.Business.Service.Sevis
 {
@@ -38,11 +37,6 @@ namespace ECA.Business.Service.Sevis
         /// The DS2019 file content type.
         /// </summary>
         public const string DS2019_CONTENT_TYPE = "application/pdf";
-        
-        /// <summary>
-        /// A generic message to set when the batch was cancelled for an indeterminate reason.
-        /// </summary>
-        public const string GENERIC_BATCH_CANCELLED_REASON_MESSAGE = "The batch was cancelled for an unknown reason.  Inspect the batch values to determine errors.";
 
         /// <summary>
         /// The number of queued to submit participants to page.
@@ -140,14 +134,9 @@ namespace ECA.Business.Service.Sevis
 
         private IQueryable<SevisBatchProcessingDTO> CreateGetNextBatchRecordToUploadQuery()
         {
-            var cooldownSeconds = Int32.Parse(appSettings.SevisUploadCooldownInSeconds);
-            if (cooldownSeconds < 0)
-            {
-                cooldownSeconds = -1 * cooldownSeconds;
-            }
-            var now = DateTimeOffset.UtcNow;
+            var cooldownDate = GetCooldownDate(appSettings.SevisUploadCooldownInSeconds);
             return SevisBatchProcessingQueries.CreateGetSevisBatchProcessingDTOsToUploadQuery(this.Context)
-                .Where(x => !x.LastUploadTry.HasValue || (DbFunctions.DiffSeconds(x.LastUploadTry.Value, now) > cooldownSeconds));
+                .Where(x => !x.LastUploadTry.HasValue || (x.LastUploadTry.HasValue && x.LastUploadTry > cooldownDate));
         }
 
         /// <summary>
@@ -170,15 +159,21 @@ namespace ECA.Business.Service.Sevis
 
         private IQueryable<SevisBatchProcessingDTO> CreateGetNextBatchToDownload()
         {
-            var cooldownSeconds = Int32.Parse(appSettings.SevisDownloadCooldownInSeconds);
+            var cooldownDate = GetCooldownDate(appSettings.SevisDownloadCooldownInSeconds);
+            return SevisBatchProcessingQueries.CreateGetSevisBatchProcessingDTOsToDownloadQuery(this.Context)
+                .Where(x => !x.LastDownloadTry.HasValue || (x.LastDownloadTry.HasValue && x.LastDownloadTry > cooldownDate));
+        }
+
+        private DateTimeOffset GetCooldownDate(string cooldownSecondsAsString)
+        {
+            Contract.Requires(cooldownSecondsAsString != null, "The cooldwon seconds as string must not be null.");
+            var cooldownSeconds = Int32.Parse(cooldownSecondsAsString);
             if (cooldownSeconds < 0)
             {
                 cooldownSeconds = -1 * cooldownSeconds;
             }
-            var now = DateTimeOffset.UtcNow;
-            return SevisBatchProcessingQueries.CreateGetSevisBatchProcessingDTOsToDownloadQuery(this.Context)
-                .Where(x => !x.LastDownloadTry.HasValue || (DbFunctions.DiffSeconds(x.LastDownloadTry.Value, now) > cooldownSeconds))
-                .Where(x => x.SubmitDate.HasValue && (DbFunctions.DiffSeconds(x.SubmitDate.Value, now) > cooldownSeconds));
+            var coolDownDate = DateTimeOffset.UtcNow.AddSeconds((double)cooldownSeconds);
+            return coolDownDate;
         }
         #endregion
 
@@ -247,72 +242,7 @@ namespace ECA.Business.Service.Sevis
             batch.DownloadTries++;
             batch.LastDownloadTry = DateTimeOffset.UtcNow;
         }
-
-        /// <summary>
-        /// Cancels the given batch for the given reason.
-        /// </summary>
-        /// <param name="batch">The batch to cancel.</param>
-        /// <param name="reason">The reasoning for the cancel.</param>
-        public void Cancel(SevisBatchProcessing batch, string reason)
-        {
-            var participantIds = CreateGetParticipantIdsByBatchId(batch.BatchId).ToList();
-            DoCancelBatch(batch, participantIds, reason);
-        }
-
-        /// <summary>
-        /// Cancels the given batch for the given reason.
-        /// </summary>
-        /// <param name="batch">The batch to cancel.</param>
-        /// <param name="reason">The reasoning for the cancel.</param>
-        public async Task CancelAsync(SevisBatchProcessing batch, string reason)
-        {
-            var participantIds = await CreateGetParticipantIdsByBatchId(batch.BatchId).ToListAsync();
-            DoCancelBatch(batch, participantIds, reason);
-        }
-
-        private void DoCancelBatch(SevisBatchProcessing batch, List<int> cancelledParticipantsById, string reason)
-        {
-            Contract.Requires(batch != null, "The batch must not be null.");
-            Contract.Requires(reason != null, "The reason must not be null.");
-            Contract.Requires(cancelledParticipantsById != null, "The cancelledParticipantsById list must not be null.");
-            var now = DateTimeOffset.UtcNow;
-            var cancelledBatch = new CancelledSevisBatchProcessing
-            {
-                BatchId = batch.BatchId,
-                CancelledOn = now,
-                DownloadDispositionCode = batch.DownloadDispositionCode,
-                DownloadTries = batch.DownloadTries,
-                LastDownloadTry = batch.LastDownloadTry,
-                LastUploadTry = batch.LastUploadTry,
-                ProcessDispositionCode = batch.ProcessDispositionCode,
-                Reason = reason,
-                RetrieveDate = batch.RetrieveDate,
-                SendString = batch.SendString,
-                SevisOrgId = batch.SevisOrgId,
-                SevisUsername = batch.SevisUsername,
-                SubmitDate = batch.SubmitDate,
-                TransactionLogString = batch.TransactionLogString,
-                UploadDispositionCode = batch.UploadDispositionCode,
-                UploadTries = batch.UploadTries
-            };
-            foreach (var id in cancelledParticipantsById)
-            {
-                var commStatus = new ParticipantPersonSevisCommStatus
-                {
-                    AddedOn = now,
-                    BatchId = batch.BatchId,
-                    ParticipantId = id,
-                    SevisCommStatusId = SevisCommStatus.BatchCancelledBySystem.Id,
-                    SevisOrgId = batch.SevisOrgId,
-                    SevisUsername = batch.SevisUsername,
-                };
-                Context.ParticipantPersonSevisCommStatuses.Add(commStatus);
-            }
-            Context.CancelledSevisBatchProcessings.Add(cancelledBatch);
-            Context.SevisBatchProcessings.Remove(batch);
-            notificationService.NotifyCancelledSevisBatch(batch.BatchId, reason);
-        }
-
+        
         #endregion
 
         #region Process Transaction Log
@@ -427,18 +357,8 @@ namespace ECA.Business.Service.Sevis
                 }
                 else
                 {
-                    if (dispositionCode == DispositionCode.DuplicateBatchId 
-                        || dispositionCode == DispositionCode.DocumentNameInvalid
-                        || dispositionCode == DispositionCode.MalformedXml
-                        || dispositionCode == DispositionCode.InvalidXml)
-                    {
-                        Cancel(batch, dispositionCode.Description);
-                    }
-                    else
-                    {
-                        batch.UploadTries++;
-                        batch.LastUploadTry = DateTimeOffset.UtcNow;
-                    }
+                    batch.UploadTries++;
+                    batch.LastUploadTry = DateTimeOffset.UtcNow;
                 }
                 notificationService.NotifyUploadedBatchProcessed(batch.BatchId, dispositionCode);
             }
@@ -464,18 +384,8 @@ namespace ECA.Business.Service.Sevis
                 }
                 else
                 {
-                    if (dispositionCode == DispositionCode.DuplicateBatchId
-                        || dispositionCode == DispositionCode.DocumentNameInvalid
-                        || dispositionCode == DispositionCode.MalformedXml
-                        || dispositionCode == DispositionCode.InvalidXml)
-                    {
-                        Cancel(batch, dispositionCode.Description);
-                    }
-                    else
-                    {
-                        batch.UploadTries++;
-                        batch.LastUploadTry = DateTimeOffset.UtcNow;
-                    }
+                    batch.UploadTries++;
+                    batch.LastUploadTry = DateTimeOffset.UtcNow;
                 }
                 notificationService.NotifyUploadedBatchProcessed(batch.BatchId, dispositionCode);
             }

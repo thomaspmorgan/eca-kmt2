@@ -1,4 +1,6 @@
-﻿using ECA.Core.Service;
+﻿using ECA.Business.Queries.Models.Persons;
+using ECA.Business.Service.Persons;
+using ECA.Core.Service;
 using ECA.Data;
 using NLog;
 using System;
@@ -685,6 +687,26 @@ namespace ECA.Business.Service
         }
 
         /// <summary>
+        /// Get a list of citizen countries
+        /// </summary>
+        /// <param name="locations">Locations to lookup</param>
+        /// <returns>A list of citizen countries</returns>
+        protected async Task<List<PersonDependentCitizenCountry>> GetCitizenshipCountriesByIdAsync(int dependentId, List<CitizenCountryDTO> locations)
+        {
+            var locationIds = locations.Select(x => x.LocationId);
+            var countries = Context.Locations.Where(x => locationIds.Contains(x.LocationId));
+            List<PersonDependentCitizenCountry> dependentCitizenCountries = new List<PersonDependentCitizenCountry>();
+
+            locations.ForEach(x =>
+            {
+                dependentCitizenCountries.Add(new PersonDependentCitizenCountry { DependentId = dependentId, LocationId = x.LocationId, IsPrimary = x.IsPrimary });
+            });
+
+            logger.Trace("Retrieved locations by ids {0}.", String.Join(", ", locations.Select(x => x.LocationId)));
+            return dependentCitizenCountries;
+        }
+        
+        /// <summary>
         /// Creates query for looking up a list of locations
         /// </summary>
         /// <param name="locationIds">Ids to lookup</param>
@@ -695,7 +717,7 @@ namespace ECA.Business.Service
             logger.Trace("Retrieved locations by ids {0}.", String.Join(", ", locationIds));
             return locations;
         }
-
+        
         /// <summary>
         /// Gets a location by id
         /// </summary>

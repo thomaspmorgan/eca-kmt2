@@ -354,7 +354,7 @@ namespace ECA.Business.Test.Queries.Sevis
 
         #region CreateGetProcessedSevisBatchIdsForDeletionQuery
         [TestMethod]
-        public void TestCreateGetProcessedSevisBatchIdsForDeletionQuery_AllCodesSuccess()
+        public void TestCreateGetProcessedSevisBatchIdsForDeletionQuery()
         {
             var cutOffDate = DateTime.UtcNow;
             var batch = new SevisBatchProcessing
@@ -372,25 +372,7 @@ namespace ECA.Business.Test.Queries.Sevis
         }
 
         [TestMethod]
-        public void TestCreateGetProcessedSevisBatchIdsForDeletionQuery_HasSuccessfulUploadAndDownload_HasBusinessValidationProcessCode()
-        {
-            var cutOffDate = DateTime.UtcNow;
-            var batch = new SevisBatchProcessing
-            {
-                Id = 1,
-                RetrieveDate = cutOffDate.AddDays(-1.0),
-                DownloadDispositionCode = DispositionCode.Success.Code,
-                UploadDispositionCode = DispositionCode.Success.Code,
-                ProcessDispositionCode = DispositionCode.BusinessRuleViolations.Code
-            };
-            context.SevisBatchProcessings.Add(batch);
-            var results = SevisBatchProcessingQueries.CreateGetProcessedSevisBatchIdsForDeletionQuery(context, cutOffDate);
-            Assert.AreEqual(1, results.Count());
-            Assert.AreEqual(batch.Id, results.First());
-        }
-
-        [TestMethod]
-        public void TestCreateGetProcessedSevisBatchIdsForDeletionQuery_DoesNotHaveSuccessfulProcessDispositionCode()
+        public void TestCreateGetProcessedSevisBatchIdsForDeletionQuery_DoesNotHavSuccessfulProcessDispositionCode()
         {
             var cutOffDate = DateTime.UtcNow;
             var batch = new SevisBatchProcessing
@@ -407,7 +389,7 @@ namespace ECA.Business.Test.Queries.Sevis
         }
 
         [TestMethod]
-        public void TestCreateGetProcessedSevisBatchIdsForDeletionQuery_DoesNotHaveSuccessfulUploadDispositionCode()
+        public void TestCreateGetProcessedSevisBatchIdsForDeletionQuery_DoesNotHavSuccessfulUploadDispositionCode()
         {
             var cutOffDate = DateTime.UtcNow;
             var batch = new SevisBatchProcessing
@@ -424,7 +406,7 @@ namespace ECA.Business.Test.Queries.Sevis
         }
 
         [TestMethod]
-        public void TestCreateGetProcessedSevisBatchIdsForDeletionQuery_DoesNotHaveSuccessfulDownloadDispositionCode()
+        public void TestCreateGetProcessedSevisBatchIdsForDeletionQuery_DoesNotHavSuccessfulDownloadDispositionCode()
         {
             var cutOffDate = DateTime.UtcNow;
             var batch = new SevisBatchProcessing
@@ -506,132 +488,6 @@ namespace ECA.Business.Test.Queries.Sevis
             context.SevisBatchProcessings.Add(batch);
             var results = SevisBatchProcessingQueries.CreateGetProcessedSevisBatchIdsForDeletionQuery(context, cutOffDate);
             Assert.AreEqual(0, results.Count());
-        }
-        #endregion
-
-        #region CreateGetSevisBatchInfoDTOsQuery
-        [TestMethod]
-        public void TestCreateGetSevisBatchInfoDTOsQuery_SevisBatchIsActiveCheckProperties()
-        {
-            var batch = new SevisBatchProcessing
-            {
-                BatchId = "batchId",
-                DownloadDispositionCode = DispositionCode.BatchNeverSubmitted.Code,
-                DownloadTries = 1,
-                Id = 2,
-                LastDownloadTry = DateTimeOffset.UtcNow.AddDays(1.0),
-                LastUploadTry = DateTimeOffset.UtcNow.AddDays(2.0),
-                ProcessDispositionCode = DispositionCode.BatchNotYetProcessed.Code,
-                RetrieveDate = DateTimeOffset.UtcNow.AddDays(3.0),
-                SendString = "send string",
-                SevisOrgId = "sevis org Id",
-                SevisUsername = "username",
-                SubmitDate = DateTimeOffset.UtcNow.AddDays(4.0),
-                TransactionLogString = "transaction log",
-                UploadDispositionCode = DispositionCode.BusinessRuleViolations.Code,
-                UploadTries = 4
-            };
-            context.SevisBatchProcessings.Add(batch);
-            var result = SevisBatchProcessingQueries.CreateGetSevisBatchInfoDTOsQuery(context).ToList();
-            Assert.AreEqual(1, result.Count);
-            var first = result.First();
-
-            Assert.AreEqual(batch.BatchId, first.BatchId);
-            Assert.IsNull(first.CancelledOn);
-            Assert.IsNull(first.CancelledReason);
-            Assert.AreEqual(batch.DownloadDispositionCode, first.DownloadDispositionCode);
-            Assert.AreEqual(batch.DownloadTries, first.DownloadTries);
-            Assert.AreEqual(batch.Id, first.Id);
-            Assert.IsFalse(first.IsCancelled);
-            Assert.AreEqual(batch.LastDownloadTry, first.LastDownloadTry);
-            Assert.AreEqual(batch.LastUploadTry, first.LastUploadTry);
-            Assert.AreEqual(batch.ProcessDispositionCode, first.ProcessDispositionCode);
-            Assert.AreEqual(batch.RetrieveDate, first.RetrieveDate);
-            Assert.AreEqual(batch.SubmitDate, first.SubmitDate);
-            Assert.AreEqual(batch.UploadDispositionCode, first.UploadDispositionCode);
-            Assert.AreEqual(batch.UploadTries, first.UploadTries);
-        }
-
-        [TestMethod]
-        public void TestCreateGetSevisBatchInfoDTOsQuery_SevisBatchIsCancelledCheckProperties()
-        {
-            var batch = new CancelledSevisBatchProcessing
-            {
-                BatchId = "batchId",
-                DownloadDispositionCode = DispositionCode.BatchNeverSubmitted.Code,
-                DownloadTries = 1,
-                Id = 2,
-                LastDownloadTry = DateTimeOffset.UtcNow.AddDays(1.0),
-                LastUploadTry = DateTimeOffset.UtcNow.AddDays(2.0),
-                ProcessDispositionCode = DispositionCode.BatchNotYetProcessed.Code,
-                RetrieveDate = DateTimeOffset.UtcNow.AddDays(3.0),
-                SendString = "send string",
-                SevisOrgId = "sevis org Id",
-                SevisUsername = "username",
-                SubmitDate = DateTimeOffset.UtcNow.AddDays(4.0),
-                TransactionLogString = "transaction log",
-                UploadDispositionCode = DispositionCode.BusinessRuleViolations.Code,
-                UploadTries = 4,
-                CancelledOn = DateTimeOffset.UtcNow.AddDays(5.0),
-                Reason = "cancel reason",
-            };
-            context.CancelledSevisBatchProcessings.Add(batch);
-            var result = SevisBatchProcessingQueries.CreateGetSevisBatchInfoDTOsQuery(context).ToList();
-            Assert.AreEqual(1, result.Count);
-            var first = result.First();
-
-            Assert.AreEqual(batch.BatchId, first.BatchId);
-            Assert.AreEqual(batch.CancelledOn, first.CancelledOn);
-            Assert.AreEqual(batch.Reason, first.CancelledReason);
-            Assert.AreEqual(batch.DownloadDispositionCode, first.DownloadDispositionCode);
-            Assert.AreEqual(batch.DownloadTries, first.DownloadTries);
-            Assert.AreEqual(batch.Id, first.Id);
-            Assert.IsTrue(first.IsCancelled);
-            Assert.AreEqual(batch.LastDownloadTry, first.LastDownloadTry);
-            Assert.AreEqual(batch.LastUploadTry, first.LastUploadTry);
-            Assert.AreEqual(batch.ProcessDispositionCode, first.ProcessDispositionCode);
-            Assert.AreEqual(batch.RetrieveDate, first.RetrieveDate);
-            Assert.AreEqual(batch.SubmitDate, first.SubmitDate);
-            Assert.AreEqual(batch.UploadDispositionCode, first.UploadDispositionCode);
-            Assert.AreEqual(batch.UploadTries, first.UploadTries);
-        }
-
-        [TestMethod]
-        public void TestCreateGetSevisBatchInfoDTOByBatchIdQuery()
-        {
-            var batch = new SevisBatchProcessing
-            {
-                BatchId = "batchId",
-                DownloadDispositionCode = DispositionCode.BatchNeverSubmitted.Code,
-                DownloadTries = 1,
-                Id = 2,
-                LastDownloadTry = DateTimeOffset.UtcNow.AddDays(1.0),
-                LastUploadTry = DateTimeOffset.UtcNow.AddDays(2.0),
-                ProcessDispositionCode = DispositionCode.BatchNotYetProcessed.Code,
-                RetrieveDate = DateTimeOffset.UtcNow.AddDays(3.0),
-                SendString = "send string",
-                SevisOrgId = "sevis org Id",
-                SevisUsername = "username",
-                SubmitDate = DateTimeOffset.UtcNow.AddDays(4.0),
-                TransactionLogString = "transaction log",
-                UploadDispositionCode = DispositionCode.BusinessRuleViolations.Code,
-                UploadTries = 4
-            };
-            context.SevisBatchProcessings.Add(batch);
-            var result = SevisBatchProcessingQueries.CreateGetSevisBatchInfoDTOByBatchIdQuery(context, batch.BatchId).ToList();
-            Assert.AreEqual(1, result.Count);
-        }
-
-        [TestMethod]
-        public void TestCreateGetSevisBatchInfoDTOByBatchIdQuery_BatchDoesNotExist()
-        {
-            var batch = new SevisBatchProcessing
-            {
-                BatchId = "batchId",
-            };
-            context.SevisBatchProcessings.Add(batch);
-            var result = SevisBatchProcessingQueries.CreateGetSevisBatchInfoDTOByBatchIdQuery(context, "somebatchid").ToList();
-            Assert.AreEqual(0, result.Count);
         }
         #endregion
     }

@@ -13,7 +13,6 @@ using ECA.Business.Queries.Models.Persons;
 using ECA.Core.DynamicLinq;
 using ECA.Core.Query;
 using ECA.Core.DynamicLinq.Filter;
-using ECA.Core.Exceptions;
 
 namespace ECA.Business.Test.Service.Persons
 {
@@ -462,127 +461,6 @@ namespace ECA.Business.Test.Service.Persons
             var serviceResultsAsync = await sevisService.GetSevisCommStatusesByParticipantIdAsync(participant.ProjectId, participant.ParticipantId, queryOperator);
             tester(serviceResults);
             tester(serviceResultsAsync);
-        }
-        #endregion
-
-        #region GetBatchInfoByBatchId
-        [TestMethod]
-        public async Task TestGetBatchInfoByBatchId()
-        {
-            var batchId = "batchId";
-            var userId = 10;
-            var participant = new Participant
-            {
-                ParticipantId = 1,
-                ProjectId = 2
-            };
-            var commStatus = new ParticipantPersonSevisCommStatus
-            {
-                ParticipantId = participant.ParticipantId,
-                BatchId = batchId,
-            };
-            var batch = new SevisBatchProcessing
-            {
-                BatchId = batchId
-            };
-            context.Participants.Add(participant);
-            context.ParticipantPersonSevisCommStatuses.Add(commStatus);
-            context.SevisBatchProcessings.Add(batch);
-
-            Assert.IsNotNull(sevisService.GetBatchInfoByBatchId(userId, participant.ProjectId, participant.ParticipantId, batchId));
-            Assert.IsNotNull(await sevisService.GetBatchInfoByBatchIdAsync(userId, participant.ProjectId, participant.ParticipantId, batchId));
-        }
-
-        [TestMethod]
-        public async Task TestGetBatchInfoByBatchId_BatchIdDoesNotExist()
-        {
-            var batchId = "batchId";
-            var userId = 10;
-            var participant = new Participant
-            {
-                ParticipantId = 1,
-                ProjectId = 2
-            };
-            var commStatus = new ParticipantPersonSevisCommStatus
-            {
-                ParticipantId = participant.ParticipantId,
-                BatchId = batchId,
-            };
-            var batch = new SevisBatchProcessing
-            {
-                BatchId = batchId
-            };
-            context.Participants.Add(participant);
-            context.ParticipantPersonSevisCommStatuses.Add(commStatus);
-            context.SevisBatchProcessings.Add(batch);
-
-            Assert.IsNotNull(sevisService.GetBatchInfoByBatchId(userId, participant.ProjectId, participant.ParticipantId, batchId));
-            Assert.IsNotNull(await sevisService.GetBatchInfoByBatchIdAsync(userId, participant.ProjectId, participant.ParticipantId, batchId));
-
-            Assert.IsNull(sevisService.GetBatchInfoByBatchId(userId, participant.ProjectId, participant.ParticipantId, batchId + "a"));
-            Assert.IsNull(await sevisService.GetBatchInfoByBatchIdAsync(userId, participant.ProjectId, participant.ParticipantId, batchId + "a"));
-        }
-
-        [TestMethod]
-        public async Task TestGetBatchInfoByBatchId_CommStatusesDoNotExist()
-        {
-            var batchId = "batchId";
-            var userId = 10;
-            var participant = new Participant
-            {
-                ParticipantId = 1,
-                ProjectId = 2
-            };
-            var batch = new SevisBatchProcessing
-            {
-                BatchId = batchId
-            };
-            context.Participants.Add(participant);
-            context.SevisBatchProcessings.Add(batch);
-
-            Assert.IsNull(sevisService.GetBatchInfoByBatchId(userId, participant.ProjectId, participant.ParticipantId, batchId));
-            Assert.IsNull(await sevisService.GetBatchInfoByBatchIdAsync(userId, participant.ProjectId, participant.ParticipantId, batchId));
-        }
-
-        [TestMethod]
-        public async Task TestGetBatchInfoByBatchId_ParticipantDoesNotBelongToProject()
-        {
-            var batchId = "batchId";
-            var userId = 10;
-            var participant = new Participant
-            {
-                ParticipantId = 1,
-                ProjectId = 2
-            };
-            var batch = new SevisBatchProcessing
-            {
-                BatchId = batchId
-            };
-            context.Participants.Add(participant);
-            context.SevisBatchProcessings.Add(batch);
-
-            var message = String.Format("The user with id [{0}] attempted to validate a participant with id [{1}] and project id [{2}] but should have been denied access.",
-                        userId,
-                        participant.ParticipantId,
-                        participant.ProjectId + 1);
-            Action a = () => sevisService.GetBatchInfoByBatchId(userId, participant.ProjectId + 1, participant.ParticipantId, batchId);
-            Func<Task> f = () => sevisService.GetBatchInfoByBatchIdAsync(userId, participant.ProjectId + 1, participant.ParticipantId, batchId);
-            a.ShouldThrow<BusinessSecurityException>().WithMessage(message);
-            f.ShouldThrow<BusinessSecurityException>().WithMessage(message);
-        }
-
-        [TestMethod]
-        public async Task TestGetBatchInfoByBatchId_ParticipantDoesNotExist()
-        {
-            var batchId = "batchId";
-            var userId = 10;
-            var participantId = 1;
-            var projectId = 2;
-            var message = String.Format("The model of type [{0}] with id [{1}] was not found.", typeof(Participant).Name, participantId);
-            Action a = () => sevisService.GetBatchInfoByBatchId(userId, projectId + 1, participantId, batchId);
-            Func<Task> f = () => sevisService.GetBatchInfoByBatchIdAsync(userId, projectId, participantId, batchId);
-            a.ShouldThrow<ModelNotFoundException>().WithMessage(message);
-            f.ShouldThrow<ModelNotFoundException>().WithMessage(message);
         }
         #endregion
     }

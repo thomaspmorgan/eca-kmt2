@@ -72,12 +72,5 @@ namespace ECA.Business.Service.Sevis
         /// <param name="id">The id of the batch.</param>
         /// <param name="batchId">The batch id.</param>
         void NotifyDeletedSevisBatchProcessing(int id, string batchId);
-
-        /// <summary>
-        /// Exechted when a batch has been cancelled.
-        /// </summary>
-        /// <param name="batchId">The batchId of the batch that was cancelled.</param>
-        /// <param name="reason">The reason the batch was cancelled.</param>
-        void NotifyCancelledSevisBatch(string batchId, string reason);
     }
 }

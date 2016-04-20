@@ -1,7 +1,6 @@
 ﻿using ECA.Business.Sevis.Model;
 using FluentValidation.Attributes;
 using Newtonsoft.Json;
-using System;
 
 namespace ECA.Business.Validation.Sevis.Finance
 {
@@ -62,44 +61,6 @@ namespace ECA.Business.Validation.Sevis.Finance
         public string Personal { get; private set; }
 
         /// <summary>
-        /// Returns the total funding.
-        /// </summary>
-        /// <returns>The total funding.</returns>
-        public decimal GetTotalFunding()
-        {
-            var total = 0.0m;
-            decimal evGovernmentFunding;
-            decimal binationalCommisionFunding;
-            decimal personalFunding;
-
-            if (!String.IsNullOrWhiteSpace(this.ExchangeVisitorGovernment) && decimal.TryParse(this.ExchangeVisitorGovernment, out evGovernmentFunding))
-            {
-                total += evGovernmentFunding;
-            }
-            if (!String.IsNullOrWhiteSpace(this.BinationalCommission) && decimal.TryParse(this.BinationalCommission, out binationalCommisionFunding))
-            {
-                total += binationalCommisionFunding;
-            }
-            if (!String.IsNullOrWhiteSpace(this.Personal) && decimal.TryParse(this.Personal, out personalFunding))
-            {
-                total += personalFunding;
-            }
-            if (this.USGovernmentFunding != null)
-            {
-                total += this.USGovernmentFunding.GetTotalFunding();
-            }
-            if (this.InternationalFunding != null)
-            {
-                total += this.InternationalFunding.GetTotalFunding();
-            }
-            if (this.Other != null)
-            {
-                total += this.Other.GetTotalFunding();
-            }
-            return total;
-        }
-
-        /// <summary>
         /// Returns the sevis exchange visitor OtherFundsType instance.
         /// </summary>
         /// <returns>Returns the sevis exchange visitor OtherFundsType instance.</returns>
@@ -119,7 +80,7 @@ namespace ECA.Business.Validation.Sevis.Finance
             {
                 instance.International = this.InternationalFunding.GetOtherFundsTypeInternational();
             }
-            if (this.Other != null)
+            if(this.Other != null)
             {
                 instance.Other = this.Other.GetOtherFundsTypeOther();
             }
@@ -152,6 +113,6 @@ namespace ECA.Business.Validation.Sevis.Finance
             }
             return instance;
         }
-
+        
     }
 }

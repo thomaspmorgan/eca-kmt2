@@ -13,7 +13,7 @@ namespace ECA.Business.Queries.Models.Persons
     {
         public SimplePersonDependentDTO()
         {
-            CountriesOfCitizenship = new List<SimpleLookupDTO>();
+            CountriesOfCitizenship = new List<CitizenCountryDTO>();
         }
 
         /// <summary>
@@ -111,7 +111,7 @@ namespace ECA.Business.Queries.Models.Persons
         /// <summary>
         /// Gets and sets the countries of citizenship
         /// </summary>
-        public IEnumerable<SimpleLookupDTO> CountriesOfCitizenship { get; set; }
+        public IEnumerable<CitizenCountryDTO> CountriesOfCitizenship { get; set; }
 
         /// <summary>
         /// Gets and sets the email addresses

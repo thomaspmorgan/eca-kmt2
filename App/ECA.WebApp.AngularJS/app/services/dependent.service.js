@@ -13,7 +13,7 @@ angular.module('staticApp')
       return {
           getDependentById: function (dependentId) {
               var defer = $q.defer();
-              DragonBreath.get('person/' + dependentId + '/dependent')
+              DragonBreath.get('people/dependent/' + dependentId)
                 .success(function (data) {
                     defer.resolve(data);
                 });
@@ -25,8 +25,8 @@ angular.module('staticApp')
           create: function (dependent) {
               return DragonBreath.create(dependent, 'dependent');
           },
-          delete: function (dependent) {
-              return DragonBreath.save(dependent, 'people/dependent/' + dependent.dependentId);
+          delete: function (dependentId) {
+              return DragonBreath.delete(dependentId, 'people/dependent/' + dependentId);
           }
       };
   });

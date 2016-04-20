@@ -29,19 +29,20 @@ angular.module('staticApp')
       $scope.view.isLoadingCountries = false;
       $scope.view.searchLimit = 10;
 
-      var originalCountry = angular.copy($scope.country);
+      var originalCountry = angular.copy($scope.citizenship);
       
       $scope.view.saveCountryChanges = function () {
           $scope.view.isSavingChanges = true;
 
-          if (isNewCountry($scope.country)) {
-              var tempId = angular.copy($scope.country.id);
-              var countryName = getCountryName($scope.country);
-              $scope.country.name = countryName;
-              updateCountries($scope.country);
+          var countryName = getCountryName($scope.citizenship);
+          $scope.citizenship.locationName = countryName;
+
+          if (isNewCountry($scope.citizenship)) {
+              var tempId = angular.copy($scope.citizenship.id);
+              updateCountries($scope.citizenship);
           }
           else {
-              updateCountries($scope.country);
+              updateCountries($scope.citizenship);
           }
 
           $scope.view.isSavingChanges = false;
@@ -49,12 +50,16 @@ angular.module('staticApp')
       };
 
       function updateCountries(country) {
-          var index = $scope.$parent.$parent.$parent.$parent.countriesOfCitizenship.map(function (e) { return e.id; }).indexOf(country.id);
-          $scope.$parent.$parent.$parent.$parent.countriesOfCitizenship[index] = country;
+          var index = $scope.$parent.$parent.$parent.$parent.dependent.countriesOfCitizenship.map(function (e) { return e.locationId; }).indexOf(country.locationId);
+          if (index < 0) {
+              $scope.$parent.$parent.$parent.$parent.dependent.countriesOfCitizenship.splice(0, 0, country);
+          } else {
+              $scope.$parent.$parent.$parent.$parent.dependent.countriesOfCitizenship[index] = country;
+          }
       };
 
       function getCountryName(country) {
-          var index = $scope.countries.map(function (e) { return e.id; }).indexOf(country.id);
+          var index = $scope.countries.map(function (e) { return e.id; }).indexOf(country.locationId);
           return $scope.countries[index].name;
       };
 
@@ -63,18 +68,18 @@ angular.module('staticApp')
       };
 
       $scope.view.onDeleteCountryClick = function () {
-          if (isNewCountry($scope.country)) {
-              removeCountryFromView($scope.country);
+          if (isNewCountry($scope.citizenship)) {
+              removeCountryFromView($scope.citizenship);
           }
           else {
               $scope.view.isDeletingCountry = true;
               console.assert($scope.modelId, 'The entity model id must be defined.');
               var modelId = $scope.modelId;
-              return DependentService.deleteCountry($scope.country, modelId)
+              return DependentService.deleteCountry($scope.citizenship, modelId)
               .then(function () {
                   NotificationService.showSuccessMessage("Successfully deleted country.");
                   $scope.view.isDeletingCountry = false;
-                  removeCountryFromView($scope.country);
+                  removeCountryFromView($scope.citizenship);
               })
               .catch(function () {
                   var message = "Unable to delete country.";
@@ -88,22 +93,9 @@ angular.module('staticApp')
           return getCountries($viewValue);
       }
 
-      $scope.view.onSelectCountry = function ($item, $model, $label) {
-          $scope.address.country = $item.name;
-          $scope.address.countryId = $item.id;
-          $scope.view.isCountryInactive = !$item.isActive;
+      $scope.view.onIsPrimaryChange = function () {
+          $scope.$emit(ConstantsService.removeNewCitizenshipCountryEventName, $scope.citizenship);
       }
-
-      $scope.view.onSelectCountryBlur = function ($event) {
-          if ($scope.address.country === '') {
-              delete $scope.address.countryId;
-              delete $scope.address.country;
-          }
-      };
-
-      //$scope.view.onIsPrimaryChange = function () {
-      //    $scope.$emit(ConstantsService.primaryCountryChangedEventName, $scope.country);
-      //}
 
       $scope.view.onEditCountryClick = function () {
           $scope.view.showEditCitizenshipCountry = true;
@@ -134,13 +126,13 @@ angular.module('staticApp')
       }
 
       function getCountryFormDivId() {
-          return getCountryFormDivIdPrefix() + $scope.country.id;
+          return getCountryFormDivIdPrefix() + $scope.citizenship.locationId;
       }
 
       function updateCountryFormDivId(tempId) {
           var id = getCountryFormDivIdPrefix() + tempId;
           var e = getCountryFormDivElement(id);
-          e.id = getCountryFormDivIdPrefix() + $scope.country.id.toString();
+          e.id = getCountryFormDivIdPrefix() + $scope.citizenship.locationId.toString();
       }
 
       function getCountryFormDivElement(id) {
@@ -148,8 +140,8 @@ angular.module('staticApp')
       }
 
       function onSaveCountrySuccess(response) {
-          $scope.country = response.data;
-          originalCountry = angular.copy($scope.country);
+          $scope.citizenship = response.data;
+          originalCountry = angular.copy($scope.citizenship);
           NotificationService.showSuccessMessage("Successfully saved changes to country.");
           $scope.view.showEditCitizenshipCountry = false;
           $scope.view.isSavingChanges = false;
