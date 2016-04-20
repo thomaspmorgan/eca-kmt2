@@ -16,6 +16,8 @@
 	[IsTravellingWithParticipant] [bit] NOT NULL DEFAULT 0,
 	[IsDeleted] [bit] NOT NULL DEFAULT 0,
 	[IsSevisDeleted] [bit] NOT NULL DEFAULT 0,
+    [IsDS2019Printed] BIT NOT NULL DEFAULT 0, 
+    [DS2019FileUrl] NVARCHAR(4000) NULL, 
 	[History_CreatedBy] [int] NOT NULL,
 	[History_CreatedOn] [datetimeoffset](7) NOT NULL,
 	[History_RevisedBy] [int] NOT NULL,
