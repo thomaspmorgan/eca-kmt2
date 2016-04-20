@@ -550,7 +550,6 @@
     <Compile Include="Service\Reports\IReportService.cs" />
     <Compile Include="Service\Reports\ReportService.cs" />
     <Compile Include="Service\Sevis\IDS2019FileProvider.cs" />
-    <None Include="Service\Sevis\IDummyCloudStorage.csold" />
     <Compile Include="Service\Sevis\ISevisBatchProcessingNotificationService.cs" />
     <Compile Include="Service\Sevis\ISevisBatchProcessingService.cs" />
     <Compile Include="Service\Sevis\SevisBatchProcessingService.cs" />
