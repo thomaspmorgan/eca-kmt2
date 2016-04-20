@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.WindowsAzure.Storage.Blob;
+using System.IO;
 
 namespace ECA.Business.Storage
 {
@@ -11,5 +12,9 @@ namespace ECA.Business.Storage
         string GetBlobLocation(string blobName);
         string UploadBlob(byte[] blobData, string contentType, string blobName);
         Task<string> UploadBlobAsync(byte[] blobData, string contentType, string blobName);
+        
+        string UploadBlob(Stream blobData, string contentType, string blobName);
+
+        Task<string> UploadBlobAsync(Stream blobData, string contentType, string blobName);
     }
 }

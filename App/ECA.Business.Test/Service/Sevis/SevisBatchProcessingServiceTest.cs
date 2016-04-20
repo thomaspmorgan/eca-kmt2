@@ -29,6 +29,7 @@ using System.Reflection;
 using ECA.Core.Settings;
 using System.Collections.Specialized;
 using System.Configuration;
+using ECA.Business.Storage;
 
 namespace ECA.Business.Test.Service.Sevis
 {
@@ -38,7 +39,7 @@ namespace ECA.Business.Test.Service.Sevis
         private TestEcaContext context;
         private SevisBatchProcessingService service;
         private Mock<IDS2019FileProvider> fileProvider;
-        private Mock<IDummyCloudStorage> cloudStorageService;
+        private Mock<IFileStorageService> cloudStorageService;
         private Mock<IExchangeVisitorService> exchangeVisitorService;
         private Mock<ISevisBatchProcessingNotificationService> notificationService;
         private Mock<IExchangeVisitorValidationService> exchangeVisitorValidationService;
@@ -68,7 +69,7 @@ namespace ECA.Business.Test.Service.Sevis
             notificationService = new Mock<ISevisBatchProcessingNotificationService>();
             exchangeVisitorValidationService = new Mock<IExchangeVisitorValidationService>();
             validator = new Mock<AbstractValidator<ExchangeVisitor>>();
-            cloudStorageService = new Mock<IDummyCloudStorage>();
+            cloudStorageService = new Mock<IFileStorageService>();
             fileProvider = new Mock<IDS2019FileProvider>();
 
             exchangeVisitorValidationService.Setup(x => x.GetValidator()).Returns(validator.Object);
@@ -2380,8 +2381,8 @@ namespace ECA.Business.Test.Service.Sevis
 
             fileProvider.Setup(x => x.GetDS2019FileStream(It.IsAny<RequestId>(), It.IsAny<string>())).Returns(fileContentStream);
             fileProvider.Setup(x => x.GetDS2019FileStreamAsync(It.IsAny<RequestId>(), It.IsAny<string>())).ReturnsAsync(fileContentStreamAsync);
-            cloudStorageService.Setup(x => x.SaveFile(It.IsAny<string>(), It.IsAny<Stream>(), It.IsAny<string>())).Returns(url);
-            cloudStorageService.Setup(x => x.SaveFileAsync(It.IsAny<string>(), It.IsAny<Stream>(), It.IsAny<string>())).ReturnsAsync(url);
+            cloudStorageService.Setup(x => x.UploadBlob(It.IsAny<Stream>(), It.IsAny<string>(), It.IsAny<string>())).Returns(url);
+            cloudStorageService.Setup(x => x.UploadBlobAsync(It.IsAny<Stream>(), It.IsAny<string>(), It.IsAny<string>())).ReturnsAsync(url);
             Action tester = () =>
             {
                 Assert.AreEqual(user.Id, participantPerson.History.RevisedBy);
@@ -2399,7 +2400,7 @@ namespace ECA.Business.Test.Service.Sevis
             tester();
             notificationService.Verify(x => x.NotifyFinishedProcessingSevisBatchDetails(It.IsAny<string>(), It.IsAny<DispositionCode>()), Times.Exactly(1));
             notificationService.Verify(x => x.NotifyStartedProcessingSevisBatchDetails(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<int>()), Times.Exactly(1));
-            cloudStorageService.Verify(x => x.SaveFile(It.IsAny<string>(), It.IsAny<Stream>(), It.IsAny<string>()), Times.Exactly(1));
+            cloudStorageService.Verify(x => x.UploadBlob(It.IsAny<Stream>(), It.IsAny<string>(), It.IsAny<string>()), Times.Exactly(1));
             fileProvider.Verify(x => x.GetDS2019FileStream(It.IsAny<RequestId>(), It.IsAny<string>()), Times.Exactly(1));
 
             context.Revert();
@@ -2407,7 +2408,7 @@ namespace ECA.Business.Test.Service.Sevis
             tester();
             notificationService.Verify(x => x.NotifyFinishedProcessingSevisBatchDetails(It.IsAny<string>(), It.IsAny<DispositionCode>()), Times.Exactly(2));
             notificationService.Verify(x => x.NotifyStartedProcessingSevisBatchDetails(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<int>()), Times.Exactly(2));
-            cloudStorageService.Verify(x => x.SaveFileAsync(It.IsAny<string>(), It.IsAny<Stream>(), It.IsAny<string>()), Times.Exactly(1));
+            cloudStorageService.Verify(x => x.UploadBlobAsync(It.IsAny<Stream>(), It.IsAny<string>(), It.IsAny<string>()), Times.Exactly(1));
             fileProvider.Verify(x => x.GetDS2019FileStreamAsync(It.IsAny<RequestId>(), It.IsAny<string>()), Times.Exactly(1));
         }
 
@@ -2512,8 +2513,8 @@ namespace ECA.Business.Test.Service.Sevis
 
             fileProvider.Setup(x => x.GetDS2019FileStream(It.IsAny<RequestId>(), It.IsAny<string>())).Returns(fileContentStream);
             fileProvider.Setup(x => x.GetDS2019FileStreamAsync(It.IsAny<RequestId>(), It.IsAny<string>())).ReturnsAsync(fileContentStreamAsync);
-            cloudStorageService.Setup(x => x.SaveFile(It.IsAny<string>(), It.IsAny<Stream>(), It.IsAny<string>())).Returns(url);
-            cloudStorageService.Setup(x => x.SaveFileAsync(It.IsAny<string>(), It.IsAny<Stream>(), It.IsAny<string>())).ReturnsAsync(url);
+            cloudStorageService.Setup(x => x.UploadBlob(It.IsAny<Stream>(), It.IsAny<string>(), It.IsAny<string>())).Returns(url);
+            cloudStorageService.Setup(x => x.UploadBlobAsync(It.IsAny<Stream>(), It.IsAny<string>(), It.IsAny<string>())).ReturnsAsync(url);
             Action tester = () =>
             {
                 Assert.AreEqual(user.Id, dependent.History.RevisedBy);
@@ -2528,7 +2529,7 @@ namespace ECA.Business.Test.Service.Sevis
             tester();
             notificationService.Verify(x => x.NotifyFinishedProcessingSevisBatchDetails(It.IsAny<string>(), It.IsAny<DispositionCode>()), Times.Exactly(1));
             notificationService.Verify(x => x.NotifyStartedProcessingSevisBatchDetails(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<int>()), Times.Exactly(1));
-            cloudStorageService.Verify(x => x.SaveFile(It.IsAny<string>(), It.IsAny<Stream>(), It.IsAny<string>()), Times.Exactly(2));
+            cloudStorageService.Verify(x => x.UploadBlob(It.IsAny<Stream>(), It.IsAny<string>(), It.IsAny<string>()), Times.Exactly(2));
             fileProvider.Verify(x => x.GetDS2019FileStream(It.IsAny<RequestId>(), It.IsAny<string>()), Times.Exactly(2));
 
             context.Revert();
@@ -2536,7 +2537,7 @@ namespace ECA.Business.Test.Service.Sevis
             tester();
             notificationService.Verify(x => x.NotifyFinishedProcessingSevisBatchDetails(It.IsAny<string>(), It.IsAny<DispositionCode>()), Times.Exactly(2));
             notificationService.Verify(x => x.NotifyStartedProcessingSevisBatchDetails(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<int>()), Times.Exactly(2));
-            cloudStorageService.Verify(x => x.SaveFileAsync(It.IsAny<string>(), It.IsAny<Stream>(), It.IsAny<string>()), Times.Exactly(2));
+            cloudStorageService.Verify(x => x.UploadBlobAsync(It.IsAny<Stream>(), It.IsAny<string>(), It.IsAny<string>()), Times.Exactly(2));
             fileProvider.Verify(x => x.GetDS2019FileStreamAsync(It.IsAny<RequestId>(), It.IsAny<string>()), Times.Exactly(2));
         }
 
@@ -2600,8 +2601,8 @@ namespace ECA.Business.Test.Service.Sevis
 
             fileProvider.Setup(x => x.GetDS2019FileStream(It.IsAny<RequestId>(), It.IsAny<string>())).Returns(fileContentStream);
             fileProvider.Setup(x => x.GetDS2019FileStreamAsync(It.IsAny<RequestId>(), It.IsAny<string>())).ReturnsAsync(fileContentStreamAsync);
-            cloudStorageService.Setup(x => x.SaveFile(It.IsAny<string>(), It.IsAny<Stream>(), It.IsAny<string>())).Returns(url);
-            cloudStorageService.Setup(x => x.SaveFileAsync(It.IsAny<string>(), It.IsAny<Stream>(), It.IsAny<string>())).ReturnsAsync(url);
+            cloudStorageService.Setup(x => x.UploadBlob(It.IsAny<Stream>(), It.IsAny<string>(), It.IsAny<string>())).Returns(url);
+            cloudStorageService.Setup(x => x.UploadBlobAsync(It.IsAny<Stream>(), It.IsAny<string>(), It.IsAny<string>())).ReturnsAsync(url);
             Action tester = () =>
             {
                 Assert.AreEqual(user.Id, dependent.History.RevisedBy);
@@ -2615,7 +2616,7 @@ namespace ECA.Business.Test.Service.Sevis
             tester();
             notificationService.Verify(x => x.NotifyFinishedProcessingSevisBatchDetails(It.IsAny<string>(), It.IsAny<DispositionCode>()), Times.Exactly(1));
             notificationService.Verify(x => x.NotifyStartedProcessingSevisBatchDetails(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<int>()), Times.Exactly(1));
-            cloudStorageService.Verify(x => x.SaveFile(It.IsAny<string>(), It.IsAny<Stream>(), It.IsAny<string>()), Times.Exactly(1));
+            cloudStorageService.Verify(x => x.UploadBlob(It.IsAny<Stream>(), It.IsAny<string>(), It.IsAny<string>()), Times.Exactly(1));
             fileProvider.Verify(x => x.GetDS2019FileStream(It.IsAny<RequestId>(), It.IsAny<string>()), Times.Exactly(1));
 
             context.Revert();
@@ -2623,7 +2624,7 @@ namespace ECA.Business.Test.Service.Sevis
             tester();
             notificationService.Verify(x => x.NotifyFinishedProcessingSevisBatchDetails(It.IsAny<string>(), It.IsAny<DispositionCode>()), Times.Exactly(2));
             notificationService.Verify(x => x.NotifyStartedProcessingSevisBatchDetails(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<int>()), Times.Exactly(2));
-            cloudStorageService.Verify(x => x.SaveFileAsync(It.IsAny<string>(), It.IsAny<Stream>(), It.IsAny<string>()), Times.Exactly(1));
+            cloudStorageService.Verify(x => x.UploadBlobAsync(It.IsAny<Stream>(), It.IsAny<string>(), It.IsAny<string>()), Times.Exactly(1));
             fileProvider.Verify(x => x.GetDS2019FileStreamAsync(It.IsAny<RequestId>(), It.IsAny<string>()), Times.Exactly(1));
         }
 
@@ -2799,20 +2800,20 @@ namespace ECA.Business.Test.Service.Sevis
 
             fileProvider.Setup(x => x.GetDS2019FileStream(It.IsAny<RequestId>(), It.IsAny<string>())).Returns(fileContentStream);
             fileProvider.Setup(x => x.GetDS2019FileStreamAsync(It.IsAny<RequestId>(), It.IsAny<string>())).ReturnsAsync(fileContentStreamAsync);
-            cloudStorageService.Setup(x => x.SaveFile(It.IsAny<string>(), It.IsAny<Stream>(), It.IsAny<string>())).Returns(url);
-            cloudStorageService.Setup(x => x.SaveFileAsync(It.IsAny<string>(), It.IsAny<Stream>(), It.IsAny<string>())).ReturnsAsync(url);
+            cloudStorageService.Setup(x => x.UploadBlob(It.IsAny<Stream>(), It.IsAny<string>(), It.IsAny<string>())).Returns(url);
+            cloudStorageService.Setup(x => x.UploadBlobAsync(It.IsAny<Stream>(), It.IsAny<string>(), It.IsAny<string>())).ReturnsAsync(url);
 
-            Action<string, Stream, string> cloudStorageCallback = (fName, s, contentType) =>
+            Action<Stream, string, string> cloudStorageCallback = (s, contentType, fName) =>
             {
                 Assert.AreEqual(SevisBatchProcessingService.GetDS2019FileName(sevisId), fName);
                 Assert.AreEqual(SevisBatchProcessingService.DS2019_CONTENT_TYPE, contentType);
                 Assert.IsNotNull(s);
             };
-            cloudStorageService.Setup(x => x.SaveFile(It.IsAny<string>(), It.IsAny<Stream>(), It.IsAny<string>()))
+            cloudStorageService.Setup(x => x.UploadBlob(It.IsAny<Stream>(), It.IsAny<string>(), It.IsAny<string>()))
                 .Returns(url)
                 .Callback(cloudStorageCallback);
 
-            cloudStorageService.Setup(x => x.SaveFileAsync(It.IsAny<string>(), It.IsAny<Stream>(), It.IsAny<string>()))
+            cloudStorageService.Setup(x => x.UploadBlobAsync(It.IsAny<Stream>(), It.IsAny<string>(), It.IsAny<string>()))
                 .Returns(Task.FromResult<string>(url))
                 .Callback(cloudStorageCallback);
 
@@ -2884,7 +2885,7 @@ namespace ECA.Business.Test.Service.Sevis
             tester();
             notificationService.Verify(x => x.NotifyFinishedProcessingSevisBatchDetails(It.IsAny<string>(), It.IsAny<DispositionCode>()), Times.Exactly(0));
             notificationService.Verify(x => x.NotifyStartedProcessingSevisBatchDetails(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<int>()), Times.Never());
-            cloudStorageService.Verify(x => x.SaveFile(It.IsAny<string>(), It.IsAny<Stream>(), It.IsAny<string>()), Times.Exactly(0));
+            cloudStorageService.Verify(x => x.UploadBlob(It.IsAny<Stream>(), It.IsAny<string>(), It.IsAny<string>()), Times.Exactly(0));
             fileProvider.Verify(x => x.GetDS2019FileStream(It.IsAny<RequestId>(), It.IsAny<string>()), Times.Exactly(0));
 
             context.Revert();
@@ -2892,7 +2893,7 @@ namespace ECA.Business.Test.Service.Sevis
             tester();
             notificationService.Verify(x => x.NotifyFinishedProcessingSevisBatchDetails(It.IsAny<string>(), It.IsAny<DispositionCode>()), Times.Exactly(0));
             notificationService.Verify(x => x.NotifyStartedProcessingSevisBatchDetails(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<int>()), Times.Never());
-            cloudStorageService.Verify(x => x.SaveFileAsync(It.IsAny<string>(), It.IsAny<Stream>(), It.IsAny<string>()), Times.Exactly(0));
+            cloudStorageService.Verify(x => x.UploadBlobAsync(It.IsAny<Stream>(), It.IsAny<string>(), It.IsAny<string>()), Times.Exactly(0));
             fileProvider.Verify(x => x.GetDS2019FileStreamAsync(It.IsAny<RequestId>(), It.IsAny<string>()), Times.Exactly(0));
         }
 
@@ -2967,7 +2968,7 @@ namespace ECA.Business.Test.Service.Sevis
             tester();
             notificationService.Verify(x => x.NotifyFinishedProcessingSevisBatchDetails(It.IsAny<string>(), It.IsAny<DispositionCode>()), Times.Exactly(1));
             notificationService.Verify(x => x.NotifyStartedProcessingSevisBatchDetails(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<int>()), Times.Exactly(1));
-            cloudStorageService.Verify(x => x.SaveFile(It.IsAny<string>(), It.IsAny<Stream>(), It.IsAny<string>()), Times.Exactly(0));
+            cloudStorageService.Verify(x => x.UploadBlob(It.IsAny<Stream>(), It.IsAny<string>(), It.IsAny<string>()), Times.Exactly(0));
             fileProvider.Verify(x => x.GetDS2019FileStream(It.IsAny<RequestId>(), It.IsAny<string>()), Times.Exactly(0));
 
             context.Revert();
@@ -2975,7 +2976,7 @@ namespace ECA.Business.Test.Service.Sevis
             tester();
             notificationService.Verify(x => x.NotifyFinishedProcessingSevisBatchDetails(It.IsAny<string>(), It.IsAny<DispositionCode>()), Times.Exactly(2));
             notificationService.Verify(x => x.NotifyStartedProcessingSevisBatchDetails(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<int>()), Times.Exactly(2));
-            cloudStorageService.Verify(x => x.SaveFileAsync(It.IsAny<string>(), It.IsAny<Stream>(), It.IsAny<string>()), Times.Exactly(0));
+            cloudStorageService.Verify(x => x.UploadBlobAsync(It.IsAny<Stream>(), It.IsAny<string>(), It.IsAny<string>()), Times.Exactly(0));
             fileProvider.Verify(x => x.GetDS2019FileStreamAsync(It.IsAny<RequestId>(), It.IsAny<string>()), Times.Exactly(0));
         }
 
@@ -3147,14 +3148,14 @@ namespace ECA.Business.Test.Service.Sevis
                 context.SevisBatchProcessings.Add(sevisBatch);
             });
             Action tester = () =>
-            {                
+            {
                 Assert.AreEqual(2, context.ParticipantPersonSevisCommStatuses.Count());
             };
             context.Revert();
             service.ProcessUpload(uploadDetail, sevisBatch);
             tester();
             notificationService.Verify(x => x.NotifyUploadedBatchProcessed(It.IsAny<string>(), It.IsAny<DispositionCode>()), Times.Exactly(1));
-            
+
             context.Revert();
             await service.ProcessUploadAsync(uploadDetail, sevisBatch);
             tester();
@@ -3764,17 +3765,17 @@ namespace ECA.Business.Test.Service.Sevis
             var memoryStreamAsync = new MemoryStream();
             memoryStream.Read(fileContents, 0, fileContents.Length);
             memoryStreamAsync.Read(fileContents, 0, fileContents.Length);
-            Action<string, Stream, string> cloudStorageCallback = (fName, s, contentType) =>
+            Action<Stream, string, string> cloudStorageCallback = (s, contentType, fName) =>
             {
                 Assert.AreEqual(SevisBatchProcessingService.GetDS2019FileName(sevisId), fName);
                 Assert.AreEqual(SevisBatchProcessingService.DS2019_CONTENT_TYPE, contentType);
                 Assert.IsNotNull(s);
             };
             var url = "url";
-            cloudStorageService.Setup(x => x.SaveFile(It.IsAny<string>(), It.IsAny<Stream>(), It.IsAny<string>()))
+            cloudStorageService.Setup(x => x.UploadBlob(It.IsAny<Stream>(), It.IsAny<string>(), It.IsAny<string>()))
                 .Returns(url)
                 .Callback(cloudStorageCallback);
-            cloudStorageService.Setup(x => x.SaveFileAsync(It.IsAny<string>(), It.IsAny<Stream>(), It.IsAny<string>()))
+            cloudStorageService.Setup(x => x.UploadBlobAsync(It.IsAny<Stream>(), It.IsAny<string>(), It.IsAny<string>()))
                 .ReturnsAsync(url)
                 .Callback(cloudStorageCallback);
             service.SaveDS2019Form(sevisId, memoryStream);
@@ -3809,7 +3810,7 @@ namespace ECA.Business.Test.Service.Sevis
         [TestMethod]
         public void TestDispose_CloudStorageService()
         {
-            var disposableService = new Mock<IDummyCloudStorage>();
+            var disposableService = new Mock<IFileStorageService>();
             var disposable = disposableService.As<IDisposable>();
 
             var serviceToDispose = new SevisBatchProcessingService(

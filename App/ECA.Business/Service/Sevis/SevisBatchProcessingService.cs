@@ -25,6 +25,7 @@ using Newtonsoft.Json.Serialization;
 using ECA.Core.Settings;
 using System.Xml;
 using System.Data.Entity.Core.Objects;
+using ECA.Business.Storage;
 
 namespace ECA.Business.Service.Sevis
 {
@@ -49,7 +50,7 @@ namespace ECA.Business.Service.Sevis
         /// </summary>
         public const int QUERY_BATCH_SIZE = 5;
 
-        private IDummyCloudStorage cloudStorageService;
+        private IFileStorageService cloudStorageService;
         private ISevisBatchProcessingNotificationService notificationService;
         private IExchangeVisitorService exchangeVisitorService;
         private IExchangeVisitorValidationService exchangeVisitorValidationService;
@@ -72,7 +73,7 @@ namespace ECA.Business.Service.Sevis
         /// <param name="saveActions">The save actions.</param>
         public SevisBatchProcessingService(
             EcaContext context,
-            IDummyCloudStorage cloudStorageService,
+            IFileStorageService cloudStorageService,
             IExchangeVisitorService exchangeVisitorService,
             ISevisBatchProcessingNotificationService notificationService,
             IExchangeVisitorValidationService exchangeVisitorValidationService,
@@ -1139,7 +1140,7 @@ namespace ECA.Business.Service.Sevis
         public string SaveDS2019Form(string sevisId, Stream stream)
         {
             var fileName = GetDS2019FileName(sevisId);
-            return this.cloudStorageService.SaveFile(fileName, stream, DS2019_CONTENT_TYPE);
+            return this.cloudStorageService.UploadBlob(stream, DS2019_CONTENT_TYPE, fileName);
         }
 
         /// <summary>
@@ -1152,7 +1153,7 @@ namespace ECA.Business.Service.Sevis
         public async Task<string> SaveDS2019FormAsync(string sevisId, Stream stream)
         {
             var fileName = GetDS2019FileName(sevisId);
-            return await cloudStorageService.SaveFileAsync(fileName, stream, DS2019_CONTENT_TYPE);
+            return await cloudStorageService.UploadBlobAsync(stream, DS2019_CONTENT_TYPE, fileName);
         }
 
         /// <summary>
