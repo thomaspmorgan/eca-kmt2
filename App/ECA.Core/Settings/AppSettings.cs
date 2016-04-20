@@ -109,14 +109,24 @@ namespace ECA.Core.Settings
         public const string NUMBER_OF_DAYS_TO_KEEP_PROCESSED_SEVIS_BATCH_RECORDS = SEVIS_PREFIX + "NumberOfDaysToKeepProcessedSevisBatchRecords";
 
         /// <summary>
-        /// The number of seconds to wait before trying to download a sevis batch from the sevis api again in seconds.
+        /// The number of seconds to wait before trying to download a sevis batch from the sevis api again in seconds key.
         /// </summary>
         public const string DOWNLOAD_COOLDOWN_IN_SECONDS = SEVIS_PREFIX + "DownloadCooldownInSeconds";
 
         /// <summary>
-        /// The number of seconds to wait before trying to upload a sevis batch to the sevis api again in seconds.
+        /// The number of seconds to wait before trying to upload a sevis batch to the sevis api again in seconds key.
         /// </summary>
         public const string UPLOAD_COOLDOWN_IN_SECONDS = SEVIS_PREFIX + "UploadCooldownInSeconds";
+
+        /// <summary>
+        /// The ds 2019 file azure blog storage container key.
+        /// </summary>
+        public const string SEVIS_DS2019_STORAGE_CONTAINER = "SevisDS2019StorageContainer";
+
+        /// <summary>
+        /// The ds 2019 file storage connection string key.
+        /// </summary>
+        public const string SEVIS_DS2019_STORAGE_CONNECTION_STRING_KEY = "SevisDS2019StorageConnection";
 
         #endregion
 
@@ -174,6 +184,7 @@ namespace ECA.Core.Settings
         /// </summary>
         public const string IDLE_TIMEOUT_IN_SECONDS = "session.IdleTimeoutInSeconds";
         #endregion
+        
 
         private NameValueCollection appSettings;
         private ConnectionStringSettingsCollection connectionStrings;
@@ -289,6 +300,11 @@ namespace ECA.Core.Settings
         public string SevisUploadCooldownInSeconds { get { return GetAppSetting(UPLOAD_COOLDOWN_IN_SECONDS); } }
 
         /// <summary>
+        /// Gets the sevis ds 2019 file storage container.
+        /// </summary>
+        public string DS2019FileStorageContainer { get { return GetAppSetting(SEVIS_DS2019_STORAGE_CONTAINER); } }
+
+        /// <summary>
         /// Gets the active directory client id.
         /// </summary>
         public string AdClientId { get { return GetAppSetting(AD_CLIENT_ID); } }
@@ -329,6 +345,11 @@ namespace ECA.Core.Settings
         /// Gets the azure web jobs dashboard connection string key.
         /// </summary>
         public ConnectionStringSettings AzureWebJobsDashboardConnectionString { get { return GetConnectionString(AZURE_WEB_JOBS_DASHBOARD_KEY); } }
+
+        /// <summary>
+        /// Gets the connection string for the ds 2019 file storage.
+        /// </summary>
+        public ConnectionStringSettings DS2019FileStorageConnectionString { get { return GetConnectionString(SEVIS_DS2019_STORAGE_CONNECTION_STRING_KEY); } }
         #endregion
     }
 }

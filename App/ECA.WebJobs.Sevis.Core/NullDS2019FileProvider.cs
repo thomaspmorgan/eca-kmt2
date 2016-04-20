@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using ECA.Business.Sevis.Model;
 
 namespace ECA.WebJobs.Sevis.Core
 {
@@ -16,11 +17,10 @@ namespace ECA.WebJobs.Sevis.Core
         /// <summary>
         /// Returns a null stream.
         /// </summary>
-        /// <param name="participantId"></param>
-        /// <param name="batchId"></param>
+        /// <param name="requestId"></param>
         /// <param name="sevisId"></param>
         /// <returns></returns>
-        public Stream GetDS2019FileStream(int participantId, string batchId, string sevisId)
+        public Stream GetDS2019FileStream(RequestId requestId, string sevisId)
         {
             return null;
         }
@@ -28,11 +28,10 @@ namespace ECA.WebJobs.Sevis.Core
         /// <summary>
         /// Returns a null stream.
         /// </summary>
-        /// <param name="participantId"></param>
-        /// <param name="batchId"></param>
+        /// <param name="requestId"></param>
         /// <param name="sevisId"></param>
         /// <returns></returns>
-        public Task<Stream> GetDS2019FileStreamAsync(int participantId, string batchId, string sevisId)
+        public Task<Stream> GetDS2019FileStreamAsync(RequestId requestId, string sevisId)
         {
             return Task.FromResult<Stream>(null);
         }

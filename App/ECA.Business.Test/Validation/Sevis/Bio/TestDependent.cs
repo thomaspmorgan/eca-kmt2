@@ -34,6 +34,11 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
 
         public bool IgnoreValidation { get; set; }
 
+        public override RequestId GetRequestId()
+        {
+            return new RequestId(this.PersonId, RequestIdType.Dependent, RequestActionType.Create);
+        }
+
         public override object GetSevisExhangeVisitorDependentInstance()
         {
             return new SEVISEVBatchTypeExchangeVisitorDependent

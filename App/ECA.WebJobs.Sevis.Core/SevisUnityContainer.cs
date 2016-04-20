@@ -1,5 +1,6 @@
 ﻿using ECA.Business.Service.Persons;
 using ECA.Business.Service.Sevis;
+using ECA.Business.Storage;
 using ECA.Core.Settings;
 using ECA.Data;
 using Microsoft.Azure;
@@ -14,41 +15,6 @@ using System.Threading.Tasks;
 
 namespace ECA.WebJobs.Sevis.Core
 {
-    public class DummyCloudStorage : IDummyCloudStorage
-    {
-        public string SaveFile(string fileName, Stream contents, string contentType)
-        {
-            return "filepath.pdf";
-        }
-
-        public async Task<string> SaveFileAsync(string fileName, Stream contents, string contentType)
-        {
-            try
-            {
-                // Retrieve storage account from connection string.
-                CloudStorageAccount storageAccount = CloudStorageAccount.Parse(
-                    CloudConfigurationManager.GetSetting("StorageConnectionString"));
-
-                // Create the blob client.
-                CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
-
-                // Retrieve a reference to a container.
-                CloudBlobContainer container = blobClient.GetContainerReference("ds2019files");
-
-                // Create the container if it doesn't already exist.
-                container.CreateIfNotExists();
-
-                // Retrieve reference to a blob named "myblob".
-                CloudBlockBlob blockBlob = container.GetBlockBlobReference(fileName);
-                await blockBlob.UploadFromStreamAsync(contents);
-                return blockBlob.Uri.ToString();
-            }
-            catch(Exception e)
-            {
-                return e.Message.Substring(0, 4000);
-            }
-        }
-    }
 
     /// <summary>
     /// The SevisUnityContainer is a unity container that can be used across multiple webjobs dealing with SEVIS.
@@ -66,7 +32,8 @@ namespace ECA.WebJobs.Sevis.Core
 
             var connectionString = GetConnectionString(appSettings);
             this.RegisterType<ISevisBatchProcessingNotificationService, TextWriterSevisBatchProcessingNotificationService>();
-            this.RegisterType<IDummyCloudStorage, DummyCloudStorage>();
+            this.RegisterType<IBlobStorageSettings, BlobStorageSettings>();
+            this.RegisterType<IFileStorageService, FileStorageService>();
             //Register ECA Context
             this.RegisterType<EcaContext>(new InjectionConstructor(connectionString));
             this.RegisterType<DbContext, EcaContext>(new InjectionConstructor(connectionString));
@@ -103,7 +70,7 @@ namespace ECA.WebJobs.Sevis.Core
                 var service = new SevisBatchProcessingService(
                     context: c.Resolve<EcaContext>(),
                     appSettings: c.Resolve<AppSettings>(),
-                    cloudStorageService: c.Resolve<IDummyCloudStorage>(),
+                    cloudStorageService: c.Resolve<IFileStorageService>(),
                     exchangeVisitorService: c.Resolve<IExchangeVisitorService>(),
                     notificationService: c.Resolve<ISevisBatchProcessingNotificationService>(),
                     exchangeVisitorValidationService: c.Resolve<IExchangeVisitorValidationService>(),

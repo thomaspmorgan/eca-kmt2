@@ -367,7 +367,7 @@ namespace ECA.Business.Test.Validation.Sevis
             Assert.AreEqual(endDate, instance.PrgEndDate);
             Assert.IsTrue(instance.printForm);
             Assert.AreEqual(sevisUserId, instance.userID);
-            Assert.AreEqual(new RequestId(person).ToString(), instance.requestID);
+            Assert.AreEqual(new RequestId(exchangeVisitor.Person.ParticipantId, RequestIdType.Participant, RequestActionType.Create).ToString(), instance.requestID);
             Assert.IsNotNull(instance.UserDefinedA);
             Assert.IsNotNull(instance.UserDefinedB);
 
@@ -870,18 +870,17 @@ namespace ECA.Business.Test.Validation.Sevis
                 Assert.AreEqual(sevisUserId, visitor.userID);
                 Assert.IsFalse(visitor.statusCodeSpecified);
             };
-
             var list = exchangeVisitor.GetSEVISEVBatchTypeExchangeVisitor1Collection(sevisUserId).ToList();
             Assert.AreEqual(4, list.Count);
             list.ForEach(x => propertyTester(x));
 
             var personVisitorItem = CreateGetItemQuery<SEVISEVBatchTypeExchangeVisitorBiographical>(list).FirstOrDefault();
             Assert.IsNotNull(personVisitorItem);
-            Assert.AreEqual(new RequestId(person).ToString(), personVisitorItem.requestID);
+            Assert.AreEqual(new RequestId(person.ParticipantId, RequestIdType.Participant, RequestActionType.Update).ToString(), personVisitorItem.requestID);
 
             var financialVisitorItem = CreateGetItemQuery<SEVISEVBatchTypeExchangeVisitorFinancialInfo>(list).FirstOrDefault();
             Assert.IsNotNull(financialVisitorItem);
-            Assert.AreEqual(new RequestId(person, financialInfo).ToString(), financialVisitorItem.requestID);
+            Assert.AreEqual(new RequestId(person.ParticipantId, RequestIdType.FinancialInfo, RequestActionType.Update).ToString(), financialVisitorItem.requestID);
 
             var dependentVisitorItemsCount = CreateGetItemQuery<SEVISEVBatchTypeExchangeVisitorDependent>(list).Count();
             Assert.AreEqual(1, dependentVisitorItemsCount);            
@@ -891,7 +890,7 @@ namespace ECA.Business.Test.Validation.Sevis
             Assert.IsNotNull(dependentVisitorItem.Item);
             Assert.IsNull(dependentVisitorItem.UserDefinedA);
             Assert.IsNull(dependentVisitorItem.UserDefinedB);
-            Assert.AreEqual(new RequestId(testDependent).ToString(), dependentVisitorItem.requestID);
+            Assert.AreEqual(testDependent.GetRequestId().ToString(), dependentVisitorItem.requestID);
 
             var exchangeVisitorPrograms = CreateGetItemQuery<SEVISEVBatchTypeExchangeVisitorProgram>(list).ToList();
             Assert.AreEqual(1, exchangeVisitorPrograms.Count);
@@ -908,7 +907,7 @@ namespace ECA.Business.Test.Validation.Sevis
                 .Where(x => x.Item.GetType() == typeof(SEVISEVBatchTypeExchangeVisitorProgramEditSubject))
                 .FirstOrDefault();
             Assert.IsNotNull(editSubjectExchangeVisitorProgramItem);
-            Assert.AreEqual(new RequestId(person, person.SubjectField).ToString(), exchangeVisitorPrograms.First().requestID);
+            Assert.AreEqual(new RequestId(person.ParticipantId, RequestIdType.SubjectField, RequestActionType.Update).ToString(), exchangeVisitorPrograms.First().requestID);
         }
 
         private IQueryable<SEVISEVBatchTypeExchangeVisitor1> CreateGetItemQuery<T>(List<SEVISEVBatchTypeExchangeVisitor1> items)
