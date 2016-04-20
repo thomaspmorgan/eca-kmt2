@@ -13,7 +13,7 @@ angular.module('staticApp')
       return {
           getDependentById: function (dependentId) {
               var defer = $q.defer();
-              DragonBreath.get('people/' + dependentId + '/dependent')
+              DragonBreath.get('people/dependent/' + dependentId)
                 .success(function (data) {
                     defer.resolve(data);
                 });

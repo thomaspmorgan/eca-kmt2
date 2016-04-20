@@ -17,6 +17,8 @@ namespace ECA.WebApi.Controllers.Persons
     /// <summary>
     /// Controller for dependents
     /// </summary>
+    [RoutePrefix("api")]
+    [Authorize]
     public class DependentsController : ApiController
     {
         private static ExpressionSorter<DependentTypeDTO> DEFAULT_PERSON_TYPE_SORTER = new ExpressionSorter<DependentTypeDTO>(x => x.Name, SortDirection.Ascending);
@@ -53,7 +55,7 @@ namespace ECA.WebApi.Controllers.Persons
         /// <param name="dependentId">The dependent id to find</param>
         /// <returns></returns>
         [ResponseType(typeof(SimplePersonDependentDTO))]
-        [Route("People/{dependentId:int}/Dependent")]
+        [Route("People/Dependent/{dependentId:int}")]
         public async Task<IHttpActionResult> GetPersonDependentByIdAsync(int dependentId)
         {
             var dependent = await service.GetPersonDependentByIdAsync(dependentId);
@@ -74,7 +76,7 @@ namespace ECA.WebApi.Controllers.Persons
         /// <returns></returns>
         [Route("Dependent")]
         [ResponseType(typeof(SimplePersonDependentDTO))]
-        public async Task<IHttpActionResult> PostPersonDependentAsync(DependentBindingModel model)
+        public async Task<IHttpActionResult> PostPersonDependentAsync([FromBody]DependentBindingModel model)
         {
             if (ModelState.IsValid)
             {
