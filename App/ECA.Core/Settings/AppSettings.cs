@@ -121,12 +121,12 @@ namespace ECA.Core.Settings
         /// <summary>
         /// The ds 2019 file azure blog storage container key.
         /// </summary>
-        public const string SEVIS_DS2019_STORAGE_CONTAINER = "SevisDS2019StorageContainer";
+        public const string SEVIS_DS2019_STORAGE_CONTAINER = SEVIS_PREFIX + "SevisDS2019StorageContainer";
 
         /// <summary>
         /// The ds 2019 file storage connection string key.
         /// </summary>
-        public const string SEVIS_DS2019_STORAGE_CONNECTION_STRING_KEY = "SevisDS2019StorageConnection";
+        public const string SEVIS_DS2019_STORAGE_CONNECTION_STRING_KEY = SEVIS_PREFIX+ "SevisDS2019StorageConnection";
 
         #endregion
 
