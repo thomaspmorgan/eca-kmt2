@@ -2393,7 +2393,7 @@ namespace ECA.Business.Test.Service.Sevis
 
                 Assert.AreEqual(1, context.ParticipantPersonSevisCommStatuses.Count());
                 Assert.AreEqual(processDetail.resultCode, batch.ProcessDispositionCode);
-                Assert.AreEqual(url, participantPerson.DS2019FileUrl);
+                Assert.AreEqual(url, participantPerson.DS2019FileName);
             };
             context.Revert();
             service.ProcessBatchDetailProcess(user, processDetail, batch, fileProvider.Object);

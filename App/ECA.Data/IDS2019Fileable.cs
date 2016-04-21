@@ -12,8 +12,8 @@
         string GetDS2019FileName();
 
         /// <summary>
-        /// Gets or sets the ds 2019 file url.
+        /// Gets or sets the ds 2019 file name.
         /// </summary>
-        string DS2019FileUrl { get; set; }
+        string DS2019FileName { get; set; }
     }
 }
