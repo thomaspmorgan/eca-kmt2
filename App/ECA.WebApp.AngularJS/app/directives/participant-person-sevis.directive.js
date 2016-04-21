@@ -72,8 +72,8 @@
                 $scope.fundingElementId = 'funding' + $scope.participantid;
 
                 $scope.view.gridOptions = {
-                    paginationPageSizes: [25, 50, 75],
-                    paginationPageSize: 25,
+                    paginationPageSizes: [10, 25, 50],
+                    paginationPageSize: 10,
                     useExternalPagination: true,
                     multiSelect: false,
                     columnDefs: [
@@ -279,7 +279,7 @@
                 function getSevisCommStatusesPage() {
                     var params = {
                         start: (paginationOptions.pageNumber - 1) * paginationOptions.pageSize,
-                        limit: ((paginationOptions.pageNumber - 1) * paginationOptions.pageSize) + paginationOptions.pageSize,
+                        limit: paginationOptions.pageSize,
                         sort: paginationOptions.sort,
                         keyword: paginationOptions.keyword,
                         filter: paginationOptions.filter
