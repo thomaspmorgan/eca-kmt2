@@ -362,6 +362,7 @@
     <Compile Include="Service\Programs\ProgramServiceTest.cs" />
     <Compile Include="Service\Projects\ProjectServiceTest.cs" />
     <Compile Include="Service\Lookup\ThemeServiceTest.cs" />
+    <None Include="SevisBatchStressTest.csold" />
     <Compile Include="TestEcaContext.cs" />
     <Compile Include="Validation\BusinessValidationResultTest.cs" />
     <Compile Include="Validation\BusinessValidatorBaseTest.cs" />

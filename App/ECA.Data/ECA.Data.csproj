@@ -143,6 +143,7 @@
     <Compile Include="BirthCountry.cs" />
     <Compile Include="BirthCountryReason.cs" />
     <Compile Include="Bookmark.cs" />
+    <Compile Include="CancelledSevisBatchProcessing.cs" />
     <Compile Include="Category.cs" />
     <Compile Include="Configuration\AddressConfiguration.cs" />
     <Compile Include="Configuration\BirthCountryConfiguration.cs" />
@@ -189,6 +190,7 @@
     <Compile Include="Gender.cs" />
     <Compile Include="Goal.cs" />
     <Compile Include="IAddressable.cs" />
+    <Compile Include="IDS2019Fileable.cs" />
     <Compile Include="PersonDependent.cs" />
     <Compile Include="DependentType.cs" />
     <Compile Include="PersonDependentCitizenCountry.cs" />

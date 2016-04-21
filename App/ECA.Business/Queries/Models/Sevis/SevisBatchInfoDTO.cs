@@ -71,7 +71,7 @@ namespace ECA.Business.Queries.Models.Sevis
         /// Gets or sets the retrieve date.
         /// </summary>
         public DateTimeOffset? RetrieveDate { get; set; }
-        
+
         /// <summary>
         /// Gets or sets the cancelled reason.
         /// </summary>

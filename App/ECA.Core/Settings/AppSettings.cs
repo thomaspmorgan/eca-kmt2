@@ -126,7 +126,12 @@ namespace ECA.Core.Settings
         /// <summary>
         /// The ds 2019 file storage connection string key.
         /// </summary>
-        public const string SEVIS_DS2019_STORAGE_CONNECTION_STRING_KEY = SEVIS_PREFIX+ "SevisDS2019StorageConnection";
+        public const string SEVIS_DS2019_STORAGE_CONNECTION_STRING_KEY = SEVIS_PREFIX + "SevisDS2019StorageConnection";
+
+        /// <summary>
+        /// The ds 2019 file url prefix key.
+        /// </summary>
+        public const string SEVIS_DS2019_FILE_URI_PREFIX_KEY = SEVIS_PREFIX + "SevisDS2019FileUrlPrefix";
 
         #endregion
 
@@ -184,7 +189,7 @@ namespace ECA.Core.Settings
         /// </summary>
         public const string IDLE_TIMEOUT_IN_SECONDS = "session.IdleTimeoutInSeconds";
         #endregion
-        
+
 
         private NameValueCollection appSettings;
         private ConnectionStringSettingsCollection connectionStrings;
@@ -305,6 +310,11 @@ namespace ECA.Core.Settings
         public string DS2019FileStorageContainer { get { return GetAppSetting(SEVIS_DS2019_STORAGE_CONTAINER); } }
 
         /// <summary>
+        /// Gets the sevis ds 2019 file uri prefix.
+        /// </summary>
+        public string SevisDS2019FileUriPrefix { get { return GetAppSetting(SEVIS_DS2019_FILE_URI_PREFIX_KEY); } }
+
+        /// <summary>
         /// Gets the active directory client id.
         /// </summary>
         public string AdClientId { get { return GetAppSetting(AD_CLIENT_ID); } }
@@ -319,9 +329,9 @@ namespace ECA.Core.Settings
         /// </summary>
         public string SystemUserId { get { return GetAppSetting(SYSTEM_USER_ID_KEY); } }
 
-        public string IdleDurationInSeconds { get { return GetAppSetting(IDLE_DURATION_IN_SECONDS);  } }
+        public string IdleDurationInSeconds { get { return GetAppSetting(IDLE_DURATION_IN_SECONDS); } }
 
-        public string IdleTimeoutInSeconds { get { return GetAppSetting(IDLE_TIMEOUT_IN_SECONDS);  } }
+        public string IdleTimeoutInSeconds { get { return GetAppSetting(IDLE_TIMEOUT_IN_SECONDS); } }
 
         #endregion
 
