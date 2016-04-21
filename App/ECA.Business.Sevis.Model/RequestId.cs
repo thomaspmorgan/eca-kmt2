@@ -28,7 +28,7 @@ namespace ECA.Business.Sevis.Model
         /// The subject field request type.  This is used when updating subject field info for a participant already registered in sevis.
         /// </summary>
         SubjectField
-    }    
+    }
 
     public enum RequestActionType
     {
@@ -58,7 +58,7 @@ namespace ECA.Business.Sevis.Model
         private const string SPLIT_CHAR = "-";
 
         private const string REQUEST_ID_FORMAT_STRING = "{0}-{1}-{2}";
-        
+
         public RequestId(int id, RequestIdType requestIdType, RequestActionType actionType)
         {
             this.Id = id;

@@ -8,8 +8,13 @@ namespace ECA.Data
     /// <summary>
     /// A person participant on a project
     /// </summary>
-    public class ParticipantPerson : IHistorical
+    public class ParticipantPerson : IHistorical, IDS2019Fileable
     {
+        /// <summary>
+        /// The string to format for a participant's ds 2019 file name.
+        /// </summary>
+        public const string DS2019_FILE_NAME_FORMAT_STRING = "Participant_{0}_{1}.pdf";
+
         /// <summary>
         /// Gets the max length of the SEVIS Id.
         /// </summary>
@@ -143,5 +148,13 @@ namespace ECA.Data
         /// </summary>
         public History History { get; set; }
 
+        /// <summary>
+        /// Returns the DS2019 file name for the participant id and sevis id.
+        /// </summary>
+        /// <returns></returns>
+        public string GetDS2019FileName()
+        {
+            return string.Format(DS2019_FILE_NAME_FORMAT_STRING, this.ParticipantId, this.SevisId);
+        }
     }
 }

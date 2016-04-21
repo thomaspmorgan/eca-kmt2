@@ -9,6 +9,7 @@
         '$log',
         '$q',
         '$filter',
+        '$modal',
         'LookupService',
         'FilterService',
         'NotificationService',
@@ -23,6 +24,7 @@
         $log,
         $q,
         $filter,
+        $modal,
         LookupService,
         FilterService,
         NotificationService,
@@ -70,15 +72,21 @@
                 $scope.fundingElementId = 'funding' + $scope.participantid;
 
                 $scope.view.gridOptions = {
-                    paginationPageSizes: [10, 25, 50],
-                    paginationPageSize: 10,
+                    paginationPageSizes: [25, 50, 75],
+                    paginationPageSize: 25,
                     useExternalPagination: true,
                     multiSelect: false,
                     columnDefs: [
                       { name: 'addedOn', displayName: 'Date', type: 'date', cellFilter: 'date:\'MMM dd, yyyy hh:mm a\'' },
                       { name: 'sevisCommStatusName', displayName: 'Status' },
                       { name: 'displayName', displayName: 'User' },
-                      { name: 'batchId' }
+                      {
+                          name: 'batchId',
+                          cellTemplate:
+                            '<div class="ui-grid-cell-contents">'
+                            + '<a ng-click="grid.appScope.onBatchIdClick(row.entity)" ng-bind="row.entity.batchId"></a>'
+                            + '</div>'
+                      }
                     ],
                     onRegisterApi: function (gridApi) {
                         $scope.gridApi = gridApi;
@@ -161,6 +169,30 @@
 
                 $scope.getSevisStartDateDivId = function (participantId) {
                     return 'sevisStartDate' + participantId;
+                }
+
+                $scope.onBatchIdClick = function (commStatus) {
+                    var modal = $modal.open({
+                        animation: true,
+                        templateUrl: 'app/projects/sevis-batch-processing-info-modal.html',
+                        controller: 'SevisBatchProcessingInfoModalCtrl',
+                        size: 'lg',
+                        resolve: {
+                            projectId: function () {
+                                return projectId;
+                            },
+                            sevisCommStatus: function () {
+                                return commStatus;
+                            }
+                        }
+                    });
+                    modal.result.then(function (addedLocation) {
+                        $log.info('Finished viewing sevis batch info.');
+                        modal.close();
+
+                    }, function () {
+                        $log.info('Modal dismissed at: ' + new Date());
+                    });
                 }
 
                 $scope.onErrorClick = function (error) {
@@ -247,7 +279,7 @@
                 function getSevisCommStatusesPage() {
                     var params = {
                         start: (paginationOptions.pageNumber - 1) * paginationOptions.pageSize,
-                        limit: paginationOptions.pageSize,
+                        limit: ((paginationOptions.pageNumber - 1) * paginationOptions.pageSize) + paginationOptions.pageSize,
                         sort: paginationOptions.sort,
                         keyword: paginationOptions.keyword,
                         filter: paginationOptions.filter
@@ -467,7 +499,7 @@
                 loadPositions();
                 loadProgramCategories();
                 loadUSGovernmentAgencies();
-                loadInternationalOrganizations();                
+                loadInternationalOrganizations();
             }
         };
 
