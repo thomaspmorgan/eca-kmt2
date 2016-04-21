@@ -368,7 +368,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
 
             var instance = dependent.GetSevisExhangeVisitorDependentInstance();
             Assert.IsInstanceOfType(instance, typeof(SEVISEVBatchTypeExchangeVisitorDependentAdd));
-            var sevisModel = (SEVISEVBatchTypeExchangeVisitorDependentAdd)instance;            
+            var sevisModel = (SEVISEVBatchTypeExchangeVisitorDependentAdd)instance;
             Assert.IsFalse(sevisModel.BirthCountryReasonSpecified);
         }
 

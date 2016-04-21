@@ -20,7 +20,7 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
                 return new Other(name: name, amount: amount);
             };
             var validator = new OtherValidator();
-            
+
             name = "name";
             amount = "1";
             var instance = createEntity();
@@ -46,7 +46,7 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
                 return new Other(name: name, amount: amount);
             };
             var validator = new OtherValidator();
-            
+
             name = "name";
             amount = "1";
             var instance = createEntity();
@@ -72,7 +72,7 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
                 return new Other(name: name, amount: amount);
             };
             var validator = new OtherValidator();
-            
+
             name = "name";
             amount = "1";
             var instance = createEntity();
@@ -98,7 +98,7 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
                 return new Other(name: name, amount: amount);
             };
             var validator = new OtherValidator();
-            
+
             name = "name";
             amount = "1";
             var instance = createEntity();

@@ -11,6 +11,7 @@ angular.module('staticApp')
   .controller('SevisBatchProcessingInfoModalCtrl', function ($scope,
       $stateParams,
       $q,
+      $log,
       sevisCommStatus,
       projectId,
       $modalInstance,
@@ -36,7 +37,5 @@ angular.module('staticApp')
           $scope.view.isLoadingDetails = false;
           var message = 'Unable to load batch details.';
           $log.error(message);
-
       });
-
   });
