@@ -600,5 +600,70 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
 
             Assert.AreEqual(isDeleted, dependent.IgnoreDependentValidation());
         }
+
+        [TestMethod]
+        public void TestGetRequestId()
+        {
+            var personId = 100;
+            var participantId = 200;
+
+            var firstName = "first";
+            var lastName = "last";
+            var passport = "passport";
+            var preferred = "preferred";
+            var suffix = "Jr.";
+            var fullName = new FullName(firstName, lastName, passport, preferred, suffix);
+
+            var birthCity = "birth city";
+            var birthCountryCode = "CN";
+            var birthDate = DateTime.UtcNow;
+            var citizenshipCountryCode = "FR";
+            var email = "someone@isp.com";
+            var gender = Gender.SEVIS_MALE_GENDER_CODE_VALUE;
+            var permanentResidenceCountryCode = "MX";
+            var phone = "123-456-7890";
+            var mailAddress = new AddressDTO
+            {
+                AddressId = 1,
+                Country = LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME
+            };
+            var usAddress = new AddressDTO
+            {
+                AddressId = 2,
+                Country = LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME
+            };
+            var printForm = true;
+            var birthCountryReason = USBornReasonType.Item01.ToString();
+            var sevisId = "sevis id";
+            var remarks = "remarks";
+            var relationship = DependentCodeType.Item01.ToString();
+            var isTravelingWithParticipant = true;
+            var isDeleted = true;
+
+            var instance = new UpdatedDependent(
+                fullName,
+                birthCity,
+                birthCountryCode,
+                birthCountryReason,
+                birthDate,
+                citizenshipCountryCode,
+                email,
+                gender,
+                permanentResidenceCountryCode,
+                phone,
+                relationship,
+                mailAddress,
+                usAddress,
+                printForm,
+                sevisId,
+                remarks,
+                personId,
+                participantId,
+                isTravelingWithParticipant,
+                isDeleted
+                );
+            var expectedRequestId = new RequestId(instance.PersonId, RequestIdType.Dependent, RequestActionType.Update);
+            Assert.AreEqual(expectedRequestId, instance.GetRequestId());
+        }
     }
 }

@@ -166,6 +166,10 @@
       <Project>{55a1102d-da8f-41e7-8955-85e62e9c01a6}</Project>
       <Name>ECA.Business.Sevis.Model</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ECA.Business.Storage\ECA.Business.Storage.csproj">
+      <Project>{8dd0c39a-6734-402f-8fdb-baf9fb7697e0}</Project>
+      <Name>ECA.Business.Storage</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ECA.Business\ECA.Business.csproj">
       <Project>{0a7b54e3-736d-47b5-92fd-31d3bb416d8d}</Project>
       <Name>ECA.Business</Name>
