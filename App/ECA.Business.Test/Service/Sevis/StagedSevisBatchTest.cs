@@ -352,7 +352,7 @@ namespace ECA.Business.Test.Service.Sevis
             //settings.Schemas.Add("http://www.ice.gov/xmlschema/sevisbatch/alpha/Common", StagedSevisBatch.COMMON_NAMESPACE_URL);
             //settings.Schemas.Add("http://www.ice.gov/xmlschema/sevisbatch/alpha/Table", StagedSevisBatch.TABLE_NAMESPACE_URL);
             //settings.Schemas.Add("", StagedSevisBatch.EXCHANGE_VISITOR_NAMESPACE_URL);
-            
+
             //settings.ValidationType = ValidationType.Schema;
 
             //using (XmlReader reader = XmlReader.Create(new StringReader(instance.SevisBatchProcessing.SendString), settings))
@@ -363,7 +363,7 @@ namespace ECA.Business.Test.Service.Sevis
             //}
         }
 
-        
+
 
         [TestMethod]
         public void TestGetExchangeVisitorNamespaces()
@@ -373,7 +373,7 @@ namespace ECA.Business.Test.Service.Sevis
             var sevisUsername = "sevisUserId";
             var instance = new StagedSevisBatch(batchId, sevisUsername, sevisOrgId);
             var exchangeVisitor = GetExchangeVisitor("sevisId", 1, 2);
-            
+
             var namespaces = instance.GetExchangeVisitorNamespaces();
             var namespacesArray = namespaces.ToArray();
             Assert.AreEqual(5, namespacesArray.Count());
@@ -406,7 +406,7 @@ namespace ECA.Business.Test.Service.Sevis
             Assert.IsTrue(guid.ToString().Replace("-", String.Empty).EndsWith(expectedBatchId));
             Assert.AreEqual(maxLength, expectedBatchId.Length);
             Assert.IsFalse(expectedBatchId.Contains("-"));
-            
+
         }
 
         //static void ValidationEventHandler(object sender, ValidationEventArgs e)
@@ -424,5 +424,5 @@ namespace ECA.Business.Test.Service.Sevis
         //}
     }
 
-    
+
 }

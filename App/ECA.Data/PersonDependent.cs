@@ -189,12 +189,7 @@ namespace ECA.Data
         /// Gets and sets the email addresses
         /// </summary>
         public ICollection<EmailAddress> EmailAddresses { get; set; }
-
-        /// <summary>
-        /// Gets or sets the ds 2019 file url.
-        /// </summary>
-        public string DS2019FileUrl { get; set; }
-
+        
         /// <summary>
         /// create/update time and user
         /// </summary>

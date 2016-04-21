@@ -143,6 +143,7 @@
     <Compile Include="BirthCountry.cs" />
     <Compile Include="BirthCountryReason.cs" />
     <Compile Include="Bookmark.cs" />
+    <Compile Include="CancelledSevisBatchProcessing.cs" />
     <Compile Include="Category.cs" />
     <Compile Include="Configuration\AddressConfiguration.cs" />
     <Compile Include="Configuration\BirthCountryConfiguration.cs" />

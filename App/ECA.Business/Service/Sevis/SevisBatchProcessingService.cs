@@ -899,7 +899,7 @@ namespace ECA.Business.Service.Sevis
             var stagedSevisBatches = new List<StagedSevisBatch>();
             var skip = 0;
             var queuedToSubmitParticipantGroupsCount = SevisBatchProcessingQueries.CreateGetQueuedToSubmitParticipantDTOsQuery(this.Context).Count();
-            var totalParticipantsToStage =  SevisBatchProcessingQueries.CreateGetQueuedToSubmitParticipantDTOsQuery(this.Context).SelectMany(x => x.Participants).Count();
+            var totalParticipantsToStage = SevisBatchProcessingQueries.CreateGetQueuedToSubmitParticipantDTOsQuery(this.Context).SelectMany(x => x.Participants).Count();
             notificationService.NotifyNumberOfParticipantsToStage(totalParticipantsToStage);
             while (queuedToSubmitParticipantGroupsCount > 0)
             {
