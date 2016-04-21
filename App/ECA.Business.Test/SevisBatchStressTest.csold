@@ -1,0 +1,106 @@
+﻿using System;
+using System.Linq;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using ECA.Data;
+using ECA.Business.Service.Persons;
+using ECA.Business.Service;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using ECA.Business.Service.Projects;
+using ECA.Core.Settings;
+using ECA.Business.Validation.Sevis;
+using ECA.Business.Service.Admin;
+using System.Collections.Specialized;
+using System.Configuration;
+
+namespace ECA.Business.Test
+{
+    [TestClass]
+    public class SevisBatchStressTest
+    {
+        private int projectId = 8369;
+        private string connectionString = @"Data Source=(local);User Id=ECA;Password=wisconsin-89;Database=ECA_Local;Pooling=False";
+
+        [TestMethod]
+        public async Task TestInsertManyReadyToSubmitParticipants()
+        {
+            var user = new User(1);
+            
+            using (var context = new EcaContext(connectionString))
+            {
+                var parisFranceId = 92168;
+                var franceId = 67;
+
+                var appSettings = new NameValueCollection();
+                var connectionStrings = new ConnectionStringSettingsCollection();
+                var settings = new AppSettings(appSettings, connectionStrings);
+                appSettings.Add(AppSettings.SEVIS_SITE_OF_ACTIVITY_ADDRESS_DTO, "{'Street1':'2200 C STREET NW','City':'WASHINGTON','Division':'DC','LocationName':'US Department of State', 'Country': 'United States','PostalCode':'20522'}");
+
+                var personService = new PersonService(context, new PersonServiceValidator());
+                var exchangeVisitorService = new ExchangeVisitorService(context, settings);
+                var locationService = new LocationService(context, new LocationServiceValidator(), new LocationServiceAddressValidator());
+                var phoneNumberService = new PhoneNumberService(context);
+                var emailService = new EmailAddressService(context);
+                var exchangeVisitorValidationService = new ExchangeVisitorValidationService(context, exchangeVisitorService, new ExchangeVisitorValidator());
+                for (var i = 0; i < 30; i++)
+                {
+                    var firstName = GetFirstName(i);
+                    var lastName = GetLastName(i);
+                    var newPerson = new NewPerson(user, projectId, ParticipantType.ForeignTravelingParticipant.Id, firstName, lastName, Gender.Male.Id, DateTime.UtcNow.AddYears(-20), false, false, false, parisFranceId, new List<int> { franceId });
+                    var person = await personService.CreateAsync(newPerson);
+                    await personService.SaveChangesAsync();
+
+                    var newPersonAddress = new AdditionalPersonAddress(user, AddressType.Home.Id, true, "1 street", null, null, "12345", null, franceId, parisFranceId, null, person.PersonId);
+                    await locationService.CreateAsync(newPersonAddress);
+                    await locationService.SaveChangesAsync();
+
+                    var email = new NewPersonEmailAddress(user, EmailAddressType.Personal.Id, firstName + "@gmail.com", true, person.PersonId);
+                    await emailService.CreateAsync(email);
+                    await emailService.SaveChangesAsync();
+
+                    var phone = new NewPersonPhoneNumber(user, PhoneNumberType.Visiting.Id, "16155551212", person.PersonId, true);
+                    await phoneNumberService.CreateAsync(phone);
+                    await phoneNumberService.SaveChangesAsync();
+
+                    var participant = person.Participations.First();
+                    participant.ParticipantStatusId = ParticipantStatus.Active.Id;
+                    participant.ParticipantExchangeVisitor.FieldOfStudyId = 1470;
+                    participant.ParticipantExchangeVisitor.ProgramCategoryId = 2;
+                    participant.ParticipantExchangeVisitor.PositionId = 79;
+                    participant.ParticipantPerson.StartDate = DateTimeOffset.UtcNow.AddMonths(2);
+                    participant.ParticipantPerson.EndDate = DateTimeOffset.UtcNow.AddMonths(4);
+                    await context.SaveChangesAsync();
+
+                    await exchangeVisitorValidationService.RunParticipantSevisValidationAsync(participant.ProjectId, participant.ParticipantId);
+                    await exchangeVisitorValidationService.SaveChangesAsync();
+                }
+            }
+        }
+
+        [TestMethod]
+        public async Task TestDeleteAllAddedParticipants()
+        {
+            using (var context = new EcaContext(connectionString))
+            {
+                var participants = context.Participants.Where(x => x.ProjectId == projectId).Select(x => x.ParticipantId).ToList();
+                var participantService = new ParticipantService(context);
+                foreach (var participantId in participants)
+                {
+                    await participantService.DeleteAsync(new DeletedParticipant(new User(1), projectId, participantId));
+                    await participantService.SaveChangesAsync();
+                }
+            }
+        }
+
+        public string GetFirstName(int i)
+        {
+            var charSet = new char[] { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
+            return "First" + charSet[i % charSet.Length];
+        }
+        public string GetLastName(int i)
+        {
+            var charSet = new char[] { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
+            return "Last" + charSet[i % charSet.Length];
+        }
+    }
+}
