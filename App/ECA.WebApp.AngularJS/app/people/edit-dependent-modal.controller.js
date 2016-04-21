@@ -145,6 +145,24 @@ angular.module('staticApp')
           }
       }
 
+      function loadDependentCitizenshipCountries(search) {
+          var params = {
+              limit: 300,
+              filter: [
+                { property: 'locationTypeId', comparison: ConstantsService.equalComparisonType, value: ConstantsService.locationType.country.id },
+                { property: 'isActive', comparison: 'eq', value: true }
+              ]
+          };
+          if (search) {
+              params.filter.push({ property: 'name', comparison: ConstantsService.likeComparisonType, value: search });
+          }
+          return LocationService.get(params)
+            .then(function (data) {
+                $scope.countriesCitizenship = data.results;
+                return $scope.countriesCitizenship;
+            });
+      }
+
       function loadResidenceCountries() {
           var params = {
               limit: 300,

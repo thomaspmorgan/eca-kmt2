@@ -56,6 +56,12 @@ namespace ECA.Business.Test.Queries.Persons
                 Location = countryOfBirth,
                 IsPrimary = true
             };
+            var countryOfCitizenship = new PersonDependentCitizenCountry
+            {
+                LocationId = 87,
+                Location = countryOfBirth,
+                IsPrimary = true
+            };
             var cityOfBirth = new Location
             {
                 LocationId = 55,
