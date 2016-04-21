@@ -198,7 +198,7 @@ namespace ECA.Data
         /// <summary>
         /// Gets or sets the ds 2019 file url.
         /// </summary>
-        public string DS2019FileUrl { get; set; }
+        public string DS2019FileName { get; set; }
 
         /// <summary>
         /// Returns the name of a ds2019 file for this dependent.
