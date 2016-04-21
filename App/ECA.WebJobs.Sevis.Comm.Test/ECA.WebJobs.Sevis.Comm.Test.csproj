@@ -132,6 +132,10 @@
       <Project>{8cef11e6-50e8-4b54-a1a7-a75583ccb6ef}</Project>
       <Name>ECA.Data</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ECA.Net\ECA.Net.csproj">
+      <Project>{c7abecf2-7270-4be3-a5f4-a4283323010f}</Project>
+      <Name>ECA.Net</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ECA.WebJobs.Core\ECA.WebJobs.Core.csproj">
       <Project>{65f89926-7b89-4074-8a3c-0a72b4be68d6}</Project>
       <Name>ECA.WebJobs.Core</Name>
