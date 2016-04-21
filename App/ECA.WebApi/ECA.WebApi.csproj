@@ -540,6 +540,7 @@
     <Compile Include="Controllers\Admin\SnapshotController.cs" />
     <Compile Include="Controllers\Itineraries\ItinerariesController.cs" />
     <Compile Include="Controllers\Itineraries\ItineraryStopsController.cs" />
+    <Compile Include="Controllers\Persons\DependentsController.cs" />
     <Compile Include="Controllers\Persons\EduEmpController.cs" />
     <Compile Include="Controllers\Persons\EvaluationNoteController.cs" />
     <Compile Include="Controllers\Persons\LanguageProficiencyController.cs" />
@@ -760,6 +761,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Dependents\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CAM.Business\CAM.Business.csproj">

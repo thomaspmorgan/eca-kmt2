@@ -210,6 +210,7 @@
     <Compile Include="Queries\Models\Itineraries\ItineraryStopDTO.cs" />
     <Compile Include="Queries\Models\Itineraries\ItineraryParticipantDTO.cs" />
     <Compile Include="Queries\Models\Lookup\BirthCountryReasonDTO.cs" />
+    <Compile Include="Queries\Models\Persons\CitizenCountryDTO.cs" />
     <Compile Include="Queries\Models\Persons\ExchangeVisitor\DependentBiographicalDTO.cs" />
     <Compile Include="Queries\Models\Persons\ExchangeVisitor\ExchangeVisitorFundingDTO.cs" />
     <Compile Include="Queries\Models\Persons\ExchangeVisitor\SubjectFieldDTO.cs" />
@@ -227,7 +228,6 @@
     <Compile Include="Queries\Models\Sevis\ParticipantSevisBatchProcessingResultDTO.cs" />
     <Compile Include="Queries\Models\Sevis\ParticipantSevisBatchResultDTO.cs" />
     <Compile Include="Queries\Models\Sevis\ParticipantSevisBatchResultRecordDTO.cs" />
-    <Compile Include="Queries\Models\Sevis\SevisBatchInfoDTO.cs" />
     <Compile Include="Queries\Models\Sevis\SevisBatchProcessingDTO.cs" />
     <Compile Include="Queries\Models\Sevis\SevisGroupedQueuedToSubmitParticipantsDTO.cs" />
     <Compile Include="Queries\Persons\EvaluationNoteQueries.cs" />

@@ -7,10 +7,10 @@
         <a ng-click="view.onAddCitizenshipCountryClick(view.params.personId)">
             <i class="material-icons md-24 md-dark pull-right">add</i>
         </a>
-        <div class="pull-right" style="margin-top: 3px;" ng-show="view.collapseCitizenshipCountries">({{$parent.$parent.countriesOfCitizenship.length}})</div>
+        <div class="pull-right" style="margin-top: 3px;" ng-show="view.collapseCitizenshipCountries">({{model.countriesOfCitizenship.length}})</div>
     </div>
     <div class="col-md-12" collapse="view.collapseCitizenshipCountries">
-        <div ng-repeat="country in $parent.$parent.countriesOfCitizenship track by $index">
+        <div ng-repeat="citizenship in model.countriesOfCitizenship track by $index">
             <div ng-controller="CitizenshipCountryCtrl" class="expandIndent">
                 <div class="spinner" ng-show="view.isSavingChanges">
                     <div class="bounce1"></div>
@@ -18,8 +18,8 @@
                     <div class="bounce3"></div>
                 </div>
                 <div class="row" ng-show="!view.isSavingChanges">
-                    <div ng-class="{true: '', false: 'row2'}[editMode]" ng-show="!view.showEditCitizenshipCountry">
-                        <span>{{country.name}}</span>
+                    <div ng-class="{true: 'row', false: 'row2'}[editMode]" ng-show="!view.showEditCitizenshipCountry">
+                        <span>{{citizenship.locationName}}</span>
                         <div class="pull-right" ng-show="!view.showEditCitizenshipCountry">
                             <a ng-show="!view.showEditCitizenshipCountry && !view.isDeletingCountry && editMode" ng-click="view.showConfirmDelete = true">
                                 <i class="material-icons md-dark">delete</i>
@@ -41,11 +41,11 @@
                     </div>
                     <div in-context-form ng-show="view.showEditCitizenshipCountry">
                         <form name="form.countryForm" class="row form-horizontal">
-                            <div class="form-group" id="countryForm{{country.id}}">
+                            <div class="form-group" id="countryForm{{citizenship.locationId}}">
                                 <label for="country">Country <eca-required /></label>
                                 <select class="form-control" name="country"
                                         ng-options="t.id as t.name for t in countries"
-                                        ng-model="country.id"
+                                        ng-model="citizenship.locationId"
                                         required />
                                 <div ng-show="form.addressForm.country.$dirty || form.addressForm.country.$error.required">
                                     <div class="error" ng-show="form.addressForm.country.$error.required">Please select a country.</div>
@@ -56,7 +56,7 @@
                                 <div class="col-md-6">
                                     <input name="isPrimary"
                                            type="checkbox"
-                                           ng-model="country.isPrimary"
+                                           ng-model="citizenship.isPrimary"
                                            id="isPrimary" />
                                 </div>
                             </div>

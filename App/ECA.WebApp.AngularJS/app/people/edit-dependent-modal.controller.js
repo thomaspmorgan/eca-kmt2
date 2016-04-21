@@ -12,14 +12,13 @@ angular.module('staticApp')
           NotificationService, FilterService, $q, DateTimeService, dependent) {
       
       $scope.dependent = loadDependent(dependent.id);
-      $scope.selectedCountriesOfCitizenship = [];
-      $scope.countriesCitizenship = [];
+      $scope.countriesOfCitizenship = [];
       $scope.countriesResidence = [];
       $scope.cities = [];
-      $scope.isDependentLoading = true;
-      $scope.isSavingDependent = false;
       $scope.datePickerOpen = false;
       $scope.maxDateOfBirth = new Date();
+      $scope.isDependentLoading = true;
+      $scope.isSavingDependent = false;
 
       function loadDependent(dependentId) {
           $scope.isDependentLoading = true;
@@ -27,10 +26,11 @@ angular.module('staticApp')
              .then(function (data) {
                  $scope.dependent = data;
                  if ($scope.dependent.countriesOfCitizenship) {
-                     $scope.selectedCountriesOfCitizenship = $scope.dependent.countriesOfCitizenship.map(function (obj) {
+                     $scope.countriesOfCitizenship = $scope.dependent.countriesOfCitizenship.map(function (obj) {
                          var location = {};
-                         location.id = obj.id;
-                         location.name = obj.value;
+                         location.locationId = obj.locationId;
+                         location.locationName = obj.locationName;
+                         location.isPrimary = obj.isPrimary;
                          return location;
                      });
                  }                 
@@ -87,9 +87,7 @@ angular.module('staticApp')
       };
 
       function setupDependent() {
-          $scope.dependent.countriesOfCitizenship = $scope.selectedCountriesOfCitizenship.map(function (obj) {
-              return obj.id;
-          });
+          $scope.dependent.countriesOfCitizenship = $scope.countriesOfCitizenship;
           if ($scope.dependent.dateOfBirth) {
               $scope.dependent.dateOfBirth.setUTCHours(0, 0, 0, 0);
           }
@@ -136,9 +134,9 @@ angular.module('staticApp')
               if (search) {
                   params.filter.push({ property: 'name', comparison: ConstantsService.likeComparisonType, value: search });
               }
-              else if ($scope.dependent.placeOfBirthId) {
-                  params.filter.push({ property: 'id', comparison: ConstantsService.equalComparisonType, value: $scope.dependent.placeOfBirthId });
-              }
+              //else if ($scope.dependent.placeOfBirthId) {
+              //    params.filter.push({ property: 'id', comparison: ConstantsService.equalComparisonType, value: $scope.dependent.placeOfBirthId });
+              //}
               return LocationService.get(params)
                 .then(function (data) {
                     $scope.cities = data.results;

@@ -1296,180 +1296,120 @@ namespace ECA.Business.Test.Service.Sevis
 
         #region GetNextBatchToUpload
         [TestMethod]
-        public async Task TestGetNextBatchToUpload_ExceededUploadCooldown()
+        public async Task TestGetNextBatchToUpload_HasRecord()
         {
-            using (ShimsContext.Create())
+            var model = new SevisBatchProcessing
             {
-                System.Data.Entity.Fakes.ShimDbFunctions.DiffSecondsNullableOfDateTimeOffsetNullableOfDateTimeOffset = (startDate, endDate) =>
-                {
-                    if (!startDate.HasValue)
-                    {
-                        return null;
-                    }
-                    if (!endDate.HasValue)
-                    {
-                        return null;
-                    }
-                    return (int)((endDate.Value - startDate.Value).TotalSeconds);
-                };
-                var model = new SevisBatchProcessing
-                {
-                    BatchId = "batch id",
-                    DownloadDispositionCode = "download code",
-                    Id = 1,
-                    ProcessDispositionCode = "process code",
-                    RetrieveDate = DateTimeOffset.UtcNow.AddDays(1.0),
-                    SendString = "send string",
-                    SubmitDate = null,
-                    TransactionLogString = "transaction log",
-                    LastUploadTry = DateTimeOffset.UtcNow.AddDays(-1.0)
-                };
-                context.SevisBatchProcessings.Add(model);
+                BatchId = "batch id",
+                DownloadDispositionCode = "download code",
+                Id = 1,
+                ProcessDispositionCode = "process code",
+                RetrieveDate = DateTimeOffset.UtcNow.AddDays(1.0),
+                SendString = "send string",
+                SubmitDate = null,
+                TransactionLogString = "transaction log",
+            };
+            context.SevisBatchProcessings.Add(model);
+            Assert.AreEqual(1, SevisBatchProcessingQueries.CreateGetSevisBatchProcessingDTOsToUploadQuery(context).Count());
 
-                Action<SevisBatchProcessingDTO> tester = (dto) =>
-                {
-                    Assert.IsNotNull(dto);
-                    Assert.AreEqual(model.Id, dto.Id);
-                };
-                var result = service.GetNextBatchToUpload();
-                tester(result);
-                var asyncResult = await service.GetNextBatchToUploadAsync();
-                tester(asyncResult);
-            }
+            Action<SevisBatchProcessingDTO> tester = (dto) =>
+            {
+                Assert.IsNotNull(dto);
+                Assert.AreEqual(model.Id, dto.Id);
+            };
+            var result = service.GetNextBatchToUpload();
+            tester(result);
+            var asyncResult = await service.GetNextBatchToUploadAsync();
+            tester(asyncResult);
         }
 
         [TestMethod]
-        public async Task TestGetNextBatchToUpload_UploadCooldownNotYetPassed()
+        public async Task TestGetNextBatchToUpload_UploadCooldownNotYetSurpassed()
         {
-            using (ShimsContext.Create())
+            var model = new SevisBatchProcessing
             {
-                System.Data.Entity.Fakes.ShimDbFunctions.DiffSecondsNullableOfDateTimeOffsetNullableOfDateTimeOffset = (startDate, endDate) =>
-                {
-                    if (!startDate.HasValue)
-                    {
-                        return null;
-                    }
-                    if (!endDate.HasValue)
-                    {
-                        return null;
-                    }
-                    return (int)((endDate.Value - startDate.Value).TotalSeconds);
-                };
-                var model = new SevisBatchProcessing
-                {
-                    BatchId = "batch id",
-                    DownloadDispositionCode = "download code",
-                    Id = 1,
-                    ProcessDispositionCode = "process code",
-                    RetrieveDate = DateTimeOffset.UtcNow.AddDays(1.0),
-                    SendString = "send string",
-                    SubmitDate = null,
-                    TransactionLogString = "transaction log",
-                    LastUploadTry = DateTimeOffset.UtcNow.AddDays(-1.0)
-                };
-                context.SevisBatchProcessings.Add(model);
-                Assert.IsNotNull(service.GetNextBatchToUpload());
+                BatchId = "batch id",
+                DownloadDispositionCode = "download code",
+                Id = 1,
+                ProcessDispositionCode = "process code",
+                RetrieveDate = DateTimeOffset.UtcNow.AddDays(1.0),
+                SendString = "send string",
+                SubmitDate = null,
+                TransactionLogString = "transaction log",
+                LastUploadTry = DateTimeOffset.UtcNow.AddSeconds(uploadCooldownInSeconds + 10.0)
+            };
+            context.SevisBatchProcessings.Add(model);
+            Assert.AreEqual(1, SevisBatchProcessingQueries.CreateGetSevisBatchProcessingDTOsToUploadQuery(context).Count());
 
-                model.LastUploadTry = DateTimeOffset.UtcNow;
+            model.LastUploadTry = DateTimeOffset.UtcNow;
 
-                Action<SevisBatchProcessingDTO> tester = (dto) =>
-                {
-                    Assert.IsNull(dto);
-                };
-                var result = service.GetNextBatchToUpload();
-                tester(result);
-                var asyncResult = await service.GetNextBatchToUploadAsync();
-                tester(asyncResult);
-            }
+            Action<SevisBatchProcessingDTO> tester = (dto) =>
+            {
+                Assert.IsNull(dto);
+            };
+            var result = service.GetNextBatchToUpload();
+            tester(result);
+            var asyncResult = await service.GetNextBatchToUploadAsync();
+            tester(asyncResult);
         }
 
         [TestMethod]
         public async Task TestGetNextBatchToUpload_UploadCooldownValueIsNegative()
         {
-            using (ShimsContext.Create())
+            var model = new SevisBatchProcessing
             {
-                System.Data.Entity.Fakes.ShimDbFunctions.DiffSecondsNullableOfDateTimeOffsetNullableOfDateTimeOffset = (startDate, endDate) =>
-                {
-                    if (!startDate.HasValue)
-                    {
-                        return null;
-                    }
-                    if (!endDate.HasValue)
-                    {
-                        return null;
-                    }
-                    return (int)((endDate.Value - startDate.Value).TotalSeconds);
-                };
-                var model = new SevisBatchProcessing
-                {
-                    BatchId = "batch id",
-                    DownloadDispositionCode = "download code",
-                    Id = 1,
-                    ProcessDispositionCode = "process code",
-                    RetrieveDate = DateTimeOffset.UtcNow.AddDays(1.0),
-                    SendString = "send string",
-                    SubmitDate = null,
-                    TransactionLogString = "transaction log",
-                    LastUploadTry = DateTimeOffset.UtcNow.AddDays(-1.0)
-                };
-                context.SevisBatchProcessings.Add(model);
+                BatchId = "batch id",
+                DownloadDispositionCode = "download code",
+                Id = 1,
+                ProcessDispositionCode = "process code",
+                RetrieveDate = DateTimeOffset.UtcNow.AddDays(1.0),
+                SendString = "send string",
+                SubmitDate = null,
+                TransactionLogString = "transaction log",
+                LastUploadTry = DateTimeOffset.UtcNow.AddSeconds(uploadCooldownInSeconds + 10.0)
+            };
+            context.SevisBatchProcessings.Add(model);
+            Assert.AreEqual(1, SevisBatchProcessingQueries.CreateGetSevisBatchProcessingDTOsToUploadQuery(context).Count());
+            appSettings[AppSettings.UPLOAD_COOLDOWN_IN_SECONDS] = "-" + appSettings[AppSettings.UPLOAD_COOLDOWN_IN_SECONDS];
+            model.LastUploadTry = DateTimeOffset.UtcNow;
 
-                Assert.IsNotNull(service.GetNextBatchToUpload());
-                appSettings[AppSettings.UPLOAD_COOLDOWN_IN_SECONDS] = "-" + appSettings[AppSettings.UPLOAD_COOLDOWN_IN_SECONDS];
-                model.LastUploadTry = DateTimeOffset.UtcNow;
-
-                Action<SevisBatchProcessingDTO> tester = (dto) =>
-                {
-                    Assert.IsNull(dto);
-                };
-                var result = service.GetNextBatchToUpload();
-                tester(result);
-                var asyncResult = await service.GetNextBatchToUploadAsync();
-                tester(asyncResult);
-            }
+            Action<SevisBatchProcessingDTO> tester = (dto) =>
+            {
+                Assert.IsNull(dto);
+            };
+            var result = service.GetNextBatchToUpload();
+            tester(result);
+            var asyncResult = await service.GetNextBatchToUploadAsync();
+            tester(asyncResult);
         }
 
         [TestMethod]
         public async Task TestGetNextBatchToUpload_HasUploadFailureCode()
         {
-            using (ShimsContext.Create())
+            var model = new SevisBatchProcessing
             {
-                System.Data.Entity.Fakes.ShimDbFunctions.DiffSecondsNullableOfDateTimeOffsetNullableOfDateTimeOffset = (startDate, endDate) =>
-                {
-                    if (!startDate.HasValue)
-                    {
-                        return null;
-                    }
-                    if (!endDate.HasValue)
-                    {
-                        return null;
-                    }
-                    return (int)((endDate.Value - startDate.Value).TotalSeconds);
-                };
-                var model = new SevisBatchProcessing
-                {
-                    BatchId = "batch id",
-                    DownloadDispositionCode = "download code",
-                    Id = 1,
-                    ProcessDispositionCode = "process code",
-                    RetrieveDate = DateTimeOffset.UtcNow.AddDays(1.0),
-                    SendString = "send string",
-                    SubmitDate = DateTimeOffset.UtcNow,
-                    TransactionLogString = "transaction log",
-                    UploadDispositionCode = DispositionCode.GeneralUploadDownloadFailure.Code
-                };
-                context.SevisBatchProcessings.Add(model);
+                BatchId = "batch id",
+                DownloadDispositionCode = "download code",
+                Id = 1,
+                ProcessDispositionCode = "process code",
+                RetrieveDate = DateTimeOffset.UtcNow.AddDays(1.0),
+                SendString = "send string",
+                SubmitDate = DateTimeOffset.UtcNow,
+                TransactionLogString = "transaction log",
+                UploadDispositionCode = DispositionCode.GeneralUploadDownloadFailure.Code
+            };
+            context.SevisBatchProcessings.Add(model);
+            Assert.AreEqual(1, SevisBatchProcessingQueries.CreateGetSevisBatchProcessingDTOsToUploadQuery(context).Count());
 
-                Action<SevisBatchProcessingDTO> tester = (dto) =>
-                {
-                    Assert.IsNotNull(dto);
-                    Assert.AreEqual(model.Id, dto.Id);
-                };
-                var result = service.GetNextBatchToUpload();
-                tester(result);
-                var asyncResult = await service.GetNextBatchToUploadAsync();
-                tester(asyncResult);
-            }
+            Action<SevisBatchProcessingDTO> tester = (dto) =>
+            {
+                Assert.IsNotNull(dto);
+                Assert.AreEqual(model.Id, dto.Id);
+            };
+            var result = service.GetNextBatchToUpload();
+            tester(result);
+            var asyncResult = await service.GetNextBatchToUploadAsync();
+            tester(asyncResult);
         }
 
         [TestMethod]
@@ -1518,270 +1458,151 @@ namespace ECA.Business.Test.Service.Sevis
         #region GetNextByBatchIdToDownload
 
         [TestMethod]
-        public async Task TestGetNextBatchToDownload_DoesNotHaveRetrieveDateAndSubmitDateCooldownHasPassed()
+        public async Task TestGetNextBatchToDownload_DoesNotHaveRetrieveDate()
         {
-            using (ShimsContext.Create())
+            var model = new SevisBatchProcessing
             {
-                System.Data.Entity.Fakes.ShimDbFunctions.DiffSecondsNullableOfDateTimeOffsetNullableOfDateTimeOffset = (startDate, endDate) =>
-                {
-                    if (!startDate.HasValue)
-                    {
-                        return null;
-                    }
-                    if (!endDate.HasValue)
-                    {
-                        return null;
-                    }
-                    return (int)((endDate.Value - startDate.Value).TotalSeconds);
-                };
-                var model = new SevisBatchProcessing
-                {
-                    BatchId = "batch id",
-                    DownloadDispositionCode = "download code",
-                    Id = 1,
-                    ProcessDispositionCode = "process code",
-                    RetrieveDate = null,
-                    SendString = "send string",
-                    SubmitDate = DateTimeOffset.UtcNow.AddDays(-1.0),
-                    TransactionLogString = "transaction log",
-                    UploadDispositionCode = "upload code"
-                };
-                context.SevisBatchProcessings.Add(model);
+                BatchId = "batch id",
+                DownloadDispositionCode = "download code",
+                Id = 1,
+                ProcessDispositionCode = "process code",
+                RetrieveDate = null,
+                SendString = "send string",
+                SubmitDate = DateTimeOffset.UtcNow,
+                TransactionLogString = "transaction log",
+                UploadDispositionCode = "upload code"
+            };
+            context.SevisBatchProcessings.Add(model);
+            Assert.AreEqual(1, SevisBatchProcessingQueries.CreateGetSevisBatchProcessingDTOsToDownloadQuery(context).Count());
 
-                Action<SevisBatchProcessingDTO> tester = (s) =>
-                {
-                    Assert.IsNotNull(s);
-                    Assert.AreEqual(model.BatchId, s.BatchId);
-                };
-                var result = service.GetNextBatchToDownload();
-                tester(result);
-                var asyncResult = await service.GetNextBatchToDownloadAsync();
-                tester(asyncResult);
-            }
-
+            Action<SevisBatchProcessingDTO> tester = (s) =>
+            {
+                Assert.IsNotNull(s);
+                Assert.AreEqual(model.BatchId, s.BatchId);
+            };
+            var result = service.GetNextBatchToDownload();
+            tester(result);
+            var asyncResult = await service.GetNextBatchToDownloadAsync();
+            tester(asyncResult);
         }
 
         [TestMethod]
-        public async Task TestGetNextBatchToDownload_DownloadCooldownHasNotYetPassed()
+        public async Task TestGetNextBatchToDownload_DownloadCooldownHasNotYetSurpassed()
         {
-            using (ShimsContext.Create())
+            var model = new SevisBatchProcessing
             {
-                System.Data.Entity.Fakes.ShimDbFunctions.DiffSecondsNullableOfDateTimeOffsetNullableOfDateTimeOffset = (startDate, endDate) =>
-                {
-                    if (!startDate.HasValue)
-                    {
-                        return null;
-                    }
-                    if (!endDate.HasValue)
-                    {
-                        return null;
-                    }
-                    return (int)((endDate.Value - startDate.Value).TotalSeconds);
-                };
-                var model = new SevisBatchProcessing
-                {
-                    BatchId = "batch id",
-                    DownloadDispositionCode = "download code",
-                    Id = 1,
-                    ProcessDispositionCode = "process code",
-                    RetrieveDate = null,
-                    SendString = "send string",
-                    SubmitDate = DateTimeOffset.UtcNow.AddDays(-1.0),
-                    TransactionLogString = "transaction log",
-                    UploadDispositionCode = "upload code",
-                    LastDownloadTry = DateTimeOffset.UtcNow
-                };
-                context.SevisBatchProcessings.Add(model);
-                Assert.AreEqual(1, SevisBatchProcessingQueries.CreateGetSevisBatchProcessingDTOsToDownloadQuery(context).Count());
+                BatchId = "batch id",
+                DownloadDispositionCode = "download code",
+                Id = 1,
+                ProcessDispositionCode = "process code",
+                RetrieveDate = null,
+                SendString = "send string",
+                SubmitDate = DateTimeOffset.UtcNow,
+                TransactionLogString = "transaction log",
+                UploadDispositionCode = "upload code",
+                LastDownloadTry = DateTimeOffset.UtcNow.AddSeconds(downloadCooldownInSeconds + 10.0)
+            };
+            context.SevisBatchProcessings.Add(model);
+            Assert.AreEqual(1, SevisBatchProcessingQueries.CreateGetSevisBatchProcessingDTOsToDownloadQuery(context).Count());
 
-                Action<SevisBatchProcessingDTO> tester = (s) =>
-                {
-                    Assert.IsNull(s);
-                };
-                var result = service.GetNextBatchToDownload();
-                tester(result);
-                var asyncResult = await service.GetNextBatchToDownloadAsync();
-                tester(asyncResult);
-            }
-        }
-
-        [TestMethod]
-        public async Task TestGetNextBatchToDownload_SubmitDateCooldownHasNotYetSurpassed()
-        {
-            using (ShimsContext.Create())
+            model.LastDownloadTry = DateTimeOffset.UtcNow;
+            Action<SevisBatchProcessingDTO> tester = (s) =>
             {
-                System.Data.Entity.Fakes.ShimDbFunctions.DiffSecondsNullableOfDateTimeOffsetNullableOfDateTimeOffset = (startDate, endDate) =>
-                {
-                    if (!startDate.HasValue)
-                    {
-                        return null;
-                    }
-                    if (!endDate.HasValue)
-                    {
-                        return null;
-                    }
-                    return (int)((endDate.Value - startDate.Value).TotalSeconds);
-                };
-                var model = new SevisBatchProcessing
-                {
-                    BatchId = "batch id",
-                    DownloadDispositionCode = "download code",
-                    Id = 1,
-                    ProcessDispositionCode = "process code",
-                    RetrieveDate = null,
-                    SendString = "send string",
-                    SubmitDate = DateTimeOffset.UtcNow.AddDays(-1.0),
-                    TransactionLogString = "transaction log",
-                    UploadDispositionCode = "upload code",
-                    LastDownloadTry = DateTimeOffset.UtcNow.AddDays(-1.0)
-                };
-                context.SevisBatchProcessings.Add(model);
-                Assert.IsNotNull(service.GetNextBatchToDownload());
-
-                model.SubmitDate = DateTimeOffset.UtcNow;
-                Action<SevisBatchProcessingDTO> tester = (s) =>
-                {
-                    Assert.IsNull(s);
-                };
-                var result = service.GetNextBatchToDownload();
-                tester(result);
-                var asyncResult = await service.GetNextBatchToDownloadAsync();
-                tester(asyncResult);
-            }
+                Assert.IsNull(s);
+            };
+            var result = service.GetNextBatchToDownload();
+            tester(result);
+            var asyncResult = await service.GetNextBatchToDownloadAsync();
+            tester(asyncResult);
         }
 
         [TestMethod]
         public async Task TestGetNextBatchToDownload_DownloadCooldownValueIsNegative()
         {
-            using (ShimsContext.Create())
+            var model = new SevisBatchProcessing
             {
-                System.Data.Entity.Fakes.ShimDbFunctions.DiffSecondsNullableOfDateTimeOffsetNullableOfDateTimeOffset = (startDate, endDate) =>
-                {
-                    if (!startDate.HasValue)
-                    {
-                        return null;
-                    }
-                    if (!endDate.HasValue)
-                    {
-                        return null;
-                    }
-                    return (int)((endDate.Value - startDate.Value).TotalSeconds);
-                };
-                var model = new SevisBatchProcessing
-                {
-                    BatchId = "batch id",
-                    DownloadDispositionCode = "download code",
-                    Id = 1,
-                    ProcessDispositionCode = "process code",
-                    RetrieveDate = null,
-                    SendString = "send string",
-                    SubmitDate = DateTimeOffset.UtcNow.AddDays(-1.0),
-                    TransactionLogString = "transaction log",
-                    UploadDispositionCode = "upload code",
-                    LastDownloadTry = DateTimeOffset.UtcNow.AddDays(-1.0)
-                };
-                context.SevisBatchProcessings.Add(model);
-                Assert.IsNotNull(service.GetNextBatchToDownload());
-                appSettings[AppSettings.DOWNLOAD_COOLDOWN_IN_SECONDS] = "-" + appSettings[AppSettings.DOWNLOAD_COOLDOWN_IN_SECONDS];
+                BatchId = "batch id",
+                DownloadDispositionCode = "download code",
+                Id = 1,
+                ProcessDispositionCode = "process code",
+                RetrieveDate = null,
+                SendString = "send string",
+                SubmitDate = DateTimeOffset.UtcNow,
+                TransactionLogString = "transaction log",
+                UploadDispositionCode = "upload code",
+                LastDownloadTry = DateTimeOffset.UtcNow.AddSeconds(downloadCooldownInSeconds + 10.0)
+            };
+            context.SevisBatchProcessings.Add(model);
+            Assert.AreEqual(1, SevisBatchProcessingQueries.CreateGetSevisBatchProcessingDTOsToDownloadQuery(context).Count());
+            appSettings[AppSettings.DOWNLOAD_COOLDOWN_IN_SECONDS] = "-" + appSettings[AppSettings.DOWNLOAD_COOLDOWN_IN_SECONDS];
 
-                model.LastDownloadTry = DateTimeOffset.UtcNow;
-                Action<SevisBatchProcessingDTO> tester = (s) =>
-                {
-                    Assert.IsNull(s);
-                };
-                var result = service.GetNextBatchToDownload();
-                tester(result);
-                var asyncResult = await service.GetNextBatchToDownloadAsync();
-                tester(asyncResult);
-            }
+            model.LastDownloadTry = DateTimeOffset.UtcNow;
+            Action<SevisBatchProcessingDTO> tester = (s) =>
+            {
+                Assert.IsNull(s);
+            };
+            var result = service.GetNextBatchToDownload();
+            tester(result);
+            var asyncResult = await service.GetNextBatchToDownloadAsync();
+            tester(asyncResult);
         }
 
         [TestMethod]
         public async Task TestGetNextBatchToDownload_HasGeneralUploadDownloadFailure()
         {
-            using (ShimsContext.Create())
+            var model = new SevisBatchProcessing
             {
-                System.Data.Entity.Fakes.ShimDbFunctions.DiffSecondsNullableOfDateTimeOffsetNullableOfDateTimeOffset = (startDate, endDate) =>
-                {
-                    if (!startDate.HasValue)
-                    {
-                        return null;
-                    }
-                    if (!endDate.HasValue)
-                    {
-                        return null;
-                    }
-                    return (int)((endDate.Value - startDate.Value).TotalSeconds);
-                };
-                var model = new SevisBatchProcessing
-                {
-                    BatchId = "batch id",
-                    DownloadDispositionCode = DispositionCode.GeneralUploadDownloadFailure.Code,
-                    Id = 1,
-                    ProcessDispositionCode = "process code",
-                    RetrieveDate = DateTimeOffset.UtcNow.AddDays(1.0),
-                    SendString = "send string",
-                    SubmitDate = DateTimeOffset.UtcNow.AddDays(-1.0),
-                    TransactionLogString = "transaction log",
-                    UploadDispositionCode = "upload code"
-                };
-                context.SevisBatchProcessings.Add(model);
-                Assert.AreEqual(1, SevisBatchProcessingQueries.CreateGetSevisBatchProcessingDTOsToDownloadQuery(context).Count());
+                BatchId = "batch id",
+                DownloadDispositionCode = DispositionCode.GeneralUploadDownloadFailure.Code,
+                Id = 1,
+                ProcessDispositionCode = "process code",
+                RetrieveDate = DateTimeOffset.UtcNow.AddDays(1.0),
+                SendString = "send string",
+                SubmitDate = DateTimeOffset.UtcNow,
+                TransactionLogString = "transaction log",
+                UploadDispositionCode = "upload code"
+            };
+            context.SevisBatchProcessings.Add(model);
+            Assert.AreEqual(1, SevisBatchProcessingQueries.CreateGetSevisBatchProcessingDTOsToDownloadQuery(context).Count());
 
-                Action<SevisBatchProcessingDTO> tester = (s) =>
-                {
-                    Assert.IsNotNull(s);
-                    Assert.AreEqual(model.BatchId, s.BatchId);
-                };
-                var result = service.GetNextBatchToDownload();
-                tester(result);
-                var asyncResult = await service.GetNextBatchToDownloadAsync();
-                tester(asyncResult);
-            }
+            Action<SevisBatchProcessingDTO> tester = (s) =>
+            {
+                Assert.IsNotNull(s);
+                Assert.AreEqual(model.BatchId, s.BatchId);
+            };
+            var result = service.GetNextBatchToDownload();
+            tester(result);
+            var asyncResult = await service.GetNextBatchToDownloadAsync();
+            tester(asyncResult);
         }
 
         [TestMethod]
         public async Task TestGetNextBatchToDownload_HasBatchNotYetProcessedDownloadCode()
         {
-            using (ShimsContext.Create())
+            var model = new SevisBatchProcessing
             {
-                System.Data.Entity.Fakes.ShimDbFunctions.DiffSecondsNullableOfDateTimeOffsetNullableOfDateTimeOffset = (startDate, endDate) =>
-                {
-                    if (!startDate.HasValue)
-                    {
-                        return null;
-                    }
-                    if (!endDate.HasValue)
-                    {
-                        return null;
-                    }
-                    return (int)((endDate.Value - startDate.Value).TotalSeconds);
-                };
-                var model = new SevisBatchProcessing
-                {
-                    BatchId = "batch id",
-                    DownloadDispositionCode = DispositionCode.BatchNotYetProcessed.Code,
-                    Id = 1,
-                    ProcessDispositionCode = "process code",
-                    RetrieveDate = DateTimeOffset.UtcNow.AddDays(1.0),
-                    SendString = "send string",
-                    SubmitDate = DateTimeOffset.UtcNow.AddDays(-1.0),
-                    TransactionLogString = "transaction log",
-                    UploadDispositionCode = "upload code"
-                };
-                context.SevisBatchProcessings.Add(model);
-                Assert.AreEqual(1, SevisBatchProcessingQueries.CreateGetSevisBatchProcessingDTOsToDownloadQuery(context).Count());
+                BatchId = "batch id",
+                DownloadDispositionCode = DispositionCode.BatchNotYetProcessed.Code,
+                Id = 1,
+                ProcessDispositionCode = "process code",
+                RetrieveDate = DateTimeOffset.UtcNow.AddDays(1.0),
+                SendString = "send string",
+                SubmitDate = DateTimeOffset.UtcNow,
+                TransactionLogString = "transaction log",
+                UploadDispositionCode = "upload code"
+            };
+            context.SevisBatchProcessings.Add(model);
+            Assert.AreEqual(1, SevisBatchProcessingQueries.CreateGetSevisBatchProcessingDTOsToDownloadQuery(context).Count());
 
-                Action<SevisBatchProcessingDTO> tester = (s) =>
-                {
-                    Assert.IsNotNull(s);
-                    Assert.AreEqual(model.BatchId, s.BatchId);
-                };
-                var result = service.GetNextBatchToDownload();
-                tester(result);
-                var asyncResult = await service.GetNextBatchToDownloadAsync();
-                tester(asyncResult);
-            }
+            Action<SevisBatchProcessingDTO> tester = (s) =>
+            {
+                Assert.IsNotNull(s);
+                Assert.AreEqual(model.BatchId, s.BatchId);
+            };
+            var result = service.GetNextBatchToDownload();
+            tester(result);
+            var asyncResult = await service.GetNextBatchToDownloadAsync();
+            tester(asyncResult);
         }
 
         [TestMethod]
@@ -3175,6 +2996,8 @@ namespace ECA.Business.Test.Service.Sevis
                 dateTimeStamp = today
             };
             ParticipantPerson person = null;
+
+
             context.SetupActions.Add(() =>
             {
                 person = new ParticipantPerson
@@ -3199,190 +3022,6 @@ namespace ECA.Business.Test.Service.Sevis
                 Assert.AreEqual(1, sevisBatch.UploadTries);
                 Assert.IsNotNull(sevisBatch.LastUploadTry);
                 DateTimeOffset.UtcNow.Should().BeCloseTo(sevisBatch.LastUploadTry.Value, 20000);
-            };
-            context.Revert();
-            service.ProcessUpload(uploadDetail, sevisBatch);
-            tester();
-            notificationService.Verify(x => x.NotifyUploadedBatchProcessed(It.IsAny<string>(), It.IsAny<DispositionCode>()), Times.Exactly(1));
-
-            context.Revert();
-            await service.ProcessUploadAsync(uploadDetail, sevisBatch);
-            tester();
-            notificationService.Verify(x => x.NotifyUploadedBatchProcessed(It.IsAny<string>(), It.IsAny<DispositionCode>()), Times.Exactly(2));
-        }
-
-        [TestMethod]
-        public async Task TestProcessUpload_UploadDispostionCodeDenotesInvalidXml()
-        {
-            var participantId = 1;
-            var batchId = "batchId";
-            SevisBatchProcessing sevisBatch = null;
-            var today = DateTime.UtcNow;
-            var code = DispositionCode.InvalidXml;
-            var uploadDetail = new TransactionLogTypeBatchDetailUpload
-            {
-                resultCode = code.Code,
-                dateTimeStamp = today
-            };
-            ParticipantPerson person = null;
-            context.SetupActions.Add(() =>
-            {
-                person = new ParticipantPerson
-                {
-                    ParticipantId = participantId
-                };
-                sevisBatch = new SevisBatchProcessing
-                {
-                    BatchId = batchId,
-                    UploadTries = 0
-                };
-                context.ParticipantPersons.Add(person);
-                context.SevisBatchProcessings.Add(sevisBatch);
-            });
-            Action tester = () =>
-            {
-                Assert.AreEqual(0, context.SevisBatchProcessings.Count());
-                Assert.AreEqual(1, context.CancelledSevisBatchProcessings.Count());
-                var first = context.CancelledSevisBatchProcessings.First();
-                Assert.AreEqual(code.Description, first.Reason);
-            };
-            context.Revert();
-            service.ProcessUpload(uploadDetail, sevisBatch);
-            tester();
-            notificationService.Verify(x => x.NotifyUploadedBatchProcessed(It.IsAny<string>(), It.IsAny<DispositionCode>()), Times.Exactly(1));
-
-            context.Revert();
-            await service.ProcessUploadAsync(uploadDetail, sevisBatch);
-            tester();
-            notificationService.Verify(x => x.NotifyUploadedBatchProcessed(It.IsAny<string>(), It.IsAny<DispositionCode>()), Times.Exactly(2));
-        }
-
-        [TestMethod]
-        public async Task TestProcessUpload_UploadDispostionCodeDenotesDuplicateBatchId()
-        {
-            var participantId = 1;
-            var batchId = "batchId";
-            SevisBatchProcessing sevisBatch = null;
-            var today = DateTime.UtcNow;
-            var code = DispositionCode.DuplicateBatchId;
-            var uploadDetail = new TransactionLogTypeBatchDetailUpload
-            {
-                resultCode = code.Code,
-                dateTimeStamp = today
-            };
-            ParticipantPerson person = null;
-            context.SetupActions.Add(() =>
-            {
-                person = new ParticipantPerson
-                {
-                    ParticipantId = participantId
-                };
-                sevisBatch = new SevisBatchProcessing
-                {
-                    BatchId = batchId,
-                    UploadTries = 0
-                };
-                context.ParticipantPersons.Add(person);
-                context.SevisBatchProcessings.Add(sevisBatch);
-            });
-            Action tester = () =>
-            {
-                Assert.AreEqual(0, context.SevisBatchProcessings.Count());
-                Assert.AreEqual(1, context.CancelledSevisBatchProcessings.Count());
-                var first = context.CancelledSevisBatchProcessings.First();
-                Assert.AreEqual(code.Description, first.Reason);
-            };
-            context.Revert();
-            service.ProcessUpload(uploadDetail, sevisBatch);
-            tester();
-            notificationService.Verify(x => x.NotifyUploadedBatchProcessed(It.IsAny<string>(), It.IsAny<DispositionCode>()), Times.Exactly(1));
-
-            context.Revert();
-            await service.ProcessUploadAsync(uploadDetail, sevisBatch);
-            tester();
-            notificationService.Verify(x => x.NotifyUploadedBatchProcessed(It.IsAny<string>(), It.IsAny<DispositionCode>()), Times.Exactly(2));
-        }
-
-        [TestMethod]
-        public async Task TestProcessUpload_UploadDispostionCodeDenotesDocumentNameInvalid()
-        {
-            var participantId = 1;
-            var batchId = "batchId";
-            SevisBatchProcessing sevisBatch = null;
-            var today = DateTime.UtcNow;
-            var code = DispositionCode.DocumentNameInvalid;
-            var uploadDetail = new TransactionLogTypeBatchDetailUpload
-            {
-                resultCode = code.Code,
-                dateTimeStamp = today
-            };
-            ParticipantPerson person = null;
-            context.SetupActions.Add(() =>
-            {
-                person = new ParticipantPerson
-                {
-                    ParticipantId = participantId
-                };
-                sevisBatch = new SevisBatchProcessing
-                {
-                    BatchId = batchId,
-                    UploadTries = 0
-                };
-                context.ParticipantPersons.Add(person);
-                context.SevisBatchProcessings.Add(sevisBatch);
-            });
-            Action tester = () =>
-            {
-                Assert.AreEqual(0, context.SevisBatchProcessings.Count());
-                Assert.AreEqual(1, context.CancelledSevisBatchProcessings.Count());
-                var first = context.CancelledSevisBatchProcessings.First();
-                Assert.AreEqual(code.Description, first.Reason);
-            };
-            context.Revert();
-            service.ProcessUpload(uploadDetail, sevisBatch);
-            tester();
-            notificationService.Verify(x => x.NotifyUploadedBatchProcessed(It.IsAny<string>(), It.IsAny<DispositionCode>()), Times.Exactly(1));
-
-            context.Revert();
-            await service.ProcessUploadAsync(uploadDetail, sevisBatch);
-            tester();
-            notificationService.Verify(x => x.NotifyUploadedBatchProcessed(It.IsAny<string>(), It.IsAny<DispositionCode>()), Times.Exactly(2));
-        }
-
-        [TestMethod]
-        public async Task TestProcessUpload_UploadDispostionCodeDenotesMalformedXml()
-        {
-            var participantId = 1;
-            var batchId = "batchId";
-            SevisBatchProcessing sevisBatch = null;
-            var today = DateTime.UtcNow;
-            var code = DispositionCode.MalformedXml;
-            var uploadDetail = new TransactionLogTypeBatchDetailUpload
-            {
-                resultCode = code.Code,
-                dateTimeStamp = today
-            };
-            ParticipantPerson person = null;
-            context.SetupActions.Add(() =>
-            {
-                person = new ParticipantPerson
-                {
-                    ParticipantId = participantId
-                };
-                sevisBatch = new SevisBatchProcessing
-                {
-                    BatchId = batchId,
-                    UploadTries = 0
-                };
-                context.ParticipantPersons.Add(person);
-                context.SevisBatchProcessings.Add(sevisBatch);
-            });
-            Action tester = () =>
-            {
-                Assert.AreEqual(0, context.SevisBatchProcessings.Count());
-                Assert.AreEqual(1, context.CancelledSevisBatchProcessings.Count());
-                var first = context.CancelledSevisBatchProcessings.First();
-                Assert.AreEqual(code.Description, first.Reason);
             };
             context.Revert();
             service.ProcessUpload(uploadDetail, sevisBatch);
@@ -4032,98 +3671,6 @@ namespace ECA.Business.Test.Service.Sevis
             Func<Task> f = () => service.HandleFailedDownloadBatchAsync(batchId, new Exception());
             a.ShouldThrow<ModelNotFoundException>().WithMessage(message);
             f.ShouldThrow<ModelNotFoundException>().WithMessage(message);
-        }
-        #endregion
-
-        #region Cancel
-        [TestMethod]
-        public async Task TestCancel()
-        {
-            var reason = "reason";
-            var sevisOrgId = "org Id";
-            var sevisUsername = "username";
-            var batchId = "batchId";
-            var participantId = 1;
-            SevisBatchProcessing batch = null;
-            ParticipantPerson participantPerson = null;
-            ParticipantPersonSevisCommStatus participantPersonSevisCommStatus = null;
-            context.SetupActions.Add(() =>
-            {
-                participantPerson = new ParticipantPerson
-                {
-                    ParticipantId = participantId
-                };
-                batch = new SevisBatchProcessing
-                {
-                    BatchId = batchId,
-                    Id = 1,
-                    SevisOrgId = sevisOrgId,
-                    SevisUsername = sevisUsername,
-                    DownloadDispositionCode = "download code",
-                    DownloadTries = 2,
-                    LastDownloadTry = DateTimeOffset.UtcNow.AddDays(1.0),
-                    LastUploadTry = DateTimeOffset.UtcNow.AddDays(2.0),
-                    ProcessDispositionCode = "process code",
-                    RetrieveDate = DateTimeOffset.UtcNow.AddDays(3.0),
-                    SendString = "send string",
-                    SubmitDate = DateTime.UtcNow.AddDays(4.0),
-                    TransactionLogString = "transaction log",
-                    UploadDispositionCode = "upload code",
-                    UploadTries = 3
-                };
-                participantPersonSevisCommStatus = new ParticipantPersonSevisCommStatus
-                {
-                    BatchId = batchId,
-                    ParticipantId = participantId,
-                    ParticipantPerson = participantPerson
-                };
-                participantPerson.ParticipantPersonSevisCommStatuses.Add(participantPersonSevisCommStatus);
-
-                context.ParticipantPersons.Add(participantPerson);
-                context.SevisBatchProcessings.Add(batch);
-                context.ParticipantPersonSevisCommStatuses.Add(participantPersonSevisCommStatus);
-            });
-            Action tester = () =>
-            {
-                Assert.AreEqual(0, context.SevisBatchProcessings.Count());
-                Assert.AreEqual(1, context.CancelledSevisBatchProcessings.Count());
-                Assert.AreEqual(2, context.ParticipantPersonSevisCommStatuses.Count());
-                Assert.AreEqual(1, context.ParticipantPersonSevisCommStatuses.Where(x => x.SevisCommStatusId == SevisCommStatus.BatchCancelledBySystem.Id).Count());
-
-                var addedStatus = context.ParticipantPersonSevisCommStatuses.Where(x => x.SevisCommStatusId == SevisCommStatus.BatchCancelledBySystem.Id).First();
-                Assert.AreEqual(batchId, addedStatus.BatchId);
-                Assert.AreEqual(sevisUsername, addedStatus.SevisUsername);
-                Assert.AreEqual(sevisOrgId, addedStatus.SevisOrgId);
-                Assert.AreEqual(participantId, addedStatus.ParticipantId);
-                DateTimeOffset.UtcNow.Should().BeCloseTo(addedStatus.AddedOn, 20000);
-
-                var addedCancelledBatch = context.CancelledSevisBatchProcessings.First();
-                Assert.AreEqual(batch.BatchId, addedCancelledBatch.BatchId);
-                Assert.AreEqual(batch.SevisOrgId, addedCancelledBatch.SevisOrgId);
-                Assert.AreEqual(batch.SevisUsername, addedCancelledBatch.SevisUsername);
-                Assert.AreEqual(batch.DownloadDispositionCode, addedCancelledBatch.DownloadDispositionCode);
-                Assert.AreEqual(batch.DownloadTries, addedCancelledBatch.DownloadTries);
-                Assert.AreEqual(batch.LastDownloadTry, addedCancelledBatch.LastDownloadTry);
-                Assert.AreEqual(batch.LastUploadTry, addedCancelledBatch.LastUploadTry);
-                Assert.AreEqual(batch.ProcessDispositionCode, addedCancelledBatch.ProcessDispositionCode);
-                Assert.AreEqual(batch.RetrieveDate, addedCancelledBatch.RetrieveDate);
-                Assert.AreEqual(batch.SendString, addedCancelledBatch.SendString);
-                Assert.AreEqual(batch.SubmitDate, addedCancelledBatch.SubmitDate);
-                Assert.AreEqual(batch.TransactionLogString, addedCancelledBatch.TransactionLogString);
-                Assert.AreEqual(batch.UploadDispositionCode, addedCancelledBatch.UploadDispositionCode);
-                Assert.AreEqual(batch.UploadTries, addedCancelledBatch.UploadTries);
-                Assert.AreEqual(reason, addedCancelledBatch.Reason);
-                DateTimeOffset.UtcNow.Should().BeCloseTo(addedCancelledBatch.CancelledOn, 20000);
-            };
-            context.Revert();
-            service.Cancel(batch, reason);
-            tester();
-            notificationService.Verify(x => x.NotifyCancelledSevisBatch(It.IsAny<string>(), It.IsAny<string>()), Times.Once());
-
-            context.Revert();
-            await service.CancelAsync(batch, reason);
-            tester();
-            notificationService.Verify(x => x.NotifyCancelledSevisBatch(It.IsAny<string>(), It.IsAny<string>()), Times.Exactly(2));
         }
         #endregion
 

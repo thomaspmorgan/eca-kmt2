@@ -105,15 +105,5 @@ namespace ECA.WebJobs.Sevis.Core
         {
             Console.WriteLine(String.Format("Deleted sevis processing batch with id [{0}] and batch id [{1}].", id, batchId));
         }
-
-        /// <summary>
-        /// Writes to the console a batch that was cancelled.
-        /// </summary>
-        /// <param name="batchId">The batchId of the batch that was cancelled.</param>
-        /// <param name="reason">The reason the batch was cancelled.</param>
-        public void NotifyCancelledSevisBatch(string batchId, string reason)
-        {
-            Console.WriteLine(String.Format("The batch with id [{0}] was cancelled because [{1}].", batchId, reason));
-        }
     }
 }

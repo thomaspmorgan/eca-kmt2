@@ -1,4 +1,23 @@
-﻿angular.module('staticApp').factory('ConstantsService', function() {
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+angular.module('staticApp').factory('ConstantsService', function() {
 	return {
 		dataPointCategory: {
 			office: {id: 1, value: "Office"},
@@ -152,7 +171,8 @@
 			formI515aIssued: {id: 12, value: "Form I-515A Issued"},
 			pendingSevisSend: {id: 13, value: "Pending Sevis Send"},
 			sentByBatch: {id: 14, value: "Sent By Batch"},
-			createdByBatch: {id: 15, value: "Created By Batch"}
+			createdByBatch: {id: 15, value: "Created By Batch"},
+			validatedByBatch: {id: 16, value: "Validated By Batch"}
 		},
 		sevisErrorType: {
 			email: {id: 1, value: "Email"},
@@ -215,6 +235,7 @@
 		otherInternationalOrganizationId: '18',
 		otherUSGovernmentAgencyId: '22',
 		primaryAddressChangedEventName: 'primaryAddressChanged',
+		primaryCitizenshipCountryChangedEventName: 'primaryCitizenshipCountryChanged',
 		primaryEmailAddressChangedEventName: 'primaryEmailAddressChanged',
 		primaryLanguageProficiencyChangedEventName: 'primaryLanguageProficiencyChanged',
 		primaryPhoneNumberChangedEventName: 'primaryPhoneNumberChanged',
@@ -222,7 +243,8 @@
 		registerUserFailureEventName: 'registerUserFailure',
 		registerUserSuccessEventName: 'registerUserSuccess',
 		removeNewAddressEventName: 'removeNewAddress',
-		removeNewDependentEventName: 'newDependent',
+		removeNewCitizenshipCountryEventName: 'removeNewCitizenshipCountry',
+		removeNewDependentEventName: 'removeNewDependent',
 		removeNewEducationEventName: 'removeNewEducation',
 		removeNewEmailAddressEventName: 'removeNewEmailAddress',
 		removeNewEmploymentEventName: 'removeNewEmployment',
@@ -238,4 +260,5 @@
 		updateBreadcrumbsEventName: 'updateBreadcrumbs'
 	};
 });
+
 

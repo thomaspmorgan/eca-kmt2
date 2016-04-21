@@ -14,15 +14,10 @@
             updateParticipantPersonsSevis: updateParticipantPersonsSevis,
             sendToSevis: sendToSevis,
             getSevisCommStatuses: getSevisCommStatuses,
-            parseSevisProperties: parseSevisProperties,
-            getBatchInfo: getBatchInfo
+            parseSevisProperties: parseSevisProperties
         };
 
         return service;
-
-        function getBatchInfo(projectId, participantId, batchId) {
-            return DragonBreath.get('project/' + projectId + '/participantpersonssevis/' + participantId + '/batch/' + batchId);
-        };
 
         function getSevisParticipantsByProjectId(projectId, params) {
             return DragonBreath.get(params, 'project/' + projectId + '/sevisParticipants');

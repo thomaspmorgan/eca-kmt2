@@ -15,7 +15,7 @@ namespace ECA.Data
         public PersonDependent()
         {
             this.History = new History();
-            this.CountriesOfCitizenship = new HashSet<Location>();
+            this.CountriesOfCitizenship = new HashSet<PersonDependentCitizenCountry>();
             this.EmailAddresses = new HashSet<EmailAddress>();
         }
 
@@ -183,12 +183,17 @@ namespace ECA.Data
         /// <summary>
         /// Gets and sets the countries of citizenship
         /// </summary>
-        public ICollection<Location> CountriesOfCitizenship { get; set; }
+        public ICollection<PersonDependentCitizenCountry> CountriesOfCitizenship { get; set; }
 
         /// <summary>
         /// Gets and sets the email addresses
         /// </summary>
         public ICollection<EmailAddress> EmailAddresses { get; set; }
+
+        /// <summary>
+        /// Gets or sets the ds 2019 file url.
+        /// </summary>
+        public string DS2019FileUrl { get; set; }
 
         /// <summary>
         /// create/update time and user

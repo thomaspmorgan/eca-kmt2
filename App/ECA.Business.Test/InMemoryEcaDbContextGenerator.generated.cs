@@ -177,21 +177,6 @@ namespace ECA.Business.Test
 			return Task.FromResult<ECA.Data.Bookmark>(this.SingleOrDefault(x => x.BookmarkId.Equals(keyValues.First())));
 		}
 	}
-	public class CancelledSevisBatchProcessingTestDbSet : ECA.Core.Data.TestDbSet<ECA.Data.CancelledSevisBatchProcessing>
-	{
-		public override ECA.Data.CancelledSevisBatchProcessing Find(params object[] keyValues)
-		{
-			if(keyValues.Length != 1) throw new System.NotSupportedException();
-			///Id
-			return this.SingleOrDefault(x => x.Id.Equals(keyValues.First()));
-		}
-		public override Task<ECA.Data.CancelledSevisBatchProcessing> FindAsync(params object[] keyValues)
-		{
-			if(keyValues.Length != 1) throw new System.NotSupportedException();
-			///Id
-			return Task.FromResult<ECA.Data.CancelledSevisBatchProcessing>(this.SingleOrDefault(x => x.Id.Equals(keyValues.First())));
-		}
-	}
 	public class CategoryTestDbSet : ECA.Core.Data.TestDbSet<ECA.Data.Category>
 	{
 		public override ECA.Data.Category Find(params object[] keyValues)
@@ -1293,7 +1278,6 @@ namespace ECA.Business.Test
 			this.BirthCountries = new BirthCountryTestDbSet();
 			this.BirthCountryReasons = new BirthCountryReasonTestDbSet();
 			this.Bookmarks = new BookmarkTestDbSet();
-			this.CancelledSevisBatchProcessings = new CancelledSevisBatchProcessingTestDbSet();
 			this.Categories = new CategoryTestDbSet();
 			this.Contacts = new ContactTestDbSet();
 			this.Courses = new CourseTestDbSet();
@@ -1301,7 +1285,7 @@ namespace ECA.Business.Test
 			this.DataPointConfigurations = new DataPointConfigurationTestDbSet();
 			this.DefaultExchangeVisitorFunding = new DefaultExchangeVisitorFundingTestDbSet();
 			this.DependentTypes = new DependentTypeTestDbSet();
-			this.EducationLevels = new EducationLevelTestDbSet();
+            this.EducationLevels = new EducationLevelTestDbSet();
 			this.EmailAddresses = new EmailAddressTestDbSet();
 			this.EmailAddressTypes = new EmailAddressTypeTestDbSet();
 			this.ExternalIds = new ExternalIdTestDbSet();

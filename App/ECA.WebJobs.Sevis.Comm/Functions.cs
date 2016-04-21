@@ -4,17 +4,12 @@ using System.Threading.Tasks;
 using ECA.Business.Service.Sevis;
 using ECA.Core.Settings;
 using System.Diagnostics.Contracts;
-using System.Net.Http;
-using ECA.WebJobs.Sevis;
-using ECA.Business.Sevis;
 using ECA.Business.Service;
 using ECA.WebJobs.Sevis.Core;
+using ECA.Net;
 using System.Xml.Linq;
 using NLog;
-using System.Xml.Serialization;
-using System.IO.Compression;
-using System.IO;
-using ECA.Business.Queries.Models.Sevis;
+
 
 namespace ECA.WebJobs.Sevis.Comm
 {
@@ -121,10 +116,12 @@ namespace ECA.WebJobs.Sevis.Comm
                 else
                 {
                     logger.Error("Download encountered an error, status code: {0}, reason: {1}", response.StatusCode.ToString(), response.ReasonPhrase);
-                    await service.HandleFailedDownloadBatchAsync(dtoToDownload.Id, null);
+                    await service.HandleFailedDownloadBatchAsync(dtoToUpload.Id, null);
                 }
                 dtoToDownload = await service.GetNextBatchToDownloadAsync();
             }
+
+
             logger.Debug("Removing processed batches");
             await service.DeleteProcessedBatchesAsync();
 

@@ -1,7 +1,5 @@
 ﻿using ECA.Business.Queries.Models.Persons;
-using ECA.Business.Queries.Models.Sevis;
 using ECA.Business.Queries.Persons;
-using ECA.Business.Queries.Sevis;
 using ECA.Core.DynamicLinq;
 using ECA.Core.Exceptions;
 using ECA.Core.Query;
@@ -14,6 +12,8 @@ using System.Data.Entity;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Threading.Tasks;
+using ECA.Core.DynamicLinq;
+using ECA.Core.Query;
 
 namespace ECA.Business.Service.Persons
 {
@@ -25,7 +25,7 @@ namespace ECA.Business.Service.Persons
         private readonly Logger logger = LogManager.GetCurrentClassLogger();
         private readonly Action<int, object, Type> throwIfModelDoesNotExist;
         private Action<int, int, Participant> throwSecurityViolationIfParticipantDoesNotBelongToProject;
-
+        
         /// <summary>
         /// Creates a new ParticipantPersonService with the given context to operate against.
         /// </summary>
@@ -116,60 +116,6 @@ namespace ECA.Business.Service.Persons
         public Task<PagedQueryResults<ParticipantPersonSevisCommStatusDTO>> GetSevisCommStatusesByParticipantIdAsync(int projectId, int participantId, QueryableOperator<ParticipantPersonSevisCommStatusDTO> queryOperator)
         {
             return ParticipantPersonsSevisQueries.CreateGetParticipantPersonSevisCommStatusesByParticipantIdQuery(this.Context, projectId, participantId, queryOperator).ToPagedQueryResultsAsync(queryOperator.Start, queryOperator.Limit);
-        }
-
-        /// <summary>
-        /// Returns the batch info with the given batch id.
-        /// </summary>
-        /// <param name="batchId">The batch id.</param>
-        /// <param name="userId">The id of the user requesting the batch status.</param>
-        /// <param name="participantId">The participant to get the status for.</param>
-        /// <param name="projectId">The project id of the participant.</param>
-        /// <returns>The info dto or null of it does not exist.</returns>
-        public SevisBatchInfoDTO GetBatchInfoByBatchId(int userId, int projectId, int participantId, string batchId)
-        {
-            var participant = Context.Participants.Find(participantId);
-            throwIfModelDoesNotExist(participantId, participant, typeof(Participant));
-            throwSecurityViolationIfParticipantDoesNotBelongToProject(userId, projectId, participant);
-
-            var commStatuses = CreateGetParticipantPersonSevisCommStatusQuery(participantId, batchId).Count();
-            if (commStatuses == 0)
-            {
-                return null;
-            }
-            else
-            { 
-                return SevisBatchProcessingQueries.CreateGetSevisBatchInfoDTOByBatchIdQuery(this.Context, batchId).FirstOrDefault();
-            }
-        }
-
-        /// <summary>
-        /// Returns the batch info with the given batch id.
-        /// </summary>
-        /// <param name="batchId">The batch id.</param>
-        /// /// <param name="userId">The id of the user requesting the batch status.</param>
-        /// <param name="participantId">The participant to get the status for.</param>
-        /// <param name="projectId">The project id of the participant.</param>
-        /// <returns>The info dto or null of it does not exist.</returns>
-        public async Task<SevisBatchInfoDTO> GetBatchInfoByBatchIdAsync(int userId, int projectId, int participantId, string batchId)
-        {
-            var participant = Context.Participants.Find(participantId);
-            throwIfModelDoesNotExist(participantId, participant, typeof(Participant));
-            throwSecurityViolationIfParticipantDoesNotBelongToProject(userId, projectId, participant);
-            var commStatuses = await CreateGetParticipantPersonSevisCommStatusQuery(participantId, batchId).CountAsync();
-            if (commStatuses == 0)
-            {
-                return null;
-            }
-            else
-            {
-                return await SevisBatchProcessingQueries.CreateGetSevisBatchInfoDTOByBatchIdQuery(this.Context, batchId).FirstOrDefaultAsync();
-            }
-        }
-
-        private IQueryable<ParticipantPersonSevisCommStatus> CreateGetParticipantPersonSevisCommStatusQuery(int participantId, string batchId)
-        {
-            return Context.ParticipantPersonSevisCommStatuses.Where(x => x.ParticipantId == participantId && x.BatchId == batchId).Distinct();
         }
         #endregion
 

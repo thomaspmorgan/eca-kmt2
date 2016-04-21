@@ -92,11 +92,6 @@ namespace ECA.Data
         public DbSet<Contact> Contacts { get; set; }
 
         /// <summary>
-        /// Gets or sets the cancelled sevis batch processings.
-        /// </summary>
-        public DbSet<CancelledSevisBatchProcessing> CancelledSevisBatchProcessings { get; set; }
-
-        /// <summary>
         /// Gets or sets the courses.
         /// </summary>
         public DbSet<Course> Courses { get; set; }
@@ -258,7 +253,7 @@ namespace ECA.Data
         /// Gets or sets people dependents.
         /// </summary>
         public DbSet<PersonDependent> PersonDependents { get; set; }
-
+        
         /// <summary>
         /// Gets or sets EvaluationNotes for a Person
         /// </summary>
