@@ -19,7 +19,7 @@
                 </div>
                 <div class="row" ng-show="!view.isSavingChanges">
                     <div ng-class="{true: 'row', false: 'row2'}[editMode]" ng-show="!view.showEditCitizenshipCountry">
-                        <span>{{citizenship.locationName}}</span>
+                        <span>{{citizenship.locationName}}</span> <span ng-show="citizenship.isPrimary"> (primary)</span>
                         <div class="pull-right" ng-show="!view.showEditCitizenshipCountry">
                             <a ng-show="!view.showEditCitizenshipCountry && !view.isDeletingCountry && editMode" ng-click="view.showConfirmDelete = true">
                                 <i class="material-icons md-dark">delete</i>
