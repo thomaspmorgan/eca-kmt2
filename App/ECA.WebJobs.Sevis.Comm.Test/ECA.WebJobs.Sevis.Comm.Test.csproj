@@ -120,10 +120,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ECA.Business.Sevis\ECA.Business.SevisBatch.csproj">
-      <Project>{c7abecf2-7270-4be3-a5f4-a4283323010f}</Project>
-      <Name>ECA.Business.SevisBatch</Name>
-    </ProjectReference>
     <ProjectReference Include="..\ECA.Business\ECA.Business.csproj">
       <Project>{0a7b54e3-736d-47b5-92fd-31d3bb416d8d}</Project>
       <Name>ECA.Business</Name>

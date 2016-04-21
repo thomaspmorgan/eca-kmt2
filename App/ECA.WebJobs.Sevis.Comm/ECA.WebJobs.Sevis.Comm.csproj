@@ -190,10 +190,6 @@
       <Project>{55a1102d-da8f-41e7-8955-85e62e9c01a6}</Project>
       <Name>ECA.Business.Sevis.Model</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ECA.Business.Sevis\ECA.Business.SevisBatch.csproj">
-      <Project>{c7abecf2-7270-4be3-a5f4-a4283323010f}</Project>
-      <Name>ECA.Business.SevisBatch</Name>
-    </ProjectReference>
     <ProjectReference Include="..\ECA.Business\ECA.Business.csproj">
       <Project>{0a7b54e3-736d-47b5-92fd-31d3bb416d8d}</Project>
       <Name>ECA.Business</Name>
@@ -205,6 +201,10 @@
     <ProjectReference Include="..\ECA.Data\ECA.Data.csproj">
       <Project>{8cef11e6-50e8-4b54-a1a7-a75583ccb6ef}</Project>
       <Name>ECA.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ECA.Net\ECA.Net.csproj">
+      <Project>{c7abecf2-7270-4be3-a5f4-a4283323010f}</Project>
+      <Name>ECA.Net</Name>
     </ProjectReference>
     <ProjectReference Include="..\ECA.WebJobs.Core\ECA.WebJobs.Core.csproj">
       <Project>{65f89926-7b89-4074-8a3c-0a72b4be68d6}</Project>

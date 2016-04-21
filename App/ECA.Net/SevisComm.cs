@@ -8,7 +8,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Net.Http.Headers;
 using System.Text;
 
-namespace ECA.Business.Sevis
+namespace ECA.Net
 {
     public class SevisComm
     {
@@ -36,11 +36,11 @@ namespace ECA.Business.Sevis
         /// This method uploads an XML file for a batch of users that need to be issued J-1 Visas by the SEVIS system
         /// </summary>
         /// <param name="xml">The xml file passed as an XElement</param>
-        /// <param name="batchId">The BatchID of the upload, to be used to download the results later</param>
+        /// <param name="BatchId">The BatchID of the upload, to be used to download the results later</param>
         /// <param name="OrgId">The Program ID in SEVIS</param>
         /// <param name="UserId">The SEVIS user name performing the upload</param>
         /// <returns></returns>
-        public async Task<HttpResponseMessage> UploadAsync(XElement xml, string batchId, string OrgId, string UserId)
+        public async Task<HttpResponseMessage> UploadAsync(XElement xml, string BatchId, string OrgId, string UserId)
         {
             using (var httpClient = new HttpClient(GetWebRequestHandler()))
             {
@@ -56,7 +56,7 @@ namespace ECA.Business.Sevis
                     {
                         new KeyValuePair<string, string>("orgid", OrgId),
                         new KeyValuePair<string, string>("userid",UserId),
-                        new KeyValuePair<string, string>("batchid", batchId),
+                        new KeyValuePair<string, string>("batchid", BatchId),
                     };
                     foreach (var keyValuePair in formValues)
                     {
@@ -82,11 +82,11 @@ namespace ECA.Business.Sevis
         /// <summary>
         /// Downloads the results of a batch upload from SEVIS
         /// </summary>
-        /// <param name="batchId">The BatchID to download</param>
+        /// <param name="BatchId">The BatchID to download</param>
         /// <param name="OrgId">The Program ID</param>
         /// <param name="UserId">The SEVIS User that is performing the download</param>
         /// <returns></returns>
-        public async Task<HttpResponseMessage> DownloadAsync(string batchId, string OrgId, string UserId)
+        public async Task<HttpResponseMessage> DownloadAsync(string BatchId, string OrgId, string UserId)
         {
             using (var httpClient = new HttpClient(GetWebRequestHandler()))
             {
@@ -102,7 +102,7 @@ namespace ECA.Business.Sevis
                     {
                         new KeyValuePair<string, string>("orgid", OrgId),
                         new KeyValuePair<string, string>("userid",UserId),
-                        new KeyValuePair<string, string>("batchid", batchId),
+                        new KeyValuePair<string, string>("batchid", BatchId),
                     };
                     foreach (var keyValuePair in formValues)
                     {
