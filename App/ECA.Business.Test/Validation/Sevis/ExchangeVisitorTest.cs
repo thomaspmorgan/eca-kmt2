@@ -883,7 +883,7 @@ namespace ECA.Business.Test.Validation.Sevis
             Assert.AreEqual(new RequestId(person.ParticipantId, RequestIdType.FinancialInfo, RequestActionType.Update).ToString(), financialVisitorItem.requestID);
 
             var dependentVisitorItemsCount = CreateGetItemQuery<SEVISEVBatchTypeExchangeVisitorDependent>(list).Count();
-            Assert.AreEqual(1, dependentVisitorItemsCount);            
+            Assert.AreEqual(1, dependentVisitorItemsCount);
 
             var dependentVisitorItem = CreateGetItemQuery<SEVISEVBatchTypeExchangeVisitorDependent>(list).FirstOrDefault();
             Assert.IsNotNull(dependentVisitorItem);

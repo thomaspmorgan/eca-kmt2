@@ -261,7 +261,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             Assert.AreEqual(dependent.Remarks, sevisModel.Remarks);
             Assert.AreEqual(dependent.SevisId, sevisModel.dependentSevisID);
 
-            Assert.IsTrue(sevisModel.RelationshipSpecified);            
+            Assert.IsTrue(sevisModel.RelationshipSpecified);
             Assert.IsTrue(sevisModel.BirthCountryReasonSpecified);
         }
 

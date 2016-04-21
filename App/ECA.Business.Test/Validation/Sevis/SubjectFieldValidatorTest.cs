@@ -204,7 +204,7 @@ namespace ECA.Business.Test.Validation.Sevis
             var results = validator.Validate(instance);
             Assert.IsTrue(results.IsValid);
 
-            degreeLevel =  " ";
+            degreeLevel = " ";
             instance = createEntity();
             results = validator.Validate(instance);
             Assert.IsTrue(results.IsValid);

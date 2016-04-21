@@ -458,7 +458,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             var results = validator.Validate(instance);
             Assert.IsTrue(results.IsValid);
 
-            positionCodeAsString = new string('1', PersonValidator.POSITION_CODE_LENGTH + 1); 
+            positionCodeAsString = new string('1', PersonValidator.POSITION_CODE_LENGTH + 1);
             instance = createEntity();
             results = validator.Validate(instance);
             Assert.IsFalse(results.IsValid);
@@ -871,7 +871,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             Assert.AreEqual(
                 String.Format(PersonValidator.PERMANENT_RESIDENCE_COUNTRY_CODE_ERROR_MESSAGE, validator.GetPersonType(instance), validator.GetNameDelegate()(instance), AddressType.Home.Value, LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME),
                 results.Errors.First().ErrorMessage);
-            Assert.IsInstanceOfType(results.Errors.First().CustomState, typeof(PermanentResidenceCountryErrorPath));            
+            Assert.IsInstanceOfType(results.Errors.First().CustomState, typeof(PermanentResidenceCountryErrorPath));
         }
 
         [TestMethod]
