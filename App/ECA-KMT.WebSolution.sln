@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{79E3FEAA-10E1-4DF3-9C94-86480D4F5E36}"
 EndProject
@@ -78,8 +78,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECA.WebJobs.Sevis.Core", "ECA.WebJobs.Sevis.Core\ECA.WebJobs.Sevis.Core.csproj", "{2988E91B-813B-4D9D-A623-488C35E4E5A1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECA.WebJobs.Sevis.Comm", "ECA.WebJobs.Sevis.Comm\ECA.WebJobs.Sevis.Comm.csproj", "{352C570D-BB54-4167-B1AA-853E812DC5CA}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECA.Business.SevisBatch", "ECA.Business.Sevis\ECA.Business.SevisBatch.csproj", "{C7ABECF2-7270-4BE3-A5F4-A4283323010F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECA.WebJobs.Sevis.Staging", "ECA.WebJobs.Sevis.Staging\ECA.WebJobs.Sevis.Staging.csproj", "{89D4F413-926E-463F-A62A-3C0E24AD01E0}"
 EndProject
@@ -380,16 +378,6 @@ Global
 		{352C570D-BB54-4167-B1AA-853E812DC5CA}.QA|Any CPU.Build.0 = Release|Any CPU
 		{352C570D-BB54-4167-B1AA-853E812DC5CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{352C570D-BB54-4167-B1AA-853E812DC5CA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C7ABECF2-7270-4BE3-A5F4-A4283323010F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C7ABECF2-7270-4BE3-A5F4-A4283323010F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C7ABECF2-7270-4BE3-A5F4-A4283323010F}.Dev|Any CPU.ActiveCfg = Debug|Any CPU
-		{C7ABECF2-7270-4BE3-A5F4-A4283323010F}.Dev|Any CPU.Build.0 = Debug|Any CPU
-		{C7ABECF2-7270-4BE3-A5F4-A4283323010F}.PRE|Any CPU.ActiveCfg = Release|Any CPU
-		{C7ABECF2-7270-4BE3-A5F4-A4283323010F}.PRE|Any CPU.Build.0 = Release|Any CPU
-		{C7ABECF2-7270-4BE3-A5F4-A4283323010F}.QA|Any CPU.ActiveCfg = Release|Any CPU
-		{C7ABECF2-7270-4BE3-A5F4-A4283323010F}.QA|Any CPU.Build.0 = Release|Any CPU
-		{C7ABECF2-7270-4BE3-A5F4-A4283323010F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C7ABECF2-7270-4BE3-A5F4-A4283323010F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{89D4F413-926E-463F-A62A-3C0E24AD01E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{89D4F413-926E-463F-A62A-3C0E24AD01E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{89D4F413-926E-463F-A62A-3C0E24AD01E0}.Dev|Any CPU.ActiveCfg = Debug|Any CPU
