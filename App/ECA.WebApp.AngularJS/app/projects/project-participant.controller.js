@@ -886,7 +886,7 @@ angular.module('staticApp')
       function getPage() {
           var params = {
               start: (paginationOptions.pageNumber - 1) * paginationOptions.pageSize,
-              limit: ((paginationOptions.pageNumber - 1) * paginationOptions.pageSize) + paginationOptions.pageSize,
+              limit: paginationOptions.pageSize,
               sort: paginationOptions.sort,
               keyword: paginationOptions.keyword,
               filter: paginationOptions.filter
