@@ -126,7 +126,7 @@ namespace ECA.Core.Settings
         /// <summary>
         /// The ds 2019 file storage connection string key.
         /// </summary>
-        public const string SEVIS_DS2019_STORAGE_CONNECTION_STRING_KEY = SEVIS_PREFIX+ "SevisDS2019StorageConnection";
+        public const string SEVIS_DS2019_STORAGE_CONNECTION_STRING_KEY = SEVIS_PREFIX + "SevisDS2019StorageConnection";
 
         #endregion
 
@@ -184,7 +184,7 @@ namespace ECA.Core.Settings
         /// </summary>
         public const string IDLE_TIMEOUT_IN_SECONDS = "session.IdleTimeoutInSeconds";
         #endregion
-        
+
 
         private NameValueCollection appSettings;
         private ConnectionStringSettingsCollection connectionStrings;
@@ -319,9 +319,9 @@ namespace ECA.Core.Settings
         /// </summary>
         public string SystemUserId { get { return GetAppSetting(SYSTEM_USER_ID_KEY); } }
 
-        public string IdleDurationInSeconds { get { return GetAppSetting(IDLE_DURATION_IN_SECONDS);  } }
+        public string IdleDurationInSeconds { get { return GetAppSetting(IDLE_DURATION_IN_SECONDS); } }
 
-        public string IdleTimeoutInSeconds { get { return GetAppSetting(IDLE_TIMEOUT_IN_SECONDS);  } }
+        public string IdleTimeoutInSeconds { get { return GetAppSetting(IDLE_TIMEOUT_IN_SECONDS); } }
 
         #endregion
 

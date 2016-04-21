@@ -164,7 +164,7 @@ namespace ECA.Business.Queries.Sevis
         public static IQueryable<SevisGroupedQueuedToSubmitParticipantsDTO> CreateGetQueuedToSubmitParticipantDTOsQuery(EcaContext context)
         {
             Contract.Requires(context != null, "The context must not be null.");
-            var statusId = SevisCommStatus.QueuedToSubmit.Id;
+            var queuedToSubmitStatusId = SevisCommStatus.QueuedToSubmit.Id;
 
             var query = from participantPerson in context.ParticipantPersons
                         let participant = participantPerson.Participant
@@ -172,7 +172,7 @@ namespace ECA.Business.Queries.Sevis
                                         .OrderByDescending(x => x.AddedOn)
                                         .FirstOrDefault()
 
-                        where latestStatus.SevisCommStatusId == statusId
+                        where latestStatus != null && latestStatus.SevisCommStatusId == queuedToSubmitStatusId
                         group participantPerson by new { SevisUsername = latestStatus.SevisUsername, SevisOrgId = latestStatus.SevisOrgId } into g
                         select new SevisGroupedQueuedToSubmitParticipantsDTO
                         {

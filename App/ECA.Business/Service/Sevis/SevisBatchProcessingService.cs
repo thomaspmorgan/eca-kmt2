@@ -936,9 +936,10 @@ namespace ECA.Business.Service.Sevis
         {
             var stagedSevisBatches = new List<StagedSevisBatch>();
             var skip = 0;
-            var newSevisParticipantsCount = SevisBatchProcessingQueries.CreateGetQueuedToSubmitParticipantDTOsQuery(this.Context).Count();
-            notificationService.NotifyNumberOfParticipantsToStage(newSevisParticipantsCount);
-            while (newSevisParticipantsCount > 0)
+            var queuedToSubmitParticipantGroupsCount = SevisBatchProcessingQueries.CreateGetQueuedToSubmitParticipantDTOsQuery(this.Context).Count();
+            var totalParticipantsToStage =  SevisBatchProcessingQueries.CreateGetQueuedToSubmitParticipantDTOsQuery(this.Context).SelectMany(x => x.Participants).Count();
+            notificationService.NotifyNumberOfParticipantsToStage(totalParticipantsToStage);
+            while (queuedToSubmitParticipantGroupsCount > 0)
             {
                 StagedSevisBatch stagedSevisBatch = null;
                 var groupedParticipants = SevisBatchProcessingQueries.CreateGetQueuedToSubmitParticipantDTOsQuery(this.Context)
@@ -975,7 +976,7 @@ namespace ECA.Business.Service.Sevis
                         }
                     }
                     skip++;
-                    newSevisParticipantsCount--;
+                    queuedToSubmitParticipantGroupsCount--;
                 }
             }
             PersistStagedSevisBatches(stagedSevisBatches);
@@ -992,9 +993,10 @@ namespace ECA.Business.Service.Sevis
         {
             var stagedSevisBatches = new List<StagedSevisBatch>();
             var skip = 0;
-            var newSevisParticipantsCount = await SevisBatchProcessingQueries.CreateGetQueuedToSubmitParticipantDTOsQuery(this.Context).CountAsync();
-            notificationService.NotifyNumberOfParticipantsToStage(newSevisParticipantsCount);
-            while (newSevisParticipantsCount > 0)
+            var queuedToSubmitParticipantGroupsCount = await SevisBatchProcessingQueries.CreateGetQueuedToSubmitParticipantDTOsQuery(this.Context).CountAsync();
+            var totalParticipantsToStage = await SevisBatchProcessingQueries.CreateGetQueuedToSubmitParticipantDTOsQuery(this.Context).SelectMany(x => x.Participants).CountAsync();
+            notificationService.NotifyNumberOfParticipantsToStage(totalParticipantsToStage);
+            while (queuedToSubmitParticipantGroupsCount > 0)
             {
                 StagedSevisBatch stagedSevisBatch = null;
                 var groupedParticipants = await SevisBatchProcessingQueries.CreateGetQueuedToSubmitParticipantDTOsQuery(this.Context)
@@ -1029,7 +1031,7 @@ namespace ECA.Business.Service.Sevis
                             notificationService.NotifyInvalidExchangeVisitor(exchangeVisitor);
                         }
                         skip++;
-                        newSevisParticipantsCount--;
+                        queuedToSubmitParticipantGroupsCount--;
                     }
                 }
             }
