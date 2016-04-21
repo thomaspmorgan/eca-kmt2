@@ -252,6 +252,14 @@ namespace ECA.Core.Test.Settings
         }
 
         [TestMethod]
+        public void TestAppSettings_SevisDS2019FileUriPrefix()
+        {
+            var value = "rui";
+            appSettings.Add(AppSettings.SEVIS_DS2019_FILE_URI_PREFIX_KEY, value);
+            Assert.AreEqual(value, settings.SevisDS2019FileUriPrefix);
+        }
+
+        [TestMethod]
         public void TestConstructor_ZeroArgument_AppSettings()
         {
             var testSettings = new AppSettings();

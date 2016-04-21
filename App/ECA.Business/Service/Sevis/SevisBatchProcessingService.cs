@@ -605,12 +605,12 @@ namespace ECA.Business.Service.Sevis
             }
         }
 
-        private async Task UploadDS2019Async(RequestId requestId, TransactionLogTypeBatchDetailProcessRecord record, ParticipantPerson participantPerson, IDS2019FileProvider fileProvider)
+        private async Task UploadDS2019Async(RequestId requestId, TransactionLogTypeBatchDetailProcessRecord record, IDS2019Fileable fileable, IDS2019FileProvider fileProvider)
         {
             Contract.Requires(record != null, "The record must not be null.");
             Contract.Requires(fileProvider != null, "The file provider must not be null.");
             Contract.Requires(requestId != null, "The request id must not be null.");
-            Contract.Requires(participantPerson != null, "The participant person must not be null.");
+            Contract.Requires(fileable != null, "The fileable must not be null.");
             if (record.Result.status)
             {
                 var stream = await fileProvider.GetDS2019FileStreamAsync(requestId, record.sevisID);
@@ -618,19 +618,19 @@ namespace ECA.Business.Service.Sevis
                 {
                     using (stream)
                     {
-                        var url = await SaveDS2019FormAsync(record.sevisID, stream);
-                        participantPerson.DS2019FileUrl = url;
+                        var url = await SaveDS2019FormAsync(fileable, stream);
+                        fileable.DS2019FileUrl = url;
                     }
                 }
             }
         }
 
-        private void UploadDS2019(RequestId requestId, TransactionLogTypeBatchDetailProcessRecord record, ParticipantPerson participantPerson, IDS2019FileProvider fileProvider)
+        private void UploadDS2019(RequestId requestId, TransactionLogTypeBatchDetailProcessRecord record, IDS2019Fileable fileable, IDS2019FileProvider fileProvider)
         {
             Contract.Requires(record != null, "The record must not be null.");
             Contract.Requires(fileProvider != null, "The file provider must not be null.");
             Contract.Requires(requestId != null, "The request id must not be null.");
-            Contract.Requires(participantPerson != null, "The participant person must not be null.");
+            Contract.Requires(fileable != null, "The fileable must not be null.");
             if (record.Result.status)
             {
                 var stream = fileProvider.GetDS2019FileStream(requestId, record.sevisID);
@@ -638,46 +638,8 @@ namespace ECA.Business.Service.Sevis
                 {
                     using (stream)
                     {
-                        var url = SaveDS2019Form(record.sevisID, stream);
-                        participantPerson.DS2019FileUrl = url;
-                    }
-                }
-            }
-        }
-
-        private async Task UploadDS2019Async(RequestId requestId, TransactionLogTypeBatchDetailProcessRecord record, PersonDependent dependent, IDS2019FileProvider fileProvider)
-        {
-            Contract.Requires(record != null, "The record must not be null.");
-            Contract.Requires(fileProvider != null, "The file provider must not be null.");
-            Contract.Requires(requestId != null, "The request id must not be null.");
-            Contract.Requires(dependent != null, "The dependent must not be null.");
-            if (record.Result.status)
-            {
-                var stream = await fileProvider.GetDS2019FileStreamAsync(requestId, record.sevisID);
-                if (stream != null)
-                {
-                    using (stream)
-                    {
-                        var url = await SaveDS2019FormAsync(record.sevisID, stream);
-                    }
-                }
-            }
-        }
-
-        private void UploadDS2019(RequestId requestId, TransactionLogTypeBatchDetailProcessRecord record, PersonDependent dependent, IDS2019FileProvider fileProvider)
-        {
-            Contract.Requires(record != null, "The record must not be null.");
-            Contract.Requires(fileProvider != null, "The file provider must not be null.");
-            Contract.Requires(requestId != null, "The request id must not be null.");
-            Contract.Requires(dependent != null, "The dependent must not be null.");
-            if (record.Result.status)
-            {
-                var stream = fileProvider.GetDS2019FileStream(requestId, record.sevisID);
-                if (stream != null)
-                {
-                    using (stream)
-                    {
-                        var url = SaveDS2019Form(record.sevisID, stream);
+                        var url = SaveDS2019Form(fileable, stream);
+                        fileable.DS2019FileUrl = url;
                     }
                 }
             }
@@ -1139,9 +1101,11 @@ namespace ECA.Business.Service.Sevis
         /// <param name="sevisId">The sevis id.</param>
         /// <param name="stream">The file stream.</param>
         /// <returns>The url of the saved file.</returns>
-        public string SaveDS2019Form(string sevisId, Stream stream)
+        public string SaveDS2019Form(IDS2019Fileable fileable, Stream stream)
         {
-            var fileName = GetDS2019FileName(sevisId);
+            Contract.Requires(fileable != null, "The fileable must not be null.");
+            Contract.Requires(stream != null, "The stream must not be null.");
+            var fileName = fileable.GetDS2019FileName();
             return this.cloudStorageService.UploadBlob(stream, DS2019_CONTENT_TYPE, fileName);
         }
 
@@ -1152,22 +1116,12 @@ namespace ECA.Business.Service.Sevis
         /// <param name="sevisId">The sevis id.</param>
         /// <param name="stream">The file stream.</param>
         /// /// <returns>The url of the saved file.</returns>
-        public async Task<string> SaveDS2019FormAsync(string sevisId, Stream stream)
+        public async Task<string> SaveDS2019FormAsync(IDS2019Fileable fileable, Stream stream)
         {
-            var fileName = GetDS2019FileName(sevisId);
+            Contract.Requires(fileable != null, "The fileable must not be null.");
+            Contract.Requires(stream != null, "The stream must not be null.");
+            var fileName = fileable.GetDS2019FileName();
             return await cloudStorageService.UploadBlobAsync(stream, DS2019_CONTENT_TYPE, fileName);
-        }
-
-        /// <summary>
-        /// Returns the DS2019 file name for the participant id and sevis id.
-        /// </summary>
-        /// <param name="participantId">The participant id.</param>
-        /// <param name="sevisId">The sevis id.</param>
-        /// <returns></returns>
-        public static string GetDS2019FileName(string sevisId)
-        {
-            Contract.Requires(sevisId != null, "The sevis id must not be null.");
-            return string.Format("{0}.{1}", sevisId, "pdf");
         }
 
         #endregion

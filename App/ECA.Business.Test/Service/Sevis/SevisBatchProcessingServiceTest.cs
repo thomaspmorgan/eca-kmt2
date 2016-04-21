@@ -2805,7 +2805,7 @@ namespace ECA.Business.Test.Service.Sevis
 
             Action<Stream, string, string> cloudStorageCallback = (s, contentType, fName) =>
             {
-                Assert.AreEqual(SevisBatchProcessingService.GetDS2019FileName(sevisId), fName);
+                Assert.AreEqual(participantPerson.GetDS2019FileName(), fName);
                 Assert.AreEqual(SevisBatchProcessingService.DS2019_CONTENT_TYPE, contentType);
                 Assert.IsNotNull(s);
             };
@@ -3750,16 +3750,14 @@ namespace ECA.Business.Test.Service.Sevis
         #region DS2019
 
         [TestMethod]
-        public void TestGetDS2019FileName()
-        {
-            var sevisId = "sevisId";
-            Assert.AreEqual(string.Format("{0}.{1}", sevisId, "pdf"), SevisBatchProcessingService.GetDS2019FileName(sevisId));
-        }
-
-        [TestMethod]
         public async Task TestSaveDS2019Form()
         {
             var sevisId = "sevisId";
+            var participantPerson = new ParticipantPerson
+            {
+                SevisId = sevisId,
+                ParticipantId = 1
+            };
             var fileContents = new byte[1] { (byte)1 };
             var memoryStream = new MemoryStream();
             var memoryStreamAsync = new MemoryStream();
@@ -3767,7 +3765,8 @@ namespace ECA.Business.Test.Service.Sevis
             memoryStreamAsync.Read(fileContents, 0, fileContents.Length);
             Action<Stream, string, string> cloudStorageCallback = (s, contentType, fName) =>
             {
-                Assert.AreEqual(SevisBatchProcessingService.GetDS2019FileName(sevisId), fName);
+
+                Assert.AreEqual(participantPerson.GetDS2019FileName(), fName);
                 Assert.AreEqual(SevisBatchProcessingService.DS2019_CONTENT_TYPE, contentType);
                 Assert.IsNotNull(s);
             };
@@ -3778,8 +3777,8 @@ namespace ECA.Business.Test.Service.Sevis
             cloudStorageService.Setup(x => x.UploadBlobAsync(It.IsAny<Stream>(), It.IsAny<string>(), It.IsAny<string>()))
                 .ReturnsAsync(url)
                 .Callback(cloudStorageCallback);
-            service.SaveDS2019Form(sevisId, memoryStream);
-            await service.SaveDS2019FormAsync(sevisId, memoryStreamAsync);
+            service.SaveDS2019Form(participantPerson, memoryStream);
+            await service.SaveDS2019FormAsync(participantPerson, memoryStreamAsync);
         }
         #endregion
 

@@ -128,6 +128,11 @@ namespace ECA.Core.Settings
         /// </summary>
         public const string SEVIS_DS2019_STORAGE_CONNECTION_STRING_KEY = SEVIS_PREFIX + "SevisDS2019StorageConnection";
 
+        /// <summary>
+        /// The ds 2019 file url prefix key.
+        /// </summary>
+        public const string SEVIS_DS2019_FILE_URI_PREFIX_KEY = SEVIS_PREFIX + "SevisDS2019FileUrlPrefix";
+
         #endregion
 
         #region Database Constants
@@ -303,6 +308,11 @@ namespace ECA.Core.Settings
         /// Gets the sevis ds 2019 file storage container.
         /// </summary>
         public string DS2019FileStorageContainer { get { return GetAppSetting(SEVIS_DS2019_STORAGE_CONTAINER); } }
+
+        /// <summary>
+        /// Gets the sevis ds 2019 file uri prefix.
+        /// </summary>
+        public string SevisDS2019FileUriPrefix { get { return GetAppSetting(SEVIS_DS2019_FILE_URI_PREFIX_KEY); } }
 
         /// <summary>
         /// Gets the active directory client id.
