@@ -116,7 +116,7 @@ namespace ECA.WebJobs.Sevis.Comm
                 else
                 {
                     logger.Error("Download encountered an error, status code: {0}, reason: {1}", response.StatusCode.ToString(), response.ReasonPhrase);
-                    await service.HandleFailedDownloadBatchAsync(dtoToUpload.Id, null);
+                    await service.HandleFailedDownloadBatchAsync(dtoToDownload.Id, null);
                 }
                 dtoToDownload = await service.GetNextBatchToDownloadAsync();
             }

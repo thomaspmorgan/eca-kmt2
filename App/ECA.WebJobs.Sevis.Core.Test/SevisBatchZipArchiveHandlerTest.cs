@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using ECA.Business.Sevis.Model.TransLog;
 using System.Xml.Serialization;
 using System.Text;
+using ECA.Business.Sevis.Model;
 
 namespace ECA.WebJobs.Sevis.Core.Test
 {
@@ -120,9 +121,9 @@ namespace ECA.WebJobs.Sevis.Core.Test
                 {
                     Assert.IsTrue(Object.ReferenceEquals(memoryStream, testStream));
                 };
-
-                var stream = archiveHandler.GetDS2019FileStream(1, "batchId", sevisId);
-                var streamAsync = await archiveHandler.GetDS2019FileStreamAsync(1, "batchId", sevisId);
+                var requestId = new RequestId(1, RequestIdType.Participant, RequestActionType.Create);
+                var stream = archiveHandler.GetDS2019FileStream(requestId, sevisId);
+                var streamAsync = await archiveHandler.GetDS2019FileStreamAsync(requestId, sevisId);
                 tester(stream);
                 tester(streamAsync);
 
@@ -153,9 +154,9 @@ namespace ECA.WebJobs.Sevis.Core.Test
                 {
                     Assert.IsNull(testStream);
                 };
-
-                var stream = archiveHandler.GetDS2019FileStream(1, "batchId", sevisId);
-                var streamAsync = await archiveHandler.GetDS2019FileStreamAsync(1, "batchId", sevisId);
+                var requestId = new RequestId(1, RequestIdType.Participant, RequestActionType.Create);
+                var stream = archiveHandler.GetDS2019FileStream(requestId, sevisId);
+                var streamAsync = await archiveHandler.GetDS2019FileStreamAsync(requestId, sevisId);
                 tester(stream);
                 tester(streamAsync);
             }

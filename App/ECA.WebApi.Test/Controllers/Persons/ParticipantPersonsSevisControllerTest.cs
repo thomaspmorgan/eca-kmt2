@@ -17,6 +17,7 @@ using ECA.WebApi.Models.Query;
 using ECA.Business.Queries.Models.Persons;
 using ECA.Core.DynamicLinq;
 using ECA.Core.Query;
+using ECA.Business.Queries.Models.Sevis;
 
 namespace ECA.WebApi.Test.Controllers.Persons
 {
@@ -126,6 +127,18 @@ namespace ECA.WebApi.Test.Controllers.Persons
             participantPersonSevisService.Verify(x => x.GetSevisParticipantsByProjectIdAsync(It.IsAny<int>(), It.IsAny<QueryableOperator<ParticipantPersonSevisDTO>>()), Times.Once());
             Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<PagedQueryResults<ParticipantPersonSevisDTO>>));
         }
+        [TestMethod]
+        public async Task GetSevisBatchProcessingInfoAsync()
+        {
+            userProvider.Setup(x => x.GetCurrentUser()).Returns(new DebugWebApiUser());
+            userProvider.Setup(x => x.GetBusinessUser(It.IsAny<IWebApiUser>())).Returns(new User(20));
 
+            participantPersonSevisService.Setup(x => x.GetBatchInfoByBatchIdAsync(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<int>(), It.IsAny<string>()))
+                .ReturnsAsync(new SevisBatchInfoDTO());
+
+            var response = await controller.GetSevisBatchProcessingInfoAsync(1, 2, "batchId");
+            participantPersonSevisService.Verify(x => x.GetBatchInfoByBatchIdAsync(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<int>(), It.IsAny<string>()), Times.Once());
+            Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<SevisBatchInfoDTO>));
+        }
     }
 }

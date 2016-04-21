@@ -3,24 +3,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 #region ActorType
 namespace ECA.Data
 {
@@ -1840,6 +1822,10 @@ namespace ECA.Data
 		/// Returns the Validated By Batch lookup with id 16.
 		/// </summary>
 		public static StaticLookup ValidatedByBatch { get { return new StaticLookup("Validated By Batch", 16); } }
+		/// <summary>
+		/// Returns the Batch Cancelled by System lookup with id 17.
+		/// </summary>
+		public static StaticLookup BatchCancelledBySystem { get { return new StaticLookup("Batch Cancelled by System", 17); } }
 		///<summary>
 		/// Returns the lookup value of this entity with the given id, or null if it does not exist.
 		///<param name="id">The lookup id.</param>
@@ -1863,6 +1849,7 @@ namespace ECA.Data
 			if (14 == id) return SevisCommStatus.SentByBatch;
 			if (15 == id) return SevisCommStatus.CreatedByBatch;
 			if (16 == id) return SevisCommStatus.ValidatedByBatch;
+			if (17 == id) return SevisCommStatus.BatchCancelledBySystem;
 			return null;
 		}
 		///<summary>
@@ -1888,6 +1875,7 @@ namespace ECA.Data
 			if ("Sent By Batch".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return SevisCommStatus.SentByBatch;
 			if ("Created By Batch".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return SevisCommStatus.CreatedByBatch;
 			if ("Validated By Batch".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return SevisCommStatus.ValidatedByBatch;
+			if ("Batch Cancelled by System".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return SevisCommStatus.BatchCancelledBySystem;
 			return null;
 		}
 

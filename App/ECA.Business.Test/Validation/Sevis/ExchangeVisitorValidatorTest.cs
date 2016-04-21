@@ -68,8 +68,8 @@ namespace ECA.Business.Test.Validation.Sevis
             var subjectField = new SubjectField(subjectFieldCode, null, null, "remarks");
             FinancialInfo financialInfo = new FinancialInfo(true, true, "1", null);
             string occupationCategoryCode = null;
-            DateTime startDate = DateTime.UtcNow.AddDays(-1.0);
-            DateTime endDate = DateTime.UtcNow.AddDays(1.0);
+            DateTime startDate = DateTime.UtcNow.AddDays(1.0);
+            DateTime endDate = DateTime.UtcNow.AddDays(2.0);
             List<Dependent> dependents = new List<Dependent>();
             Business.Validation.Sevis.Bio.Person person = null;
 
@@ -177,8 +177,8 @@ namespace ECA.Business.Test.Validation.Sevis
             var subjectField = new SubjectField(subjectFieldCode, null, null, "remarks");
             FinancialInfo financialInfo = new FinancialInfo(true, true, "1", null);
             string occupationCategoryCode = null;
-            DateTime startDate = DateTime.UtcNow.AddDays(-1.0);
-            DateTime endDate = DateTime.UtcNow.AddDays(1.0);
+            DateTime startDate = DateTime.UtcNow.AddDays(1.0);
+            DateTime endDate = DateTime.UtcNow.AddDays(2.0);
             List<Dependent> dependents = new List<Dependent>();
             Business.Validation.Sevis.Bio.Person person = null;
 
@@ -270,8 +270,8 @@ namespace ECA.Business.Test.Validation.Sevis
             var subjectField = new SubjectField(subjectFieldCode, null, null, "remarks");
             FinancialInfo financialInfo = new FinancialInfo(true, true, "1", null);
             string occupationCategoryCode = null;
-            DateTime startDate = DateTime.UtcNow.AddDays(-1.0);
-            DateTime endDate = DateTime.UtcNow.AddDays(1.0);
+            DateTime startDate = DateTime.UtcNow.AddDays(1.0);
+            DateTime endDate = DateTime.UtcNow.AddDays(2.0);
             List<Dependent> dependents = new List<Dependent>();
             Business.Validation.Sevis.Bio.Person person = null;
 
@@ -316,8 +316,106 @@ namespace ECA.Business.Test.Validation.Sevis
             instance = createEntity();
             results = validator.Validate(instance);
             Assert.IsFalse(results.IsValid);
+            Assert.AreEqual(2, results.Errors.Count);
+            Assert.AreEqual(ExchangeVisitorValidator.PROGRAM_START_DATE_REQUIRED_ERROR_MESSAGE, results.Errors.First().ErrorMessage);
+            Assert.IsInstanceOfType(results.Errors.First().CustomState, typeof(StartDateErrorPath));
+
+            Assert.AreEqual(ExchangeVisitorValidator.PROGRAM_START_DATE_MUST_BE_IN_THE_FUTURE, results.Errors.Last().ErrorMessage);
+            Assert.IsInstanceOfType(results.Errors.Last().CustomState, typeof(StartDateErrorPath));
+        }
+
+        [TestMethod]
+        public void TestProgramStartDate_InThePast()
+        {
+            var exchangeVisitorSevisId = "sevis id";
+            var state = "TN";
+            var mailAddress = new AddressDTO();
+            mailAddress.Country = LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME;
+            mailAddress.Division = state;
+            mailAddress.Street1 = "mailing street 1";
+            mailAddress.PostalCode = "11111";
+
+            var usAddress = new AddressDTO();
+            usAddress.Country = LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME;
+            usAddress.Division = state;
+            usAddress.Street1 = "us address";
+            usAddress.PostalCode = "22222";
+
+            var personId = 100;
+            var participantId = 200;
+
+            var firstName = "first";
+            var lastName = "last";
+            var passport = "passport";
+            var preferred = "preferred";
+            var suffix = "Jr.";
+            var fullName = new FullName(firstName, lastName, passport, preferred, suffix);
+
+            var birthCity = "birth city";
+            var birthCountryCode = "CN";
+            var birthDate = DateTime.UtcNow;
+            var citizenshipCountryCode = "FR";
+            var email = "someone@isp.com";
+            var gender = Gender.SEVIS_MALE_GENDER_CODE_VALUE;
+            var permanentResidenceCountryCode = "MX";
+            var phone = "18505551212";
+            short positionCode = 120;
+            var printForm = true;
+            var remarks = "remarks";
+            var programCategory = "1D";
+
+            var subjectFieldCode = "01.0102";
+            var subjectField = new SubjectField(subjectFieldCode, null, null, "remarks");
+            FinancialInfo financialInfo = new FinancialInfo(true, true, "1", null);
+            string occupationCategoryCode = null;
+            DateTime startDate = DateTime.UtcNow.AddDays(1.0);
+            DateTime endDate = DateTime.UtcNow.AddDays(2.0);
+            List<Dependent> dependents = new List<Dependent>();
+            Business.Validation.Sevis.Bio.Person person = null;
+
+            Func<ExchangeVisitor> createEntity = () =>
+            {
+                person = new Business.Validation.Sevis.Bio.Person(
+                    fullName,
+                    birthCity,
+                    birthCountryCode,
+                    birthDate,
+                    citizenshipCountryCode,
+                    email,
+                    gender,
+                    permanentResidenceCountryCode,
+                    phone,
+                    remarks,
+                    positionCode.ToString(),
+                    programCategory,
+                    subjectField,
+                    mailAddress,
+                    usAddress,
+                    printForm,
+                    personId,
+                    participantId);
+                return new ExchangeVisitor(
+                    sevisId: exchangeVisitorSevisId,
+                    person: person,
+                    financialInfo: financialInfo,
+                    occupationCategoryCode: occupationCategoryCode,
+                    programEndDate: endDate,
+                    programStartDate: startDate,
+                    siteOfActivity: usAddress,
+                    dependents: dependents
+                    );
+            };
+            var instance = createEntity();
+            var validator = new ExchangeVisitorValidator();
+            var results = validator.Validate(instance);
+            Assert.IsTrue(results.IsValid);
+
+            startDate = DateTime.UtcNow.AddDays(-1.0);
+            instance = createEntity();
+            results = validator.Validate(instance);
+            Assert.IsFalse(results.IsValid);
             Assert.AreEqual(1, results.Errors.Count);
-            Assert.AreEqual(ExchangeVisitorValidator.PROGRAM_START_DATE_REQUIRED_ERROR_MESSAGE, results.Errors.Last().ErrorMessage);
+            Assert.AreEqual(ExchangeVisitorValidator.PROGRAM_START_DATE_MUST_BE_IN_THE_FUTURE, results.Errors.Last().ErrorMessage);
             Assert.IsInstanceOfType(results.Errors.First().CustomState, typeof(StartDateErrorPath));
         }
 
@@ -365,8 +463,8 @@ namespace ECA.Business.Test.Validation.Sevis
             var subjectField = new SubjectField(subjectFieldCode, null, null, "remarks");
             FinancialInfo financialInfo = new FinancialInfo(true, true, "1", null);
             string occupationCategoryCode = null;
-            DateTime startDate = DateTime.UtcNow.AddDays(-1.0);
-            DateTime endDate = DateTime.UtcNow.AddDays(1.0);
+            DateTime startDate = DateTime.UtcNow.AddDays(1.0);
+            DateTime endDate = DateTime.UtcNow.AddDays(2.0);
             List<Dependent> dependents = new List<Dependent>();
             Business.Validation.Sevis.Bio.Person person = null;
 
@@ -419,7 +517,7 @@ namespace ECA.Business.Test.Validation.Sevis
         }
 
         [TestMethod]
-        public void TestProgramEndDate_ProgramEndDateIsBeforeProggramStartDate()
+        public void TestProgramEndDate_ProgramEndDateIsBeforeProgramStartDate()
         {
             var exchangeVisitorSevisId = "sevis id";
             var state = "TN";
@@ -462,8 +560,8 @@ namespace ECA.Business.Test.Validation.Sevis
             var subjectField = new SubjectField(subjectFieldCode, null, null, "remarks");
             FinancialInfo financialInfo = new FinancialInfo(true, true, "1", null);
             string occupationCategoryCode = null;
-            DateTime startDate = DateTime.UtcNow.AddDays(-1.0);
-            DateTime endDate = DateTime.UtcNow.AddDays(1.0);
+            DateTime startDate = DateTime.UtcNow.AddDays(1.0);
+            DateTime endDate = DateTime.UtcNow.AddDays(2.0);
             List<Dependent> dependents = new List<Dependent>();
             Business.Validation.Sevis.Bio.Person person = null;
 
@@ -505,7 +603,7 @@ namespace ECA.Business.Test.Validation.Sevis
             Assert.IsTrue(results.IsValid);
 
             startDate = DateTime.UtcNow;
-            endDate = DateTime.UtcNow.AddDays(-1.0);
+            endDate = DateTime.UtcNow.AddDays(-10.0);
 
             instance = createEntity();
             results = validator.Validate(instance);
@@ -559,8 +657,8 @@ namespace ECA.Business.Test.Validation.Sevis
             var subjectField = new SubjectField(subjectFieldCode, null, null, "remarks");
             FinancialInfo financialInfo = new FinancialInfo(true, true, "1", null);
             string occupationCategoryCode = null;
-            DateTime startDate = DateTime.UtcNow.AddDays(-1.0);
-            DateTime endDate = DateTime.UtcNow.AddDays(1.0);
+            DateTime startDate = DateTime.UtcNow.AddDays(1.0);
+            DateTime endDate = DateTime.UtcNow.AddDays(2.0);
             List<Dependent> dependents = new List<Dependent>();
             Business.Validation.Sevis.Bio.Person person = null;
 
@@ -655,8 +753,8 @@ namespace ECA.Business.Test.Validation.Sevis
             var subjectField = new SubjectField(subjectFieldCode, null, null, "remarks");
             FinancialInfo financialInfo = new FinancialInfo(true, true, "1", null);
             string occupationCategoryCode = null;
-            DateTime startDate = DateTime.UtcNow.AddDays(-1.0);
-            DateTime endDate = DateTime.UtcNow.AddDays(1.0);
+            DateTime startDate = DateTime.UtcNow.AddDays(1.0);
+            DateTime endDate = DateTime.UtcNow.AddDays(2.0);
             List<Dependent> dependents = new List<Dependent>();
             Business.Validation.Sevis.Bio.Person person = null;
 
@@ -751,8 +849,8 @@ namespace ECA.Business.Test.Validation.Sevis
             var subjectField = new SubjectField(subjectFieldCode, null, null, "remarks");
             FinancialInfo financialInfo = new FinancialInfo(true, true, "1", null);
             string occupationCategoryCode = null;
-            DateTime startDate = DateTime.UtcNow.AddDays(-1.0);
-            DateTime endDate = DateTime.UtcNow.AddDays(1.0);
+            DateTime startDate = DateTime.UtcNow.AddDays(1.0);
+            DateTime endDate = DateTime.UtcNow.AddDays(2.0);
             List<Dependent> dependents = new List<Dependent>();
             Business.Validation.Sevis.Bio.Person person = null;
 
@@ -843,8 +941,8 @@ namespace ECA.Business.Test.Validation.Sevis
             var subjectField = new SubjectField(subjectFieldCode, null, null, "remarks");
             FinancialInfo financialInfo = new FinancialInfo(true, true, "1", null);
             string occupationCategoryCode = null;
-            DateTime startDate = DateTime.UtcNow.AddDays(-1.0);
-            DateTime endDate = DateTime.UtcNow.AddDays(1.0);
+            DateTime startDate = DateTime.UtcNow.AddDays(1.0);
+            DateTime endDate = DateTime.UtcNow.AddDays(2.0);
             List<Dependent> dependents = new List<Dependent>();
             Business.Validation.Sevis.Bio.Person person = null;
 
@@ -937,8 +1035,8 @@ namespace ECA.Business.Test.Validation.Sevis
             var subjectField = new SubjectField(subjectFieldCode, null, null, "remarks");
             FinancialInfo financialInfo = new FinancialInfo(true, true, "1", null);
             string occupationCategoryCode = null;
-            DateTime startDate = DateTime.UtcNow.AddDays(-1.0);
-            DateTime endDate = DateTime.UtcNow.AddDays(1.0);
+            DateTime startDate = DateTime.UtcNow.AddDays(1.0);
+            DateTime endDate = DateTime.UtcNow.AddDays(2.0);
             List<Dependent> dependents = new List<Dependent>();
             Business.Validation.Sevis.Bio.Person person = null;
 
@@ -1030,8 +1128,8 @@ namespace ECA.Business.Test.Validation.Sevis
             var subjectField = new SubjectField(subjectFieldCode, null, null, "remarks");
             FinancialInfo financialInfo = new FinancialInfo(true, true, "1", null);
             string occupationCategoryCode = null;
-            DateTime startDate = DateTime.UtcNow.AddDays(-1.0);
-            DateTime endDate = DateTime.UtcNow.AddDays(1.0);
+            DateTime startDate = DateTime.UtcNow.AddDays(1.0);
+            DateTime endDate = DateTime.UtcNow.AddDays(2.0);
             List<Dependent> dependents = new List<Dependent>();
             Business.Validation.Sevis.Bio.Person person = null;
 
@@ -1123,8 +1221,8 @@ namespace ECA.Business.Test.Validation.Sevis
             var subjectField = new SubjectField(subjectFieldCode, null, null, "remarks");
             FinancialInfo financialInfo = new FinancialInfo(true, true, "1", null);
             string occupationCategoryCode = null;
-            DateTime startDate = DateTime.UtcNow.AddDays(-1.0);
-            DateTime endDate = DateTime.UtcNow.AddDays(1.0);
+            DateTime startDate = DateTime.UtcNow.AddDays(1.0);
+            DateTime endDate = DateTime.UtcNow.AddDays(2.0);
             List<Dependent> dependents = new List<Dependent>();
             Business.Validation.Sevis.Bio.Person person = null;
 
@@ -1218,8 +1316,8 @@ namespace ECA.Business.Test.Validation.Sevis
             var subjectField = new SubjectField(subjectFieldCode, null, null, "remarks");
             FinancialInfo financialInfo = new FinancialInfo(true, true, "1", null);
             string occupationCategoryCode = null;
-            DateTime startDate = DateTime.UtcNow.AddDays(-1.0);
-            DateTime endDate = DateTime.UtcNow.AddDays(1.0);
+            DateTime startDate = DateTime.UtcNow.AddDays(1.0);
+            DateTime endDate = DateTime.UtcNow.AddDays(2.0);
             List<Dependent> dependents = new List<Dependent>();
             Business.Validation.Sevis.Bio.Person person = null;
 
@@ -1314,8 +1412,8 @@ namespace ECA.Business.Test.Validation.Sevis
             var subjectField = new SubjectField(subjectFieldCode, null, null, "remarks");
             FinancialInfo financialInfo = new FinancialInfo(true, true, "1", null);
             string occupationCategoryCode = null;
-            DateTime startDate = DateTime.UtcNow.AddDays(-1.0);
-            DateTime endDate = DateTime.UtcNow.AddDays(1.0);
+            DateTime startDate = DateTime.UtcNow.AddDays(1.0);
+            DateTime endDate = DateTime.UtcNow.AddDays(2.0);
             List<Dependent> dependents = new List<Dependent>();
             Business.Validation.Sevis.Bio.Person person = null;
 
@@ -1435,8 +1533,8 @@ namespace ECA.Business.Test.Validation.Sevis
             var subjectField = new SubjectField(subjectFieldCode, null, null, "remarks");
             FinancialInfo financialInfo = new FinancialInfo(true, true, "1", null);
             string occupationCategoryCode = null;
-            DateTime startDate = DateTime.UtcNow.AddDays(-1.0);
-            DateTime endDate = DateTime.UtcNow.AddDays(1.0);
+            DateTime startDate = DateTime.UtcNow.AddDays(1.0);
+            DateTime endDate = DateTime.UtcNow.AddDays(2.0);
             List<Dependent> dependents = new List<Dependent>();
             Business.Validation.Sevis.Bio.Person person = null;
 

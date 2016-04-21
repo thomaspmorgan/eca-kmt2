@@ -62,6 +62,7 @@ namespace ECA.Business.Validation.Sevis
             {
                 printForm = true,
                 Remarks = this.Remarks,
+                SubjectFieldRemarks = this.Remarks,
                 SubjectFieldCode = this.SubjectFieldCode.GetProgSubjectCodeType()
             };
         }

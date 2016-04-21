@@ -241,5 +241,82 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
             var instance = financialInfo.GetSEVISEVBatchTypeExchangeVisitorFinancialInfo();
             Assert.IsNull(instance.OtherFunds);
         }
+
+        #region GetTotalFunding
+        [TestMethod]
+        public void TestGetTotalFunding_HasProgramSponsorFunds()
+        {
+            OtherFunds otherFunds = null;
+            var programSponsorFunds = "1.0";
+            var receivedUsGovtFunds = true;
+            var printForm = true;
+            var financialInfo = new FinancialInfo(
+                printForm: printForm,
+                receivedUSGovtFunds: receivedUsGovtFunds,
+                programSponsorFunds: programSponsorFunds,
+                otherFunds: otherFunds);
+            Assert.AreEqual(1.0m, financialInfo.GetTotalFunding());
+        }
+
+        [TestMethod]
+        public void TestGetTotalFunding_HasNullProgramSponsorFunds()
+        {
+            OtherFunds otherFunds = null;
+            string programSponsorFunds = null;
+            var receivedUsGovtFunds = true;
+            var printForm = true;
+            var financialInfo = new FinancialInfo(
+                printForm: printForm,
+                receivedUSGovtFunds: receivedUsGovtFunds,
+                programSponsorFunds: programSponsorFunds,
+                otherFunds: otherFunds);
+            Assert.AreEqual(0.0m, financialInfo.GetTotalFunding());
+        }
+
+        [TestMethod]
+        public void TestGetTotalFunding_HasWhitespaceProgramSponsorFunds()
+        {
+            OtherFunds otherFunds = null;
+            string programSponsorFunds = " ";
+            var receivedUsGovtFunds = true;
+            var printForm = true;
+            var financialInfo = new FinancialInfo(
+                printForm: printForm,
+                receivedUSGovtFunds: receivedUsGovtFunds,
+                programSponsorFunds: programSponsorFunds,
+                otherFunds: otherFunds);
+            Assert.AreEqual(0.0m, financialInfo.GetTotalFunding());
+        }
+
+        [TestMethod]
+        public void TestGetTotalFunding_HasEmtpyStringProgramSponsorFunds()
+        {
+            OtherFunds otherFunds = null;
+            string programSponsorFunds = string.Empty;
+            var receivedUsGovtFunds = true;
+            var printForm = true;
+            var financialInfo = new FinancialInfo(
+                printForm: printForm,
+                receivedUSGovtFunds: receivedUsGovtFunds,
+                programSponsorFunds: programSponsorFunds,
+                otherFunds: otherFunds);
+            Assert.AreEqual(0.0m, financialInfo.GetTotalFunding());
+        }
+
+        [TestMethod]
+        public void TestGetTotalFunding_HasOtherFunds()
+        {
+            OtherFunds otherFunds = new OtherFunds("1.0", null, null, null, null, null);
+            string programSponsorFunds = null;
+            var receivedUsGovtFunds = true;
+            var printForm = true;
+            var financialInfo = new FinancialInfo(
+                printForm: printForm,
+                receivedUSGovtFunds: receivedUsGovtFunds,
+                programSponsorFunds: programSponsorFunds,
+                otherFunds: otherFunds);
+            Assert.AreEqual(1.0m, financialInfo.GetTotalFunding());
+        }
+        #endregion
     }
 }

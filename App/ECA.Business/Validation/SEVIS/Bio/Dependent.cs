@@ -206,5 +206,11 @@ namespace ECA.Business.Validation.Sevis.Bio
         /// </summary>
         /// <returns>True, if this dependent should be ignored in validation.</returns>
         public abstract bool IgnoreDependentValidation();
+
+        /// <summary>
+        /// Returns the request id of this dependent.
+        /// </summary>
+        /// <returns>The request id.</returns>
+        public abstract RequestId GetRequestId();
     }
 }

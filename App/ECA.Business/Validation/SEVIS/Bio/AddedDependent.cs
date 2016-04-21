@@ -158,5 +158,14 @@ namespace ECA.Business.Validation.Sevis.Bio
         {
             return this.IsDeleted;
         }
+
+        /// <summary>
+        /// Returns a request id for this dependent.
+        /// </summary>
+        /// <returns>A request id for this dependent.</returns>
+        public override RequestId GetRequestId()
+        {
+            return new RequestId(this.PersonId, RequestIdType.Dependent, RequestActionType.Create);
+        }
     }
 }

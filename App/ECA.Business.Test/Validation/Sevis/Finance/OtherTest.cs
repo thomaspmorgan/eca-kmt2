@@ -56,5 +56,54 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
             Assert.AreEqual(other.Amount, instance.Amount);
             Assert.AreEqual(other.Name, instance.Name);
         }
+
+        [TestMethod]
+        public void TestGetTotalFunding()
+        {
+            var amount = 1.0m;
+            var name = "name";
+            var other = new Other(name: name, amount: amount.ToString());
+            var total = other.GetTotalFunding();
+            Assert.AreEqual(amount, total);
+        }
+
+        [TestMethod]
+        public void TestGetTotalFunding_WhitespaceAmount()
+        {
+            var amount = " ";
+            var name = "name";
+            var other = new Other(name: name, amount: amount.ToString());
+            var total = other.GetTotalFunding();
+            Assert.AreEqual(0.0m, total);
+        }
+
+        [TestMethod]
+        public void TestGetTotalFunding_EmptyAmount()
+        {
+            var amount = String.Empty;
+            var name = "name";
+            var other = new Other(name: name, amount: amount.ToString());
+            var total = other.GetTotalFunding();
+            Assert.AreEqual(0.0m, total);
+        }
+
+        [TestMethod]
+        public void TestGetTotalFunding_NullAmount()
+        {
+            var name = "name";
+            var other = new Other(name: name, amount: null);
+            var total = other.GetTotalFunding();
+            Assert.AreEqual(0.0m, total);
+        }
+
+        [TestMethod]
+        public void TestGetTotalFunding_ValueIsNotADouble()
+        {
+            string amount = "abc";
+            var name = "name";
+            var other = new Other(name: name, amount: amount.ToString());
+            var total = other.GetTotalFunding();
+            Assert.AreEqual(0.0m, total);
+        }
     }
 }

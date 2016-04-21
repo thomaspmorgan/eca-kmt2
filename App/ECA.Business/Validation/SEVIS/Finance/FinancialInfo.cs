@@ -44,6 +44,26 @@ namespace ECA.Business.Validation.Sevis.Finance
         public OtherFunds OtherFunds { get; private set; }
 
         /// <summary>
+        /// Returns the total funding.
+        /// </summary>
+        /// <returns>The total funding.</returns>
+        public decimal GetTotalFunding()
+        {
+            decimal total = 0.0m;
+
+            decimal programSponsorFunds;
+            if (!string.IsNullOrWhiteSpace(ProgramSponsorFunds) && decimal.TryParse(this.ProgramSponsorFunds, out programSponsorFunds))
+            {
+                total += programSponsorFunds;
+            }
+            if (this.OtherFunds != null)
+            {
+                total += this.OtherFunds.GetTotalFunding();
+            }
+            return total;
+        }
+
+        /// <summary>
         /// Returns the new sevis exchange visitor financial info.
         /// </summary>
         /// <returns>The new exchange visitor financial info.</returns>

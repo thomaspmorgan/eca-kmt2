@@ -48,6 +48,14 @@ namespace ECA.Core.Test.Settings
         }
 
         [TestMethod]
+        public void TestDS2019FileStorageConnectionString()
+        {
+            var value = "connection string";
+            connectionStrings.Add(new ConnectionStringSettings(AppSettings.SEVIS_DS2019_STORAGE_CONNECTION_STRING_KEY, value));
+            Assert.AreEqual(value, settings.DS2019FileStorageConnectionString.ConnectionString);
+        }
+
+        [TestMethod]
         public void TestCamContextKeyIsEqualEcaContextKey()
         {
             Assert.AreEqual(AppSettings.ECA_CONTEXT_KEY, AppSettings.CAM_CONTEXT_KEY);
@@ -169,6 +177,14 @@ namespace ECA.Core.Test.Settings
             var value = "value";
             appSettings.Add(AppSettings.SEVIS_UPLOAD_URI_KEY, value);
             Assert.AreEqual(value, settings.SevisUploadUri);
+        }
+
+        [TestMethod]
+        public void TestAppSettings_DS2019FileStorageContainer()
+        {
+            var value = "value";
+            appSettings.Add(AppSettings.SEVIS_DS2019_STORAGE_CONTAINER, value);
+            Assert.AreEqual(value, settings.DS2019FileStorageContainer);
         }
 
         [TestMethod]
