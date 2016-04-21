@@ -619,7 +619,7 @@ namespace ECA.Business.Service.Sevis
                     using (stream)
                     {
                         var url = await SaveDS2019FormAsync(fileable, stream);
-                        fileable.DS2019FileUrl = url;
+                        fileable.DS2019FileName = url;
                     }
                 }
             }
@@ -639,7 +639,7 @@ namespace ECA.Business.Service.Sevis
                     using (stream)
                     {
                         var url = SaveDS2019Form(fileable, stream);
-                        fileable.DS2019FileUrl = url;
+                        fileable.DS2019FileName = url;
                     }
                 }
             }

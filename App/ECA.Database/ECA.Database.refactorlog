@@ -1260,4 +1260,11 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="[FK_dbo.PersonDependentCitizenCountry_LocationId]" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="b3971c75-d94b-4277-bea8-074665f7233d" ChangeDateTime="04/21/2016 19:18:08">
+    <Property Name="ElementName" Value="[dbo].[ParticipantPerson].[DS2019FileUrl]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[ParticipantPerson]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="DS2019FileName" />
+  </Operation>
 </Operations>
