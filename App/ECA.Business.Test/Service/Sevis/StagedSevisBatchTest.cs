@@ -105,18 +105,18 @@ namespace ECA.Business.Test.Service.Sevis
         public void TestConstructor()
         {
             var sevisOrgId = "org id";
-            var batchId = Guid.NewGuid();
+            var batchId = BatchId.NewBatchId();
             var sevisUsername = "sevisUserId";
             var maxCreated = 10;
             var maxUpdated = 20;
             var instance = new StagedSevisBatch(batchId, sevisUsername, sevisOrgId, maxCreated, maxUpdated);
             Assert.IsNotNull(instance.BatchId);
-            Assert.AreEqual(instance.GetBatchId(batchId), instance.BatchId);
+            Assert.AreEqual(batchId, instance.BatchId);
             Assert.AreEqual(sevisOrgId, instance.SevisOrgId);
             Assert.AreEqual(sevisUsername, instance.SevisUsername);
 
             Assert.IsNotNull(instance.SevisBatchProcessing);
-            Assert.AreEqual(instance.GetBatchId(batchId), instance.SevisBatchProcessing.BatchId);
+            Assert.AreEqual(batchId.ToString(), instance.SevisBatchProcessing.BatchId);
             Assert.AreEqual(sevisOrgId, instance.SevisBatchProcessing.SevisOrgId);
             Assert.AreEqual(sevisUsername, instance.SevisBatchProcessing.SevisUsername);
             Assert.AreEqual(0, instance.SevisBatchProcessing.UploadTries);
@@ -125,7 +125,7 @@ namespace ECA.Business.Test.Service.Sevis
             Assert.IsNotNull(instance.SEVISBatchCreateUpdateEV);
             Assert.AreEqual(sevisUsername, instance.SEVISBatchCreateUpdateEV.userID);
             Assert.IsNotNull(instance.SEVISBatchCreateUpdateEV.BatchHeader);
-            Assert.AreEqual(instance.GetBatchId(batchId), instance.SEVISBatchCreateUpdateEV.BatchHeader.BatchID);
+            Assert.AreEqual(batchId.ToString(), instance.SEVISBatchCreateUpdateEV.BatchHeader.BatchID);
             Assert.AreEqual(sevisOrgId, instance.SEVISBatchCreateUpdateEV.BatchHeader.OrgID);
 
             Assert.IsNull(instance.SEVISBatchCreateUpdateEV.CreateEV);
@@ -142,7 +142,7 @@ namespace ECA.Business.Test.Service.Sevis
         public void TestConstructor_UseDefaults()
         {
             var sevisOrgId = "org id";
-            var batchId = Guid.NewGuid();
+            var batchId = BatchId.NewBatchId();
             var sevisUsername = "sevisUserId";
             var instance = new StagedSevisBatch(batchId, sevisUsername, sevisOrgId);
             Assert.AreEqual(StagedSevisBatch.MAX_CREATE_EXCHANGE_VISITOR_RECORDS_PER_BATCH_DEFAULT, instance.MaxCreateExchangeVisitorRecordsPerBatch);
@@ -153,7 +153,7 @@ namespace ECA.Business.Test.Service.Sevis
         public void TestCanAccomodate_SevisOrgIdIsNotEqual()
         {
             var sevisOrgId = "org id";
-            var batchId = Guid.NewGuid();
+            var batchId = BatchId.NewBatchId();
             var sevisUsername = "sevisUserId";
             var instance = new StagedSevisBatch(batchId, sevisUsername, sevisOrgId);
             var exchangeVisitor = GetExchangeVisitor(null, 1, 2);
@@ -164,7 +164,7 @@ namespace ECA.Business.Test.Service.Sevis
         public void TestCanAccomodate_SevisUsernameIsNotEqual()
         {
             var sevisOrgId = "org id";
-            var batchId = Guid.NewGuid();
+            var batchId = BatchId.NewBatchId();
             var sevisUsername = "sevisUserId";
             var instance = new StagedSevisBatch(batchId, sevisUsername, sevisOrgId);
             var exchangeVisitor = GetExchangeVisitor(null, 1, 2);
@@ -175,7 +175,7 @@ namespace ECA.Business.Test.Service.Sevis
         public void TestCanAccomodate_SevisIdIsNull()
         {
             var sevisOrgId = "org id";
-            var batchId = Guid.NewGuid();
+            var batchId = BatchId.NewBatchId();
             var sevisUsername = "sevisUserId";
             var instance = new StagedSevisBatch(batchId, sevisUsername, sevisOrgId);
             var exchangeVisitor = GetExchangeVisitor(null, 1, 2);
@@ -186,7 +186,7 @@ namespace ECA.Business.Test.Service.Sevis
         public void TestCanAccomodate_CreateEVArrayIsNotNull()
         {
             var sevisOrgId = "org id";
-            var batchId = Guid.NewGuid();
+            var batchId = BatchId.NewBatchId();
             var sevisUsername = "sevisUserId";
             var instance = new StagedSevisBatch(batchId, sevisUsername, sevisOrgId);
             instance.SEVISBatchCreateUpdateEV.CreateEV = new List<SEVISEVBatchTypeExchangeVisitor>().ToArray();
@@ -198,7 +198,7 @@ namespace ECA.Business.Test.Service.Sevis
         public void TestCanAccomodate_SevisIdIsWhitespace()
         {
             var sevisOrgId = "org id";
-            var batchId = Guid.NewGuid();
+            var batchId = BatchId.NewBatchId();
             var sevisUsername = "sevisUserId";
             var instance = new StagedSevisBatch(batchId, sevisUsername, sevisOrgId);
             var exchangeVisitor = GetExchangeVisitor(" ", 1, 2);
@@ -209,7 +209,7 @@ namespace ECA.Business.Test.Service.Sevis
         public void TestCanAccomodate_SevisIdIsEmpty()
         {
             var sevisOrgId = "org id";
-            var batchId = Guid.NewGuid();
+            var batchId = BatchId.NewBatchId();
             var sevisUsername = "sevisUserId";
             var instance = new StagedSevisBatch(batchId, sevisUsername, sevisOrgId);
             var exchangeVisitor = GetExchangeVisitor(string.Empty, 1, 2);
@@ -220,7 +220,7 @@ namespace ECA.Business.Test.Service.Sevis
         public void TestCanAccomodate_SevisIdHasValue()
         {
             var sevisOrgId = "org id";
-            var batchId = Guid.NewGuid();
+            var batchId = BatchId.NewBatchId();
             var sevisUsername = "sevisUserId";
             var instance = new StagedSevisBatch(batchId, sevisUsername, sevisOrgId);
             var exchangeVisitor = GetExchangeVisitor("sevisId", 1, 2);
@@ -231,7 +231,7 @@ namespace ECA.Business.Test.Service.Sevis
         public void TestCanAccomodate_UpdateEVArrayIsNotNull()
         {
             var sevisOrgId = "org id";
-            var batchId = Guid.NewGuid();
+            var batchId = BatchId.NewBatchId();
             var sevisUsername = "sevisUserId";
             var instance = new StagedSevisBatch(batchId, sevisUsername, sevisOrgId);
             instance.SEVISBatchCreateUpdateEV.UpdateEV = new List<SEVISEVBatchTypeExchangeVisitor1>().ToArray();
@@ -243,7 +243,7 @@ namespace ECA.Business.Test.Service.Sevis
         public void TestAddExchangeVisitor_SevisIdDoesNotHaveValue_ExceededDefaultCount()
         {
             var sevisOrgId = "org id";
-            var batchId = Guid.NewGuid();
+            var batchId = BatchId.NewBatchId();
             var sevisUsername = "sevisUserId";
             var instance = new StagedSevisBatch(batchId, sevisUsername, sevisOrgId);
             var exchangeVisitor = GetExchangeVisitor(null, 1, 2);
@@ -259,7 +259,7 @@ namespace ECA.Business.Test.Service.Sevis
         public void TestAddExchangeVisitor_SevisIdHasValue_ExceededDefaultCount()
         {
             var sevisOrgId = "org id";
-            var batchId = Guid.NewGuid();
+            var batchId = BatchId.NewBatchId();
             var sevisUsername = "sevisUserId";
             var instance = new StagedSevisBatch(batchId, sevisUsername, sevisOrgId);
             var exchangeVisitor = GetExchangeVisitor("sevisId", 1, 2);
@@ -275,7 +275,7 @@ namespace ECA.Business.Test.Service.Sevis
         public void TestAddExchangeVisitor_SevisIdDoesNotHaveValue_ExceededGivenCount()
         {
             var sevisOrgId = "org id";
-            var batchId = Guid.NewGuid();
+            var batchId = BatchId.NewBatchId();
             var sevisUsername = "sevisUserId";
             var instance = new StagedSevisBatch(batchId, sevisUsername, sevisOrgId, 1, 1);
             var exchangeVisitor = GetExchangeVisitor(null, 1, 2);
@@ -291,7 +291,7 @@ namespace ECA.Business.Test.Service.Sevis
         public void TestAddExchangeVisitor_SevisIdHasValue_ExceededGivenCount()
         {
             var sevisOrgId = "org id";
-            var batchId = Guid.NewGuid();
+            var batchId = BatchId.NewBatchId();
             var sevisUsername = "sevisUserId";
             var instance = new StagedSevisBatch(batchId, sevisUsername, sevisOrgId, 1, 1);
             var exchangeVisitor = GetExchangeVisitor("sevisId", 1, 2);
@@ -307,7 +307,7 @@ namespace ECA.Business.Test.Service.Sevis
         public void TestAddExchangeVisitor_ExchangeVisitorAlreadyAdded()
         {
             var sevisOrgId = "org id";
-            var batchId = Guid.NewGuid();
+            var batchId = BatchId.NewBatchId();
             var sevisUsername = "sevisUserId";
             var instance = new StagedSevisBatch(batchId, sevisUsername, sevisOrgId);
             var exchangeVisitor = GetExchangeVisitor("sevisId", 1, 2);
@@ -323,7 +323,7 @@ namespace ECA.Business.Test.Service.Sevis
         public void TestSerializeSEVISBatchCreateUpdateEV_DoesNotHaveSevisId()
         {
             var sevisOrgId = "P-1-19833";
-            var batchId = Guid.NewGuid();
+            var batchId = BatchId.NewBatchId();
             var sevisUsername = "esayya9302";
             var instance = new StagedSevisBatch(batchId, sevisUsername, sevisOrgId);
             var exchangeVisitor = GetExchangeVisitor(null, 1, 2);
@@ -369,7 +369,7 @@ namespace ECA.Business.Test.Service.Sevis
         public void TestGetExchangeVisitorNamespaces()
         {
             var sevisOrgId = "org id";
-            var batchId = Guid.NewGuid();
+            var batchId = BatchId.NewBatchId();
             var sevisUsername = "sevisUserId";
             var instance = new StagedSevisBatch(batchId, sevisUsername, sevisOrgId);
             var exchangeVisitor = GetExchangeVisitor("sevisId", 1, 2);
@@ -406,7 +406,6 @@ namespace ECA.Business.Test.Service.Sevis
             Assert.IsTrue(guid.ToString().Replace("-", String.Empty).EndsWith(expectedBatchId));
             Assert.AreEqual(maxLength, expectedBatchId.Length);
             Assert.IsFalse(expectedBatchId.Contains("-"));
-
         }
 
         //static void ValidationEventHandler(object sender, ValidationEventArgs e)
@@ -423,6 +422,4 @@ namespace ECA.Business.Test.Service.Sevis
 
         //}
     }
-
-
 }

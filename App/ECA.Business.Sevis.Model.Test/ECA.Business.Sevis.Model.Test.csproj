@@ -63,12 +63,14 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="BatchHeaderTypeTest.cs" />
     <Compile Include="DispositionCodeTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RequestIdTest.cs" />
     <Compile Include="SEVISEVBatchTypeTest.cs" />
     <Compile Include="SEVISEVBatchTypeExchangeVisitorTest.cs" />
     <Compile Include="TransactionLogTypeBatchDetailProcessRecordTest.cs" />
+    <Compile Include="BatchIdTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ECA.Business.Sevis.Model\ECA.Business.Sevis.Model.csproj">

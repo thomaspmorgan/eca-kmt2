@@ -285,7 +285,7 @@ namespace ECA.Business.Test.Service.Sevis
                 DateTimeOffset.UtcNow.Should().BeCloseTo(addedCommStatus.AddedOn, 20000);
                 Assert.AreEqual(participantId, addedCommStatus.ParticipantId);
                 Assert.AreEqual(SevisCommStatus.PendingSevisSend.Id, addedCommStatus.SevisCommStatusId);
-                Assert.AreEqual(firstBatch.BatchId, addedCommStatus.BatchId);
+                Assert.AreEqual(firstBatch.BatchId.ToString(), addedCommStatus.BatchId);
                 Assert.AreEqual(status.SevisUsername, addedCommStatus.SevisUsername);
                 Assert.AreEqual(status.SevisOrgId, addedCommStatus.SevisOrgId);
             };
@@ -699,7 +699,7 @@ namespace ECA.Business.Test.Service.Sevis
                 DateTimeOffset.UtcNow.Should().BeCloseTo(addedCommStatus.AddedOn, 20000);
                 Assert.AreEqual(participantId, addedCommStatus.ParticipantId);
                 Assert.AreEqual(SevisCommStatus.PendingSevisSend.Id, addedCommStatus.SevisCommStatusId);
-                Assert.AreEqual(firstBatch.BatchId, addedCommStatus.BatchId);
+                Assert.AreEqual(firstBatch.BatchId.ToString(), addedCommStatus.BatchId);
                 Assert.AreEqual(status.SevisUsername, addedCommStatus.SevisUsername);
                 Assert.AreEqual(status.SevisOrgId, addedCommStatus.SevisOrgId);
             };
@@ -1118,7 +1118,7 @@ namespace ECA.Business.Test.Service.Sevis
             var sevisOrgId = "orgId";
             var batches = new List<StagedSevisBatch>();
             var sevisUsername = "sevis username";
-            batches.Add(new StagedSevisBatch(Guid.NewGuid(), sevisUsername, sevisOrgId)
+            batches.Add(new StagedSevisBatch(BatchId.NewBatchId(), sevisUsername, sevisOrgId)
             {
                 IsSaved = true
             });
@@ -1153,7 +1153,7 @@ namespace ECA.Business.Test.Service.Sevis
             var sevisOrgId = "orgId";
             var sevisUsername = "sevis username";
             var batches = new List<StagedSevisBatch>();
-            batches.Add(new StagedSevisBatch(Guid.NewGuid(), sevisUsername, sevisOrgId)
+            batches.Add(new StagedSevisBatch(BatchId.NewBatchId(), sevisUsername, sevisOrgId)
             {
                 IsSaved = false
             });
@@ -1190,7 +1190,7 @@ namespace ECA.Business.Test.Service.Sevis
             var sevisUsername = "sevis username";
             var sevisOrgId = "orgId";
             var batches = new List<StagedSevisBatch>();
-            batches.Add(new StagedSevisBatch(Guid.NewGuid(), sevisUsername, sevisOrgId, 0, 0)
+            batches.Add(new StagedSevisBatch(BatchId.NewBatchId(), sevisUsername, sevisOrgId, 0, 0)
             {
                 IsSaved = false,
             });
@@ -1225,7 +1225,7 @@ namespace ECA.Business.Test.Service.Sevis
             var sevisUsername = "sevis username";
             var sevisOrgId = "orgId";
             var batches = new List<StagedSevisBatch>();
-            batches.Add(new StagedSevisBatch(Guid.NewGuid(), sevisUsername, sevisOrgId, 1, 1)
+            batches.Add(new StagedSevisBatch(BatchId.NewBatchId(), sevisUsername, sevisOrgId, 1, 1)
             {
                 IsSaved = false,
             });
@@ -1262,7 +1262,7 @@ namespace ECA.Business.Test.Service.Sevis
             var sevisUsername = "sevis username";
             var sevisOrgId = "orgId";
             var batches = new List<StagedSevisBatch>();
-            batches.Add(new StagedSevisBatch(Guid.NewGuid(), sevisUsername, sevisOrgId, 1, 1)
+            batches.Add(new StagedSevisBatch(BatchId.NewBatchId(), sevisUsername, sevisOrgId, 1, 1)
             {
                 IsSaved = false,
             });

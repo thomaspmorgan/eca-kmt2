@@ -1064,14 +1064,14 @@ namespace ECA.Business.Service.Sevis
             return null;
         }
 
-        private ParticipantPersonSevisCommStatus AddPendingSendToSevisStatus(int participantId, string batchId, string sevisUsername, string sevisOrgId)
+        private ParticipantPersonSevisCommStatus AddPendingSendToSevisStatus(int participantId, BatchId batchId, string sevisUsername, string sevisOrgId)
         {
             var sevisCommStatus = new ParticipantPersonSevisCommStatus
             {
                 ParticipantId = participantId,
                 AddedOn = DateTimeOffset.UtcNow,
                 SevisCommStatusId = SevisCommStatus.PendingSevisSend.Id,
-                BatchId = batchId,
+                BatchId = batchId.ToString(),
                 SevisUsername = sevisUsername,
                 SevisOrgId = sevisOrgId
             };
@@ -1084,7 +1084,7 @@ namespace ECA.Business.Service.Sevis
         {
             var stagedSevisBatch = new StagedSevisBatch(
                 sevisUsername: sevisUsername,
-                batchId: SequentialGuidGenerator.NewSqlServerSequentialGuid(),
+                batchId: BatchId.NewBatchId(),
                 sevisOrgId: sevisOrgId,
                 maxCreateExchangeVisitorRecordsPerBatch: this.MaxCreateExchangeVisitorRecordsPerBatch,
                 maxUpdateExchangeVisitorRecordPerBatch: this.MaxUpdateExchangeVisitorRecordsPerBatch);
