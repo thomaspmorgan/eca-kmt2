@@ -17,8 +17,8 @@
                     <div class="bounce2"></div>
                     <div class="bounce3"></div>
                 </div>
-                <div class="row" ng-show="!view.isSavingChanges">
-                    <div ng-class="{true: 'row', false: 'row2'}[editMode]" ng-show="!view.showEditCitizenshipCountry">
+                <div class="row" style="padding: 10px 0 0 10px; text-align:left" ng-show="!view.isSavingChanges">
+                    <div ng-class="row" ng-show="!view.showEditCitizenshipCountry">
                         <span>{{citizenship.locationName}}</span> <span ng-show="citizenship.isPrimary"> (primary)</span>
                         <div class="pull-right" ng-show="!view.showEditCitizenshipCountry">
                             <a ng-show="!view.showEditCitizenshipCountry && !view.isDeletingCountry && editMode" ng-click="view.showConfirmDelete = true">
@@ -51,7 +51,7 @@
                                     <div class="error" ng-show="form.addressForm.country.$error.required">Please select a country.</div>
                                 </div>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group" style="padding: 10px 0 0 0">
                                 <label class="title-label col-md-6" for="isPrimary">Is Primary</label>
                                 <div class="col-md-6">
                                     <input name="isPrimary"
@@ -61,7 +61,7 @@
                                 </div>
                             </div>
                         </form>
-                        <div class="row right" ng-show="view.showEditCitizenshipCountry">
+                        <div class="row right" style="padding: 0 0 0 15px;" ng-show="view.showEditCitizenshipCountry">
                             <button ng-click="view.saveCountryChanges()" class="btn btn-success" ng-disabled="form.countryForm.$invalid">Save</button>
                             <button ng-click="view.cancelCountryChanges()" class="btn btn-cancel">Cancel</button>
                         </div>
