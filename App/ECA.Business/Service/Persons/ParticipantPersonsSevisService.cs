@@ -181,7 +181,7 @@ namespace ECA.Business.Service.Persons
                 .Where(x => x.ParticipantPerson.Participant.ProjectId == projectId)
                 .GroupBy(x => x.ParticipantId)
                 .Select(s => s.OrderByDescending(x => x.AddedOn).FirstOrDefault())
-                .Where(w => w.SevisCommStatusId == SevisCommStatus.ReadyToSubmit.Id && participantIds.Contains(w.ParticipantId));
+                .Where(w => (w.SevisCommStatusId == SevisCommStatus.ReadyToSubmit.Id || w.SevisCommStatusId == SevisCommStatus.BatchCancelledBySystem.Id) && participantIds.Contains(w.ParticipantId));
             return statuses;
         }
 
