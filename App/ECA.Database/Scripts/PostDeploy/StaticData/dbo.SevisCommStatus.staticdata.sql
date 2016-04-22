@@ -55,6 +55,8 @@ INSERT INTO @tblTempTable ([SevisCommStatusId], [SevisCommStatusName], [History_
 INSERT INTO @tblTempTable ([SevisCommStatusId], [SevisCommStatusName], [History_CreatedOn], [History_CreatedBy], [History_RevisedOn], [History_RevisedBy], [IsActive]) VALUES ('15', 'Created By Batch', '12/15/2015 10:46:07 PM +00:00', '0', '12/15/2015 10:46:07 PM +00:00', '0', 'True')
 INSERT INTO @tblTempTable ([SevisCommStatusId], [SevisCommStatusName], [History_CreatedOn], [History_CreatedBy], [History_RevisedOn], [History_RevisedBy], [IsActive]) VALUES ('16', 'Validated By Batch', '12/15/2015 10:46:07 PM +00:00', '0', '12/15/2015 10:46:07 PM +00:00', '0', 'True')
 INSERT INTO @tblTempTable ([SevisCommStatusId], [SevisCommStatusName], [History_CreatedOn], [History_CreatedBy], [History_RevisedOn], [History_RevisedBy], [IsActive]) VALUES ('17', 'Batch Cancelled by System', '12/15/2015 10:46:07 PM +00:00', '0', '12/15/2015 10:46:07 PM +00:00', '0', 'True')
+INSERT INTO @tblTempTable ([SevisCommStatusId], [SevisCommStatusName], [History_CreatedOn], [History_CreatedBy], [History_RevisedOn], [History_RevisedBy], [IsActive]) VALUES ('18', 'Needs Validation Info', '12/15/2015 10:46:07 PM +00:00', '0', '12/15/2015 10:46:07 PM +00:00', '0', 'True')
+INSERT INTO @tblTempTable ([SevisCommStatusId], [SevisCommStatusName], [History_CreatedOn], [History_CreatedBy], [History_RevisedOn], [History_RevisedBy], [IsActive]) VALUES ('19', 'Ready to Validate', '12/15/2015 10:46:07 PM +00:00', '0', '12/15/2015 10:46:07 PM +00:00', '0', 'True')
 
 
 -- 3: Insert any new items into the table from the table variable

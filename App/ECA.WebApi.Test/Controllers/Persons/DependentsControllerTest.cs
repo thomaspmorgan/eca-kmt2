@@ -52,24 +52,24 @@ namespace ECA.WebApi.Test.Controllers.Persons
             Assert.IsInstanceOfType(response, typeof(NotFoundResult));
         }
 
-        //[TestMethod]
-        //public async Task TestPostDependentAsync()
-        //{
-        //    userProvider.Setup(x => x.GetBusinessUser(It.IsAny<IWebApiUser>())).Returns(new Business.Service.User(0));
-        //    personService.Setup(x => x.CreateDependentAsync(It.IsAny<NewPersonDependent>())).ReturnsAsync(new PersonDependent());
-        //    personService.Setup(x => x.SaveChangesAsync()).ReturnsAsync(1);
-        //    var response = await controller.PostPersonDependentAsync(new DependentBindingModel { });
-        //    personService.Verify(x => x.SaveChangesAsync(), Times.Once());
-        //    Assert.IsInstanceOfType(response, typeof(OkResult));
-        //}
+        [TestMethod]
+        public async Task TestPostDependentAsync()
+        {
+            userProvider.Setup(x => x.GetBusinessUser(It.IsAny<IWebApiUser>())).Returns(new Business.Service.User(0));
+            personService.Setup(x => x.CreateDependentAsync(It.IsAny<NewPersonDependent>())).ReturnsAsync(new PersonDependent());
+            personService.Setup(x => x.SaveChangesAsync()).ReturnsAsync(1);
+            var response = await controller.PostPersonDependentAsync(new DependentBindingModel { });
+            personService.Verify(x => x.SaveChangesAsync(), Times.Once());
+            Assert.IsInstanceOfType(response, typeof(SimplePersonDependentDTO));
+        }
 
-        //[TestMethod]
-        //public async Task TestPostPersonDependentAsync_Invalid()
-        //{
-        //    controller.ModelState.AddModelError("key", "error");
-        //    var response = await controller.PostPersonDependentAsync(new DependentBindingModel());
-        //    Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
-        //}
+        [TestMethod]
+        public async Task TestPostPersonDependentAsync_Invalid()
+        {
+            controller.ModelState.AddModelError("key", "error");
+            var response = await controller.PostPersonDependentAsync(new DependentBindingModel());
+            Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
+        }
 
         [TestMethod]
         public async Task TestGetDependentTypesAsync()
