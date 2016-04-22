@@ -53,7 +53,8 @@ namespace ECA.WebJobs.Sevis.Comm
 #endif   
             )
         {
-            await ProcessAsync(this.service, this.appSettings);
+            var sevisComm = new SevisComm(this.appSettings);
+            await ProcessAsync(this.service, sevisComm, this.appSettings);
             var nextOccurrenceMessage = info.FormatNextOccurrences(1);
             logger.Info(nextOccurrenceMessage);
         }
@@ -62,15 +63,16 @@ namespace ECA.WebJobs.Sevis.Comm
         /// Performs processing of the SEVIS batch records.
         /// </summary>
         /// <param name="service">The SEVIS batch services to get and update batches.</param>
+        /// <param name="sevisComm">The sevis batch comm object.</param>
         /// <param name="settings">The app settings.</param>
-        public async Task ProcessAsync(ISevisBatchProcessingService service, AppSettings settings)
+        public async Task ProcessAsync(ISevisBatchProcessingService service, SevisComm sevisComm, AppSettings settings)
         {
             Contract.Requires(service != null, "The SEVIS service must not be null.");
             Contract.Requires(settings != null, "The settings must not be null.");
+            Contract.Requires(sevisComm != null, "The sevis comm must not be null.");
             logger.Info("Starting SEVIS Batch Processing");
-            var batchComm = new SevisComm(settings);
-            await DownloadBatchesAsync(batchComm);
-            await UploadBatchesAsync(batchComm);
+            await DownloadBatchesAsync(sevisComm);
+            await UploadBatchesAsync(sevisComm);
 
             logger.Debug("Removing processed batches");
             await service.DeleteProcessedBatchesAsync();
@@ -86,8 +88,8 @@ namespace ECA.WebJobs.Sevis.Comm
         /// <returns>The task.</returns>
         public async Task UploadBatchesAsync(SevisComm batchComm)
         {
+            Contract.Requires(batchComm != null, "The batchComm must not be null.");
             var dtoToUpload = await service.GetNextBatchToUploadAsync();
-
             while (dtoToUpload != null)
             {
                 await UploadBatchAsync(batchComm, dtoToUpload);
@@ -103,6 +105,8 @@ namespace ECA.WebJobs.Sevis.Comm
         /// <returns></returns>
         public async Task UploadBatchAsync(SevisComm batchComm, SevisBatchProcessingDTO dtoToUpload)
         {
+            Contract.Requires(batchComm != null, "The batchComm must not be null.");
+            Contract.Requires(dtoToUpload != null, "The dto to upload must not be null.");
             //do the send here
             logger.Info("Sending Upload, BatchId: {0}", dtoToUpload.BatchId);
             var response = await batchComm.UploadAsync(XElement.Parse(dtoToUpload.SendString), dtoToUpload.BatchId, dtoToUpload.SevisOrgId, dtoToUpload.SevisUsername);
@@ -131,8 +135,8 @@ namespace ECA.WebJobs.Sevis.Comm
         /// <returns>The task.</returns>
         public async Task DownloadBatchesAsync(SevisComm batchComm)
         {
+            Contract.Requires(batchComm != null, "The batchComm must not be null.");
             var dtoToDownload = await service.GetNextBatchToDownloadAsync();
-
             while (dtoToDownload != null)
             {
                 await DownloadBatchAsync(batchComm, dtoToDownload);
@@ -148,6 +152,8 @@ namespace ECA.WebJobs.Sevis.Comm
         /// <returns>The task.</returns>
         public async Task DownloadBatchAsync(SevisComm batchComm, SevisBatchProcessingDTO dtoToDownload)
         {
+            Contract.Requires(batchComm != null, "The batchComm must not be null.");
+            Contract.Requires(dtoToDownload != null, "The dto to download must not be null.");
             // ask for download
             logger.Info("Getting Download, BatchId: {0}", dtoToDownload.BatchId);
             var response = await batchComm.DownloadAsync(dtoToDownload.BatchId, dtoToDownload.SevisOrgId, dtoToDownload.SevisUsername);

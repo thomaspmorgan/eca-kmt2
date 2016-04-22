@@ -4,6 +4,7 @@ using ECA.Business.Service.Sevis;
 using ECA.Core.Settings;
 using ECA.WebJobs.Sevis.Comm;
 using ECA.WebJobs.Sevis.Core;
+using FluentAssertions;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Timers;
 using Microsoft.QualityTools.Testing.Fakes;
@@ -77,8 +78,60 @@ namespace ECA.WebJobs.Sevis.Staging.Test
             appSettings.Add(AppSettings.SEVIS_MAX_UPDATE_EXCHANGE_VISITOR_RECORDS_PER_BATCH, "1");
             appSettings.Add(AppSettings.SEVIS_THUMBPRINT, "f14e780d72921fda4b8079d887114dfd1922d624");
             var timerInfo = new TimerInfo(new TestTimerSchedule());
-            await instance.ProcessTimer(timerInfo);
+            service.Setup(x => x.GetNextBatchToDownloadAsync()).ReturnsAsync(null);
+            service.Setup(x => x.GetNextBatchToUploadAsync()).ReturnsAsync(null);
+            Func<Task> f = () => instance.ProcessTimer(timerInfo);
+            f.ShouldNotThrow();
         }
+
+        #region ProcessAsync
+        [TestMethod]
+        public async Task TestProcessAsync()
+        {
+            using (ShimsContext.Create())
+            {
+                var userId = 1;
+                appSettings.Add(AppSettings.SYSTEM_USER_ID_KEY, userId.ToString());
+                
+                var uploadCalled = false;
+                var downloadCalled = false;
+                var dto = new SevisBatchProcessingDTO
+                {
+                    BatchId = "batchId",
+                    SendString = "<root></root>",
+                    SevisOrgId = "sevis org Id",
+                    SevisUsername = "sevis username"
+                };
+                var responseContent = "hello world";
+                var message = new HttpResponseMessage
+                {
+                    Content = new StringContent(responseContent),
+                    StatusCode = System.Net.HttpStatusCode.OK
+                };
+                var shimComm = new ECA.Net.Fakes.ShimSevisComm
+                {
+                    UploadAsyncXElementStringStringString = (xElement, batchId, sOrgId, sUsername) =>
+                    {
+                        uploadCalled = true;
+                        service.Setup(x => x.GetNextBatchToUploadAsync()).ReturnsAsync(null);
+                        return Task.FromResult<HttpResponseMessage>(message);
+                    },
+                    DownloadAsyncStringStringString = (batchId, sOrgId, sUsername) =>
+                    {
+                        downloadCalled = true;
+                        service.Setup(x => x.GetNextBatchToDownloadAsync()).ReturnsAsync(null);
+                        return Task.FromResult<HttpResponseMessage>(message);
+                    }
+                };
+                service.Setup(x => x.GetNextBatchToDownloadAsync()).ReturnsAsync(dto);
+                service.Setup(x => x.GetNextBatchToUploadAsync()).ReturnsAsync(dto);
+                await instance.ProcessAsync(service.Object, shimComm, settings);
+                Assert.IsTrue(uploadCalled);
+                Assert.IsTrue(downloadCalled);
+                service.Verify(x => x.DeleteProcessedBatchesAsync(), Times.Once());
+            }
+        }
+        #endregion
 
         #region Upload
         [TestMethod]
@@ -251,6 +304,9 @@ namespace ECA.WebJobs.Sevis.Staging.Test
             }
         }
 
+        #endregion
+
+        #region Download
         [TestMethod]
         public async Task TestDownloadBatchAsync_IsSuccess()
         {
