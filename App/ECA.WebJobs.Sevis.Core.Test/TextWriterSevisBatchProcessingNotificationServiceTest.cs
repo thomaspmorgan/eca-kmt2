@@ -46,7 +46,7 @@ namespace ECA.WebJobs.Sevis.Core.Test
         public void TestNotifyStagedSevisBatchCreated()
         {
             var instance = new TextWriterSevisBatchProcessingNotificationService();
-            Action a = () => instance.NotifyStagedSevisBatchCreated(new StagedSevisBatch(Guid.NewGuid(), "", ""));
+            Action a = () => instance.NotifyStagedSevisBatchCreated(new StagedSevisBatch(BatchId.NewBatchId(), "", ""));
             a.ShouldNotThrow();
         }
 
