@@ -22,6 +22,7 @@ namespace ECA.WebJobs.Sevis.Comm
 
         private ISevisBatchProcessingService service;
         private ISevisApiResponseHandler responseHandler;
+        private IEcaWebRequestHandlerService ecaWebRequestHandlerService;
         private AppSettings appSettings;
         private static Logger logger = LogManager.GetCurrentClassLogger();
 
@@ -30,13 +31,14 @@ namespace ECA.WebJobs.Sevis.Comm
         /// </summary>
         /// <param name="service">The sevis batch processing service.</param>
         /// <param name="appSettings">The app settings.</param>
-        public Functions(ISevisBatchProcessingService service, ISevisApiResponseHandler responseHandler, AppSettings appSettings)
+        public Functions(ISevisBatchProcessingService service, ISevisApiResponseHandler responseHandler, IEcaWebRequestHandlerService theEcaWebRequestHandlerService, AppSettings appSettings)
         {
             Contract.Requires(service != null, "The service must not be null.");
             Contract.Requires(responseHandler != null, "The response handler must not be null.");
             Contract.Requires(appSettings != null, "The app settings must not be null.");
             this.responseHandler = responseHandler;
             this.service = service;
+            this.ecaWebRequestHandlerService = theEcaWebRequestHandlerService;
             this.appSettings = appSettings;
         }
 
@@ -74,7 +76,7 @@ namespace ECA.WebJobs.Sevis.Comm
             //the staging of exchange visitors to send is now done in another web job, the xml will be pre populated
             //and returned in the dtos.
 
-            var batchComm = new SevisComm(settings);
+            var batchComm = new SevisComm(settings, ecaWebRequestHandlerService);
             var dtoToUpload = await service.GetNextBatchToUploadAsync();
 
             while (dtoToUpload != null)

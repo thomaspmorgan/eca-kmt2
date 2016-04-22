@@ -12,6 +12,7 @@ using System.Data.Entity;
 using System.Diagnostics.Contracts;
 using System.IO;
 using System.Threading.Tasks;
+using ECA.Net;
 
 namespace ECA.WebJobs.Sevis.Core
 {
@@ -34,6 +35,7 @@ namespace ECA.WebJobs.Sevis.Core
             this.RegisterType<ISevisBatchProcessingNotificationService, TextWriterSevisBatchProcessingNotificationService>();
             this.RegisterType<IBlobStorageSettings, BlobStorageSettings>();
             this.RegisterType<IFileStorageService, FileStorageService>();
+            this.RegisterType<IEcaWebRequestHandlerService, EcaWebRequestHandlerService>();
             //Register ECA Context
             this.RegisterType<EcaContext>(new InjectionConstructor(connectionString));
             this.RegisterType<DbContext, EcaContext>(new InjectionConstructor(connectionString));

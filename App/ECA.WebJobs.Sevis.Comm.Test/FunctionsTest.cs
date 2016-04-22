@@ -16,6 +16,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Reflection;
 using System.Threading.Tasks;
+using ECA.Net;
 
 namespace ECA.WebJobs.Sevis.Staging.Test
 {
@@ -37,11 +38,11 @@ namespace ECA.WebJobs.Sevis.Staging.Test
     {
         private Mock<ISevisBatchProcessingService> service;
         private Mock<ISevisApiResponseHandler> responseHandler;
+        private Mock<IEcaWebRequestHandlerService> requestHandlerService;
         private Functions instance;
         private NameValueCollection appSettings;
         private ConnectionStringSettingsCollection connectionStrings;
         private AppSettings settings;
-        private SevisBatchZipArchiveHandler fileProvider;
 
         [TestInitialize]
         public void TestInit()
@@ -51,7 +52,8 @@ namespace ECA.WebJobs.Sevis.Staging.Test
             settings = new AppSettings(appSettings, connectionStrings);
             service = new Mock<ISevisBatchProcessingService>();
             responseHandler = new Mock<ISevisApiResponseHandler>();
-            instance = new Functions(service.Object, responseHandler.Object, settings);
+            requestHandlerService = new Mock<IEcaWebRequestHandlerService>();
+            instance = new Functions(service.Object, responseHandler.Object, requestHandlerService.Object, settings);
         }
 
         [TestMethod]
@@ -83,7 +85,7 @@ namespace ECA.WebJobs.Sevis.Staging.Test
         {
             var disposableService = new Mock<ISevisBatchProcessingService>();
             var disposable = disposableService.As<IDisposable>();
-            instance = new Functions(disposableService.Object, responseHandler.Object, settings);
+            instance = new Functions(disposableService.Object, responseHandler.Object, requestHandlerService.Object, settings);
             
             var serviceField = typeof(Functions).GetField("service", BindingFlags.NonPublic | BindingFlags.Instance);
             var serviceValue = serviceField.GetValue(instance);
@@ -100,7 +102,7 @@ namespace ECA.WebJobs.Sevis.Staging.Test
         public void TestDispose_Service_NotDisposable()
         {
             var disposableService = new Mock<ISevisBatchProcessingService>();
-            instance = new Functions(disposableService.Object, responseHandler.Object, settings);
+            instance = new Functions(disposableService.Object, responseHandler.Object, requestHandlerService.Object, settings);
 
             var serviceField = typeof(Functions).GetField("service", BindingFlags.NonPublic | BindingFlags.Instance);
             var serviceValue = serviceField.GetValue(instance);
@@ -117,7 +119,7 @@ namespace ECA.WebJobs.Sevis.Staging.Test
         {
             var disposableService = new Mock<ISevisApiResponseHandler>();
             var disposable = disposableService.As<IDisposable>();
-            instance = new Functions(service.Object, disposableService.Object, settings);
+            instance = new Functions(service.Object, disposableService.Object, requestHandlerService.Object, settings);
 
             var responseHandlerField = typeof(Functions).GetField("responseHandler", BindingFlags.NonPublic | BindingFlags.Instance);
             var handlerValue = responseHandlerField.GetValue(instance);
@@ -134,7 +136,7 @@ namespace ECA.WebJobs.Sevis.Staging.Test
         public void TestDispose_ResponseHandler_NotDisposable()
         {
             var disposableService = new Mock<ISevisApiResponseHandler>();
-            instance = new Functions(service.Object, disposableService.Object, settings);
+            instance = new Functions(service.Object, disposableService.Object, requestHandlerService.Object, settings);
 
             var responseHandlerField = typeof(Functions).GetField("responseHandler", BindingFlags.NonPublic | BindingFlags.Instance);
             var handlerValue = responseHandlerField.GetValue(instance);
