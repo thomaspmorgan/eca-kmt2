@@ -30,6 +30,7 @@ using ECA.Core.Settings;
 using System.Collections.Specialized;
 using System.Configuration;
 using ECA.Business.Storage;
+using ECA.Core.DynamicLinq;
 
 namespace ECA.Business.Test.Service.Sevis
 {
@@ -4156,91 +4157,125 @@ namespace ECA.Business.Test.Service.Sevis
         [TestMethod]
         public async Task TestCancel()
         {
-            var reason = "reason";
-            var sevisOrgId = "org Id";
-            var sevisUsername = "username";
-            var batchId = "batchId";
-            var participantId = 1;
-            SevisBatchProcessing batch = null;
-            ParticipantPerson participantPerson = null;
-            ParticipantPersonSevisCommStatus participantPersonSevisCommStatus = null;
-            context.SetupActions.Add(() =>
+            using (ShimsContext.Create())
             {
-                participantPerson = new ParticipantPerson
+
+
+                var isSevisBatchResultModified = false;
+                var reason = "reason";
+                var sevisOrgId = "org Id";
+                var sevisUsername = "username";
+                var batchId = "batchId";
+                var participantId = 1;
+                SevisBatchProcessing batch = null;
+                ParticipantPerson participantPerson = null;
+                ParticipantPersonSevisCommStatus participantPersonSevisCommStatus = null;
+                var dbPropertyEntry = new System.Data.Entity.Infrastructure.Fakes.ShimDbPropertyEntry<ParticipantPerson, string>
                 {
-                    ParticipantId = participantId
+                    IsModifiedSetBoolean = (v) =>
+                    {
+                        isSevisBatchResultModified = v;
+                    }
                 };
-                batch = new SevisBatchProcessing
+                var entry = new System.Data.Entity.Infrastructure.Fakes.ShimDbEntityEntry<ParticipantPerson>();
+                entry.PropertyOf1ExpressionOfFuncOfT0M0<string>((exp) =>
                 {
-                    BatchId = batchId,
-                    Id = 1,
-                    SevisOrgId = sevisOrgId,
-                    SevisUsername = sevisUsername,
-                    DownloadDispositionCode = "download code",
-                    DownloadTries = 2,
-                    LastDownloadTry = DateTimeOffset.UtcNow.AddDays(1.0),
-                    LastUploadTry = DateTimeOffset.UtcNow.AddDays(2.0),
-                    ProcessDispositionCode = "process code",
-                    RetrieveDate = DateTimeOffset.UtcNow.AddDays(3.0),
-                    SendString = "send string",
-                    SubmitDate = DateTime.UtcNow.AddDays(4.0),
-                    TransactionLogString = "transaction log",
-                    UploadDispositionCode = "upload code",
-                    UploadTries = 3
-                };
-                participantPersonSevisCommStatus = new ParticipantPersonSevisCommStatus
+                    return dbPropertyEntry;
+                });
+                System.Data.Entity.Fakes.ShimDbContext.AllInstances.EntryOf1M0<ParticipantPerson>((ctx, p) =>
                 {
-                    BatchId = batchId,
-                    ParticipantId = participantId,
-                    ParticipantPerson = participantPerson
+                    return entry;
+                });
+                context.SetupActions.Add(() =>
+                {
+                    participantPerson = new ParticipantPerson
+                    {
+                        ParticipantId = participantId
+                    };
+                    batch = new SevisBatchProcessing
+                    {
+                        BatchId = batchId,
+                        Id = 1,
+                        SevisOrgId = sevisOrgId,
+                        SevisUsername = sevisUsername,
+                        DownloadDispositionCode = "download code",
+                        DownloadTries = 2,
+                        LastDownloadTry = DateTimeOffset.UtcNow.AddDays(1.0),
+                        LastUploadTry = DateTimeOffset.UtcNow.AddDays(2.0),
+                        ProcessDispositionCode = "process code",
+                        RetrieveDate = DateTimeOffset.UtcNow.AddDays(3.0),
+                        SendString = "send string",
+                        SubmitDate = DateTime.UtcNow.AddDays(4.0),
+                        TransactionLogString = "transaction log",
+                        UploadDispositionCode = "upload code",
+                        UploadTries = 3
+                    };
+                    participantPersonSevisCommStatus = new ParticipantPersonSevisCommStatus
+                    {
+                        BatchId = batchId,
+                        ParticipantId = participantId,
+                        ParticipantPerson = participantPerson
+                    };
+                    participantPerson.ParticipantPersonSevisCommStatuses.Add(participantPersonSevisCommStatus);
+
+                    context.ParticipantPersons.Add(participantPerson);
+                    context.SevisBatchProcessings.Add(batch);
+                    context.ParticipantPersonSevisCommStatuses.Add(participantPersonSevisCommStatus);
+                });
+
+
+
+                Action tester = () =>
+                {
+                    Assert.AreEqual(0, context.SevisBatchProcessings.Count());
+                    Assert.AreEqual(1, context.CancelledSevisBatchProcessings.Count());
+                    Assert.AreEqual(2, context.ParticipantPersonSevisCommStatuses.Count());
+                    Assert.AreEqual(1, context.ParticipantPersonSevisCommStatuses.Where(x => x.SevisCommStatusId == SevisCommStatus.BatchCancelledBySystem.Id).Count());
+
+                    //we want to find the attached participant person and be sure that one changed.
+                    Assert.IsTrue(isSevisBatchResultModified);
+                    Assert.AreEqual(2, context.ParticipantPersons.Count());
+                    var attached = context.ParticipantPersons.Last();
+                    Assert.IsFalse(Object.ReferenceEquals(participantPerson, attached));
+                    Assert.AreEqual(participantId, attached.ParticipantId);
+                    Assert.IsNotNull(attached.SevisBatchResult);
+                    Assert.AreEqual(service.GetBatchCancelledBySystemAsSevisBatchResultJsonString(reason), attached.SevisBatchResult);
+
+                    var addedStatus = context.ParticipantPersonSevisCommStatuses.Where(x => x.SevisCommStatusId == SevisCommStatus.BatchCancelledBySystem.Id).First();
+                    Assert.AreEqual(batchId, addedStatus.BatchId);
+                    Assert.AreEqual(sevisUsername, addedStatus.SevisUsername);
+                    Assert.AreEqual(sevisOrgId, addedStatus.SevisOrgId);
+                    Assert.AreEqual(participantId, addedStatus.ParticipantId);
+                    DateTimeOffset.UtcNow.Should().BeCloseTo(addedStatus.AddedOn, 20000);
+
+                    var addedCancelledBatch = context.CancelledSevisBatchProcessings.First();
+                    Assert.AreEqual(batch.BatchId, addedCancelledBatch.BatchId);
+                    Assert.AreEqual(batch.SevisOrgId, addedCancelledBatch.SevisOrgId);
+                    Assert.AreEqual(batch.SevisUsername, addedCancelledBatch.SevisUsername);
+                    Assert.AreEqual(batch.DownloadDispositionCode, addedCancelledBatch.DownloadDispositionCode);
+                    Assert.AreEqual(batch.DownloadTries, addedCancelledBatch.DownloadTries);
+                    Assert.AreEqual(batch.LastDownloadTry, addedCancelledBatch.LastDownloadTry);
+                    Assert.AreEqual(batch.LastUploadTry, addedCancelledBatch.LastUploadTry);
+                    Assert.AreEqual(batch.ProcessDispositionCode, addedCancelledBatch.ProcessDispositionCode);
+                    Assert.AreEqual(batch.RetrieveDate, addedCancelledBatch.RetrieveDate);
+                    Assert.AreEqual(batch.SendString, addedCancelledBatch.SendString);
+                    Assert.AreEqual(batch.SubmitDate, addedCancelledBatch.SubmitDate);
+                    Assert.AreEqual(batch.TransactionLogString, addedCancelledBatch.TransactionLogString);
+                    Assert.AreEqual(batch.UploadDispositionCode, addedCancelledBatch.UploadDispositionCode);
+                    Assert.AreEqual(batch.UploadTries, addedCancelledBatch.UploadTries);
+                    Assert.AreEqual(reason, addedCancelledBatch.Reason);
+                    DateTimeOffset.UtcNow.Should().BeCloseTo(addedCancelledBatch.CancelledOn, 20000);
                 };
-                participantPerson.ParticipantPersonSevisCommStatuses.Add(participantPersonSevisCommStatus);
+                context.Revert();
+                service.Cancel(batch, reason);
+                tester();
+                notificationService.Verify(x => x.NotifyCancelledSevisBatch(It.IsAny<string>(), It.IsAny<string>()), Times.Once());
 
-                context.ParticipantPersons.Add(participantPerson);
-                context.SevisBatchProcessings.Add(batch);
-                context.ParticipantPersonSevisCommStatuses.Add(participantPersonSevisCommStatus);
-            });
-            Action tester = () =>
-            {
-                Assert.AreEqual(0, context.SevisBatchProcessings.Count());
-                Assert.AreEqual(1, context.CancelledSevisBatchProcessings.Count());
-                Assert.AreEqual(2, context.ParticipantPersonSevisCommStatuses.Count());
-                Assert.AreEqual(1, context.ParticipantPersonSevisCommStatuses.Where(x => x.SevisCommStatusId == SevisCommStatus.BatchCancelledBySystem.Id).Count());
-
-                var addedStatus = context.ParticipantPersonSevisCommStatuses.Where(x => x.SevisCommStatusId == SevisCommStatus.BatchCancelledBySystem.Id).First();
-                Assert.AreEqual(batchId, addedStatus.BatchId);
-                Assert.AreEqual(sevisUsername, addedStatus.SevisUsername);
-                Assert.AreEqual(sevisOrgId, addedStatus.SevisOrgId);
-                Assert.AreEqual(participantId, addedStatus.ParticipantId);
-                DateTimeOffset.UtcNow.Should().BeCloseTo(addedStatus.AddedOn, 20000);
-
-                var addedCancelledBatch = context.CancelledSevisBatchProcessings.First();
-                Assert.AreEqual(batch.BatchId, addedCancelledBatch.BatchId);
-                Assert.AreEqual(batch.SevisOrgId, addedCancelledBatch.SevisOrgId);
-                Assert.AreEqual(batch.SevisUsername, addedCancelledBatch.SevisUsername);
-                Assert.AreEqual(batch.DownloadDispositionCode, addedCancelledBatch.DownloadDispositionCode);
-                Assert.AreEqual(batch.DownloadTries, addedCancelledBatch.DownloadTries);
-                Assert.AreEqual(batch.LastDownloadTry, addedCancelledBatch.LastDownloadTry);
-                Assert.AreEqual(batch.LastUploadTry, addedCancelledBatch.LastUploadTry);
-                Assert.AreEqual(batch.ProcessDispositionCode, addedCancelledBatch.ProcessDispositionCode);
-                Assert.AreEqual(batch.RetrieveDate, addedCancelledBatch.RetrieveDate);
-                Assert.AreEqual(batch.SendString, addedCancelledBatch.SendString);
-                Assert.AreEqual(batch.SubmitDate, addedCancelledBatch.SubmitDate);
-                Assert.AreEqual(batch.TransactionLogString, addedCancelledBatch.TransactionLogString);
-                Assert.AreEqual(batch.UploadDispositionCode, addedCancelledBatch.UploadDispositionCode);
-                Assert.AreEqual(batch.UploadTries, addedCancelledBatch.UploadTries);
-                Assert.AreEqual(reason, addedCancelledBatch.Reason);
-                DateTimeOffset.UtcNow.Should().BeCloseTo(addedCancelledBatch.CancelledOn, 20000);
-            };
-            context.Revert();
-            service.Cancel(batch, reason);
-            tester();
-            notificationService.Verify(x => x.NotifyCancelledSevisBatch(It.IsAny<string>(), It.IsAny<string>()), Times.Once());
-
-            context.Revert();
-            await service.CancelAsync(batch, reason);
-            tester();
-            notificationService.Verify(x => x.NotifyCancelledSevisBatch(It.IsAny<string>(), It.IsAny<string>()), Times.Exactly(2));
+                context.Revert();
+                await service.CancelAsync(batch, reason);
+                tester();
+                notificationService.Verify(x => x.NotifyCancelledSevisBatch(It.IsAny<string>(), It.IsAny<string>()), Times.Exactly(2));
+            }
         }
         #endregion
 

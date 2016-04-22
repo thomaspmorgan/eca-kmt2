@@ -296,8 +296,18 @@ namespace ECA.Business.Service.Sevis
                 UploadDispositionCode = batch.UploadDispositionCode,
                 UploadTries = batch.UploadTries
             };
+            var sevisBatchResultJsonString = GetBatchCancelledBySystemAsSevisBatchResultJsonString(reason);
+
             foreach (var id in cancelledParticipantsById)
             {
+                var attachedParticipant = new ParticipantPerson
+                {
+                    ParticipantId = id,
+                    SevisBatchResult = sevisBatchResultJsonString
+                };
+                Context.ParticipantPersons.Attach(attachedParticipant);
+                Context.GetEntry(attachedParticipant).Property(x => x.SevisBatchResult).IsModified = true;
+
                 var commStatus = new ParticipantPersonSevisCommStatus
                 {
                     AddedOn = now,
@@ -312,6 +322,17 @@ namespace ECA.Business.Service.Sevis
             Context.CancelledSevisBatchProcessings.Add(cancelledBatch);
             Context.SevisBatchProcessings.Remove(batch);
             notificationService.NotifyCancelledSevisBatch(batch.BatchId, reason);
+        }
+
+        public string GetBatchCancelledBySystemAsSevisBatchResultJsonString(string reason)
+        {
+            var list = new List<SimpleSevisBatchErrorResult>();
+            list.Add(new SimpleSevisBatchErrorResult
+            {
+                ErrorCode = SevisCommStatus.BatchCancelledBySystem.Value,
+                ErrorMessage = reason
+            });
+            return JsonConvert.SerializeObject(list, GetSerializerSettings());
         }
 
         #endregion
