@@ -9,7 +9,7 @@ using ECA.WebJobs.Sevis.Core;
 using ECA.Net;
 using System.Xml.Linq;
 using NLog;
-
+using ECA.Business.Queries.Models.Sevis;
 
 namespace ECA.WebJobs.Sevis.Comm
 {
@@ -67,60 +67,10 @@ namespace ECA.WebJobs.Sevis.Comm
         {
             Contract.Requires(service != null, "The SEVIS service must not be null.");
             Contract.Requires(settings != null, "The settings must not be null.");
-
-
             logger.Info("Starting SEVIS Batch Processing");
-
-            //the staging of exchange visitors to send is now done in another web job, the xml will be pre populated
-            //and returned in the dtos.
-
             var batchComm = new SevisComm(settings);
-            var dtoToUpload = await service.GetNextBatchToUploadAsync();
-
-            while (dtoToUpload != null)
-            {
-                //do the send here
-                logger.Info("Sending Upload, BatchId: {0}", dtoToUpload.BatchId);
-                var response = await batchComm.UploadAsync(XElement.Parse(dtoToUpload.SendString), dtoToUpload.BatchId, dtoToUpload.SevisOrgId, dtoToUpload.SevisUsername);
-
-                //process response message
-                if (response.IsSuccessStatusCode)
-                {
-                    var stream = await response.Content.ReadAsStreamAsync();
-                    await responseHandler.HandleUploadResponseStreamAsync(GetSystemUser(), dtoToUpload, stream);
-                    logger.Info("Processed Upload Response");
-                }
-                else
-                {
-                    logger.Error("Upload encountered an error, status code: {0}, reason: {1}", response.StatusCode.ToString(), response.ReasonPhrase);
-                    await service.HandleFailedUploadBatchAsync(dtoToUpload.Id, null);
-                }
-                dtoToUpload = await service.GetNextBatchToUploadAsync();
-            }
-
-            var dtoToDownload = await service.GetNextBatchToDownloadAsync();
-
-            while (dtoToDownload != null)
-            {
-                // ask for download
-                logger.Info("Getting Download, BatchId: {0}", dtoToDownload.BatchId);
-                var response = await batchComm.DownloadAsync(dtoToDownload.BatchId, dtoToDownload.SevisOrgId, dtoToDownload.SevisUsername);
-
-                //process response
-                if (response.IsSuccessStatusCode)
-                {
-                    var stream = await response.Content.ReadAsStreamAsync();
-                    await responseHandler.HandleDownloadResponseStreamAsync(GetSystemUser(), dtoToDownload, stream);
-                    logger.Info("Processed Download Response");
-                }
-                else
-                {
-                    logger.Error("Download encountered an error, status code: {0}, reason: {1}", response.StatusCode.ToString(), response.ReasonPhrase);
-                    await service.HandleFailedDownloadBatchAsync(dtoToUpload.Id, null);
-                }
-                dtoToDownload = await service.GetNextBatchToDownloadAsync();
-            }
-
+            await DownloadBatchesAsync(batchComm);
+            await UploadBatchesAsync(batchComm);
 
             logger.Debug("Removing processed batches");
             await service.DeleteProcessedBatchesAsync();
@@ -128,8 +78,94 @@ namespace ECA.WebJobs.Sevis.Comm
             logger.Info("Finished Batch Processing.");
         }
 
+        #region Upload
+        /// <summary>
+        /// Uploads batches to the sevis api.
+        /// </summary>
+        /// <param name="batchComm">The communication class instance.</param>
+        /// <returns>The task.</returns>
+        public async Task UploadBatchesAsync(SevisComm batchComm)
+        {
+            var dtoToUpload = await service.GetNextBatchToUploadAsync();
 
+            while (dtoToUpload != null)
+            {
+                await UploadBatchAsync(batchComm, dtoToUpload);
+                dtoToUpload = await service.GetNextBatchToUploadAsync();
+            }
+        }
 
+        /// <summary>
+        /// Uploads a batch to the sevis api.
+        /// </summary>
+        /// <param name="batchComm">The sevis communication instance.</param>
+        /// <param name="dtoToUpload">The batch to upload.</param>
+        /// <returns></returns>
+        public async Task UploadBatchAsync(SevisComm batchComm, SevisBatchProcessingDTO dtoToUpload)
+        {
+            //do the send here
+            logger.Info("Sending Upload, BatchId: {0}", dtoToUpload.BatchId);
+            var response = await batchComm.UploadAsync(XElement.Parse(dtoToUpload.SendString), dtoToUpload.BatchId, dtoToUpload.SevisOrgId, dtoToUpload.SevisUsername);
+
+            //process response message
+            if (response.IsSuccessStatusCode)
+            {
+                var stream = await response.Content.ReadAsStreamAsync();
+                await responseHandler.HandleUploadResponseStreamAsync(GetSystemUser(), dtoToUpload, stream);
+                logger.Info("Processed Upload Response");
+            }
+            else
+            {
+                logger.Error("Upload encountered an error, status code: {0}, reason: {1}", response.StatusCode.ToString(), response.ReasonPhrase);
+                await service.HandleFailedUploadBatchAsync(dtoToUpload.Id, null);
+            }
+        }
+        #endregion
+
+        #region Download
+
+        /// <summary>
+        /// Downloads results from the sevis api.
+        /// </summary>
+        /// <param name="batchComm">The batch communication instance.</param>
+        /// <returns>The task.</returns>
+        public async Task DownloadBatchesAsync(SevisComm batchComm)
+        {
+            var dtoToDownload = await service.GetNextBatchToDownloadAsync();
+
+            while (dtoToDownload != null)
+            {
+                await DownloadBatchAsync(batchComm, dtoToDownload);
+                dtoToDownload = await service.GetNextBatchToDownloadAsync();
+            }
+        }
+
+        /// <summary>
+        /// Calls the sevis api for results to the sevis batch.
+        /// </summary>
+        /// <param name="batchComm">The sevis comm instance.</param>
+        /// <param name="dtoToDownload">The batch to get download results for.</param>
+        /// <returns>The task.</returns>
+        public async Task DownloadBatchAsync(SevisComm batchComm, SevisBatchProcessingDTO dtoToDownload)
+        {
+            // ask for download
+            logger.Info("Getting Download, BatchId: {0}", dtoToDownload.BatchId);
+            var response = await batchComm.DownloadAsync(dtoToDownload.BatchId, dtoToDownload.SevisOrgId, dtoToDownload.SevisUsername);
+
+            //process response
+            if (response.IsSuccessStatusCode)
+            {
+                var stream = await response.Content.ReadAsStreamAsync();
+                await responseHandler.HandleDownloadResponseStreamAsync(GetSystemUser(), dtoToDownload, stream);
+                logger.Info("Processed Download Response");
+            }
+            else
+            {
+                logger.Error("Download encountered an error, status code: {0}, reason: {1}", response.StatusCode.ToString(), response.ReasonPhrase);
+                await service.HandleFailedDownloadBatchAsync(dtoToDownload.Id, null);
+            }
+        }
+        #endregion
         /// <summary>
         /// Returns the system user.
         /// </summary>

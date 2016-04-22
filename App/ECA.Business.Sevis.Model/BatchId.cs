@@ -18,6 +18,16 @@ namespace ECA.Business.Sevis.Model
     public class BatchId
     {
         /// <summary>
+        /// The length the request id must be.
+        /// </summary>
+        public const int REQUEST_ID_LENGTH = 14;
+
+        /// <summary>
+        /// The default padding character.
+        /// </summary>
+        public const char DEFAULT_PADDING_CHARACTER = '-';
+
+        /// <summary>
         /// The characters to encode with.
         /// </summary>
         public static string ALPHANUMERIC =
@@ -29,24 +39,35 @@ namespace ECA.Business.Sevis.Model
         /// Creates a new BatchId with the given string representation of a batch id.
         /// </summary>
         /// <param name="batchId">The batch id as a string.</param>
-        public BatchId(string batchId)
+        public BatchId(string batchId, char paddingCharacter = DEFAULT_PADDING_CHARACTER)
         {
-            this.Id = FromBase(batchId, ALPHANUMERIC);
+            Contract.Requires(batchId != null, "The batch id must not be null.");
+            Contract.Requires(paddingCharacter.ToString().Length > 0, "The padding character must have a length.");
+            var strippedBatchId = batchId.Replace(paddingCharacter.ToString(), String.Empty);
+            this.Id = FromBase(strippedBatchId, ALPHANUMERIC);
+            this.PaddingChar = paddingCharacter;
         }
 
         /// <summary>
         /// Creates a new BatchId with the given long value to encode.
         /// </summary>
         /// <param name="id">The id to encode.</param>
-        public BatchId(long id)
+        public BatchId(long id, char paddingCharacter = DEFAULT_PADDING_CHARACTER)
         {
+            Contract.Requires(paddingCharacter.ToString().Length > 0, "The padding character must have a length.");
             this.Id = id;
+            this.PaddingChar = paddingCharacter;
         }
 
         /// <summary>
         /// Gets the Id.
         /// </summary>
         public long Id { get; private set; }
+
+        /// <summary>
+        /// Gets the character used to pad the id string.
+        /// </summary>
+        public char PaddingChar { get; private set; }
 
         /// <summary>
         /// Creates a new Batch Id using DateTime.UtcNow.Ticks as an id.
@@ -99,7 +120,9 @@ namespace ECA.Business.Sevis.Model
         /// <returns>A string representation of this batch id.</returns>
         public override string ToString()
         {
-            return ToBase(this.Id, ALPHANUMERIC);
+            var s = ToBase(this.Id, ALPHANUMERIC);
+            var padded = s.PadLeft(REQUEST_ID_LENGTH, this.PaddingChar);
+            return padded;
         }
 
         /// <summary>
