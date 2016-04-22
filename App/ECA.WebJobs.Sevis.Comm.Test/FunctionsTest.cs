@@ -544,6 +544,40 @@ namespace ECA.WebJobs.Sevis.Staging.Test
             handlerValue = responseHandlerField.GetValue(instance);
             Assert.IsNotNull(handlerValue);
         }
+
+        [TestMethod]
+        public void TestDispose_ECAWebRequestHandlerr()
+        {
+            var disposableService = new Mock<IEcaWebRequestHandlerService>();
+            var disposable = disposableService.As<IDisposable>();
+            instance = new Functions(service.Object, responseHandler.Object, disposableService.Object, settings);
+
+            var ecaWebRequestHandlerServiceField = typeof(Functions).GetField("ecaWebRequestHandlerService", BindingFlags.NonPublic | BindingFlags.Instance);
+            var handlerValue = ecaWebRequestHandlerServiceField.GetValue(instance);
+            Assert.IsNotNull(ecaWebRequestHandlerServiceField);
+            Assert.IsNotNull(handlerValue);
+
+            instance.Dispose();
+            handlerValue = ecaWebRequestHandlerServiceField.GetValue(instance);
+            Assert.IsNull(handlerValue);
+            disposable.Verify(x => x.Dispose(), Times.Once());
+        }
+
+        [TestMethod]
+        public void TestDispose_ECAWebRequestHandler_NotDisposable()
+        {
+            var disposableService = new Mock<IEcaWebRequestHandlerService>();
+            instance = new Functions(service.Object, responseHandler.Object, disposableService.Object, settings);
+
+            var ecaWebRequestHandlerServiceField = typeof(Functions).GetField("ecaWebRequestHandlerService", BindingFlags.NonPublic | BindingFlags.Instance);
+            var handlerValue = ecaWebRequestHandlerServiceField.GetValue(instance);
+            Assert.IsNotNull(ecaWebRequestHandlerServiceField);
+            Assert.IsNotNull(handlerValue);
+
+            instance.Dispose();
+            handlerValue = ecaWebRequestHandlerServiceField.GetValue(instance);
+            Assert.IsNotNull(handlerValue);
+        }
         #endregion
     }
 }

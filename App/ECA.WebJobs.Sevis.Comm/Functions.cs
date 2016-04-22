@@ -36,6 +36,7 @@ namespace ECA.WebJobs.Sevis.Comm
             Contract.Requires(service != null, "The service must not be null.");
             Contract.Requires(responseHandler != null, "The response handler must not be null.");
             Contract.Requires(appSettings != null, "The app settings must not be null.");
+            Contract.Requires(theEcaWebRequestHandlerService != null, "The app settings must not be null.");
             this.responseHandler = responseHandler;
             this.service = service;
             this.ecaWebRequestHandlerService = theEcaWebRequestHandlerService;
@@ -55,7 +56,7 @@ namespace ECA.WebJobs.Sevis.Comm
 #endif   
             )
         {
-            var sevisComm = new SevisComm(this.appSettings);
+            var sevisComm = new SevisComm(this.appSettings, this.ecaWebRequestHandlerService);
             await ProcessAsync(this.service, sevisComm, this.appSettings);
             var nextOccurrenceMessage = info.FormatNextOccurrences(1);
             logger.Info(nextOccurrenceMessage);
@@ -78,9 +79,6 @@ namespace ECA.WebJobs.Sevis.Comm
 
             logger.Debug("Removing processed batches");
             await service.DeleteProcessedBatchesAsync();
-
-            var batchComm = new SevisComm(settings, ecaWebRequestHandlerService);
-            var dtoToUpload = await service.GetNextBatchToUploadAsync();
             logger.Info("Finished Batch Processing.");
         }
 
@@ -176,6 +174,7 @@ namespace ECA.WebJobs.Sevis.Comm
             }
         }
         #endregion
+
         /// <summary>
         /// Returns the system user.
         /// </summary>
@@ -184,7 +183,6 @@ namespace ECA.WebJobs.Sevis.Comm
         {
             return new User(Int32.Parse(this.appSettings.SystemUserId));
         }
-
 
         #region IDispose
 
@@ -216,6 +214,12 @@ namespace ECA.WebJobs.Sevis.Comm
                     logger.Trace("Disposing of response handler " + this.responseHandler.GetType());
                     ((IDisposable)this.responseHandler).Dispose();
                     this.responseHandler = null;
+                }
+                if (this.ecaWebRequestHandlerService is IDisposable)
+                {
+                    logger.Trace("Disposing of response handler " + this.ecaWebRequestHandlerService.GetType());
+                    ((IDisposable)this.ecaWebRequestHandlerService).Dispose();
+                    this.ecaWebRequestHandlerService = null;
                 }
             }
         }
