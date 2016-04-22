@@ -550,7 +550,7 @@ namespace ECA.Business.Service.Sevis
                         Contract.Assert(requestId.IsParticipantId, "The request id should be for a participant.");
                         var participant = CreateGetParticipantAndDependentsQuery(requestId.Id).FirstOrDefault();
                         var participantPerson = Context.ParticipantPersons.Find(requestId.Id);
-                        UpdateParticipant(user, participantPerson, record);
+                        UpdateParticipant(user, participantPerson, record, batch);
                         UploadDS2019(requestId, record, participantPerson, fileProvider);
 
                         var dependents = participant.Person.Family.ToList();
@@ -593,7 +593,7 @@ namespace ECA.Business.Service.Sevis
                         Contract.Assert(requestId.IsParticipantId, "The request id should be for a participant.");
                         var participant = await CreateGetParticipantAndDependentsQuery(requestId.Id).FirstOrDefaultAsync();
                         var participantPerson = await Context.ParticipantPersons.FindAsync(requestId.Id);
-                        UpdateParticipant(user, participantPerson, record);
+                        UpdateParticipant(user, participantPerson, record, batch);
                         await UploadDS2019Async(requestId, record, participantPerson, fileProvider);
 
                         var dependents = participant.Person.Family.ToList();
@@ -687,12 +687,13 @@ namespace ECA.Business.Service.Sevis
         /// <param name="participantPerson">The participant person to update.</param>
         /// <param name="dependents">The dependents of the participant.</param>
         /// <param name="record">The record from the transaction log to process.</param>
-        public void UpdateParticipant(User user, ParticipantPerson participantPerson, TransactionLogTypeBatchDetailProcessRecord record)
+        /// <param name="batch">The batch the participant was updated in.</param>
+        public void UpdateParticipant(User user, ParticipantPerson participantPerson, TransactionLogTypeBatchDetailProcessRecord record, SevisBatchProcessing batch)
         {
             Contract.Requires(user != null, "The user must not be null.");
             Contract.Requires(participantPerson != null, "The participant person must not be null.");
             var result = record.Result;
-            AddResultTypeSevisCommStatus(record.Result, participantPerson);
+            AddResultTypeSevisCommStatus(record.Result, participantPerson, batch);
             var update = new Update(user);
             update.SetHistory(participantPerson);
 
@@ -808,22 +809,31 @@ namespace ECA.Business.Service.Sevis
         /// </summary>
         /// <param name="resultType">The transaction log result.</param>
         /// <param name="participantPerson">The participant to add the status to.</param>
+        /// <param name="batch">The batch that the update belongs to.</param>
         /// <returns>The new sevis comm status added to the participant.</returns>
-        public ParticipantPersonSevisCommStatus AddResultTypeSevisCommStatus(ResultType resultType, ParticipantPerson participantPerson)
+        public ParticipantPersonSevisCommStatus AddResultTypeSevisCommStatus(ResultType resultType, ParticipantPerson participantPerson, SevisBatchProcessing batch)
         {
             Contract.Requires(resultType != null, "The result type must not be null.");
             Contract.Requires(participantPerson != null, "The participant person must not be null.");
             int commStatusId = SevisCommStatus.InformationRequired.Id;
             if (resultType.status)
             {
-                commStatusId = SevisCommStatus.CreatedByBatch.Id;
+                if (!String.IsNullOrWhiteSpace(participantPerson.SevisId))
+                {
+                    commStatusId = SevisCommStatus.UpdatedByBatch.Id;
+                }
+                else
+                {
+                    commStatusId = SevisCommStatus.CreatedByBatch.Id;
+                }
             }
             var sevisCommStatus = new ParticipantPersonSevisCommStatus
             {
                 AddedOn = DateTimeOffset.UtcNow,
                 ParticipantId = participantPerson.ParticipantId,
                 ParticipantPerson = participantPerson,
-                SevisCommStatusId = commStatusId
+                SevisCommStatusId = commStatusId,
+                BatchId = batch.BatchId,
             };
             participantPerson.ParticipantPersonSevisCommStatuses.Add(sevisCommStatus);
             Context.ParticipantPersonSevisCommStatuses.Add(sevisCommStatus);
