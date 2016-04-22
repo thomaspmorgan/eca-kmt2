@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using System.Net.Http;
 using System.Xml.Linq;
 using ECA.Core.Settings;
-using System.Security.Cryptography.X509Certificates;
 using System.Net.Http.Headers;
 using System.Text;
 
@@ -21,15 +20,18 @@ namespace ECA.Net
 
         private static string boundary = "----ECAKMTBoundary" + DateTime.Now.Ticks.ToString("x");
 
+        private IEcaWebRequestHandlerService webRequestHandlerService;
+
         /// <summary>
         /// Constructor for the SEVIS Comm object, must be passed the application settings object to have the upload/download URLS and Cert thumbprint
         /// </summary>
         /// <param name="appSettings">The application settings object</param>
-        public SevisComm(AppSettings appSettings)
+        public SevisComm(AppSettings appSettings, IEcaWebRequestHandlerService theWebRequestHandlerService)
         {
             DownloadUri = new Uri(appSettings.SevisDownloadUri);
             UploadUri = new Uri(appSettings.SevisUploadUri);
             Thumbprint = appSettings.SevisThumbprint;
+            webRequestHandlerService = theWebRequestHandlerService;
         }
 
         /// <summary>
@@ -42,7 +44,7 @@ namespace ECA.Net
         /// <returns></returns>
         public async Task<HttpResponseMessage> UploadAsync(XElement xml, string BatchId, string OrgId, string UserId)
         {
-            using (var httpClient = new HttpClient(GetWebRequestHandler()))
+            using (var httpClient = new HttpClient(webRequestHandlerService.GetWebRequestHandler(Thumbprint)))
             {
                 httpClient.DefaultRequestHeaders.Accept.ParseAdd("*/*");
                 httpClient.DefaultRequestHeaders.UserAgent.ParseAdd("curl/7.46.0");
@@ -88,7 +90,7 @@ namespace ECA.Net
         /// <returns></returns>
         public async Task<HttpResponseMessage> DownloadAsync(string BatchId, string OrgId, string UserId)
         {
-            using (var httpClient = new HttpClient(GetWebRequestHandler()))
+            using (var httpClient = new HttpClient(webRequestHandlerService.GetWebRequestHandler(Thumbprint)))
             {
                 httpClient.DefaultRequestHeaders.Accept.ParseAdd("*/*");
                 httpClient.DefaultRequestHeaders.UserAgent.ParseAdd("curl/7.46.0");
@@ -117,32 +119,6 @@ namespace ECA.Net
             }
  
         }
-
-        /// <summary>
-        /// Method to add the personal certificate to the request.  This certificate is tied to the Program that is uploading the data
-        /// The certificate has to have been previously uploaded via the Real Time interface
-        /// For Azure, this cert has to be added to the website.
-        /// </summary>
-        /// <returns>The WebRequestHandler with the certficate added.</returns>
-        private WebRequestHandler GetWebRequestHandler()
-        {
-            var webRequestHandler = new WebRequestHandler();
-            X509Store certStore = new X509Store(StoreName.My, StoreLocation.CurrentUser);
-            certStore.Open(OpenFlags.ReadOnly);
-            X509Certificate2Collection certCollection = certStore.Certificates.Find(X509FindType.FindByThumbprint, Thumbprint, false);
-            if(certCollection.Count == 0)
-            {
-                throw new Exception(string.Format("Certificate not found for Thumbprint [{0}]", Thumbprint));
-            }
-
-            var cert = certCollection[0];
-            webRequestHandler.ClientCertificateOptions = ClientCertificateOption.Manual;
-            webRequestHandler.ClientCertificates.Add(cert);
-            return webRequestHandler;
-            
-        }
-
-
 
     }
 }

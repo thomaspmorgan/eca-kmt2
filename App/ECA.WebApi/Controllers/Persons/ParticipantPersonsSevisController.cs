@@ -117,9 +117,8 @@ namespace ECA.WebApi.Controllers.Persons
         /// Retrieves the participantPersonSevis comm statuses with the given id.
         /// </summary>
         /// <param name="participantId">The id of the participant.</param>
-        /// <param name
         /// <param name="projectId">The id of the project.</param>
-        /// <param name="model">The query operator binding model.</param>
+        /// <param name="batchId">The BatchId to process.</param>
         /// <returns>The participantPersonSevis with the given id.</returns>
         [ResponseType(typeof(SevisBatchInfoDTO))]
         [Route("Project/{projectId:int}/ParticipantPersonsSevis/{participantId:int}/Batch/{batchId}")]

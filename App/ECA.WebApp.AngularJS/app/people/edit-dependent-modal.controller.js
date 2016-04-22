@@ -33,7 +33,7 @@ angular.module('staticApp')
                          location.isPrimary = obj.isPrimary;
                          return location;
                      });
-                 }                 
+                 }
                  if ($scope.dependent.dateOfBirth) {
                      $scope.dependent.dateOfBirth = DateTimeService.getDateAsLocalDisplayMoment($scope.dependent.dateOfBirth).toDate();
                  }
