@@ -1100,13 +1100,14 @@ namespace ECA.Business.Service.Sevis
         /// <param name="participantId">The participant id.</param>
         /// <param name="sevisId">The sevis id.</param>
         /// <param name="stream">The file stream.</param>
-        /// <returns>The url of the saved file.</returns>
+        /// <returns>The name of the saved file.</returns>
         public string SaveDS2019Form(IDS2019Fileable fileable, Stream stream)
         {
             Contract.Requires(fileable != null, "The fileable must not be null.");
             Contract.Requires(stream != null, "The stream must not be null.");
             var fileName = fileable.GetDS2019FileName();
-            return this.cloudStorageService.UploadBlob(stream, DS2019_CONTENT_TYPE, fileName);
+            this.cloudStorageService.UploadBlob(stream, DS2019_CONTENT_TYPE, fileName);
+            return fileName;
         }
 
         /// <summary>
@@ -1115,13 +1116,14 @@ namespace ECA.Business.Service.Sevis
         /// <param name="participantId">The participant id.</param>
         /// <param name="sevisId">The sevis id.</param>
         /// <param name="stream">The file stream.</param>
-        /// /// <returns>The url of the saved file.</returns>
+        /// /// <returns>The name of the saved file.</returns>
         public async Task<string> SaveDS2019FormAsync(IDS2019Fileable fileable, Stream stream)
         {
             Contract.Requires(fileable != null, "The fileable must not be null.");
             Contract.Requires(stream != null, "The stream must not be null.");
             var fileName = fileable.GetDS2019FileName();
-            return await cloudStorageService.UploadBlobAsync(stream, DS2019_CONTENT_TYPE, fileName);
+            await cloudStorageService.UploadBlobAsync(stream, DS2019_CONTENT_TYPE, fileName);
+            return fileName;
         }
 
         #endregion

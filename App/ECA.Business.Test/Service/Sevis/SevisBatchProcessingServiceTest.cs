@@ -2393,7 +2393,7 @@ namespace ECA.Business.Test.Service.Sevis
 
                 Assert.AreEqual(1, context.ParticipantPersonSevisCommStatuses.Count());
                 Assert.AreEqual(processDetail.resultCode, batch.ProcessDispositionCode);
-                Assert.AreEqual(url, participantPerson.DS2019FileName);
+                Assert.AreEqual(participantPerson.GetDS2019FileName(), participantPerson.DS2019FileName);
             };
             context.Revert();
             service.ProcessBatchDetailProcess(user, processDetail, batch, fileProvider.Object);
@@ -3765,10 +3765,13 @@ namespace ECA.Business.Test.Service.Sevis
             memoryStreamAsync.Read(fileContents, 0, fileContents.Length);
             Action<Stream, string, string> cloudStorageCallback = (s, contentType, fName) =>
             {
-
                 Assert.AreEqual(participantPerson.GetDS2019FileName(), fName);
                 Assert.AreEqual(SevisBatchProcessingService.DS2019_CONTENT_TYPE, contentType);
                 Assert.IsNotNull(s);
+            };
+            Action<string> tester = (s) =>
+            {
+                Assert.AreEqual(participantPerson.GetDS2019FileName(), s);
             };
             var url = "url";
             cloudStorageService.Setup(x => x.UploadBlob(It.IsAny<Stream>(), It.IsAny<string>(), It.IsAny<string>()))
@@ -3777,8 +3780,11 @@ namespace ECA.Business.Test.Service.Sevis
             cloudStorageService.Setup(x => x.UploadBlobAsync(It.IsAny<Stream>(), It.IsAny<string>(), It.IsAny<string>()))
                 .ReturnsAsync(url)
                 .Callback(cloudStorageCallback);
-            service.SaveDS2019Form(participantPerson, memoryStream);
-            await service.SaveDS2019FormAsync(participantPerson, memoryStreamAsync);
+            var fileName = service.SaveDS2019Form(participantPerson, memoryStream);
+            tester(fileName);
+
+            var fileNameAsync = await service.SaveDS2019FormAsync(participantPerson, memoryStreamAsync);
+            tester(fileNameAsync);
         }
         #endregion
 
