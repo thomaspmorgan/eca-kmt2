@@ -20,18 +20,18 @@ namespace ECA.Net
 
         private static string boundary = "----ECAKMTBoundary" + DateTime.Now.Ticks.ToString("x");
 
-        private IEcaWebRequestHandlerService webRequestHandlerService;
+        private IEcaHttpMessageHandlerService httpMessageHandlerService;
 
         /// <summary>
         /// Constructor for the SEVIS Comm object, must be passed the application settings object to have the upload/download URLS and Cert thumbprint
         /// </summary>
         /// <param name="appSettings">The application settings object</param>
-        public SevisComm(AppSettings appSettings, IEcaWebRequestHandlerService theWebRequestHandlerService)
+        public SevisComm(AppSettings appSettings, IEcaHttpMessageHandlerService theHttpMessageHandlerService)
         {
             DownloadUri = new Uri(appSettings.SevisDownloadUri);
             UploadUri = new Uri(appSettings.SevisUploadUri);
             Thumbprint = appSettings.SevisThumbprint;
-            webRequestHandlerService = theWebRequestHandlerService;
+            httpMessageHandlerService = theHttpMessageHandlerService;
         }
 
         /// <summary>
@@ -44,7 +44,7 @@ namespace ECA.Net
         /// <returns></returns>
         public async Task<HttpResponseMessage> UploadAsync(XElement xml, string BatchId, string OrgId, string UserId)
         {
-            using (var httpClient = new HttpClient(webRequestHandlerService.GetWebRequestHandler(Thumbprint)))
+            using (var httpClient = new HttpClient(httpMessageHandlerService.GetHttpMessageHandler(Thumbprint)))
             {
                 httpClient.DefaultRequestHeaders.Accept.ParseAdd("*/*");
                 httpClient.DefaultRequestHeaders.UserAgent.ParseAdd("curl/7.46.0");
@@ -90,7 +90,7 @@ namespace ECA.Net
         /// <returns></returns>
         public async Task<HttpResponseMessage> DownloadAsync(string BatchId, string OrgId, string UserId)
         {
-            using (var httpClient = new HttpClient(webRequestHandlerService.GetWebRequestHandler(Thumbprint)))
+            using (var httpClient = new HttpClient(httpMessageHandlerService.GetHttpMessageHandler(Thumbprint)))
             {
                 httpClient.DefaultRequestHeaders.Accept.ParseAdd("*/*");
                 httpClient.DefaultRequestHeaders.UserAgent.ParseAdd("curl/7.46.0");

@@ -4,7 +4,7 @@ using System.Security.Cryptography.X509Certificates;
 
 namespace ECA.Net
 {
-    public class EcaWebRequestHandlerService : IEcaWebRequestHandlerService
+    public class EcaHttpMessageHandlerService : IEcaHttpMessageHandlerService
     {
         /// <summary>
         /// Method to add the personal certificate to the request.  This certificate is tied to the Program that is uploading the data
@@ -12,7 +12,7 @@ namespace ECA.Net
         /// For Azure, this cert has to be added to the website.
         /// </summary>
         /// <returns>The WebRequestHandler with the certficate added.</returns>
-        public WebRequestHandler GetWebRequestHandler(string thumbprint)
+        public HttpMessageHandler GetHttpMessageHandler(string thumbprint)
         {
             var webRequestHandler = new WebRequestHandler();
             X509Store certStore = new X509Store(StoreName.My, StoreLocation.CurrentUser);

@@ -35,7 +35,7 @@ namespace ECA.WebJobs.Sevis.Core
             this.RegisterType<ISevisBatchProcessingNotificationService, TextWriterSevisBatchProcessingNotificationService>();
             this.RegisterType<IBlobStorageSettings, BlobStorageSettings>();
             this.RegisterType<IFileStorageService, FileStorageService>();
-            this.RegisterType<IEcaWebRequestHandlerService, EcaWebRequestHandlerService>();
+            this.RegisterType<IEcaHttpMessageHandlerService, EcaHttpMessageHandlerService>();
             //Register ECA Context
             this.RegisterType<EcaContext>(new InjectionConstructor(connectionString));
             this.RegisterType<DbContext, EcaContext>(new InjectionConstructor(connectionString));

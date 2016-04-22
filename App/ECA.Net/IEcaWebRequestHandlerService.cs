@@ -2,8 +2,8 @@
 
 namespace ECA.Net
 {
-    public interface IEcaWebRequestHandlerService
+    public interface IEcaHttpMessageHandlerService
     {
-       WebRequestHandler GetWebRequestHandler(string thumbprint);
+       HttpMessageHandler GetHttpMessageHandler(string thumbprint);
     }
 }

@@ -38,7 +38,7 @@ namespace ECA.WebJobs.Sevis.Staging.Test
     {
         private Mock<ISevisBatchProcessingService> service;
         private Mock<ISevisApiResponseHandler> responseHandler;
-        private Mock<IEcaWebRequestHandlerService> requestHandlerService;
+        private Mock<IEcaHttpMessageHandlerService> requestHandlerService;
         private Functions instance;
         private NameValueCollection appSettings;
         private ConnectionStringSettingsCollection connectionStrings;
@@ -52,7 +52,7 @@ namespace ECA.WebJobs.Sevis.Staging.Test
             settings = new AppSettings(appSettings, connectionStrings);
             service = new Mock<ISevisBatchProcessingService>();
             responseHandler = new Mock<ISevisApiResponseHandler>();
-            requestHandlerService = new Mock<IEcaWebRequestHandlerService>();
+            requestHandlerService = new Mock<IEcaHttpMessageHandlerService>();
             instance = new Functions(service.Object, responseHandler.Object, requestHandlerService.Object, settings);
         }
 
