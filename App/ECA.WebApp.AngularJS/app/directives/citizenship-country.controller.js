@@ -28,6 +28,8 @@ angular.module('staticApp')
       $scope.view.isDeletingCountry = false;
       $scope.view.isLoadingCountries = false;
       $scope.view.searchLimit = 10;
+      $scope.$parent.$parent.$parent.model = {};
+      $scope.$parent.$parent.$parent.model.countriesOfCitizenship = [];
 
       var originalCountry = angular.copy($scope.citizenship);
       
@@ -50,7 +52,10 @@ angular.module('staticApp')
       };
 
       function updateCountries(country) {
-          var index = $scope.$parent.$parent.$parent.model.countriesOfCitizenship.map(function (e) { return e.locationId; }).indexOf(country.locationId);
+          var index = -1;
+          if ($scope.$parent.$parent.$parent.model.countriesOfCitizenship != null) {
+              index = $scope.$parent.$parent.$parent.model.countriesOfCitizenship.map(function (e) { return e.locationId; }).indexOf(country.locationId);
+          }
           if (index < 0) {
               $scope.$parent.$parent.$parent.model.countriesOfCitizenship.splice(0, 0, country);
           } else {
@@ -94,7 +99,7 @@ angular.module('staticApp')
       }
 
       $scope.view.onIsPrimaryChange = function () {
-          $scope.$emit(ConstantsService.removeNewCitizenshipCountryEventName, $scope.citizenship);
+          $scope.$emit(ConstantsService.primaryCitizenshipCountryChangedEventName, $scope.citizenship);
       }
 
       $scope.view.onEditCountryClick = function () {

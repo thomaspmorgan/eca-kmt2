@@ -60,7 +60,7 @@ namespace ECA.WebApi.Test.Controllers.Persons
             personService.Setup(x => x.SaveChangesAsync()).ReturnsAsync(1);
             var response = await controller.PostPersonDependentAsync(new DependentBindingModel { });
             personService.Verify(x => x.SaveChangesAsync(), Times.Once());
-            Assert.IsInstanceOfType(response, typeof(SimplePersonDependentDTO));
+            Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<SimplePersonDependentDTO>));
         }
 
         [TestMethod]

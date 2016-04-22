@@ -61,8 +61,8 @@
                     </div>
                     <div class="form-group">
                         <label>COUNTRIES OF CITIZENSHIP</label>
-                        <span ng-repeat="country in selectedCountriesOfCitizenship">
-                            {{country.name}}{{$last ? '' : ','}}
+                        <span ng-repeat="country in dependent.countriesOfCitizenship">
+                            {{country.locationName}}<span ng-show="country.isPrimary"> (primary)</span>{{$last ? '' : ','}}
                         </span>
                     </div>
                     <div class="form-group">
