@@ -57,7 +57,7 @@
       <Name>ECA.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\ECA.Net\ECA.Net.csproj">
-      <Project>{C7ABECF2-7270-4BE3-A5F4-A4283323010F}</Project>
+      <Project>{c7abecf2-7270-4be3-a5f4-a4283323010f}</Project>
       <Name>ECA.Net</Name>
     </ProjectReference>
   </ItemGroup>
