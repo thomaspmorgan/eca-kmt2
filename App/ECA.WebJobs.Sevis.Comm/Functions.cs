@@ -22,7 +22,7 @@ namespace ECA.WebJobs.Sevis.Comm
 
         private ISevisBatchProcessingService service;
         private ISevisApiResponseHandler responseHandler;
-        private IEcaWebRequestHandlerService ecaWebRequestHandlerService;
+        private IEcaHttpMessageHandlerService ecaHttpMessageHandlerService;
         private AppSettings appSettings;
         private static Logger logger = LogManager.GetCurrentClassLogger();
 
@@ -31,15 +31,15 @@ namespace ECA.WebJobs.Sevis.Comm
         /// </summary>
         /// <param name="service">The sevis batch processing service.</param>
         /// <param name="appSettings">The app settings.</param>
-        public Functions(ISevisBatchProcessingService service, ISevisApiResponseHandler responseHandler, IEcaWebRequestHandlerService theEcaWebRequestHandlerService, AppSettings appSettings)
+        public Functions(ISevisBatchProcessingService service, ISevisApiResponseHandler responseHandler, IEcaHttpMessageHandlerService theEcaHttpMessageHandlerService, AppSettings appSettings)
         {
             Contract.Requires(service != null, "The service must not be null.");
             Contract.Requires(responseHandler != null, "The response handler must not be null.");
             Contract.Requires(appSettings != null, "The app settings must not be null.");
-            Contract.Requires(theEcaWebRequestHandlerService != null, "The app settings must not be null.");
+            Contract.Requires(theEcaHttpMessageHandlerService != null, "The app settings must not be null.");
             this.responseHandler = responseHandler;
             this.service = service;
-            this.ecaWebRequestHandlerService = theEcaWebRequestHandlerService;
+            this.ecaHttpMessageHandlerService = theEcaHttpMessageHandlerService;
             this.appSettings = appSettings;
         }
 
@@ -56,7 +56,7 @@ namespace ECA.WebJobs.Sevis.Comm
 #endif   
             )
         {
-            var sevisComm = new SevisComm(this.appSettings, this.ecaWebRequestHandlerService);
+            var sevisComm = new SevisComm(this.appSettings, this.ecaHttpMessageHandlerService);
             await ProcessAsync(this.service, sevisComm, this.appSettings);
             var nextOccurrenceMessage = info.FormatNextOccurrences(1);
             logger.Info(nextOccurrenceMessage);
@@ -215,11 +215,11 @@ namespace ECA.WebJobs.Sevis.Comm
                     ((IDisposable)this.responseHandler).Dispose();
                     this.responseHandler = null;
                 }
-                if (this.ecaWebRequestHandlerService is IDisposable)
+                if (this.ecaHttpMessageHandlerService is IDisposable)
                 {
-                    logger.Trace("Disposing of response handler " + this.ecaWebRequestHandlerService.GetType());
-                    ((IDisposable)this.ecaWebRequestHandlerService).Dispose();
-                    this.ecaWebRequestHandlerService = null;
+                    logger.Trace("Disposing of response handler " + this.ecaHttpMessageHandlerService.GetType());
+                    ((IDisposable)this.ecaHttpMessageHandlerService).Dispose();
+                    this.ecaHttpMessageHandlerService = null;
                 }
             }
         }

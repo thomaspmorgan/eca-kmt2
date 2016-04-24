@@ -96,7 +96,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECA.Business.Storage.Test",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECA.Net", "ECA.Net\ECA.Net.csproj", "{C7ABECF2-7270-4BE3-A5F4-A4283323010F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECA.Net.Tests", "ECA.NetTests\ECA.Net.Tests.csproj", "{0AE88316-DC25-4F87-85D7-1F8E6ED0D46D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECA.Net.Test", "ECA.NetTests\ECA.Net.Test.csproj", "{0AE88316-DC25-4F87-85D7-1F8E6ED0D46D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

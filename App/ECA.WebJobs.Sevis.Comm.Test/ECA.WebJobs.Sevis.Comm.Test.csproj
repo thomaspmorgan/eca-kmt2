@@ -157,7 +157,7 @@
       <Name>ECA.WebJobs.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\ECA.WebJobs.Sevis.Comm\ECA.WebJobs.Sevis.Comm.csproj">
-      <Project>{6580153b-a136-4d77-8c69-22dd602103dc}</Project>
+      <Project>{352c570d-bb54-4167-b1aa-853e812dc5ca}</Project>
       <Name>ECA.WebJobs.Sevis.Comm</Name>
     </ProjectReference>
     <ProjectReference Include="..\ECA.WebJobs.Sevis.Core\ECA.WebJobs.Sevis.Core.csproj">
