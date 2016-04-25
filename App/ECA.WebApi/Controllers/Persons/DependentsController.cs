@@ -131,7 +131,7 @@ namespace ECA.WebApi.Controllers.Persons
             await service.SaveChangesAsync();
             return Ok();
         }
-
+        
         /// <summary>
         /// Returns the person types in the system.
         /// </summary>
