@@ -98,16 +98,6 @@ angular.module('staticApp')
 
       $scope.view.onEditLanguageProficiencyClick = function (proficiency) {
           $scope.view.showEditLanguageProficiency = true;
-          //isLanguageExists(proficiency);
-          //var id = getLanguageProficiencyFormDivId();
-          //var options = {
-          //    duration: 500,
-          //    easing: 'easeIn',
-          //    offset: 200,
-          //    callbackBefore: function (element) {},
-          //    callbackAfter: function (element) { }
-          //}
-          //smoothScroll(getLanguageProficiencyFormDivElement(id), options);
       };
 
       function removeLanguageProficiencyFromView(languageProficiency) {

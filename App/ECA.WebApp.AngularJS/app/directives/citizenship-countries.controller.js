@@ -26,12 +26,11 @@ angular.module('staticApp')
       $scope.view.isLoadingCountries = false;
       var tempCountryId = 0;
 
-      $scope.view.onAddCitizenshipCountryClick = function (entityId) {
+      $scope.view.onAddCitizenshipCountryClick = function () {
           var newCountry = {
-              id: entityId,
+              locationId: --tempCountryId,
               locationName: "",
               isPrimary: false,
-              locationId: --tempCountryId,
               isNew: true
           };
           $scope.$parent.$parent.countriesOfCitizenship.splice(0, 0, newCountry);

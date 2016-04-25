@@ -2312,7 +2312,7 @@ namespace ECA.Business.Test.Service.Persons
                 Assert.AreEqual(newPerson.PlaceOfResidenceId, testPerson.PlaceOfResidenceId);
                 Assert.AreEqual(newPerson.BirthCountryReasonId, testPerson.BirthCountryReasonId);
                 Assert.AreEqual(newPerson.EmailAddress, testPerson.EmailAddresses.Select(x => x.Address).FirstOrDefault());
-                //CollectionAssert.AreEqual(newPerson.CountriesOfCitizenship.Select(x => x.LocationId).ToList(), testPerson.CountriesOfCitizenship.Select(x => x.LocationId).ToList());
+                CollectionAssert.AreEqual(newPerson.CountriesOfCitizenship.Select(x => x.LocationId).ToList(), testPerson.CountriesOfCitizenship.Select(x => x.LocationId).ToList());
                 Assert.AreEqual(newPerson.IsTravellingWithParticipant, testPerson.IsTravellingWithParticipant);
 
                 Assert.AreEqual(user.Id, testPerson.History.CreatedBy);

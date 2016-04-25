@@ -7,10 +7,10 @@
         <a ng-click="view.onAddCitizenshipCountryClick(view.params.personId)">
             <i class="material-icons md-24 md-dark pull-right">add</i>
         </a>
-        <div class="pull-right" style="margin-top: 3px;" ng-show="view.collapseCitizenshipCountries">({{model.countriesOfCitizenship.length}})</div>
+        <div class="pull-right" style="margin-top: 3px;" ng-show="view.collapseCitizenshipCountries">({{$parent.$parent.countriesOfCitizenship.length}})</div>
     </div>
     <div class="col-md-12" collapse="view.collapseCitizenshipCountries">
-        <div ng-repeat="citizenship in model.countriesOfCitizenship track by $index">
+        <div ng-repeat="citizenship in $parent.$parent.countriesOfCitizenship track by $index">
             <div ng-controller="CitizenshipCountryCtrl" class="expandIndent">
                 <div class="spinner" ng-show="view.isSavingChanges">
                     <div class="bounce1"></div>
@@ -57,6 +57,7 @@
                                     <input name="isPrimary"
                                            type="checkbox"
                                            ng-model="citizenship.isPrimary"
+                                           ng-change="view.onIsPrimaryChange()"
                                            id="isPrimary" />
                                 </div>
                             </div>

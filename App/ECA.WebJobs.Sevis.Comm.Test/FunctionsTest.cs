@@ -41,7 +41,7 @@ namespace ECA.WebJobs.Sevis.Staging.Test
     {
         private Mock<ISevisBatchProcessingService> service;
         private Mock<ISevisApiResponseHandler> responseHandler;
-        private Mock<IEcaWebRequestHandlerService> requestHandlerService;
+        private Mock<IEcaHttpMessageHandlerService> requestHandlerService;
         private Functions instance;
         private NameValueCollection appSettings;
         private ConnectionStringSettingsCollection connectionStrings;
@@ -55,7 +55,7 @@ namespace ECA.WebJobs.Sevis.Staging.Test
             settings = new AppSettings(appSettings, connectionStrings);
             service = new Mock<ISevisBatchProcessingService>();
             responseHandler = new Mock<ISevisApiResponseHandler>();
-            requestHandlerService = new Mock<IEcaWebRequestHandlerService>();
+            requestHandlerService = new Mock<IEcaHttpMessageHandlerService>();
             instance = new Functions(service.Object, responseHandler.Object, requestHandlerService.Object, settings);
         }
 
@@ -548,17 +548,17 @@ namespace ECA.WebJobs.Sevis.Staging.Test
         [TestMethod]
         public void TestDispose_ECAWebRequestHandlerr()
         {
-            var disposableService = new Mock<IEcaWebRequestHandlerService>();
+            var disposableService = new Mock<IEcaHttpMessageHandlerService>();
             var disposable = disposableService.As<IDisposable>();
             instance = new Functions(service.Object, responseHandler.Object, disposableService.Object, settings);
 
-            var ecaWebRequestHandlerServiceField = typeof(Functions).GetField("ecaWebRequestHandlerService", BindingFlags.NonPublic | BindingFlags.Instance);
-            var handlerValue = ecaWebRequestHandlerServiceField.GetValue(instance);
-            Assert.IsNotNull(ecaWebRequestHandlerServiceField);
+            var ecaHttpMessageHandlerServiceField = typeof(Functions).GetField("ecaHttpMessageHandlerService", BindingFlags.NonPublic | BindingFlags.Instance);
+            var handlerValue = ecaHttpMessageHandlerServiceField.GetValue(instance);
+            Assert.IsNotNull(ecaHttpMessageHandlerServiceField);
             Assert.IsNotNull(handlerValue);
 
             instance.Dispose();
-            handlerValue = ecaWebRequestHandlerServiceField.GetValue(instance);
+            handlerValue = ecaHttpMessageHandlerServiceField.GetValue(instance);
             Assert.IsNull(handlerValue);
             disposable.Verify(x => x.Dispose(), Times.Once());
         }
@@ -566,16 +566,16 @@ namespace ECA.WebJobs.Sevis.Staging.Test
         [TestMethod]
         public void TestDispose_ECAWebRequestHandler_NotDisposable()
         {
-            var disposableService = new Mock<IEcaWebRequestHandlerService>();
+            var disposableService = new Mock<IEcaHttpMessageHandlerService>();
             instance = new Functions(service.Object, responseHandler.Object, disposableService.Object, settings);
 
-            var ecaWebRequestHandlerServiceField = typeof(Functions).GetField("ecaWebRequestHandlerService", BindingFlags.NonPublic | BindingFlags.Instance);
-            var handlerValue = ecaWebRequestHandlerServiceField.GetValue(instance);
-            Assert.IsNotNull(ecaWebRequestHandlerServiceField);
+            var ecaHttpMessageHandlerServiceField = typeof(Functions).GetField("ecaHttpMessageHandlerService", BindingFlags.NonPublic | BindingFlags.Instance);
+            var handlerValue = ecaHttpMessageHandlerServiceField.GetValue(instance);
+            Assert.IsNotNull(ecaHttpMessageHandlerServiceField);
             Assert.IsNotNull(handlerValue);
 
             instance.Dispose();
-            handlerValue = ecaWebRequestHandlerServiceField.GetValue(instance);
+            handlerValue = ecaHttpMessageHandlerServiceField.GetValue(instance);
             Assert.IsNotNull(handlerValue);
         }
         #endregion
