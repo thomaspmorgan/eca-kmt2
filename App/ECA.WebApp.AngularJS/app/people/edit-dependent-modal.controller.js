@@ -12,7 +12,8 @@ angular.module('staticApp')
           NotificationService, FilterService, $q, DateTimeService, dependent) {
       
       $scope.dependent = loadDependent(dependent.id);
-      $scope.countriesOfCitizenship = [];
+      $scope.model = {};
+      $scope.model.countriesOfCitizenship = [];
       $scope.countriesResidence = [];
       $scope.cities = [];
       $scope.datePickerOpen = false;
@@ -26,14 +27,14 @@ angular.module('staticApp')
              .then(function (data) {
                  $scope.dependent = data;
                  if ($scope.dependent.countriesOfCitizenship) {
-                     $scope.countriesOfCitizenship = $scope.dependent.countriesOfCitizenship.map(function (obj) {
+                     $scope.model.countriesOfCitizenship = $scope.dependent.countriesOfCitizenship.map(function (obj) {
                          var location = {};
                          location.locationId = obj.locationId;
                          location.locationName = obj.locationName;
                          location.isPrimary = obj.isPrimary;
                          return location;
                      });
-                 }                 
+                 }
                  if ($scope.dependent.dateOfBirth) {
                      $scope.dependent.dateOfBirth = DateTimeService.getDateAsLocalDisplayMoment($scope.dependent.dateOfBirth).toDate();
                  }
@@ -87,32 +88,32 @@ angular.module('staticApp')
       };
 
       function setupDependent() {
-          $scope.dependent.countriesOfCitizenship = $scope.countriesOfCitizenship;
+          $scope.dependent.countriesOfCitizenship = $scope.model.countriesOfCitizenship;
           if ($scope.dependent.dateOfBirth) {
               $scope.dependent.dateOfBirth.setUTCHours(0, 0, 0, 0);
           }
       };
 
       $scope.isDependentPlaceOfBirthValid = function ($value) {
-            if ($value === 0 || $value === null) {
-                return false;
-            }
-            else {
-                return true;
-            }
-      }
+          if ($value === 0 || $value === null) {
+              return false;
+          }
+          else {
+              return true;
+          }
+      };
 
       $scope.isDependentCityOfBirthValid = function ($value) {
-            return $value !== undefined && $value !== null && $value !== 0;
-      }
+          return $value !== undefined && $value !== null && $value !== 0;
+      };
 
       $scope.searchDependentCities = function (search) {
           return loadDependentCities(search);
-      }
+      };
 
       $scope.searchDependentCountries = function (search) {
           return loadDependentCitizenshipCountries(search);
-      }
+      };
 
       $scope.setBirthCountryReasonState = function ($item, $model) {
           if ($item.countryId === 193) {
@@ -121,7 +122,7 @@ angular.module('staticApp')
               $scope.dependent.isBirthCountryUSA = false;
               $scope.dependent.birthCountryReasonId = null;
           }
-      }
+      };
 
       function loadDependentCities(search) {
           if (search || $scope.dependent) {
@@ -133,17 +134,16 @@ angular.module('staticApp')
               };
               if (search) {
                   params.filter.push({ property: 'name', comparison: ConstantsService.likeComparisonType, value: search });
+              } else if ($scope.dependent.placeOfBirthId) {
+                  params.filter.push({ property: 'id', comparison: ConstantsService.equalComparisonType, value: $scope.dependent.placeOfBirthId });
               }
-              //else if ($scope.dependent.placeOfBirthId) {
-              //    params.filter.push({ property: 'id', comparison: ConstantsService.equalComparisonType, value: $scope.dependent.placeOfBirthId });
-              //}
               return LocationService.get(params)
                 .then(function (data) {
                     $scope.cities = data.results;
                     return $scope.cities;
                 });
           }
-      }
+      };
 
       function loadDependentCitizenshipCountries(search) {
           var params = {
@@ -161,7 +161,7 @@ angular.module('staticApp')
                 $scope.countriesCitizenship = data.results;
                 return $scope.countriesCitizenship;
             });
-      }
+      };
 
       function loadResidenceCountries() {
           var params = {
@@ -177,7 +177,7 @@ angular.module('staticApp')
               $scope.countriesResidence = data.results;
               return $scope.countriesResidence;
           });
-      }
+      };
 
       function loadGenders() {
           LookupService.getAllGenders({
@@ -189,7 +189,7 @@ angular.module('staticApp')
           .then(function (data) {
               $scope.genders = data.results;
           });
-      }
+      };
 
       function loadDependentTypes() {
           LookupService.getDependentTypes({
@@ -199,7 +199,7 @@ angular.module('staticApp')
           .then(function (data) {
               $scope.dependenttypes = data.data.results;
           });
-      }
+      };
 
       function loadBirthCountryReasons() {
           LookupService.getBirthCountryReasons({
@@ -211,7 +211,7 @@ angular.module('staticApp')
           .then(function (data) {
               $scope.birthCountryReasons = data.data.results;
           });
-      }
+      };
 
       $scope.openDatePicker = function ($event) {
           $event.preventDefault();
@@ -224,18 +224,19 @@ angular.module('staticApp')
               .then(function (dependent) {
                   $modalInstance.close(dependent);
               });
-      }
+      };
 
       $scope.onCloseDependentClick = function () {
           $modalInstance.dismiss('cancel');
-      }
+      };
 
       $scope.isDependentLoading = true;
-      $q.all([loadResidenceCountries(), loadGenders(), loadDependentTypes(), loadBirthCountryReasons()])
+      $q.all([loadResidenceCountries(), loadDependentCities(null), loadGenders(), loadDependentTypes(), loadBirthCountryReasons()])
           .then(function () {
               $scope.isDependentLoading = false;
           })
           .catch(function () {
               $scope.isDependentLoading = false;
           });
+
   });

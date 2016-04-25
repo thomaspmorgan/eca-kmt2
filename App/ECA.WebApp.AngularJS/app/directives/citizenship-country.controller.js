@@ -50,7 +50,13 @@ angular.module('staticApp')
       };
 
       function updateCountries(country) {
-          var index = $scope.$parent.$parent.$parent.model.countriesOfCitizenship.map(function (e) { return e.locationId; }).indexOf(country.locationId);
+          var index = -1;
+          if ($scope.$parent.$parent.$parent.model.countriesOfCitizenship != null) {
+              index = $scope.$parent.$parent.$parent.model.countriesOfCitizenship.map(function (e) { return e.locationId; }).indexOf(country.locationId);
+          } else {
+              $scope.$parent.$parent.$parent.model = {};
+              $scope.$parent.$parent.$parent.model.countriesOfCitizenship = [];
+          }
           if (index < 0) {
               $scope.$parent.$parent.$parent.model.countriesOfCitizenship.splice(0, 0, country);
           } else {
@@ -73,19 +79,9 @@ angular.module('staticApp')
           }
           else {
               $scope.view.isDeletingCountry = true;
-              console.assert($scope.modelId, 'The entity model id must be defined.');
-              var modelId = $scope.modelId;
-              return DependentService.deleteCountry($scope.citizenship, modelId)
-              .then(function () {
-                  NotificationService.showSuccessMessage("Successfully deleted country.");
-                  $scope.view.isDeletingCountry = false;
-                  removeCountryFromView($scope.citizenship);
-              })
-              .catch(function () {
-                  var message = "Unable to delete country.";
-                  $log.error(message);
-                  NotificationService.showErrorMessage(message);
-              });
+              var index = $scope.$parent.$parent.model.countriesOfCitizenship.map(function (e) { return e.locationId; }).indexOf($scope.citizenship.locationId);
+              $scope.$parent.$parent.model.countriesOfCitizenship.splice(index, 1);
+              removeCountryFromView($scope.citizenship);
           }
       };
 
@@ -94,7 +90,7 @@ angular.module('staticApp')
       }
 
       $scope.view.onIsPrimaryChange = function () {
-          $scope.$emit(ConstantsService.removeNewCitizenshipCountryEventName, $scope.citizenship);
+          $scope.$emit(ConstantsService.primaryCitizenshipCountryChangedEventName, $scope.citizenship);
       }
 
       $scope.view.onEditCountryClick = function () {

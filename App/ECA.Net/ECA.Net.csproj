@@ -99,6 +99,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EcaWebRequestHandlerService.cs" />
+    <Compile Include="IEcaWebRequestHandlerService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SevisComm.cs" />
   </ItemGroup>

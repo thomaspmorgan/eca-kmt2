@@ -87,21 +87,21 @@ namespace ECA.Business.Service.Sevis
         /// <param name="sevisUsername">The sevis username all exchange visitors will be submitted with.</param>
         /// </summary>
         public StagedSevisBatch(
-            Guid batchId,
+            BatchId batchId,
             string sevisUsername,
             string sevisOrgId,
             int maxCreateExchangeVisitorRecordsPerBatch = MAX_CREATE_EXCHANGE_VISITOR_RECORDS_PER_BATCH_DEFAULT,
             int maxUpdateExchangeVisitorRecordPerBatch = MAX_UPDATE_EXCHANGE_VISITOR_RECORD_PER_BATCH_DEFAULT)
         {
-            Contract.Requires(batchId != Guid.Empty, "The batch id must not be the empty guid.");
+            Contract.Requires(batchId != null, "The batch id must not be null.");
 
-            this.BatchId = GetBatchId(batchId);
+            this.BatchId = batchId;
             this.SevisUsername = sevisUsername;
             this.SevisOrgId = sevisOrgId;
             this.exchangeVisitors = new List<ExchangeVisitor>();
             this.SevisBatchProcessing = new SevisBatchProcessing
             {
-                BatchId = this.BatchId,
+                BatchId = this.BatchId.ToString(),
                 SevisOrgId = this.SevisOrgId,
                 SevisUsername = this.SevisUsername,
                 UploadTries = 0,
@@ -111,9 +111,9 @@ namespace ECA.Business.Service.Sevis
             this.SEVISBatchCreateUpdateEV.userID = sevisUsername;
             this.SEVISBatchCreateUpdateEV.BatchHeader = new BatchHeaderType
             {
-                BatchID = this.BatchId.ToString(),
                 OrgID = this.SevisOrgId
             };
+            this.SEVISBatchCreateUpdateEV.BatchHeader.SetBatchId(this.BatchId);
             this.SEVISBatchCreateUpdateEV.CreateEV = null;
             this.SEVISBatchCreateUpdateEV.UpdateEV = null;
             this.MaxCreateExchangeVisitorRecordsPerBatch = maxCreateExchangeVisitorRecordsPerBatch;
@@ -133,7 +133,7 @@ namespace ECA.Business.Service.Sevis
         /// <summary>
         /// Gets the batch id.
         /// </summary>
-        public string BatchId { get; private set; }
+        public BatchId BatchId { get; private set; }
 
         /// <summary>
         /// Gets or sets the sevis batch processing entity framework model.
@@ -261,21 +261,6 @@ namespace ECA.Business.Service.Sevis
                 }
             }
             this.exchangeVisitors.Add(exchangeVisitor);
-        }
-
-        /// <summary>
-        /// Returns the batch id from the given guid.
-        /// </summary>
-        /// <param name="guid">The batch id guid.</param>
-        /// <returns>The guid to convert to a batch id.</returns>
-        public string GetBatchId(Guid guid)
-        {
-            Contract.Requires(guid != Guid.Empty, "The provided guid must not be the empty guid.");
-            var maxLength = 14;
-            var guidString = guid.ToString();
-            guidString = guidString.Replace("-", String.Empty);
-            var index = guidString.Length - maxLength;
-            return guidString.Substring(index);
         }
     }
 }
