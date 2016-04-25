@@ -6148,5 +6148,266 @@ namespace ECA.Business.Test.Queries.Persons
             Assert.IsNull(result);
         }
         #endregion
+
+        #region CreateGetReadyToValidateParticipantDTOsQuery
+        [TestMethod]
+        public void TestCreateGetReadyToValidateParticipantDTOsQuery_CheckProperties()
+        {
+            var participant = new Participant
+            {
+                ParticipantId = 1,
+                ProjectId = 10
+            };
+            var participantPerson = new ParticipantPerson
+            {
+                ParticipantId = participant.ParticipantId,
+                Participant = participant,
+                SevisId = "sevisId",
+                StartDate = DateTimeOffset.UtcNow.AddDays(-1.0)
+            };
+            participant.ParticipantPerson = participantPerson;
+            var participantCommStatus = new ParticipantPersonSevisCommStatus
+            {
+                Id = 1,
+                SevisCommStatusId = SevisCommStatus.CreatedByBatch.Id,
+                ParticipantId = participant.ParticipantId,
+                ParticipantPerson = participantPerson
+            };
+            participantPerson.ParticipantPersonSevisCommStatuses.Add(participantCommStatus);
+
+            context.Participants.Add(participant);
+            context.ParticipantPersons.Add(participantPerson);
+            context.ParticipantPersonSevisCommStatuses.Add(participantCommStatus);
+
+            var results = ExchangeVisitorQueries.CreateGetReadyToValidateParticipantDTOsQuery(context, DateTimeOffset.UtcNow).ToList();
+            Assert.AreEqual(1, results.Count);
+            var firstResult = results.First();
+            Assert.AreEqual(participant.ParticipantId, firstResult.ParticipantId);
+            Assert.AreEqual(participant.ProjectId, firstResult.ProjectId);
+            Assert.AreEqual(participantPerson.SevisId, firstResult.SevisId);
+        }
+
+        [TestMethod]
+        public void TestCreateGetReadyToValidateParticipantDTOsQuery_StartDateHasNotPassed()
+        {
+            var participant = new Participant
+            {
+                ParticipantId = 1,
+                ProjectId = 10
+            };
+            var participantPerson = new ParticipantPerson
+            {
+                ParticipantId = participant.ParticipantId,
+                Participant = participant,
+                SevisId = "sevisId",
+                StartDate = DateTimeOffset.UtcNow.AddDays(-1.0)
+            };
+            participant.ParticipantPerson = participantPerson;
+            var participantCommStatus = new ParticipantPersonSevisCommStatus
+            {
+                Id = 1,
+                SevisCommStatusId = SevisCommStatus.CreatedByBatch.Id,
+                ParticipantId = participant.ParticipantId,
+                ParticipantPerson = participantPerson
+            };
+            participantPerson.ParticipantPersonSevisCommStatuses.Add(participantCommStatus);
+
+            context.Participants.Add(participant);
+            context.ParticipantPersons.Add(participantPerson);
+            context.ParticipantPersonSevisCommStatuses.Add(participantCommStatus);
+
+            var results = ExchangeVisitorQueries.CreateGetReadyToValidateParticipantDTOsQuery(context, DateTimeOffset.UtcNow).ToList();
+            Assert.AreEqual(1, results.Count);
+
+            participantPerson.StartDate = DateTimeOffset.UtcNow.AddDays(1.0);
+            results = ExchangeVisitorQueries.CreateGetReadyToValidateParticipantDTOsQuery(context, DateTimeOffset.UtcNow).ToList();
+            Assert.AreEqual(0, results.Count);
+        }
+
+        [TestMethod]
+        public void TestCreateGetReadyToValidateParticipantDTOsQuery_HasReadyToValidateStatus()
+        {
+            var participant = new Participant
+            {
+                ParticipantId = 1,
+                ProjectId = 10
+            };
+            var participantPerson = new ParticipantPerson
+            {
+                ParticipantId = participant.ParticipantId,
+                Participant = participant,
+                SevisId = "sevisId",
+                StartDate = DateTimeOffset.UtcNow.AddDays(-1.0)
+            };
+            participant.ParticipantPerson = participantPerson;
+            var participantCommStatus = new ParticipantPersonSevisCommStatus
+            {
+                Id = 1,
+                SevisCommStatusId = SevisCommStatus.CreatedByBatch.Id,
+                ParticipantId = participant.ParticipantId,
+                ParticipantPerson = participantPerson
+            };
+            participantPerson.ParticipantPersonSevisCommStatuses.Add(participantCommStatus);
+
+            context.Participants.Add(participant);
+            context.ParticipantPersons.Add(participantPerson);
+            context.ParticipantPersonSevisCommStatuses.Add(participantCommStatus);
+
+            var results = ExchangeVisitorQueries.CreateGetReadyToValidateParticipantDTOsQuery(context, DateTimeOffset.UtcNow).ToList();
+            Assert.AreEqual(1, results.Count);
+
+            participantCommStatus.SevisCommStatusId = SevisCommStatus.ReadyToValidate.Id;
+            results = ExchangeVisitorQueries.CreateGetReadyToValidateParticipantDTOsQuery(context, DateTimeOffset.UtcNow).ToList();
+            Assert.AreEqual(0, results.Count);
+        }
+
+        [TestMethod]
+        public void TestCreateGetReadyToValidateParticipantDTOsQuery_HasNeedsValidationInfo()
+        {
+            var participant = new Participant
+            {
+                ParticipantId = 1,
+                ProjectId = 10
+            };
+            var participantPerson = new ParticipantPerson
+            {
+                ParticipantId = participant.ParticipantId,
+                Participant = participant,
+                SevisId = "sevisId",
+                StartDate = DateTimeOffset.UtcNow.AddDays(-1.0)
+            };
+            participant.ParticipantPerson = participantPerson;
+            var participantCommStatus = new ParticipantPersonSevisCommStatus
+            {
+                Id = 1,
+                SevisCommStatusId = SevisCommStatus.CreatedByBatch.Id,
+                ParticipantId = participant.ParticipantId,
+                ParticipantPerson = participantPerson
+            };
+            participantPerson.ParticipantPersonSevisCommStatuses.Add(participantCommStatus);
+
+            context.Participants.Add(participant);
+            context.ParticipantPersons.Add(participantPerson);
+            context.ParticipantPersonSevisCommStatuses.Add(participantCommStatus);
+
+            var results = ExchangeVisitorQueries.CreateGetReadyToValidateParticipantDTOsQuery(context, DateTimeOffset.UtcNow).ToList();
+            Assert.AreEqual(1, results.Count);
+
+            participantCommStatus.SevisCommStatusId = SevisCommStatus.NeedsValidationInfo.Id;
+            results = ExchangeVisitorQueries.CreateGetReadyToValidateParticipantDTOsQuery(context, DateTimeOffset.UtcNow).ToList();
+            Assert.AreEqual(0, results.Count);
+        }
+
+        [TestMethod]
+        public void TestCreateGetReadyToValidateParticipantDTOsQuery_StartDateDoesNotHaveValue()
+        {
+            var participant = new Participant
+            {
+                ParticipantId = 1,
+                ProjectId = 10
+            };
+            var participantPerson = new ParticipantPerson
+            {
+                ParticipantId = participant.ParticipantId,
+                Participant = participant,
+                SevisId = "sevisId",
+                StartDate = DateTimeOffset.UtcNow.AddDays(-1.0)
+            };
+            participant.ParticipantPerson = participantPerson;
+            var participantCommStatus = new ParticipantPersonSevisCommStatus
+            {
+                Id = 1,
+                SevisCommStatusId = SevisCommStatus.CreatedByBatch.Id,
+                ParticipantId = participant.ParticipantId,
+                ParticipantPerson = participantPerson
+            };
+            participantPerson.ParticipantPersonSevisCommStatuses.Add(participantCommStatus);
+
+            context.Participants.Add(participant);
+            context.ParticipantPersons.Add(participantPerson);
+            context.ParticipantPersonSevisCommStatuses.Add(participantCommStatus);
+
+            var results = ExchangeVisitorQueries.CreateGetReadyToValidateParticipantDTOsQuery(context, DateTimeOffset.UtcNow).ToList();
+            Assert.AreEqual(1, results.Count);
+
+            participantPerson.StartDate = null;
+            results = ExchangeVisitorQueries.CreateGetReadyToValidateParticipantDTOsQuery(context, DateTimeOffset.UtcNow).ToList();
+            Assert.AreEqual(0, results.Count);
+        }
+
+        [TestMethod]
+        public void TestCreateGetReadyToValidateParticipantDTOsQuery_SevisIdIsNull()
+        {
+            var participant = new Participant
+            {
+                ParticipantId = 1,
+                ProjectId = 10
+            };
+            var participantPerson = new ParticipantPerson
+            {
+                ParticipantId = participant.ParticipantId,
+                Participant = participant,
+                SevisId = "sevisId",
+                StartDate = DateTimeOffset.UtcNow.AddDays(-1.0)
+            };
+            participant.ParticipantPerson = participantPerson;
+            var participantCommStatus = new ParticipantPersonSevisCommStatus
+            {
+                Id = 1,
+                SevisCommStatusId = SevisCommStatus.CreatedByBatch.Id,
+                ParticipantId = participant.ParticipantId,
+                ParticipantPerson = participantPerson
+            };
+            participantPerson.ParticipantPersonSevisCommStatuses.Add(participantCommStatus);
+
+            context.Participants.Add(participant);
+            context.ParticipantPersons.Add(participantPerson);
+            context.ParticipantPersonSevisCommStatuses.Add(participantCommStatus);
+
+            var results = ExchangeVisitorQueries.CreateGetReadyToValidateParticipantDTOsQuery(context, DateTimeOffset.UtcNow).ToList();
+            Assert.AreEqual(1, results.Count);
+
+            participantPerson.SevisId = null;
+            results = ExchangeVisitorQueries.CreateGetReadyToValidateParticipantDTOsQuery(context, DateTimeOffset.UtcNow).ToList();
+            Assert.AreEqual(0, results.Count);
+        }
+
+        [TestMethod]
+        public void TestCreateGetReadyToValidateParticipantDTOsQuery_SevisIdIsEmpty()
+        {
+            var participant = new Participant
+            {
+                ParticipantId = 1,
+                ProjectId = 10
+            };
+            var participantPerson = new ParticipantPerson
+            {
+                ParticipantId = participant.ParticipantId,
+                Participant = participant,
+                SevisId = "sevisId",
+                StartDate = DateTimeOffset.UtcNow.AddDays(-1.0)
+            };
+            participant.ParticipantPerson = participantPerson;
+            var participantCommStatus = new ParticipantPersonSevisCommStatus
+            {
+                Id = 1,
+                SevisCommStatusId = SevisCommStatus.CreatedByBatch.Id,
+                ParticipantId = participant.ParticipantId,
+                ParticipantPerson = participantPerson
+            };
+            participantPerson.ParticipantPersonSevisCommStatuses.Add(participantCommStatus);
+
+            context.Participants.Add(participant);
+            context.ParticipantPersons.Add(participantPerson);
+            context.ParticipantPersonSevisCommStatuses.Add(participantCommStatus);
+
+            var results = ExchangeVisitorQueries.CreateGetReadyToValidateParticipantDTOsQuery(context, DateTimeOffset.UtcNow).ToList();
+            Assert.AreEqual(1, results.Count);
+
+            participantPerson.SevisId = String.Empty;
+            results = ExchangeVisitorQueries.CreateGetReadyToValidateParticipantDTOsQuery(context, DateTimeOffset.UtcNow).ToList();
+            Assert.AreEqual(0, results.Count);
+        }
+        #endregion
     }
 }

@@ -1830,6 +1830,14 @@ namespace ECA.Data
 		/// Returns the Updated By Batch lookup with id 18.
 		/// </summary>
 		public static StaticLookup UpdatedByBatch { get { return new StaticLookup("Updated By Batch", 18); } }
+		/// <summary>
+		/// Returns the Needs Validation Info lookup with id 19.
+		/// </summary>
+		public static StaticLookup NeedsValidationInfo { get { return new StaticLookup("Needs Validation Info", 19); } }
+		/// <summary>
+		/// Returns the Ready to Validate lookup with id 20.
+		/// </summary>
+		public static StaticLookup ReadyToValidate { get { return new StaticLookup("Ready to Validate", 20); } }
 		///<summary>
 		/// Returns the lookup value of this entity with the given id, or null if it does not exist.
 		///<param name="id">The lookup id.</param>
@@ -1855,6 +1863,8 @@ namespace ECA.Data
 			if (16 == id) return SevisCommStatus.ValidatedByBatch;
 			if (17 == id) return SevisCommStatus.BatchCancelledBySystem;
 			if (18 == id) return SevisCommStatus.UpdatedByBatch;
+			if (19 == id) return SevisCommStatus.NeedsValidationInfo;
+			if (20 == id) return SevisCommStatus.ReadyToValidate;
 			return null;
 		}
 		///<summary>
@@ -1882,6 +1892,8 @@ namespace ECA.Data
 			if ("Validated By Batch".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return SevisCommStatus.ValidatedByBatch;
 			if ("Batch Cancelled by System".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return SevisCommStatus.BatchCancelledBySystem;
 			if ("Updated By Batch".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return SevisCommStatus.UpdatedByBatch;
+			if ("Needs Validation Info".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return SevisCommStatus.NeedsValidationInfo;
+			if ("Ready to Validate".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return SevisCommStatus.ReadyToValidate;
 			return null;
 		}
 

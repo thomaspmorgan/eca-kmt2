@@ -5,6 +5,7 @@ using ECA.Business.Service.Admin;
 using ECA.Business.Validation.Sevis.Bio;
 using ECA.Business.Validation.Sevis.Finance;
 using ECA.Data;
+using System;
 using System.Diagnostics.Contracts;
 using System.Linq;
 
@@ -341,6 +342,35 @@ namespace ECA.Business.Queries.Persons
                             OtherName2 = otherName2
                         };
 
+            return query;
+        }
+
+        /// <summary>
+        /// Returns a query that retrieves dtos detailing participants that have a sevis id, whos start date is before the given start date and have not yet been validated by batch.
+        /// </summary>
+        /// <param name="context">The context to query.</param>
+        /// <param name="startDate">The minimum start date for a participant.</param>
+        /// <returns>The query of dtos who are ready to be validated.</returns>
+        public static IQueryable<ReadyToValidateParticipantDTO> CreateGetReadyToValidateParticipantDTOsQuery(EcaContext context, DateTimeOffset startDate)
+        {
+
+            var query = from participantPerson in context.ParticipantPersons
+                        let participant = participantPerson.Participant
+                        let hasValidatedByBatchStatus = participantPerson.ParticipantPersonSevisCommStatuses
+                            .Where(x => x.SevisCommStatusId == SevisCommStatus.ReadyToValidate.Id || x.SevisCommStatusId == SevisCommStatus.NeedsValidationInfo.Id)
+                            .Count() > 0
+
+                        where participantPerson.SevisId != null
+                        && participantPerson.SevisId.Length > 0
+                        && participantPerson.StartDate.HasValue
+                        && participantPerson.StartDate.Value < startDate
+                        && !hasValidatedByBatchStatus
+                        select new ReadyToValidateParticipantDTO
+                        {
+                            ParticipantId = participant.ParticipantId,
+                            ProjectId = participant.ProjectId,
+                            SevisId = participantPerson.SevisId
+                        };
             return query;
         }
     }

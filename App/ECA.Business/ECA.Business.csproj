@@ -213,6 +213,7 @@
     <Compile Include="Queries\Models\Persons\CitizenCountryDTO.cs" />
     <Compile Include="Queries\Models\Persons\ExchangeVisitor\DependentBiographicalDTO.cs" />
     <Compile Include="Queries\Models\Persons\ExchangeVisitor\ExchangeVisitorFundingDTO.cs" />
+    <Compile Include="Queries\Models\Persons\ExchangeVisitor\ReadyToValidateParticipantDTO.cs" />
     <Compile Include="Queries\Models\Persons\ExchangeVisitor\SubjectFieldDTO.cs" />
     <Compile Include="Queries\Models\Persons\LanguageProficiencyDTO.cs" />
     <Compile Include="Queries\Models\Persons\MembershipDTO.cs" />
