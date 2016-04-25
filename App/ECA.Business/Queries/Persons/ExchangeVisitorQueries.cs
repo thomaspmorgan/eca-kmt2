@@ -353,7 +353,7 @@ namespace ECA.Business.Queries.Persons
         /// <returns>The query of dtos who are ready to be validated.</returns>
         public static IQueryable<ReadyToValidateParticipantDTO> CreateGetReadyToValidateParticipantDTOsQuery(EcaContext context, DateTimeOffset startDate)
         {
-
+            Contract.Requires(context != null, "The context must not be null.");
             var query = from participantPerson in context.ParticipantPersons
                         let participant = participantPerson.Participant
                         let hasValidatedByBatchStatus = participantPerson.ParticipantPersonSevisCommStatuses

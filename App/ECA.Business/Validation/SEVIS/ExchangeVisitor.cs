@@ -277,6 +277,33 @@ namespace ECA.Business.Validation.Sevis
         }
 
         /// <summary>
+        /// Returns the exchange visitor validation message to send to sevis.
+        /// </summary>
+        /// <returns>The exchange visitor validation message to send to sevis.</returns>
+        public SEVISEVBatchTypeExchangeVisitor1 GetSEVISEVBatchTypeExchangeVisitorValidate(string sevisUsername)
+        {
+            var item = new SEVISEVBatchTypeExchangeVisitorValidate
+            {
+                EmailAddress = this.Person.EmailAddress,
+                PhoneNumber = this.Person.PhoneNumber,
+            };
+            if (this.Person.USAddress != null)
+            {
+                var address = this.Person.USAddress.GetUSAddress();
+                var addressDoctor = address.GetUSAddressDoctorType();
+                item.USAddress = addressDoctor;
+            }
+            return new SEVISEVBatchTypeExchangeVisitor1
+            {
+                Item = item,
+                sevisID = this.SevisId,
+                requestID = new RequestId(this.Person.ParticipantId, RequestIdType.Validate, RequestActionType.Update).ToString(),
+                statusCodeSpecified = false,
+                userID = sevisUsername
+            };
+        }
+
+        /// <summary>
         /// Returns an exchange visitor instance with the given json.
         /// </summary>
         /// <param name="json">The json object representing an exchange visitor.</param>

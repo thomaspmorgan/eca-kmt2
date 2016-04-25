@@ -226,11 +226,9 @@
     <Compile Include="Queries\Models\Persons\SimplePersonDependentDTO.cs" />
     <Compile Include="Queries\Models\Programs\ProgramSnapshotDTO.cs" />
     <Compile Include="Queries\Models\Reports\ProjectWithGrantNumberDTO.cs" />
-    <Compile Include="Queries\Models\Sevis\ParticipantSevisBatchProcessingResultDTO.cs" />
-    <Compile Include="Queries\Models\Sevis\ParticipantSevisBatchResultDTO.cs" />
     <Compile Include="Queries\Models\Sevis\SevisBatchInfoDTO.cs" />
     <Compile Include="Queries\Models\Sevis\SevisBatchProcessingDTO.cs" />
-    <Compile Include="Queries\Models\Sevis\SevisGroupedQueuedToSubmitParticipantsDTO.cs" />
+    <Compile Include="Queries\Models\Sevis\SevisGroupedParticipantsDTO.cs" />
     <Compile Include="Queries\Persons\EvaluationNoteQueries.cs" />
     <Compile Include="Queries\Persons\ExchangeVisitorQueries.cs" />
     <Compile Include="Queries\Persons\LanguageProficiencyQueries.cs" />
@@ -239,7 +237,7 @@
     <Compile Include="Queries\Persons\ParticipantPersonsSevisQueries.cs" />
     <Compile Include="Queries\Persons\ProfessionEducationQueries.cs" />
     <Compile Include="Queries\Projects\DefaultExchangeVisitorFundingQueries.cs" />
-    <Compile Include="Queries\Models\Sevis\QueuedToSubmitParticipantDTO.cs" />
+    <Compile Include="Queries\Models\Sevis\SevisGroupedParticipantDTO.cs" />
     <Compile Include="Queries\Sevis\SevisBatchProcessingQueries.cs" />
     <Compile Include="Search\AddressToEntityDocumentSaveAction.cs" />
     <Compile Include="Search\OrganizationDocumentSaveAction.cs" />

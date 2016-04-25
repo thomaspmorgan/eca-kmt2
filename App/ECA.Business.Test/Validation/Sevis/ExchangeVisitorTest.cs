@@ -945,6 +945,87 @@ namespace ECA.Business.Test.Validation.Sevis
         }
         #endregion
 
+        #region GetSEVISEVBatchTypeExchangeVisitorValidate
+        [TestMethod]
+        public void TestGetSEVISEVBatchTypeExchangeVisitorValidate()
+        {
+            var person = GetPerson();
+            var financialInfo = GetFinancialInfo();
+            var occupationCategoryCode = "99";
+            var endDate = DateTime.UtcNow.AddDays(1.0);
+            var startDate = DateTime.UtcNow.AddDays(-1.0);
+            var siteOfActivity = GetSOAAsAddressDTO();
+            List<Dependent> dependents = null;
+            var sevisId = "sevis id";
+            var username = "username";
+
+            var exchangeVisitor = new ExchangeVisitor(
+                sevisId: sevisId,
+                person: person,
+                financialInfo: financialInfo,
+                occupationCategoryCode: occupationCategoryCode,
+                programEndDate: endDate,
+                programStartDate: startDate,
+                dependents: dependents,
+                siteOfActivity: siteOfActivity);
+
+            var instance = exchangeVisitor.GetSEVISEVBatchTypeExchangeVisitorValidate(username);
+            Assert.IsNotNull(instance);
+            Assert.AreEqual(sevisId, instance.sevisID);
+            Assert.AreEqual(username, instance.userID);
+            Assert.AreEqual(new RequestId(person.ParticipantId, RequestIdType.Validate, RequestActionType.Update).ToString(), instance.requestID);
+            Assert.IsFalse(instance.statusCodeSpecified);
+
+            Assert.IsNotNull(instance.Item);
+            Assert.IsInstanceOfType(instance.Item, typeof(SEVISEVBatchTypeExchangeVisitorValidate));
+            var item = (SEVISEVBatchTypeExchangeVisitorValidate)instance.Item;
+            Assert.AreEqual(person.EmailAddress, item.EmailAddress);
+            Assert.AreEqual(person.PhoneNumber, item.PhoneNumber);
+            Assert.AreEqual(person.USAddress.Street1, item.USAddress.Address1);
+            Assert.AreEqual(person.USAddress.Street2, item.USAddress.Address2);
+            Assert.AreEqual(person.USAddress.City, item.USAddress.City);
+            Assert.AreEqual(person.USAddress.PostalCode, item.USAddress.PostalCode);
+            Assert.AreEqual(person.USAddress.Division.GetStateCodeType(), item.USAddress.State);
+            Assert.IsTrue(item.USAddress.StateSpecified);
+        }
+
+        [TestMethod]
+        public void TestGetSEVISEVBatchTypeExchangeVisitorValidate_USAddressIsNull()
+        {
+            var person = GetPerson(false, false);
+            var financialInfo = GetFinancialInfo();
+            var occupationCategoryCode = "99";
+            var endDate = DateTime.UtcNow.AddDays(1.0);
+            var startDate = DateTime.UtcNow.AddDays(-1.0);
+            var siteOfActivity = GetSOAAsAddressDTO();
+            List<Dependent> dependents = null;
+            var sevisId = "sevis id";
+            var username = "username";
+
+            var exchangeVisitor = new ExchangeVisitor(
+                sevisId: sevisId,
+                person: person,
+                financialInfo: financialInfo,
+                occupationCategoryCode: occupationCategoryCode,
+                programEndDate: endDate,
+                programStartDate: startDate,
+                dependents: dependents,
+                siteOfActivity: siteOfActivity);
+
+            var instance = exchangeVisitor.GetSEVISEVBatchTypeExchangeVisitorValidate(username);
+            Assert.IsNotNull(instance);
+            Assert.AreEqual(sevisId, instance.sevisID);
+            Assert.AreEqual(username, instance.userID);
+            Assert.AreEqual(new RequestId(person.ParticipantId, RequestIdType.Validate, RequestActionType.Update).ToString(), instance.requestID);
+            Assert.IsFalse(instance.statusCodeSpecified);
+
+            Assert.IsNotNull(instance.Item);
+            Assert.IsInstanceOfType(instance.Item, typeof(SEVISEVBatchTypeExchangeVisitorValidate));
+            var item = (SEVISEVBatchTypeExchangeVisitorValidate)instance.Item;
+            Assert.IsNull(item.USAddress);
+        }
+        #endregion
+
         [TestMethod]
         public void TestGetSEVISBatchTypeExchangeVisitor_CheckSerialization()
         {

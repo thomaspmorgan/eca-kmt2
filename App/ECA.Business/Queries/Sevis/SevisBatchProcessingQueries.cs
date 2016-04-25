@@ -157,14 +157,15 @@ namespace ECA.Business.Queries.Sevis
         }
 
         /// <summary>
-        /// Returns a query to get participants that are queued to submit.
+        /// Returns a query to get participants that are queued to submit or validate.
         /// </summary>
         /// <param name="context">The context to query.</param>
-        /// <returns>The query to get participants that are queued to submit.</returns>
-        public static IQueryable<SevisGroupedQueuedToSubmitParticipantsDTO> CreateGetQueuedToSubmitParticipantDTOsQuery(EcaContext context)
+        /// <returns>The query to get participants that are queued to submit or validate.</returns>
+        public static IQueryable<SevisGroupedParticipantsDTO> CreateGetSevisGroupedParticipantsQuery(EcaContext context)
         {
             Contract.Requires(context != null, "The context must not be null.");
             var queuedToSubmitStatusId = SevisCommStatus.QueuedToSubmit.Id;
+            var queuedToValidateStatusId = SevisCommStatus.QueuedToValidate.Id;
 
             var query = from participantPerson in context.ParticipantPersons
                         let participant = participantPerson.Participant
@@ -172,15 +173,21 @@ namespace ECA.Business.Queries.Sevis
                                         .OrderByDescending(x => x.AddedOn)
                                         .FirstOrDefault()
 
-                        where latestStatus != null && latestStatus.SevisCommStatusId == queuedToSubmitStatusId
-                        group participantPerson by new { SevisUsername = latestStatus.SevisUsername, SevisOrgId = latestStatus.SevisOrgId } into g
-                        select new SevisGroupedQueuedToSubmitParticipantsDTO
+                        where latestStatus != null                         
+                        && (latestStatus.SevisCommStatusId == queuedToSubmitStatusId
+                            || latestStatus.SevisCommStatusId == queuedToValidateStatusId)
+
+                        group new { ParticipantPerson = participantPerson, LatestStatus = latestStatus} 
+                        by new { SevisUsername = latestStatus.SevisUsername, SevisOrgId = latestStatus.SevisOrgId } into g
+
+                        select new SevisGroupedParticipantsDTO
                         {
-                            Participants = g.Select(x => new QueuedToSubmitParticipantDTO
+                            Participants = g.Select(x => new SevisGroupedParticipantDTO
                             {
-                                ParticipantId = x.ParticipantId,
-                                ProjectId = x.Participant.ProjectId,
-                                SevisId = x.SevisId,
+                                ParticipantId = x.ParticipantPerson.ParticipantId,
+                                ProjectId = x.ParticipantPerson.Participant.ProjectId,
+                                SevisId = x.ParticipantPerson.SevisId,
+                                SevisCommStatusId = x.LatestStatus.SevisCommStatusId
                             }),
                             SevisOrgId = g.Key.SevisOrgId,
                             SevisUsername = g.Key.SevisUsername

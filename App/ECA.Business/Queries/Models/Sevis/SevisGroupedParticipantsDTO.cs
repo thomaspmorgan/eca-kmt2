@@ -7,16 +7,16 @@ using System.Threading.Tasks;
 namespace ECA.Business.Queries.Models.Sevis
 {
     /// <summary>
-    /// A SevisGroupedQueuedToSubmitParticipantsDTO represents the participants that queued to submit to sevis by sevis account.
+    /// A SevisGroupedQueuedToSubmitParticipantsDTO represents the participants that queued to submit and validate to sevis by sevis account.
     /// </summary>
-    public class SevisGroupedQueuedToSubmitParticipantsDTO
+    public class SevisGroupedParticipantsDTO
     {
         /// <summary>
         /// Creates a new default instance.
         /// </summary>
-        public SevisGroupedQueuedToSubmitParticipantsDTO()
+        public SevisGroupedParticipantsDTO()
         {
-            this.Participants = new List<QueuedToSubmitParticipantDTO>();
+            this.Participants = new List<SevisGroupedParticipantDTO>();
         }
 
         /// <summary>
@@ -32,6 +32,6 @@ namespace ECA.Business.Queries.Models.Sevis
         /// <summary>
         /// Gets or sets the participants that were queued to submit by this sevis user.
         /// </summary>
-        public IEnumerable<QueuedToSubmitParticipantDTO> Participants { get; set; }
+        public IEnumerable<SevisGroupedParticipantDTO> Participants { get; set; }
     }
 }

@@ -82,7 +82,7 @@ namespace ECA.Business.Validation.Sevis
             RuleFor(x => x.Person)
                 .NotNull()
                 .WithMessage(PERSON_INFORMATION_REQUIRED_ERROR_MESSAGE)
-                .SetValidator(new PersonValidator());
+                .SetValidator(x => new PersonValidator());
 
             RuleFor(x => x.ProgramStartDate)
                 .NotEqual(default(DateTime))

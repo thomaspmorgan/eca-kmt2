@@ -14,6 +14,7 @@ using ECA.Business.Sevis.Model;
 using System.Xml;
 using System.Xml.Schema;
 using System.IO;
+using ECA.Business.Queries.Models.Sevis;
 
 namespace ECA.Business.Test.Service.Sevis
 {
@@ -157,7 +158,12 @@ namespace ECA.Business.Test.Service.Sevis
             var sevisUsername = "sevisUserId";
             var instance = new StagedSevisBatch(batchId, sevisUsername, sevisOrgId);
             var exchangeVisitor = GetExchangeVisitor(null, 1, 2);
-            Assert.IsFalse(instance.CanAccomodate(exchangeVisitor, sevisUsername, "other org"));
+            var participant = new SevisGroupedParticipantDTO
+            {
+                ParticipantId = exchangeVisitor.Person.ParticipantId,
+                SevisCommStatusId = SevisCommStatus.QueuedToSubmit.Id,
+            };
+            Assert.IsFalse(instance.CanAccomodate(participant, exchangeVisitor, sevisUsername, "other org"));
         }
 
         [TestMethod]
@@ -168,7 +174,12 @@ namespace ECA.Business.Test.Service.Sevis
             var sevisUsername = "sevisUserId";
             var instance = new StagedSevisBatch(batchId, sevisUsername, sevisOrgId);
             var exchangeVisitor = GetExchangeVisitor(null, 1, 2);
-            Assert.IsFalse(instance.CanAccomodate(exchangeVisitor, "other user", sevisOrgId));
+            var participant = new SevisGroupedParticipantDTO
+            {
+                ParticipantId = exchangeVisitor.Person.ParticipantId,
+                SevisCommStatusId = SevisCommStatus.QueuedToSubmit.Id,
+            };
+            Assert.IsFalse(instance.CanAccomodate(participant, exchangeVisitor, "other user", sevisOrgId));
         }
 
         [TestMethod]
@@ -179,7 +190,12 @@ namespace ECA.Business.Test.Service.Sevis
             var sevisUsername = "sevisUserId";
             var instance = new StagedSevisBatch(batchId, sevisUsername, sevisOrgId);
             var exchangeVisitor = GetExchangeVisitor(null, 1, 2);
-            Assert.IsTrue(instance.CanAccomodate(exchangeVisitor, sevisUsername, sevisOrgId));
+            var participant = new SevisGroupedParticipantDTO
+            {
+                ParticipantId = exchangeVisitor.Person.ParticipantId,
+                SevisCommStatusId = SevisCommStatus.QueuedToSubmit.Id,
+            };
+            Assert.IsTrue(instance.CanAccomodate(participant, exchangeVisitor, sevisUsername, sevisOrgId));
         }
 
         [TestMethod]
@@ -191,7 +207,12 @@ namespace ECA.Business.Test.Service.Sevis
             var instance = new StagedSevisBatch(batchId, sevisUsername, sevisOrgId);
             instance.SEVISBatchCreateUpdateEV.CreateEV = new List<SEVISEVBatchTypeExchangeVisitor>().ToArray();
             var exchangeVisitor = GetExchangeVisitor(null, 1, 2);
-            Assert.IsTrue(instance.CanAccomodate(exchangeVisitor, sevisUsername, sevisOrgId));
+            var participant = new SevisGroupedParticipantDTO
+            {
+                ParticipantId = exchangeVisitor.Person.ParticipantId,
+                SevisCommStatusId = SevisCommStatus.QueuedToSubmit.Id,
+            };
+            Assert.IsTrue(instance.CanAccomodate(participant, exchangeVisitor, sevisUsername, sevisOrgId));
         }
 
         [TestMethod]
@@ -202,7 +223,12 @@ namespace ECA.Business.Test.Service.Sevis
             var sevisUsername = "sevisUserId";
             var instance = new StagedSevisBatch(batchId, sevisUsername, sevisOrgId);
             var exchangeVisitor = GetExchangeVisitor(" ", 1, 2);
-            Assert.IsTrue(instance.CanAccomodate(exchangeVisitor, sevisUsername, sevisOrgId));
+            var participant = new SevisGroupedParticipantDTO
+            {
+                ParticipantId = exchangeVisitor.Person.ParticipantId,
+                SevisCommStatusId = SevisCommStatus.QueuedToSubmit.Id,
+            };
+            Assert.IsTrue(instance.CanAccomodate(participant, exchangeVisitor, sevisUsername, sevisOrgId));
         }
 
         [TestMethod]
@@ -213,7 +239,12 @@ namespace ECA.Business.Test.Service.Sevis
             var sevisUsername = "sevisUserId";
             var instance = new StagedSevisBatch(batchId, sevisUsername, sevisOrgId);
             var exchangeVisitor = GetExchangeVisitor(string.Empty, 1, 2);
-            Assert.IsTrue(instance.CanAccomodate(exchangeVisitor, sevisUsername, sevisOrgId));
+            var participant = new SevisGroupedParticipantDTO
+            {
+                ParticipantId = exchangeVisitor.Person.ParticipantId,
+                SevisCommStatusId = SevisCommStatus.QueuedToSubmit.Id,
+            };
+            Assert.IsTrue(instance.CanAccomodate(participant, exchangeVisitor, sevisUsername, sevisOrgId));
         }
 
         [TestMethod]
@@ -224,7 +255,12 @@ namespace ECA.Business.Test.Service.Sevis
             var sevisUsername = "sevisUserId";
             var instance = new StagedSevisBatch(batchId, sevisUsername, sevisOrgId);
             var exchangeVisitor = GetExchangeVisitor("sevisId", 1, 2);
-            Assert.IsTrue(instance.CanAccomodate(exchangeVisitor, sevisUsername, sevisOrgId));
+            var participant = new SevisGroupedParticipantDTO
+            {
+                ParticipantId = exchangeVisitor.Person.ParticipantId,
+                SevisCommStatusId = SevisCommStatus.QueuedToSubmit.Id,
+            };
+            Assert.IsTrue(instance.CanAccomodate(participant, exchangeVisitor, sevisUsername, sevisOrgId));
         }
 
         [TestMethod]
@@ -236,7 +272,145 @@ namespace ECA.Business.Test.Service.Sevis
             var instance = new StagedSevisBatch(batchId, sevisUsername, sevisOrgId);
             instance.SEVISBatchCreateUpdateEV.UpdateEV = new List<SEVISEVBatchTypeExchangeVisitor1>().ToArray();
             var exchangeVisitor = GetExchangeVisitor("sevisId", 1, 2);
-            Assert.IsTrue(instance.CanAccomodate(exchangeVisitor, sevisUsername, sevisOrgId));
+            var participant = new SevisGroupedParticipantDTO
+            {
+                ParticipantId = exchangeVisitor.Person.ParticipantId,
+                SevisCommStatusId = SevisCommStatus.QueuedToSubmit.Id,
+            };
+            Assert.IsTrue(instance.CanAccomodate(participant, exchangeVisitor, sevisUsername, sevisOrgId));
+        }
+
+        [TestMethod]
+        public void TestCanAccomodate_ExchangeVisitorIsQueuedToValidate()
+        {
+            var sevisOrgId = "org id";
+            var batchId = BatchId.NewBatchId();
+            var sevisUsername = "sevisUserId";
+            var instance = new StagedSevisBatch(batchId, sevisUsername, sevisOrgId);
+            instance.SEVISBatchCreateUpdateEV.UpdateEV = new List<SEVISEVBatchTypeExchangeVisitor1>().ToArray();
+            var exchangeVisitor = GetExchangeVisitor("sevisId", 1, 2);
+            var participant = new SevisGroupedParticipantDTO
+            {
+                ParticipantId = exchangeVisitor.Person.ParticipantId,
+                SevisCommStatusId = SevisCommStatus.QueuedToValidate.Id,
+            };
+            Assert.IsTrue(instance.CanAccomodate(participant, exchangeVisitor, sevisUsername, sevisOrgId));
+        }
+
+        [TestMethod]
+        public void TestAddExchangeVisitor_SevisIdIsNull()
+        {
+            var sevisOrgId = "org id";
+            var batchId = BatchId.NewBatchId();
+            var sevisUsername = "sevisUserId";
+            var instance = new StagedSevisBatch(batchId, sevisUsername, sevisOrgId);
+            var exchangeVisitor = GetExchangeVisitor(null, 1, 2);
+            var participant = new SevisGroupedParticipantDTO
+            {
+                ParticipantId = exchangeVisitor.Person.ParticipantId,
+                SevisCommStatusId = SevisCommStatus.QueuedToSubmit.Id,
+            };
+            Assert.IsNull(instance.SEVISBatchCreateUpdateEV.CreateEV);
+
+            instance.AddExchangeVisitor(participant, exchangeVisitor);
+            Assert.AreEqual(1, instance.SEVISBatchCreateUpdateEV.CreateEV.Count());
+        }
+
+        [TestMethod]
+        public void TestAddExchangeVisitor_SevisIdIsWhitespace()
+        {
+            var sevisOrgId = "org id";
+            var batchId = BatchId.NewBatchId();
+            var sevisUsername = "sevisUserId";
+            var instance = new StagedSevisBatch(batchId, sevisUsername, sevisOrgId);
+            var exchangeVisitor = GetExchangeVisitor(" ", 1, 2);
+            var participant = new SevisGroupedParticipantDTO
+            {
+                ParticipantId = exchangeVisitor.Person.ParticipantId,
+                SevisCommStatusId = SevisCommStatus.QueuedToSubmit.Id,
+            };
+            Assert.IsNull(instance.SEVISBatchCreateUpdateEV.CreateEV);
+
+            instance.AddExchangeVisitor(participant, exchangeVisitor);
+            Assert.AreEqual(1, instance.SEVISBatchCreateUpdateEV.CreateEV.Count());
+        }
+
+        [TestMethod]
+        public void TestAddExchangeVisitor_SevisIdIsEmpty()
+        {
+            var sevisOrgId = "org id";
+            var batchId = BatchId.NewBatchId();
+            var sevisUsername = "sevisUserId";
+            var instance = new StagedSevisBatch(batchId, sevisUsername, sevisOrgId);
+            var exchangeVisitor = GetExchangeVisitor(String.Empty, 1, 2);
+            var participant = new SevisGroupedParticipantDTO
+            {
+                ParticipantId = exchangeVisitor.Person.ParticipantId,
+                SevisCommStatusId = SevisCommStatus.QueuedToSubmit.Id,
+            };
+            Assert.IsNull(instance.SEVISBatchCreateUpdateEV.CreateEV);
+
+            instance.AddExchangeVisitor(participant, exchangeVisitor);
+            Assert.AreEqual(1, instance.SEVISBatchCreateUpdateEV.CreateEV.Count());
+        }
+
+        [TestMethod]
+        public void TestAddExchangeVisitor_SevisIdHasValue()
+        {
+            var sevisOrgId = "org id";
+            var batchId = BatchId.NewBatchId();
+            var sevisUsername = "sevisUserId";
+            var instance = new StagedSevisBatch(batchId, sevisUsername, sevisOrgId);
+            var exchangeVisitor = GetExchangeVisitor("sevisId", 1, 2);
+            var participant = new SevisGroupedParticipantDTO
+            {
+                ParticipantId = exchangeVisitor.Person.ParticipantId,
+                SevisCommStatusId = SevisCommStatus.QueuedToSubmit.Id,
+            };
+            Assert.IsNull(instance.SEVISBatchCreateUpdateEV.CreateEV);
+
+            instance.AddExchangeVisitor(participant, exchangeVisitor);
+            Assert.AreEqual(exchangeVisitor.GetSEVISEVBatchTypeExchangeVisitor1Collection(sevisUsername).Count(),
+                instance.SEVISBatchCreateUpdateEV.UpdateEV.Count());
+        }
+
+        [TestMethod]
+        public void TestAddExchangeVisitor_IsQueuedToValidate()
+        {
+            var sevisOrgId = "org id";
+            var batchId = BatchId.NewBatchId();
+            var sevisUsername = "sevisUserId";
+            var instance = new StagedSevisBatch(batchId, sevisUsername, sevisOrgId);
+            var exchangeVisitor = GetExchangeVisitor("sevisId", 1, 2);
+            var participant = new SevisGroupedParticipantDTO
+            {
+                ParticipantId = exchangeVisitor.Person.ParticipantId,
+                SevisCommStatusId = SevisCommStatus.QueuedToValidate.Id,
+            };
+            Assert.IsNull(instance.SEVISBatchCreateUpdateEV.CreateEV);
+
+            instance.AddExchangeVisitor(participant, exchangeVisitor);
+            Assert.AreEqual(1, instance.SEVISBatchCreateUpdateEV.UpdateEV.Count());
+        }
+
+        [TestMethod]
+        public void TestAddExchangeVisitor_IsQueuedToValidate_ExceededDefaultCount()
+        {
+            var sevisOrgId = "org id";
+            var batchId = BatchId.NewBatchId();
+            var sevisUsername = "sevisUserId";
+            var instance = new StagedSevisBatch(batchId, sevisUsername, sevisOrgId);
+            var exchangeVisitor = GetExchangeVisitor("sevisId", 1, 2);
+            var participant = new SevisGroupedParticipantDTO
+            {
+                ParticipantId = exchangeVisitor.Person.ParticipantId,
+                SevisCommStatusId = SevisCommStatus.QueuedToValidate.Id,
+            };
+            instance.SEVISBatchCreateUpdateEV.UpdateEV = new Business.Sevis.Model.SEVISEVBatchTypeExchangeVisitor1[StagedSevisBatch.MAX_UPDATE_EXCHANGE_VISITOR_RECORD_PER_BATCH_DEFAULT];
+
+            var message = "This StagedSevisBatch can not accomodate the given exchange visitor.";
+            Action a = () => instance.AddExchangeVisitor(participant, exchangeVisitor);
+            a.ShouldThrow<NotSupportedException>().WithMessage(message);
         }
 
         [TestMethod]
@@ -247,11 +421,15 @@ namespace ECA.Business.Test.Service.Sevis
             var sevisUsername = "sevisUserId";
             var instance = new StagedSevisBatch(batchId, sevisUsername, sevisOrgId);
             var exchangeVisitor = GetExchangeVisitor(null, 1, 2);
-
+            var participant = new SevisGroupedParticipantDTO
+            {
+                ParticipantId = exchangeVisitor.Person.ParticipantId,
+                SevisCommStatusId = SevisCommStatus.QueuedToSubmit.Id,
+            };
             instance.SEVISBatchCreateUpdateEV.CreateEV = new Business.Sevis.Model.SEVISEVBatchTypeExchangeVisitor[StagedSevisBatch.MAX_CREATE_EXCHANGE_VISITOR_RECORDS_PER_BATCH_DEFAULT];
 
             var message = "This StagedSevisBatch can not accomodate the given exchange visitor.";
-            Action a = () => instance.AddExchangeVisitor(exchangeVisitor);
+            Action a = () => instance.AddExchangeVisitor(participant, exchangeVisitor);
             a.ShouldThrow<NotSupportedException>().WithMessage(message);
         }
 
@@ -263,11 +441,15 @@ namespace ECA.Business.Test.Service.Sevis
             var sevisUsername = "sevisUserId";
             var instance = new StagedSevisBatch(batchId, sevisUsername, sevisOrgId);
             var exchangeVisitor = GetExchangeVisitor("sevisId", 1, 2);
-
+            var participant = new SevisGroupedParticipantDTO
+            {
+                ParticipantId = exchangeVisitor.Person.ParticipantId,
+                SevisCommStatusId = SevisCommStatus.QueuedToSubmit.Id,
+            };
             instance.SEVISBatchCreateUpdateEV.UpdateEV = new Business.Sevis.Model.SEVISEVBatchTypeExchangeVisitor1[StagedSevisBatch.MAX_UPDATE_EXCHANGE_VISITOR_RECORD_PER_BATCH_DEFAULT];
 
             var message = "This StagedSevisBatch can not accomodate the given exchange visitor.";
-            Action a = () => instance.AddExchangeVisitor(exchangeVisitor);
+            Action a = () => instance.AddExchangeVisitor(participant, exchangeVisitor);
             a.ShouldThrow<NotSupportedException>().WithMessage(message);
         }
 
@@ -279,11 +461,15 @@ namespace ECA.Business.Test.Service.Sevis
             var sevisUsername = "sevisUserId";
             var instance = new StagedSevisBatch(batchId, sevisUsername, sevisOrgId, 1, 1);
             var exchangeVisitor = GetExchangeVisitor(null, 1, 2);
-
+            var participant = new SevisGroupedParticipantDTO
+            {
+                ParticipantId = exchangeVisitor.Person.ParticipantId,
+                SevisCommStatusId = SevisCommStatus.QueuedToSubmit.Id,
+            };
             instance.SEVISBatchCreateUpdateEV.CreateEV = new Business.Sevis.Model.SEVISEVBatchTypeExchangeVisitor[2];
 
             var message = "This StagedSevisBatch can not accomodate the given exchange visitor.";
-            Action a = () => instance.AddExchangeVisitor(exchangeVisitor);
+            Action a = () => instance.AddExchangeVisitor(participant, exchangeVisitor);
             a.ShouldThrow<NotSupportedException>().WithMessage(message);
         }
 
@@ -295,11 +481,15 @@ namespace ECA.Business.Test.Service.Sevis
             var sevisUsername = "sevisUserId";
             var instance = new StagedSevisBatch(batchId, sevisUsername, sevisOrgId, 1, 1);
             var exchangeVisitor = GetExchangeVisitor("sevisId", 1, 2);
-
+            var participant = new SevisGroupedParticipantDTO
+            {
+                ParticipantId = exchangeVisitor.Person.ParticipantId,
+                SevisCommStatusId = SevisCommStatus.QueuedToSubmit.Id,
+            };
             instance.SEVISBatchCreateUpdateEV.UpdateEV = new Business.Sevis.Model.SEVISEVBatchTypeExchangeVisitor1[2];
 
             var message = "This StagedSevisBatch can not accomodate the given exchange visitor.";
-            Action a = () => instance.AddExchangeVisitor(exchangeVisitor);
+            Action a = () => instance.AddExchangeVisitor(participant, exchangeVisitor);
             a.ShouldThrow<NotSupportedException>().WithMessage(message);
         }
 
@@ -311,11 +501,16 @@ namespace ECA.Business.Test.Service.Sevis
             var sevisUsername = "sevisUserId";
             var instance = new StagedSevisBatch(batchId, sevisUsername, sevisOrgId);
             var exchangeVisitor = GetExchangeVisitor("sevisId", 1, 2);
+            var participant = new SevisGroupedParticipantDTO
+            {
+                ParticipantId = exchangeVisitor.Person.ParticipantId,
+                SevisCommStatusId = SevisCommStatus.QueuedToSubmit.Id,
+            };
 
-            instance.AddExchangeVisitor(exchangeVisitor);
+            instance.AddExchangeVisitor(participant, exchangeVisitor);
             Assert.AreEqual(1, instance.GetExchangeVisitors().Count());
 
-            instance.AddExchangeVisitor(exchangeVisitor);
+            instance.AddExchangeVisitor(participant, exchangeVisitor);
             Assert.AreEqual(1, instance.GetExchangeVisitors().Count());
         }
 
@@ -327,9 +522,14 @@ namespace ECA.Business.Test.Service.Sevis
             var sevisUsername = "esayya9302";
             var instance = new StagedSevisBatch(batchId, sevisUsername, sevisOrgId);
             var exchangeVisitor = GetExchangeVisitor(null, 1, 2);
+            var participant = new SevisGroupedParticipantDTO
+            {
+                ParticipantId = exchangeVisitor.Person.ParticipantId,
+                SevisCommStatusId = SevisCommStatus.QueuedToSubmit.Id,
+            };
 
             Assert.IsNull(instance.SevisBatchProcessing.SendXml);
-            instance.AddExchangeVisitor(exchangeVisitor);
+            instance.AddExchangeVisitor(participant, exchangeVisitor);
 
             Assert.IsNull(instance.SevisBatchProcessing.SendXml);
             instance.SerializeSEVISBatchCreateUpdateEV();
