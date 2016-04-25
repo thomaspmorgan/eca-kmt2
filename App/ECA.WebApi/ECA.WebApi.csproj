@@ -557,6 +557,8 @@
     <Compile Include="Controllers\Persons\ParticipantPersonsSevisController.cs" />
     <Compile Include="Controllers\Persons\ParticipantPersonsController.cs" />
     <Compile Include="Controllers\Projects\DefaultExchangeVisitorFundingController.cs" />
+    <Compile Include="Custom\Storage\IFileStorageHandler.cs" />
+    <Compile Include="Custom\Storage\FileStorageHandler.cs" />
     <Compile Include="Models\Admin\AppSettingsViewModel.cs" />
     <Compile Include="Models\Admin\CreateOrganizationBindingModel.cs" />
     <Compile Include="Models\Admin\DataPointConfigurationBindingModel.cs" />
@@ -775,6 +777,10 @@
     <ProjectReference Include="..\ECA.Business.Search\ECA.Business.Search.csproj">
       <Project>{7ffb7ec5-462a-4997-9704-736f5af245e9}</Project>
       <Name>ECA.Business.Search</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ECA.Business.Storage\ECA.Business.Storage.csproj">
+      <Project>{8DD0C39A-6734-402F-8FDB-BAF9FB7697E0}</Project>
+      <Name>ECA.Business.Storage</Name>
     </ProjectReference>
     <ProjectReference Include="..\ECA.Business\ECA.Business.csproj">
       <Project>{0a7b54e3-736d-47b5-92fd-31d3bb416d8d}</Project>

@@ -101,5 +101,7 @@ namespace ECA.Business.Service.Persons
         /// <param name="projectId">The project id of the participant.</param>
         /// <returns>The info dto or null of it does not exist.</returns>
         Task<SevisBatchInfoDTO> GetBatchInfoByBatchIdAsync(int userId, int projectId, int participantId, string batchId);
+
+        Task<string> GetDS2019FileNameAsync(int projectId, int participantId);
     }
 }

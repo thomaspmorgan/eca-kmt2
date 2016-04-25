@@ -171,6 +171,21 @@ namespace ECA.Business.Service.Persons
         {
             return Context.ParticipantPersonSevisCommStatuses.Where(x => x.ParticipantId == participantId && x.BatchId == batchId).Distinct();
         }
+        public string GetDS2019FileName(int projectId, int participantId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<string> GetDS2019FileNameAsync(int projectId, int participantId)
+        {
+            String fileName = null;
+            var participantPerson = await Context.ParticipantPersons.FindAsync(participantId);
+            if (participantPerson != null)
+            {
+                fileName = participantPerson.DS2019FileName; 
+            }
+            return fileName;
+        }
         #endregion
 
         #region Send To Sevis
@@ -278,7 +293,6 @@ namespace ECA.Business.Service.Persons
         {
             return Context.ParticipantPersons.Where(x => x.ParticipantId == participantId);
         }
-
         #endregion
     }
 }
