@@ -12,7 +12,8 @@ angular.module('staticApp')
           NotificationService, FilterService, $q, DateTimeService, dependent) {
       
       $scope.dependent = loadDependent(dependent.id);
-      $scope.countriesOfCitizenship = [];
+      $scope.model = {};
+      $scope.model.countriesOfCitizenship = [];
       $scope.countriesResidence = [];
       $scope.cities = [];
       $scope.datePickerOpen = false;
