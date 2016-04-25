@@ -35,6 +35,7 @@ namespace ECA.WebApi.Test.Controllers.Persons
         {
             participantPersonSevisService = new Mock<IParticipantPersonsSevisService>();
             userProvider = new Mock<IUserProvider>();
+            storageHandler = new Mock<IFileStorageHandler>();
             controller = new ParticipantPersonsSevisController(participantPersonSevisService.Object, userProvider.Object, storageHandler.Object);
         }
 
