@@ -129,7 +129,7 @@ namespace ECA.Business.Validation.Sevis
                 PostalCode = this.SiteOfActivity.PostalCode,
                 PrimarySite = true,
                 Remarks = null,
-                State = this.SiteOfActivity.Division.GetStateCodeType(),
+                State = this.SiteOfActivity.DivisionIso.GetStateCodeType(),
                 StateSpecified = true,
                 SiteName = this.SiteOfActivity.LocationName
             };
@@ -285,11 +285,14 @@ namespace ECA.Business.Validation.Sevis
             var item = new SEVISEVBatchTypeExchangeVisitorValidate
             {
                 EmailAddress = this.Person.EmailAddress,
-                PhoneNumber = this.Person.PhoneNumber,
             };
-            if (this.Person.USAddress != null)
+            if (this.Person.PhoneNumber != null)
             {
-                var address = this.Person.USAddress.GetUSAddress();
+                item.PhoneNumber = this.Person.GetUSPhoneNumber(this.Person.PhoneNumber);
+            }
+            if (this.Person.MailAddress != null)
+            {
+                var address = this.Person.MailAddress.GetUSAddress();
                 var addressDoctor = address.GetUSAddressDoctorType();
                 item.USAddress = addressDoctor;
             }

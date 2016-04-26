@@ -90,11 +90,11 @@ namespace ECA.Business.Test.Service.Sevis
             var state = "TN";
             var mailAddress = new AddressDTO();
             mailAddress.Country = LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME;
-            mailAddress.Division = state;
+            mailAddress.DivisionIso = state;
 
             var usAddress = new AddressDTO();
             usAddress.Country = LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME;
-            usAddress.Division = state;
+            usAddress.DivisionIso = state;
 
             var firstName = "first";
             var lastName = "last";
@@ -218,7 +218,7 @@ namespace ECA.Business.Test.Service.Sevis
 
             var siteOfActivity = new AddressDTO
             {
-                Division = "DC",
+                DivisionIso = "DC",
                 LocationName = "name"
             };
             var exchangeVisitor = new ExchangeVisitor(
@@ -336,7 +336,7 @@ namespace ECA.Business.Test.Service.Sevis
 
             var siteOfActivity = new AddressDTO
             {
-                Division = "DC",
+                DivisionIso = "DC",
                 LocationName = "name"
             };
             var exchangeVisitor = new ExchangeVisitor(
@@ -448,7 +448,7 @@ namespace ECA.Business.Test.Service.Sevis
 
             var siteOfActivity = new AddressDTO
             {
-                Division = "DC",
+                DivisionIso = "DC",
                 LocationName = "name"
             };
             var exchangeVisitor = new ExchangeVisitor(
@@ -548,7 +548,7 @@ namespace ECA.Business.Test.Service.Sevis
 
             var siteOfActivity = new AddressDTO
             {
-                Division = "DC",
+                DivisionIso = "DC",
                 LocationName = "name"
             };
             var exchangeVisitor = new ExchangeVisitor(
@@ -632,7 +632,7 @@ namespace ECA.Business.Test.Service.Sevis
 
             var siteOfActivity = new AddressDTO
             {
-                Division = "DC",
+                DivisionIso = "DC",
                 LocationName = "name"
             };
             var exchangeVisitor = new ExchangeVisitor(
@@ -727,7 +727,7 @@ namespace ECA.Business.Test.Service.Sevis
             var projectId = 500;
             var siteOfActivity = new AddressDTO
             {
-                Division = "DC",
+                DivisionIso = "DC",
                 LocationName = "name"
             };
             var exchangeVisitors = new List<ExchangeVisitor>();
@@ -869,7 +869,7 @@ namespace ECA.Business.Test.Service.Sevis
             var projectId = 500;
             var siteOfActivity = new AddressDTO
             {
-                Division = "DC",
+                DivisionIso = "DC",
                 LocationName = "name"
             };
             var exchangeVisitors = new List<ExchangeVisitor>();
@@ -1097,7 +1097,7 @@ namespace ECA.Business.Test.Service.Sevis
 
             var siteOfActivity = new AddressDTO
             {
-                Division = "DC",
+                DivisionIso = "DC",
                 LocationName = "name"
             };
             
@@ -1136,7 +1136,7 @@ namespace ECA.Business.Test.Service.Sevis
 
             var siteOfActivity = new AddressDTO
             {
-                Division = "DC",
+                DivisionIso = "DC",
                 LocationName = "name"
             };
 
@@ -1177,7 +1177,7 @@ namespace ECA.Business.Test.Service.Sevis
 
             var siteOfActivity = new AddressDTO
             {
-                Division = "DC",
+                DivisionIso = "DC",
                 LocationName = "name"
             };
 
@@ -1216,7 +1216,7 @@ namespace ECA.Business.Test.Service.Sevis
 
             var siteOfActivity = new AddressDTO
             {
-                Division = "DC",
+                DivisionIso = "DC",
                 LocationName = "name"
             };
 
@@ -1257,7 +1257,7 @@ namespace ECA.Business.Test.Service.Sevis
 
             var siteOfActivity = new AddressDTO
             {
-                Division = "DC",
+                DivisionIso = "DC",
                 LocationName = "name"
             };
 
@@ -1298,7 +1298,7 @@ namespace ECA.Business.Test.Service.Sevis
 
             var siteOfActivity = new AddressDTO
             {
-                Division = "DC",
+                DivisionIso = "DC",
                 LocationName = "name"
             };
 
@@ -2014,7 +2014,7 @@ namespace ECA.Business.Test.Service.Sevis
         }
 
         [TestMethod]
-        public void TestAddResultTypeSevisCommStatus_IsError()
+        public void TestAddResultTypeSevisCommStatus_IsErrorAndRequestIdIsNotValidate()
         {
             var batch = new SevisBatchProcessing
             {
@@ -2038,6 +2038,36 @@ namespace ECA.Business.Test.Service.Sevis
 
             var firstStatus = context.ParticipantPersonSevisCommStatuses.First();
             Assert.AreEqual(SevisCommStatus.InformationRequired.Id, firstStatus.SevisCommStatusId);
+            Assert.AreEqual(participantPerson.ParticipantId, firstStatus.ParticipantId);
+            DateTimeOffset.UtcNow.Should().BeCloseTo(firstStatus.AddedOn, 20000);
+            Assert.AreEqual(batch.BatchId, firstStatus.BatchId);
+        }
+
+        [TestMethod]
+        public void TestAddResultTypeSevisCommStatus_IsErrorAndRequestIdIsValidate()
+        {
+            var batch = new SevisBatchProcessing
+            {
+                BatchId = "batchId"
+            };
+            var resultType = new ResultType
+            {
+                status = false
+            };
+            var participantPerson = new ParticipantPerson
+            {
+                ParticipantId = 1
+            };
+            Assert.AreEqual(0, context.ParticipantPersonSevisCommStatuses.Count());
+
+            var requestId = new RequestId(participantPerson.ParticipantId, RequestIdType.Validate, RequestActionType.Create);
+            service.AddResultTypeSevisCommStatus(requestId, resultType, participantPerson, batch);
+            Assert.AreEqual(1, context.ParticipantPersonSevisCommStatuses.Count());
+            Assert.AreEqual(1, participantPerson.ParticipantPersonSevisCommStatuses.Count());
+            Assert.IsTrue(Object.ReferenceEquals(context.ParticipantPersonSevisCommStatuses.First(), participantPerson.ParticipantPersonSevisCommStatuses.First()));
+
+            var firstStatus = context.ParticipantPersonSevisCommStatuses.First();
+            Assert.AreEqual(SevisCommStatus.NeedsValidationInfo.Id, firstStatus.SevisCommStatusId);
             Assert.AreEqual(participantPerson.ParticipantId, firstStatus.ParticipantId);
             DateTimeOffset.UtcNow.Should().BeCloseTo(firstStatus.AddedOn, 20000);
             Assert.AreEqual(batch.BatchId, firstStatus.BatchId);

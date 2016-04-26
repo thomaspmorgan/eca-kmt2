@@ -4,6 +4,7 @@ using ECA.Business.Queries.Models.Persons.ExchangeVisitor;
 using ECA.Business.Service.Admin;
 using ECA.Business.Validation.Sevis.Bio;
 using ECA.Business.Validation.Sevis.Finance;
+using ECA.Core.DynamicLinq;
 using ECA.Data;
 using System;
 using System.Diagnostics.Contracts;
@@ -351,26 +352,36 @@ namespace ECA.Business.Queries.Persons
         /// <param name="context">The context to query.</param>
         /// <param name="startDate">The minimum start date for a participant.</param>
         /// <returns>The query of dtos who are ready to be validated.</returns>
-        public static IQueryable<ReadyToValidateParticipantDTO> CreateGetReadyToValidateParticipantDTOsQuery(EcaContext context, DateTimeOffset startDate)
+        public static IQueryable<ReadyToValidateParticipantDTO> CreateGetReadyToValidateParticipantDTOsQuery(EcaContext context, DateTimeOffset startDate, QueryableOperator<ReadyToValidateParticipantDTO> queryOperator)
         {
             Contract.Requires(context != null, "The context must not be null.");
+            var statusIds = ParticipantStatus.EXCHANGE_VISITOR_VALIDATION_PARTICIPANT_STATUSES.Select(x => x.Id).ToList();
+            var informationRequiredSevisStatusId = SevisCommStatus.InformationRequired.Id;
+
             var query = from participantPerson in context.ParticipantPersons
                         let participant = participantPerson.Participant
+                        let participantStatus = participant.Status
                         let hasValidatedByBatchStatus = participantPerson.ParticipantPersonSevisCommStatuses
                             .Where(x => x.SevisCommStatusId == SevisCommStatus.ReadyToValidate.Id || x.SevisCommStatusId == SevisCommStatus.NeedsValidationInfo.Id)
                             .Count() > 0
+                        let latestSevisStatus = participantPerson.ParticipantPersonSevisCommStatuses.OrderByDescending(x => x.AddedOn).FirstOrDefault()
 
                         where participantPerson.SevisId != null
                         && participantPerson.SevisId.Length > 0
                         && participantPerson.StartDate.HasValue
                         && participantPerson.StartDate.Value < startDate
                         && !hasValidatedByBatchStatus
+                        && participantStatus != null
+                        && statusIds.Contains(participantStatus.ParticipantStatusId)
+                        && latestSevisStatus != null
+                        && latestSevisStatus.SevisCommStatusId != informationRequiredSevisStatusId
                         select new ReadyToValidateParticipantDTO
                         {
                             ParticipantId = participant.ParticipantId,
                             ProjectId = participant.ProjectId,
                             SevisId = participantPerson.SevisId
                         };
+            query = query.Apply(queryOperator);
             return query;
         }
     }

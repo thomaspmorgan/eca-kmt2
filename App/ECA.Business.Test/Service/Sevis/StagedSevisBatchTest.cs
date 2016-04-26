@@ -26,7 +26,7 @@ namespace ECA.Business.Test.Service.Sevis
             var state = "TN";
             var mailAddress = new AddressDTO();
             mailAddress.Country = LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME;
-            mailAddress.Division = state;
+            mailAddress.DivisionIso = state;
             mailAddress.Street1 = "123 Us address";
             mailAddress.Street2 = null;
             mailAddress.City = "city";
@@ -34,7 +34,7 @@ namespace ECA.Business.Test.Service.Sevis
 
             var usAddress = new AddressDTO();
             usAddress.Country = LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME;
-            usAddress.Division = state;
+            usAddress.DivisionIso = state;
             usAddress.Street1 = "123 Us address";
             usAddress.Street2 = null;
             usAddress.City = "city";
@@ -86,7 +86,7 @@ namespace ECA.Business.Test.Service.Sevis
             {
                 Street1 = "street 1",
                 PostalCode = "12345",
-                Division = "DC",
+                DivisionIso = "DC",
                 LocationName = "US Dept of State"
             };
             var exchangeVisitor = new ExchangeVisitor(

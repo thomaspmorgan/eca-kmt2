@@ -838,12 +838,12 @@ namespace ECA.Business.Service.Sevis
         {
             Contract.Requires(resultType != null, "The result type must not be null.");
             Contract.Requires(participantPerson != null, "The participant person must not be null.");
-            int commStatusId = SevisCommStatus.InformationRequired.Id;
+            int commStatusId = 0;
             if (resultType.status)
             {
                 if (!String.IsNullOrWhiteSpace(participantPerson.SevisId))
                 {
-                    if(requestId.RequestIdType == RequestIdType.Validate)
+                    if (requestId.RequestIdType == RequestIdType.Validate)
                     {
                         commStatusId = SevisCommStatus.ValidatedByBatch.Id;
                     }
@@ -855,6 +855,17 @@ namespace ECA.Business.Service.Sevis
                 else
                 {
                     commStatusId = SevisCommStatus.CreatedByBatch.Id;
+                }
+            }
+            else
+            {
+                if (requestId.RequestIdType == RequestIdType.Validate)
+                {
+                    commStatusId = SevisCommStatus.NeedsValidationInfo.Id;
+                }
+                else
+                {
+                    commStatusId = SevisCommStatus.InformationRequired.Id;
                 }
             }
             var sevisCommStatus = new ParticipantPersonSevisCommStatus
@@ -1091,10 +1102,10 @@ namespace ECA.Business.Service.Sevis
         /// <param name="participant">The grouped participant representing the exchange visitor.</param>
         /// <returns>The first staged sevis batch that can accomodate the visitor, or null if none can accomodate.</returns>
         public StagedSevisBatch GetAccomodatingStagedSevisBatch(
-            List<StagedSevisBatch> batches, 
-            SevisGroupedParticipantDTO participant, 
-            ExchangeVisitor visitor, 
-            string sevisUsername, 
+            List<StagedSevisBatch> batches,
+            SevisGroupedParticipantDTO participant,
+            ExchangeVisitor visitor,
+            string sevisUsername,
             string sevisOrgId)
         {
             Contract.Requires(batches != null, "The batches must not be null.");

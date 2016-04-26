@@ -247,6 +247,68 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
         }
 
         [TestMethod]
+        public void TestGetEVPersonTypeBiographical_NullPhoneNumber()
+        {
+            var state = "TN";
+            var mailAddress = new AddressDTO();
+            mailAddress.Country = LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME;
+            mailAddress.Division = state;
+
+            var usAddress = new AddressDTO();
+            usAddress.Country = LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME;
+            usAddress.Division = state;
+
+            var personId = 100;
+            var participantId = 200;
+
+            var firstName = "first";
+            var lastName = "last";
+            var passport = "passport";
+            var preferred = "preferred";
+            var suffix = "Jr.";
+            var fullName = new FullName(firstName, lastName, passport, preferred, suffix);
+
+            var birthCity = "birth city";
+            var birthCountryCode = "CN";
+            var birthDate = DateTime.UtcNow;
+            var citizenshipCountryCode = "FR";
+            var email = "someone@isp.com";
+            var gender = Gender.SEVIS_MALE_GENDER_CODE_VALUE;
+            var permanentResidenceCountryCode = "MX";
+            short positionCode = 120;
+            var printForm = true;
+            var remarks = "remarks";
+            var programCataegoryCode = "1D";
+            var subjectFieldCode = "01.0102";
+            var subjectField = new SubjectField(subjectFieldCode, null, null, null);
+
+            var person = new Business.Validation.Sevis.Bio.Person
+                (birthCity: birthCity,
+                fullName: fullName,
+                birthCountryCode: birthCountryCode,
+                birthDate: birthDate,
+                citizenshipCountryCode: citizenshipCountryCode,
+                emailAddress: email,
+                gender: gender,
+                permanentResidenceCountryCode: permanentResidenceCountryCode,
+                phoneNumber: null,
+                remarks: remarks,
+                positionCode: positionCode.ToString(),
+
+                programCategoryCode: programCataegoryCode,
+                subjectField: subjectField,
+                mailAddress: mailAddress,
+                usAddress: usAddress,
+                printForm: printForm,
+                personId: personId,
+                participantId: participantId
+                );
+            
+            var instance = person.GetEVPersonTypeBiographical();
+            Assert.IsNull(instance.PhoneNumber);
+        }
+
+        [TestMethod]
         public void TestGetSEVISEVBatchTypeExchangeVisitorBiographical()
         {
             var state = "TN";
@@ -330,6 +392,67 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             Assert.IsTrue(instance.BirthDateSpecified);
             Assert.IsTrue(instance.CitizenshipCountryCodeSpecified);
             Assert.IsTrue(instance.GenderSpecified);
+        }
+
+        [TestMethod]
+        public void TestGetSEVISEVBatchTypeExchangeVisitorBiographical_NullPhoneNumber()
+        {
+            var state = "TN";
+            var mailAddress = new AddressDTO();
+            mailAddress.Country = LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME;
+            mailAddress.Division = state;
+
+            var usAddress = new AddressDTO();
+            usAddress.Country = LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME;
+            usAddress.Division = state;
+
+            var personId = 100;
+            var participantId = 200;
+
+            var firstName = "first";
+            var lastName = "last";
+            var passport = "passport";
+            var preferred = "preferred";
+            var suffix = "Jr.";
+            var fullName = new FullName(firstName, lastName, passport, preferred, suffix);
+
+            var birthCity = "birth city";
+            var birthCountryCode = "CN";
+            var birthDate = DateTime.UtcNow;
+            var citizenshipCountryCode = "FR";
+            var email = "someone@isp.com";
+            var gender = Gender.SEVIS_MALE_GENDER_CODE_VALUE;
+            var permanentResidenceCountryCode = "MX";
+            short positionCode = 120;
+            var printForm = true;
+            var remarks = "remarks";
+            var programCataegoryCode = "1D";
+            var subjectFieldCode = "01.0102";
+            var subjectField = new SubjectField(subjectFieldCode, null, null, null);
+
+            var person = new Business.Validation.Sevis.Bio.Person
+                (birthCity: birthCity,
+                fullName: fullName,
+                birthCountryCode: birthCountryCode,
+                birthDate: birthDate,
+                citizenshipCountryCode: citizenshipCountryCode,
+                emailAddress: email,
+                gender: gender,
+                permanentResidenceCountryCode: permanentResidenceCountryCode,
+                phoneNumber: null,
+                remarks: remarks,
+                positionCode: positionCode.ToString(),
+                programCategoryCode: programCataegoryCode,
+                subjectField: subjectField,
+                mailAddress: mailAddress,
+                usAddress: usAddress,
+                printForm: printForm,
+                personId: personId,
+                participantId: participantId
+                );
+
+            var instance = person.GetSEVISEVBatchTypeExchangeVisitorBiographical();
+            Assert.IsNull(instance.PhoneNumber);
         }
 
         [TestMethod]

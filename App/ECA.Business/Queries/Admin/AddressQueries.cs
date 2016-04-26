@@ -46,6 +46,7 @@ namespace ECA.Business.Queries.Admin
                             Country = hasCountry ? country.LocationName : null,
                             CountryId =  location.CountryId,
                             Division = hasDivision ? division.LocationName : null,
+                            DivisionIso = hasDivision ? division.LocationIso : null,
                             DivisionId = location.DivisionId,
                             IsPrimary = address.IsPrimary,
                             LocationId = location.LocationId,
