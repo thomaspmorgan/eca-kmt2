@@ -2485,7 +2485,7 @@ namespace ECA.Business.Test.Service.Sevis
                     Success = "2"
                 }
             };
-            var url = "url";
+            var url = new Uri("http://www.google.com");
             var fileContents = new byte[1] { (byte)1 };
             var fileContentStream = new MemoryStream(fileContents);
             var fileContentStreamAsync = new MemoryStream(fileContents);
@@ -2617,7 +2617,7 @@ namespace ECA.Business.Test.Service.Sevis
                     Success = "2"
                 }
             };
-            var url = "url";
+            var url = new Uri("http://www.google.com");
             var fileContents = new byte[1] { (byte)1 };
             var fileContentStream = new MemoryStream(fileContents);
             var fileContentStreamAsync = new MemoryStream(fileContents);
@@ -2705,7 +2705,7 @@ namespace ECA.Business.Test.Service.Sevis
                     Success = "2"
                 }
             };
-            var url = "url";
+            var url = new Uri("http://www.google.com");
             var fileContents = new byte[1] { (byte)1 };
             var fileContentStream = new MemoryStream(fileContents);
             var fileContentStreamAsync = new MemoryStream(fileContents);
@@ -2904,7 +2904,7 @@ namespace ECA.Business.Test.Service.Sevis
                     Success = "2"
                 }
             };
-            var url = "url";
+            var url = new Uri("http://www.google.com");
             var fileContents = new byte[1] { (byte)1 };
             var fileContentStream = new MemoryStream(fileContents);
             var fileContentStreamAsync = new MemoryStream(fileContents);
@@ -2925,7 +2925,7 @@ namespace ECA.Business.Test.Service.Sevis
                 .Callback(cloudStorageCallback);
 
             cloudStorageService.Setup(x => x.UploadBlobAsync(It.IsAny<Stream>(), It.IsAny<string>(), It.IsAny<string>()))
-                .Returns(Task.FromResult<string>(url))
+                .Returns(Task.FromResult<Uri>(url))
                 .Callback(cloudStorageCallback);
 
             context.Revert();
@@ -3884,7 +3884,7 @@ namespace ECA.Business.Test.Service.Sevis
             {
                 Assert.AreEqual(participantPerson.GetDS2019FileName(), s);
             };
-            var url = "url";
+            var url = new Uri("http://www.google.com");
             cloudStorageService.Setup(x => x.UploadBlob(It.IsAny<Stream>(), It.IsAny<string>(), It.IsAny<string>()))
                 .Returns(url)
                 .Callback(cloudStorageCallback);
