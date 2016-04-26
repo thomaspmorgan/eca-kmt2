@@ -261,7 +261,7 @@ angular.module('staticApp').factory('ConstantsService', function() {
 		saveProgramEventName: 'saveProgram',
 		saveProjectEventName: 'saveProject',
 		searchDelimiter: ' ',
-		sevisStatusIds: '2,3,4,5,15',
+		sevisStatusIds: '5,13,14',
 		updateBreadcrumbsEventName: 'updateBreadcrumbs'
 	};
 });

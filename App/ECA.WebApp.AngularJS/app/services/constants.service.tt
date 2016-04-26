@@ -52,7 +52,7 @@
 	otherConstants["cancelProjectEventName"] = "cancelProjectEdit";
 	otherConstants["saveProgramEventName"] = "saveProgram";
 	otherConstants["cancelProgramChangesEventName"] = "cancelProgramEdit";
-	otherConstants["sevisStatusIds"] = "2,3,4,5,15";
+	otherConstants["sevisStatusIds"] = "5,13,14";
 
 	otherConstants["removeNewAddressEventName"] = "removeNewAddress";
 	otherConstants["primaryAddressChangedEventName"] = "primaryAddressChanged";

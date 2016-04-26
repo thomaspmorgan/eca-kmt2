@@ -4,13 +4,13 @@
             <i class="material-icons md-dark md-24 pull-right" ng-show="view.collapseCitizenshipCountries">expand_less</i>
             <i class="material-icons md-dark md-24 pull-right" ng-show="!view.collapseCitizenshipCountries">expand_more</i>
         </a>
-        <a ng-click="view.onAddCitizenshipCountryClick(view.params.personId)">
+        <a ng-click="view.onAddCitizenshipCountryClick(model.countriesOfCitizenship)">
             <i class="material-icons md-24 md-dark pull-right">add</i>
         </a>
-        <div class="pull-right" style="margin-top: 3px;" ng-show="view.collapseCitizenshipCountries">({{$parent.$parent.countriesOfCitizenship.length}})</div>
+        <div class="pull-right" style="margin-top: 3px;" ng-show="view.collapseCitizenshipCountries">({{model.countriesOfCitizenship.length > 0 ? model.countriesOfCitizenship.length : 0}})</div>
     </div>
     <div class="col-md-12" collapse="view.collapseCitizenshipCountries">
-        <div ng-repeat="citizenship in $parent.$parent.countriesOfCitizenship track by $index">
+        <div ng-repeat="citizenship in model.countriesOfCitizenship track by $index">
             <div ng-controller="CitizenshipCountryCtrl" class="expandIndent">
                 <div class="spinner" ng-show="view.isSavingChanges">
                     <div class="bounce1"></div>
@@ -21,13 +21,13 @@
                     <div ng-class="row" ng-show="!view.showEditCitizenshipCountry">
                         <span>{{citizenship.locationName}}</span> <span ng-show="citizenship.isPrimary"> (primary)</span>
                         <div class="pull-right" ng-show="!view.showEditCitizenshipCountry">
-                            <a ng-show="!view.showEditCitizenshipCountry && !view.isDeletingCountry && editMode" ng-click="view.showConfirmDelete = true">
+                            <a ng-show="!view.showEditCitizenshipCountry && !view.isDeletingCountry" ng-click="view.showConfirmDelete = true">
                                 <i class="material-icons md-dark">delete</i>
                             </a>
                             <a ng-show="view.isDeletingCountry">
                                 <i class="material-icons md-dark material-icons-spin">refresh</i>
                             </a>
-                            <a ng-show="!view.showEditCitizenshipCountry && editMode" ng-click="view.onEditCountryClick()">
+                            <a ng-show="!view.showEditCitizenshipCountry" ng-click="view.onEditCountryClick()">
                                 <i class="material-icons md-dark">edit</i>
                             </a>
                         </div>

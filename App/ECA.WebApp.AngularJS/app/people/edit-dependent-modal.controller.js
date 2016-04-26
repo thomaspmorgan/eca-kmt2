@@ -56,7 +56,6 @@ angular.module('staticApp')
 
       function saveEditDependent() {
           $scope.isSavingDependent = true;
-          setupDependent();
           return DependentService.update($scope.dependent)
               .then(function (response) {
                   NotificationService.showSuccessMessage("The edit was successful.");
@@ -84,13 +83,6 @@ angular.module('staticApp')
                       }
                   }
               });
-      };
-
-      function setupDependent() {
-          $scope.dependent.countriesOfCitizenship = $scope.countriesOfCitizenship;
-          if ($scope.dependent.dateOfBirth) {
-              $scope.dependent.dateOfBirth.setUTCHours(0, 0, 0, 0);
-          }
       };
 
       $scope.isDependentPlaceOfBirthValid = function ($value) {
@@ -133,10 +125,9 @@ angular.module('staticApp')
               };
               if (search) {
                   params.filter.push({ property: 'name', comparison: ConstantsService.likeComparisonType, value: search });
+              } else if ($scope.dependent.placeOfBirthId) {
+                  params.filter.push({ property: 'id', comparison: ConstantsService.equalComparisonType, value: $scope.dependent.placeOfBirthId });
               }
-              //else if ($scope.dependent.placeOfBirthId) {
-              //    params.filter.push({ property: 'id', comparison: ConstantsService.equalComparisonType, value: $scope.dependent.placeOfBirthId });
-              //}
               return LocationService.get(params)
                 .then(function (data) {
                     $scope.cities = data.results;
@@ -231,7 +222,7 @@ angular.module('staticApp')
       };
 
       $scope.isDependentLoading = true;
-      $q.all([loadResidenceCountries(), loadGenders(), loadDependentTypes(), loadBirthCountryReasons()])
+      $q.all([loadResidenceCountries(), loadDependentCities(null), loadGenders(), loadDependentTypes(), loadBirthCountryReasons()])
           .then(function () {
               $scope.isDependentLoading = false;
           })

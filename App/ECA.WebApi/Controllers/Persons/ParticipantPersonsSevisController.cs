@@ -6,11 +6,14 @@ using ECA.Business.Validation.Sevis;
 using ECA.Core.DynamicLinq;
 using ECA.Core.DynamicLinq.Sorter;
 using ECA.Core.Query;
+using ECA.WebApi.Custom.Storage;
 using ECA.WebApi.Models.Person;
 using ECA.WebApi.Models.Query;
 using ECA.WebApi.Security;
 using System;
 using System.Diagnostics.Contracts;
+using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
@@ -36,17 +39,21 @@ namespace ECA.WebApi.Controllers.Persons
 
         private IParticipantPersonsSevisService participantService;
         private IUserProvider userProvider;
+        private IFileStorageHandler storageHandler;
 
         /// <summary>
         /// Creates a new ParticipantPersonsSevisController with the given service.
         /// </summary>
         /// <param name="participantService">The participant person sevis service.</param>
         /// <param name="userProvider">The user provider</param>
-        public ParticipantPersonsSevisController(IParticipantPersonsSevisService participantService, IUserProvider userProvider)
+        public ParticipantPersonsSevisController(IParticipantPersonsSevisService participantService, IUserProvider userProvider, IFileStorageHandler storageHandler)
         {
             Contract.Requires(participantService != null, "The participantPersonSevis service must not be null.");
+            Contract.Requires(userProvider != null, "The user provider must not be null.");
+            Contract.Requires(storageHandler != null, "The storage handler must not be null.");
             this.participantService = participantService;
             this.userProvider = userProvider;
+            this.storageHandler = storageHandler;
         }
 
         /// <summary>
@@ -186,6 +193,22 @@ namespace ECA.WebApi.Controllers.Persons
             else
             {
                 return BadRequest(ModelState);
+            }
+        }
+
+        [Route("Project/{projectId:int}/ParticipantPersonSevis/{participantId:int}/DS2019File")]
+        [ResourceAuthorize(Permission.EDIT_SEVIS_VALUE, ResourceType.PROJECT_VALUE, "projectId")]
+        public async Task<HttpResponseMessage> GetDS2019FileAsync(int projectId, int participantId)
+        {
+            var fileName = await participantService.GetDS2019FileNameAsync(projectId, participantId);
+            var blobExists = await storageHandler.BlobExistsAsync(fileName);
+            if (fileName != null && blobExists)
+            {
+                var message = await storageHandler.GetFileAsync(fileName);
+                return message;
+            } else
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.NotFound, "File not found.");
             }
         }
     }

@@ -108,7 +108,8 @@
     <div class="form-group col-md-3">
         <input type="checkbox" ng-model="sevisinfo.isDS2019Printed" ng-click="edit.onDosStatusChange($event, 'isDS2019Printed', sevisinfo.isDS2019Printed)" /> DS 2019 Printed
     </div>
-    <div class="form-group col-md-6">        
+    <div class="form-group col-md-6">
+        <a ng-click="printDS2019()" ng-show="sevisinfo.hasDS2019"><i class="material-icons md-24">print</i> Print DS2019</a>        
     </div>
 </div>
 <div class="form-group row row2">

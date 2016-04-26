@@ -12,8 +12,8 @@ angular.module('staticApp')
           NotificationService, FilterService, $q, DateTimeService, person) {
 
       $scope.dependent = getNewDependent();
+      $scope.dependent.countriesOfCitizenship = [];
       $scope.person = person;
-      $scope.countriesOfCitizenship = [];
       $scope.countriesResidence = [];
       $scope.cities = [];
       $scope.datePickerOpen = false;
@@ -55,7 +55,6 @@ angular.module('staticApp')
 
       function setupDependent() {
           $scope.dependent.personId = $stateParams.personId;
-          $scope.dependent.countriesOfCitizenship = $scope.countriesOfCitizenship;
           if ($scope.dependent.dateOfBirth) {
               $scope.dependent.dateOfBirth.setUTCHours(0, 0, 0, 0);
           }

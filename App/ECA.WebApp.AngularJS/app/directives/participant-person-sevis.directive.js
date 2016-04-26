@@ -18,7 +18,8 @@
         'MessageBox',
         'ConstantsService',
         'smoothScroll',
-        '$state'];
+        '$state',
+        'DownloadService'];
 
     function participantPersonSevis(
         $log,
@@ -33,7 +34,8 @@
         MessageBox,
         ConstantsService,
         smoothScroll,
-        $state) {
+        $state,
+        DownloadService) {
         // Usage:
         //     <participant_person_sevis participantId={{id}} active=activevariable, update=updatefunction></participant_person_sevis>
         // Creates:
@@ -128,6 +130,11 @@
                         getSevisCommStatusesPage();
                     }
                 });
+
+                $scope.printDS2019 = function () {
+                    var url = 'Project/' + projectId + '/ParticipantPersonSevis/' + participantId + '/DS2019File';
+                    DownloadService.get(url, 'application/pdf');
+                }
 
                 $scope.view.showNextSevisCommStatuses = function () {
                     $scope.view.maxNumberOfSevisCommStatusesToShow += $scope.view.sevisCommStatusesPageSize;

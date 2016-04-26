@@ -137,5 +137,10 @@ namespace ECA.Business.Queries.Models.Persons
         /// Gets or sets the participant Sevis Status id
         /// </summary>
         public int? SevisStatusId { get; set; }
+
+        /// <summary>
+        /// Gets or sets flag for ds 2019
+        /// </summary>
+        public bool HasDS2019 { get; set; }
     }
 }

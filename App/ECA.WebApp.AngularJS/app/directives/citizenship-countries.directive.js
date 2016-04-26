@@ -12,9 +12,7 @@ angular.module('staticApp')
           templateUrl: 'app/directives/citizenship-countries.directive.html',
           scope: {
               model: '=model',
-              modelId: '=modelid',
-              modelType: '=modeltype',
-              editMode: '=editmode'
+              modelId: '=dependentid'
           }
       };
       return directive;
