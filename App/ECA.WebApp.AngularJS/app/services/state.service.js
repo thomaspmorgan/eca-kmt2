@@ -14,6 +14,7 @@ angular.module('staticApp')
       var programPrefix = 'programs';
       var officePrefix = 'offices';
       var organizationPrefix = 'organizations';
+      var fundingPrefix = 'funding'
       var personPrefix = 'people';
       var personalInformationPrefix = 'personalinformation';
 
@@ -26,6 +27,7 @@ angular.module('staticApp')
                   program: programPrefix,
                   office: officePrefix,
                   organization: organizationPrefix,
+                  funding: fundingPrefix,
                   person: personPrefix
               },
               overview: {
@@ -33,6 +35,7 @@ angular.module('staticApp')
                   program: programPrefix + '.overview',
                   office: officePrefix + '.overview',
                   organization: organizationPrefix + '.overview',
+                  funding: fundingPrefix + '.overview',
                   person: personPrefix + '.personalinformation'
               },
               people: {
@@ -164,6 +167,11 @@ angular.module('staticApp')
           goToOrganizationState: function (organizationId, options) {
               options = options || {};
               return $state.go(service.stateNames.overview.organization, { organizationId: organizationId }, options);
+          },
+
+          goToFundingState: function (organizationId, options) {
+              options = options || {};
+              return $state.go(service.stateNames.overview.funding, { organizationId: organizationId }, options);
           },
 
           goToPersonState: function (personId, options) {

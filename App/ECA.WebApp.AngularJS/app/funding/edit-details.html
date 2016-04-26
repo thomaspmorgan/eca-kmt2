@@ -1,0 +1,148 @@
+﻿<div in-context-form ng-controller="FundingEditDetailsCtrl">
+    <form name="form.organizationForm" class="form-horizontal">
+        <div class="form-group row">
+            <label class="col-md-2 title-label" for="projectName">Name <eca-required /></label>
+            <div class="col-md-10">
+                <input name="name"
+                       ng-model="organization.name"
+                       form-element guidance="This is the name of the organization."
+                       type="text"
+                       maxlength="600"
+                       class="form-control"
+                       placeholder="Enter organization name..."
+                       id="name"
+                       required />
+                <div ng-show="form.organizationForm.name.$dirty">
+                    <div class="error" ng-show="form.organizationForm.name.$error.required">Please enter an organization name.</div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-md-2 title-label" for="description">Description <eca-required /></label>
+            <div class="col-md-10">
+                <textarea name="description"
+                          ng-model="organization.description"
+                          form-element guidance="This is the description of the organization."
+                          type="text"
+                          maxlength="3000"
+                          id="description"
+                          class="form-control"
+                          placeholder="Enter organization description..."
+                          required />
+                <div ng-show="form.organizationForm.description.$dirty">
+                    <div class="error" ng-show="form.organizationForm.description.$error.required">Please enter an organization description.</div>
+                </div>
+            </div>
+        </div>
+        <div class="row tags">
+            <span ng-repeat="tag in organization.tags" class="tag">#{{tag}}</span>
+        </div>
+
+        <div class="col-md-6">
+            <div class="form-group row">
+                <label class="col-md-4 title-label">Website</label>
+                <div class="col-md-8">
+                    <input type="text"
+                           maxlength="2000"
+                           class="form-control"
+                           ng-model="organization.website" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-md-4 title-label">Type</label>
+                <div class="col-md-8">
+                    <select class="form-control"
+                            ng-model="organization.organizationTypeId"
+                            ng-options="organizationType.id as organizationType.name for organizationType in view.organizationTypes" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-md-4 title-label">Roles</label>
+                <div class="col-md-8">
+                    <ui-select multiple 
+                               ng-model="view.selectedOrganizationRoles" 
+                               theme="select2"
+                               on-select="view.updateCollections()"
+                               on-remove="view.updateCollections()"
+                               style="min-width: 200px;">
+                        <ui-select-match placeholder="Select organization roles...">{{$item.value}}</ui-select-match>
+                        <ui-select-choices repeat="role in view.organizationRoles | filter:$select.search">
+                            <div ng-bind-html="role.value | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group row" ng-show="organization.contacts">
+                <div class="col-md-4 title-label"><ng-pluralize count="organization.contacts.length" when="{'1':'Point','other':'Points'}"></ng-pluralize> of Contact</div>
+                <div class="col-md-8">
+                    <ui-select multiple
+                               close-on-select="true"
+                               ng-model="view.selectedPointsOfContact"
+                               theme="select2"
+                               on-select="view.updateCollections()"
+                               on-remove="view.updateCollections()"
+                               append-to-body="true"
+                               title="Choose a point of contact."
+                               style="min-width: 200px;">
+                        <ui-select-match placeholder="Select points of contact...">
+                            <div>{{$item.value}}</div>
+                        </ui-select-match>
+
+                        <ui-select-choices refresh="view.searchPointsOfContact($select.search)" 
+                                           refresh-delay="250" 
+                                           repeat="person in view.pointsOfContact | filter: select.search track by person.id">
+                            <div ng-bind-html="person.fullName | highlight: $select.search"></div>
+                            <div class="small">{{person.position}}</div>
+                        </ui-select-choices>
+                    </ui-select>
+                    <div style="margin-top:5px;">
+                        <button class="btn btn-default" ng-click="view.onAddPointsOfContactClick()">Add <i class="material-icons md-dark">person</i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="row" ng-show="organization.socialMedias">
+                <div class="col-md-6 title-label">Social Media</div>
+                <socialmedias model="organization" modelid="organization.organizationId" modeltype="'organization'" editmode="view.showEditDetails" />
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group row">
+                <label class="col-md-4 title-label">Parent Organization</label>
+                <div class="col-md-8">
+                    <input type="search"
+                           class="search-contextual"
+                           maxlength="100"
+                           typeahead-append-to-body="false"
+                           placeholder="Select parent organization..."
+                           ng-model="organization.parentOrganizationName"
+                           typeahead-wait-ms="400"
+                           ng-blur="view.onSelectParentOrganizationBlur($event)"
+                           typeahead-loading="view.isLoadingParentOrganizations"
+                           typeahead="org as org.name for org in view.getAvailableParentOrganizations($viewValue) | limitTo : view.searchAvailableOrganizationsLimit"
+                           typeahead-on-select="view.onSelectAvailableParentOrganization($item, $model, $label)"
+                           typeahead-template-url="selectParentOrganizationTemplate.html"
+                           typeahead-editable="false">
+                    <i class="material-icons md-18 contextual" ng-show="!view.isLoadingParentOrganizations">search</i>
+                    <i class="material-icons md-18 material-icons-spin contextual-busy" ng-show="view.isLoadingParentOrganizations">autorenew</i>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-md-6 title-label">Addresses</div>
+                <div>
+                    <addresses model="organization" modelid="organization.organizationId" modeltype="'organization'" editmode="view.showEditDetails" />
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script type="text/ng-template" id="selectParentOrganizationTemplate.html">
+    <a>
+        <!--Organization search results-->
+        <div ng-show="match.model.name">
+            <span bind-html-unsafe="match.model.name | typeaheadHighlight:query"></span>
+        </div>
+    </a>
+</script>
