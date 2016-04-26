@@ -149,7 +149,7 @@
                     var cancel = function () {
                         $scope.sevisinfo[checkboxId] = sevisInfoCopy[checkboxId];
                     };
-                    promptUserToOverrideEdit(ok, cancel);
+                    //promptUserToOverrideEdit(ok, cancel);
                 }
 
                 $scope.edit.onStartDateChange = function () {
@@ -269,7 +269,7 @@
                     var cancel = function () {
                         $scope.view.FundingEdit = false;
                     };
-                    promptUserToOverrideEdit(ok, cancel);
+                    //promptUserToOverrideEdit(ok, cancel);
                 };
 
                 $scope.edit.onPositionAndFieldEditChange = function () {
@@ -280,7 +280,7 @@
                     var cancel = function () {
                         $scope.view.PositionAndFieldEdit = false;
                     };
-                    promptUserToOverrideEdit(ok, cancel);
+                    //promptUserToOverrideEdit(ok, cancel);
                 }
 
                 function getSevisCommStatusesPage() {
@@ -315,25 +315,25 @@
                             form.$setUntouched();
                             $scope.sevisinfo[sevisInfoPropertyName] = sevisInfoCopy[sevisInfoPropertyName];
                         };
-                        promptUserToOverrideEdit(ok, cancel);
+                        //promptUserToOverrideEdit(ok, cancel);
                     }
                 }
 
-                function promptUserToOverrideEdit(okCallback, cancelCallback) {
-                    if (notifyStatuses.indexOf($scope.sevisinfo.sevisStatusId.toString()) !== -1) {
-                        MessageBox.confirm({
-                            title: 'Confirm Edit',
-                            message: 'The SEVIS participant status of this person is ' + $scope.sevisinfo.sevisStatus + '. Are you sure you want to edit?',
-                            okText: 'Yes',
-                            cancelText: 'No',
-                            okCallback: okCallback,
-                            cancelCallback: cancelCallback
-                        });
-                    }
-                    else {
-                        okCallback();
-                    }
-                }
+                //function promptUserToOverrideEdit(okCallback, cancelCallback) {
+                //    if (notifyStatuses.indexOf($scope.sevisinfo.sevisStatusId.toString()) !== -1) {
+                //        MessageBox.confirm({
+                //            title: 'Confirm Edit',
+                //            message: 'The SEVIS participant status of this person is ' + $scope.sevisinfo.sevisStatus + '. Are you sure you want to edit?',
+                //            okText: 'Yes',
+                //            cancelText: 'No',
+                //            okCallback: okCallback,
+                //            cancelCallback: cancelCallback
+                //        });
+                //    }
+                //    else {
+                //        okCallback();
+                //    }
+                //}
 
                 $scope.onGovtAgency1Select = function (item) {
                     if (item.description != null)

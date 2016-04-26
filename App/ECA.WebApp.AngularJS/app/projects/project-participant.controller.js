@@ -558,6 +558,7 @@ angular.module('staticApp')
               $scope.onParticipantUpdated(data.data);
               $scope.sevisInfo[participantId] = data.data;
               $scope.sevisInfo[participantId].show = true;
+              $scope.isDisabled(participantId);
           })
           .catch(function (error) {
               if (error.status === 404) {
@@ -598,6 +599,14 @@ angular.module('staticApp')
       $scope.onInfoTabSelected = function (participantId) {
           $scope.view.tabInfo = true;
           $scope.view.tabSevis = false;
+      }
+
+      $scope.isDisabled = function (participantId) {
+          if (notifyStatuses.indexOf($scope.sevisInfo[participantId].sevisStatusId.toString()) !== -1) {
+              $scope.sevisInfo[participantId].blockEdit = true;
+          } else {
+              $scope.sevisInfo[participantId].blockEdit = false;
+          }
       }
 
       function saveSevisInfoById(participantId) {

@@ -109,7 +109,7 @@
         <input type="checkbox" ng-model="sevisinfo.isDS2019Printed" ng-click="edit.onDosStatusChange($event, 'isDS2019Printed', sevisinfo.isDS2019Printed)" /> DS 2019 Printed
     </div>
     <div class="form-group col-md-6">
-        <a ng-click="printDS2019()"><i class="material-icons md-24">print</i> Print DS2019</a>        
+        <a ng-click="printDS2019()"><i class="material-icons md-24">print</i> <span style="vertical-align:top">Print DS2019</span></a>
     </div>
 </div>
 <div class="form-group row row2">
@@ -124,6 +124,8 @@
                        ng-model="sevisinfo.startDate"
                        is-open="edit.isStartDatePickerOpen"
                        ng-required="true"
+                       ng-disabled="sevisinfo.blockEdit"
+                       tooltip="{{sevisinfo.blockEdit ? 'The participant is currently in a SEVIS Status which does not allow edits' : ''}}"
                        ng-change="edit.onStartDateChange()"
                        close-text="Close" />
                 <span class="input-group-btn">
@@ -148,6 +150,8 @@
                        ng-model="sevisinfo.endDate"
                        is-open="edit.isEndDatePickerOpen"
                        ng-required="true"
+                       ng-disabled="sevisinfo.blockEdit"
+                       tooltip="{{sevisinfo.blockEdit ? 'The participant is currently in a SEVIS Status which does not allow edits' : ''}}"
                        close-text="Close"
                        ng-change="edit.onEndDateChange()" />
                 <span class="input-group-btn">
@@ -267,7 +271,7 @@
                     <ui-select-match placeholder="Select a field of study...">{{$select.selected.description}}</ui-select-match>
                     <ui-select-choices refresh="edit.searchFieldOfStudies($select.search)" refresh-delay="250" repeat="fieldOfStudy.id as fieldOfStudy in edit.fieldOfStudies | filter: {description: $select.search} track by fieldOfStudy.id">
                         <div ng-bind-html="fieldOfStudy.description | highlight: $select.search"></div>
-                    </ui-select-choices> <!--required-->
+                    </ui-select-choices>
                 </ui-select>
             </div>
             <div class="col-md-3">
@@ -284,8 +288,10 @@
             <i class="material-icons md-dark md-36 pull-right" ng-show="view.Funding">expand_more</i>
             <i class="material-icons md-dark md-36 pull-right" ng-show="!view.Funding">expand_less</i>
         </a>
-        <a ng-click="edit.onFundingEditChange()">
-            <i class="material-icons md-dark md-24 pull-right" ng-show="view.Funding && !view.FundingEdit">edit</i>
+        <a ng-disabled="sevisinfo.blockEdit" ng-click="edit.onFundingEditChange()">
+            <span tooltip="{{sevisinfo.blockEdit ? 'The participant is currently in a SEVIS Status which does not allow edits' : ''}}">
+                <i ng-show="view.Funding && !view.FundingEdit" class="material-icons md-dark md-24 pull-right" style="{{sevisinfo.blockEdit ? 'opacity: .5' : 'opacity: 1'}}">edit</i>
+            </span>
         </a>
         <div class="pull-right" ng-if="view.FundingEdit" ng-show="view.Funding">
             <button ng-click="saveFunding()" class="btn btn-success" ng-disabled="fundingEditForm.$invalid || fundingEditForm.$pristine">Save</button>
