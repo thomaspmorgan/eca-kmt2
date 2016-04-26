@@ -5,15 +5,15 @@
             <div class="col-md-10">
                 <input name="name"
                        ng-model="organization.name"
-                       form-element guidance="This is the name of the organization."
+                       form-element guidance="This is the name of the funding source."
                        type="text"
                        maxlength="600"
                        class="form-control"
-                       placeholder="Enter organization name..."
+                       placeholder="Enter funding source name..."
                        id="name"
                        required />
                 <div ng-show="form.organizationForm.name.$dirty">
-                    <div class="error" ng-show="form.organizationForm.name.$error.required">Please enter an organization name.</div>
+                    <div class="error" ng-show="form.organizationForm.name.$error.required">Please enter a funding source name name.</div>
                 </div>
             </div>
         </div>
@@ -22,15 +22,15 @@
             <div class="col-md-10">
                 <textarea name="description"
                           ng-model="organization.description"
-                          form-element guidance="This is the description of the organization."
+                          form-element guidance="This is the description of the funding source."
                           type="text"
                           maxlength="3000"
                           id="description"
                           class="form-control"
-                          placeholder="Enter organization description..."
+                          placeholder="Enter funding source description..."
                           required />
                 <div ng-show="form.organizationForm.description.$dirty">
-                    <div class="error" ng-show="form.organizationForm.description.$error.required">Please enter an organization description.</div>
+                    <div class="error" ng-show="form.organizationForm.description.$error.required">Please enter a funding source description.</div>
                 </div>
             </div>
         </div>
@@ -54,22 +54,6 @@
                     <select class="form-control"
                             ng-model="organization.organizationTypeId"
                             ng-options="organizationType.id as organizationType.name for organizationType in view.organizationTypes" />
-                </div>
-            </div>
-            <div class="form-group row">
-                <label class="col-md-4 title-label">Roles</label>
-                <div class="col-md-8">
-                    <ui-select multiple 
-                               ng-model="view.selectedOrganizationRoles" 
-                               theme="select2"
-                               on-select="view.updateCollections()"
-                               on-remove="view.updateCollections()"
-                               style="min-width: 200px;">
-                        <ui-select-match placeholder="Select organization roles...">{{$item.value}}</ui-select-match>
-                        <ui-select-choices repeat="role in view.organizationRoles | filter:$select.search">
-                            <div ng-bind-html="role.value | highlight: $select.search"></div>
-                        </ui-select-choices>
-                    </ui-select>
                 </div>
             </div>
             <div class="form-group row" ng-show="organization.contacts">
@@ -107,13 +91,13 @@
         </div>
         <div class="col-md-6">
             <div class="form-group row">
-                <label class="col-md-4 title-label">Parent Organization</label>
+                <label class="col-md-4 title-label">Parent Funding Source</label>
                 <div class="col-md-8">
                     <input type="search"
                            class="search-contextual"
                            maxlength="100"
                            typeahead-append-to-body="false"
-                           placeholder="Select parent organization..."
+                           placeholder="Select parent funding source..."
                            ng-model="organization.parentOrganizationName"
                            typeahead-wait-ms="400"
                            ng-blur="view.onSelectParentOrganizationBlur($event)"

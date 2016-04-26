@@ -46,7 +46,7 @@ namespace ECA.Business.Queries.Admin
                                     hasProgram ? program.Owner.OfficeSymbol :
                                     hasOffice ? office.OfficeSymbol : "UNKNOWN OFFICE SYMBOL"
 
-                        let orgRoleFundingSource = bookmark.Organization.OrganizationRoles.Where(x => x.OrganizationRoleId == OrganizationRole.FundingSource.Id)
+                        let orgRoleFundingSource = hasOrganization ? bookmark.Organization.OrganizationRoles.Where(x => x.OrganizationRoleId == OrganizationRole.FundingSource.Id).FirstOrDefault() : null
                         
                         select new BookmarkDTO
                         {
@@ -63,7 +63,7 @@ namespace ECA.Business.Queries.Admin
                                    hasOffice ? "Office" :
                                    hasProgram ? "Program" :
                                    hasPerson ? "Person" :
-                                   hasOrganization ? (orgRoleFundingSource != null) ? "Funding" : "Organization" : "Unknown",
+                                   hasOrganization ? ((orgRoleFundingSource != null) ? "Funding" : "Organization") : "Unknown",
                             OfficeSymbolOrStatus = (hasProject || hasProgram || hasOffice) ? ownerSymbol :
                                                    hasPerson ? person.CurrentStatus :
                                                    hasOrganization ? organization.Status : "",

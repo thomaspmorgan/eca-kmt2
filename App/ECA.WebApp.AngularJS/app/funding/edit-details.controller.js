@@ -169,6 +169,11 @@ angular.module('staticApp')
           var params = {
               start: 0,
               limit: $scope.view.searchAvailableOrganizationsLimit,
+              filter: {
+                  comparison: ConstantsService.containsAnyComparisonType,
+                  property: 'organizationRoleIds',
+                  value: [ConstantsService.organizationRole.fundingSource.id]
+              }
           };
           if (search) {
               params.keyword = search

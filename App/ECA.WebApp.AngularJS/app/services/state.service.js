@@ -116,6 +116,12 @@ angular.module('staticApp')
               return $state.href(service.stateNames.overview.organization, { organizationId: organizationId }, options);
           },
 
+
+          getFundingState: function (organizationId, options) {
+              options = options || {};
+              return $state.href(service.stateNames.overview.funding, { organizationId: organizationId }, options);
+          },
+
           getPersonState: function (personId, options) {
               options = options || {};
               return $state.href(service.stateNames.people.personalInfomation, { personId: personId }, options);
