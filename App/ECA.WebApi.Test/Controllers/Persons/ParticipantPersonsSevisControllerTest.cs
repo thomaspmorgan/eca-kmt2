@@ -18,6 +18,7 @@ using ECA.Business.Queries.Models.Persons;
 using ECA.Core.DynamicLinq;
 using ECA.Core.Query;
 using ECA.Business.Queries.Models.Sevis;
+using ECA.WebApi.Custom.Storage;
 
 namespace ECA.WebApi.Test.Controllers.Persons
 {
@@ -27,13 +28,15 @@ namespace ECA.WebApi.Test.Controllers.Persons
         private ParticipantPersonsSevisController controller;
         private Mock<IParticipantPersonsSevisService> participantPersonSevisService;
         private Mock<IUserProvider> userProvider;
+        private Mock<IFileStorageHandler> storageHandler;
 
         [TestInitialize]
         public void TestInit()
         {
             participantPersonSevisService = new Mock<IParticipantPersonsSevisService>();
             userProvider = new Mock<IUserProvider>();
-            controller = new ParticipantPersonsSevisController(participantPersonSevisService.Object, userProvider.Object);
+            storageHandler = new Mock<IFileStorageHandler>();
+            controller = new ParticipantPersonsSevisController(participantPersonSevisService.Object, userProvider.Object, storageHandler.Object);
         }
 
         [TestMethod]

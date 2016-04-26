@@ -9,11 +9,13 @@ using ECA.Business.Service.Persons;
 using ECA.Business.Service.Programs;
 using ECA.Business.Service.Projects;
 using ECA.Business.Service.Reports;
+using ECA.Business.Storage;
 using ECA.Business.Validation;
 using ECA.Core.Generation;
 using ECA.Core.Service;
 using ECA.Core.Settings;
 using ECA.Data;
+using ECA.WebApi.Custom.Storage;
 using ECA.WebApi.Models.Admin;
 using ECA.WebApi.Security;
 using Microsoft.Azure.Search;
@@ -198,6 +200,17 @@ namespace ECA.WebApi.App_Start
                 return new ExchangeVisitorValidationService(c.Resolve<EcaContext>(), c.Resolve<IExchangeVisitorService>(), null, null);
             }));
             container.RegisterType<IDefaultExchangeVisitorFundingService, DefaultExchangeVisitorFundingService>(new HierarchicalLifetimeManager());
+            container.RegisterType<IFileStorageHandler, FileStorageHandler>(new HierarchicalLifetimeManager());
+            container.RegisterType<IFileStorageService>(new HierarchicalLifetimeManager(), new InjectionFactory((c) =>
+            {
+                var appSettings = new AppSettings();
+                return new FileStorageService(appSettings, c.Resolve<IBlobStorageSettings>());
+            }));
+            container.RegisterType<IBlobStorageSettings>(new HierarchicalLifetimeManager(), new InjectionFactory((c) =>
+            {
+                var appSettings = new AppSettings();
+                return new BlobStorageSettings(appSettings);
+            }));
         }
 
         /// <summary>
