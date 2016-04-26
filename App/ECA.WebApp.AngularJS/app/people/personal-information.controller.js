@@ -31,6 +31,22 @@ angular.module('staticApp')
               NotificationService.showErrorMessage('Unable to load participant info for ' + $stateParams.personId + '.');
           });
       
+      $scope.editPii = function () {
+          if (!$scope.edit.blockEdit) {
+              $scope.edit.Pii = !$scope.edit.Pii;
+          } else {
+              return false;
+          }
+      }
+
+      $scope.editContact = function () {
+          if (!$scope.edit.blockEdit) {
+              $scope.edit.Contact = !$scope.edit.Contact;
+          } else {
+              return false;
+          }
+      }
+
       $scope.isDisabled = function () {
           if (notifyStatuses.indexOf($scope.sevisStatus.statusNameId.toString()) !== -1) {
               $scope.edit.blockEdit = true;
