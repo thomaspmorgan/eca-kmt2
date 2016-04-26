@@ -89,33 +89,40 @@
         </a>
     </div>
 </div>
-<div class="row row2" ng-show="view.DoSStatus">
+<div class="row row2" ng-show="view.DoSStatus" style="border:none; padding-bottom: 0px;">
     <div class="col-md-3">&nbsp;</div>
-    <div class="form-group col-md-3">
-        <input type="checkbox" ng-model="sevisinfo.isSentToSevisViaRTI" ng-click="edit.onDosStatusChange($event, 'isSentToSevisViaRTI', sevisinfo.isSentToSevisViaRTI)" /> Sent to DHS via RTI
+    <div class="form-group col-md-3" style="margin-bottom:0" tooltip="{{sevisinfo.blockEdit ? 'The participant is currently in a SEVIS Status which does not allow edits' : ''}}">
+        <input type="checkbox" ng-model="sevisinfo.isSentToSevisViaRTI" ng-disabled="sevisinfo.blockEdit" ng-click="edit.onDosStatusChange($event, 'isSentToSevisViaRTI', sevisinfo.isSentToSevisViaRTI)" /> Sent to DHS via RTI
     </div>
-    <div class="form-group col-md-6">
-        <input type="checkbox" ng-model="sevisinfo.isCancelled" ng-click="edit.onDosStatusChange($event, 'isCancelled', sevisinfo.isCancelled)" /> Cancelled
-    </div>
-    <div class="col-md-3">&nbsp;</div>
-    <div class="form-group col-md-3">
-        <input type="checkbox" ng-model="sevisinfo.isValidatedViaRTI" ng-click="edit.onDosStatusChange($event, 'isValidatedViaRTI', sevisinfo.isValidatedViaRTI)" /> Validated via RTI
-    </div>
-    <div class="form-group col-md-6">
-        <input type="checkbox" ng-model="sevisinfo.isDS2019SentToTraveler" ng-click="edit.onDosStatusChange($event, 'isDS2019SentToTraveler', sevisinfo.isDS2019SentToTraveler)" /> DS 2019 Sent to Traveler
+    <div class="form-group col-md-3" style="margin-bottom:0" tooltip="{{sevisinfo.blockEdit ? 'The participant is currently in a SEVIS Status which does not allow edits' : ''}}">
+        <input type="checkbox" ng-model="sevisinfo.isCancelled" ng-disabled="sevisinfo.blockEdit" ng-click="edit.onDosStatusChange($event, 'isCancelled', sevisinfo.isCancelled)" /> Cancelled
     </div>
     <div class="col-md-3">&nbsp;</div>
-    <div class="form-group col-md-3">
-        <input type="checkbox" ng-model="sevisinfo.isDS2019Printed" ng-click="edit.onDosStatusChange($event, 'isDS2019Printed', sevisinfo.isDS2019Printed)" /> DS 2019 Printed
+</div>
+<div class="row row2" ng-show="view.DoSStatus" style="border:none; padding-bottom: 0px;">
+    <div class="col-md-3">&nbsp;</div>
+    <div class="form-group col-md-3" style="margin-bottom:0" tooltip="{{sevisinfo.blockEdit ? 'The participant is currently in a SEVIS Status which does not allow edits' : ''}}">
+        <input type="checkbox" ng-model="sevisinfo.isValidatedViaRTI" ng-disabled="sevisinfo.blockEdit" ng-click="edit.onDosStatusChange($event, 'isValidatedViaRTI', sevisinfo.isValidatedViaRTI)" /> Validated via RTI
     </div>
-    <div class="form-group col-md-6">
+    <div class="form-group col-md-3" style="margin-bottom:0" tooltip="{{sevisinfo.blockEdit ? 'The participant is currently in a SEVIS Status which does not allow edits' : ''}}">
+        <input type="checkbox" ng-model="sevisinfo.isDS2019SentToTraveler" ng-disabled="sevisinfo.blockEdit" ng-click="edit.onDosStatusChange($event, 'isDS2019SentToTraveler', sevisinfo.isDS2019SentToTraveler)" /> DS 2019 Sent to Traveler
+    </div>
+    <div class="col-md-3">&nbsp;</div>
+</div>
+<div class="row row2" ng-show="view.DoSStatus" style="border:none">
+    <div class="col-md-3">&nbsp;</div>
+    <div class="form-group col-md-3" style="margin-bottom:0" tooltip="{{sevisinfo.blockEdit ? 'The participant is currently in a SEVIS Status which does not allow edits' : ''}}">
+        <input type="checkbox" ng-model="sevisinfo.isDS2019Printed" ng-disabled="sevisinfo.blockEdit" ng-click="edit.onDosStatusChange($event, 'isDS2019Printed', sevisinfo.isDS2019Printed)" /> DS 2019 Printed
+    </div>
+    <div class="form-group col-md-3" style="margin-bottom:0">
         <a ng-click="printDS2019()"><i class="material-icons md-24">print</i> <span style="vertical-align:top">Print DS2019</span></a>
     </div>
+    <div class="col-md-3">&nbsp;</div>
 </div>
 <div class="form-group row row2">
     <form name="form.startDate">
         <h5 class="col-md-2" id="{{getSevisStartDateDivId(participantid)}}">Start Date</h5>
-        <div class="col-md-3">
+        <div class="col-md-3" tooltip="{{sevisinfo.blockEdit ? 'The participant is currently in a SEVIS Status which does not allow edits' : ''}}">
             <p class="input-group">
                 <input type="text"
                        id="startDate"
@@ -125,13 +132,13 @@
                        is-open="edit.isStartDatePickerOpen"
                        ng-required="true"
                        ng-disabled="sevisinfo.blockEdit"
-                       tooltip="{{sevisinfo.blockEdit ? 'The participant is currently in a SEVIS Status which does not allow edits' : ''}}"
                        ng-change="edit.onStartDateChange()"
                        close-text="Close" />
                 <span class="input-group-btn">
                     <button type="button"
                             class="btn"
                             style="height: 42px;"
+                            ng-disabled="sevisinfo.blockEdit"                            
                             ng-click="edit.openStartDatePicker($event)">
                         <i class="material-icons md-18">event</i>
                     </button>
@@ -141,7 +148,7 @@
     </form>
     <form name="form.endDate">
         <h5 class="col-md-2">End Date</h5>
-        <div class="col-md-3 ">
+        <div class="col-md-3" tooltip="{{sevisinfo.blockEdit ? 'The participant is currently in a SEVIS Status which does not allow edits' : ''}}">
             <p class="input-group">
                 <input type="text"
                        id="endDate"
@@ -150,14 +157,14 @@
                        ng-model="sevisinfo.endDate"
                        is-open="edit.isEndDatePickerOpen"
                        ng-required="true"
-                       ng-disabled="sevisinfo.blockEdit"
-                       tooltip="{{sevisinfo.blockEdit ? 'The participant is currently in a SEVIS Status which does not allow edits' : ''}}"
+                       ng-disabled="sevisinfo.blockEdit"                       
                        close-text="Close"
                        ng-change="edit.onEndDateChange()" />
                 <span class="input-group-btn">
                     <button type="button"
                             class="btn"
                             style="height: 42px;"
+                            ng-disabled="sevisinfo.blockEdit"
                             ng-click="edit.openEndDatePicker($event)">
                         <i class="material-icons md-18">event</i>
                     </button>
@@ -171,15 +178,17 @@
     </form>
 </div>
 <div class="row row2">
-    <div class="col-md-5" id="{{positionAndFieldElementId}}"><h5>Position and Field</h5></div>
-    <div class="col-md-7">
+    <div class="col-md-8" id="{{positionAndFieldElementId}}"><h5>Position and Field</h5></div>
+    <div class="col-md-4">
         <a ng-click="view.PositionAndField=!view.PositionAndField">
             <i class="material-icons md-dark md-36 pull-right" ng-show="view.PositionAndField">expand_more</i>
             <i class="material-icons md-dark md-36 pull-right" ng-show="!view.PositionAndField">expand_less</i>
         </a>
-        <a ng-click="edit.onPositionAndFieldEditChange()">
-            <i class="material-icons md-dark md-24 pull-right" ng-show="view.PositionAndField && !view.PositionAndFieldEdit">edit</i>
-        </a>
+        <div tooltip-placement="left" tooltip="{{sevisinfo.blockEdit ? 'The participant is currently in a SEVIS Status which does not allow edits' : ''}}">
+            <a ng-show="view.PositionAndField && !view.PositionAndFieldEdit" ng-disabled="sevisinfo.blockEdit" ng-click="edit.onPositionAndFieldEditChange()" class="pull-right">
+                <i class="material-icons md-dark md-24" style="{{sevisinfo.blockEdit ? 'opacity: .5' : 'opacity: 1'}}">edit</i>
+            </a>
+        </div>
         <div class="pull-right" ng-if="view.PositionAndFieldEdit" ng-show="view.PositionAndField">
             <button ng-click="savePositionAndField()" class="btn btn-success" ng-disabled="formPositionAndFieldForm.$invalid || formPositionAndFieldForm.$pristine">Save</button>
             <button ng-click="view.PositionAndFieldEdit=false" class="btn btn-cancel">Cancel</button>
@@ -282,17 +291,17 @@
     </form>
 </div>
 <div class="row row2">
-    <div class="col-md-5" id="{{fundingElementId}}"><h5>Funding</h5></div>
-    <div class="col-md-7">
+    <div class="col-md-8" id="{{fundingElementId}}"><h5>Funding</h5></div>
+    <div class="col-md-4">
         <a ng-click="view.Funding=!view.Funding">
             <i class="material-icons md-dark md-36 pull-right" ng-show="view.Funding">expand_more</i>
             <i class="material-icons md-dark md-36 pull-right" ng-show="!view.Funding">expand_less</i>
         </a>
-        <a ng-disabled="sevisinfo.blockEdit" ng-click="edit.onFundingEditChange()">
-            <span tooltip="{{sevisinfo.blockEdit ? 'The participant is currently in a SEVIS Status which does not allow edits' : ''}}">
-                <i ng-show="view.Funding && !view.FundingEdit" class="material-icons md-dark md-24 pull-right" style="{{sevisinfo.blockEdit ? 'opacity: .5' : 'opacity: 1'}}">edit</i>
-            </span>
-        </a>
+        <div tooltip-placement="left" tooltip="{{sevisinfo.blockEdit ? 'The participant is currently in a SEVIS Status which does not allow edits' : ''}}">
+            <a ng-show="view.Funding && !view.FundingEdit" ng-disabled="sevisinfo.blockEdit" ng-click="edit.onFundingEditChange()" class="pull-right">
+                <i class="material-icons md-dark md-24" style="{{sevisinfo.blockEdit ? 'opacity: .5' : 'opacity: 1'}}">edit</i>
+            </a>
+        </div>        
         <div class="pull-right" ng-if="view.FundingEdit" ng-show="view.Funding">
             <button ng-click="saveFunding()" class="btn btn-success" ng-disabled="fundingEditForm.$invalid || fundingEditForm.$pristine">Save</button>
             <button ng-click="view.FundingEdit=false" class="btn btn-cancel">Cancel</button>

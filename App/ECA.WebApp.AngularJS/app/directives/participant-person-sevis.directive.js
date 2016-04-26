@@ -149,7 +149,6 @@
                     var cancel = function () {
                         $scope.sevisinfo[checkboxId] = sevisInfoCopy[checkboxId];
                     };
-                    //promptUserToOverrideEdit(ok, cancel);
                 }
 
                 $scope.edit.onStartDateChange = function () {
@@ -259,28 +258,26 @@
                 };
 
                 $scope.edit.onFundingEditChange = function () {
-                    var ok = function () {
+                    //var ok = function () {
                         $scope.view.FundingEdit = true;
                         $scope.view.GovtAgency1Other = ($scope.exchangevisitorinfo.govtAgency1Id == ConstantsService.otherUSGovernmentAgencyId);
                         $scope.view.GovtAgency2Other = ($scope.exchangevisitorinfo.govtAgency2Id == ConstantsService.otherUSGovernmentAgencyId);
                         $scope.view.IntlOrg1Other = ($scope.exchangevisitorinfo.intlOrg1Id == ConstantsService.otherInternationalOrganizationId);
                         $scope.view.IntlOrg2Other = ($scope.exchangevisitorinfo.intlOrg2Id == ConstantsService.otherInternationalOrganizationId);
-                    };
-                    var cancel = function () {
-                        $scope.view.FundingEdit = false;
-                    };
-                    //promptUserToOverrideEdit(ok, cancel);
+                    //};
+                    //var cancel = function () {
+                    //    $scope.view.FundingEdit = false;
+                    //};
                 };
 
                 $scope.edit.onPositionAndFieldEditChange = function () {
-                    var ok = function () {
+                    //var ok = function () {
                         $scope.view.PositionAndFieldEdit = true;
                         loadFieldOfStudies($scope.exchangevisitorinfo.fieldOfStudy);
-                    };
-                    var cancel = function () {
-                        $scope.view.PositionAndFieldEdit = false;
-                    };
-                    //promptUserToOverrideEdit(ok, cancel);
+                    //};
+                    //var cancel = function () {
+                    //    $scope.view.PositionAndFieldEdit = false;
+                    //};
                 }
 
                 function getSevisCommStatusesPage() {
@@ -315,26 +312,9 @@
                             form.$setUntouched();
                             $scope.sevisinfo[sevisInfoPropertyName] = sevisInfoCopy[sevisInfoPropertyName];
                         };
-                        //promptUserToOverrideEdit(ok, cancel);
                     }
                 }
-
-                //function promptUserToOverrideEdit(okCallback, cancelCallback) {
-                //    if (notifyStatuses.indexOf($scope.sevisinfo.sevisStatusId.toString()) !== -1) {
-                //        MessageBox.confirm({
-                //            title: 'Confirm Edit',
-                //            message: 'The SEVIS participant status of this person is ' + $scope.sevisinfo.sevisStatus + '. Are you sure you want to edit?',
-                //            okText: 'Yes',
-                //            cancelText: 'No',
-                //            okCallback: okCallback,
-                //            cancelCallback: cancelCallback
-                //        });
-                //    }
-                //    else {
-                //        okCallback();
-                //    }
-                //}
-
+                
                 $scope.onGovtAgency1Select = function (item) {
                     if (item.description != null)
                         if (item.description == "OTHER")
