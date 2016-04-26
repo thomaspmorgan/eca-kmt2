@@ -196,20 +196,28 @@ namespace ECA.WebApi.Controllers.Persons
             }
         }
 
+        /// <summary>
+        /// Gets the DS2019 file asyncronously
+        /// </summary>
+        /// <param name="projectId">The project id</param>
+        /// <param name="participantId">The participant id</param>
+        /// <returns>DS2019 file</returns>
         [Route("Project/{projectId:int}/ParticipantPersonSevis/{participantId:int}/DS2019File")]
         [ResourceAuthorize(Permission.EDIT_SEVIS_VALUE, ResourceType.PROJECT_VALUE, "projectId")]
         public async Task<HttpResponseMessage> GetDS2019FileAsync(int projectId, int participantId)
         {
             var fileName = await participantService.GetDS2019FileNameAsync(projectId, participantId);
-            var blobExists = await storageHandler.BlobExistsAsync(fileName);
-            if (fileName != null && blobExists)
+            if (fileName != null)
             {
-                var message = await storageHandler.GetFileAsync(fileName);
-                return message;
-            } else
-            {
-                return Request.CreateErrorResponse(HttpStatusCode.NotFound, "File not found.");
+                var blobExists = await storageHandler.BlobExistsAsync(fileName);
+                if (blobExists)
+                {
+                    var message = await storageHandler.GetFileAsync(fileName);
+                    return message;
+                }
             }
+
+            return Request.CreateErrorResponse(HttpStatusCode.NotFound, "File not found.");
         }
     }
 }
