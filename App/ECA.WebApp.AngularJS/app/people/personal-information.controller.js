@@ -12,6 +12,7 @@ angular.module('staticApp')
       $scope.edit.Pii = false;
       $scope.edit.Contact = false;
       $scope.edit.EduEmp = false;
+      $scope.edit.blockEdit = false;
       $scope.showEvalNotes = true;
       $scope.showEduEmp = true;
       $scope.showGeneral = true;
@@ -23,7 +24,8 @@ angular.module('staticApp')
       ParticipantPersonsService.getParticipantPersonById($stateParams.personId)
           .then(function (data) {
               $scope.sevisStatus.statusName = data.data.sevisStatus;
-              $scope.sevisStatus.statusNameId = data.data.sevisStatusId;              
+              $scope.sevisStatus.statusNameId = data.data.sevisStatusId;
+              $scope.isDisabled();
           }, function (error) {
               $log.error('Unable to load participant info for ' + $stateParams.personId + '.');
               NotificationService.showErrorMessage('Unable to load participant info for ' + $stateParams.personId + '.');
@@ -31,10 +33,10 @@ angular.module('staticApp')
       
       $scope.isDisabled = function () {
           if (notifyStatuses.indexOf($scope.sevisStatus.statusNameId.toString()) !== -1) {
-              return true;
+              $scope.edit.blockEdit = true;
           } else {
-              return false;
+              $scope.edit.blockEdit = false;
           }
       }
-
+      
   });

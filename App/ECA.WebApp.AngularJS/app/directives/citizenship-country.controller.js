@@ -51,16 +51,16 @@ angular.module('staticApp')
 
       function updateCountries(country) {
           var index = -1;
-          if ($scope.$parent.$parent.$parent.model.countriesOfCitizenship != null) {
-              index = $scope.$parent.$parent.$parent.model.countriesOfCitizenship.map(function (e) { return e.locationId; }).indexOf(country.locationId);
+          if ($scope.model.countriesOfCitizenship != null) {
+              index = $scope.model.countriesOfCitizenship.map(function (e) { return e.locationId; }).indexOf(country.locationId);
           } else {
-              $scope.$parent.$parent.$parent.model = {};
-              $scope.$parent.$parent.$parent.model.countriesOfCitizenship = [];
+              $scope.model = {};
+              $scope.model.countriesOfCitizenship = [];
           }
           if (index < 0) {
-              $scope.$parent.$parent.$parent.model.countriesOfCitizenship.splice(0, 0, country);
+              $scope.model.countriesOfCitizenship.splice(0, 0, country);
           } else {
-              $scope.$parent.$parent.$parent.model.countriesOfCitizenship[index] = country;
+              $scope.model.countriesOfCitizenship[index] = country;
           }
       };
 

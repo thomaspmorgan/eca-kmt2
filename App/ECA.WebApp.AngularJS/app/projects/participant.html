@@ -8,7 +8,11 @@
     <div ng-cloak class="row row4" ng-if="!view.editingEstParticipants">
         <div class="col-md-5 subsubheading"><span class="project-color">Total Participants Estimated,  US: </span> {{project.usParticipantsEst}}</div>
         <div class="col-md-4 subsubheading"><span class="project-color">Non-US: </span>{{project.nonUsParticipantsEst}}</div>
-        <div class="col-md-3 pull-left"><a ng-show="permissions.editProject" ng-click="view.editingEstParticipants=!view.editingEstParticipants"><i class="material-icons md-dark md-24 pull-left">edit</i></a></div>
+        <div class="col-md-3 pull-left">
+            <a ng-show="permissions.editProject" ng-click="view.editingEstParticipants=!view.editingEstParticipants">
+                <i class="material-icons md-dark md-24 pull-left">edit</i>
+            </a>
+        </div>
     </div>
     <form name="form.numEstParticipantsForm">
         <div class="row row4" ng-if="view.editingEstParticipants">
@@ -29,7 +33,11 @@
     <div ng-cloak class="row row4" ng-if="!view.editingActualParticipants && !view.hasRealActualParticipants">
         <div class="col-md-5 subsubheading tab-subheader"><span class="project-color">Total Participants Actual, &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; US: </span> {{project.usParticipantsActual}}</div>
         <div class="col-md-4 subsubheading"><span class="project-color">Non-US: </span> {{project.nonUsParticipantsActual}}</div>
-        <div class="col-md-3 pull-left"><a ng-click="view.editingActualParticipants=!view.editingActualParticipants"><i class="material-icons md-dark md-24 pull-left">edit</i></a></div>
+        <div class="col-md-3 pull-left">
+            <a ng-click="view.editingActualParticipants=!view.editingActualParticipants">
+                <i class="material-icons md-dark md-24 pull-left">edit</i>
+            </a>
+        </div>
     </div>
     <form name="form.numActualParticipantsForm">
         <div class="row row4" ng-if="view.editingActualParticipants && !view.hasRealActualParticipants">
