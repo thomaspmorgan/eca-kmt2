@@ -1,0 +1,75 @@
+<div class="spinner" ng-show="view.isOrganizationLoading">
+    <div class="bounce1"></div>
+    <div class="bounce2"></div>
+    <div class="bounce3"></div>
+</div>
+
+<div ng-show="!view.isOrganizationLoading">
+    <h2 class="fundingDark tab-header" ng-show="!view.isOrganizationLoading">Overview</h2>
+    <div class="row">
+        <h5>{{organization.description}}</h5>
+    </div>
+    <div class="row tags">
+        <span ng-repeat="tag in project.tags" class="tag">#{{tag}}</span>
+    </div>
+    <div class="row table">
+        <div class="row">
+            <div class="col-md-6">
+                <h4 class="tab-subheader">Details</h4>
+            </div>
+            <div class="col-md-6">
+                <div class="pull-right" ng-show="view.showEditDetails">
+                    <button ng-click="view.saveDetailsEdit()" class="btn btn-success" ng-disabled="organizationForm.$invalid || organizationForm.$pristine">Save</button>
+                    <button ng-click="view.cancelDetailsEdit()" class="btn btn-cancel">Cancel</button>
+                </div>
+                <a ng-show="!view.showEditDetails" ng-click="view.showEditDetails = true">
+                    <i class="material-icons md-dark md-24 pull-right">edit</i>
+                </a>
+            </div>
+        </div>
+        <div class="row" ng-if="!view.showEditDetails">
+            <div class="col-md-6">
+                <div class="row" ng-show="organization.website">
+                    <div class="col-md-6 title-label">Website</div>
+                    <div class="col-md-6">
+                        <a href="{{organization.website}}" target="_blank">{{organization.website}}</a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 title-label">Type</div>
+                    <div class="col-md-6">{{organization.organizationType}}</div>
+                </div>
+                <div class="row" ng-show="organization.contacts">
+                    <div class="col-md-6 title-label"><ng-pluralize count="organization.contacts.length" when="{'1':'Point','other':'Points'}"></ng-pluralize> of Contact</div>
+                    <div class="col-md-6">
+                        <ul>
+                            <li ng-repeat="contact in organization.contacts | orderBy:'value'">{{contact.value}}</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="row" ng-show="organization.socialMedias">
+                    <div class="col-md-6 title-label">Social Media</div>
+                    <socialmedias model="organization" modelid="organization.organizationId" modeltype="'organization'" editmode="view.showEditDetails" />   
+                </div>
+            </div>            
+            <div class="col-md-6">
+                <div class="row" ng-show="organization.parentOrganizationId">
+                    <div class="col-md-6 title-label">Parent Funding Source</div>
+                    <div class="col-md-6"><a ui-sref="funding.overview({organizationId: organization.parentOrganizationId})">{{organization.parentOrganizationName}}</a></div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-6 title-label">Addresses</div>
+                    <div>
+                        <addresses model="organization" modelid="organization.organizationId" modeltype="'organization'" editmode="view.showEditDetails" />                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div ng-if="view.showEditDetails">
+            <ng-include src="'/app/funding/edit-details.html'"></ng-include>
+        </div>
+    </div>
+</div>
+

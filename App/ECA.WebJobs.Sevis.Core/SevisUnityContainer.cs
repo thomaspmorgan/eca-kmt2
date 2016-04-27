@@ -43,7 +43,13 @@ namespace ECA.WebJobs.Sevis.Core
             {
                 return new ZipArchiveSevisApiResponseHandler(c.Resolve<ISevisBatchProcessingService>());
             }));
-
+            this.RegisterType<IParticipantPersonsSevisService>(new InjectionFactory((c) =>
+            {
+                var service = new ParticipantPersonsSevisService(
+                    context: c.Resolve<EcaContext>(),
+                    saveActions: null);
+                return service;
+            }));
             this.RegisterType<IExchangeVisitorService>(new InjectionFactory((c) =>
             {
                 var service = new ExchangeVisitorService(

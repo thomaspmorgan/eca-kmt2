@@ -113,7 +113,7 @@ namespace ECA.Business.Test.Queries.Sevis
 
         #region CreateGetQueuedToSubmitParticipantDTOsQuery
         [TestMethod]
-        public void CreateGetQueuedToSubmitParticipantDTOsQuery_CheckProperties()
+        public void TestCreateGetSevisGroupedParticipantsQuery_CheckProperties()
         {
             var project = new Project
             {
@@ -150,21 +150,117 @@ namespace ECA.Business.Test.Queries.Sevis
             context.Participants.Add(participant);
             context.ParticipantPersonSevisCommStatuses.Add(status);
 
-            var results = SevisBatchProcessingQueries.CreateGetQueuedToSubmitParticipantDTOsQuery(context).ToList();
+            var results = SevisBatchProcessingQueries.CreateGetSevisGroupedParticipantsQuery(context).ToList();
             Assert.AreEqual(1, results.Count);
 
             var firstResult = results.First();
             Assert.AreEqual(status.SevisOrgId, firstResult.SevisOrgId);
             Assert.AreEqual(status.SevisUsername, firstResult.SevisUsername);
             Assert.AreEqual(1, firstResult.Participants.Count());
+
             var firstParticipant = firstResult.Participants.First();
             Assert.AreEqual(participant.ParticipantId, firstParticipant.ParticipantId);
             Assert.AreEqual(project.ProjectId, firstParticipant.ProjectId);
             Assert.AreEqual(participantPerson.SevisId, firstParticipant.SevisId);
+            Assert.AreEqual(status.SevisCommStatusId, firstParticipant.SevisCommStatusId);
         }
 
         [TestMethod]
-        public void CreateGetQueuedToSubmitParticipantDTOsQuery_CheckLatestSevisCommStatus()
+        public void TestCreateGetSevisGroupedParticipantsQuery_CheckQueuedToSubmitStatus()
+        {
+            var project = new Project
+            {
+                ProjectId = 1
+            };
+            var participant = new Participant
+            {
+                ParticipantId = 10,
+                ProjectId = project.ProjectId,
+                Project = project
+            };
+            var participantPerson = new ParticipantPerson
+            {
+                ParticipantId = participant.ParticipantId,
+                Participant = participant,
+                SevisId = "sevis id"
+            };
+            participant.ParticipantPerson = participantPerson;
+
+            var status = new ParticipantPersonSevisCommStatus
+            {
+                Id = 1,
+                AddedOn = DateTimeOffset.Now,
+                ParticipantId = participant.ParticipantId,
+                ParticipantPerson = participantPerson,
+                SevisCommStatusId = SevisCommStatus.QueuedToSubmit.Id,
+                SevisOrgId = "org",
+                SevisUsername = "user"
+            };
+            participantPerson.ParticipantPersonSevisCommStatuses.Add(status);
+
+            context.Projects.Add(project);
+            context.ParticipantPersons.Add(participantPerson);
+            context.Participants.Add(participant);
+            context.ParticipantPersonSevisCommStatuses.Add(status);
+
+            var results = SevisBatchProcessingQueries.CreateGetSevisGroupedParticipantsQuery(context).ToList();
+            Assert.AreEqual(1, results.Count);
+
+            var firstResult = results.First();
+            Assert.AreEqual(status.SevisOrgId, firstResult.SevisOrgId);
+            Assert.AreEqual(status.SevisUsername, firstResult.SevisUsername);
+            Assert.AreEqual(1, firstResult.Participants.Count());
+        }
+
+        [TestMethod]
+        public void TestCreateGetSevisGroupedParticipantsQuery_CheckQueuedToValidateStatus()
+        {
+            var project = new Project
+            {
+                ProjectId = 1
+            };
+            var participant = new Participant
+            {
+                ParticipantId = 10,
+                ProjectId = project.ProjectId,
+                Project = project
+            };
+            var participantPerson = new ParticipantPerson
+            {
+                ParticipantId = participant.ParticipantId,
+                Participant = participant,
+                SevisId = "sevis id"
+            };
+            participant.ParticipantPerson = participantPerson;
+
+            var status = new ParticipantPersonSevisCommStatus
+            {
+                Id = 1,
+                AddedOn = DateTimeOffset.Now,
+                ParticipantId = participant.ParticipantId,
+                ParticipantPerson = participantPerson,
+                SevisCommStatusId = SevisCommStatus.QueuedToValidate.Id,
+                SevisOrgId = "org",
+                SevisUsername = "user"
+            };
+            participantPerson.ParticipantPersonSevisCommStatuses.Add(status);
+
+            context.Projects.Add(project);
+            context.ParticipantPersons.Add(participantPerson);
+            context.Participants.Add(participant);
+            context.ParticipantPersonSevisCommStatuses.Add(status);
+
+            var results = SevisBatchProcessingQueries.CreateGetSevisGroupedParticipantsQuery(context).ToList();
+            Assert.AreEqual(1, results.Count);
+
+            var firstResult = results.First();
+            Assert.AreEqual(status.SevisOrgId, firstResult.SevisOrgId);
+            Assert.AreEqual(status.SevisUsername, firstResult.SevisUsername);
+            Assert.AreEqual(1, firstResult.Participants.Count());
+        }
+
+        [TestMethod]
+        public void TestCreateGetSevisGroupedParticipantsQuery_CheckLatestSevisCommStatus()
         {
             var project = new Project
             {
@@ -208,12 +304,12 @@ namespace ECA.Business.Test.Queries.Sevis
             context.Participants.Add(participant);
             context.ParticipantPersonSevisCommStatuses.Add(status1);
 
-            var results = SevisBatchProcessingQueries.CreateGetQueuedToSubmitParticipantDTOsQuery(context).ToList();
+            var results = SevisBatchProcessingQueries.CreateGetSevisGroupedParticipantsQuery(context).ToList();
             Assert.AreEqual(1, results.Count);
         }
 
         [TestMethod]
-        public void CreateGetQueuedToSubmitParticipantDTOsQuery_IsNotQueuedToSubmit()
+        public void TestCreateGetSevisGroupedParticipantsQuery_IsNotQueuedToSubmitOrIsQueuedToValidate()
         {
             var project = new Project
             {
@@ -248,7 +344,7 @@ namespace ECA.Business.Test.Queries.Sevis
             context.Participants.Add(participant);
             context.ParticipantPersonSevisCommStatuses.Add(status);
 
-            var results = SevisBatchProcessingQueries.CreateGetQueuedToSubmitParticipantDTOsQuery(context).ToList();
+            var results = SevisBatchProcessingQueries.CreateGetSevisGroupedParticipantsQuery(context).ToList();
             Assert.AreEqual(0, results.Count);
         }
         #endregion

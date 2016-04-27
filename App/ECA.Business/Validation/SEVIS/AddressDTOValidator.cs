@@ -51,7 +51,7 @@ namespace ECA.Business.Validation.Sevis
         /// <summary>
         /// The error message to format when the street 1 of the address is invalid.
         /// </summary>
-        public const string ADDRESS_1_ERROR_MESSAGE = "The street 1 for the '{0}' is required and can be up to {1} characters.";
+        public const string ADDRESS_1_ERROR_MESSAGE = "The street 1 for the '{0}' address is required and can be up to {1} characters.";
 
         /// <summary>
         /// The postal code regex value.

@@ -216,3 +216,4 @@ App/ECA.WebApp.AngularJS/styles/main.css.map
 App/ECA.WebApp.AngularJS/styles/main.min.css
 *.ncrunchproject
 *.ncrunchsolution
+/App/CAM.Database/CAM.Database.jfm

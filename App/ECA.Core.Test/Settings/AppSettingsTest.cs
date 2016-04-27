@@ -252,11 +252,11 @@ namespace ECA.Core.Test.Settings
         }
 
         [TestMethod]
-        public void TestAppSettings_SevisDS2019FileUriPrefix()
+        public void TestAppSettings_SevisCommCronSchedule()
         {
-            var value = "rui";
-            appSettings.Add(AppSettings.SEVIS_DS2019_FILE_URI_PREFIX_KEY, value);
-            Assert.AreEqual(value, settings.SevisDS2019FileUriPrefix);
+            var value = "schedule";
+            appSettings.Add(AppSettings.SEVIS_COMM_CRON_SCHEDULE_KEY, value);
+            Assert.AreEqual(value, settings.SevisCommCronSchedule);
         }
 
         [TestMethod]

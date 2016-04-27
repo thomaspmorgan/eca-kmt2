@@ -1073,6 +1073,61 @@ namespace ECA.Data
 }
 #endregion
 
+#region OrganizationRole
+namespace ECA.Data
+{
+	using ECA.Core.Generation;
+	public partial class OrganizationRole : ECA.Core.Generation.IStaticLookup
+	{
+		/// <summary>
+		/// Returns the Partner lookup with id 1.
+		/// </summary>
+		public static StaticLookup Partner { get { return new StaticLookup("Partner", 1); } }
+		/// <summary>
+		/// Returns the Sponsor lookup with id 2.
+		/// </summary>
+		public static StaticLookup Sponsor { get { return new StaticLookup("Sponsor", 2); } }
+		/// <summary>
+		/// Returns the Funding Source lookup with id 3.
+		/// </summary>
+		public static StaticLookup FundingSource { get { return new StaticLookup("Funding Source", 3); } }
+		///<summary>
+		/// Returns the lookup value of this entity with the given id, or null if it does not exist.
+		///<param name="id">The lookup id.</param>
+		/// <returns>The lookup with the given id, or null if it does not exist.</returns>
+		///</summary>
+		public static StaticLookup GetStaticLookup(int id)
+		{
+			if (1 == id) return OrganizationRole.Partner;
+			if (2 == id) return OrganizationRole.Sponsor;
+			if (3 == id) return OrganizationRole.FundingSource;
+			return null;
+		}
+		///<summary>
+		/// Returns the lookup value of this entity with the given value, or null if it does not exist.
+		///<param name="id">The lookup id.</param>
+		/// <returns>The lookup with the given value, or null if it does not exist.</returns>
+		///</summary>
+		public static StaticLookup GetStaticLookup(string value)
+		{
+			if ("Partner".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return OrganizationRole.Partner;
+			if ("Sponsor".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return OrganizationRole.Sponsor;
+			if ("Funding Source".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return OrganizationRole.FundingSource;
+			return null;
+		}
+
+		/// <summary>
+		/// Returns the static lookup config used to generate this type's static lookups.
+		/// <returns>The static lookup config used to generate this type's static lookups.</returns>
+		/// </summary>
+		public StaticLookupConfig GetConfig()
+		{
+			return new StaticLookupConfig { Namespace = "ECA.Data", ClassName = "OrganizationRole", TableName = "OrganizationRole", IdColumnName = "OrganizationRoleId", ValueColumnName = "OrganizationRoleName" };
+		}
+	}
+}
+#endregion
+
 #region OrganizationType
 namespace ECA.Data
 {
@@ -1830,6 +1885,18 @@ namespace ECA.Data
 		/// Returns the Updated By Batch lookup with id 18.
 		/// </summary>
 		public static StaticLookup UpdatedByBatch { get { return new StaticLookup("Updated By Batch", 18); } }
+		/// <summary>
+		/// Returns the Needs Validation Info lookup with id 19.
+		/// </summary>
+		public static StaticLookup NeedsValidationInfo { get { return new StaticLookup("Needs Validation Info", 19); } }
+		/// <summary>
+		/// Returns the Ready to Validate lookup with id 20.
+		/// </summary>
+		public static StaticLookup ReadyToValidate { get { return new StaticLookup("Ready to Validate", 20); } }
+		/// <summary>
+		/// Returns the Queued to Validate lookup with id 21.
+		/// </summary>
+		public static StaticLookup QueuedToValidate { get { return new StaticLookup("Queued to Validate", 21); } }
 		///<summary>
 		/// Returns the lookup value of this entity with the given id, or null if it does not exist.
 		///<param name="id">The lookup id.</param>
@@ -1855,6 +1922,9 @@ namespace ECA.Data
 			if (16 == id) return SevisCommStatus.ValidatedByBatch;
 			if (17 == id) return SevisCommStatus.BatchCancelledBySystem;
 			if (18 == id) return SevisCommStatus.UpdatedByBatch;
+			if (19 == id) return SevisCommStatus.NeedsValidationInfo;
+			if (20 == id) return SevisCommStatus.ReadyToValidate;
+			if (21 == id) return SevisCommStatus.QueuedToValidate;
 			return null;
 		}
 		///<summary>
@@ -1882,6 +1952,9 @@ namespace ECA.Data
 			if ("Validated By Batch".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return SevisCommStatus.ValidatedByBatch;
 			if ("Batch Cancelled by System".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return SevisCommStatus.BatchCancelledBySystem;
 			if ("Updated By Batch".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return SevisCommStatus.UpdatedByBatch;
+			if ("Needs Validation Info".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return SevisCommStatus.NeedsValidationInfo;
+			if ("Ready to Validate".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return SevisCommStatus.ReadyToValidate;
+			if ("Queued to Validate".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return SevisCommStatus.QueuedToValidate;
 			return null;
 		}
 
@@ -2061,6 +2134,7 @@ namespace ECA.Data
 			errors.AddRange(validator.Validate<MoneyFlowSourceRecipientType>());
 			errors.AddRange(validator.Validate<MoneyFlowStatus>());
 			errors.AddRange(validator.Validate<MoneyFlowType>());
+			errors.AddRange(validator.Validate<OrganizationRole>());
 			errors.AddRange(validator.Validate<OrganizationType>());
 			errors.AddRange(validator.Validate<ParticipantStatus>());
 			errors.AddRange(validator.Validate<ParticipantType>());

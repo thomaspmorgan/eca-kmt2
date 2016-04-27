@@ -1,0 +1,142 @@
+﻿<div class="jumbotron funding">
+    <div class="heading">
+        <h1>Funding Sources</h1>
+    </div>
+</div>
+
+<div class="row">
+    <span class="left programTypeRadio">
+        Show organizations in
+        <input type="radio"
+               ng-model="listType"
+               value="hierarchy">
+        Hierarchical order
+    </span>
+    <span class="left programTypeRadio">
+        <input type="radio"
+               ng-model="listType"
+               value="alpha">
+        Alphabetical order
+    </span>
+</div>
+
+<div class="container">
+    <button type="button" class="btn btn-success pull-right" ng-click="addOrganization()">Create Funding Source</button>
+    <h4 class="tab-subheader">Funding Sources List</h4>
+    <p class="subheader listCount">Showing {{start}} - {{end}} of {{total}} funding sources</p>
+    <div st-pipe="getOrganizations" st-table="organizations" id="sort-list" ng-if="listType === 'alpha'">
+        <table class="col-md-12 alt">
+            <thead>
+                <tr>
+                    <th st-sort="'name'" st-sort-default="true" class="col-md-3 sort-label medium">Name</th>
+                    <th st-sort="'organizationType'" class="col-md-2 sort-label medium">Type</th>
+                    <th st-sort="'status'" class="col-md-1 sort-label medium">Status</th>
+                    <th st-sort="'location'" class="col-md-2 sort-label medium">Location</th>
+                    <th class="col-md-2">&nbsp;</th>
+                </tr>
+                <tr>
+                    <th>
+                        <input st-search="'name'" placeholder="" type="search" class="input-lg form-control" />
+                    </th>
+                    <th>
+                        <input st-search="'organizationType'" placeholder="" type="search" class="input-lg form-control" />
+                    </th>
+                    <th>
+                        <input st-search="'status'" placeholder="" type="search" class="input-lg form-control" />
+                    </th>
+                    <th>
+                        <input st-search="'location'" placeholder="" type="search" class="input-lg form-control" />
+                    </th>
+                    <th>
+                        &nbsp;
+                    </th>
+                </tr>
+            </thead>
+            <tbody class="list2">
+                <tr class="hover" ng-repeat="organization in organizations" ng-show="!organizationsLoading">
+                    <td>
+                        <h5><a ng-bind-html="organization.name" ui-sref="funding.overview({organizationId: organization.organizationId})">{{organization.name}}</a></h5>
+                    </td>
+                    <td>{{organization.organizationType}}</td>
+                    <td>{{organization.status}}</td>
+                    <td>{{organization.location}}</td>
+                    <td>
+                        <img class="icon" src="images/duplicateA.png" alt="">
+                        <img class="icon" src="images/editA.png" alt="" ng-click="onEditIconClick(organization)">
+                        <img class="icon" src="images/trash.png" alt="">
+                    </td>
+                </tr>
+                <tr ng-show="organizationsLoading">
+                    <td colspan="5">
+                        <div class="spinner">
+                            <div class="bounce1"></div>
+                            <div class="bounce2"></div>
+                            <div class="bounce3"></div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div st-template="app/partials/pagination.html" st-pagination="" st-items-by-page="25" st-displayed-pages="10" ng-show="organizations.length > 0"></div>
+    </div>
+    <div st-pipe="getOrganizationsHierarchy" st-table="organizations" id="sort-list" ng-if="listType === 'hierarchy'" exposetablestate="getOrganizationsTableState" exposetablestateto="$parent">
+        <table class="col-md-12 alt">
+            <tbody class="list2">
+                <tr id="organization-{{organization.organizationId}}" class="hover" ng-repeat="organization in organizations" ng-show="!organizationsLoading">
+                    <td ng-style="{'padding-left': (40 * (organization.organizationLevel))}">
+                        <div class="col-md-1" ng-show="organization.organizationLevel > 0">
+                            <i style="margin-right: 25px" class="material-icons md-18 flip-horizontal">keyboard_return</i>
+                        </div>
+                        <div ng-class="(organization.organizationLevel === 0) ? 'col-md-9' : 'col-md-8'">
+                            <div class="col-md-12">
+                                <p class="mute">{{organization.status}}</p>
+                                <h4>
+                                    <a ng-bind-html="organization.name" ui-sref="funding.overview({organizationId: organization.organizationId})">{{organization.name}}</a>
+                                </h4> 
+                                <p>{{organization.description}}</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="col-md-12">
+                                <div class="pull-right" ng-show="!organization.loadingChildrenOrganizations">
+                                    <p>&nbsp;
+                                        <span style="vertical-align: top" class="mute" ng-show="organization.parent"><small><a ng-click="scrollToParent(organization)">scroll to parent</a></small></span>
+                                        <span ng-show="organization.numberOfChildren">
+                                            <span style="vertical-align: top" class="mute" ng-show="organization.numberOfChildren">({{organization.numberOfChildren}})</span>
+                                            <a ng-click="expandOrganization(organization)" ng-show="!organization.isExpanded">
+                                                <i class="material-icons md-24">expand_less</i>
+                                            </a>
+                                            <a ng-click="collapseOrganization(organization)" ng-show="organization.isExpanded">
+                                                <i class="material-icons md-24">expand_more</i>
+                                            </a>
+                                        </span>
+                                    </p>
+                                </div>
+                                <div class="pull-right" ng-show="organization.loadingChildrenOrganizations">
+                                    <i class="material-icons md-24 material-icons-spin">autorenew</i>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="pull-right">
+                                    <img class="icon" src="images/duplicateA.png" alt="">
+                                    <img class="icon" src="images/editA.png" alt="" ng-click="onEditIconClick(organization)">
+                                    <img class="icon" src="images/trash.png" alt="">
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr ng-show="organizationsLoading">
+                    <td colspan="5">
+                        <div class="spinner">
+                            <div class="bounce1"></div>
+                            <div class="bounce2"></div>
+                            <div class="bounce3"></div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div st-template="app/partials/pagination.html" st-pagination="" st-items-by-page="25" st-displayed-pages="10" ng-show="organizations.length > 0"></div>
+    </div>
+</div>

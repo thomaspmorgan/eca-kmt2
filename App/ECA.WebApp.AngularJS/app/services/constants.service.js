@@ -1,23 +1,4 @@
-﻿
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-angular.module('staticApp').factory('ConstantsService', function() {
+﻿angular.module('staticApp').factory('ConstantsService', function() {
 	return {
 		dataPointCategory: {
 			office: {id: 1, value: "Office"},
@@ -74,6 +55,11 @@ angular.module('staticApp').factory('ConstantsService', function() {
 			expense: {id: 8, value: "Expense"},
 			post: {id: 9, value: "Post"},
 			office: {id: 10, value: "Office"}
+		},
+		organizationRole: {
+			partner: {id: 1, value: "Partner"},
+			sponsor: {id: 2, value: "Sponsor"},
+			fundingSource: {id: 3, value: "Funding Source"}
 		},
 		organizationType: {
 			office: {id: 1, value: "Office"},
@@ -174,7 +160,10 @@ angular.module('staticApp').factory('ConstantsService', function() {
 			createdByBatch: {id: 15, value: "Created By Batch"},
 			validatedByBatch: {id: 16, value: "Validated By Batch"},
 			batchCancelledBySystem: {id: 17, value: "Batch Cancelled by System"},
-			updatedByBatch: {id: 18, value: "Updated By Batch"}
+			updatedByBatch: {id: 18, value: "Updated By Batch"},
+			needsValidationInfo: {id: 19, value: "Needs Validation Info"},
+			readyToValidate: {id: 20, value: "Ready to Validate"},
+			queuedToValidate: {id: 21, value: "Queued to Validate"}
 		},
 		sevisErrorType: {
 			email: {id: 1, value: "Email"},
@@ -262,5 +251,4 @@ angular.module('staticApp').factory('ConstantsService', function() {
 		updateBreadcrumbsEventName: 'updateBreadcrumbs'
 	};
 });
-
 

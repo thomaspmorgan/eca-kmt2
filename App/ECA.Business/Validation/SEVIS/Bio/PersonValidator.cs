@@ -56,6 +56,11 @@ namespace ECA.Business.Validation.Sevis.Bio
         public const string EMAIL_ADDRESS_REQUIRED_FORMAT_MESSAGE = "A '{0}' email address is required for the participant.";
 
         /// <summary>
+        /// The error message to format when a mailing address is required.
+        /// </summary>
+        public const string MAILING_ADDRESS_REQUIRED_FORMAT_MESSAGE = "A '{0}' address is required.  It must be in the {1}.";
+
+        /// <summary>
         /// The error message to format when a permanent residence country is not specified via a home address.
         /// </summary>
         public static string PERMANENT_RESIDENCE_COUNTRY_CODE_ERROR_MESSAGE = "The Permanent Residence Country is required for the {0}, {1}.  Add one and only one '{2}' address that is outside of the {3}.";
@@ -73,10 +78,13 @@ namespace ECA.Business.Validation.Sevis.Bio
         /// <summary>
         /// Creates a new default instance.
         /// </summary>
-        public PersonValidator()
+        public PersonValidator(string sevisId, DateTime participantStartDate)
             : base()
         {
-            Func<Person, object> addressTypeDelegate = (p) => AddressType.Home.Value;
+            this.SevisId = sevisId;
+            this.ParticipantStartDate = participantStartDate;
+            Func<Person, object> homeAddressTypeDelelgate = (p) => AddressType.Home.Value;
+            Func<Person, object> hostAddressTypeDelegate = (p) => AddressType.Host.Value;
 
             RuleFor(x => x.ProgramCategoryCode)
                 .NotNull()
@@ -86,7 +94,7 @@ namespace ECA.Business.Validation.Sevis.Bio
                 .WithMessage(PROGRAM_CATEGORY_CODE_ERROR_MESSAGE)
                 .WithState(x => new ProgramCategoryCodeErrorPath());
 
-            RuleFor(visitor => visitor.PositionCode)
+            RuleFor(x => x.PositionCode)
                 .NotNull()
                 .WithMessage(POSITION_CODE_REQUIRED_ERROR_MESSAGE)
                 .WithState(x => new PositionCodeErrorPath())
@@ -94,25 +102,34 @@ namespace ECA.Business.Validation.Sevis.Bio
                 .WithMessage(POSITION_CODE_MUST_BE_DIGITS_ERROR_MESSAGE)
                 .WithState(x => new PositionCodeErrorPath());
 
-            RuleFor(visitor => visitor.SubjectField)
+            RuleFor(x => x.SubjectField)
                 .NotNull()
                 .WithMessage(SUBJECT_FIELD_REQUIRED_ERROR_MESSAGE)
                 .WithState(x => new FieldOfStudyErrorPath())
                 .SetValidator(new SubjectFieldValidator());
 
-            RuleFor(x => x.EmailAddress)
-                .NotNull()
-                .WithMessage(EMAIL_ADDRESS_REQUIRED_FORMAT_MESSAGE, EmailAddressType.Personal.Value)
-                .WithState(x => new EmailErrorPath());
+            When(x => !String.IsNullOrWhiteSpace(this.SevisId) && this.ParticipantStartDate < DateTime.UtcNow, () =>
+            {
+                RuleFor(x => x.EmailAddress)
+                    .NotNull()
+                    .WithMessage(EMAIL_ADDRESS_REQUIRED_FORMAT_MESSAGE, EmailAddressType.Personal.Value)
+                    .WithState(x => new EmailErrorPath());
 
-            RuleFor(x => x.PhoneNumber)
-                .NotNull()
-                .WithMessage(VISITING_PHONE_REQUIRED_ERROR_MESSAGE, (p) => Data.PhoneNumberType.Visiting.Value, GetPersonTypeDelegate(), GetNameDelegate())
-                .WithState(x => new PhoneNumberErrorPath());
+                RuleFor(x => x.PhoneNumber)
+                    .NotNull()
+                    .WithMessage(VISITING_PHONE_REQUIRED_ERROR_MESSAGE, (p) => Data.PhoneNumberType.Visiting.Value, GetPersonTypeDelegate(), GetNameDelegate())
+                    .WithState(x => new PhoneNumberErrorPath());
 
-            RuleFor(visitor => visitor.PermanentResidenceCountryCode)
+                RuleFor(visitor => visitor.MailAddress)
+                    .NotNull()
+                    .WithMessage(MAILING_ADDRESS_REQUIRED_FORMAT_MESSAGE, hostAddressTypeDelegate, p => LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME)
+                    .WithState(x => new AddressErrorPath())
+                    .SetValidator(new AddressDTOValidator(a => AddressType.Host.Value));
+            });
+
+            RuleFor(x => x.PermanentResidenceCountryCode)
                 .NotNull()
-                .WithMessage(PERMANENT_RESIDENCE_COUNTRY_CODE_ERROR_MESSAGE, GetPersonTypeDelegate(), GetNameDelegate(), addressTypeDelegate, (p) => LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME)
+                .WithMessage(PERMANENT_RESIDENCE_COUNTRY_CODE_ERROR_MESSAGE, GetPersonTypeDelegate(), GetNameDelegate(), homeAddressTypeDelelgate, (p) => LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME)
                 .WithState(x => GetPermanentResidenceCountryCodeErrorPath(x));
 
             When(x => x.PermanentResidenceCountryCode != null, () =>
@@ -130,10 +147,20 @@ namespace ECA.Business.Validation.Sevis.Bio
                         return false;
                     }
                 })
-                .WithMessage(PERMANENT_RESIDENCE_COUNTRY_NOT_SUPPORTED, (p) => p.PermanentResidenceCountryCode, GetPersonTypeDelegate(), GetNameDelegate(), addressTypeDelegate)
+                .WithMessage(PERMANENT_RESIDENCE_COUNTRY_NOT_SUPPORTED, (p) => p.PermanentResidenceCountryCode, GetPersonTypeDelegate(), GetNameDelegate(), homeAddressTypeDelelgate)
                 .WithState(x => GetPermanentResidenceCountryCodeErrorPath(x));
             });
         }
+
+        /// <summary>
+        /// Gets the sevis id of the person.
+        /// </summary>
+        public string SevisId { get; private set; }
+
+        /// <summary>
+        /// Gets the participant's start date.
+        /// </summary>
+        public DateTime ParticipantStartDate { get; private set; }
 
         /// <summary>
         /// Returns a delegate that creates a full name string, or the empty string.

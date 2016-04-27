@@ -87,6 +87,11 @@ namespace ECA.Business.Queries.Models.Admin
         public string Division { get; set; }
 
         /// <summary>
+        /// Gets or sets the division iso code.
+        /// </summary>
+        public string DivisionIso { get; set; }
+
+        /// <summary>
         /// Gets or sets the is primary flag.
         /// </summary>
         public bool IsPrimary { get; set; }
@@ -181,7 +186,7 @@ namespace ECA.Business.Queries.Models.Admin
                 address1: this.Street1, 
                 address2: this.Street2, 
                 city: this.City, 
-                state: this.Division, 
+                state: this.DivisionIso, 
                 postalCode: this.PostalCode, 
                 explanation: null, 
                 explanationCode: null);
