@@ -41,13 +41,14 @@ namespace ECA.WebApi.Controllers.Persons
         private IParticipantPersonsSevisService participantService;
         private IUserProvider userProvider;
         private IFileStorageHandler storageHandler;
+        private AppSettings appSettings;
 
         /// <summary>
         /// Creates a new ParticipantPersonsSevisController with the given service.
         /// </summary>
         /// <param name="participantService">The participant person sevis service.</param>
         /// <param name="userProvider">The user provider</param>
-        public ParticipantPersonsSevisController(IParticipantPersonsSevisService participantService, IUserProvider userProvider, IFileStorageHandler storageHandler)
+        public ParticipantPersonsSevisController(IParticipantPersonsSevisService participantService, IUserProvider userProvider, IFileStorageHandler storageHandler, AppSettings appSettings)
         {
             Contract.Requires(participantService != null, "The participantPersonSevis service must not be null.");
             Contract.Requires(userProvider != null, "The user provider must not be null.");
@@ -55,6 +56,7 @@ namespace ECA.WebApi.Controllers.Persons
             this.participantService = participantService;
             this.userProvider = userProvider;
             this.storageHandler = storageHandler;
+            this.appSettings = appSettings;
         }
 
         /// <summary>
@@ -208,14 +210,15 @@ namespace ECA.WebApi.Controllers.Persons
         public async Task<HttpResponseMessage> GetDS2019FileAsync(int projectId, int participantId)
         {
             var fileName = await participantService.GetDS2019FileNameAsync(projectId, participantId);
-            var appSettings = new AppSettings();
-            var container = appSettings.DS2019FileStorageContainer;
-            var blobExists = await storageHandler.BlobExistsAsync(fileName, container);
-            if (fileName != null && blobExists)
+            if (fileName != null)
             {
+                var container = appSettings.DS2019FileStorageContainer;
                 var message = await storageHandler.GetFileAsync(fileName, container);
-                return message;
-            }
+                if (message != null)
+                {
+                    return message;
+                }
+            } 
 
             return Request.CreateErrorResponse(HttpStatusCode.NotFound, "File not found.");
         }
