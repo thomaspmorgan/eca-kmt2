@@ -127,10 +127,10 @@
     <None Include="App.config" />
     <None Include="packages.config" />
     <None Include="Properties\webjob-publish-settings.json" />
-    <None Include="PublishProfiles\kmtapi-dev.pubxml" />
-    <None Include="PublishProfiles\kmtapi-pre.pubxml" />
-    <None Include="PublishProfiles\kmtapi-prod.pubxml" />
-    <None Include="PublishProfiles\kmtapi-qa.pubxml" />
+    <None Include="Properties\PublishProfiles\kmtapi-dev.pubxml" />
+    <None Include="Properties\PublishProfiles\kmtapi-pre.pubxml" />
+    <None Include="Properties\PublishProfiles\kmtapi-prod.pubxml" />
+    <None Include="Properties\PublishProfiles\kmtapi-qa.pubxml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ECA.Business\ECA.Business.csproj">
