@@ -680,7 +680,7 @@ angular.module('staticApp')
 
       $scope.selectedActionChanged = function () {
           if ($scope.selectedAction === 1) {
-              paginationOptions.filter = { property: 'sevisStatusId', comparison: 'in', value: [ConstantsService.sevisCommStatus.readyToSubmit.id, ConstantsService.sevisCommStatus.batchCancelledBySystem.id] };
+              paginationOptions.filter = { property: 'sevisStatusId', comparison: 'in', value: [ConstantsService.sevisCommStatus.readyToSubmit.id, ConstantsService.sevisCommStatus.batchCancelledBySystem.id, ConstantsService.sevisCommStatus.readyToValidate.id] };
               $scope.gridApi.selection.setMultiSelect(true);
           } else {
               $scope.gridApi.selection.setMultiSelect(false);

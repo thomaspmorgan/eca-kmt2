@@ -2944,7 +2944,8 @@ namespace ECA.Business.Test.Service.Programs
             var division = new Location
             {
                 LocationId = 1,
-                LocationName = "TN"
+                LocationName = "Tennessee",
+                LocationIso = "TN"
             };
             var country = new Location
             {
@@ -3012,6 +3013,7 @@ namespace ECA.Business.Test.Service.Programs
                 Assert.AreEqual(country.LocationName, dto.Country);
                 Assert.AreEqual(country.LocationId, dto.CountryId);
                 Assert.AreEqual(division.LocationName, dto.Division);
+                Assert.AreEqual(division.LocationIso, dto.DivisionIso);
                 Assert.AreEqual(division.LocationId, dto.DivisionId);
                 Assert.AreEqual(addressLocation.LocationId, dto.LocationId);
                 Assert.AreEqual(addressLocation.LocationName, dto.LocationName);

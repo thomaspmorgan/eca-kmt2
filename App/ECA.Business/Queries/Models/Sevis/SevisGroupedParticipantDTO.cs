@@ -4,7 +4,7 @@
     /// A QueuedToSubmitParticipantDTO is used to find participants that should be used to create exchange visitors
     /// and be sent to sevis.
     /// </summary>
-    public class QueuedToSubmitParticipantDTO
+    public class SevisGroupedParticipantDTO
     {
         /// <summary>
         /// Gets or sets the participant id.
@@ -21,5 +21,9 @@
         /// </summary>
         public string SevisId { get; set; }
 
+        /// <summary>
+        /// Gets or sets the sevis comm status id.  Used to determine the action when staging.
+        /// </summary>
+        public int SevisCommStatusId { get; set; }
     }
 }

@@ -43,6 +43,8 @@ namespace ECA.WebJobs.Sevis.Comm
             this.appSettings = appSettings;
         }
 
+        
+
         /// <summary>
         /// Send, recieve, and process sevis batches using the service.  In a debug build this will run every 20 seconds.  In a release build it will run every 5 mins.
         /// </summary>
@@ -50,15 +52,19 @@ namespace ECA.WebJobs.Sevis.Comm
         /// <returns>The task<./returns>
         public async Task ProcessTimer(
 #if DEBUG
+            
             [TimerTrigger("00:00:20", RunOnStartup = true)] TimerInfo info
 #else
-            [TimerTrigger("00:05:00", RunOnStartup = true)] TimerInfo info
-#endif   
+            //don't forget the azure extension requires a seconds value too so the generator below won't have seconds on it
+            //http://crontab.guru/#0/5_0,1,2,3,4,5,6,18,19,20,21,22,23_*_*_*
+            //basically says run ever fifteen minutes from 6pm to 6am and on startup
+            [TimerTrigger("0 0/15 0,1,2,3,4,5,6,18,19,20,21,22,23 * * *", RunOnStartup = true)] TimerInfo info
+#endif
             )
         {
             var sevisComm = new SevisComm(this.appSettings, this.ecaHttpMessageHandlerService);
             await ProcessAsync(this.service, sevisComm, this.appSettings);
-            var nextOccurrenceMessage = info.FormatNextOccurrences(1);
+            var nextOccurrenceMessage = info.FormatNextOccurrences(5);
             logger.Info(nextOccurrenceMessage);
         }
 

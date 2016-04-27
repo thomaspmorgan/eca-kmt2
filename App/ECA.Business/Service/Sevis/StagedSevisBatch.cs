@@ -1,4 +1,5 @@
-﻿using ECA.Business.Sevis.Model;
+﻿using ECA.Business.Queries.Models.Sevis;
+using ECA.Business.Sevis.Model;
 using ECA.Business.Validation.Sevis;
 using ECA.Data;
 using System;
@@ -204,9 +205,11 @@ namespace ECA.Business.Service.Sevis
         /// </summary>
         /// <param name="exchangeVisitor">The exchange visitor to add.</param>
         /// <returns>True, if the given exchange visitor can be added to this batch; otherwise false.</returns>
-        public bool CanAccomodate(ExchangeVisitor exchangeVisitor, string sevisUsername, string sevisOrgId)
+        public bool CanAccomodate(SevisGroupedParticipantDTO participant, ExchangeVisitor exchangeVisitor, string sevisUsername, string sevisOrgId)
         {
             Contract.Requires(exchangeVisitor != null, "The exchange visitor must not be null.");
+            Contract.Requires(participant != null, "The participant must not be null.");
+            Contract.Requires(participant.ParticipantId == exchangeVisitor.Person.ParticipantId, "The participant must belong to the exchange visitor.");
             if (this.SevisUsername != sevisUsername || this.SevisOrgId != sevisOrgId)
             {
                 return false;
@@ -214,6 +217,12 @@ namespace ECA.Business.Service.Sevis
             if (String.IsNullOrWhiteSpace(exchangeVisitor.SevisId))
             {
                 var count = this.SEVISBatchCreateUpdateEV.CreateEV == null ? 0 : this.SEVISBatchCreateUpdateEV.CreateEV.Count();
+                var addedItemCount = 1;
+                return count + addedItemCount <= this.MaxCreateExchangeVisitorRecordsPerBatch;
+            }
+            else if (participant.SevisCommStatusId == SevisCommStatus.QueuedToValidate.Id)
+            {
+                var count = this.SEVISBatchCreateUpdateEV.UpdateEV == null ? 0 : this.SEVISBatchCreateUpdateEV.UpdateEV.Count();
                 var addedItemCount = 1;
                 return count + addedItemCount <= this.MaxCreateExchangeVisitorRecordsPerBatch;
             }
@@ -229,10 +238,12 @@ namespace ECA.Business.Service.Sevis
         /// Adds the given exchange visitor to this batch.  If this batch can not be added an exception is thrown.
         /// </summary>
         /// <param name="exchangeVisitor">The exchange visitor to add.</param>
-        public void AddExchangeVisitor(ExchangeVisitor exchangeVisitor)
+        public void AddExchangeVisitor(SevisGroupedParticipantDTO participant, ExchangeVisitor exchangeVisitor)
         {
             Contract.Requires(exchangeVisitor != null, "The exchange visitor must not be null.");
             Contract.Requires(exchangeVisitor.Person != null, "The exchange visitor person must not be null.");
+            Contract.Requires(participant != null, "The participant must not be null.");
+            Contract.Requires(participant.ParticipantId == exchangeVisitor.Person.ParticipantId, "The participant must belong to the exchange visitor.");
 
             var existingExchangeVisitor = this.exchangeVisitors.Where(x => x.Person.ParticipantId == exchangeVisitor.Person.ParticipantId).FirstOrDefault();
             if (existingExchangeVisitor != null)
@@ -246,6 +257,16 @@ namespace ECA.Business.Service.Sevis
                 list.Add(exchangeVisitor.GetSEVISBatchTypeExchangeVisitor(this.SevisUsername));
                 this.SEVISBatchCreateUpdateEV.CreateEV = list.ToArray();
                 if (this.SEVISBatchCreateUpdateEV.CreateEV.Count() > this.MaxCreateExchangeVisitorRecordsPerBatch)
+                {
+                    throw new NotSupportedException(message);
+                }
+            }
+            else if (participant.SevisCommStatusId == SevisCommStatus.QueuedToValidate.Id)
+            {
+                var list = this.SEVISBatchCreateUpdateEV.UpdateEV != null ? this.SEVISBatchCreateUpdateEV.UpdateEV.ToList() : new List<SEVISEVBatchTypeExchangeVisitor1>();
+                list.Add(exchangeVisitor.GetSEVISEVBatchTypeExchangeVisitorValidate(this.SevisUsername));
+                this.SEVISBatchCreateUpdateEV.UpdateEV = list.ToArray();
+                if (this.SEVISBatchCreateUpdateEV.UpdateEV.Count() > this.MaxUpdateExchangeVisitorRecordPerBatch)
                 {
                     throw new NotSupportedException(message);
                 }

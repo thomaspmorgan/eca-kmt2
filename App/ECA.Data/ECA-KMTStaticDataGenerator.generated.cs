@@ -3,24 +3,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 #region ActorType
 namespace ECA.Data
 {
@@ -1900,17 +1882,21 @@ namespace ECA.Data
 		/// </summary>
 		public static StaticLookup BatchCancelledBySystem { get { return new StaticLookup("Batch Cancelled by System", 17); } }
 		/// <summary>
-		/// Returns the Needs Validation Info lookup with id 18.
+		/// Returns the Updated By Batch lookup with id 18.
 		/// </summary>
-		public static StaticLookup NeedsValidationInfo { get { return new StaticLookup("Needs Validation Info", 18); } }
+		public static StaticLookup UpdatedByBatch { get { return new StaticLookup("Updated By Batch", 18); } }
 		/// <summary>
-		/// Returns the Ready to Validate lookup with id 19.
+		/// Returns the Needs Validation Info lookup with id 19.
 		/// </summary>
-		public static StaticLookup ReadyToValidate { get { return new StaticLookup("Ready to Validate", 19); } }
+		public static StaticLookup NeedsValidationInfo { get { return new StaticLookup("Needs Validation Info", 19); } }
 		/// <summary>
-		/// Returns the Updated By Batch lookup with id 20.
+		/// Returns the Ready to Validate lookup with id 20.
 		/// </summary>
-		public static StaticLookup UpdatedByBatch { get { return new StaticLookup("Updated By Batch", 20); } }
+		public static StaticLookup ReadyToValidate { get { return new StaticLookup("Ready to Validate", 20); } }
+		/// <summary>
+		/// Returns the Queued to Validate lookup with id 21.
+		/// </summary>
+		public static StaticLookup QueuedToValidate { get { return new StaticLookup("Queued to Validate", 21); } }
 		///<summary>
 		/// Returns the lookup value of this entity with the given id, or null if it does not exist.
 		///<param name="id">The lookup id.</param>
@@ -1935,9 +1921,10 @@ namespace ECA.Data
 			if (15 == id) return SevisCommStatus.CreatedByBatch;
 			if (16 == id) return SevisCommStatus.ValidatedByBatch;
 			if (17 == id) return SevisCommStatus.BatchCancelledBySystem;
-			if (18 == id) return SevisCommStatus.NeedsValidationInfo;
-			if (19 == id) return SevisCommStatus.ReadyToValidate;
-			if (20 == id) return SevisCommStatus.UpdatedByBatch;
+			if (18 == id) return SevisCommStatus.UpdatedByBatch;
+			if (19 == id) return SevisCommStatus.NeedsValidationInfo;
+			if (20 == id) return SevisCommStatus.ReadyToValidate;
+			if (21 == id) return SevisCommStatus.QueuedToValidate;
 			return null;
 		}
 		///<summary>
@@ -1964,9 +1951,10 @@ namespace ECA.Data
 			if ("Created By Batch".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return SevisCommStatus.CreatedByBatch;
 			if ("Validated By Batch".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return SevisCommStatus.ValidatedByBatch;
 			if ("Batch Cancelled by System".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return SevisCommStatus.BatchCancelledBySystem;
+			if ("Updated By Batch".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return SevisCommStatus.UpdatedByBatch;
 			if ("Needs Validation Info".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return SevisCommStatus.NeedsValidationInfo;
 			if ("Ready to Validate".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return SevisCommStatus.ReadyToValidate;
-			if ("Updated By Batch".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return SevisCommStatus.UpdatedByBatch;
+			if ("Queued to Validate".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return SevisCommStatus.QueuedToValidate;
 			return null;
 		}
 

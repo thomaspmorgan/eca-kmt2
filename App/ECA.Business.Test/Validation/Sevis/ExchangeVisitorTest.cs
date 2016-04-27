@@ -26,13 +26,13 @@ namespace ECA.Business.Test.Validation.Sevis
     {
         public AddressDTO GetSOAAsAddressDTO()
         {
-            var stateName = "TN";
+            var stateIso = "TN";
             return new AddressDTO
             {
                 Street1 = "street 1",
                 Street2 = "street 2",
                 City = "city",
-                Division = stateName,
+                DivisionIso = stateIso,
                 Country = LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME,
                 LocationName = "location name",
                 PostalCode = "postal code",
@@ -41,14 +41,20 @@ namespace ECA.Business.Test.Validation.Sevis
 
         public Business.Validation.Sevis.Bio.Person GetPerson(bool setMailAddress = true, bool setUSAddress = true)
         {
-            var state = "TN";
+            var mailAddressState = "TN";
             var mailAddress = new AddressDTO();
             mailAddress.Country = LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME;
-            mailAddress.Division = state;
+            mailAddress.DivisionIso = mailAddressState;
+            mailAddress.Street1 = "street1";
+            mailAddress.Street2 = "street2";
+            mailAddress.Street3 = "street3";
+            mailAddress.City = "Nashville";
+            mailAddress.PostalCode = "12345";
 
+            var usAddressState = "DC";
             var usAddress = new AddressDTO();
             usAddress.Country = LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME;
-            usAddress.Division = state;
+            usAddress.DivisionIso = usAddressState;
 
             var personId = 100;
             var participantId = 200;
@@ -800,7 +806,7 @@ namespace ECA.Business.Test.Validation.Sevis
             Assert.AreEqual(siteOfActivity.Street1, instance.Address1);
             Assert.AreEqual(siteOfActivity.Street2, instance.Address2);
             Assert.AreEqual(siteOfActivity.City, instance.City);
-            Assert.AreEqual(siteOfActivity.Division.GetStateCodeType(), instance.State);
+            Assert.AreEqual(siteOfActivity.DivisionIso.GetStateCodeType(), instance.State);
             Assert.AreEqual(siteOfActivity.LocationName, instance.SiteName);
             Assert.IsTrue(instance.StateSpecified);
             Assert.IsFalse(instance.ExplanationCodeSpecified);
@@ -942,6 +948,87 @@ namespace ECA.Business.Test.Validation.Sevis
 
             exchangeVisitor.Validate(validator.Object);
             validator.Verify(x => x.Validate(It.Is<ExchangeVisitor>(y => y == exchangeVisitor)), Times.Once());
+        }
+        #endregion
+
+        #region GetSEVISEVBatchTypeExchangeVisitorValidate
+        [TestMethod]
+        public void TestGetSEVISEVBatchTypeExchangeVisitorValidate()
+        {
+            var person = GetPerson();
+            var financialInfo = GetFinancialInfo();
+            var occupationCategoryCode = "99";
+            var endDate = DateTime.UtcNow.AddDays(1.0);
+            var startDate = DateTime.UtcNow.AddDays(-1.0);
+            var siteOfActivity = GetSOAAsAddressDTO();
+            List<Dependent> dependents = null;
+            var sevisId = "sevis id";
+            var username = "username";
+
+            var exchangeVisitor = new ExchangeVisitor(
+                sevisId: sevisId,
+                person: person,
+                financialInfo: financialInfo,
+                occupationCategoryCode: occupationCategoryCode,
+                programEndDate: endDate,
+                programStartDate: startDate,
+                dependents: dependents,
+                siteOfActivity: siteOfActivity);
+
+            var instance = exchangeVisitor.GetSEVISEVBatchTypeExchangeVisitorValidate(username);
+            Assert.IsNotNull(instance);
+            Assert.AreEqual(sevisId, instance.sevisID);
+            Assert.AreEqual(username, instance.userID);
+            Assert.AreEqual(new RequestId(person.ParticipantId, RequestIdType.Validate, RequestActionType.Update).ToString(), instance.requestID);
+            Assert.IsFalse(instance.statusCodeSpecified);
+
+            Assert.IsNotNull(instance.Item);
+            Assert.IsInstanceOfType(instance.Item, typeof(SEVISEVBatchTypeExchangeVisitorValidate));
+            var item = (SEVISEVBatchTypeExchangeVisitorValidate)instance.Item;
+            Assert.AreEqual(person.EmailAddress, item.EmailAddress);
+            Assert.AreEqual(person.GetUSPhoneNumber(person.PhoneNumber), item.PhoneNumber);
+            Assert.AreEqual(person.MailAddress.Street1, item.USAddress.Address1);
+            Assert.AreEqual(person.MailAddress.Street2, item.USAddress.Address2);
+            Assert.AreEqual(person.MailAddress.City, item.USAddress.City);
+            Assert.AreEqual(person.MailAddress.PostalCode, item.USAddress.PostalCode);
+            Assert.AreEqual(person.MailAddress.DivisionIso.GetStateCodeType(), item.USAddress.State);
+            Assert.IsTrue(item.USAddress.StateSpecified);
+        }
+
+        [TestMethod]
+        public void TestGetSEVISEVBatchTypeExchangeVisitorValidate_MailAddressIsNull()
+        {
+            var person = GetPerson(false, false);
+            var financialInfo = GetFinancialInfo();
+            var occupationCategoryCode = "99";
+            var endDate = DateTime.UtcNow.AddDays(1.0);
+            var startDate = DateTime.UtcNow.AddDays(-1.0);
+            var siteOfActivity = GetSOAAsAddressDTO();
+            List<Dependent> dependents = null;
+            var sevisId = "sevis id";
+            var username = "username";
+
+            var exchangeVisitor = new ExchangeVisitor(
+                sevisId: sevisId,
+                person: person,
+                financialInfo: financialInfo,
+                occupationCategoryCode: occupationCategoryCode,
+                programEndDate: endDate,
+                programStartDate: startDate,
+                dependents: dependents,
+                siteOfActivity: siteOfActivity);
+
+            var instance = exchangeVisitor.GetSEVISEVBatchTypeExchangeVisitorValidate(username);
+            Assert.IsNotNull(instance);
+            Assert.AreEqual(sevisId, instance.sevisID);
+            Assert.AreEqual(username, instance.userID);
+            Assert.AreEqual(new RequestId(person.ParticipantId, RequestIdType.Validate, RequestActionType.Update).ToString(), instance.requestID);
+            Assert.IsFalse(instance.statusCodeSpecified);
+
+            Assert.IsNotNull(instance.Item);
+            Assert.IsInstanceOfType(instance.Item, typeof(SEVISEVBatchTypeExchangeVisitorValidate));
+            var item = (SEVISEVBatchTypeExchangeVisitorValidate)instance.Item;
+            Assert.IsNull(item.USAddress);
         }
         #endregion
 
