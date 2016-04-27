@@ -147,7 +147,7 @@ namespace ECA.Business.Storage
         //<summary>
         //Returns the blob uri as a string
         //</summary>
-        public string GetBlobLocation(string blobName, string containerName)
+        public Uri GetBlobLocation(string blobName, string containerName)
         {
             if (!blobValidation.IsValidContainer(containerName))
             {
@@ -158,7 +158,7 @@ namespace ECA.Business.Storage
 
             if (blob != null && blob.Exists())
             {
-                return blob.Uri.ToString();
+                return blob.Uri;
             }
             else
             {

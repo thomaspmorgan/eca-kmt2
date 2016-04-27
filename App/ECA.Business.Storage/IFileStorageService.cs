@@ -10,7 +10,7 @@ namespace ECA.Business.Storage
         void DeleteBlob(string blobName, string containerName);
         Task DeleteBlobAsync(string blobName, string containerName);
         CloudBlockBlob GetBlob(string blobName, string containerName);
-        string GetBlobLocation(string blobName, string containerName);
+        Uri GetBlobLocation(string blobName, string containerName);
         Uri UploadBlob(Stream blobData, string contentType, string blobName, string containerName);
         Uri UploadBlob(byte[] blobData, string contentType, string blobName, string containerName);
         Task<Uri> UploadBlobAsync(Stream blobData, string contentType, string blobName, string containerName);

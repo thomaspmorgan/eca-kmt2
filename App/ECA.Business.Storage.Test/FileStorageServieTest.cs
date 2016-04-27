@@ -74,55 +74,9 @@ namespace ECA.Business.Storage.Test
                     return storageAccountShim;
                 };
 
-                CloudBlobContainer actualContainer = blobStorageSettings.BlobContainer("Storage Container");
+                CloudBlobContainer actualContainer = blobStorageSettings.BlobContainer("ds2019");
 
                 Assert.IsTrue(object.ReferenceEquals(containerShim.Instance, actualContainer));
-            }
-        }
-
-        [TestMethod]
-        public void TestBlobContainer_InvalidContainerName()
-        {
-            using (ShimsContext.Create())
-            {
-                connectionStrings.Add(new ConnectionStringSettings(AppSettings.SEVIS_DS2019_STORAGE_CONNECTION_STRING_KEY, "connection string"));
-                string connectionString = settings.DS2019FileStorageConnectionString.ConnectionString;
-
-                var expectedUriString = "http://wwww.google.com";
-                var expectedUri = new Uri(expectedUriString);
-
-                string containerString = "ds2019";
-
-                var containerShim = new Microsoft.WindowsAzure.Storage.Blob.Fakes.ShimCloudBlobContainer
-                {
-
-                };
-
-                var blobClientShim = new Microsoft.WindowsAzure.Storage.Blob.Fakes.ShimCloudBlobClient
-                {
-                    GetContainerReferenceString = (cntnrName) =>
-                    {
-                        Assert.AreEqual(containerString, cntnrName);
-                        return containerShim;
-                    }
-                };
-
-                var storageAccountShim = new Microsoft.WindowsAzure.Storage.Fakes.ShimCloudStorageAccount
-                {
-                    CreateCloudBlobClient = () =>
-                    {
-                        return blobClientShim;
-                    }
-                };
-
-                var serviceShim = Microsoft.WindowsAzure.Storage.Fakes.ShimCloudStorageAccount.ParseString = (conString) =>
-                {
-                    return storageAccountShim;
-                };
-
-                CloudBlobContainer actualContainer = blobStorageSettings.BlobContainer("");
-
-                Assert.IsFalse(object.ReferenceEquals(containerShim.Instance, actualContainer));
             }
         }
 
@@ -803,7 +757,7 @@ namespace ECA.Business.Storage.Test
                     return expectedBlobShim;
                 };
 
-                string blobLocation = service.GetBlobLocation(blobName, containerName);
+                Uri blobLocation = service.GetBlobLocation(blobName, containerName);
                 Assert.AreNotEqual(blobUriString, blobLocation);
             }
 
