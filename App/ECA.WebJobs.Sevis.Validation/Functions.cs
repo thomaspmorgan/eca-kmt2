@@ -50,7 +50,10 @@ namespace ECA.WebJobs.Sevis.Validation
 #if DEBUG
             [TimerTrigger("00:00:20", RunOnStartup = true)] TimerInfo info
 #else
-            [TimerTrigger("00:05:00", RunOnStartup = true)] TimerInfo info
+            //don't forget the azure extension requires a seconds value too so the generator below won't have seconds on it
+            //http://crontab.guru/#0_0,1,2,3,4,5,6,18,19,20,21,22,23_*_*_*
+            //basically says run once every hour from 6pm to 6am and on startup
+            [TimerTrigger("0 0 0,1,2,3,4,5,6,18,19,20,21,22,23 * * *", RunOnStartup = true)] TimerInfo info
 #endif   
             )
         {
