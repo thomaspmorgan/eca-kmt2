@@ -11,6 +11,7 @@ angular.module('staticApp')
             { name: 'Programs', state: 'allprograms' },
             { name: 'People', state: 'allpeople' },
             { name: 'Organizations', state: 'allorganizations' },
+            { name: 'Funding Sources', state: 'allfunding'},
             { name: 'Activities', state: 'activities' },
             { name: 'Reports', state: 'reports.archive' },
             { name: 'Partners', state: 'home.notifications' }

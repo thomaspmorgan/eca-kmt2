@@ -75,6 +75,11 @@ angular.module('staticApp').factory('ConstantsService', function() {
 			post: {id: 9, value: "Post"},
 			office: {id: 10, value: "Office"}
 		},
+		organizationRole: {
+			partner: {id: 1, value: "Partner"},
+			sponsor: {id: 2, value: "Sponsor"},
+			fundingSource: {id: 3, value: "Funding Source"}
+		},
 		organizationType: {
 			office: {id: 1, value: "Office"},
 			branch: {id: 2, value: "Branch"},
@@ -172,9 +177,7 @@ angular.module('staticApp').factory('ConstantsService', function() {
 			pendingSevisSend: {id: 13, value: "Pending Sevis Send"},
 			sentByBatch: {id: 14, value: "Sent By Batch"},
 			createdByBatch: {id: 15, value: "Created By Batch"},
-			validatedByBatch: {id: 16, value: "Validated By Batch"},
-			batchCancelledBySystem: {id: 17, value: "Batch Cancelled by System"},
-			updatedByBatch: {id: 18, value: "Updated By Batch"}
+			validatedByBatch: {id: 16, value: "Validated By Batch"}
 		},
 		sevisErrorType: {
 			email: {id: 1, value: "Email"},

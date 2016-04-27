@@ -19,6 +19,7 @@ using ECA.Core.DynamicLinq;
 using ECA.Core.Query;
 using ECA.Business.Queries.Models.Sevis;
 using ECA.WebApi.Custom.Storage;
+using System.Net.Http;
 
 namespace ECA.WebApi.Test.Controllers.Persons
 {
@@ -145,5 +146,44 @@ namespace ECA.WebApi.Test.Controllers.Persons
         }
 
 
+            var response = await controller.GetSevisBatchProcessingInfoAsync(1, 2, "batchId");
+            participantPersonSevisService.Verify(x => x.GetBatchInfoByBatchIdAsync(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<int>(), It.IsAny<string>()), Times.Once());
+            Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<SevisBatchInfoDTO>));
+        }
+
+        [TestMethod]
+        public async Task GetDS2019FileAsync()
+        {
+            participantPersonSevisService.Setup(x => x.GetDS2019FileNameAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync("fileName.pdf");
+            storageHandler.Setup(x => x.BlobExistsAsync(It.IsAny<string>())).ReturnsAsync(true);
+            storageHandler.Setup(x => x.GetFileAsync(It.IsAny<string>())).ReturnsAsync(new HttpResponseMessage(HttpStatusCode.OK));
+            var response = await controller.GetDS2019FileAsync(1, 1);
+            storageHandler.Verify(x => x.BlobExistsAsync(It.IsAny<string>()), Times.Once());
+            storageHandler.Verify(x => x.GetFileAsync(It.IsAny<string>()), Times.Once());
+            Assert.IsInstanceOfType(response, typeof(HttpResponseMessage));
+            Assert.AreEqual(response.StatusCode, HttpStatusCode.OK);
+        }
+
+        [TestMethod]
+        public async Task GetDS2019FileAsync_NullFileName()
+        {
+            participantPersonSevisService.Setup(x => x.GetDS2019FileNameAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(null);
+            controller.Request = new HttpRequestMessage();
+            var response = await controller.GetDS2019FileAsync(1, 1);
+            Assert.IsInstanceOfType(response, typeof(HttpResponseMessage));
+            Assert.AreEqual(response.StatusCode, HttpStatusCode.NotFound);
+        }
+
+        [TestMethod]
+        public async Task GetDS2019FileAsync_BlobDoesNotExist()
+        {
+            participantPersonSevisService.Setup(x => x.GetDS2019FileNameAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync("fileName.pdf");
+            storageHandler.Setup(x => x.BlobExistsAsync(It.IsAny<string>())).ReturnsAsync(false);
+            controller.Request = new HttpRequestMessage();
+            var response = await controller.GetDS2019FileAsync(1, 1);
+            storageHandler.Verify(x => x.BlobExistsAsync(It.IsAny<string>()), Times.Once());
+            Assert.IsInstanceOfType(response, typeof(HttpResponseMessage));
+            Assert.AreEqual(response.StatusCode, HttpStatusCode.NotFound);
+        }
     }
 }

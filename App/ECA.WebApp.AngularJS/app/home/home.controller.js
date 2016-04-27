@@ -45,6 +45,8 @@ angular.module('staticApp')
               return StateService.getPersonState(bookmark.personId);
           } else if (bookmark.type === 'Organization') {
               return StateService.getOrganizationState(bookmark.organizationId);
+          } else if (bookmark.type === 'Funding') {
+              return StateService.getFundingState(bookmark.organizationId);
           }
           else {
               throw Error('The bookmark type is not supported.');
