@@ -3,24 +3,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 #region ActorType
 namespace ECA.Data
 {
@@ -1900,15 +1882,7 @@ namespace ECA.Data
 		/// </summary>
 		public static StaticLookup BatchCancelledBySystem { get { return new StaticLookup("Batch Cancelled by System", 17); } }
 		/// <summary>
-		/// Returns the Needs Validation Info lookup with id 18.
-		/// </summary>
-		public static StaticLookup NeedsValidationInfo { get { return new StaticLookup("Needs Validation Info", 18); } }
-		/// <summary>
-		/// Returns the Ready to Validate lookup with id 19.
-		/// </summary>
-		public static StaticLookup ReadyToValidate { get { return new StaticLookup("Ready to Validate", 19); } }
-		/// <summary>
-		/// Returns the Updated By Batch lookup with id 20.
+		/// Returns the Updated By Batch lookup with id 18.
 		/// </summary>
 		public static StaticLookup UpdatedByBatch { get { return new StaticLookup("Updated By Batch", 18); } }
 		/// <summary>
@@ -1977,8 +1951,6 @@ namespace ECA.Data
 			if ("Created By Batch".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return SevisCommStatus.CreatedByBatch;
 			if ("Validated By Batch".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return SevisCommStatus.ValidatedByBatch;
 			if ("Batch Cancelled by System".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return SevisCommStatus.BatchCancelledBySystem;
-			if ("Needs Validation Info".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return SevisCommStatus.NeedsValidationInfo;
-			if ("Ready to Validate".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return SevisCommStatus.ReadyToValidate;
 			if ("Updated By Batch".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return SevisCommStatus.UpdatedByBatch;
 			if ("Needs Validation Info".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return SevisCommStatus.NeedsValidationInfo;
 			if ("Ready to Validate".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return SevisCommStatus.ReadyToValidate;
