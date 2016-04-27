@@ -56,6 +56,11 @@
 			post: {id: 9, value: "Post"},
 			office: {id: 10, value: "Office"}
 		},
+		organizationRole: {
+			partner: {id: 1, value: "Partner"},
+			sponsor: {id: 2, value: "Sponsor"},
+			fundingSource: {id: 3, value: "Funding Source"}
+		},
 		organizationType: {
 			office: {id: 1, value: "Office"},
 			branch: {id: 2, value: "Branch"},

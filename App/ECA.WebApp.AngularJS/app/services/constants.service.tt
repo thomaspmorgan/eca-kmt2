@@ -23,6 +23,7 @@
 	types.Add(typeof(ProjectStatus));
 	types.Add(typeof(ParticipantType));
 	types.Add(typeof(OrganizationType));
+	types.Add(typeof(OrganizationRole));
 	types.Add(typeof(SocialMediaType));
 	types.Add(typeof(ProgramStatus));
 	types.Add(typeof(MoneyFlowSourceRecipientType));

@@ -42,11 +42,12 @@ namespace ECA.Business.Queries.Admin
                         let hasOrganization = bookmark.OrganizationId.HasValue
                         let organization = bookmark.Organization
 
-                        let ownerSymbol = hasProject ? project.ParentProgram.Owner.OfficeSymbol : 
+                        let ownerSymbol = hasProject ? project.ParentProgram.Owner.OfficeSymbol :
                                     hasProgram ? program.Owner.OfficeSymbol :
                                     hasOffice ? office.OfficeSymbol : "UNKNOWN OFFICE SYMBOL"
 
-
+                        let orgRoleFundingSource = hasOrganization ? bookmark.Organization.OrganizationRoles.Where(x => x.OrganizationRoleId == OrganizationRole.FundingSource.Id).FirstOrDefault() : null
+                        
                         select new BookmarkDTO
                         {
                             BookmarkId = bookmark.BookmarkId,
@@ -62,7 +63,7 @@ namespace ECA.Business.Queries.Admin
                                    hasOffice ? "Office" :
                                    hasProgram ? "Program" :
                                    hasPerson ? "Person" :
-                                   hasOrganization ? "Organization" : "Unknown",
+                                   hasOrganization ? ((orgRoleFundingSource != null) ? "Funding" : "Organization") : "Unknown",
                             OfficeSymbolOrStatus = (hasProject || hasProgram || hasOffice) ? ownerSymbol :
                                                    hasPerson ? person.CurrentStatus :
                                                    hasOrganization ? organization.Status : "",

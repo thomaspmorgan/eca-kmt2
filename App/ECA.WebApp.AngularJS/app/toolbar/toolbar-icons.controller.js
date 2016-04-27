@@ -51,6 +51,9 @@ angular.module('staticApp')
           } else if (stateName.indexOf("organization") > -1) {
               resourceType = { value: "Organization" };
               foreignResourceId = $stateParams.organizationId;
+          } else if (stateName.indexOf("funding") > -1) {
+              resourceType = { value: "Organization" };
+              foreignResourceId = $stateParams.organizationId;
           }
 
           return { resourceType: resourceType, foreignResourceId: parseInt(foreignResourceId), ownerPermissionId: ownerPermissionId};
@@ -125,7 +128,7 @@ angular.module('staticApp')
               property = 'personId';
           } else if (stateParams.resourceType.value === "Organization") {
               property = 'organizationId';
-          }
+          } 
 
           return property;
       }
