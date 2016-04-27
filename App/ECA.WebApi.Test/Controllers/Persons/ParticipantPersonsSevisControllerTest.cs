@@ -10,7 +10,6 @@ using ECA.WebApi.Security;
 using ECA.WebApi.Models.Person;
 using System.Collections.Generic;
 using ECA.Business.Service;
-using System.Web;
 using System.Web.Http;
 using System.Net;
 using ECA.WebApi.Models.Query;
@@ -70,7 +69,7 @@ namespace ECA.WebApi.Test.Controllers.Persons
             var response = await controller.GetSevisParticipantsByProjectIdAsync(1, new PagingQueryBindingModel<ParticipantPersonSevisDTO>());
             Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
         }
-
+        
         [TestMethod]
         public async Task TestGetSevisParticipantsByProjectIdAsync()
         {
@@ -80,6 +79,7 @@ namespace ECA.WebApi.Test.Controllers.Persons
             participantPersonSevisService.Verify(x => x.GetSevisParticipantsByProjectIdAsync(It.IsAny<int>(), It.IsAny<QueryableOperator<ParticipantPersonSevisDTO>>()), Times.Once());
             Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<PagedQueryResults<ParticipantPersonSevisDTO>>));
         }
+
         [TestMethod]
         public async Task GetSevisBatchProcessingInfoAsync()
         {
@@ -143,12 +143,6 @@ namespace ECA.WebApi.Test.Controllers.Persons
             controller.ModelState.AddModelError("key", "error");
             var response = await controller.PostSendToSevisAsync(1, 1, model);
             Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
-        }
-
-
-            var response = await controller.GetSevisBatchProcessingInfoAsync(1, 2, "batchId");
-            participantPersonSevisService.Verify(x => x.GetBatchInfoByBatchIdAsync(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<int>(), It.IsAny<string>()), Times.Once());
-            Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<SevisBatchInfoDTO>));
         }
 
         [TestMethod]

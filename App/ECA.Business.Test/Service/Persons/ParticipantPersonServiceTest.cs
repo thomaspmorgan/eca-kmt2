@@ -631,6 +631,239 @@ namespace ECA.Business.Test.Service.Persons
             a.ShouldThrow<BusinessSecurityException>().WithMessage(message);
             f.ShouldThrow<BusinessSecurityException>().WithMessage(message);
         }
+        
+        [TestMethod]
+        public async Task TestUpdate_ParticipantSevisDataIsLocked()
+        {
+            var participantId = 1;
+            var projectId = 3;
+            Participant participant = null;
+            ParticipantPerson participantPerson = null;
+            Project project = null;
+            ParticipantType individual = new ParticipantType
+            {
+                IsPerson = true,
+                Name = ParticipantType.Individual.Value,
+                ParticipantTypeId = ParticipantType.Individual.Id
+            };
+            var programCategory = new ProgramCategory
+            {
+                ProgramCategoryCode = "program category code",
+                ProgramCategoryId = 234
+            };
+            ParticipantStatus status = new ParticipantStatus
+            {
+                ParticipantStatusId = ParticipantStatus.Active.Id,
+                Status = ParticipantStatus.Active.Value
+            };
+            ParticipantExchangeVisitor participantExchangeVisitor = null;
+            var queuedToSubmitStatus = new SevisCommStatus
+            {
+                SevisCommStatusId = SevisCommStatus.QueuedToSubmit.Id,
+                SevisCommStatusName = SevisCommStatus.QueuedToSubmit.Value
+            };
+            ParticipantPersonSevisCommStatus commStatus = null;
+
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var createrId = 1;
+            var updaterId = 2;
+            var updater = new User(updaterId);
+
+            context.SetupActions.Add(() =>
+            {
+                project = new Project
+                {
+                    ProjectId = projectId
+                };
+                participant = new Participant
+                {
+                    ParticipantId = participantId,
+                    ProjectId = projectId,
+                    Project = project,
+                    ParticipantExchangeVisitor = participantExchangeVisitor
+                };
+                participant.History.CreatedBy = createrId;
+                participant.History.RevisedBy = createrId;
+                participant.History.CreatedOn = yesterday;
+                participant.History.RevisedOn = yesterday;
+
+                participantPerson = new ParticipantPerson
+                {
+                    Participant = participant,
+                    ParticipantId = participantId,
+                };
+                participantPerson.History.CreatedBy = createrId;
+                participantPerson.History.RevisedBy = createrId;
+                participantPerson.History.CreatedOn = yesterday;
+                participantPerson.History.RevisedOn = yesterday;
+
+                participantExchangeVisitor = new ParticipantExchangeVisitor
+                {
+                    ParticipantId = participantId,
+                    Participant = participant,
+                    ParticipantPerson = participantPerson,
+                    ProgramCategoryId = programCategory.ProgramCategoryId,
+                    ProgramCategory = programCategory
+                };
+                participant.ParticipantExchangeVisitor = participantExchangeVisitor;
+                participantExchangeVisitor.ParticipantPerson = participantPerson;
+
+                commStatus = new ParticipantPersonSevisCommStatus
+                {
+                    AddedOn = DateTimeOffset.UtcNow,
+                    BatchId = "batch id",
+                    Id = 501,
+                    ParticipantId = participant.ParticipantId,
+                    ParticipantPerson = participantPerson,
+                    SevisCommStatus = queuedToSubmitStatus,
+                    SevisCommStatusId = queuedToSubmitStatus.SevisCommStatusId,
+                };
+                
+                participantPerson.ParticipantPersonSevisCommStatuses.Add(commStatus);
+                context.Projects.Add(project);
+                context.Participants.Add(participant);
+                context.ParticipantPersons.Add(participantPerson);
+                context.ParticipantExchangeVisitors.Add(participantExchangeVisitor);
+                context.ParticipantStatuses.Add(status);
+                context.ParticipantPersonSevisCommStatuses.Add(commStatus);
+                context.ParticipantTypes.Add(individual);
+            });
+            
+            var updatedPersonParticipant = new UpdatedParticipantPerson(
+                updater: updater,
+                projectId: projectId,
+                homeInstitutionAddressId: null,
+                homeInstitutionId: null,
+                hostInstitutionAddressId: null,
+                hostInstitutionId: null,
+                participantId: participantId,
+                participantStatusId: status.ParticipantStatusId,
+                participantTypeId: individual.ParticipantTypeId
+                );
+            context.Revert();
+            var message = String.Format("An update was attempted on participant with id [{0}] but should have failed validation.",
+                        participant.ParticipantId);
+            Action a = () => service.CreateOrUpdate(updatedPersonParticipant);
+            Func<Task> f = () => service.CreateOrUpdateAsync(updatedPersonParticipant);
+            a.ShouldThrow<ValidationRulesException>().WithMessage(message);
+            f.ShouldThrow<ValidationRulesException>().WithMessage(message);
+        }
+
+        [TestMethod]
+        public async Task TestUpdate_ParticipantSevisDataIsNotLocked()
+        {
+            var participantId = 1;
+            var projectId = 3;
+            Participant participant = null;
+            ParticipantPerson participantPerson = null;
+            Project project = null;
+            ParticipantType individual = new ParticipantType
+            {
+                IsPerson = true,
+                Name = ParticipantType.Individual.Value,
+                ParticipantTypeId = ParticipantType.Individual.Id
+            };
+            var programCategory = new ProgramCategory
+            {
+                ProgramCategoryCode = "program category code",
+                ProgramCategoryId = 234
+            };
+            ParticipantStatus status = new ParticipantStatus
+            {
+                ParticipantStatusId = ParticipantStatus.Active.Id,
+                Status = ParticipantStatus.Active.Value
+            };
+            ParticipantExchangeVisitor participantExchangeVisitor = null;
+            var queuedToSubmitStatus = new SevisCommStatus
+            {
+                SevisCommStatusId = SevisCommStatus.InformationRequired.Id,
+                SevisCommStatusName = SevisCommStatus.InformationRequired.Value
+            };
+            ParticipantPersonSevisCommStatus commStatus = null;
+
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var createrId = 1;
+            var updaterId = 2;
+            var updater = new User(updaterId);
+
+            context.SetupActions.Add(() =>
+            {
+                project = new Project
+                {
+                    ProjectId = projectId
+                };
+                participant = new Participant
+                {
+                    ParticipantId = participantId,
+                    ProjectId = projectId,
+                    Project = project,
+                    ParticipantExchangeVisitor = participantExchangeVisitor
+                };
+                participant.History.CreatedBy = createrId;
+                participant.History.RevisedBy = createrId;
+                participant.History.CreatedOn = yesterday;
+                participant.History.RevisedOn = yesterday;
+
+                participantPerson = new ParticipantPerson
+                {
+                    Participant = participant,
+                    ParticipantId = participantId,
+                };
+                participantPerson.History.CreatedBy = createrId;
+                participantPerson.History.RevisedBy = createrId;
+                participantPerson.History.CreatedOn = yesterday;
+                participantPerson.History.RevisedOn = yesterday;
+
+                participantExchangeVisitor = new ParticipantExchangeVisitor
+                {
+                    ParticipantId = participantId,
+                    Participant = participant,
+                    ParticipantPerson = participantPerson,
+                    ProgramCategoryId = programCategory.ProgramCategoryId,
+                    ProgramCategory = programCategory
+                };
+                participant.ParticipantExchangeVisitor = participantExchangeVisitor;
+                participantExchangeVisitor.ParticipantPerson = participantPerson;
+
+                commStatus = new ParticipantPersonSevisCommStatus
+                {
+                    AddedOn = DateTimeOffset.UtcNow,
+                    BatchId = "batch id",
+                    Id = 501,
+                    ParticipantId = participant.ParticipantId,
+                    ParticipantPerson = participantPerson,
+                    SevisCommStatus = queuedToSubmitStatus,
+                    SevisCommStatusId = queuedToSubmitStatus.SevisCommStatusId,
+                };
+
+                participantPerson.ParticipantPersonSevisCommStatuses.Add(commStatus);
+                context.Projects.Add(project);
+                context.Participants.Add(participant);
+                context.ParticipantPersons.Add(participantPerson);
+                context.ParticipantExchangeVisitors.Add(participantExchangeVisitor);
+                context.ParticipantStatuses.Add(status);
+                context.ParticipantPersonSevisCommStatuses.Add(commStatus);
+                context.ParticipantTypes.Add(individual);
+            });
+
+            var updatedPersonParticipant = new UpdatedParticipantPerson(
+                updater: updater,
+                projectId: projectId,
+                homeInstitutionAddressId: null,
+                homeInstitutionId: null,
+                hostInstitutionAddressId: null,
+                hostInstitutionId: null,
+                participantId: participantId,
+                participantStatusId: status.ParticipantStatusId,
+                participantTypeId: individual.ParticipantTypeId
+                );
+            context.Revert();
+
+            Action a = () => service.CreateOrUpdate(updatedPersonParticipant);
+            Func<Task> f = () => service.CreateOrUpdateAsync(updatedPersonParticipant);
+            a.ShouldNotThrow<ValidationRulesException>();
+            f.ShouldNotThrow<ValidationRulesException>();
+        }
 
         [TestMethod]
         public async Task TestCreateOrUpdate_DoesNotHaveHomeOrHostInstitutions()
