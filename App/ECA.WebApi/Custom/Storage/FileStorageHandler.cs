@@ -21,16 +21,16 @@ namespace ECA.WebApi.Custom.Storage
             this.fileStorageService = fileStorageService;
         }
 
-        public async Task<bool> BlobExistsAsync(string fileName)
+        public async Task<bool> BlobExistsAsync(string fileName, string container)
         {
-            var blob = fileStorageService.GetBlob(fileName);
+            var blob = fileStorageService.GetBlob(fileName, container);
             var blobExists = await blob.ExistsAsync();
             return blobExists;
         }
 
-        public async Task<HttpResponseMessage> GetFileAsync(string fileName)
+        public async Task<HttpResponseMessage> GetFileAsync(string fileName, string container)
         {
-            var blob = fileStorageService.GetBlob(fileName);
+            var blob = fileStorageService.GetBlob(fileName, container);
             HttpResponseMessage message = new HttpResponseMessage(HttpStatusCode.OK);
             Stream blobStream = await blob.OpenReadAsync();
 

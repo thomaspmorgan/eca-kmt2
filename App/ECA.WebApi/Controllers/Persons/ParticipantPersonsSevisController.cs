@@ -6,6 +6,7 @@ using ECA.Business.Validation.Sevis;
 using ECA.Core.DynamicLinq;
 using ECA.Core.DynamicLinq.Sorter;
 using ECA.Core.Query;
+using ECA.Core.Settings;
 using ECA.WebApi.Custom.Storage;
 using ECA.WebApi.Models.Person;
 using ECA.WebApi.Models.Query;
@@ -201,10 +202,12 @@ namespace ECA.WebApi.Controllers.Persons
         public async Task<HttpResponseMessage> GetDS2019FileAsync(int projectId, int participantId)
         {
             var fileName = await participantService.GetDS2019FileNameAsync(projectId, participantId);
-            var blobExists = await storageHandler.BlobExistsAsync(fileName);
+            var appSettings = new AppSettings();
+            var container = appSettings.DS2019FileStorageContainer;
+            var blobExists = await storageHandler.BlobExistsAsync(fileName, container);
             if (fileName != null && blobExists)
             {
-                var message = await storageHandler.GetFileAsync(fileName);
+                var message = await storageHandler.GetFileAsync(fileName, container);
                 return message;
             } else
             {

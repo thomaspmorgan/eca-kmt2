@@ -803,7 +803,7 @@ namespace ECA.Business.Storage.Test
                     return expectedBlobShim;
                 };
 
-                Uri blobLocation = service.GetBlobLocation(blobName, containerName);
+                string blobLocation = service.GetBlobLocation(blobName, containerName);
                 Assert.AreNotEqual(blobUriString, blobLocation);
             }
 
