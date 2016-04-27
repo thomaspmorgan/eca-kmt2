@@ -208,7 +208,6 @@ namespace ECA.WebApi.Controllers.Persons
         public async Task<HttpResponseMessage> GetDS2019FileAsync(int projectId, int participantId)
         {
             var fileName = await participantService.GetDS2019FileNameAsync(projectId, participantId);
-<<<<<<< HEAD
             var appSettings = new AppSettings();
             var container = appSettings.DS2019FileStorageContainer;
             var blobExists = await storageHandler.BlobExistsAsync(fileName, container);
@@ -216,17 +215,6 @@ namespace ECA.WebApi.Controllers.Persons
             {
                 var message = await storageHandler.GetFileAsync(fileName, container);
                 return message;
-            } else
-=======
-            if (fileName != null)
->>>>>>> 7557ebbaf3476c4191473b57a6753cccd86a1cec
-            {
-                var blobExists = await storageHandler.BlobExistsAsync(fileName);
-                if (blobExists)
-                {
-                    var message = await storageHandler.GetFileAsync(fileName);
-                    return message;
-                }
             }
 
             return Request.CreateErrorResponse(HttpStatusCode.NotFound, "File not found.");

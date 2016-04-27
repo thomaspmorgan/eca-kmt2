@@ -149,11 +149,11 @@ namespace ECA.WebApi.Test.Controllers.Persons
         public async Task GetDS2019FileAsync()
         {
             participantPersonSevisService.Setup(x => x.GetDS2019FileNameAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync("fileName.pdf");
-            storageHandler.Setup(x => x.BlobExistsAsync(It.IsAny<string>())).ReturnsAsync(true);
-            storageHandler.Setup(x => x.GetFileAsync(It.IsAny<string>())).ReturnsAsync(new HttpResponseMessage(HttpStatusCode.OK));
+            storageHandler.Setup(x => x.BlobExistsAsync(It.IsAny<string>(), It.IsAny<string>())).ReturnsAsync(true);
+            storageHandler.Setup(x => x.GetFileAsync(It.IsAny<string>(), It.IsAny<string>())).ReturnsAsync(new HttpResponseMessage(HttpStatusCode.OK));
             var response = await controller.GetDS2019FileAsync(1, 1);
-            storageHandler.Verify(x => x.BlobExistsAsync(It.IsAny<string>()), Times.Once());
-            storageHandler.Verify(x => x.GetFileAsync(It.IsAny<string>()), Times.Once());
+            storageHandler.Verify(x => x.BlobExistsAsync(It.IsAny<string>(), It.IsAny<string>()), Times.Once());
+            storageHandler.Verify(x => x.GetFileAsync(It.IsAny<string>(), It.IsAny<string>()), Times.Once());
             Assert.IsInstanceOfType(response, typeof(HttpResponseMessage));
             Assert.AreEqual(response.StatusCode, HttpStatusCode.OK);
         }
@@ -172,10 +172,10 @@ namespace ECA.WebApi.Test.Controllers.Persons
         public async Task GetDS2019FileAsync_BlobDoesNotExist()
         {
             participantPersonSevisService.Setup(x => x.GetDS2019FileNameAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync("fileName.pdf");
-            storageHandler.Setup(x => x.BlobExistsAsync(It.IsAny<string>())).ReturnsAsync(false);
+            storageHandler.Setup(x => x.BlobExistsAsync(It.IsAny<string>(), It.IsAny<string>())).ReturnsAsync(false);
             controller.Request = new HttpRequestMessage();
             var response = await controller.GetDS2019FileAsync(1, 1);
-            storageHandler.Verify(x => x.BlobExistsAsync(It.IsAny<string>()), Times.Once());
+            storageHandler.Verify(x => x.BlobExistsAsync(It.IsAny<string>(), It.IsAny<string>()), Times.Once());
             Assert.IsInstanceOfType(response, typeof(HttpResponseMessage));
             Assert.AreEqual(response.StatusCode, HttpStatusCode.NotFound);
         }
