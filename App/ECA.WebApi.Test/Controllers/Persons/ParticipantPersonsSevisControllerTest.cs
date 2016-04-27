@@ -63,6 +63,37 @@ namespace ECA.WebApi.Test.Controllers.Persons
         }
 
         [TestMethod]
+        public async Task TestGetSevisParticipantsByProjectIdAsync_InvalidModel()
+        {
+            controller.ModelState.AddModelError("key", "error");
+            var response = await controller.GetSevisParticipantsByProjectIdAsync(1, new PagingQueryBindingModel<ParticipantPersonSevisDTO>());
+            Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
+        }
+
+        [TestMethod]
+        public async Task TestGetSevisParticipantsByProjectIdAsync()
+        {
+            participantPersonSevisService.Setup(x => x.GetSevisParticipantsByProjectIdAsync(It.IsAny<int>(), It.IsAny<QueryableOperator<ParticipantPersonSevisDTO>>()))
+                .ReturnsAsync(new PagedQueryResults<ParticipantPersonSevisDTO>(1, new List<ParticipantPersonSevisDTO>()));
+            var response = await controller.GetSevisParticipantsByProjectIdAsync(1, new PagingQueryBindingModel<ParticipantPersonSevisDTO>());
+            participantPersonSevisService.Verify(x => x.GetSevisParticipantsByProjectIdAsync(It.IsAny<int>(), It.IsAny<QueryableOperator<ParticipantPersonSevisDTO>>()), Times.Once());
+            Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<PagedQueryResults<ParticipantPersonSevisDTO>>));
+        }
+        [TestMethod]
+        public async Task GetSevisBatchProcessingInfoAsync()
+        {
+            userProvider.Setup(x => x.GetCurrentUser()).Returns(new DebugWebApiUser());
+            userProvider.Setup(x => x.GetBusinessUser(It.IsAny<IWebApiUser>())).Returns(new User(20));
+
+            participantPersonSevisService.Setup(x => x.GetBatchInfoByBatchIdAsync(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<int>(), It.IsAny<string>()))
+                .ReturnsAsync(new SevisBatchInfoDTO());
+
+            var response = await controller.GetSevisBatchProcessingInfoAsync(1, 2, "batchId");
+            participantPersonSevisService.Verify(x => x.GetBatchInfoByBatchIdAsync(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<int>(), It.IsAny<string>()), Times.Once());
+            Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<SevisBatchInfoDTO>));
+        }
+        
+        [TestMethod]
         public async Task TestPostSendToSevisAsync()
         {
             var model = new SendToSevisBindingModel
@@ -113,35 +144,6 @@ namespace ECA.WebApi.Test.Controllers.Persons
             Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
         }
 
-        [TestMethod]
-        public async Task TestGetSevisParticipantsByProjectIdAsync_InvalidModel()
-        {
-            controller.ModelState.AddModelError("key", "error");
-            var response = await controller.GetSevisParticipantsByProjectIdAsync(1, new PagingQueryBindingModel<ParticipantPersonSevisDTO>());
-            Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
-        }
 
-        [TestMethod]
-        public async Task TestGetSevisParticipantsByProjectIdAsync()
-        {
-            participantPersonSevisService.Setup(x => x.GetSevisParticipantsByProjectIdAsync(It.IsAny<int>(), It.IsAny<QueryableOperator<ParticipantPersonSevisDTO>>()))
-                .ReturnsAsync(new PagedQueryResults<ParticipantPersonSevisDTO>(1, new List<ParticipantPersonSevisDTO>()));
-            var response = await controller.GetSevisParticipantsByProjectIdAsync(1, new PagingQueryBindingModel<ParticipantPersonSevisDTO>());
-            participantPersonSevisService.Verify(x => x.GetSevisParticipantsByProjectIdAsync(It.IsAny<int>(), It.IsAny<QueryableOperator<ParticipantPersonSevisDTO>>()), Times.Once());
-            Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<PagedQueryResults<ParticipantPersonSevisDTO>>));
-        }
-        [TestMethod]
-        public async Task GetSevisBatchProcessingInfoAsync()
-        {
-            userProvider.Setup(x => x.GetCurrentUser()).Returns(new DebugWebApiUser());
-            userProvider.Setup(x => x.GetBusinessUser(It.IsAny<IWebApiUser>())).Returns(new User(20));
-
-            participantPersonSevisService.Setup(x => x.GetBatchInfoByBatchIdAsync(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<int>(), It.IsAny<string>()))
-                .ReturnsAsync(new SevisBatchInfoDTO());
-
-            var response = await controller.GetSevisBatchProcessingInfoAsync(1, 2, "batchId");
-            participantPersonSevisService.Verify(x => x.GetBatchInfoByBatchIdAsync(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<int>(), It.IsAny<string>()), Times.Once());
-            Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<SevisBatchInfoDTO>));
-        }
     }
 }
