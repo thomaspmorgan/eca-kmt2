@@ -10,8 +10,6 @@ namespace ECA.WebApi.Custom.Storage
 {
     public interface IFileStorageHandler
     {
-        Task<bool> BlobExistsAsync(string fileName);
-
-        Task<HttpResponseMessage> GetFileAsync(string fileName);
+        Task<HttpResponseMessage> GetFileAsync(string fileName, string container);
     }
 }

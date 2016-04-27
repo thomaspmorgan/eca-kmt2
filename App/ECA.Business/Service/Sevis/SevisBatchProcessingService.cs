@@ -1201,7 +1201,8 @@ namespace ECA.Business.Service.Sevis
             Contract.Requires(fileable != null, "The fileable must not be null.");
             Contract.Requires(stream != null, "The stream must not be null.");
             var fileName = fileable.GetDS2019FileName();
-            this.cloudStorageService.UploadBlob(stream, DS2019_CONTENT_TYPE, fileName);
+            var container = appSettings.DS2019FileStorageContainer;
+            this.cloudStorageService.UploadBlob(stream, DS2019_CONTENT_TYPE, fileName, container);
             return fileName;
         }
 
@@ -1217,7 +1218,8 @@ namespace ECA.Business.Service.Sevis
             Contract.Requires(fileable != null, "The fileable must not be null.");
             Contract.Requires(stream != null, "The stream must not be null.");
             var fileName = fileable.GetDS2019FileName();
-            await cloudStorageService.UploadBlobAsync(stream, DS2019_CONTENT_TYPE, fileName);
+            var container = appSettings.DS2019FileStorageContainer;
+            await cloudStorageService.UploadBlobAsync(stream, DS2019_CONTENT_TYPE, fileName, container);
             return fileName;
         }
 

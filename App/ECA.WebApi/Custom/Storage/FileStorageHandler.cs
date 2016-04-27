@@ -21,27 +21,23 @@ namespace ECA.WebApi.Custom.Storage
             this.fileStorageService = fileStorageService;
         }
 
-        public async Task<bool> BlobExistsAsync(string fileName)
+        public async Task<HttpResponseMessage> GetFileAsync(string fileName, string container)
         {
-            var blob = fileStorageService.GetBlob(fileName);
-            var blobExists = await blob.ExistsAsync();
-            return blobExists;
-        }
-
-        public async Task<HttpResponseMessage> GetFileAsync(string fileName)
-        {
-            var blob = fileStorageService.GetBlob(fileName);
-            HttpResponseMessage message = new HttpResponseMessage(HttpStatusCode.OK);
-            Stream blobStream = await blob.OpenReadAsync();
-
-            message.Content = new StreamContent(blobStream);
-            message.Content.Headers.ContentLength = blob.Properties.Length;
-            message.Content.Headers.ContentType = new MediaTypeHeaderValue(blob.Properties.ContentType);
-            message.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment")
+            var blob = fileStorageService.GetBlob(fileName, container);
+            HttpResponseMessage message = null;
+            if (blob != null)
             {
-                FileName = blob.Name
-            };
+                message = new HttpResponseMessage(HttpStatusCode.OK);
+                Stream blobStream = await blob.OpenReadAsync();
 
+                message.Content = new StreamContent(blobStream);
+                message.Content.Headers.ContentLength = blob.Properties.Length;
+                message.Content.Headers.ContentType = new MediaTypeHeaderValue(blob.Properties.ContentType);
+                message.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment")
+                {
+                    FileName = blob.Name
+                };
+            }
             return message;
         }
     }

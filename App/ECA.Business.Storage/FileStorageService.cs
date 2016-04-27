@@ -15,98 +15,122 @@ namespace ECA.Business.Storage
         private AppSettings settings;
         private IBlobStorageSettings blobSettings;
         BlobValidation blobValidation = new BlobValidation();
-
+        
         public FileStorageService(AppSettings appSettings, IBlobStorageSettings blobStorageSettings)
         {
             this.settings = appSettings;
             this.blobSettings = blobStorageSettings;
         }
-
+        
         //<summary>
-        //Uploads a byte array. Returns a string of the file's upload location, or reason why the call failed validation.
+        //Uploads a byte array. Returns a Uri of the file's upload location, or null if the call failed validation.
         //</summary>
-        public string UploadBlob(byte[] blobData, string contentType, string blobName)
+        public Uri UploadBlob(byte[] blobData, string contentType, string blobName, string containerName)
         {
             if (!blobValidation.IsValidArray(blobData))
             {
-                return "Invalid Array";
+                return null;
             }
 
             if (!blobValidation.IsValidContent(contentType))
             {
-                return "Invalid Content Type";
+                return null;
             }
 
-            CloudBlockBlob blob = blobSettings.CreateBlockBlob(contentType, blobName);
+            if (!blobValidation.IsValidContainer(containerName))
+            {
+                return null;
+            }
+
+            CloudBlockBlob blob = blobSettings.CreateBlockBlob(contentType, blobName, containerName);
 
             blob.UploadFromByteArray(blobData, 0, blobData.Length);
 
-            return blob.Uri.ToString();
+            return blob.Uri;
         }
 
         //<summary>
-        //Uploads a byte array asyncronously. Returns a string of the file's upload location, or reason why the call failed validation.
+        //Uploads a byte array asyncronously. Returns a Uri of the file's upload location, or null if the call failed validation.
         //</summary>
-        public async Task<string> UploadBlobAsync(byte[] blobData, string contentType, string blobName)
+        public async Task<Uri> UploadBlobAsync(byte[] blobData, string contentType, string blobName, string containerName)
         {
             if (!blobValidation.IsValidArray(blobData))
             {
-                return "Invalid Array";
+                return null;
             }
 
             if (!blobValidation.IsValidContent(contentType))
             {
-                return "Invalid Content Type";
+                return null;
             }
 
-            CloudBlockBlob blob = blobSettings.CreateBlockBlob(contentType, blobName);
+            if (!blobValidation.IsValidContainer(containerName))
+            {
+                return null;
+            }
+
+            CloudBlockBlob blob = blobSettings.CreateBlockBlob(contentType, blobName, containerName);
 
             await blob.UploadFromByteArrayAsync(blobData, 0, blobData.Length);
 
-            return blob.Uri.ToString();
+            return blob.Uri;
         }
 
         //<summary>
-        //Uploads a stream. Returns a string of the file's upload location, or reason why the call failed validation.
+        //Uploads a stream. Returns a Uri of the file's upload location, or null if the call failed validation.
         //</summary>
-        public string UploadBlob(Stream blobData, string contentType, string blobName)
+        public Uri UploadBlob(Stream blobData, string contentType, string blobName, string containerName)
         {
             if (!blobValidation.IsValidContent(contentType))
             {
-                return "Invalid Content Type";
+                return null;
             }
 
-            CloudBlockBlob blob = blobSettings.CreateBlockBlob(contentType, blobName);
+            if (!blobValidation.IsValidContainer(containerName))
+            {
+                return null;
+            }
+
+            CloudBlockBlob blob = blobSettings.CreateBlockBlob(contentType, blobName, containerName);
 
             blob.UploadFromStream(blobData);
 
-            return blob.Uri.ToString();
+            return blob.Uri;
         }
 
         //<summary>
-        //Uploads a stream asyncronously. Returns a string of the file's upload location, or reason why the call failed validation.
+        //Uploads a stream asyncronously. Returns a Uri of the file's upload location, or null if the call failed validation.
         //</summary>
-        public async Task<string> UploadBlobAsync(Stream blobData, string contentType, string blobName)
+        public async Task<Uri> UploadBlobAsync(Stream blobData, string contentType, string blobName, string containerName)
         {
             if (!blobValidation.IsValidContent(contentType))
             {
-                return "Invalid Content Type";
+                return null;
             }
 
-            CloudBlockBlob blob = blobSettings.CreateBlockBlob(contentType, blobName);
+            if (!blobValidation.IsValidContainer(containerName))
+            {
+                return null;
+            }
+
+            CloudBlockBlob blob = blobSettings.CreateBlockBlob(contentType, blobName, containerName);
 
             await blob.UploadFromStreamAsync(blobData);
 
-            return blob.Uri.ToString();
+            return blob.Uri;
         }
 
         //<summary>
         //Returns the entire CloudBlockBlob object
         //</summary>
-        public CloudBlockBlob GetBlob(string blobName)
+        public CloudBlockBlob GetBlob(string blobName, string containerName)
         {
+            if (!blobValidation.IsValidContainer(containerName))
+            {
+                return null;
+            }
 
-            var container = blobSettings.BlobContainer();
+            var container = blobSettings.BlobContainer(containerName);
 
             CloudBlockBlob blob = container.GetBlockBlobReference(blobName);
 
@@ -123,13 +147,18 @@ namespace ECA.Business.Storage
         //<summary>
         //Returns the blob uri as a string
         //</summary>
-        public string GetBlobLocation(string blobName)
+        public Uri GetBlobLocation(string blobName, string containerName)
         {
-            CloudBlockBlob blob = blobSettings.BlobContainer().GetBlockBlobReference(blobName);
+            if (!blobValidation.IsValidContainer(containerName))
+            {
+                return null;
+            }
+
+            CloudBlockBlob blob = blobSettings.BlobContainer(containerName).GetBlockBlobReference(blobName);
 
             if (blob != null && blob.Exists())
             {
-                return blob.Uri.ToString();
+                return blob.Uri;
             }
             else
             {
@@ -141,9 +170,14 @@ namespace ECA.Business.Storage
         //<summary>
         //Returns true if the delete succeeded or false if the delete failed
         //</summary>
-        public void DeleteBlob(string blobName)
+        public void DeleteBlob(string blobName, string containerName)
         {
-            CloudBlockBlob blob = blobSettings.BlobContainer().GetBlockBlobReference(blobName);
+            if (!blobValidation.IsValidContainer(containerName))
+            {
+                return;
+            }
+
+            CloudBlockBlob blob = blobSettings.BlobContainer(containerName).GetBlockBlobReference(blobName);
 
             blob.Delete();
         }
@@ -151,9 +185,14 @@ namespace ECA.Business.Storage
         //<summary>
         //Returns true if the delete succeeded or false if the delete failed
         //</summary>
-        public async Task DeleteBlobAsync(string blobName)
+        public async Task DeleteBlobAsync(string blobName, string containerName)
         {
-            CloudBlockBlob blob = blobSettings.BlobContainer().GetBlockBlobReference(blobName);
+            if (!blobValidation.IsValidContainer(containerName))
+            {
+                return;
+            }
+
+            CloudBlockBlob blob = blobSettings.BlobContainer(containerName).GetBlockBlobReference(blobName);
 
             await blob.DeleteAsync();
         }
@@ -171,30 +210,22 @@ namespace ECA.Business.Storage
         private static string cacheControls = "true, max-age=86400";
 
         //<summary>
-        //Gets the container name from configuration
-        //</summary>
-        public string BlobContainerName()
-        {
-            return settings.DS2019FileStorageContainer;
-        }
-
-        //<summary>
         //Gets the CloudBlobContainer object using configuration settings
         //</summary>
-        public CloudBlobContainer BlobContainer()
+        public CloudBlobContainer BlobContainer(string containerName)
         {
-            string blobContainerName = settings.DS2019FileStorageContainer;
+            string blobContainerName = containerName;
             CloudStorageAccount storageAccount = CloudStorageAccount.Parse(settings.DS2019FileStorageConnectionString.ConnectionString);
             CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
-            return blobClient.GetContainerReference(BlobContainerName());
+            return blobClient.GetContainerReference(containerName);
         }
 
         //<summary>
         //Creates a new CloudBlockBlob object
         //</summary>
-        public CloudBlockBlob CreateBlockBlob(string contentType, string blobName)
+        public CloudBlockBlob CreateBlockBlob(string contentType, string blobName, string containerName)
         {
-            CloudBlockBlob blob = BlobContainer().GetBlockBlobReference(blobName);
+            CloudBlockBlob blob = BlobContainer(containerName).GetBlockBlobReference(blobName);
             blob.Properties.ContentType = contentType;
             blob.Properties.CacheControl = cacheControls;
             //blob.SetProperties();
@@ -226,6 +257,21 @@ namespace ECA.Business.Storage
         public bool IsValidArray(byte[] blobData)
         {
             if (blobData == null || blobData.Length == 0)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
+        //<summary>
+        //Checks to make sure the container passed isn't empty
+        //</summary>
+        public bool IsValidContainer(string containerName)
+        {
+            if (containerName == "")
             {
                 return false;
             }
