@@ -3257,6 +3257,7 @@ namespace ECA.Business.Test.Service.Sevis
                 dateTimeStamp = today
             };
             ParticipantPerson person = null;
+            ParticipantPersonSevisCommStatus pendingSevisSend = null;
 
             context.SetupActions.Add(() =>
             {
@@ -3264,6 +3265,15 @@ namespace ECA.Business.Test.Service.Sevis
                 {
                     ParticipantId = participantId
                 };
+                pendingSevisSend = new ParticipantPersonSevisCommStatus
+                {
+                    BatchId = batchId,
+                    AddedOn = DateTimeOffset.UtcNow,
+                    ParticipantId = participantId,
+                    ParticipantPerson = person,
+                    SevisCommStatusId = SevisCommStatus.PendingSevisSend.Id
+                };
+                person.ParticipantPersonSevisCommStatuses.Add(pendingSevisSend);
                 sevisBatch = new SevisBatchProcessing
                 {
                     BatchId = batchId,
@@ -3271,6 +3281,7 @@ namespace ECA.Business.Test.Service.Sevis
                 };
                 context.ParticipantPersons.Add(person);
                 context.SevisBatchProcessings.Add(sevisBatch);
+                context.ParticipantPersonSevisCommStatuses.Add(pendingSevisSend);
             });
             Action tester = () =>
             {
@@ -3278,7 +3289,9 @@ namespace ECA.Business.Test.Service.Sevis
                 Assert.AreEqual(uploadDetail.resultCode, sevisBatch.UploadDispositionCode);
                 Assert.IsNull(sevisBatch.DownloadDispositionCode);
                 Assert.IsNull(sevisBatch.ProcessDispositionCode);
-                Assert.AreEqual(1, context.ParticipantPersonSevisCommStatuses.Count());
+                Assert.AreEqual(2, context.ParticipantPersonSevisCommStatuses.Count());
+                Assert.IsTrue(Object.ReferenceEquals(pendingSevisSend, context.ParticipantPersonSevisCommStatuses.First()));
+                Assert.IsFalse(Object.ReferenceEquals(pendingSevisSend, context.ParticipantPersonSevisCommStatuses.Last()));
 
                 var addedCommStatus = context.ParticipantPersonSevisCommStatuses.Last();
                 Assert.AreEqual(participantId, addedCommStatus.ParticipantId);
@@ -3288,6 +3301,94 @@ namespace ECA.Business.Test.Service.Sevis
 
                 Assert.IsNull(sevisBatch.LastUploadTry);
                 Assert.AreEqual(0, sevisBatch.UploadTries);
+            };
+            context.Revert();
+            service.ProcessUpload(uploadDetail, sevisBatch);
+            tester();
+            notificationService.Verify(x => x.NotifyUploadedBatchProcessed(It.IsAny<string>(), It.IsAny<DispositionCode>()), Times.Exactly(1));
+
+            context.Revert();
+            await service.ProcessUploadAsync(uploadDetail, sevisBatch);
+            tester();
+            notificationService.Verify(x => x.NotifyUploadedBatchProcessed(It.IsAny<string>(), It.IsAny<DispositionCode>()), Times.Exactly(2));
+        }
+
+        [TestMethod]
+        public async Task TestProcessUpload_CheckOtherParticipantsAreNotIncluded()
+        {
+            var participantId = 1;
+            var batchId = "batchId";
+            var otherBatchId = "other batchId";
+            SevisBatchProcessing sevisBatch = null;
+            SevisBatchProcessing otherSevisBatch = null;
+            var today = DateTime.UtcNow;
+            var uploadDetail = new TransactionLogTypeBatchDetailUpload
+            {
+                resultCode = DispositionCode.Success.Code,
+                dateTimeStamp = today
+            };
+            ParticipantPerson person = null;
+            ParticipantPerson otherPerson = null;
+            ParticipantPersonSevisCommStatus pendingSevisSend = null;
+            ParticipantPersonSevisCommStatus otherPendingSevisSend = null;
+
+            context.SetupActions.Add(() =>
+            {
+                person = new ParticipantPerson
+                {
+                    ParticipantId = participantId
+                };
+                otherPerson = new ParticipantPerson
+                {
+                    ParticipantId = person.ParticipantId + 1
+                };
+                pendingSevisSend = new ParticipantPersonSevisCommStatus
+                {
+                    BatchId = batchId,
+                    AddedOn = DateTimeOffset.UtcNow,
+                    ParticipantId = participantId,
+                    ParticipantPerson = person,
+                    SevisCommStatusId = SevisCommStatus.PendingSevisSend.Id
+                };
+                otherPendingSevisSend = new ParticipantPersonSevisCommStatus
+                {
+                    BatchId = otherBatchId,
+                    AddedOn = DateTimeOffset.UtcNow,
+                    ParticipantId = otherPerson.ParticipantId,
+                    ParticipantPerson = otherPerson,
+                    SevisCommStatusId = SevisCommStatus.PendingSevisSend.Id
+                };
+                person.ParticipantPersonSevisCommStatuses.Add(pendingSevisSend);
+                otherPerson.ParticipantPersonSevisCommStatuses.Add(otherPendingSevisSend);
+                sevisBatch = new SevisBatchProcessing
+                {
+                    BatchId = batchId,
+                    UploadTries = 0,
+                };
+                otherSevisBatch = new SevisBatchProcessing
+                {
+                    BatchId = otherBatchId,
+                    UploadTries = 0,
+                };
+                context.ParticipantPersons.Add(person);
+                context.ParticipantPersons.Add(otherPerson);
+                context.SevisBatchProcessings.Add(sevisBatch);
+                context.SevisBatchProcessings.Add(otherSevisBatch);
+                context.ParticipantPersonSevisCommStatuses.Add(pendingSevisSend);
+                context.ParticipantPersonSevisCommStatuses.Add(otherPendingSevisSend);
+            });
+            Action tester = () =>
+            {
+                Assert.AreEqual(1, otherPerson.ParticipantPersonSevisCommStatuses.Count());
+                Assert.AreEqual(3, context.ParticipantPersonSevisCommStatuses.Count());
+                Assert.IsTrue(Object.ReferenceEquals(pendingSevisSend, context.ParticipantPersonSevisCommStatuses.First()));
+                Assert.IsTrue(Object.ReferenceEquals(otherPendingSevisSend, context.ParticipantPersonSevisCommStatuses.ToList()[1]));
+
+                var addedCommStatus = context.ParticipantPersonSevisCommStatuses.Last();
+                Assert.AreEqual(participantId, addedCommStatus.ParticipantId);
+                Assert.AreEqual(batchId, addedCommStatus.BatchId);
+                DateTimeOffset.UtcNow.Should().BeCloseTo(addedCommStatus.AddedOn, 20000);
+                Assert.AreEqual(SevisCommStatus.SentByBatch.Id, addedCommStatus.SevisCommStatusId);
             };
             context.Revert();
             service.ProcessUpload(uploadDetail, sevisBatch);

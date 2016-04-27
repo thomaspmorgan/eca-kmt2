@@ -513,7 +513,7 @@ namespace ECA.Business.Service.Sevis
                     AddedOn = DateTimeOffset.UtcNow,
                     BatchId = batch.BatchId,
                     ParticipantId = id,
-                    SevisCommStatusId = SevisCommStatus.SentByBatch.Id
+                    SevisCommStatusId = SevisCommStatus.SentByBatch.Id,
                 });
             }
         }
@@ -928,13 +928,13 @@ namespace ECA.Business.Service.Sevis
         private IQueryable<int> CreateGetParticipantIdsWhoNeedSuccessfulUploadStatus(string batchId)
         {
             var query = from participantPerson in Context.ParticipantPersons
-                        let latestCommStatus = participantPerson.ParticipantPersonSevisCommStatuses
-                            .OrderBy(x => x.AddedOn)
-                            .FirstOrDefault()
-                        where latestCommStatus == null
-                            || (latestCommStatus.SevisCommStatusId != SevisCommStatus.SentByBatch.Id && latestCommStatus.BatchId == batchId)
+
+                        let statuses = participantPerson.ParticipantPersonSevisCommStatuses
+                        let hasStatusesRelatedToBatch = statuses.Where(x => x.BatchId == batchId).Count() > 0
+                        let hasSentByBatchStatus = statuses.Where(x => x.BatchId == batchId && x.SevisCommStatusId == SevisCommStatus.SentByBatch.Id).Count() > 0
+                        where hasStatusesRelatedToBatch && !hasSentByBatchStatus
                         select participantPerson.ParticipantId;
-            return query;
+            return query.Distinct();
         }
 
         #endregion        
