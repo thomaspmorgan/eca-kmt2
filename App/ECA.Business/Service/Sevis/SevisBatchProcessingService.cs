@@ -26,6 +26,7 @@ using ECA.Core.Settings;
 using System.Xml;
 using System.Data.Entity.Core.Objects;
 using ECA.Business.Storage;
+using System.Text;
 
 namespace ECA.Business.Service.Sevis
 {
@@ -35,6 +36,16 @@ namespace ECA.Business.Service.Sevis
     /// </summary>
     public class SevisBatchProcessingService : DbContextService<EcaContext>, ISevisBatchProcessingService
     {
+        /// <summary>
+        /// The comment to insert into the transaction log when physical corrected addresses have been commented out.
+        /// </summary>
+        public const string PHYSICAL_CORRECTED_ADDRESSES_COMMENTED_MESSAGE = "PHYSICAL CORRECTED ADDRESSES HAVE BEEN COMMENTED OUT OF THIS TRANSACTION LOG.";
+
+        /// <summary>
+        /// The name of the physical corrected address element in the transaction log xml.
+        /// </summary>
+        public const string PHYSICAL_CORRECTED_ADDRESS_ELEMENT_NAME = "PhysicalCorrectedAddress";
+
         /// <summary>
         /// The DS2019 file content type.
         /// </summary>
@@ -881,11 +892,36 @@ namespace ECA.Business.Service.Sevis
             return sevisCommStatus;
         }
 
-        private TransactionLogType DeserializeTransactionLogType(string xml)
+        /// <summary>
+        /// Deserializes the given xml into a TransactionLogType instance.  It strips PhysicalCorrectedAddress from the transaction logs.
+        /// </summary>
+        /// <param name="xml">The xml to deserialize.</param>
+        /// <returns>The transaction log.</returns>
+        public TransactionLogType DeserializeTransactionLogType(string xml)
         {
             Contract.Requires(xml != null, "The xml must not be null.");
+            var sb = new StringBuilder();
+            var root = XElement.Parse(xml);
+            var physicalCorrectedAddresses = root.Descendants(PHYSICAL_CORRECTED_ADDRESS_ELEMENT_NAME).ToList();
+            if(physicalCorrectedAddresses.Count> 0)
+            {
+                root.AddFirst(new XComment(PHYSICAL_CORRECTED_ADDRESSES_COMMENTED_MESSAGE));
+            }
+            foreach (var physicalCorrectedAddress in physicalCorrectedAddresses)
+            {
+                physicalCorrectedAddress.ReplaceWith(new XComment(physicalCorrectedAddress.ToString()));
+            }
+
+            XmlWriterSettings xws = new XmlWriterSettings();
+            xws.OmitXmlDeclaration = true;
+            xws.Indent = true;
+            using (var writer = XmlWriter.Create(sb, xws))
+            {
+                root.WriteTo(writer);
+            }
+
             using (var memoryStream = new MemoryStream())
-            using (var stringReader = new StringReader(xml))
+            using (var stringReader = new StringReader(sb.ToString()))
             {
                 var serializer = new XmlSerializer(typeof(TransactionLogType));
                 var transactionLogType = (TransactionLogType)serializer.Deserialize(stringReader);

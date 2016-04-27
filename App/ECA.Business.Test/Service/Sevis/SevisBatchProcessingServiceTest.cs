@@ -31,6 +31,8 @@ using System.Collections.Specialized;
 using System.Configuration;
 using ECA.Business.Storage;
 using ECA.Core.DynamicLinq;
+using System.Text;
+using System.Xml;
 
 namespace ECA.Business.Test.Service.Sevis
 {
@@ -4469,6 +4471,111 @@ namespace ECA.Business.Test.Service.Sevis
                 tester();
                 notificationService.Verify(x => x.NotifyCancelledSevisBatch(It.IsAny<string>(), It.IsAny<string>()), Times.Exactly(2));
             }
+        }
+        #endregion
+
+        #region DeserializeTransactionLogType
+        [TestMethod]
+        public void TestDeserializeTransactionLogType()
+        {
+            var transactionLog = new TransactionLogType
+            {
+                BatchHeader = new TransactionLogTypeBatchHeader
+                {
+                    BatchID = "batchId",
+                    OrgID = "or"
+                },
+                BatchDetail = new TransactionLogTypeBatchDetail
+                {
+                    Download = new TransactionLogTypeBatchDetailDownload
+                    {
+                        resultCode = DispositionCode.Success.Code
+                    },
+                    Upload = new TransactionLogTypeBatchDetailUpload
+                    {
+                        dateTimeStamp = DateTime.UtcNow,
+                        FileName = "filename",
+                        resultCode = DispositionCode.BatchNotYetProcessed.Code,
+
+                    },
+                    Process = new TransactionLogTypeBatchDetailProcess
+                    {
+                        dateTimeStamp = DateTime.UtcNow.AddDays(1.0),
+                        resultCode = DispositionCode.DuplicateBatchId.Code,
+                        RecordCount = new TransactionLogTypeBatchDetailProcessRecordCount
+                        {
+                            Failure = "1",
+                            Success = "2",
+                            Total = "3"
+                        },
+                        Record = new List<TransactionLogTypeBatchDetailProcessRecord>
+                        {
+                            new TransactionLogTypeBatchDetailProcessRecord
+                            {
+                                
+                            }
+                        }.ToArray()
+                    }
+                }
+            };
+
+            var xml = GetXml(transactionLog);
+            var instance = service.DeserializeTransactionLogType(xml);
+            Assert.IsNotNull(instance);
+        }
+
+        [TestMethod]
+        public void TestDeserializeTransactionLogType_HasPhysicalCorrectedAddress()
+        {
+            var transactionLog = new TransactionLogType
+            {
+                BatchHeader = new TransactionLogTypeBatchHeader
+                {
+                    BatchID = "batchId",
+                    OrgID = "or"
+                },
+                BatchDetail = new TransactionLogTypeBatchDetail
+                {
+                    Download = new TransactionLogTypeBatchDetailDownload
+                    {
+                        resultCode = DispositionCode.Success.Code
+                    },
+                    Upload = new TransactionLogTypeBatchDetailUpload
+                    {
+                        dateTimeStamp = DateTime.UtcNow,
+                        FileName = "filename",
+                        resultCode = DispositionCode.BatchNotYetProcessed.Code,
+
+                    },
+                    Process = new TransactionLogTypeBatchDetailProcess
+                    {
+                        dateTimeStamp = DateTime.UtcNow.AddDays(1.0),
+                        resultCode = DispositionCode.DuplicateBatchId.Code,
+                        RecordCount = new TransactionLogTypeBatchDetailProcessRecordCount
+                        {
+                            Failure = "1",
+                            Success = "2",
+                            Total = "3"
+                        },
+                        Record = new List<TransactionLogTypeBatchDetailProcessRecord>
+                        {
+                            new TransactionLogTypeBatchDetailProcessRecord
+                            {
+                                PhysicalCorrectedAddress = new Business.Sevis.Model.TransLog.USAddrDoctorResponseType
+                                {
+
+                                }
+                            }
+                        }.ToArray()
+                    }
+                }
+            };
+            Assert.IsNotNull(transactionLog.BatchDetail.Process.Record.First().PhysicalCorrectedAddress);
+            var xml = GetXml(transactionLog);
+            var instance = service.DeserializeTransactionLogType(xml);
+            Assert.IsNotNull(instance);
+            Assert.IsNull(instance.BatchDetail.Process.Record.First().PhysicalCorrectedAddress);
+            
         }
         #endregion
 
