@@ -182,7 +182,7 @@ namespace ECA.Business.Storage
 
             bool exists = await blob.ExistsAsync();
 
-            if (blob != null && blob.Exists())
+            if (blob != null && exists)
             {
                 return blob;
             }
