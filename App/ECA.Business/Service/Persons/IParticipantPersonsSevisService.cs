@@ -1,4 +1,5 @@
 ﻿using ECA.Business.Queries.Models.Persons;
+using ECA.Business.Queries.Models.Persons.ExchangeVisitor;
 using ECA.Business.Queries.Models.Sevis;
 using ECA.Core.DynamicLinq;
 using ECA.Core.Query;
@@ -103,5 +104,19 @@ namespace ECA.Business.Service.Persons
         Task<SevisBatchInfoDTO> GetBatchInfoByBatchIdAsync(int userId, int projectId, int participantId, string batchId);
 
         Task<string> GetDS2019FileNameAsync(int projectId, int participantId);
+
+        /// <summary>
+        /// Returns a paged, filtered, sorterd collection of participants that have a sevis id and whose start date has passed and are ready to start the sevis validation process.
+        /// </summary>
+        /// <param name="queryOperator">The query operator.</param>
+        /// <returns>The participants that have a sevis id and whose start date has passed </returns>
+        PagedQueryResults<ReadyToValidateParticipantDTO> GetReadyToValidateParticipants(QueryableOperator<ReadyToValidateParticipantDTO> queryOperator);
+
+        /// <summary>
+        /// Returns a paged, filtered, sorterd collection of participants that have a sevis id and whose start date has passed and are ready to start the sevis validation process.
+        /// </summary>
+        /// <param name="queryOperator">The query operator.</param>
+        /// <returns>The participants that have a sevis id and whose start date has passed </returns>
+        Task<PagedQueryResults<ReadyToValidateParticipantDTO>> GetReadyToValidateParticipantsAsync(QueryableOperator<ReadyToValidateParticipantDTO> queryOperator);
     }
 }

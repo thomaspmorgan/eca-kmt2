@@ -27,7 +27,12 @@ namespace ECA.Business.Sevis.Model
         /// <summary>
         /// The subject field request type.  This is used when updating subject field info for a participant already registered in sevis.
         /// </summary>
-        SubjectField
+        SubjectField,
+        
+        /// <summary>
+        /// The validate request type.  This is used when validating a participant in the sevis batch api.
+        /// </summary>
+        Validate
     }
 
     public enum RequestActionType

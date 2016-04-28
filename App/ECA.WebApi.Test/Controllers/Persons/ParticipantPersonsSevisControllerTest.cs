@@ -19,6 +19,9 @@ using ECA.Core.Query;
 using ECA.Business.Queries.Models.Sevis;
 using ECA.WebApi.Custom.Storage;
 using System.Net.Http;
+using ECA.Core.Settings;
+using System.Collections.Specialized;
+using System.Configuration;
 
 namespace ECA.WebApi.Test.Controllers.Persons
 {
@@ -29,14 +32,20 @@ namespace ECA.WebApi.Test.Controllers.Persons
         private Mock<IParticipantPersonsSevisService> participantPersonSevisService;
         private Mock<IUserProvider> userProvider;
         private Mock<IFileStorageHandler> storageHandler;
+        private NameValueCollection appSettings;
+        private ConnectionStringSettingsCollection connectionStrings;
+        private AppSettings settings;
 
         [TestInitialize]
         public void TestInit()
         {
             participantPersonSevisService = new Mock<IParticipantPersonsSevisService>();
             userProvider = new Mock<IUserProvider>();
-            storageHandler = new Mock<IFileStorageHandler>();
-            controller = new ParticipantPersonsSevisController(participantPersonSevisService.Object, userProvider.Object, storageHandler.Object);
+            storageHandler = new Mock<IFileStorageHandler>(); appSettings = new NameValueCollection();
+            connectionStrings = new ConnectionStringSettingsCollection();
+            settings = new AppSettings(appSettings, connectionStrings);
+            controller = new ParticipantPersonsSevisController(participantPersonSevisService.Object, userProvider.Object, storageHandler.Object, settings);
+            appSettings.Add(AppSettings.SEVIS_DS2019_STORAGE_CONTAINER, "ds2019files");
         }
 
         [TestMethod]
@@ -149,11 +158,9 @@ namespace ECA.WebApi.Test.Controllers.Persons
         public async Task GetDS2019FileAsync()
         {
             participantPersonSevisService.Setup(x => x.GetDS2019FileNameAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync("fileName.pdf");
-            storageHandler.Setup(x => x.BlobExistsAsync(It.IsAny<string>())).ReturnsAsync(true);
-            storageHandler.Setup(x => x.GetFileAsync(It.IsAny<string>())).ReturnsAsync(new HttpResponseMessage(HttpStatusCode.OK));
+            storageHandler.Setup(x => x.GetFileAsync(It.IsAny<string>(), It.IsAny<string>())).ReturnsAsync(new HttpResponseMessage(HttpStatusCode.OK));
             var response = await controller.GetDS2019FileAsync(1, 1);
-            storageHandler.Verify(x => x.BlobExistsAsync(It.IsAny<string>()), Times.Once());
-            storageHandler.Verify(x => x.GetFileAsync(It.IsAny<string>()), Times.Once());
+            storageHandler.Verify(x => x.GetFileAsync(It.IsAny<string>(), It.IsAny<string>()), Times.Once());
             Assert.IsInstanceOfType(response, typeof(HttpResponseMessage));
             Assert.AreEqual(response.StatusCode, HttpStatusCode.OK);
         }
@@ -169,13 +176,13 @@ namespace ECA.WebApi.Test.Controllers.Persons
         }
 
         [TestMethod]
-        public async Task GetDS2019FileAsync_BlobDoesNotExist()
+        public async Task GetDS2019FileAsync_NullMessage()
         {
             participantPersonSevisService.Setup(x => x.GetDS2019FileNameAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync("fileName.pdf");
-            storageHandler.Setup(x => x.BlobExistsAsync(It.IsAny<string>())).ReturnsAsync(false);
             controller.Request = new HttpRequestMessage();
+            storageHandler.Setup(x => x.GetFileAsync(It.IsAny<string>(), It.IsAny<string>())).ReturnsAsync(null);
             var response = await controller.GetDS2019FileAsync(1, 1);
-            storageHandler.Verify(x => x.BlobExistsAsync(It.IsAny<string>()), Times.Once());
+            storageHandler.Verify(x => x.GetFileAsync(It.IsAny<string>(), It.IsAny<string>()), Times.Once());
             Assert.IsInstanceOfType(response, typeof(HttpResponseMessage));
             Assert.AreEqual(response.StatusCode, HttpStatusCode.NotFound);
         }

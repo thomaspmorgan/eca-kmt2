@@ -129,7 +129,7 @@ namespace ECA.Business.Validation.Sevis
                 PostalCode = this.SiteOfActivity.PostalCode,
                 PrimarySite = true,
                 Remarks = null,
-                State = this.SiteOfActivity.Division.GetStateCodeType(),
+                State = this.SiteOfActivity.DivisionIso.GetStateCodeType(),
                 StateSpecified = true,
                 SiteName = this.SiteOfActivity.LocationName
             };
@@ -274,6 +274,36 @@ namespace ECA.Business.Validation.Sevis
             visitors.Add(createUpdateExchangeVisitor(exchangeVisitorProgram, new RequestId(this.Person.ParticipantId, RequestIdType.SubjectField, RequestActionType.Update)));
 
             return visitors;
+        }
+
+        /// <summary>
+        /// Returns the exchange visitor validation message to send to sevis.
+        /// </summary>
+        /// <returns>The exchange visitor validation message to send to sevis.</returns>
+        public SEVISEVBatchTypeExchangeVisitor1 GetSEVISEVBatchTypeExchangeVisitorValidate(string sevisUsername)
+        {
+            var item = new SEVISEVBatchTypeExchangeVisitorValidate
+            {
+                EmailAddress = this.Person.EmailAddress,
+            };
+            if (this.Person.PhoneNumber != null)
+            {
+                item.PhoneNumber = this.Person.GetUSPhoneNumber(this.Person.PhoneNumber);
+            }
+            if (this.Person.MailAddress != null)
+            {
+                var address = this.Person.MailAddress.GetUSAddress();
+                var addressDoctor = address.GetUSAddressDoctorType();
+                item.USAddress = addressDoctor;
+            }
+            return new SEVISEVBatchTypeExchangeVisitor1
+            {
+                Item = item,
+                sevisID = this.SevisId,
+                requestID = new RequestId(this.Person.ParticipantId, RequestIdType.Validate, RequestActionType.Update).ToString(),
+                statusCodeSpecified = false,
+                userID = sevisUsername
+            };
         }
 
         /// <summary>

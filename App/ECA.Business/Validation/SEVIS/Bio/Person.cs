@@ -39,7 +39,7 @@ namespace ECA.Business.Validation.Sevis.Bio
             this.BirthDate = birthDate;
             this.CitizenshipCountryCode = citizenshipCountryCode;
             this.EmailAddress = emailAddress;
-            this.FullName = fullName; 
+            this.FullName = fullName;
             this.Gender = gender;
             this.PermanentResidenceCountryCode = permanentResidenceCountryCode;
             this.PhoneNumber = phoneNumber;
@@ -118,7 +118,7 @@ namespace ECA.Business.Validation.Sevis.Bio
         /// Gets the permamanent residence country code.
         /// </summary>
         public string PermanentResidenceCountryCode { get; private set; }
-        
+
         /// <summary>
         /// Gets the email address.
         /// </summary>
@@ -143,8 +143,13 @@ namespace ECA.Business.Validation.Sevis.Bio
         /// Gets the program category code.
         /// </summary>
         public string ProgramCategoryCode { get; private set; }
-        
-        private string GetUSPhoneNumber(string phoneNumber)
+
+        /// <summary>
+        /// Returns a US Phone number with the given number.
+        /// </summary>
+        /// <param name="phoneNumber">The phone number to parse into a US phone number.</param>
+        /// <returns>The US phone number.</returns>
+        public string GetUSPhoneNumber(string phoneNumber)
         {
             Contract.Requires(phoneNumber != null, "The phone number must not be null.");
             var phoneNumberUtil = PhoneNumberUtil.GetInstance();
@@ -174,8 +179,11 @@ namespace ECA.Business.Validation.Sevis.Bio
                 FullName = this.FullName.GetNameType(),
                 Gender = this.Gender.GetEVGenderCodeType(),
                 PermanentResidenceCountryCode = this.PermanentResidenceCountryCode.GetCountryCodeWithType(),
-                PhoneNumber = GetUSPhoneNumber(this.PhoneNumber),
             };
+            if (this.PhoneNumber != null)
+            {
+                instance.PhoneNumber = GetUSPhoneNumber(this.PhoneNumber);
+            }
             return instance;
         }
 
@@ -217,13 +225,15 @@ namespace ECA.Business.Validation.Sevis.Bio
                 CitizenshipCountryCodeSpecified = isCodeSpecified(this.CitizenshipCountryCode),
                 GenderSpecified = isCodeSpecified(this.Gender),
                 PermanentResidenceCountryCodeSpecified = isCodeSpecified(this.PermanentResidenceCountryCode),
-                PhoneNumber = GetUSPhoneNumber(this.PhoneNumber),
                 ResidentialAddress = null,
                 USAddress = null,
                 MailAddress = null
             };
-
-            if(this.PositionCode != null)
+            if (this.PhoneNumber != null)
+            {
+                instance.PhoneNumber = GetUSPhoneNumber(this.PhoneNumber);
+            }
+            if (this.PositionCode != null)
             {
                 instance.PositionCode = (short)Int32.Parse(this.PositionCode);
                 instance.PositionCodeSpecified = true;

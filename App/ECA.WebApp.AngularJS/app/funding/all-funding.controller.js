@@ -8,7 +8,7 @@
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('AllFundingCtrl', function ($scope, $stateParams, $state, $log, $modal, OrganizationService, TableService, LookupService, NotificationService, StateService, BrowserService, smoothScroll) {
+  .controller('AllFundingCtrl', function ($scope, $stateParams, $state, $log, $modal, ConstantsService, OrganizationService, TableService, LookupService, NotificationService, StateService, BrowserService, smoothScroll) {
 
       BrowserService.setAllOrganizationsDocumentTitle();
       $scope.organizations = [];
@@ -55,6 +55,12 @@ angular.module('staticApp')
               sort: TableService.getSort(),
               filter: TableService.getFilter()
           };
+
+          params.filter.push({
+              comparison: ConstantsService.containsAnyComparisonType,
+              property: 'organizationRoleIds',
+              value: [ConstantsService.organizationRole.fundingSource.id]
+          });
 
           OrganizationService.getOrganizations(params)
             .then(function (data) {

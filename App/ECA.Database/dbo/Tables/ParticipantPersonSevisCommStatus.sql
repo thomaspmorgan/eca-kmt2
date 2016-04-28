@@ -24,3 +24,13 @@ CREATE INDEX [IX_ParticipantPersonSevisCommStatus_SevisCommStatus] ON [dbo].[Par
 GO
 
 CREATE INDEX [IX_ParticipantPersonSevisCommStatus_BatchId] ON [dbo].[ParticipantPersonSevisCommStatus] ([BatchId])
+
+GO
+
+CREATE INDEX [IX_ParticipantPersonSevisCommStatus_SevisUsername] ON [dbo].[ParticipantPersonSevisCommStatus] ([SevisUsername])
+
+GO
+
+CREATE INDEX [IX_ParticipantPersonSevisCommStatus_SevisOrgId] ON [dbo].[ParticipantPersonSevisCommStatus] ([SevisOrgId])
+
+GO

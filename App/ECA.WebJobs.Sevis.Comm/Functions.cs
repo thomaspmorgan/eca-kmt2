@@ -43,22 +43,18 @@ namespace ECA.WebJobs.Sevis.Comm
             this.appSettings = appSettings;
         }
 
+        
+
         /// <summary>
-        /// Send, recieve, and process sevis batches using the service.  In a debug build this will run every 20 seconds.  In a release build it will run every 5 mins.
+        /// Send, recieve, and process sevis batches using the service.
         /// </summary>
         /// <param name="info">The timer trigger instance.</param>
         /// <returns>The task<./returns>
-        public async Task ProcessTimer(
-#if DEBUG
-            [TimerTrigger("00:00:20", RunOnStartup = true)] TimerInfo info
-#else
-            [TimerTrigger("00:05:00", RunOnStartup = true)] TimerInfo info
-#endif   
-            )
+        public async Task ProcessTimer([TimerTrigger(typeof(SevisCommSchedule), RunOnStartup = true)] TimerInfo info)
         {
             var sevisComm = new SevisComm(this.appSettings, this.ecaHttpMessageHandlerService);
             await ProcessAsync(this.service, sevisComm, this.appSettings);
-            var nextOccurrenceMessage = info.FormatNextOccurrences(1);
+            var nextOccurrenceMessage = info.FormatNextOccurrences(5);
             logger.Info(nextOccurrenceMessage);
         }
 

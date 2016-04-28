@@ -102,7 +102,8 @@ namespace ECA.Business.Test.Queries.Model.Admin
             dto.Street2 = "2";
             dto.Street3 = "3";
             dto.City = "city";
-            dto.Division = "FL";
+            dto.Division = "Florida";
+            dto.DivisionIso = "FL";
             dto.Country = LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME;
             dto.PostalCode = "12345";
 
@@ -110,7 +111,7 @@ namespace ECA.Business.Test.Queries.Model.Admin
             Assert.AreEqual(dto.Street1, instance.Address1);
             Assert.AreEqual(dto.Street2, instance.Address2);
             Assert.AreEqual(dto.City, instance.City);
-            Assert.AreEqual(dto.Division, instance.State);
+            Assert.AreEqual(dto.DivisionIso, instance.State);
             Assert.AreEqual(dto.PostalCode, instance.PostalCode);
             Assert.IsNull(instance.Explanation);
             Assert.IsNull(instance.ExplanationCode);

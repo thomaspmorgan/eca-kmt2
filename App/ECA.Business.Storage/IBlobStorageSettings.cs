@@ -4,7 +4,7 @@ namespace ECA.Business.Storage
 {
     public interface IBlobStorageSettings
     {
-        CloudBlobContainer BlobContainer();
-        CloudBlockBlob CreateBlockBlob(string contentType, string blobName);
+        CloudBlobContainer BlobContainer(string containerName);
+        CloudBlockBlob CreateBlockBlob(string contentType, string blobName, string containerName);
     }
 }
