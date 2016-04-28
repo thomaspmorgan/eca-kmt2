@@ -289,7 +289,7 @@ namespace ECA.Business.Test.Service.Persons
                 OrganizationId = home.OrganizationId
             };
             var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
-            var createrId = 1;
+            var creatorId = 1;
             var updaterId = 2;
             var updater = new User(updaterId);
 
@@ -305,8 +305,8 @@ namespace ECA.Business.Test.Service.Persons
                     ProjectId = projectId,
                     Project = project
                 };
-                participant.History.CreatedBy = createrId;
-                participant.History.RevisedBy = createrId;
+                participant.History.CreatedBy = creatorId;
+                participant.History.RevisedBy = creatorId;
                 participant.History.CreatedOn = yesterday;
                 participant.History.RevisedOn = yesterday;
 
@@ -339,8 +339,8 @@ namespace ECA.Business.Test.Service.Persons
                 Assert.AreEqual(2, context.Organizations.Count());
                 Assert.AreEqual(yesterday, participant.History.RevisedOn);
                 Assert.AreEqual(yesterday, participant.History.CreatedOn);
-                Assert.AreEqual(createrId, participant.History.RevisedBy);
-                Assert.AreEqual(createrId, participant.History.CreatedBy);
+                Assert.AreEqual(creatorId, participant.History.RevisedBy);
+                Assert.AreEqual(creatorId, participant.History.CreatedBy);
 
                 Assert.IsFalse(participant.ParticipantStatusId.HasValue);
             };
@@ -354,7 +354,7 @@ namespace ECA.Business.Test.Service.Persons
 
                 var addedParticipantPerson = context.ParticipantPersons.First();
 
-                Assert.AreEqual(createrId, participant.History.CreatedBy);
+                Assert.AreEqual(creatorId, participant.History.CreatedBy);
                 Assert.AreEqual(updaterId, participant.History.RevisedBy);
                 Assert.AreEqual(yesterday, participant.History.CreatedOn);
                 DateTimeOffset.UtcNow.Should().BeCloseTo(participant.History.RevisedOn, 20000);
@@ -430,7 +430,7 @@ namespace ECA.Business.Test.Service.Persons
                 OrganizationId = home.OrganizationId
             };
             var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
-            var createrId = 1;
+            var creatorId = 1;
             var updaterId = 2;
             var updater = new User(updaterId);
 
@@ -446,8 +446,8 @@ namespace ECA.Business.Test.Service.Persons
                     ProjectId = projectId,
                     Project = project
                 };
-                participant.History.CreatedBy = createrId;
-                participant.History.RevisedBy = createrId;
+                participant.History.CreatedBy = creatorId;
+                participant.History.RevisedBy = creatorId;
                 participant.History.CreatedOn = yesterday;
                 participant.History.RevisedOn = yesterday;
 
@@ -456,8 +456,8 @@ namespace ECA.Business.Test.Service.Persons
                     Participant = participant,
                     ParticipantId = participantId,
                 };
-                participantPerson.History.CreatedBy = createrId;
-                participantPerson.History.RevisedBy = createrId;
+                participantPerson.History.CreatedBy = creatorId;
+                participantPerson.History.RevisedBy = creatorId;
                 participantPerson.History.CreatedOn = yesterday;
                 participantPerson.History.RevisedOn = yesterday;
 
@@ -491,13 +491,13 @@ namespace ECA.Business.Test.Service.Persons
                 Assert.AreEqual(2, context.Organizations.Count());
                 Assert.AreEqual(yesterday, participant.History.RevisedOn);
                 Assert.AreEqual(yesterday, participant.History.CreatedOn);
-                Assert.AreEqual(createrId, participant.History.RevisedBy);
-                Assert.AreEqual(createrId, participant.History.CreatedBy);
+                Assert.AreEqual(creatorId, participant.History.RevisedBy);
+                Assert.AreEqual(creatorId, participant.History.CreatedBy);
 
                 Assert.AreEqual(yesterday, participantPerson.History.RevisedOn);
                 Assert.AreEqual(yesterday, participantPerson.History.CreatedOn);
-                Assert.AreEqual(createrId, participantPerson.History.RevisedBy);
-                Assert.AreEqual(createrId, participantPerson.History.CreatedBy);
+                Assert.AreEqual(creatorId, participantPerson.History.RevisedBy);
+                Assert.AreEqual(creatorId, participantPerson.History.CreatedBy);
 
                 Assert.IsFalse(participant.ParticipantStatusId.HasValue);
                 Assert.IsFalse(participantPerson.HomeInstitutionAddressId.HasValue);
@@ -514,9 +514,9 @@ namespace ECA.Business.Test.Service.Persons
                 Assert.AreEqual(2, context.Addresses.Count());
                 Assert.AreEqual(2, context.Organizations.Count());
 
-                Assert.AreEqual(createrId, participant.History.CreatedBy);
+                Assert.AreEqual(creatorId, participant.History.CreatedBy);
                 Assert.AreEqual(yesterday, participant.History.CreatedOn);
-                Assert.AreEqual(createrId, participantPerson.History.CreatedBy);
+                Assert.AreEqual(creatorId, participantPerson.History.CreatedBy);
                 Assert.AreEqual(yesterday, participantPerson.History.CreatedOn);
 
 
@@ -572,7 +572,7 @@ namespace ECA.Business.Test.Service.Persons
                 Status = ParticipantStatus.Active.Value
             };
             var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
-            var createrId = 1;
+            var creatorId = 1;
             var updaterId = 2;
             var updater = new User(updaterId);
 
@@ -588,8 +588,8 @@ namespace ECA.Business.Test.Service.Persons
                     ProjectId = projectId,
                     Project = project
                 };
-                participant.History.CreatedBy = createrId;
-                participant.History.RevisedBy = createrId;
+                participant.History.CreatedBy = creatorId;
+                participant.History.RevisedBy = creatorId;
                 participant.History.CreatedOn = yesterday;
                 participant.History.RevisedOn = yesterday;
 
@@ -598,8 +598,8 @@ namespace ECA.Business.Test.Service.Persons
                     Participant = participant,
                     ParticipantId = participantId,
                 };
-                participantPerson.History.CreatedBy = createrId;
-                participantPerson.History.RevisedBy = createrId;
+                participantPerson.History.CreatedBy = creatorId;
+                participantPerson.History.RevisedBy = creatorId;
                 participantPerson.History.CreatedOn = yesterday;
                 participantPerson.History.RevisedOn = yesterday;
 
@@ -665,7 +665,7 @@ namespace ECA.Business.Test.Service.Persons
             ParticipantPersonSevisCommStatus commStatus = null;
 
             var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
-            var createrId = 1;
+            var creatorId = 1;
             var updaterId = 2;
             var updater = new User(updaterId);
 
@@ -682,8 +682,8 @@ namespace ECA.Business.Test.Service.Persons
                     Project = project,
                     ParticipantExchangeVisitor = participantExchangeVisitor
                 };
-                participant.History.CreatedBy = createrId;
-                participant.History.RevisedBy = createrId;
+                participant.History.CreatedBy = creatorId;
+                participant.History.RevisedBy = creatorId;
                 participant.History.CreatedOn = yesterday;
                 participant.History.RevisedOn = yesterday;
 
@@ -692,8 +692,8 @@ namespace ECA.Business.Test.Service.Persons
                     Participant = participant,
                     ParticipantId = participantId,
                 };
-                participantPerson.History.CreatedBy = createrId;
-                participantPerson.History.RevisedBy = createrId;
+                participantPerson.History.CreatedBy = creatorId;
+                participantPerson.History.RevisedBy = creatorId;
                 participantPerson.History.CreatedOn = yesterday;
                 participantPerson.History.RevisedOn = yesterday;
 
@@ -782,7 +782,7 @@ namespace ECA.Business.Test.Service.Persons
             ParticipantPersonSevisCommStatus commStatus = null;
 
             var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
-            var createrId = 1;
+            var creatorId = 1;
             var updaterId = 2;
             var updater = new User(updaterId);
 
@@ -799,8 +799,8 @@ namespace ECA.Business.Test.Service.Persons
                     Project = project,
                     ParticipantExchangeVisitor = participantExchangeVisitor
                 };
-                participant.History.CreatedBy = createrId;
-                participant.History.RevisedBy = createrId;
+                participant.History.CreatedBy = creatorId;
+                participant.History.RevisedBy = creatorId;
                 participant.History.CreatedOn = yesterday;
                 participant.History.RevisedOn = yesterday;
 
@@ -809,8 +809,8 @@ namespace ECA.Business.Test.Service.Persons
                     Participant = participant,
                     ParticipantId = participantId,
                 };
-                participantPerson.History.CreatedBy = createrId;
-                participantPerson.History.RevisedBy = createrId;
+                participantPerson.History.CreatedBy = creatorId;
+                participantPerson.History.RevisedBy = creatorId;
                 participantPerson.History.CreatedOn = yesterday;
                 participantPerson.History.RevisedOn = yesterday;
 
@@ -885,7 +885,7 @@ namespace ECA.Business.Test.Service.Persons
                 Status = ParticipantStatus.Active.Value
             };
             var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
-            var createrId = 1;
+            var creatorId = 1;
             var updaterId = 2;
             var updater = new User(updaterId);
 
@@ -901,8 +901,8 @@ namespace ECA.Business.Test.Service.Persons
                     ProjectId = projectId,
                     Project = project
                 };
-                participant.History.CreatedBy = createrId;
-                participant.History.RevisedBy = createrId;
+                participant.History.CreatedBy = creatorId;
+                participant.History.RevisedBy = creatorId;
                 participant.History.CreatedOn = yesterday;
                 participant.History.RevisedOn = yesterday;
 
@@ -911,8 +911,8 @@ namespace ECA.Business.Test.Service.Persons
                     Participant = participant,
                     ParticipantId = participantId,
                 };
-                participantPerson.History.CreatedBy = createrId;
-                participantPerson.History.RevisedBy = createrId;
+                participantPerson.History.CreatedBy = creatorId;
+                participantPerson.History.RevisedBy = creatorId;
                 participantPerson.History.CreatedOn = yesterday;
                 participantPerson.History.RevisedOn = yesterday;
 
@@ -979,7 +979,7 @@ namespace ECA.Business.Test.Service.Persons
                 OrganizationId = 2
             };
             var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
-            var createrId = 1;
+            var creatorId = 1;
             var updaterId = 2;
             var updater = new User(updaterId);
 
@@ -995,8 +995,8 @@ namespace ECA.Business.Test.Service.Persons
                 {
                     ProjectId = projectId
                 };
-                participant.History.CreatedBy = createrId;
-                participant.History.RevisedBy = createrId;
+                participant.History.CreatedBy = creatorId;
+                participant.History.RevisedBy = creatorId;
                 participant.History.CreatedOn = yesterday;
                 participant.History.RevisedOn = yesterday;
 
@@ -1005,8 +1005,8 @@ namespace ECA.Business.Test.Service.Persons
                     Participant = participant,
                     ParticipantId = participantId,
                 };
-                participantPerson.History.CreatedBy = createrId;
-                participantPerson.History.RevisedBy = createrId;
+                participantPerson.History.CreatedBy = creatorId;
+                participantPerson.History.RevisedBy = creatorId;
                 participantPerson.History.CreatedOn = yesterday;
                 participantPerson.History.RevisedOn = yesterday;
 
@@ -1119,7 +1119,7 @@ namespace ECA.Business.Test.Service.Persons
                 Organization = host
             };
             var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
-            var createrId = 1;
+            var creatorId = 1;
             var updaterId = 2;
             var updater = new User(updaterId);
 
@@ -1136,8 +1136,8 @@ namespace ECA.Business.Test.Service.Persons
                     Project = project
                 };
                 
-                participant.History.CreatedBy = createrId;
-                participant.History.RevisedBy = createrId;
+                participant.History.CreatedBy = creatorId;
+                participant.History.RevisedBy = creatorId;
                 participant.History.CreatedOn = yesterday;
                 participant.History.RevisedOn = yesterday;
 
@@ -1146,8 +1146,8 @@ namespace ECA.Business.Test.Service.Persons
                     Participant = participant,
                     ParticipantId = participantId,
                 };
-                participantPerson.History.CreatedBy = createrId;
-                participantPerson.History.RevisedBy = createrId;
+                participantPerson.History.CreatedBy = creatorId;
+                participantPerson.History.RevisedBy = creatorId;
                 participantPerson.History.CreatedOn = yesterday;
                 participantPerson.History.RevisedOn = yesterday;
 
@@ -1213,7 +1213,7 @@ namespace ECA.Business.Test.Service.Persons
                 OrganizationId = home.OrganizationId
             };
             var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
-            var createrId = 1;
+            var creatorId = 1;
             var updaterId = 2;
             var updater = new User(updaterId);
 
@@ -1229,8 +1229,8 @@ namespace ECA.Business.Test.Service.Persons
                     ProjectId = projectId,
                     Project = project
                 };
-                participant.History.CreatedBy = createrId;
-                participant.History.RevisedBy = createrId;
+                participant.History.CreatedBy = creatorId;
+                participant.History.RevisedBy = creatorId;
                 participant.History.CreatedOn = yesterday;
                 participant.History.RevisedOn = yesterday;
 
@@ -1239,8 +1239,8 @@ namespace ECA.Business.Test.Service.Persons
                     Participant = participant,
                     ParticipantId = participantId,
                 };
-                participantPerson.History.CreatedBy = createrId;
-                participantPerson.History.RevisedBy = createrId;
+                participantPerson.History.CreatedBy = creatorId;
+                participantPerson.History.RevisedBy = creatorId;
                 participantPerson.History.CreatedOn = yesterday;
                 participantPerson.History.RevisedOn = yesterday;
 
@@ -1310,7 +1310,7 @@ namespace ECA.Business.Test.Service.Persons
                 OrganizationId = home.OrganizationId
             };
             var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
-            var createrId = 1;
+            var creatorId = 1;
             var updaterId = 2;
             var updater = new User(updaterId);
 
@@ -1326,8 +1326,8 @@ namespace ECA.Business.Test.Service.Persons
                     ProjectId = projectId,
                     Project = project
                 };
-                participant.History.CreatedBy = createrId;
-                participant.History.RevisedBy = createrId;
+                participant.History.CreatedBy = creatorId;
+                participant.History.RevisedBy = creatorId;
                 participant.History.CreatedOn = yesterday;
                 participant.History.RevisedOn = yesterday;
 
@@ -1336,8 +1336,8 @@ namespace ECA.Business.Test.Service.Persons
                     Participant = participant,
                     ParticipantId = participantId,
                 };
-                participantPerson.History.CreatedBy = createrId;
-                participantPerson.History.RevisedBy = createrId;
+                participantPerson.History.CreatedBy = creatorId;
+                participantPerson.History.RevisedBy = creatorId;
                 participantPerson.History.CreatedOn = yesterday;
                 participantPerson.History.RevisedOn = yesterday;
 
@@ -1407,7 +1407,7 @@ namespace ECA.Business.Test.Service.Persons
                 Organization = host
             };
             var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
-            var createrId = 1;
+            var creatorId = 1;
             var updaterId = 2;
             var updater = new User(updaterId);
 
@@ -1423,8 +1423,8 @@ namespace ECA.Business.Test.Service.Persons
                     ProjectId = projectId,
                     Project = project
                 };
-                participant.History.CreatedBy = createrId;
-                participant.History.RevisedBy = createrId;
+                participant.History.CreatedBy = creatorId;
+                participant.History.RevisedBy = creatorId;
                 participant.History.CreatedOn = yesterday;
                 participant.History.RevisedOn = yesterday;
 
@@ -1433,8 +1433,8 @@ namespace ECA.Business.Test.Service.Persons
                     Participant = participant,
                     ParticipantId = participantId,
                 };
-                participantPerson.History.CreatedBy = createrId;
-                participantPerson.History.RevisedBy = createrId;
+                participantPerson.History.CreatedBy = creatorId;
+                participantPerson.History.RevisedBy = creatorId;
                 participantPerson.History.CreatedOn = yesterday;
                 participantPerson.History.RevisedOn = yesterday;
 

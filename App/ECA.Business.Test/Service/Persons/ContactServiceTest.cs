@@ -3,7 +3,6 @@ using FluentAssertions;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ECA.Business.Service.Persons;
-using System.Reflection;
 using System.Threading.Tasks;
 using ECA.Data;
 using ECA.Business.Queries.Models.Persons;
@@ -816,5 +815,6 @@ namespace ECA.Business.Test.Service.Persons
             afterTester();
         }
         #endregion
+        
     }
 }

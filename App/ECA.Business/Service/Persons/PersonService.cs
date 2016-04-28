@@ -14,6 +14,9 @@ using ECA.Business.Validation;
 using ECA.Core.Query;
 using ECA.Core.DynamicLinq;
 using ECA.Core.Exceptions;
+using System.Web.Http;
+using System.Net.Http;
+using System.Net;
 
 namespace ECA.Business.Service.Persons
 {
@@ -25,6 +28,8 @@ namespace ECA.Business.Service.Persons
         private readonly Logger logger = LogManager.GetCurrentClassLogger();
         private readonly IBusinessValidator<PersonServiceValidationEntity, PersonServiceValidationEntity> validator;
         private Action<Location, int> throwIfLocationNotFound;
+        private Action<Participant> throwValidationErrorIfParticipantSevisInfoIsLocked;
+        public readonly int[] LOCKED_SEVIS_COMM_STATUSES = { 5, 13, 14 };
 
         /// <summary>
         /// Constructor
@@ -45,6 +50,34 @@ namespace ECA.Business.Service.Persons
                     throw new ModelNotFoundException(String.Format("The location entity with id [{0}] was not found.", id));
                 }
             };
+            throwValidationErrorIfParticipantSevisInfoIsLocked = (participant) =>
+            {
+                var sevisStatusId = participant.ParticipantPerson.ParticipantPersonSevisCommStatuses.OrderByDescending(x => x.AddedOn).Select(x => x.SevisCommStatusId).FirstOrDefault();
+
+                if (participant != null && IndexOfInt(LOCKED_SEVIS_COMM_STATUSES, sevisStatusId) != -1)
+                {
+                    var response = new HttpResponseMessage(HttpStatusCode.PreconditionFailed)
+                    {
+                        Content = new StringContent(String.Format("An update was attempted on participant with id [{0}] but should have failed validation.",
+                        participant.ParticipantId), System.Text.Encoding.UTF8, "text/plain"),
+                        StatusCode = HttpStatusCode.PreconditionFailed
+                    };
+
+                    throw new HttpResponseException(response);
+                }
+            };
+        }
+
+        static int IndexOfInt(int[] arr, int value)
+        {
+            for (int i = 0; i < arr.Length; i++)
+            {
+                if (arr[i] == value)
+                {
+                    return i;
+                }
+            }
+            return -1;
         }
 
         #region Pii
@@ -87,6 +120,12 @@ namespace ECA.Business.Service.Persons
                 throw new EcaBusinessException("The person already exists.");
             }
             var personToUpdate = await GetPersonModelByIdAsync(pii.PersonId);
+            var participant = Context.Participants.Where(x => x.PersonId == pii.PersonId && x.ParticipantStatusId == ParticipantStatus.Active.Id).Include(x => x.ParticipantPerson).Include(x => x.ParticipantPerson.ParticipantPersonSevisCommStatuses).FirstOrDefault();
+            if (participant != null)
+            {
+                throwValidationErrorIfParticipantSevisInfoIsLocked(participant);
+            }
+            
             Location cityOfBirth = null;
             if (pii.CityOfBirthId.HasValue)
             {
@@ -394,12 +433,17 @@ namespace ECA.Business.Service.Persons
         public async Task<Person> UpdateContactInfoAsync(UpdateContactInfo contactInfo)
         {
             var personToUpdate = await GetPersonModelByIdAsync(contactInfo.PersonId);
+            var participant = personToUpdate.Participations.Where(x => x.ParticipantStatusId == ParticipantStatus.Active.Id).FirstOrDefault();
+            if (participant != null)
+            {
+                throwValidationErrorIfParticipantSevisInfoIsLocked(participant);
+            }
+
             DoUpdate(contactInfo, personToUpdate);
             return personToUpdate;
         }
 
         // Update contact info HasContactAgreement
-
         private void DoUpdate(UpdateContactInfo contactInfo, Person person)
         {
             person.HasContactAgreement = contactInfo.HasContactAgreement;

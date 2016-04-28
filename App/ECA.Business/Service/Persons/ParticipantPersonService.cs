@@ -13,6 +13,9 @@ using System.Threading.Tasks;
 using NLog;
 using ECA.Core.Exceptions;
 using ECA.Business.Validation;
+using System.Web.Http;
+using System.Net.Http;
+using System.Net;
 
 namespace ECA.Business.Service.Persons
 {
@@ -61,14 +64,16 @@ namespace ECA.Business.Service.Persons
             };
             throwValidationErrorIfParticipantSevisInfoIsLocked = (participant) =>
             {
-                var sevisStatusId = participant.ParticipantExchangeVisitor.ParticipantPerson.ParticipantPersonSevisCommStatuses.OrderByDescending(x => x.AddedOn).Select(x => x.SevisCommStatusId).FirstOrDefault();
+                var sevisStatusId = participant.ParticipantPerson.ParticipantPersonSevisCommStatuses.OrderByDescending(x => x.AddedOn).Select(x => x.SevisCommStatusId).FirstOrDefault();
 
-                if (participant != null && IndexOfInt(LOCKED_SEVIS_COMM_STATUSES, sevisStatusId) != -1)
+                var response = new HttpResponseMessage(HttpStatusCode.PreconditionFailed)
                 {
-                    throw new ValidationRulesException(
-                        String.Format("An update was attempted on participant with id [{0}] but should have failed validation.",
-                        participant.ParticipantId));
-                }
+                    Content = new StringContent(String.Format("An update was attempted on participant with id [{0}] but should have failed validation.",
+                        participant.ParticipantId), System.Text.Encoding.UTF8, "text/plain"),
+                    StatusCode = HttpStatusCode.PreconditionFailed
+                };
+
+                throw new HttpResponseException(response);
             };
         }
 
