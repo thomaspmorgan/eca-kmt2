@@ -1581,7 +1581,7 @@ namespace ECA.Business.Test.Service.Fundings
             Assert.AreEqual(MoneyFlowServiceValidator.INVALID_AMOUNT_MESSAGE, validationErrors.First().ErrorMessage);
             Assert.AreEqual(PropertyHelper.GetPropertyName<UpdatedMoneyFlow>(x => x.Value), validationErrors.First().Property);
         }
-
+         
         // Per CE Pilot, descriptions can be null
         //[TestMethod]
         //public void TestDoValidateUpdate_EmptyDescription()
