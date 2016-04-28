@@ -131,9 +131,14 @@
                     }
                 });
 
-                $scope.printDS2019 = function () {
+                $scope.downloadDS2019 = function () {
                     var url = 'Project/' + projectId + '/ParticipantPersonSevis/' + participantId + '/DS2019File';
-                    DownloadService.get(url, 'application/pdf');
+                    DownloadService.get(url, 'application/pdf')
+                    .then(function () {
+
+                    }, function () {
+                        NotificationService.showErrorMessage('Unable to download file.');
+                    });
                 }
 
                 $scope.view.showNextSevisCommStatuses = function () {
