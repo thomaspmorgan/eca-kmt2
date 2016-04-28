@@ -13,6 +13,7 @@ using ECA.Business.Service;
 using ECA.Business.Validation;
 using Moq;
 using ECA.Core.Exceptions;
+using System.Net;
 
 namespace ECA.Business.Test.Service.Persons
 {
@@ -743,12 +744,14 @@ namespace ECA.Business.Test.Service.Persons
                 participantTypeId: individual.ParticipantTypeId
                 );
             context.Revert();
+
             var message = String.Format("An update was attempted on participant with id [{0}] but should have failed validation.",
                         participant.ParticipantId);
+            
             Action a = () => service.CreateOrUpdate(updatedPersonParticipant);
             Func<Task> f = () => service.CreateOrUpdateAsync(updatedPersonParticipant);
-            a.ShouldThrow<ValidationRulesException>().WithMessage(message);
-            f.ShouldThrow<ValidationRulesException>().WithMessage(message);
+            a.ShouldThrow<WebException>().WithMessage(message);
+            f.ShouldThrow<WebException>().WithMessage(message);
         }
 
         [TestMethod]
@@ -864,8 +867,8 @@ namespace ECA.Business.Test.Service.Persons
 
             Action a = () => service.CreateOrUpdate(updatedPersonParticipant);
             Func<Task> f = () => service.CreateOrUpdateAsync(updatedPersonParticipant);
-            a.ShouldNotThrow<ValidationRulesException>();
-            f.ShouldNotThrow<ValidationRulesException>();
+            a.ShouldNotThrow<WebException>();
+            f.ShouldNotThrow<WebException>();
         }
 
         [TestMethod]
