@@ -3106,7 +3106,6 @@ namespace ECA.Business.Test.Service.Persons
         {
             var personId = 1;
             var participantId = 1;
-            var projectId = 3;
             var gender = new Gender
             {
                 GenderId = Gender.Male.Id,
@@ -3142,17 +3141,13 @@ namespace ECA.Business.Test.Service.Persons
                 PlaceOfBirthId = placeOfBirth.LocationId,
                 DateOfBirth = dateOfBirth
             };
-            var project = new Project
-            {
-                ProjectId = projectId
-            };
-            List<Participant> participants = new List<Participant>();
             var participant = new Participant
             {
                 ParticipantId = participantId,
                 PersonId = person.PersonId,
                 ParticipantStatusId = ParticipantStatus.Active.Id
             };
+            List<Participant> participants = new List<Participant>();
             participants.Add(participant);
             person.Participations = participants;
 
@@ -3162,16 +3157,6 @@ namespace ECA.Business.Test.Service.Persons
                 ParticipantId = participant.ParticipantId,
             };
             participant.ParticipantPerson = participantPerson;
-            var participantExchangeVisitor = new ParticipantExchangeVisitor
-            {
-                ParticipantId = participantId,
-                Participant = participant,
-                ParticipantPerson = participantPerson,
-                ProgramCategoryId = programCategory.ProgramCategoryId,
-                ProgramCategory = programCategory
-            };
-            participant.ParticipantExchangeVisitor = participantExchangeVisitor;
-            participantExchangeVisitor.ParticipantPerson = participantPerson;
 
             var queuedToSubmitStatus = new SevisCommStatus
             {
@@ -3190,11 +3175,9 @@ namespace ECA.Business.Test.Service.Persons
             };
 
             participantPerson.ParticipantPersonSevisCommStatuses.Add(commStatus);
-            context.Projects.Add(project);
             context.People.Add(person);
             context.Participants.Add(participant);
             context.ParticipantPersons.Add(participantPerson);
-            context.ParticipantExchangeVisitors.Add(participantExchangeVisitor);
             context.ParticipantStatuses.Add(status);
             context.ParticipantPersonSevisCommStatuses.Add(commStatus);
             context.ParticipantTypes.Add(individual);
@@ -3226,14 +3209,8 @@ namespace ECA.Business.Test.Service.Persons
             var message = String.Format("An update was attempted on participant with id [{0}] but should have failed validation.",
                         participant.ParticipantId);
 
-            try
-            {
-                var response = await service.UpdatePiiAsync(pii);
-            }
-            catch (WebException ex)
-            {
-                Assert.AreEqual(message, ex.Message);
-            }
+            Func<Task> f = () => service.UpdatePiiAsync(pii);
+            f.ShouldThrow<WebException>().WithMessage(message);
         }
         
         #endregion

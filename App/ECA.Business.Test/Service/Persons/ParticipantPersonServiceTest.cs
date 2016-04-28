@@ -658,7 +658,6 @@ namespace ECA.Business.Test.Service.Persons
                 ParticipantStatusId = ParticipantStatus.Active.Id,
                 Status = ParticipantStatus.Active.Value
             };
-            ParticipantExchangeVisitor participantExchangeVisitor = null;
             var queuedToSubmitStatus = new SevisCommStatus
             {
                 SevisCommStatusId = SevisCommStatus.QueuedToSubmit.Id,
@@ -682,7 +681,6 @@ namespace ECA.Business.Test.Service.Persons
                     ParticipantId = participantId,
                     ProjectId = projectId,
                     Project = project,
-                    ParticipantExchangeVisitor = participantExchangeVisitor
                 };
                 participant.History.CreatedBy = creatorId;
                 participant.History.RevisedBy = creatorId;
@@ -699,18 +697,7 @@ namespace ECA.Business.Test.Service.Persons
                 participantPerson.History.CreatedOn = yesterday;
                 participantPerson.History.RevisedOn = yesterday;
                 participant.ParticipantPerson = participantPerson;
-
-                participantExchangeVisitor = new ParticipantExchangeVisitor
-                {
-                    ParticipantId = participantId,
-                    Participant = participant,
-                    ParticipantPerson = participantPerson,
-                    ProgramCategoryId = programCategory.ProgramCategoryId,
-                    ProgramCategory = programCategory
-                };
-                participant.ParticipantExchangeVisitor = participantExchangeVisitor;
-                participantExchangeVisitor.ParticipantPerson = participantPerson;
-
+                
                 commStatus = new ParticipantPersonSevisCommStatus
                 {
                     AddedOn = DateTimeOffset.UtcNow,
@@ -726,7 +713,6 @@ namespace ECA.Business.Test.Service.Persons
                 context.Projects.Add(project);
                 context.Participants.Add(participant);
                 context.ParticipantPersons.Add(participantPerson);
-                context.ParticipantExchangeVisitors.Add(participantExchangeVisitor);
                 context.ParticipantStatuses.Add(status);
                 context.ParticipantPersonSevisCommStatuses.Add(commStatus);
                 context.ParticipantTypes.Add(individual);
@@ -778,7 +764,6 @@ namespace ECA.Business.Test.Service.Persons
                 ParticipantStatusId = ParticipantStatus.Active.Id,
                 Status = ParticipantStatus.Active.Value
             };
-            ParticipantExchangeVisitor participantExchangeVisitor = null;
             var queuedToSubmitStatus = new SevisCommStatus
             {
                 SevisCommStatusId = SevisCommStatus.InformationRequired.Id,
@@ -802,7 +787,6 @@ namespace ECA.Business.Test.Service.Persons
                     ParticipantId = participantId,
                     ProjectId = projectId,
                     Project = project,
-                    ParticipantExchangeVisitor = participantExchangeVisitor
                 };
                 participant.History.CreatedBy = creatorId;
                 participant.History.RevisedBy = creatorId;
@@ -819,18 +803,7 @@ namespace ECA.Business.Test.Service.Persons
                 participantPerson.History.CreatedOn = yesterday;
                 participantPerson.History.RevisedOn = yesterday;
                 participant.ParticipantPerson = participantPerson;
-
-                participantExchangeVisitor = new ParticipantExchangeVisitor
-                {
-                    ParticipantId = participantId,
-                    Participant = participant,
-                    ParticipantPerson = participantPerson,
-                    ProgramCategoryId = programCategory.ProgramCategoryId,
-                    ProgramCategory = programCategory
-                };
-                participant.ParticipantExchangeVisitor = participantExchangeVisitor;
-                participantExchangeVisitor.ParticipantPerson = participantPerson;
-
+                
                 commStatus = new ParticipantPersonSevisCommStatus
                 {
                     AddedOn = DateTimeOffset.UtcNow,
@@ -846,7 +819,6 @@ namespace ECA.Business.Test.Service.Persons
                 context.Projects.Add(project);
                 context.Participants.Add(participant);
                 context.ParticipantPersons.Add(participantPerson);
-                context.ParticipantExchangeVisitors.Add(participantExchangeVisitor);
                 context.ParticipantStatuses.Add(status);
                 context.ParticipantPersonSevisCommStatuses.Add(commStatus);
                 context.ParticipantTypes.Add(individual);

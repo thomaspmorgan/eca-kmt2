@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Diagnostics.Contracts;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace ECA.Business.Service.Admin
@@ -22,6 +23,8 @@ namespace ECA.Business.Service.Admin
         private readonly Logger logger = LogManager.GetCurrentClassLogger();
         private readonly Action<ISocialable, int> throwIfSocialableEntityNotFound;
         private readonly Action<SocialMedia, int> throwIfSocialMediaNotFound;
+        private Action<Participant> throwValidationErrorIfParticipantSevisInfoIsLocked;
+        public readonly int[] LOCKED_SEVIS_COMM_STATUSES = { 5, 13, 14 };
 
         /// <summary>
         /// Creates a new instance and initializes the context..
@@ -46,6 +49,33 @@ namespace ECA.Business.Service.Admin
                     throw new ModelNotFoundException(String.Format("The social media with id [{0}] was not found.", id));
                 }
             };
+            throwValidationErrorIfParticipantSevisInfoIsLocked = (participant) =>
+            {
+                if (participant.ParticipantPerson != null)
+                {
+                    var sevisStatusId = participant.ParticipantPerson.ParticipantPersonSevisCommStatuses.OrderByDescending(x => x.AddedOn).Select(x => x.SevisCommStatusId).FirstOrDefault();
+
+                    if (participant != null && IndexOfInt(LOCKED_SEVIS_COMM_STATUSES, sevisStatusId) != -1)
+                    {
+                        var msg = String.Format("An update was attempted on participant with id [{0}] but should have failed validation.",
+                                participant.ParticipantId);
+
+                        throw new WebException(msg);
+                    }
+                }
+            };
+        }
+
+        static int IndexOfInt(int[] arr, int value)
+        {
+            for (int i = 0; i < arr.Length; i++)
+            {
+                if (arr[i] == value)
+                {
+                    return i;
+                }
+            }
+            return -1;
         }
 
         #region Get
@@ -132,10 +162,16 @@ namespace ECA.Business.Service.Admin
         {
             Contract.Requires(updatedSocialMedia != null, "The updatedSocialMedia must not be null.");
             throwIfSocialMediaNotFound(modelToUpdate, updatedSocialMedia.Id);
+            var participant = Context.Participants.Where(x => x.PersonId == modelToUpdate.PersonId && x.ParticipantStatusId == ParticipantStatus.Active.Id).Include(x => x.ParticipantPerson).Include(x => x.ParticipantPerson.ParticipantPersonSevisCommStatuses).FirstOrDefault();
+            if (participant != null)
+            {
+                throwValidationErrorIfParticipantSevisInfoIsLocked(participant);
+            }
             modelToUpdate.SocialMediaTypeId = updatedSocialMedia.SocialMediaTypeId;
             modelToUpdate.SocialMediaValue = updatedSocialMedia.Value;
             updatedSocialMedia.Update.SetHistory(modelToUpdate);
         }
+
         #endregion
 
         #region Delete
