@@ -164,7 +164,56 @@ namespace ECA.Business.Storage
             {
                 return null;
             }
+        }
 
+        //<summary>
+        //Returns the entire CloudBlockBlob object
+        //</summary>
+        public async Task<CloudBlockBlob> GetBlobAsync(string blobName, string containerName)
+        {
+            if (!blobValidation.IsValidContainer(containerName))
+            {
+                return null;
+            }
+
+            var container = blobSettings.BlobContainer(containerName);
+
+            CloudBlockBlob blob = container.GetBlockBlobReference(blobName);
+
+            bool exists = await blob.ExistsAsync();
+
+            if (blob != null && blob.Exists())
+            {
+                return blob;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        //<summary>
+        //Returns the blob uri as a string
+        //</summary>
+        public async Task<Uri> GetBlobLocationAsync(string blobName, string containerName)
+        {
+            if (!blobValidation.IsValidContainer(containerName))
+            {
+                return null;
+            }
+
+            CloudBlockBlob blob = blobSettings.BlobContainer(containerName).GetBlockBlobReference(blobName);
+
+            bool exists = await blob.ExistsAsync();
+
+            if (blob != null && exists)
+            {
+                return blob.Uri;
+            }
+            else
+            {
+                return null;
+            }
         }
 
         //<summary>
