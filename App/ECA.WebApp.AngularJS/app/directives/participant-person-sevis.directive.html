@@ -140,7 +140,7 @@
                             style="height: 42px;"
                             ng-disabled="sevisinfo.blockEdit"                            
                             ng-click="edit.openStartDatePicker($event)">
-                        <i class="material-icons md-18">event</i>
+                        <i class="material-icons md-18" style="{{sevisinfo.blockEdit ? 'opacity: .5' : 'opacity: 1'}}">event</i>
                     </button>
                 </span>
             </p>
@@ -157,7 +157,7 @@
                        ng-model="sevisinfo.endDate"
                        is-open="edit.isEndDatePickerOpen"
                        ng-required="true"
-                       ng-disabled="sevisinfo.blockEdit"                       
+                       ng-disabled="sevisinfo.blockEdit" 
                        close-text="Close"
                        ng-change="edit.onEndDateChange()" />
                 <span class="input-group-btn">
@@ -166,7 +166,7 @@
                             style="height: 42px;"
                             ng-disabled="sevisinfo.blockEdit"
                             ng-click="edit.openEndDatePicker($event)">
-                        <i class="material-icons md-18">event</i>
+                        <i class="material-icons md-18" style="{{sevisinfo.blockEdit ? 'opacity: .5' : 'opacity: 1'}}">event</i>
                     </button>
                 </span>
             </p>

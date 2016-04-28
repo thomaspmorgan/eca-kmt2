@@ -146,14 +146,14 @@
                 }
 
                 $scope.edit.onDosStatusChange = function ($event, checkboxId, checked) {
-                    var ok = function () {
+                    //var ok = function () {
                         $scope.sevisinfo[checkboxId] = checked;
                         $scope.updatesevisinfo({ participantId: $scope.participantid });
                         sevisInfoCopy = angular.copy($scope.sevisinfo);
-                    };
-                    var cancel = function () {
-                        $scope.sevisinfo[checkboxId] = sevisInfoCopy[checkboxId];
-                    };
+                    //};
+                    //var cancel = function () {
+                    //    $scope.sevisinfo[checkboxId] = sevisInfoCopy[checkboxId];
+                    //};
                 }
 
                 $scope.edit.onStartDateChange = function () {
@@ -308,15 +308,15 @@
 
                 function onFormDateChange(form, sevisInfoPropertyName) {
                     if (form.$valid) {
-                        var ok = function () {
+                        //var ok = function () {
                             $scope.updatesevisinfo({ participantId: $scope.participantid });
                             sevisInfoCopy = angular.copy($scope.sevisinfo);
-                        };
-                        var cancel = function () {
-                            form.$setPristine();
-                            form.$setUntouched();
-                            $scope.sevisinfo[sevisInfoPropertyName] = sevisInfoCopy[sevisInfoPropertyName];
-                        };
+                        //};
+                        //var cancel = function () {
+                        //    form.$setPristine();
+                        //    form.$setUntouched();
+                        //    $scope.sevisinfo[sevisInfoPropertyName] = sevisInfoCopy[sevisInfoPropertyName];
+                        //};
                     }
                 }
                 
