@@ -100,6 +100,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECA.Net.Test", "ECA.Net.Tes
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECA.WebJobs.Sevis.Validation", "ECA.WebJobs.Sevis.Validation\ECA.WebJobs.Sevis.Validation.csproj", "{EE9005B0-2386-4FD5-B766-340C62A41C8E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECA.WebJobs.Sevis.Validation.Test", "ECA.WebJobs.Sevis.Validation.Test\ECA.WebJobs.Sevis.Validation.Test.csproj", "{1BC5386D-7EB5-410C-AE30-7A20262DDB7E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -334,6 +336,12 @@ Global
 		{EE9005B0-2386-4FD5-B766-340C62A41C8E}.DebugLocal|Any CPU.Build.0 = Debug|Any CPU
 		{EE9005B0-2386-4FD5-B766-340C62A41C8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EE9005B0-2386-4FD5-B766-340C62A41C8E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1BC5386D-7EB5-410C-AE30-7A20262DDB7E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1BC5386D-7EB5-410C-AE30-7A20262DDB7E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1BC5386D-7EB5-410C-AE30-7A20262DDB7E}.DebugLocal|Any CPU.ActiveCfg = Debug|Any CPU
+		{1BC5386D-7EB5-410C-AE30-7A20262DDB7E}.DebugLocal|Any CPU.Build.0 = Debug|Any CPU
+		{1BC5386D-7EB5-410C-AE30-7A20262DDB7E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1BC5386D-7EB5-410C-AE30-7A20262DDB7E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -376,5 +384,6 @@ Global
 		{C7ABECF2-7270-4BE3-A5F4-A4283323010F} = {C3FDDA8C-1DF8-496D-AE32-0F30F9F882BC}
 		{CA1D9A37-8A09-4BBD-8B88-406285D86B8C} = {851C49BD-532B-4F4B-A7FB-E7D6E3F33BA5}
 		{EE9005B0-2386-4FD5-B766-340C62A41C8E} = {547CB910-1116-4A9D-A5F2-57553270C16A}
+		{1BC5386D-7EB5-410C-AE30-7A20262DDB7E} = {851C49BD-532B-4F4B-A7FB-E7D6E3F33BA5}
 	EndGlobalSection
 EndGlobal
