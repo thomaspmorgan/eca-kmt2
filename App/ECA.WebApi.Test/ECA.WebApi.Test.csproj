@@ -99,6 +99,9 @@
       <HintPath>..\packages\Microsoft.Azure.Search.0.13.0-preview\lib\net40\Microsoft.Azure.Search.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.QualityTools.Testing.Fakes, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
     <Reference Include="Microsoft.Spatial, Version=6.13.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Spatial.6.13.0\lib\portable-net40+sl5+wp8+win8+wpa\Microsoft.Spatial.dll</HintPath>
       <Private>True</Private>
@@ -114,6 +117,10 @@
     <Reference Include="Microsoft.Threading.Tasks.Extensions.Desktop, Version=1.0.168.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.Extensions.Desktop.dll</HintPath>
       <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAzure.Storage, Version=5.0.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
+    <Reference Include="Microsoft.WindowsAzure.Storage.5.0.2.0.Fakes">
+      <HintPath>FakesAssemblies\Microsoft.WindowsAzure.Storage.5.0.2.0.Fakes.dll</HintPath>
     </Reference>
     <Reference Include="Moq, Version=4.2.1510.2205, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
       <HintPath>..\packages\Moq.4.2.1510.2205\lib\net40\Moq.dll</HintPath>
@@ -207,6 +214,7 @@
     <Compile Include="Controllers\Security\PrincipalsControllerTest.cs" />
     <Compile Include="Controllers\Security\ResourcesControllerTest.cs" />
     <Compile Include="Controllers\Security\UsersControllerTest.cs" />
+    <Compile Include="Custom\Storage\FileStorageHandlerTest.cs" />
     <Compile Include="InMemoryCamModelGenerator.generated.cs">
       <DependentUpon>InMemoryCamModelGenerator.tt</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -303,6 +311,10 @@
       <Project>{7ffb7ec5-462a-4997-9704-736f5af245e9}</Project>
       <Name>ECA.Business.Search</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ECA.Business.Storage\ECA.Business.Storage.csproj">
+      <Project>{8DD0C39A-6734-402F-8FDB-BAF9FB7697E0}</Project>
+      <Name>ECA.Business.Storage</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ECA.Business\ECA.Business.csproj">
       <Project>{0a7b54e3-736d-47b5-92fd-31d3bb416d8d}</Project>
       <Name>ECA.Business</Name>
@@ -326,6 +338,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <Fakes Include="Fakes\Microsoft.WindowsAzure.Storage.fakes" />
     <None Include="InMemoryCamModelGenerator.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>InMemoryCamModelGenerator.generated.cs</LastGenOutput>

@@ -176,11 +176,13 @@ namespace ECA.WebApi.Test.Controllers.Persons
         }
 
         [TestMethod]
-        public async Task GetDS2019FileAsync_BlobDoesNotExist()
+        public async Task GetDS2019FileAsync_NullMessage()
         {
             participantPersonSevisService.Setup(x => x.GetDS2019FileNameAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync("fileName.pdf");
             controller.Request = new HttpRequestMessage();
+            storageHandler.Setup(x => x.GetFileAsync(It.IsAny<string>(), It.IsAny<string>())).ReturnsAsync(null);
             var response = await controller.GetDS2019FileAsync(1, 1);
+            storageHandler.Verify(x => x.GetFileAsync(It.IsAny<string>(), It.IsAny<string>()), Times.Once());
             Assert.IsInstanceOfType(response, typeof(HttpResponseMessage));
             Assert.AreEqual(response.StatusCode, HttpStatusCode.NotFound);
         }

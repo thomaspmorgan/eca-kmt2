@@ -12,15 +12,31 @@ using System.Web.Http;
 
 namespace ECA.WebApi.Custom.Storage
 {
+    /// <summary>
+    /// Implementation of file storage handler
+    /// </summary>
     public class FileStorageHandler : IFileStorageHandler
     {
+        /// <summary>
+        /// The file storage service
+        /// </summary>
         private IFileStorageService fileStorageService;
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="fileStorageService">The file storage service</param>
         public FileStorageHandler(IFileStorageService fileStorageService)
         {
             this.fileStorageService = fileStorageService;
         }
 
+        /// <summary>
+        /// Get a file asyncronously
+        /// </summary>
+        /// <param name="fileName">The file name</param>
+        /// <param name="container">The container name</param>
+        /// <returns>Http response message with file</returns>
         public async Task<HttpResponseMessage> GetFileAsync(string fileName, string container)
         {
             var blob = fileStorageService.GetBlob(fileName, container);

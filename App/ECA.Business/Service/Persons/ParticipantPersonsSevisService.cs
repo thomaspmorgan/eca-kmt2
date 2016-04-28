@@ -172,11 +172,13 @@ namespace ECA.Business.Service.Persons
         {
             return Context.ParticipantPersonSevisCommStatuses.Where(x => x.ParticipantId == participantId && x.BatchId == batchId).Distinct();
         }
-        public string GetDS2019FileName(int projectId, int participantId)
-        {
-            throw new NotImplementedException();
-        }
 
+        /// <summary>
+        /// Gets DS2019 file name
+        /// </summary>
+        /// <param name="projectId">The project id</param>
+        /// <param name="participantId">The participant id</param>
+        /// <returns>The DS2019 file name</returns>
         public async Task<string> GetDS2019FileNameAsync(int projectId, int participantId)
         {
             String fileName = null;
