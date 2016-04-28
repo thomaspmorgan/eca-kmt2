@@ -444,7 +444,8 @@ namespace ECA.Business.Test.Service.Persons
                 {
                     ParticipantId = participantId,
                     ProjectId = projectId,
-                    Project = project
+                    Project = project,
+                    ParticipantPerson = participantPerson
                 };
                 participant.History.CreatedBy = creatorId;
                 participant.History.RevisedBy = creatorId;
@@ -631,7 +632,7 @@ namespace ECA.Business.Test.Service.Persons
             a.ShouldThrow<BusinessSecurityException>().WithMessage(message);
             f.ShouldThrow<BusinessSecurityException>().WithMessage(message);
         }
-        
+
         [TestMethod]
         public async Task TestUpdate_ParticipantSevisDataIsLocked()
         {
@@ -696,6 +697,7 @@ namespace ECA.Business.Test.Service.Persons
                 participantPerson.History.RevisedBy = creatorId;
                 participantPerson.History.CreatedOn = yesterday;
                 participantPerson.History.RevisedOn = yesterday;
+                participant.ParticipantPerson = participantPerson;
 
                 participantExchangeVisitor = new ParticipantExchangeVisitor
                 {
@@ -718,7 +720,7 @@ namespace ECA.Business.Test.Service.Persons
                     SevisCommStatus = queuedToSubmitStatus,
                     SevisCommStatusId = queuedToSubmitStatus.SevisCommStatusId,
                 };
-                
+
                 participantPerson.ParticipantPersonSevisCommStatuses.Add(commStatus);
                 context.Projects.Add(project);
                 context.Participants.Add(participant);
@@ -728,7 +730,7 @@ namespace ECA.Business.Test.Service.Persons
                 context.ParticipantPersonSevisCommStatuses.Add(commStatus);
                 context.ParticipantTypes.Add(individual);
             });
-            
+
             var updatedPersonParticipant = new UpdatedParticipantPerson(
                 updater: updater,
                 projectId: projectId,
@@ -813,6 +815,7 @@ namespace ECA.Business.Test.Service.Persons
                 participantPerson.History.RevisedBy = creatorId;
                 participantPerson.History.CreatedOn = yesterday;
                 participantPerson.History.RevisedOn = yesterday;
+                participant.ParticipantPerson = participantPerson;
 
                 participantExchangeVisitor = new ParticipantExchangeVisitor
                 {
@@ -885,7 +888,7 @@ namespace ECA.Business.Test.Service.Persons
                 Status = ParticipantStatus.Active.Value
             };
             var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
-            var creatorId = 1;
+            var createrId = 1;
             var updaterId = 2;
             var updater = new User(updaterId);
 
@@ -899,10 +902,11 @@ namespace ECA.Business.Test.Service.Persons
                 {
                     ParticipantId = participantId,
                     ProjectId = projectId,
-                    Project = project
+                    Project = project,
+                    ParticipantPerson = participantPerson
                 };
-                participant.History.CreatedBy = creatorId;
-                participant.History.RevisedBy = creatorId;
+                participant.History.CreatedBy = createrId;
+                participant.History.RevisedBy = createrId;
                 participant.History.CreatedOn = yesterday;
                 participant.History.RevisedOn = yesterday;
 
@@ -911,11 +915,11 @@ namespace ECA.Business.Test.Service.Persons
                     Participant = participant,
                     ParticipantId = participantId,
                 };
-                participantPerson.History.CreatedBy = creatorId;
-                participantPerson.History.RevisedBy = creatorId;
+                participantPerson.History.CreatedBy = createrId;
+                participantPerson.History.RevisedBy = createrId;
                 participantPerson.History.CreatedOn = yesterday;
                 participantPerson.History.RevisedOn = yesterday;
-
+                
                 context.Projects.Add(project);
                 context.ParticipantPersons.Add(participantPerson);
                 context.Participants.Add(participant);
@@ -989,7 +993,8 @@ namespace ECA.Business.Test.Service.Persons
                 {
                     ParticipantId = participantId,
                     ProjectId = projectId,
-                    Project = project
+                    Project = project,
+                    ParticipantPerson = participantPerson
                 };
                 project = new Project
                 {
@@ -1133,7 +1138,8 @@ namespace ECA.Business.Test.Service.Persons
                 {
                     ParticipantId = participantId,
                     ProjectId = projectId,
-                    Project = project
+                    Project = project,
+                    ParticipantPerson = participantPerson
                 };
                 
                 participant.History.CreatedBy = creatorId;
@@ -1227,7 +1233,8 @@ namespace ECA.Business.Test.Service.Persons
                 {
                     ParticipantId = participantId,
                     ProjectId = projectId,
-                    Project = project
+                    Project = project,
+                    ParticipantPerson = participantPerson
                 };
                 participant.History.CreatedBy = creatorId;
                 participant.History.RevisedBy = creatorId;
@@ -1324,7 +1331,8 @@ namespace ECA.Business.Test.Service.Persons
                 {
                     ParticipantId = participantId,
                     ProjectId = projectId,
-                    Project = project
+                    Project = project,
+                    ParticipantPerson = participantPerson
                 };
                 participant.History.CreatedBy = creatorId;
                 participant.History.RevisedBy = creatorId;
@@ -1421,7 +1429,8 @@ namespace ECA.Business.Test.Service.Persons
                 {
                     ParticipantId = participantId,
                     ProjectId = projectId,
-                    Project = project
+                    Project = project,
+                    ParticipantPerson = participantPerson
                 };
                 participant.History.CreatedBy = creatorId;
                 participant.History.RevisedBy = creatorId;

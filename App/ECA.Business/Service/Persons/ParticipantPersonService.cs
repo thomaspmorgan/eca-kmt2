@@ -64,16 +64,22 @@ namespace ECA.Business.Service.Persons
             };
             throwValidationErrorIfParticipantSevisInfoIsLocked = (participant) =>
             {
-                var sevisStatusId = participant.ParticipantPerson.ParticipantPersonSevisCommStatuses.OrderByDescending(x => x.AddedOn).Select(x => x.SevisCommStatusId).FirstOrDefault();
-
-                var response = new HttpResponseMessage(HttpStatusCode.PreconditionFailed)
+                if (participant.ParticipantPerson != null)
                 {
-                    Content = new StringContent(String.Format("An update was attempted on participant with id [{0}] but should have failed validation.",
-                        participant.ParticipantId), System.Text.Encoding.UTF8, "text/plain"),
-                    StatusCode = HttpStatusCode.PreconditionFailed
-                };
+                    var sevisStatusId = participant.ParticipantPerson.ParticipantPersonSevisCommStatuses.OrderByDescending(x => x.AddedOn).Select(x => x.SevisCommStatusId).FirstOrDefault();
 
-                throw new HttpResponseException(response);
+                    if (participant != null && IndexOfInt(LOCKED_SEVIS_COMM_STATUSES, sevisStatusId) != -1)
+                    {
+                        var response = new HttpResponseMessage(HttpStatusCode.PreconditionFailed)
+                        {
+                            Content = new StringContent(String.Format("An update was attempted on participant with id [{0}] but should have failed validation.",
+                            participant.ParticipantId), System.Text.Encoding.UTF8, "text/plain"),
+                            StatusCode = HttpStatusCode.PreconditionFailed
+                        };
+
+                        throw new HttpResponseException(response);
+                    }
+                }
             };
         }
 

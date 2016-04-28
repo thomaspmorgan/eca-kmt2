@@ -15,7 +15,10 @@ using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web.Http;
 using System.Threading.Tasks;
+using System.Net.Http;
+using System.Net;
 
 namespace ECA.Business.Test.Service.Persons
 {
@@ -3158,6 +3161,7 @@ namespace ECA.Business.Test.Service.Persons
                 Participant = participant,
                 ParticipantId = participant.ParticipantId,
             };
+            participant.ParticipantPerson = participantPerson;
             var participantExchangeVisitor = new ParticipantExchangeVisitor
             {
                 ParticipantId = participantId,
@@ -3219,13 +3223,17 @@ namespace ECA.Business.Test.Service.Persons
                                     null,
                                     default(int));
 
-            Func<Task> f = () =>
-            {
-                return service.UpdatePiiAsync(pii);
-            };
             var message = String.Format("An update was attempted on participant with id [{0}] but should have failed validation.",
                         participant.ParticipantId);
-            f.ShouldThrow<ValidationRulesException>().WithMessage(message);
+
+            try
+            {
+                var response = await service.UpdatePiiAsync(pii);
+            }
+            catch (WebException ex)
+            {
+                Assert.AreEqual(message, ex.Message);
+            }
         }
         
         #endregion

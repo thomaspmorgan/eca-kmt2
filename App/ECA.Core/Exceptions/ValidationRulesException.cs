@@ -6,7 +6,7 @@ namespace ECA.Core.Exceptions
     /// A ValidationRulesException is thrown when a validation exception has occurred within business
     /// logic that may not have been able to be detected outside of the business layer.
     /// </summary>
-    public class ValidationRulesException : System.Exception
+    public class ValidationRulesException : Exception
     {
         /// <summary>
         /// Creates a new ValidationRulesException.
