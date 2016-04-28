@@ -129,9 +129,9 @@ namespace ECA.Core.Settings
         public const string SEVIS_DS2019_STORAGE_CONNECTION_STRING_KEY = SEVIS_PREFIX + "SevisDS2019StorageConnection";
 
         /// <summary>
-        /// The ds 2019 file url prefix key.
+        /// The sevis comm cron schedule string key.
         /// </summary>
-        public const string SEVIS_DS2019_FILE_URI_PREFIX_KEY = SEVIS_PREFIX + "SevisDS2019FileUrlPrefix";
+        public const string SEVIS_COMM_CRON_SCHEDULE_KEY = SEVIS_PREFIX + "SevisCommCronSchedule";
 
         #endregion
 
@@ -310,9 +310,9 @@ namespace ECA.Core.Settings
         public string DS2019FileStorageContainer { get { return GetAppSetting(SEVIS_DS2019_STORAGE_CONTAINER); } }
 
         /// <summary>
-        /// Gets the sevis ds 2019 file uri prefix.
+        /// Gets the cron schedule string from the sevis comm webjob.
         /// </summary>
-        public string SevisDS2019FileUriPrefix { get { return GetAppSetting(SEVIS_DS2019_FILE_URI_PREFIX_KEY); } }
+        public string SevisCommCronSchedule { get { return GetAppSetting(SEVIS_COMM_CRON_SCHEDULE_KEY); } }
 
         /// <summary>
         /// Gets the active directory client id.

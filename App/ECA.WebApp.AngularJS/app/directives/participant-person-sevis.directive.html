@@ -115,7 +115,7 @@
         <input type="checkbox" ng-model="sevisinfo.isDS2019Printed" ng-disabled="sevisinfo.blockEdit" ng-click="edit.onDosStatusChange($event, 'isDS2019Printed', sevisinfo.isDS2019Printed)" /> DS 2019 Printed
     </div>
     <div class="form-group col-md-3" style="margin-bottom:0">
-        <a ng-click="printDS2019()"><i class="material-icons md-24">print</i> <span style="vertical-align:top">Print DS2019</span></a>
+        <a ng-click="downloadDS2019()" ng-if="sevisinfo.hasDS2019"><i class="material-icons md-24" style="vertical-align: middle;">file_download</i><span> Download DS2019</span></a>
     </div>
     <div class="col-md-3">&nbsp;</div>
 </div>

@@ -39,13 +39,13 @@ namespace ECA.Business.Storage.Test
         {
             using (ShimsContext.Create())
             {
-                appSettings.Add(AppSettings.SEVIS_DS2019_STORAGE_CONTAINER, "Storage Container");
                 connectionStrings.Add(new ConnectionStringSettings(AppSettings.SEVIS_DS2019_STORAGE_CONNECTION_STRING_KEY, "connection string"));
-                string containerString = settings.DS2019FileStorageContainer;
                 string connectionString = settings.DS2019FileStorageConnectionString.ConnectionString;
 
                 var expectedUriString = "http://wwww.google.com";
                 var expectedUri = new Uri(expectedUriString);
+
+                string containerString = "ds2019";
 
                 var containerShim = new Microsoft.WindowsAzure.Storage.Blob.Fakes.ShimCloudBlobContainer
                 {
@@ -74,7 +74,7 @@ namespace ECA.Business.Storage.Test
                     return storageAccountShim;
                 };
 
-                CloudBlobContainer actualContainer = blobStorageSettings.BlobContainer();
+                CloudBlobContainer actualContainer = blobStorageSettings.BlobContainer("ds2019");
 
                 Assert.IsTrue(object.ReferenceEquals(containerShim.Instance, actualContainer));
             }
@@ -95,7 +95,7 @@ namespace ECA.Business.Storage.Test
 
         //        var blockBlobShim = new Microsoft.WindowsAzure.Storage.Blob.Fakes.ShimCloudBlockBlob
         //        {
-                    
+
         //        };
 
         //        var containerShim = new Microsoft.WindowsAzure.Storage.Blob.Fakes.ShimCloudBlobContainer
@@ -152,52 +152,6 @@ namespace ECA.Business.Storage.Test
         //    }
         //}
 
-
-        [TestMethod]
-        public void TestUploadBlob()
-        {
-            using (ShimsContext.Create())
-            {
-                connectionStrings.Add(new ConnectionStringSettings(AppSettings.SEVIS_DS2019_STORAGE_CONNECTION_STRING_KEY, "connection string"));
-                string connectionString = settings.DS2019FileStorageConnectionString.ConnectionString;
-                var expectedUriString = "http://wwww.google.com";
-                var expectedUri = new Uri(expectedUriString);
-
-                byte[] blobData = new byte[1] { (byte)1 };
-                string contentType = "application/pdf";
-                string blobName = "Test_" + new Guid().ToString();
-
-                var shim = new Microsoft.WindowsAzure.Storage.Blob.Fakes.ShimCloudBlockBlob
-                {
-                    UploadFromByteArrayByteArrayInt32Int32AccessConditionBlobRequestOptionsOperationContext = (buffer, index, count, accessCondition, options, operationContext) =>
-                    {
-                        CollectionAssert.AreEqual(blobData, buffer);
-                    },
-
-                };
-                Microsoft.WindowsAzure.Storage.Blob.Fakes.ShimCloudBlob.AllInstances.UriGet = (blb) =>
-                {
-                    return expectedUri;
-                };
-                Action<string, string> callbackTester = (cntType, bName) =>
-                {
-                    Assert.AreEqual(contentType, cntType);
-                    Assert.AreEqual(blobName, bName);
-                };
-
-                iBlobStorageSettings.Setup(x => x.CreateBlockBlob(It.IsAny<string>(), It.IsAny<string>()))
-                    .Returns(shim)
-                    .Callback(callbackTester);
-                string blobUploadUri = service.UploadBlob(blobData, contentType, blobName);
-                Assert.AreEqual(expectedUri, blobUploadUri);
-
-                //Assert.AreEqual("https://" + settings.StorageName + ".blob.core.windows.net/" + settings.StorageContainer + "/" + blobName, blobUploadUri);
-                //Assert.AreEqual(blobUploadUri, service.GetBlobLocation(blobName));
-                //Assert.IsTrue(service.DeleteBlob(blobName));
-            }
-
-        }
-
         [TestMethod]
         public async Task TestUploadBlobAsync()
         {
@@ -212,6 +166,7 @@ namespace ECA.Business.Storage.Test
 
                 string contentType = "application/pdf";
                 string blobName = "Test_Async_" + new Guid().ToString();
+                string containerName = "ds2019";
 
                 var shim = new Microsoft.WindowsAzure.Storage.Blob.Fakes.ShimCloudBlockBlob
                 {
@@ -225,63 +180,25 @@ namespace ECA.Business.Storage.Test
                 {
                     return expectedUri;
                 };
-                Action<string, string> callbackTester = (cntType, bName) =>
+                Action<string, string, string> callbackTester = (cntType, bName, contName) =>
                 {
                     Assert.AreEqual(contentType, cntType);
                     Assert.AreEqual(blobName, bName);
                 };
 
-                iBlobStorageSettings.Setup(x => x.CreateBlockBlob(It.IsAny<string>(), It.IsAny<string>()))
+                iBlobStorageSettings.Setup(x => x.CreateBlockBlob(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
                     .Returns(shim)
                     .Callback(callbackTester);
-                string blobUploadUri = await service.UploadBlobAsync(blobData, contentType, blobName);
+                Uri blobUploadUri = service.UploadBlob(blobData, contentType, blobName, containerName);
+                Assert.AreEqual(expectedUri, blobUploadUri);
+
+                blobUploadUri = await service.UploadBlobAsync(blobData, contentType, blobName, containerName);
                 Assert.AreEqual(expectedUri, blobUploadUri);
             }
 
             //Assert.AreEqual("https://" + settings.StorageName + ".blob.core.windows.net/" + settings.StorageContainer + "/" + blobName, blobUploadUri);
             //Assert.AreEqual(blobUploadUri, service.GetBlobLocation(blobName));
             //Assert.IsTrue(await service.DeleteBlobAsync(blobName));
-        }
-
-        [TestMethod]
-        public void TestUploadBlob_Stream()
-        {
-            using (ShimsContext.Create())
-            {
-                connectionStrings.Add(new ConnectionStringSettings(AppSettings.SEVIS_DS2019_STORAGE_CONNECTION_STRING_KEY, "connection string"));
-                string connectionString = settings.DS2019FileStorageConnectionString.ConnectionString;
-                var expectedUriString = "http://wwww.google.com";
-                var expectedUri = new Uri(expectedUriString);
-
-                Stream blobData = new System.IO.MemoryStream();
-                string contentType = "application/pdf";
-                string blobName = "Test_" + new Guid().ToString();
-
-                var shim = new Microsoft.WindowsAzure.Storage.Blob.Fakes.ShimCloudBlockBlob
-                {
-                    UploadFromStreamStreamAccessConditionBlobRequestOptionsOperationContext = (blbData, accCond, reqOpts, opCntxt) =>
-                    {
-
-                    }
-
-                };
-                Microsoft.WindowsAzure.Storage.Blob.Fakes.ShimCloudBlob.AllInstances.UriGet = (blb) =>
-                {
-                    return expectedUri;
-                };
-                Action<string, string> callbackTester = (cntType, bName) =>
-                {
-                    Assert.AreEqual(contentType, cntType);
-                    Assert.AreEqual(blobName, bName);
-                };
-
-                iBlobStorageSettings.Setup(x => x.CreateBlockBlob(It.IsAny<string>(), It.IsAny<string>()))
-                    .Returns(shim)
-                    .Callback(callbackTester);
-                string blobUploadUri = service.UploadBlob(blobData, contentType, blobName);
-                Assert.AreEqual(expectedUri, blobUploadUri);
-            }
-
         }
 
         [TestMethod]
@@ -297,6 +214,7 @@ namespace ECA.Business.Storage.Test
                 Stream blobData = new System.IO.MemoryStream();
                 string contentType = "application/pdf";
                 string blobName = "Test_Async_" + new Guid().ToString();
+                string containerName = "ds2019";
 
                 var shim = new Microsoft.WindowsAzure.Storage.Blob.Fakes.ShimCloudBlockBlob
                 {
@@ -309,59 +227,23 @@ namespace ECA.Business.Storage.Test
                 {
                     return expectedUri;
                 };
-                Action<string, string> callbackTester = (cntType, bName) =>
+                Action<string, string, string> callbackTester = (cntType, bName, contName) =>
                 {
                     Assert.AreEqual(contentType, cntType);
                     Assert.AreEqual(blobName, bName);
                 };
 
-                iBlobStorageSettings.Setup(x => x.CreateBlockBlob(It.IsAny<string>(), It.IsAny<string>()))
+                iBlobStorageSettings.Setup(x => x.CreateBlockBlob(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
                     .Returns(shim)
                     .Callback(callbackTester);
-                string blobUploadUri = await service.UploadBlobAsync(blobData, contentType, blobName);
+
+                Uri blobUploadUri = service.UploadBlob(blobData, contentType, blobName, containerName);
                 Assert.AreEqual(expectedUri, blobUploadUri);
-            }
-        }
 
-        [TestMethod]
-        public void TestBlobUpload_EmptyArray()
-        {
-            using (ShimsContext.Create())
-            {
-                connectionStrings.Add(new ConnectionStringSettings(AppSettings.SEVIS_DS2019_STORAGE_CONNECTION_STRING_KEY, "connection string"));
-                string connectionString = settings.DS2019FileStorageConnectionString.ConnectionString;
-                var expectedUriString = "http://wwww.google.com";
-                var expectedUri = new Uri(expectedUriString);
+                blobUploadUri = await service.UploadBlobAsync(blobData, contentType, blobName, containerName);
+                Assert.AreEqual(expectedUri, blobUploadUri);
 
-                byte[] blobData = new byte[0];
-                string contentType = "application/pdf";
-                string blobName = "Test_" + new Guid().ToString();
-
-                var shim = new Microsoft.WindowsAzure.Storage.Blob.Fakes.ShimCloudBlockBlob
-                {
-                    UploadFromByteArrayByteArrayInt32Int32AccessConditionBlobRequestOptionsOperationContext = (buffer, index, count, accessCondition, options, operationContext) =>
-                    {
-                        CollectionAssert.AreEqual(blobData, buffer);
-                    },
-
-                };
-                Microsoft.WindowsAzure.Storage.Blob.Fakes.ShimCloudBlob.AllInstances.UriGet = (blb) =>
-                {
-                    return expectedUri;
-                };
-                Action<string, string> callbackTester = (cntType, bName) =>
-                {
-                    Assert.AreEqual(contentType, cntType);
-                    Assert.AreEqual(blobName, bName);
-                };
-
-                iBlobStorageSettings.Setup(x => x.CreateBlockBlob(It.IsAny<string>(), It.IsAny<string>()))
-                    .Returns(shim)
-                    .Callback(callbackTester);
-                string blobUploadUri = service.UploadBlob(blobData, contentType, blobName);
-                Assert.AreNotEqual(expectedUri, blobUploadUri);
-
-                //Assert.AreEqual("Invalid Array", service.UploadBlob(blobData, contentType, blobName));
+                
             }
         }
 
@@ -378,6 +260,7 @@ namespace ECA.Business.Storage.Test
                 byte[] blobData = new byte[0];
                 string contentType = "application/pdf";
                 string blobName = "Test_Async_" + new Guid().ToString();
+                string containerName = "ds2019";
 
                 var shim = new Microsoft.WindowsAzure.Storage.Blob.Fakes.ShimCloudBlockBlob
                 {
@@ -397,55 +280,17 @@ namespace ECA.Business.Storage.Test
                     Assert.AreEqual(blobName, bName);
                 };
 
-                iBlobStorageSettings.Setup(x => x.CreateBlockBlob(It.IsAny<string>(), It.IsAny<string>()))
+                iBlobStorageSettings.Setup(x => x.CreateBlockBlob(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
                     .Returns(shim)
                     .Callback(callbackTester);
-                string blobUploadUri = await service.UploadBlobAsync(blobData, contentType, blobName);
+
+                Uri blobUploadUri = service.UploadBlob(blobData, contentType, blobName, containerName);
+                Assert.AreNotEqual(expectedUri, blobUploadUri);
+
+                blobUploadUri = await service.UploadBlobAsync(blobData, contentType, blobName, containerName);
                 Assert.AreNotEqual(expectedUri, blobUploadUri);
 
                 //Assert.AreEqual("Invalid Array", await service.UploadBlobAsync(blobData, contentType, blobName));
-            }
-        }
-
-        [TestMethod]
-        public void TestBlobUpload_InvalidContentType()
-        {
-            using (ShimsContext.Create())
-            {
-                connectionStrings.Add(new ConnectionStringSettings(AppSettings.SEVIS_DS2019_STORAGE_CONNECTION_STRING_KEY, "connection string"));
-                string connectionString = settings.DS2019FileStorageConnectionString.ConnectionString;
-                var expectedUriString = "http://wwww.google.com";
-                var expectedUri = new Uri(expectedUriString);
-
-                byte[] blobData = new byte[1] { (byte)1 };
-                string contentType = "pdf";
-                string blobName = "Test_" + new Guid().ToString();
-
-                var shim = new Microsoft.WindowsAzure.Storage.Blob.Fakes.ShimCloudBlockBlob
-                {
-                    UploadFromByteArrayByteArrayInt32Int32AccessConditionBlobRequestOptionsOperationContext = (buffer, index, count, accessCondition, options, operationContext) =>
-                    {
-                        CollectionAssert.AreEqual(blobData, buffer);
-                    },
-
-                };
-                Microsoft.WindowsAzure.Storage.Blob.Fakes.ShimCloudBlob.AllInstances.UriGet = (blb) =>
-                {
-                    return expectedUri;
-                };
-                Action<string, string> callbackTester = (cntType, bName) =>
-                {
-                    Assert.AreEqual(contentType, cntType);
-                    Assert.AreEqual(blobName, bName);
-                };
-
-                iBlobStorageSettings.Setup(x => x.CreateBlockBlob(It.IsAny<string>(), It.IsAny<string>()))
-                    .Returns(shim)
-                    .Callback(callbackTester);
-                string blobUploadUri = service.UploadBlob(blobData, contentType, blobName);
-                Assert.AreNotEqual(expectedUri, blobUploadUri);
-
-                //Assert.AreEqual("Invalid Content Type", service.UploadBlob(blobData, contentType, blobName));
             }
         }
 
@@ -463,6 +308,7 @@ namespace ECA.Business.Storage.Test
 
                 string contentType = "pdf";
                 string blobName = "Test_Async_" + new Guid().ToString();
+                string containerName = "ds2019";
 
                 var shim = new Microsoft.WindowsAzure.Storage.Blob.Fakes.ShimCloudBlockBlob
                 {
@@ -482,10 +328,60 @@ namespace ECA.Business.Storage.Test
                     Assert.AreEqual(blobName, bName);
                 };
 
-                iBlobStorageSettings.Setup(x => x.CreateBlockBlob(It.IsAny<string>(), It.IsAny<string>()))
+                iBlobStorageSettings.Setup(x => x.CreateBlockBlob(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
                     .Returns(shim)
                     .Callback(callbackTester);
-                string blobUploadUri = await service.UploadBlobAsync(blobData, contentType, blobName);
+                Uri blobUploadUri = service.UploadBlob(blobData, contentType, blobName, containerName);
+                Assert.AreNotEqual(expectedUri, blobUploadUri);
+
+                blobUploadUri = await service.UploadBlobAsync(blobData, contentType, blobName, containerName);
+                Assert.AreNotEqual(expectedUri, blobUploadUri);
+
+                //Assert.AreEqual("Invalid Content Type", service.UploadBlobAsync(blobData, contentType, blobName));
+            }
+        }
+
+        [TestMethod]
+        public async Task TestBlobUploadAsync_InvalidContainerName()
+        {
+            using (ShimsContext.Create()) 
+            {
+                connectionStrings.Add(new ConnectionStringSettings(AppSettings.SEVIS_DS2019_STORAGE_CONNECTION_STRING_KEY, "connection string"));
+                string connectionString = settings.DS2019FileStorageConnectionString.ConnectionString;
+                var expectedUriString = "http://wwww.google.com";
+                var expectedUri = new Uri(expectedUriString);
+
+                byte[] blobData = new byte[1] { (byte)1 };
+
+                string contentType = "application/pdf";
+                string blobName = "Test_Async_" + new Guid().ToString();
+                string containerName = "";
+
+                var shim = new Microsoft.WindowsAzure.Storage.Blob.Fakes.ShimCloudBlockBlob
+                {
+                    UploadFromByteArrayAsyncByteArrayInt32Int32 = (buffer, index, count) =>
+                    {
+                        CollectionAssert.AreEqual(blobData, buffer);
+                        return Task.FromResult<Object>(null);
+                    },
+                };
+                Microsoft.WindowsAzure.Storage.Blob.Fakes.ShimCloudBlob.AllInstances.UriGet = (blb) =>
+                {
+                    return expectedUri;
+                };
+                Action<string, string> callbackTester = (cntType, bName) =>
+                {
+                    Assert.AreEqual(contentType, cntType);
+                    Assert.AreEqual(blobName, bName);
+                };
+
+                iBlobStorageSettings.Setup(x => x.CreateBlockBlob(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
+                    .Returns(shim)
+                    .Callback(callbackTester);
+                Uri blobUploadUri = service.UploadBlob(blobData, contentType, blobName, containerName);
+                Assert.AreNotEqual(expectedUri, blobUploadUri);
+
+                blobUploadUri = await service.UploadBlobAsync(blobData, contentType, blobName, containerName);
                 Assert.AreNotEqual(expectedUri, blobUploadUri);
 
                 //Assert.AreEqual("Invalid Content Type", service.UploadBlobAsync(blobData, contentType, blobName));
@@ -527,7 +423,7 @@ namespace ECA.Business.Storage.Test
         //        iBlobStorageSettings.Setup(x => x.CreateBlockBlob(It.IsAny<string>(), It.IsAny<string>()))
         //            .Returns(shim)
         //            .Callback(callbackTester);
-        //        string blobUploadUri = service.UploadBlob(blobData, contentType, blobName);
+        //        string blobUploadUri = service.UploadBlob(blobData, contentType, blobName, containerName);
         //        Assert.AreEqual(expectedUri, blobUploadUri);
         //    }
 
@@ -567,31 +463,30 @@ namespace ECA.Business.Storage.Test
         //        iBlobStorageSettings.Setup(x => x.CreateBlockBlob(It.IsAny<string>(), It.IsAny<string>()))
         //            .Returns(shim)
         //            .Callback(callbackTester);
-        //        string blobUploadUri = await service.UploadBlobAsync(blobData, contentType, blobName);
+        //        string blobUploadUri = await service.UploadBlobAsync(blobData, contentType, blobName, containerName);
         //        Assert.AreEqual(expectedUri, blobUploadUri);
         //    }
         //}
 
         [TestMethod]
-        public void TestDeleteBlob()
+        public async Task TestDeleteBlobAsync()
         {
             using (ShimsContext.Create())
             {
-                appSettings.Add(AppSettings.SEVIS_DS2019_STORAGE_CONTAINER, "Storage Container");
                 connectionStrings.Add(new ConnectionStringSettings(AppSettings.SEVIS_DS2019_STORAGE_CONNECTION_STRING_KEY, "connection string"));
-                string containerString = settings.DS2019FileStorageContainer;
                 string connectionString = settings.DS2019FileStorageConnectionString.ConnectionString;
 
                 bool deleted = false;
 
                 string blobName = "TestBlob";
+                string containerName = "ds2019";
 
                 var blobShim = new Microsoft.WindowsAzure.Storage.Blob.Fakes.ShimCloudBlockBlob
                 {
 
                 };
 
-                iBlobStorageSettings.Setup(x => x.CreateBlockBlob(It.IsAny<string>(), It.IsAny<string>()))
+                iBlobStorageSettings.Setup(x => x.CreateBlockBlob(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
                     .Returns(blobShim);
 
                 var shimContainer = new Microsoft.WindowsAzure.Storage.Blob.Fakes.ShimCloudBlobContainer
@@ -602,7 +497,7 @@ namespace ECA.Business.Storage.Test
                     }
                 };
 
-                iBlobStorageSettings.Setup(x => x.BlobContainer())
+                iBlobStorageSettings.Setup(x => x.BlobContainer("ds2019"))
                     .Returns(shimContainer);
 
                 Microsoft.WindowsAzure.Storage.Blob.Fakes.ShimCloudBlob.AllInstances.DeleteDeleteSnapshotsOptionAccessConditionBlobRequestOptionsOperationContext = (cBlob, snapOption, accCond, reqOpts, opsCont) =>
@@ -611,43 +506,10 @@ namespace ECA.Business.Storage.Test
                 };
 
                 Assert.IsFalse(deleted);
-                service.DeleteBlob(blobName);
+                service.DeleteBlob(blobName, containerName);
                 Assert.IsTrue(deleted);
-            }
-        }
 
-        [TestMethod]
-        public async Task TestDeleteBlobAsync()
-        {
-            using (ShimsContext.Create())
-            {
-                appSettings.Add(AppSettings.SEVIS_DS2019_STORAGE_CONTAINER, "Storage Container");
-                connectionStrings.Add(new ConnectionStringSettings(AppSettings.SEVIS_DS2019_STORAGE_CONNECTION_STRING_KEY, "connection string"));
-                string containerString = settings.DS2019FileStorageContainer;
-                string connectionString = settings.DS2019FileStorageConnectionString.ConnectionString;
-
-                bool deleted = false;
-
-                string blobName = "TestBlob";
-
-                var blobShim = new Microsoft.WindowsAzure.Storage.Blob.Fakes.ShimCloudBlockBlob
-                {
-
-                };
-
-                iBlobStorageSettings.Setup(x => x.CreateBlockBlob(It.IsAny<string>(), It.IsAny<string>()))
-                    .Returns(blobShim);
-
-                var shimContainer = new Microsoft.WindowsAzure.Storage.Blob.Fakes.ShimCloudBlobContainer
-                {
-                    GetBlockBlobReferenceString = (blbnm) =>
-                    {
-                        return blobShim;
-                    }
-                };
-
-                iBlobStorageSettings.Setup(x => x.BlobContainer())
-                    .Returns(shimContainer);
+                deleted = false;
 
                 Microsoft.WindowsAzure.Storage.Blob.Fakes.ShimCloudBlob.AllInstances.DeleteAsync = (cBlob) =>
                 {
@@ -656,53 +518,9 @@ namespace ECA.Business.Storage.Test
                 };
 
                 Assert.IsFalse(deleted);
-                await service.DeleteBlobAsync(blobName);
+                await service.DeleteBlobAsync(blobName, containerName);
                 Assert.IsTrue(deleted);
             }
-        }
-
-        [TestMethod]
-        public void TestDeleteBlob_InvalidName()
-        {
-            using (ShimsContext.Create())
-            {
-                appSettings.Add(AppSettings.SEVIS_DS2019_STORAGE_CONTAINER, "Storage Container");
-                connectionStrings.Add(new ConnectionStringSettings(AppSettings.SEVIS_DS2019_STORAGE_CONNECTION_STRING_KEY, "connection string"));
-                string containerString = settings.DS2019FileStorageContainer;
-                string connectionString = settings.DS2019FileStorageConnectionString.ConnectionString;
-
-                string blobName = "This Blob Doesn't Exist";
-
-                bool deleted = true;
-
-                var blobShim = new Microsoft.WindowsAzure.Storage.Blob.Fakes.ShimCloudBlockBlob
-                {
-
-                };
-
-                iBlobStorageSettings.Setup(x => x.CreateBlockBlob(It.IsAny<string>(), It.IsAny<string>()))
-                    .Returns(blobShim);
-
-                var shimContainer = new Microsoft.WindowsAzure.Storage.Blob.Fakes.ShimCloudBlobContainer
-                {
-                    GetBlockBlobReferenceString = (blbnm) =>
-                    {
-                        return blobShim;
-                    }
-                };
-
-                iBlobStorageSettings.Setup(x => x.BlobContainer())
-                    .Returns(shimContainer);
-
-                Microsoft.WindowsAzure.Storage.Blob.Fakes.ShimCloudBlob.AllInstances.DeleteDeleteSnapshotsOptionAccessConditionBlobRequestOptionsOperationContext = (cBlob, snapOption, accCond, reqOpts, opsCont) =>
-                {
-                    deleted = false;
-                };
-
-                service.DeleteBlob(blobName);
-                Assert.IsFalse(deleted);
-            }
-            //Assert.IsFalse(service.DeleteBlob("This blob doesn't exist"));
         }
 
         [TestMethod]
@@ -710,21 +528,20 @@ namespace ECA.Business.Storage.Test
         {
             using (ShimsContext.Create())
             {
-                appSettings.Add(AppSettings.SEVIS_DS2019_STORAGE_CONTAINER, "Storage Container");
                 connectionStrings.Add(new ConnectionStringSettings(AppSettings.SEVIS_DS2019_STORAGE_CONNECTION_STRING_KEY, "connection string"));
-                string containerString = settings.DS2019FileStorageContainer;
                 string connectionString = settings.DS2019FileStorageConnectionString.ConnectionString;
 
                 bool deleted = true;
 
                 string blobName = "TestBlob";
+                string containerName = "ds2019";
 
                 var blobShim = new Microsoft.WindowsAzure.Storage.Blob.Fakes.ShimCloudBlockBlob
                 {
 
                 };
 
-                iBlobStorageSettings.Setup(x => x.CreateBlockBlob(It.IsAny<string>(), It.IsAny<string>()))
+                iBlobStorageSettings.Setup(x => x.CreateBlockBlob(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
                     .Returns(blobShim);
 
                 var shimContainer = new Microsoft.WindowsAzure.Storage.Blob.Fakes.ShimCloudBlobContainer
@@ -735,8 +552,18 @@ namespace ECA.Business.Storage.Test
                     }
                 };
 
-                iBlobStorageSettings.Setup(x => x.BlobContainer())
+                iBlobStorageSettings.Setup(x => x.BlobContainer("ds2019"))
                     .Returns(shimContainer);
+
+                Microsoft.WindowsAzure.Storage.Blob.Fakes.ShimCloudBlob.AllInstances.DeleteDeleteSnapshotsOptionAccessConditionBlobRequestOptionsOperationContext = (cBlob, snapOption, accCond, reqOpts, opsCont) =>
+                {
+                    deleted = false;
+                };
+
+                service.DeleteBlob(blobName, containerName);
+                Assert.IsFalse(deleted);
+
+                deleted = true;
 
                 Microsoft.WindowsAzure.Storage.Blob.Fakes.ShimCloudBlob.AllInstances.DeleteAsync = (cBlob) =>
                 {
@@ -744,7 +571,7 @@ namespace ECA.Business.Storage.Test
                     return Task.FromResult<Object>(null);
                 };
 
-                await service.DeleteBlobAsync(blobName);
+                await service.DeleteBlobAsync(blobName, containerName);
                 Assert.IsFalse(deleted);
 
             }
@@ -756,19 +583,18 @@ namespace ECA.Business.Storage.Test
         {
             using (ShimsContext.Create())
             {
-                appSettings.Add(AppSettings.SEVIS_DS2019_STORAGE_CONTAINER, "Storage Container");
                 connectionStrings.Add(new ConnectionStringSettings(AppSettings.SEVIS_DS2019_STORAGE_CONNECTION_STRING_KEY, "connection string"));
-                string containerString = settings.DS2019FileStorageContainer;
                 string connectionString = settings.DS2019FileStorageConnectionString.ConnectionString;
 
                 string blobName = "TestBlob";
+                string containerName = "ds2019";
 
                 var blobShim = new Microsoft.WindowsAzure.Storage.Blob.Fakes.ShimCloudBlockBlob
                 {
 
                 };
 
-                iBlobStorageSettings.Setup(x => x.CreateBlockBlob(It.IsAny<string>(), It.IsAny<string>()))
+                iBlobStorageSettings.Setup(x => x.CreateBlockBlob(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
                     .Returns(blobShim);
 
                 var shimContainer = new Microsoft.WindowsAzure.Storage.Blob.Fakes.ShimCloudBlobContainer
@@ -779,7 +605,7 @@ namespace ECA.Business.Storage.Test
                     }
                 };
 
-                iBlobStorageSettings.Setup(x => x.BlobContainer())
+                iBlobStorageSettings.Setup(x => x.BlobContainer("ds2019"))
                     .Returns(shimContainer);
 
                 Microsoft.WindowsAzure.Storage.Blob.Fakes.ShimCloudBlob.AllInstances.ExistsBlobRequestOptionsOperationContext = (blob, opts, contxt) =>
@@ -787,7 +613,7 @@ namespace ECA.Business.Storage.Test
                     return true;
                 };
 
-                var testInstance = service.GetBlob(blobName);
+                var testInstance = service.GetBlob(blobName, containerName);
 
                 Assert.IsNotNull(testInstance);
             }
@@ -798,12 +624,11 @@ namespace ECA.Business.Storage.Test
         {
             using (ShimsContext.Create())
             {
-                appSettings.Add(AppSettings.SEVIS_DS2019_STORAGE_CONTAINER, "Storage Container");
                 connectionStrings.Add(new ConnectionStringSettings(AppSettings.SEVIS_DS2019_STORAGE_CONNECTION_STRING_KEY, "connection string"));
-                string containerString = settings.DS2019FileStorageContainer;
                 string connectionString = settings.DS2019FileStorageConnectionString.ConnectionString;
 
                 string blobName = "TestBlob";
+                string containerName = "ds2019";
 
                 string blobUriString = "http://www.google.com";
 
@@ -812,7 +637,7 @@ namespace ECA.Business.Storage.Test
 
                 };
 
-                iBlobStorageSettings.Setup(x => x.CreateBlockBlob(It.IsAny<string>(), It.IsAny<string>()))
+                iBlobStorageSettings.Setup(x => x.CreateBlockBlob(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
                     .Returns(blobShim);
 
                 var shimContainer = new Microsoft.WindowsAzure.Storage.Blob.Fakes.ShimCloudBlobContainer
@@ -823,7 +648,7 @@ namespace ECA.Business.Storage.Test
                     }
                 };
 
-                iBlobStorageSettings.Setup(x => x.BlobContainer())
+                iBlobStorageSettings.Setup(x => x.BlobContainer("ds2019"))
                     .Returns(shimContainer);
 
                 Microsoft.WindowsAzure.Storage.Blob.Fakes.ShimCloudBlob.AllInstances.ExistsBlobRequestOptionsOperationContext = (blob, opts, contxt) =>
@@ -836,7 +661,7 @@ namespace ECA.Business.Storage.Test
                     return new Uri(blobUriString);
                 };
 
-                var testInstance = service.GetBlobLocation(blobName);
+                var testInstance = service.GetBlobLocation(blobName, containerName);
 
                 Assert.IsNotNull(testInstance);
             }
@@ -847,12 +672,11 @@ namespace ECA.Business.Storage.Test
         {
             using (ShimsContext.Create())
             {
-                appSettings.Add(AppSettings.SEVIS_DS2019_STORAGE_CONTAINER, "Storage Container");
                 connectionStrings.Add(new ConnectionStringSettings(AppSettings.SEVIS_DS2019_STORAGE_CONNECTION_STRING_KEY, "connection string"));
-                string containerString = settings.DS2019FileStorageContainer;
                 string connectionString = settings.DS2019FileStorageConnectionString.ConnectionString;
 
                 string blobName = "This Blob Doesn't Exist";
+                string containerName = "ds2019";
 
                 string blobUriString = "http://www.google.com"; //Blob location
                 var blobUri = new Uri(blobUriString);
@@ -862,7 +686,7 @@ namespace ECA.Business.Storage.Test
 
                 };
 
-                iBlobStorageSettings.Setup(x => x.CreateBlockBlob(It.IsAny<string>(), It.IsAny<string>()))
+                iBlobStorageSettings.Setup(x => x.CreateBlockBlob(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
                     .Returns(blobShim);
 
                 var shimContainer = new Microsoft.WindowsAzure.Storage.Blob.Fakes.ShimCloudBlobContainer
@@ -873,7 +697,7 @@ namespace ECA.Business.Storage.Test
                     }
                 };
 
-                iBlobStorageSettings.Setup(x => x.BlobContainer())
+                iBlobStorageSettings.Setup(x => x.BlobContainer("ds2019"))
                     .Returns(shimContainer);
 
                 Microsoft.WindowsAzure.Storage.Blob.Fakes.ShimCloudBlob.AllInstances.ExistsBlobRequestOptionsOperationContext = (blb, opts, contxt) =>
@@ -881,7 +705,7 @@ namespace ECA.Business.Storage.Test
                     return false;
                 };
 
-                CloudBlob blob = service.GetBlob(blobName);
+                CloudBlob blob = service.GetBlob(blobName, containerName);
                 Assert.IsNull(blob);
             }
 
@@ -900,6 +724,7 @@ namespace ECA.Business.Storage.Test
                 string connectionString = settings.DS2019FileStorageConnectionString.ConnectionString;
 
                 string blobName = "Null Blob";
+                string containerName = "ds2019";
 
                 string blobUriString = "http://www.google.com";
                 var blobUri = new Uri(blobUriString);
@@ -925,18 +750,107 @@ namespace ECA.Business.Storage.Test
                     }
                 };
 
-                iBlobStorageSettings.Setup(x => x.BlobContainer()).Returns(containerShim);
+                iBlobStorageSettings.Setup(x => x.BlobContainer("ds2019")).Returns(containerShim);
 
                 Microsoft.WindowsAzure.Storage.Blob.Fakes.ShimCloudBlobContainer.AllInstances.GetBlobReferenceString = (container, blbnam) =>
                 {
                     return expectedBlobShim;
                 };
 
-                string blobLocation = service.GetBlobLocation(blobName);
+                Uri blobLocation = service.GetBlobLocation(blobName, containerName);
                 Assert.AreNotEqual(blobUriString, blobLocation);
             }
 
             //Assert.AreEqual("Invalid Blob Name", service.GetBlobLocation("This blob doesn't exist"));
+        }
+
+        [TestMethod]
+        public void TestGetBlob_InvalidContainer()
+        {
+            using (ShimsContext.Create())
+            {
+                connectionStrings.Add(new ConnectionStringSettings(AppSettings.SEVIS_DS2019_STORAGE_CONNECTION_STRING_KEY, "connection string"));
+                string connectionString = settings.DS2019FileStorageConnectionString.ConnectionString;
+
+                string blobName = "TestBlob";
+                string containerName = "";
+
+                var blobShim = new Microsoft.WindowsAzure.Storage.Blob.Fakes.ShimCloudBlockBlob
+                {
+
+                };
+
+                iBlobStorageSettings.Setup(x => x.CreateBlockBlob(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
+                    .Returns(blobShim);
+
+                var shimContainer = new Microsoft.WindowsAzure.Storage.Blob.Fakes.ShimCloudBlobContainer
+                {
+                    GetBlockBlobReferenceString = (blbnm) =>
+                    {
+                        return blobShim;
+                    }
+                };
+
+                iBlobStorageSettings.Setup(x => x.BlobContainer("ds2019"))
+                    .Returns(shimContainer);
+
+                Microsoft.WindowsAzure.Storage.Blob.Fakes.ShimCloudBlob.AllInstances.ExistsBlobRequestOptionsOperationContext = (blob, opts, contxt) =>
+                {
+                    return true;
+                };
+
+                var testInstance = service.GetBlob(blobName, containerName);
+
+                Assert.IsNull(testInstance);
+            }
+        }
+
+        [TestMethod]
+        public void TestGetBlobLocation_InvalidContainer()
+        {
+            using (ShimsContext.Create())
+            {
+                connectionStrings.Add(new ConnectionStringSettings(AppSettings.SEVIS_DS2019_STORAGE_CONNECTION_STRING_KEY, "connection string"));
+                string connectionString = settings.DS2019FileStorageConnectionString.ConnectionString;
+
+                string blobName = "TestBlob";
+                string containerName = "";
+
+                string blobUriString = "http://www.google.com";
+
+                var blobShim = new Microsoft.WindowsAzure.Storage.Blob.Fakes.ShimCloudBlockBlob
+                {
+
+                };
+
+                iBlobStorageSettings.Setup(x => x.CreateBlockBlob(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
+                    .Returns(blobShim);
+
+                var shimContainer = new Microsoft.WindowsAzure.Storage.Blob.Fakes.ShimCloudBlobContainer
+                {
+                    GetBlockBlobReferenceString = (blbnm) =>
+                    {
+                        return blobShim;
+                    }
+                };
+
+                iBlobStorageSettings.Setup(x => x.BlobContainer("ds2019"))
+                    .Returns(shimContainer);
+
+                Microsoft.WindowsAzure.Storage.Blob.Fakes.ShimCloudBlob.AllInstances.ExistsBlobRequestOptionsOperationContext = (blob, opts, contxt) =>
+                {
+                    return true;
+                };
+
+                Microsoft.WindowsAzure.Storage.Blob.Fakes.ShimCloudBlob.AllInstances.UriGet = (blb) =>
+                {
+                    return new Uri(blobUriString);
+                };
+
+                var testInstance = service.GetBlobLocation(blobName, containerName);
+
+                Assert.IsNull(testInstance);
+            }
         }
     }
 }

@@ -882,5 +882,36 @@ namespace ECA.Business.Test.Service.Persons
 
         }
         #endregion
+
+        #region GetDS2019FileName
+        [TestMethod]
+        public async Task TestGetDS2019FileNameAsync()
+        {
+            var participantPerson = new ParticipantPerson
+            {
+                ParticipantId = 1,
+                DS2019FileName = "test.pdf"
+            };
+
+            context.ParticipantPersons.Add(participantPerson);
+
+            var response = await sevisService.GetDS2019FileNameAsync(1, 1);
+
+            Assert.AreEqual(participantPerson.DS2019FileName, response);
+        }
+
+        [TestMethod]
+        public async Task TestGetDS2019FileNameAsync_NullFileName()
+        {
+            var participantPerson = new ParticipantPerson
+            {
+                ParticipantId = 1
+            };
+
+            var response = await sevisService.GetDS2019FileNameAsync(1, 1);
+
+            Assert.IsNull(participantPerson.DS2019FileName);
+        }
+        #endregion
     }
 }
