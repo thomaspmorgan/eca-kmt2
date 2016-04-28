@@ -203,8 +203,8 @@ namespace ECA.WebApi.App_Start
             }));
             container.RegisterType<IDefaultExchangeVisitorFundingService, DefaultExchangeVisitorFundingService>(new HierarchicalLifetimeManager());
             container.RegisterType<IFileStorageHandler, FileStorageHandler>(new HierarchicalLifetimeManager());
-            container.RegisterType<IFileStorageService>(new HierarchicalLifetimeManager());
-            container.RegisterType<IBlobStorageSettings>(new HierarchicalLifetimeManager());
+            container.RegisterType<IFileStorageService, FileStorageService>(new HierarchicalLifetimeManager());
+            container.RegisterType<IBlobStorageSettings, BlobStorageSettings>(new HierarchicalLifetimeManager());
         }
 
         /// <summary>
