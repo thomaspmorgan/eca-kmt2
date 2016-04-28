@@ -4,22 +4,29 @@
 <div class="modal-body" in-context-form>
     <div ng-show="!view.isSaving && !view.isLoadingRequiredData && !view.isCopyingMoneyFlow">
         <form name="form.newMoneyFlow">
-            <div class="form-group" id="transactionType">
-                <span class="moneyFlowDirection"
-                      ng-class="{directionSelected: !view.moneyFlow.isOutgoing}"
-                      ng-disabled="view.moneyFlow.isExpense"
-                      ng-click="view.toggleIncomingOutgoing(view.incomingDirectionKey)">
-                    Incoming
-                </span>
-                <span class="moneyFlowDirection"
-                      ng-class="{directionSelected: view.moneyFlow.isOutgoing}"
-                      ng-click="view.toggleIncomingOutgoing(view.outgoingDirectionKey)">
-                    Outgoing
-                </span>
-            </div>
-            <hr />
-            <div class="row">
-                <div class="form-group col-md-6">
+            <div class="row row2">
+                <div class="col-md-4">
+                    <label>Incoming/Outgoing</label>
+                    <div style="padding-top:10px;">
+                        <label class="radio-inline">
+                            <input type="radio"
+                                   ng-value="false"
+                                   ng-model="view.moneyFlow.isOutgoing"
+                                   ng-disabled="view.moneyFlow.IsExpense"
+                                   ng-click="view.toggleIncomingOutgoing(view.incomingDirectionKey)"/>Incoming
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio"
+                                   ng-value="true"
+                                   ng-model="view.moneyFlow.isOutgoing" 
+                                   ng-click="view.toggleIncomingOutgoing(view.outgoingDirectionKey)"/>Outgoing
+                        </label>
+                    </div>
+                    <div style="padding-top:10px;" ng-show="view.moneyFlow.parentMoneyFlowId">
+                        <span>Direct</span>
+                    </div>
+                </div>
+                <div class="form-group col-md-4">
                     <label>Status <eca-required /></label>
                     <div>
                         <select class="form-control"
@@ -33,7 +40,7 @@
                         <div class="error" ng-show="form.newMoneyFlow.moneyFlowStatusId.$error.required">Please select a status.</div>
                     </div>
                 </div>
-                <div class="form-group col-md-6">
+                <div class="form-group col-md-4">
                     <label>Grant Number</label>
                     <div>
                         <input class="form-control"
@@ -44,7 +51,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
+            <div class="row row2">
                 <div class="form-group col-md-4">
                     <div>
                         &nbsp;
@@ -131,7 +138,6 @@
                     </div>
                 </div>
             </div>
-            <hr />
             <div class="row">
                 <div class="form-group col-md-4">
                     <label>Transaction Date <eca-required /></label>
@@ -194,7 +200,6 @@
                     </div>
                 </div>
             </div>
-            <hr />
             <div class="row">
                 <div class="col-md-12 form-group">
                     <div>
@@ -244,7 +249,6 @@
                     </div>
                 </div>
             </div>
-            <hr />
             <div class="row">
                 <div class="col-md-6">
                     <label>Remaining Unassigned Funds From Source</label>
@@ -261,7 +265,7 @@
                            ui-validate="{exceedsSourceAmount: 'view.validateSourceRemainingAmount($value)'}"
                            min="0"
                            class="form-control"
-                           ui-money-mask="2"
+                           ui-money-mask="0"
                            ng-model="view.moneyFlow.value"
                            placeholder="Enter amount."
                            ng-required="true"
@@ -275,10 +279,9 @@
                     </div>
                 </div>
             </div>
-            <hr />
             <div class="row">
                 <div class="form-group col-md-12">
-                    <label>Description <eca-required /></label>
+                    <label>Description </label>
                     <div>
                         <textarea name="description"
                                   maxlength="{{view.maxDescriptionLength}}"
@@ -286,11 +289,7 @@
                                   ng-model="view.moneyFlow.description"
                                   form-element guidance="This is the description of the funding."
                                   id="description"
-                                  required
                                   placeholder="Enter description..."></textarea>
-                        <div ng-show="form.newMoneyFlow.description.$dirty">
-                            <div class="error" ng-show="form.newMoneyFlow.description.$error.required ">Please enter a description.</div>
-                        </div>
                         <p class="mute" style="margin-top:5px;">{{view.moneyFlow.description.length}} of {{view.maxDescriptionLength}} characters remaining.</p>
                     </div>
                 </div>

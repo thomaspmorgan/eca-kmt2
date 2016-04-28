@@ -97,10 +97,11 @@ namespace ECA.Business.Service.Fundings
         /// <returns>The enumerated errors.</returns>
         public override IEnumerable<BusinessValidationResult> DoValidateCreate(MoneyFlowServiceCreateValidationEntity validationEntity)
         {
-            if (String.IsNullOrWhiteSpace(validationEntity.Description))
-            {
-                yield return new BusinessValidationResult<AdditionalMoneyFlow>(x => x.Description, INVALID_DESCRIPTION_ERROR_MESSAGE);
-            }
+            // Per CE Pilot, description can be null 
+            //if (String.IsNullOrWhiteSpace(validationEntity.Description))
+            //{
+            //    yield return new BusinessValidationResult<AdditionalMoneyFlow>(x => x.Description, INVALID_DESCRIPTION_ERROR_MESSAGE);
+            //}
             if (validationEntity.Description != null && validationEntity.Description.Length > MoneyFlow.DESCRIPTION_MAX_LENGTH)
             {
                 yield return new BusinessValidationResult<AdditionalMoneyFlow>(x => x.Description, String.Format(DESCRIPTION_EXCEEDS_MAX_LENGTH_FORMAT, MoneyFlow.DESCRIPTION_MAX_LENGTH));
@@ -172,10 +173,11 @@ namespace ECA.Business.Service.Fundings
 
         public override IEnumerable<BusinessValidationResult> DoValidateUpdate(MoneyFlowServiceUpdateValidationEntity validationEntity)
         {
-            if (String.IsNullOrWhiteSpace(validationEntity.Description))
-            {
-                yield return new BusinessValidationResult<UpdatedMoneyFlow>(x => x.Description, INVALID_DESCRIPTION_ERROR_MESSAGE);
-            }
+            // Per CE Pilot, description can be null (not required)
+            //if (String.IsNullOrWhiteSpace(validationEntity.Description))
+            //{
+            //    yield return new BusinessValidationResult<UpdatedMoneyFlow>(x => x.Description, INVALID_DESCRIPTION_ERROR_MESSAGE);
+            //}
             if (validationEntity.Description != null && validationEntity.Description.Length > MoneyFlow.DESCRIPTION_MAX_LENGTH)
             {
                 yield return new BusinessValidationResult<UpdatedMoneyFlow>(x => x.Description, String.Format(DESCRIPTION_EXCEEDS_MAX_LENGTH_FORMAT, MoneyFlow.DESCRIPTION_MAX_LENGTH));

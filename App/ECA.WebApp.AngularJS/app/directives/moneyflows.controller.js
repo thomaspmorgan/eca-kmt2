@@ -456,10 +456,10 @@ angular.module('staticApp')
           var dfd = $q.defer();
 
           if (moneyFlow.sourceRecipientEntityTypeId !== ConstantsService.moneyFlowSourceRecipientType.participant.id) {
-              dfd.resolve(StateService.getStateByMoneyFlowSourceRecipientType(moneyFlow.sourceRecipientEntityId, moneyFlow.sourceRecipientEntityTypeId));
+              dfd.resolve(StateService.getStateByMoneyFlowSourceRecipientType(moneyFlow.sourceRecipientEntityId, moneyFlow.sourceRecipientEntityTypeId, moneyFlow.isFundingSource));
           }
           else {
-              StateService.getStateByMoneyFlowSourceRecipientType(moneyFlow.sourceRecipientEntityId, moneyFlow.sourceRecipientEntityTypeId)
+              StateService.getStateByMoneyFlowSourceRecipientType(moneyFlow.sourceRecipientEntityId, moneyFlow.sourceRecipientEntityTypeId, moneyFlow.isFundingSource)
               .then(function (result) {
                   dfd.resolve(result);
               })
@@ -475,7 +475,8 @@ angular.module('staticApp')
       function loadMoneyFlows(params, tableState) {
           $scope.view.isLoadingMoneyFlows = true;
           var entityId = $scope.view.entityId;
-          var fn = getMoneyFlowServiceFunctionByTypeId($scope.sourceEntityTypeId);
+          var sourceEntityTypeId = $scope.sourceEntityTypeId;
+          var fn = getMoneyFlowServiceFunctionByTypeId(sourceEntityTypeId);
           return fn(entityId, params)
           .then(function (response) {
               $log.info('Loading money flows...');
