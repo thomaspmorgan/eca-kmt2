@@ -76,10 +76,13 @@ angular.module('staticApp')
               }
           },
 
-          getStateByMoneyFlowSourceRecipientType: function (entityId, moneyFlowSourceReceipientTypeId) {
+          getStateByMoneyFlowSourceRecipientType: function (entityId, moneyFlowSourceReceipientTypeId, isSourceFunding) {
               console.assert(service.isStateAvailableByMoneyFlowSourceRecipientTypeId(moneyFlowSourceReceipientTypeId), "The state is not supported for the money flow source recipient type.");
               if (moneyFlowSourceReceipientTypeId === ConstantsService.moneyFlowSourceRecipientType.organization.id) {
-                  return service.getOrganizationState(entityId);
+                  if (isSourceFunding)
+                      return service.getFundingState(entityId)
+                  else
+                      return service.getOrganizationState(entityId);
               }
               if (moneyFlowSourceReceipientTypeId === ConstantsService.moneyFlowSourceRecipientType.program.id) {
                   return service.getProgramState(entityId);

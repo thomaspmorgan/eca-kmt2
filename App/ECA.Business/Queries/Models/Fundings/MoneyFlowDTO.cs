@@ -130,5 +130,11 @@ namespace ECA.Business.Queries.Models.Fundings
         /// Gets or sets whether this money flow item has children money flows.
         /// </summary>
         public bool HasChildren { get; set; }
+
+        /// <summary>
+        /// Gets or sets whether this money flow item is a Funding Source
+        /// </summary>
+        public bool IsFundingSource { get; set; }
+
     }
 }
