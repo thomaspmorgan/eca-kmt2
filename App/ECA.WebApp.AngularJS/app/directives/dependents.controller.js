@@ -188,10 +188,7 @@ angular.module('staticApp')
               var removedItems = dependents.splice(index, 1);
               $scope.model.dependents = dependents;
               $log.info('Removed dependent at index ' + index);
-          } else {
-              $log.info('Could not remove dependent');
-          }
-          
+          }          
       });
 
   });

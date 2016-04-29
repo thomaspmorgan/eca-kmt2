@@ -145,7 +145,6 @@
     <Compile Include="Exceptions\ModelNotFoundException.cs" />
     <Compile Include="Exceptions\UniqueModelException.cs" />
     <Compile Include="Exceptions\UnknownStaticLookupException.cs" />
-    <Compile Include="Exceptions\ValidationRulesException.cs" />
     <Compile Include="Generation\DbContextStaticLookupValidator.cs" />
     <Compile Include="Generation\IStaticGeneratorValidator.cs" />
     <Compile Include="Generation\IStaticLookup.cs" />

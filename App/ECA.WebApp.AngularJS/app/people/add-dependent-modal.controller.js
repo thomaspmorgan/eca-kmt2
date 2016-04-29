@@ -60,6 +60,17 @@ angular.module('staticApp')
           }
       };
 
+      $scope.setMaxBirthDate = function (dependentType) {
+          if (dependentType === 3) {
+              // child
+              var today = new Date();
+              $scope.maxDateOfBirth = today.setFullYear(today.getFullYear() - 21);
+          } else {
+              // spouse
+              $scope.maxDateOfBirth = new Date();
+          }
+      }
+
       $scope.isDependentPlaceOfBirthValid = function ($value) {
           if ($value === 0 || $value === null) {
               return false;
