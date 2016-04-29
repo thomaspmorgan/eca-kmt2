@@ -130,6 +130,8 @@
                     if (newValue && !sevisInfoCopy) {
                         sevisInfoCopy = angular.copy(newValue);
                         projectId = newValue.projectId;
+                    } if (newValue != oldValue) {
+                        getSevisCommStatusesPage();
                     }
                 });
 
@@ -300,7 +302,7 @@
                         keyword: paginationOptions.keyword,
                         filter: paginationOptions.filter
                     };
-                    return ParticipantPersonsSevisService.getSevisCommStatuses(projectId, participantId, params)
+                    return ParticipantPersonsSevisService.getSevisCommStatuses(projectId, $scope.participantid, params)
                     .then(function (response) {
                         $scope.view.gridOptions.totalItems = response.data.total;
                         $scope.view.gridOptions.data = response.data.results;
