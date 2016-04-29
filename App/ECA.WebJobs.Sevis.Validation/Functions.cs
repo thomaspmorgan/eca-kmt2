@@ -15,23 +15,27 @@ using ECA.Core.DynamicLinq.Sorter;
 
 namespace ECA.WebJobs.Sevis.Validation
 {
+    /// <summary>
+    /// The Functions class defines the validation webjob that should be executed.
+    /// </summary>
     public class Functions
     {
-        private IParticipantPersonsSevisService service;
+        private IParticipantPersonsSevisService participantPersonsSevisService;
         private IExchangeVisitorValidationService exchangeVisitorValidationService;
         private AppSettings appSettings;
 
         /// <summary>
         /// Creates a new instance with the service to use and the app settings.
         /// </summary>
-        /// <param name="service">The service.</param>
+        /// <param name="participantPersonsSevisService">The service.</param>
+        /// <param name="exchangeVisitorValidationService">The exchange visitor validation service.</param>
         /// <param name="appSettings">The app settings.</param>
-        public Functions(IParticipantPersonsSevisService service, IExchangeVisitorValidationService exchangeVisitorValidationService, AppSettings appSettings)
+        public Functions(IParticipantPersonsSevisService participantPersonsSevisService, IExchangeVisitorValidationService exchangeVisitorValidationService, AppSettings appSettings)
         {
-            Contract.Requires(service != null, "The service must not be null.");
+            Contract.Requires(participantPersonsSevisService != null, "The service must not be null.");
             Contract.Requires(appSettings != null, "The app settings must not be null.");
             Contract.Requires(exchangeVisitorValidationService != null, "The exchange visitor validation service must not be null.");
-            this.service = service;
+            this.participantPersonsSevisService = participantPersonsSevisService;
             this.appSettings = appSettings;
             this.exchangeVisitorValidationService = exchangeVisitorValidationService;
         }
@@ -59,23 +63,23 @@ namespace ECA.WebJobs.Sevis.Validation
         {
             Console.WriteLine(String.Format("Starting validation on exchange visitors."));
             var queryOperator = new QueryableOperator<ReadyToValidateParticipantDTO>(0, 25, new ExpressionSorter<ReadyToValidateParticipantDTO>(x => x.ParticipantId, SortDirection.Ascending));
-            var results = await service.GetReadyToValidateParticipantsAsync(queryOperator);
+            var results = await participantPersonsSevisService.GetReadyToValidateParticipantsAsync(queryOperator);
             Console.WriteLine(String.Format("Found [{0}] total participants to validate.", results.Total));
-            while(results.Total > 0)
+            while (results.Total > 0)
             {
-                foreach(var participant in results.Results)
+                foreach (var participant in results.Results)
                 {
                     Console.WriteLine(String.Format("Validating participant [{0}] with sevis id [{1}] for project [{2}].", participant.ParticipantId, participant.SevisId, participant.ProjectId));
                     await RunParticipantSevisValidationAsync(participant.ProjectId, participant.ParticipantId);
                 }
-                results = await service.GetReadyToValidateParticipantsAsync(queryOperator);
+                results = await participantPersonsSevisService.GetReadyToValidateParticipantsAsync(queryOperator);
             }
             Console.WriteLine("Finished exchange visitor validation participants.");
             var nextOccurrenceMessage = info.FormatNextOccurrences(1);
             Console.WriteLine(nextOccurrenceMessage);
         }
 
-        public async Task RunParticipantSevisValidationAsync(int projectId, int participantId)
+        private async Task RunParticipantSevisValidationAsync(int projectId, int participantId)
         {
             await exchangeVisitorValidationService.RunParticipantSevisValidationAsync(projectId, participantId);
             await exchangeVisitorValidationService.SaveChangesAsync();
@@ -100,11 +104,17 @@ namespace ECA.WebJobs.Sevis.Validation
         {
             if (disposing)
             {
-                if (this.service is IDisposable)
+                if (this.participantPersonsSevisService is IDisposable)
                 {
-                    Console.WriteLine("Disposing of service " + this.service.GetType());
-                    ((IDisposable)this.service).Dispose();
-                    this.service = null;
+                    Console.WriteLine("Disposing of service " + this.participantPersonsSevisService.GetType());
+                    ((IDisposable)this.participantPersonsSevisService).Dispose();
+                    this.participantPersonsSevisService = null;
+                }
+                if (this.exchangeVisitorValidationService is IDisposable)
+                {
+                    Console.WriteLine("Disposing of service " + this.exchangeVisitorValidationService.GetType());
+                    ((IDisposable)this.exchangeVisitorValidationService).Dispose();
+                    this.exchangeVisitorValidationService = null;
                 }
             }
         }

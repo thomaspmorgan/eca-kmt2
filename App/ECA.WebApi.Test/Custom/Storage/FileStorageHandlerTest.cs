@@ -79,8 +79,9 @@ namespace ECA.WebApi.Test.Custom.Storage
                     return propertiesShim;
                 };
 
-                fileStorageService.Setup(x => x.GetBlob(It.IsAny<string>(), It.IsAny<string>())).Returns(blobShim);
+                fileStorageService.Setup(x => x.GetBlobAsync(It.IsAny<string>(), It.IsAny<string>())).ReturnsAsync(blobShim);
                 var response = await fileStorageHandler.GetFileAsync("test", "test");
+                fileStorageService.Verify(x => x.GetBlobAsync(It.IsAny<string>(), It.IsAny<string>()), Times.Once());
 
                 Assert.AreEqual(System.Net.HttpStatusCode.OK, response.StatusCode);
                 CollectionAssert.AreEqual(byteArray, await response.Content.ReadAsByteArrayAsync());
@@ -93,8 +94,10 @@ namespace ECA.WebApi.Test.Custom.Storage
         [TestMethod]
         public async Task TestGetFileAsync_NullBlob()
         {
-            fileStorageService.Setup(x => x.GetBlob(It.IsAny<string>(), It.IsAny<string>())).Returns<CloudBlockBlob>(null);
+            fileStorageService.Setup(x => x.GetBlobAsync(It.IsAny<string>(), It.IsAny<string>())).ReturnsAsync(null);
             var response = await fileStorageHandler.GetFileAsync("test", "test");
+            fileStorageService.Verify(x => x.GetBlobAsync(It.IsAny<string>(), It.IsAny<string>()), Times.Once());
+
             Assert.IsNull(response);
         }
     }

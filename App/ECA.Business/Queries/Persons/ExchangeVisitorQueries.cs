@@ -295,11 +295,11 @@ namespace ECA.Business.Queries.Persons
                         {
                             Amount1 = hasFirstInternationalFunding ? visitor.FundingIntlOrg1 : null,
                             Org1 = firstInternationalFundingOrg != null && hasFirstInternationalFunding ? firstInternationalFundingOrg.OrganizationCode : null,
-                            OtherName1 = otherName1,
+                            OtherName1 = otherName1 != null && otherName1.Length > 0 ? otherName1 : null,
 
                             Amount2 = hasSecondInternationalFunding && hasSecondInternationalFunding ? visitor.FundingIntlOrg2 : null,
                             Org2 = secondIternationalFundingOrg != null && hasSecondInternationalFunding ? secondIternationalFundingOrg.OrganizationCode : null,
-                            OtherName2 = otherName2
+                            OtherName2 = otherName2 != null && otherName2.Length > 0 ? otherName2 : null
                         };
 
             return query;
@@ -336,11 +336,11 @@ namespace ECA.Business.Queries.Persons
                         {
                             Amount1 = hasFirstUsGovFunding ? visitor.FundingGovtAgency1 : null,
                             Org1 = firstUsGovFundingAgency != null && hasFirstUsGovFunding ? firstUsGovFundingAgency.AgencyCode : null,
-                            OtherName1 = otherName1,
+                            OtherName1 = otherName1 != null && otherName1.Length > 0 ? otherName1 : null,
 
                             Amount2 = hasSecondUsGovFunding ? visitor.FundingGovtAgency2 : null,
                             Org2 = secondUsGovFundingAgency != null && hasSecondUsGovFunding ? secondUsGovFundingAgency.AgencyCode : null,
-                            OtherName2 = otherName2
+                            OtherName2 = otherName2 != null && otherName2.Length > 0 ? otherName2 : null
                         };
 
             return query;
