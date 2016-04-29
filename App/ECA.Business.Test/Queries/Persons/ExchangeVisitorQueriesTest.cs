@@ -54,12 +54,18 @@ namespace ECA.Business.Test.Queries.Persons
                 BirthCountryId = sevisBirthCountry.BirthCountryId,
                 BirthCountry = sevisBirthCountry
             };
-            var countryOfCitizenship = new PersonDependentCitizenCountry
+            var countryOfCitizenship = new Location
             {
-                LocationId = 87,
-                Location = countryOfBirth,
-                IsPrimary = true
+                LocationId = 791,
+                BirthCountry = sevisCountryOfCitizenship,
             };
+            var personDependentCitizenCountry = new PersonDependentCitizenCountry
+            {
+                LocationId = countryOfCitizenship.LocationId,
+                Location = countryOfCitizenship,
+                IsPrimary = true,
+            };
+            
             var cityOfBirth = new Location
             {
                 LocationId = 55,
@@ -105,7 +111,7 @@ namespace ECA.Business.Test.Queries.Persons
                 IsTravellingWithParticipant = true,
                 IsDeleted = true,
             };
-            dependent.CountriesOfCitizenship.Add(countryOfCitizenship);
+            dependent.CountriesOfCitizenship.Add(personDependentCitizenCountry);
 
             var person = new Data.Person
             {
@@ -152,6 +158,7 @@ namespace ECA.Business.Test.Queries.Persons
             context.PersonDependents.Add(dependent);
             context.Locations.Add(cityOfBirth);
             context.Locations.Add(countryOfBirth);
+            context.Locations.Add(countryOfBirth);
             context.BirthCountries.Add(sevisBirthCountry);
             context.BirthCountries.Add(sevisResidenceCountry);
             context.BirthCountries.Add(sevisCountryOfCitizenship);
@@ -163,7 +170,7 @@ namespace ECA.Business.Test.Queries.Persons
             Assert.AreEqual(1, result.Count);
             var biography = result.First();
             Assert.AreEqual(dependent.CountriesOfCitizenship.Count(), biography.NumberOfCitizenships);
-            Assert.AreEqual(countryOfCitizenship.Location.LocationIso, biography.CitizenshipCountryCode);
+            Assert.AreEqual(sevisCountryOfCitizenship.CountryCode, biography.CitizenshipCountryCode);
 
             Assert.AreEqual(dependent.FirstName, biography.FullName.FirstName);
             Assert.AreEqual(dependent.LastName, biography.FullName.LastName);
@@ -730,12 +737,6 @@ namespace ECA.Business.Test.Queries.Persons
             {
                 DependentTypeId = DependentType.Spouse.Id
             };
-            var sevisCountryOfCitizenship = new BirthCountry
-            {
-                BirthCountryId = 1000978,
-                CountryCode = "country of citizenship code"
-            };
-
             var sevisBirthCountry = new BirthCountry
             {
                 BirthCountryId = 698,
@@ -839,7 +840,6 @@ namespace ECA.Business.Test.Queries.Persons
             context.Locations.Add(countryOfBirth);
             context.BirthCountries.Add(sevisBirthCountry);
             context.BirthCountries.Add(sevisResidenceCountry);
-            context.BirthCountries.Add(sevisCountryOfCitizenship);
             context.Locations.Add(sevisResidenceLocation);
             context.DependentTypes.Add(spousePersonType);
 
