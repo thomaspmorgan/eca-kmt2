@@ -5,6 +5,7 @@
     [History_CreatedOn] DATETIMEOFFSET (7) NOT NULL,
     [History_RevisedBy] INT                NOT NULL,
     [History_RevisedOn] DATETIMEOFFSET (7) NOT NULL,
+    [IsActive] BIT NOT NULL DEFAULT 1, 
     CONSTRAINT [PK_dbo.Goal] PRIMARY KEY CLUSTERED ([GoalId] ASC)
 );
 
