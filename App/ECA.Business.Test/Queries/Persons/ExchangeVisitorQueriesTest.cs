@@ -177,7 +177,7 @@ namespace ECA.Business.Test.Queries.Persons
             Assert.AreEqual(dependent.NameSuffix, biography.FullName.Suffix);
             Assert.AreEqual(dependent.PreferredName, biography.FullName.PreferredName);
             Assert.AreEqual(dependent.PassportName, biography.FullName.PassportName);
-            Assert.AreEqual(dependent.PersonId, biography.PersonId);
+            Assert.AreEqual(dependent.DependentId, biography.PersonId);
             Assert.AreEqual(dependent.DateOfBirth, biography.BirthDate);
             Assert.AreEqual(email.EmailAddressId, biography.EmailAddressId);
             Assert.AreEqual(email.Address, biography.EmailAddress);

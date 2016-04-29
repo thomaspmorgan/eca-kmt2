@@ -229,7 +229,7 @@ namespace ECA.Business.Queries.Persons
                             GenderId = gender.GenderId,
                             NumberOfCitizenships = numberOfCitizenships,
                             PermanentResidenceCountryCode = residenceSevisCountryCode,
-                            PersonId = dependent.PersonId,
+                            PersonId = dependent.DependentId,
                             ParticipantId = participantId,
                             Relationship = relationshipCode,
                             DependentTypeId = relationship != null ? relationship.DependentTypeId : -1,
