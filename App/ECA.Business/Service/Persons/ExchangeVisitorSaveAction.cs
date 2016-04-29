@@ -134,6 +134,7 @@ namespace ECA.Business.Service.Persons
             participantEntityTypes.Add(typeof(PhoneNumber));
             participantEntityTypes.Add(typeof(Location));
             participantEntityTypes.Add(typeof(PersonDependent));
+            participantEntityTypes.Add(typeof(PersonDependentCitizenCountry));
             return participantEntityTypes;
         }
 
@@ -148,6 +149,7 @@ namespace ECA.Business.Service.Persons
             participantEntityTypes.Add(typeof(EmailAddress));
             participantEntityTypes.Add(typeof(PhoneNumber));
             participantEntityTypes.Add(typeof(PersonDependent));
+            participantEntityTypes.Add(typeof(PersonDependentCitizenCountry));
             return participantEntityTypes;
         }
 
@@ -314,6 +316,13 @@ namespace ECA.Business.Service.Persons
                 var personId = CreateGetPersonIdByDependentIdQuery(context, personDependent.DependentId).FirstOrDefault();
                 return personId == default(int) ? default(int?) : personId;
             }
+            else if (typeof(PersonDependentCitizenCountry).IsAssignableFrom(type))
+            {
+                var personDependentCitizenCountry = (PersonDependentCitizenCountry)obj;
+                var dependentId = personDependentCitizenCountry.DependentId;
+                var personId = CreateGetPersonIdByDependentIdQuery(context, dependentId).FirstOrDefault();
+                return personId == default(int) ? default(int?) : personId;
+            }
             else
             {
                 throw new NotSupportedException(String.Format("The object type [{0}] is not supported.", type.Name));
@@ -351,6 +360,13 @@ namespace ECA.Business.Service.Persons
             {
                 var personDependent = (PersonDependent)obj;
                 var personId = await CreateGetPersonIdByDependentIdQuery(context, personDependent.DependentId).FirstOrDefaultAsync();
+                return personId == default(int) ? default(int?) : personId;
+            }
+            else if (typeof(PersonDependentCitizenCountry).IsAssignableFrom(type))
+            {
+                var personDependentCitizenCountry = (PersonDependentCitizenCountry)obj;
+                var dependentId = personDependentCitizenCountry.DependentId;
+                var personId = await CreateGetPersonIdByDependentIdQuery(context, dependentId).FirstOrDefaultAsync();
                 return personId == default(int) ? default(int?) : personId;
             }
             else
@@ -540,6 +556,11 @@ namespace ECA.Business.Service.Persons
                     var participantId = await GetParticipantIdAsync((Person)obj);
                     addIfNotNull(participantId);
                 }
+                else if (typeof(PersonDependentCitizenCountry).IsAssignableFrom(type))
+                {
+                    var participantId = await GetParticipantIdAsync((PersonDependentCitizenCountry)obj);
+                    addIfNotNull(participantId);
+                }
                 else if (typeof(PersonDependent).IsAssignableFrom(type))
                 {
                     var participantId = await GetParticipantIdAsync((PersonDependent)obj);
@@ -601,6 +622,11 @@ namespace ECA.Business.Service.Persons
                     var participantId = GetParticipantId((Person)obj);
                     addIfNotNull(participantId);
                 }
+                else if (typeof(PersonDependentCitizenCountry).IsAssignableFrom(type))
+                {
+                    var participantId = GetParticipantId((PersonDependentCitizenCountry)obj);
+                    addIfNotNull(participantId);
+                }
                 else if (typeof(PersonDependent).IsAssignableFrom(type))
                 {
                     var participantId = GetParticipantId((PersonDependent)obj);
@@ -642,6 +668,39 @@ namespace ECA.Business.Service.Persons
         {
             return Context.Addresses.Where(x => x.LocationId == locationId);
         }
+
+        private IQueryable<Person> CreateGetPersonByPersonDependentCitizenCountryDependentIdQuery(PersonDependentCitizenCountry personDependentCitizenCountry)
+        {
+            return Context.PersonDependentCitizenCountries                
+                .Where(x => x.Dependent != null)
+                .Where(x => x.Dependent.Person != null)
+                .Where(x => x.DependentId == personDependentCitizenCountry.DependentId)
+                .Select(x => x.Dependent.Person);
+        }
+
+        private async Task<int?> GetParticipantIdAsync(PersonDependentCitizenCountry personDependentCitizenCountry)
+        {
+            int? participantId = null;
+            var person = await CreateGetPersonByPersonDependentCitizenCountryDependentIdQuery(personDependentCitizenCountry).FirstOrDefaultAsync();
+            if (person != null)
+            {
+                participantId = GetParticipantId(person);
+            }
+            return participantId;
+        }
+
+        private int? GetParticipantId(PersonDependentCitizenCountry personDependentCitizenCountry)
+        {
+            int? participantId = null;
+            var person = CreateGetPersonByPersonDependentCitizenCountryDependentIdQuery(personDependentCitizenCountry).FirstOrDefault();
+            if (person != null)
+            {
+                participantId = GetParticipantId(person);
+            }
+            return participantId;
+        }
+
+
 
         private async Task<int?> GetParticipantIdAsync(Location location)
         {

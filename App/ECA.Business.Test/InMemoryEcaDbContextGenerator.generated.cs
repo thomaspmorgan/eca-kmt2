@@ -867,6 +867,21 @@ namespace ECA.Business.Test
 			return Task.FromResult<ECA.Data.Person>(this.SingleOrDefault(x => x.PersonId.Equals(keyValues.First())));
 		}
 	}
+	public class PersonDependentCitizenCountryTestDbSet : ECA.Core.Data.TestDbSet<ECA.Data.PersonDependentCitizenCountry>
+	{
+		public override ECA.Data.PersonDependentCitizenCountry Find(params object[] keyValues)
+		{
+			if(keyValues.Length != 1) throw new System.NotSupportedException();
+			///DependentId
+			return this.SingleOrDefault(x => x.DependentId.Equals(keyValues.First()));
+		}
+		public override Task<ECA.Data.PersonDependentCitizenCountry> FindAsync(params object[] keyValues)
+		{
+			if(keyValues.Length != 1) throw new System.NotSupportedException();
+			///DependentId
+			return Task.FromResult<ECA.Data.PersonDependentCitizenCountry>(this.SingleOrDefault(x => x.DependentId.Equals(keyValues.First())));
+		}
+	}
 	public class PersonDependentTestDbSet : ECA.Core.Data.TestDbSet<ECA.Data.PersonDependent>
 	{
 		public override ECA.Data.PersonDependent Find(params object[] keyValues)
@@ -1339,6 +1354,7 @@ namespace ECA.Business.Test
 			this.ParticipantStatuses = new ParticipantStatusTestDbSet();
 			this.ParticipantTypes = new ParticipantTypeTestDbSet();
 			this.People = new PersonTestDbSet();
+			this.PersonDependentCitizenCountries = new PersonDependentCitizenCountryTestDbSet();
 			this.PersonDependents = new PersonDependentTestDbSet();
 			this.PersonEvaluationNotes = new PersonEvaluationNoteTestDbSet();
 			this.PersonLanguageProficiencies = new PersonLanguageProficiencyTestDbSet();
