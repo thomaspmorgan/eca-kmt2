@@ -74,10 +74,21 @@
                 $scope.fundingElementId = 'funding' + $scope.participantid;
 
                 $scope.view.gridOptions = {
-                    paginationPageSizes: [25, 50, 75],
-                    paginationPageSize: 25,
+                    paginationPageSizes: [10, 25, 50, 75],
+                    paginationPageSize: 10,
                     useExternalPagination: true,
+                    useExternalSorting: true,
                     multiSelect: false,
+                    enableGridMenu: true,
+                    gridMenuCustomItems: [
+                      {
+                          title: 'Refresh',
+                          action: function ($event) {
+                              getSevisCommStatusesPage();
+                          },
+                          order: 210
+                      }
+                    ],
                     columnDefs: [
                       { name: 'addedOn', displayName: 'Date', type: 'date', cellFilter: 'date:\'MMM dd, yyyy hh:mm a\'' },
                       { name: 'sevisCommStatusName', displayName: 'Status' },
@@ -97,7 +108,6 @@
                                 paginationOptions.sort = null;
                             } else {
                                 paginationOptions.sort = { property: sortColumns[0].name, direction: sortColumns[0].sort.direction };
-                                $scope.gridOptions.paginationCurrentPage = 1;
                             }
                             getSevisCommStatusesPage();
                         });
@@ -120,6 +130,8 @@
                     if (newValue && !sevisInfoCopy) {
                         sevisInfoCopy = angular.copy(newValue);
                         projectId = newValue.projectId;
+                    } if (newValue != oldValue) {
+                        getSevisCommStatusesPage();
                     }
                 });
 
@@ -146,14 +158,13 @@
                 }
 
                 $scope.edit.onDosStatusChange = function ($event, checkboxId, checked) {
-                    var ok = function () {
+                    if (!$scope.sevisinfo.blockEdit) {
                         $scope.sevisinfo[checkboxId] = checked;
                         $scope.updatesevisinfo({ participantId: $scope.participantid });
                         sevisInfoCopy = angular.copy($scope.sevisinfo);
-                    };
-                    var cancel = function () {
-                        $scope.sevisinfo[checkboxId] = sevisInfoCopy[checkboxId];
-                    };
+                    } else {
+                        return false;
+                    }
                 }
 
                 $scope.edit.onStartDateChange = function () {
@@ -263,26 +274,24 @@
                 };
 
                 $scope.edit.onFundingEditChange = function () {
-                    //var ok = function () {
+                    if (!$scope.sevisinfo.blockEdit) {
                         $scope.view.FundingEdit = true;
                         $scope.view.GovtAgency1Other = ($scope.exchangevisitorinfo.govtAgency1Id == ConstantsService.otherUSGovernmentAgencyId);
                         $scope.view.GovtAgency2Other = ($scope.exchangevisitorinfo.govtAgency2Id == ConstantsService.otherUSGovernmentAgencyId);
                         $scope.view.IntlOrg1Other = ($scope.exchangevisitorinfo.intlOrg1Id == ConstantsService.otherInternationalOrganizationId);
                         $scope.view.IntlOrg2Other = ($scope.exchangevisitorinfo.intlOrg2Id == ConstantsService.otherInternationalOrganizationId);
-                    //};
-                    //var cancel = function () {
-                    //    $scope.view.FundingEdit = false;
-                    //};
+                    } else {
+                        return false;
+                    }
                 };
 
                 $scope.edit.onPositionAndFieldEditChange = function () {
-                    //var ok = function () {
+                    if (!$scope.sevisinfo.blockEdit) {
                         $scope.view.PositionAndFieldEdit = true;
                         loadFieldOfStudies($scope.exchangevisitorinfo.fieldOfStudy);
-                    //};
-                    //var cancel = function () {
-                    //    $scope.view.PositionAndFieldEdit = false;
-                    //};
+                    } else {
+                        return false;
+                    }
                 }
 
                 function getSevisCommStatusesPage() {
@@ -293,7 +302,7 @@
                         keyword: paginationOptions.keyword,
                         filter: paginationOptions.filter
                     };
-                    return ParticipantPersonsSevisService.getSevisCommStatuses(projectId, participantId, params)
+                    return ParticipantPersonsSevisService.getSevisCommStatuses(projectId, $scope.participantid, params)
                     .then(function (response) {
                         $scope.view.gridOptions.totalItems = response.data.total;
                         $scope.view.gridOptions.data = response.data.results;
@@ -308,18 +317,15 @@
 
                 function onFormDateChange(form, sevisInfoPropertyName) {
                     if (form.$valid) {
-                        var ok = function () {
+                        if (!$scope.sevisinfo.blockEdit) {
                             $scope.updatesevisinfo({ participantId: $scope.participantid });
                             sevisInfoCopy = angular.copy($scope.sevisinfo);
-                        };
-                        var cancel = function () {
-                            form.$setPristine();
-                            form.$setUntouched();
-                            $scope.sevisinfo[sevisInfoPropertyName] = sevisInfoCopy[sevisInfoPropertyName];
-                        };
+                        } else {
+                            return false;
+                        }
                     }
                 }
-                
+
                 $scope.onGovtAgency1Select = function (item) {
                     if (item.description != null)
                         if (item.description == "OTHER")

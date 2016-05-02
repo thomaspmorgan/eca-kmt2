@@ -97,6 +97,11 @@ namespace ECA.Data
         public DbSet<CancelledSevisBatchProcessing> CancelledSevisBatchProcessings { get; set; }
 
         /// <summary>
+        /// Gets or sets the person dependent citizen countries.
+        /// </summary>
+        public DbSet<PersonDependentCitizenCountry> PersonDependentCitizenCountries { get; set; }
+
+        /// <summary>
         /// Gets or sets the courses.
         /// </summary>
         public DbSet<Course> Courses { get; set; }

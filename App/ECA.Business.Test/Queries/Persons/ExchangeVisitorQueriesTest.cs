@@ -54,12 +54,18 @@ namespace ECA.Business.Test.Queries.Persons
                 BirthCountryId = sevisBirthCountry.BirthCountryId,
                 BirthCountry = sevisBirthCountry
             };
-            var countryOfCitizenship = new PersonDependentCitizenCountry
+            var countryOfCitizenship = new Location
             {
-                LocationId = 87,
-                Location = countryOfBirth,
-                IsPrimary = true
+                LocationId = 791,
+                BirthCountry = sevisCountryOfCitizenship,
             };
+            var personDependentCitizenCountry = new PersonDependentCitizenCountry
+            {
+                LocationId = countryOfCitizenship.LocationId,
+                Location = countryOfCitizenship,
+                IsPrimary = true,
+            };
+            
             var cityOfBirth = new Location
             {
                 LocationId = 55,
@@ -105,7 +111,7 @@ namespace ECA.Business.Test.Queries.Persons
                 IsTravellingWithParticipant = true,
                 IsDeleted = true,
             };
-            dependent.CountriesOfCitizenship.Add(countryOfCitizenship);
+            dependent.CountriesOfCitizenship.Add(personDependentCitizenCountry);
 
             var person = new Data.Person
             {
@@ -152,6 +158,7 @@ namespace ECA.Business.Test.Queries.Persons
             context.PersonDependents.Add(dependent);
             context.Locations.Add(cityOfBirth);
             context.Locations.Add(countryOfBirth);
+            context.Locations.Add(countryOfBirth);
             context.BirthCountries.Add(sevisBirthCountry);
             context.BirthCountries.Add(sevisResidenceCountry);
             context.BirthCountries.Add(sevisCountryOfCitizenship);
@@ -163,14 +170,14 @@ namespace ECA.Business.Test.Queries.Persons
             Assert.AreEqual(1, result.Count);
             var biography = result.First();
             Assert.AreEqual(dependent.CountriesOfCitizenship.Count(), biography.NumberOfCitizenships);
-            Assert.AreEqual(countryOfCitizenship.Location.LocationIso, biography.CitizenshipCountryCode);
+            Assert.AreEqual(sevisCountryOfCitizenship.CountryCode, biography.CitizenshipCountryCode);
 
             Assert.AreEqual(dependent.FirstName, biography.FullName.FirstName);
             Assert.AreEqual(dependent.LastName, biography.FullName.LastName);
             Assert.AreEqual(dependent.NameSuffix, biography.FullName.Suffix);
             Assert.AreEqual(dependent.PreferredName, biography.FullName.PreferredName);
             Assert.AreEqual(dependent.PassportName, biography.FullName.PassportName);
-            Assert.AreEqual(dependent.PersonId, biography.PersonId);
+            Assert.AreEqual(dependent.DependentId, biography.PersonId);
             Assert.AreEqual(dependent.DateOfBirth, biography.BirthDate);
             Assert.AreEqual(email.EmailAddressId, biography.EmailAddressId);
             Assert.AreEqual(email.Address, biography.EmailAddress);
@@ -730,12 +737,6 @@ namespace ECA.Business.Test.Queries.Persons
             {
                 DependentTypeId = DependentType.Spouse.Id
             };
-            var sevisCountryOfCitizenship = new BirthCountry
-            {
-                BirthCountryId = 1000978,
-                CountryCode = "country of citizenship code"
-            };
-
             var sevisBirthCountry = new BirthCountry
             {
                 BirthCountryId = 698,
@@ -839,7 +840,6 @@ namespace ECA.Business.Test.Queries.Persons
             context.Locations.Add(countryOfBirth);
             context.BirthCountries.Add(sevisBirthCountry);
             context.BirthCountries.Add(sevisResidenceCountry);
-            context.BirthCountries.Add(sevisCountryOfCitizenship);
             context.Locations.Add(sevisResidenceLocation);
             context.DependentTypes.Add(spousePersonType);
 
@@ -5894,6 +5894,82 @@ namespace ECA.Business.Test.Queries.Persons
         }
 
         [TestMethod]
+        public void TestCreateGetInternationalFundingQuery_OtherInternationalOrgNamesAreNull()
+        {
+
+            var internationalFundingOrg1 = new InternationalOrganization
+            {
+                OrganizationId = 2,
+                OrganizationCode = InternationalFundingValidator.OTHER_ORG_CODE,
+            };
+            var internationalFundingOrg2 = new InternationalOrganization
+            {
+                OrganizationId = 3,
+                OrganizationCode = InternationalFundingValidator.OTHER_ORG_CODE,
+            };
+            var org1Amount = 2.2m;
+            var org2Amount = 5.7m;
+            var visitor = new ParticipantExchangeVisitor
+            {
+                ParticipantId = 1,
+                FundingIntlOrg1 = org1Amount,
+                IntlOrg1 = internationalFundingOrg1,
+                IntlOrg1Id = internationalFundingOrg1.OrganizationId,
+                IntlOrg1OtherName = null,
+                FundingIntlOrg2 = org2Amount,
+                IntlOrg2 = internationalFundingOrg2,
+                IntlOrg2Id = internationalFundingOrg2.OrganizationId,
+                IntlOrg2OtherName = null
+            };
+            context.InternationalOrganizations.Add(internationalFundingOrg1);
+            context.InternationalOrganizations.Add(internationalFundingOrg2);
+            context.ParticipantExchangeVisitors.Add(visitor);
+
+            var result = ExchangeVisitorQueries.CreateGetInternationalFundingQuery(context, visitor.ParticipantId).FirstOrDefault();
+            Assert.IsNotNull(result);
+            Assert.IsNull(result.OtherName1);
+            Assert.IsNull(result.OtherName2);
+        }
+
+        [TestMethod]
+        public void TestCreateGetInternationalFundingQuery_OtherInternationalOrgNamesAreEmpty()
+        {
+
+            var internationalFundingOrg1 = new InternationalOrganization
+            {
+                OrganizationId = 2,
+                OrganizationCode = InternationalFundingValidator.OTHER_ORG_CODE,
+            };
+            var internationalFundingOrg2 = new InternationalOrganization
+            {
+                OrganizationId = 3,
+                OrganizationCode = InternationalFundingValidator.OTHER_ORG_CODE,
+            };
+            var org1Amount = 2.2m;
+            var org2Amount = 5.7m;
+            var visitor = new ParticipantExchangeVisitor
+            {
+                ParticipantId = 1,
+                FundingIntlOrg1 = org1Amount,
+                IntlOrg1 = internationalFundingOrg1,
+                IntlOrg1Id = internationalFundingOrg1.OrganizationId,
+                IntlOrg1OtherName = String.Empty,
+                FundingIntlOrg2 = org2Amount,
+                IntlOrg2 = internationalFundingOrg2,
+                IntlOrg2Id = internationalFundingOrg2.OrganizationId,
+                IntlOrg2OtherName = String.Empty
+            };
+            context.InternationalOrganizations.Add(internationalFundingOrg1);
+            context.InternationalOrganizations.Add(internationalFundingOrg2);
+            context.ParticipantExchangeVisitors.Add(visitor);
+
+            var result = ExchangeVisitorQueries.CreateGetInternationalFundingQuery(context, visitor.ParticipantId).FirstOrDefault();
+            Assert.IsNotNull(result);
+            Assert.IsNull(result.OtherName1);
+            Assert.IsNull(result.OtherName2);
+        }
+
+        [TestMethod]
         public void TestCreateGetInternationalFundingQuery_NoInternationalFunding()
         {
             var visitor = new ParticipantExchangeVisitor
@@ -6111,6 +6187,86 @@ namespace ECA.Business.Test.Queries.Persons
             Assert.AreEqual(USGovernmentFundingValidator.OTHER_ORG_CODE, result.Org2);
             Assert.AreEqual(visitor.GovtAgency2OtherName, result.OtherName2);
 
+        }
+
+        [TestMethod]
+        public void TestCreateGetUSFundingQuery_OtherUSGovAgencyNamesAreNull()
+        {
+
+            var govAgency1 = new USGovernmentAgency
+            {
+                AgencyId = 2,
+                AgencyCode = USGovernmentFundingValidator.OTHER_ORG_CODE,
+            };
+            var govAgency2 = new USGovernmentAgency
+            {
+                AgencyId = 3,
+                AgencyCode = USGovernmentFundingValidator.OTHER_ORG_CODE,
+            };
+            var org1Amount = 2.2m;
+            var org2Amount = 5.7m;
+            var visitor = new ParticipantExchangeVisitor
+            {
+                ParticipantId = 1,
+
+                FundingGovtAgency1 = org1Amount,
+                GovtAgency1 = govAgency1,
+                GovtAgency1Id = govAgency1.AgencyId,
+                GovtAgency1OtherName = null,
+
+                FundingGovtAgency2 = org2Amount,
+                GovtAgency2 = govAgency2,
+                GovtAgency2Id = govAgency2.AgencyId,
+                GovtAgency2OtherName = null
+            };
+            context.USGovernmentAgencies.Add(govAgency1);
+            context.USGovernmentAgencies.Add(govAgency2);
+            context.ParticipantExchangeVisitors.Add(visitor);
+
+            var result = ExchangeVisitorQueries.CreateGetUSFundingQuery(context, visitor.ParticipantId).FirstOrDefault();
+            Assert.IsNotNull(result);
+            Assert.IsNull(result.OtherName1);
+            Assert.IsNull(result.OtherName2);
+        }
+
+        [TestMethod]
+        public void TestCreateGetUSFundingQuery_OtherUSGovAgencyNamesAreEmpty()
+        {
+
+            var govAgency1 = new USGovernmentAgency
+            {
+                AgencyId = 2,
+                AgencyCode = USGovernmentFundingValidator.OTHER_ORG_CODE,
+            };
+            var govAgency2 = new USGovernmentAgency
+            {
+                AgencyId = 3,
+                AgencyCode = USGovernmentFundingValidator.OTHER_ORG_CODE,
+            };
+            var org1Amount = 2.2m;
+            var org2Amount = 5.7m;
+            var visitor = new ParticipantExchangeVisitor
+            {
+                ParticipantId = 1,
+
+                FundingGovtAgency1 = org1Amount,
+                GovtAgency1 = govAgency1,
+                GovtAgency1Id = govAgency1.AgencyId,
+                GovtAgency1OtherName = String.Empty,
+
+                FundingGovtAgency2 = org2Amount,
+                GovtAgency2 = govAgency2,
+                GovtAgency2Id = govAgency2.AgencyId,
+                GovtAgency2OtherName = String.Empty
+            };
+            context.USGovernmentAgencies.Add(govAgency1);
+            context.USGovernmentAgencies.Add(govAgency2);
+            context.ParticipantExchangeVisitors.Add(visitor);
+
+            var result = ExchangeVisitorQueries.CreateGetUSFundingQuery(context, visitor.ParticipantId).FirstOrDefault();
+            Assert.IsNotNull(result);
+            Assert.IsNull(result.OtherName1);
+            Assert.IsNull(result.OtherName2);
         }
 
         [TestMethod]

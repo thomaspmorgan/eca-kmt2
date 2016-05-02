@@ -66,6 +66,11 @@ namespace ECA.Business.Test.Service.Persons
 
     }
 
+    public class PersonDependentCitizenCountryProxyClass : ECA.Data.PersonDependentCitizenCountry
+    {
+
+    }
+
     [TestClass]
     public class ExchangeVisitorSaveActionTest
     {
@@ -1026,7 +1031,7 @@ namespace ECA.Business.Test.Service.Persons
         public void GetCreatedAndModifiedEntityTypes()
         {
             var types = saveAction.GetCreatedAndModifiedEntityTypes();
-            Assert.AreEqual(9, types.Count);
+            Assert.AreEqual(10, types.Count);
             Assert.IsTrue(types.Contains(typeof(Location)));
             Assert.IsTrue(types.Contains(typeof(Participant)));
             Assert.IsTrue(types.Contains(typeof(Person)));
@@ -1036,6 +1041,7 @@ namespace ECA.Business.Test.Service.Persons
             Assert.IsTrue(types.Contains(typeof(EmailAddress)));
             Assert.IsTrue(types.Contains(typeof(Address)));
             Assert.IsTrue(types.Contains(typeof(PersonDependent)));
+            Assert.IsTrue(types.Contains(typeof(PersonDependentCitizenCountry)));
         }
         #endregion
 
@@ -1044,11 +1050,12 @@ namespace ECA.Business.Test.Service.Persons
         public void GetDeletedEntityTypes()
         {
             var types = saveAction.GetDeletedEntityTypes();
-            Assert.AreEqual(4, types.Count);
+            Assert.AreEqual(5, types.Count);
             Assert.IsTrue(types.Contains(typeof(PersonDependent)));
             Assert.IsTrue(types.Contains(typeof(PhoneNumber)));
             Assert.IsTrue(types.Contains(typeof(EmailAddress)));
             Assert.IsTrue(types.Contains(typeof(Address)));
+            Assert.IsTrue(types.Contains(typeof(PersonDependentCitizenCountry)));
         }
         #endregion
 
@@ -1215,6 +1222,58 @@ namespace ECA.Business.Test.Service.Persons
                 {
                     return Task<SimplePersonDTO>.FromResult(src.FirstOrDefault());
                 });
+                Action<List<int>> tester = (ids) =>
+                {
+                    Assert.AreEqual(1, ids.Count);
+                    Assert.AreEqual(participantId, ids.First());
+                };
+                var participantIds = saveAction.GetParticipantIds(list);
+                var participantIdsAsync = await saveAction.GetParticipantIdsAsync(list);
+                tester(participantIds);
+                tester(participantIdsAsync);
+            }
+        }
+
+        [TestMethod]
+        public async Task TestGetParticipantIds_PersonDependentCitizenCountry()
+        {
+            using (ShimsContext.Create())
+            {
+                var participantId = 2;
+
+                var list = new List<object>();
+
+                var person = new PersonProxyClass
+                {
+                    PersonId = 1,
+                };
+                var personDependent = new PersonDependentProxyClass
+                {
+                    DependentId = 1,
+                    Person = person,
+                    PersonId = person.PersonId
+                };
+                var personDependentCitizenshipCountry = new PersonDependentCitizenCountryProxyClass
+                {
+                    Dependent = personDependent,
+                    DependentId = personDependent.DependentId
+                };
+                personDependent.CountriesOfCitizenship.Add(personDependentCitizenshipCountry);
+                list.Add(personDependentCitizenshipCountry);
+                context.People.Add(person);
+                context.PersonDependentCitizenCountries.Add(personDependentCitizenshipCountry);
+                context.PersonDependents.Add(personDependent);
+                saveAction.Context = context;
+                ECA.Business.Queries.Persons.Fakes.ShimPersonQueries.CreateGetSimplePersonDTOsQueryEcaContext = (ctx) =>
+                {
+                    var peopleDtos = new List<SimplePersonDTO>();
+                    peopleDtos.Add(new SimplePersonDTO
+                    {
+                        PersonId = person.PersonId,
+                        ParticipantId = participantId
+                    });
+                    return peopleDtos.AsQueryable();
+                };
                 Action<List<int>> tester = (ids) =>
                 {
                     Assert.AreEqual(1, ids.Count);
@@ -2617,6 +2676,68 @@ namespace ECA.Business.Test.Service.Persons
 
                 var result = saveAction.GetPersonIdByObject(context, dependent);
                 var resultAsync = await saveAction.GetPersonIdByObjectAsync(context, dependent);
+                tester(result);
+                tester(resultAsync);
+            }
+        }
+
+        [TestMethod]
+        public async Task TestGetPersonIdByObject_PersonDependentCitizenCountry()
+        {
+            using (ShimsContext.Create())
+            {
+                var personDependent = new PersonDependent
+                {
+                    DependentId = 1,
+                    PersonId = 2
+                };
+                var instance = new PersonDependentCitizenCountry
+                {
+                    DependentId = personDependent.DependentId,
+                    Dependent = personDependent
+                };
+                context.GetLocalDelegate = () => instance;
+                context.PersonDependentCitizenCountries.Add(instance);
+                context.PersonDependents.Add(personDependent);
+
+                Action<int?> tester = (personId) =>
+                {
+                    Assert.AreEqual(personDependent.PersonId, personId);
+                };
+
+                var result = saveAction.GetPersonIdByObject(context, instance);
+                var resultAsync = await saveAction.GetPersonIdByObjectAsync(context, instance);
+                tester(result);
+                tester(resultAsync);
+            }
+        }
+
+        [TestMethod]
+        public async Task TestGetPersonIdByObject_PersonDependentCitizenCountryProxyClass()
+        {
+            using (ShimsContext.Create())
+            {
+                var personDependent = new PersonDependentProxyClass
+                {
+                    DependentId = 1,
+                    PersonId = 2
+                };
+                var instance = new PersonDependentCitizenCountry
+                {
+                    DependentId = personDependent.DependentId,
+                    Dependent = personDependent
+                };
+                context.GetLocalDelegate = () => instance;
+                context.PersonDependentCitizenCountries.Add(instance);
+                context.PersonDependents.Add(personDependent);
+
+                Action<int?> tester = (personId) =>
+                {
+                    Assert.AreEqual(personDependent.PersonId, personId);
+                };
+
+                var result = saveAction.GetPersonIdByObject(context, instance);
+                var resultAsync = await saveAction.GetPersonIdByObjectAsync(context, instance);
                 tester(result);
                 tester(resultAsync);
             }

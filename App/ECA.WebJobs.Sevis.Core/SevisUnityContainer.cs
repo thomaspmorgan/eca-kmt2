@@ -98,7 +98,7 @@ namespace ECA.WebJobs.Sevis.Core
         private object GetConnectionString(AppSettings appSettings)
         {
             var connectionString = appSettings.EcaContextConnectionString.ConnectionString;
-            LogMessage(String.Format("Using the connection string [{0}] to retrieve entities for documentation.", connectionString));
+            LogMessage(String.Format("Using the connection string [{0}] to retrieve entities.", connectionString));
             return connectionString;
         }
 

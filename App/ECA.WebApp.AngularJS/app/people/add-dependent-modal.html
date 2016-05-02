@@ -13,7 +13,7 @@
                 <div class="col-md-12">
                     <div class="form-group">
                         <label for="dependenttype">DEPENDENT TYPE <eca-required /></label>
-                        <ui-select name="dependenttype" ng-model="dependent.dependentTypeId" theme="select2" required>
+                        <ui-select ng-change="setMaxBirthDate(dependent.dependentTypeId)" name="dependenttype" ng-model="dependent.dependentTypeId" theme="select2" required>
                             <ui-select-match placeholder="Select relationship">
                                 <div>{{$select.selected.name}}</div>
                             </ui-select-match>
@@ -74,6 +74,7 @@
                                    name="dateOfBirth"
                                    id="dateOfBirth"
                                    datepicker-popup="dd-MMMM-yyyy"
+                                   tooltip="dd-MMMM-yyyy"
                                    ng-model="dependent.dateOfBirth"
                                    is-open="datePickerOpen"
                                    max-date="maxDateOfBirth"

@@ -15,7 +15,10 @@ using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web.Http;
 using System.Threading.Tasks;
+using System.Net.Http;
+using System.Net;
 
 namespace ECA.Business.Test.Service.Persons
 {
@@ -3097,8 +3100,119 @@ namespace ECA.Business.Test.Service.Persons
             };
             f.ShouldThrow<EcaBusinessException>().WithMessage("The person already exists.");
         }
-        
 
+        [TestMethod]
+        public async Task TestUpdatePiiAsync_CheckSevisIsLocked()
+        {
+            var personId = 1;
+            var participantId = 1;
+            var gender = new Gender
+            {
+                GenderId = Gender.Male.Id,
+                GenderName = Gender.Male.Value
+            };
+            var placeOfBirth = new Location
+            {
+                LocationId = 1
+            };
+            var dateOfBirth = DateTime.Now;
+            ParticipantType individual = new ParticipantType
+            {
+                IsPerson = true,
+                Name = ParticipantType.Individual.Value,
+                ParticipantTypeId = ParticipantType.Individual.Id
+            };
+            var programCategory = new ProgramCategory
+            {
+                ProgramCategoryCode = "program category code",
+                ProgramCategoryId = 234
+            };
+            ParticipantStatus status = new ParticipantStatus
+            {
+                ParticipantStatusId = ParticipantStatus.Active.Id,
+                Status = ParticipantStatus.Active.Value
+            };
+            var person = new Person
+            {
+                PersonId = personId,
+                FirstName = "firstName",
+                LastName = "lastName",
+                GenderId = gender.GenderId,
+                PlaceOfBirthId = placeOfBirth.LocationId,
+                DateOfBirth = dateOfBirth
+            };
+            var participant = new Participant
+            {
+                ParticipantId = participantId,
+                PersonId = person.PersonId,
+                ParticipantStatusId = ParticipantStatus.Active.Id
+            };
+            List<Participant> participants = new List<Participant>();
+            participants.Add(participant);
+            person.Participations = participants;
+
+            var participantPerson = new ParticipantPerson
+            {
+                Participant = participant,
+                ParticipantId = participant.ParticipantId,
+            };
+            participant.ParticipantPerson = participantPerson;
+
+            var queuedToSubmitStatus = new SevisCommStatus
+            {
+                SevisCommStatusId = SevisCommStatus.QueuedToSubmit.Id,
+                SevisCommStatusName = SevisCommStatus.QueuedToSubmit.Value
+            };
+            var commStatus = new ParticipantPersonSevisCommStatus
+            {
+                AddedOn = DateTimeOffset.UtcNow,
+                BatchId = "batch id",
+                Id = 501,
+                ParticipantId = participant.ParticipantId,
+                ParticipantPerson = participantPerson,
+                SevisCommStatus = queuedToSubmitStatus,
+                SevisCommStatusId = queuedToSubmitStatus.SevisCommStatusId,
+            };
+
+            participantPerson.ParticipantPersonSevisCommStatuses.Add(commStatus);
+            context.People.Add(person);
+            context.Participants.Add(participant);
+            context.ParticipantPersons.Add(participantPerson);
+            context.ParticipantStatuses.Add(status);
+            context.ParticipantPersonSevisCommStatuses.Add(commStatus);
+            context.ParticipantTypes.Add(individual);
+            context.Genders.Add(gender);
+            context.Locations.Add(placeOfBirth);
+
+            var pii = new UpdatePii(new User(0),
+                                    person.PersonId,
+                                    person.FirstName,
+                                    person.LastName,
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    person.GenderId,
+                                    null,
+                                    placeOfBirth.LocationId,
+                                    person.DateOfBirth,
+                                    false,
+                                    false,
+                                    new List<int>(),
+                                    false,
+                                    null,
+                                    default(int));
+
+            var message = String.Format("An update was attempted on participant with id [{0}] but should have failed validation.",
+                        participant.ParticipantId);
+
+            Func<Task> f = () => service.UpdatePiiAsync(pii);
+            f.ShouldThrow<WebException>().WithMessage(message);
+        }
+        
         #endregion
 
         #region Get People

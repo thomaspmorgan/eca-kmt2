@@ -39,13 +39,12 @@ namespace ECA.WebApi.Custom.Storage
         /// <returns>Http response message with file</returns>
         public async Task<HttpResponseMessage> GetFileAsync(string fileName, string container)
         {
-            var blob = fileStorageService.GetBlob(fileName, container);
+            var blob = await fileStorageService.GetBlobAsync(fileName, container);
             HttpResponseMessage message = null;
             if (blob != null)
             {
                 message = new HttpResponseMessage(HttpStatusCode.OK);
                 Stream blobStream = await blob.OpenReadAsync();
-
                 message.Content = new StreamContent(blobStream);
                 message.Content.Headers.ContentLength = blob.Properties.Length;
                 message.Content.Headers.ContentType = new MediaTypeHeaderValue(blob.Properties.ContentType);

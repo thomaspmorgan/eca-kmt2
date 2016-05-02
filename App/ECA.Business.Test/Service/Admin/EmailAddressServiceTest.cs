@@ -9,6 +9,8 @@ using ECA.Business.Queries.Models.Admin;
 using Microsoft.QualityTools.Testing.Fakes;
 using ECA.Business.Service;
 using ECA.Core.Exceptions;
+using System.Net;
+using System.Collections.Generic;
 
 namespace ECA.Business.Test.Service.Admin
 {
@@ -329,6 +331,178 @@ namespace ECA.Business.Test.Service.Admin
             beforeTester();
             await service.UpdateAsync(updatedEmailModel);
             afterTester();
+        }
+
+        [TestMethod]
+        public async Task TestUpdate_PersonEmail_SevisLocked()
+        {
+            var personId = 1;
+            var participantId = 1;
+            Person person = new Person
+            {
+                PersonId = personId
+            };
+            var participant = new Participant
+            {
+                ParticipantId = participantId,
+                PersonId = person.PersonId,
+                ParticipantStatusId = ParticipantStatus.Active.Id
+            };
+            List<Participant> participants = new List<Participant>();
+            participants.Add(participant);
+            person.Participations = participants;
+            var participantPerson = new ParticipantPerson
+            {
+                Participant = participant,
+                ParticipantId = participant.ParticipantId,
+            };
+            participant.ParticipantPerson = participantPerson;
+
+            var queuedToSubmitStatus = new SevisCommStatus
+            {
+                SevisCommStatusId = SevisCommStatus.QueuedToSubmit.Id,
+                SevisCommStatusName = SevisCommStatus.QueuedToSubmit.Value
+            };
+            var commStatus = new ParticipantPersonSevisCommStatus
+            {
+                AddedOn = DateTimeOffset.UtcNow,
+                BatchId = "batch id",
+                Id = 501,
+                ParticipantId = participant.ParticipantId,
+                ParticipantPerson = participantPerson,
+                SevisCommStatus = queuedToSubmitStatus,
+                SevisCommStatusId = queuedToSubmitStatus.SevisCommStatusId,
+            };
+
+            participantPerson.ParticipantPersonSevisCommStatuses.Add(commStatus);
+            
+            EmailAddressType emailAddressType = new EmailAddressType
+            {
+                EmailAddressTypeId = EmailAddressType.Home.Id,
+                EmailAddressTypeName = EmailAddressType.Home.Value
+            };
+            var creatorId = 1;
+            var updatorId = 2;
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var emailAddressId = 1;
+            EmailAddress emailAddressToUpdate = null;
+            context.SetupActions.Add(() =>
+            {
+                emailAddressToUpdate = new EmailAddress
+                {
+                    EmailAddressId = emailAddressId,
+                    Person = person,
+                    PersonId = person.PersonId
+                };
+                emailAddressToUpdate.History.CreatedBy = creatorId;
+                emailAddressToUpdate.History.RevisedBy = creatorId;
+                emailAddressToUpdate.History.CreatedOn = yesterday;
+                emailAddressToUpdate.History.RevisedOn = yesterday;
+
+                person.EmailAddresses.Add(emailAddressToUpdate);
+                context.EmailAddressTypes.Add(emailAddressType);
+                context.People.Add(person);
+                context.EmailAddresses.Add(emailAddressToUpdate);
+                context.Participants.Add(participant);
+                context.ParticipantPersons.Add(participantPerson);
+                context.ParticipantPersonSevisCommStatuses.Add(commStatus);
+            });
+            context.Revert();
+            var updatedEmailModel = new UpdatedEmailAddress(new User(updatorId), emailAddressId, "someone@isp.com", emailAddressType.EmailAddressTypeId, true);
+            
+            var message = String.Format("An update was attempted on participant with id [{0}] but should have failed validation.",
+                        participant.ParticipantId);
+            
+            Action a = () => service.Update(updatedEmailModel);
+            Func<Task> f = () => service.UpdateAsync(updatedEmailModel);
+            a.ShouldThrow<WebException>().WithMessage(message);
+            f.ShouldThrow<WebException>().WithMessage(message);            
+        }
+
+        [TestMethod]
+        public async Task TestUpdate_PersonEmail_SevisNotLocked()
+        {
+            var personId = 1;
+            var participantId = 1;
+            Person person = new Person
+            {
+                PersonId = personId
+            };
+            var participant = new Participant
+            {
+                ParticipantId = participantId,
+                PersonId = person.PersonId,
+                ParticipantStatusId = ParticipantStatus.Active.Id
+            };
+            List<Participant> participants = new List<Participant>();
+            participants.Add(participant);
+            person.Participations = participants;
+            var participantPerson = new ParticipantPerson
+            {
+                Participant = participant,
+                ParticipantId = participant.ParticipantId,
+            };
+            participant.ParticipantPerson = participantPerson;
+
+            var queuedToSubmitStatus = new SevisCommStatus
+            {
+                SevisCommStatusId = SevisCommStatus.InformationRequired.Id,
+                SevisCommStatusName = SevisCommStatus.InformationRequired.Value
+            };
+            var commStatus = new ParticipantPersonSevisCommStatus
+            {
+                AddedOn = DateTimeOffset.UtcNow,
+                BatchId = "batch id",
+                Id = 501,
+                ParticipantId = participant.ParticipantId,
+                ParticipantPerson = participantPerson,
+                SevisCommStatus = queuedToSubmitStatus,
+                SevisCommStatusId = queuedToSubmitStatus.SevisCommStatusId,
+            };
+
+            participantPerson.ParticipantPersonSevisCommStatuses.Add(commStatus);
+
+            EmailAddressType emailAddressType = new EmailAddressType
+            {
+                EmailAddressTypeId = EmailAddressType.Home.Id,
+                EmailAddressTypeName = EmailAddressType.Home.Value
+            };
+            var creatorId = 1;
+            var updatorId = 2;
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var emailAddressId = 1;
+            EmailAddress emailAddressToUpdate = null;
+            context.SetupActions.Add(() =>
+            {
+                emailAddressToUpdate = new EmailAddress
+                {
+                    EmailAddressId = emailAddressId,
+                    Person = person,
+                    PersonId = person.PersonId
+                };
+                emailAddressToUpdate.History.CreatedBy = creatorId;
+                emailAddressToUpdate.History.RevisedBy = creatorId;
+                emailAddressToUpdate.History.CreatedOn = yesterday;
+                emailAddressToUpdate.History.RevisedOn = yesterday;
+
+                person.EmailAddresses.Add(emailAddressToUpdate);
+                context.EmailAddressTypes.Add(emailAddressType);
+                context.People.Add(person);
+                context.EmailAddresses.Add(emailAddressToUpdate);
+                context.Participants.Add(participant);
+                context.ParticipantPersons.Add(participantPerson);
+                context.ParticipantPersonSevisCommStatuses.Add(commStatus);
+            });
+            context.Revert();
+            var updatedEmailModel = new UpdatedEmailAddress(new User(updatorId), emailAddressId, "someone@isp.com", emailAddressType.EmailAddressTypeId, true);
+
+            var message = String.Format("An update was attempted on participant with id [{0}] but should have failed validation.",
+                        participant.ParticipantId);
+
+            Action a = () => service.Update(updatedEmailModel);
+            Func<Task> f = () => service.UpdateAsync(updatedEmailModel);
+            a.ShouldNotThrow<WebException>();
+            f.ShouldNotThrow<WebException>();
         }
 
         [TestMethod]

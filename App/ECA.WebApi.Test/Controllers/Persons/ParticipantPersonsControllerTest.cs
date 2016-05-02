@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ECA.Business.Service.Persons;
 using ECA.WebApi.Controllers.Persons;
 using Moq;

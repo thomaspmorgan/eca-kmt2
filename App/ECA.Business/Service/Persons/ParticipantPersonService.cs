@@ -13,6 +13,9 @@ using System.Threading.Tasks;
 using NLog;
 using ECA.Core.Exceptions;
 using ECA.Business.Validation;
+using System.Web.Http;
+using System.Net.Http;
+using System.Net;
 
 namespace ECA.Business.Service.Persons
 {
@@ -27,6 +30,8 @@ namespace ECA.Business.Service.Persons
         private readonly Action<int, object, Type> throwIfModelDoesNotExist;
         private Action<int, int, Participant> throwSecurityViolationIfParticipantDoesNotBelongToProject;
         private IBusinessValidator<Object, UpdatedParticipantPersonValidationEntity> participantPersonValidator;
+        private Action<Participant> throwValidationErrorIfParticipantSevisInfoIsLocked;
+        public readonly int[] LOCKED_SEVIS_COMM_STATUSES = { 5, 13, 14 };
 
         /// <summary>
         /// Creates a new ParticipantPersonService with the given context to operate against.
@@ -57,6 +62,33 @@ namespace ECA.Business.Service.Persons
                         projectId));
                 }
             };
+            throwValidationErrorIfParticipantSevisInfoIsLocked = (participant) =>
+            {
+                if (participant.ParticipantPerson != null)
+                {
+                    var sevisStatusId = participant.ParticipantPerson.ParticipantPersonSevisCommStatuses.OrderByDescending(x => x.AddedOn).Select(x => x.SevisCommStatusId).FirstOrDefault();
+
+                    if (participant != null && IndexOfInt(LOCKED_SEVIS_COMM_STATUSES, sevisStatusId) != -1)
+                    {
+                        var msg = String.Format("An update was attempted on participant with id [{0}] but should have failed validation.",
+                                participant.ParticipantId);
+
+                        throw new WebException(msg);
+                    }
+                }
+            };
+        }
+
+        static int IndexOfInt(int[] arr, int value)
+        {
+            for (int i = 0; i < arr.Length; i++)
+            {
+                if (arr[i] == value)
+                {
+                    return i;
+                }
+            }
+            return -1;
         }
 
         #region Get
@@ -160,6 +192,7 @@ namespace ECA.Business.Service.Persons
             var participant = CreateGetParticipantByIdQuery(updatedPerson.ParticipantId).FirstOrDefault();
             throwIfModelDoesNotExist(updatedPerson.ParticipantId, participant, typeof(Participant));
             throwSecurityViolationIfParticipantDoesNotBelongToProject(updatedPerson.Audit.User.Id, updatedPerson.ProjectId, participant);
+            throwValidationErrorIfParticipantSevisInfoIsLocked(participant);
 
             //should be loaded as part of the query
             var participantPerson = Context.ParticipantPersons.Find(updatedPerson.ParticipantId);
@@ -228,6 +261,7 @@ namespace ECA.Business.Service.Persons
             var participant = await CreateGetParticipantByIdQuery(updatedPerson.ParticipantId).FirstOrDefaultAsync();
             throwIfModelDoesNotExist(updatedPerson.ParticipantId, participant, typeof(Participant));
             throwSecurityViolationIfParticipantDoesNotBelongToProject(updatedPerson.Audit.User.Id, updatedPerson.ProjectId, participant);
+            throwValidationErrorIfParticipantSevisInfoIsLocked(participant);
 
             //should be loaded as part of the query
             var participantPerson = await Context.ParticipantPersons.FindAsync(updatedPerson.ParticipantId);

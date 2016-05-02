@@ -579,7 +579,7 @@ namespace ECA.Business.Storage.Test
         }
 
         [TestMethod]
-        public void TestGetBlob()
+        public void TestGetBlobAsync()
         {
             using (ShimsContext.Create())
             {
@@ -616,11 +616,15 @@ namespace ECA.Business.Storage.Test
                 var testInstance = service.GetBlob(blobName, containerName);
 
                 Assert.IsNotNull(testInstance);
+
+                var testAsyncInstance = service.GetBlobAsync(blobName, containerName);
+
+                Assert.IsNotNull(testAsyncInstance);
             }
         }
 
         [TestMethod]
-        public void TestGetBlobLocation()
+        public void TestGetBlobLocationAsync()
         {
             using (ShimsContext.Create())
             {
@@ -664,11 +668,15 @@ namespace ECA.Business.Storage.Test
                 var testInstance = service.GetBlobLocation(blobName, containerName);
 
                 Assert.IsNotNull(testInstance);
+
+                var testAsyncInstance = service.GetBlobAsync(blobName, containerName);
+
+                Assert.IsNotNull(testAsyncInstance);
             }
         }
 
         [TestMethod]
-        public void TestGetBlob_InvalidName()
+        public void TestGetBlobAsync_InvalidName()
         {
             using (ShimsContext.Create())
             {
@@ -707,13 +715,15 @@ namespace ECA.Business.Storage.Test
 
                 CloudBlob blob = service.GetBlob(blobName, containerName);
                 Assert.IsNull(blob);
-            }
 
+                //CloudBlob asyncBlob = await service.GetBlobAsync(blobName, containerName);
+                //Assert.IsNull(asyncBlob);
+            }
             //Assert.IsNull(service.GetBlob("This blob doesn't exist"));
         }
 
         [TestMethod]
-        public void TestGetBlobLocation_InvalidName()
+        public void TestGetBlobLocationAsync_InvalidName()
         {
             using (ShimsContext.Create())
             {
@@ -759,6 +769,9 @@ namespace ECA.Business.Storage.Test
 
                 Uri blobLocation = service.GetBlobLocation(blobName, containerName);
                 Assert.AreNotEqual(blobUriString, blobLocation);
+
+                //Uri asyncBlobLocation = await service.GetBlobLocationAsync(blobName, containerName);
+                //Assert.AreNotEqual(blobUriString, asyncBlobLocation);
             }
 
             //Assert.AreEqual("Invalid Blob Name", service.GetBlobLocation("This blob doesn't exist"));
