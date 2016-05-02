@@ -1,4 +1,23 @@
-﻿angular.module('staticApp').factory('ConstantsService', function() {
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+angular.module('staticApp').factory('ConstantsService', function() {
 	return {
 		dataPointCategory: {
 			office: {id: 1, value: "Office"},
@@ -207,6 +226,7 @@
 		emailRegex: '^[_a-zA-Z0-9]+(\.[_a-zA-Z0-9]+)*@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*(\.[a-zA-Z]{2,4})$',
 		emptyGuid: '00000000-0000-0000-0000-000000000000',
 		equalComparisonType: 'eq',
+		fundingSourceType: '11',
 		greaterThanComparisonType: 'gt',
 		inComparisonType: 'in',
 		isNotNullComparisonType: 'notnull',
@@ -251,4 +271,5 @@
 		updateBreadcrumbsEventName: 'updateBreadcrumbs'
 	};
 });
+
 

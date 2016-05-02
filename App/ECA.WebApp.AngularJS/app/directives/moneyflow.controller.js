@@ -75,7 +75,7 @@ angular.module('staticApp')
 
       $scope.view.save = function () {
           $scope.view.isSaving = true;
-          $scope.view.moneyFlow.peerEntityTypeId = ($scope.view.moneyFlow.peerEntityTypeId == 11) ? ConstantsService.moneyFlowSourceRecipientType.organization.id : $scope.view.moneyFlow.peerEntityTypeId
+          $scope.view.moneyFlow.peerEntityTypeId = ($scope.view.moneyFlow.peerEntityTypeId == ConstantsService.fundingSourceType) ? ConstantsService.moneyFlowSourceRecipientType.organization.id : $scope.view.moneyFlow.peerEntityTypeId
           return MoneyFlowService.create($scope.view.moneyFlow)
           .then(function (response) {
               NotificationService.showSuccessMessage("Successfully saved the new funding.");
@@ -280,7 +280,7 @@ angular.module('staticApp')
               idMapFn = function (role) { return role.id; };
               valueMapFn = function (role) { return role.name; };
           }
-          else if (peerEntityTypeId === 11) {
+          else if (peerEntityTypeId === ConstantsService.fundingSourceType) {
               loadFn = LookupService.getOrganizationalRoles;
               propertyToFilter = 'value'
               idMapFn = function (role) { return role.id; };
@@ -381,7 +381,7 @@ angular.module('staticApp')
               entityId = entity.entityId;
           }
           else {
-              peerEntityTypeId = (moneyFlow.peerEntityTypeId == 11) ? ConstantsService.moneyFlowSourceRecipientType.organization.id : moneyFlow.peerEntityId
+              peerEntityTypeId = (moneyFlow.peerEntityTypeId == ConstantsService.fundingSourceType) ? ConstantsService.moneyFlowSourceRecipientType.organization.id : moneyFlow.peerEntityTypeId
               entityId = moneyFlow.peerEntityId;
           }
           if (peerEntityTypeId && entityId) {
@@ -464,7 +464,7 @@ angular.module('staticApp')
           else if (peerEntityTypeId === ConstantsService.moneyFlowSourceRecipientType.participant.id) {
               return handleParticipantSearchResponse(response);
           }
-          else if (peerEntityTypeId === 11) {
+          else if (peerEntityTypeId === ConstantsService.fundingSourceType) {
               return handleOrganizationsSearchResponse(response);
           }
           else {
@@ -541,16 +541,13 @@ angular.module('staticApp')
           else if (peerEntityTypeId === ConstantsService.moneyFlowSourceRecipientType.organization.id) {
               return OrganizationService.getOrganizations(searchParams).then(thenCallback).catch(catchCallback);
           }
-          else if (peerEntityTypeId === ConstantsService.moneyFlowSourceRecipientType.organization.id) {
-              return OrganizationService.getOrganizations(searchParams).then(thenCallback).catch(catchCallback);
-          }
           else if (peerEntityTypeId === ConstantsService.moneyFlowSourceRecipientType.office.id) {
               return OfficeService.getAll(searchParams).then(thenCallback).catch(catchCallback);
           }
           else if (peerEntityTypeId === ConstantsService.moneyFlowSourceRecipientType.participant.id) {
               return ParticipantService.getParticipantsByProject(entity.entityId, searchParams).then(thenCallback).catch(catchCallback);
           }
-          else if (peerEntityTypeId === 11) {
+          else if (peerEntityTypeId === ConstantsService.fundingSourceType) {
               return OrganizationService.getOrganizations(searchParams).then(thenCallback).catch(catchCallback);
           }
           else {
@@ -602,7 +599,7 @@ angular.module('staticApp')
                   searchFilter = searchFilter.equal('statusId', filterByValue.id);
               }
           }
-          else if (peerEntityTypeId === 11) {
+          else if (peerEntityTypeId === ConstantsService.fundingSourceType) {
               namePropertyName = 'name';
               idPropertyName = 'organizationId';
               searchFilter = searchFilter.containsAny('organizationRoleIds', [ConstantsService.organizationRole.fundingSource.id]);
@@ -722,21 +719,21 @@ angular.module('staticApp')
              (entity.entityTypeId === ConstantsService.moneyFlowSourceRecipientType.program.id) ||
              (entity.entityTypeId === ConstantsService.moneyFlowSourceRecipientType.office.id) ||
              (entity.entityTypeId === ConstantsService.moneyFlowSourceRecipientType.organization.id)) {
-              $scope.view.allowedSourceMoneyFlowSourceRecipientTypes.push ({ id: 11, name: "Funding Source"});
+              $scope.view.allowedSourceMoneyFlowSourceRecipientTypes.push({ id: ConstantsService.fundingSourceType, name: "Funding Source" });
           }
       }
 
-      function getAllMoneyFlowTypes() {
-          return LookupService.getAllMoneyFlowTypes(lookupParams)
-          .then(function (response) {
-              $scope.view.allowedSourceMoneyFlowSourceRecipientTypes = response.data;
-          })
-          .catch(function (response) {
-              var message = "Unable to load money flow types.";
-              $log.error(message);
-              NotificationService.showErrorMessage(message);
-          });
-      }
+      //function getAllMoneyFlowTypes() {
+      //    return LookupService.getAllMoneyFlowTypes(lookupParams)
+      //    .then(function (response) {
+      //        $scope.view.allowedSourceMoneyFlowSourceRecipientTypes = response.data;
+      //    })
+      //    .catch(function (response) {
+      //        var message = "Unable to load money flow types.";
+      //        $log.error(message);
+      //        NotificationService.showErrorMessage(message);
+      //    });
+      //}
 
       function getAllMoneyFlowStati() {
           return LookupService.getAllMoneyFlowStati(lookupParams)
@@ -751,7 +748,7 @@ angular.module('staticApp')
       }
 
       $scope.view.isLoadingRequiredData = true;
-      $q.all([getAllowedRecipientMoneyFlowSourceRecipientTypes(), getAllowedSourceMoneyFlowSourceRecipientTypes(), getAllMoneyFlowTypes(), getAllMoneyFlowStati()])
+      $q.all([getAllowedRecipientMoneyFlowSourceRecipientTypes(), getAllowedSourceMoneyFlowSourceRecipientTypes(), getAllMoneyFlowStati()])
         .then(function () {
             $scope.view.isLoadingRequiredData = false;
             if (entity.isCopy) {

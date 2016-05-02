@@ -1,6 +1,6 @@
 ﻿
 CREATE PROCEDURE [dbo].[GetOrganizationsByRoleId]
-	@OrganizationRoleId int = null
+	@OrganizationRoleId int = 0
 AS
 BEGIN
 
@@ -46,8 +46,12 @@ SELECT Organization_CTE.*,
 	  WHERE Organization_CTE.OrganizationId = childOrg.ParentOrganization_OrganizationId 
 		  and childOrg.OrganizationTypeId NOT IN (1,2,3) 
 		  and childOrg.Status = 'Active') as NumberOfChildren
-FROM Organization_CTE 
-WHERE OrganizationId IN (SELECT OrganizationId from OrganizationOrganizationRole WHERE OrganizationRoleId = @OrganizationRoleId) 
+FROM Organization_CTE
+WHERE (@OrganizationRoleId <> 0 AND OrganizationId IN (SELECT OrganizationId from OrganizationOrganizationRole WHERE OrganizationRoleId = @OrganizationRoleId)
+		OR
+	 @OrganizationRoleId = 0  AND OrganizationId IN (Select OrganizationId from Organization where OrganizationId not in (Select OrganizationId from OrganizationOrganizationRole)))
+
+/* WHERE OrganizationId IN (SELECT OrganizationId from OrganizationOrganizationRole WHERE OrganizationRoleId = @OrganizationRoleId) */
 ORDER BY OrganizationLevel
 
 END
