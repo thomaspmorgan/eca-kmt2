@@ -74,10 +74,21 @@
                 $scope.fundingElementId = 'funding' + $scope.participantid;
 
                 $scope.view.gridOptions = {
-                    paginationPageSizes: [25, 50, 75],
-                    paginationPageSize: 25,
+                    paginationPageSizes: [10, 25, 50, 75],
+                    paginationPageSize: 10,
                     useExternalPagination: true,
+                    useExternalSorting: true,
                     multiSelect: false,
+                    enableGridMenu: true,
+                    gridMenuCustomItems: [
+                      {
+                          title: 'Refresh',
+                          action: function ($event) {
+                              getSevisCommStatusesPage();
+                          },
+                          order: 210
+                      }
+                    ],
                     columnDefs: [
                       { name: 'addedOn', displayName: 'Date', type: 'date', cellFilter: 'date:\'MMM dd, yyyy hh:mm a\'' },
                       { name: 'sevisCommStatusName', displayName: 'Status' },
@@ -97,7 +108,6 @@
                                 paginationOptions.sort = null;
                             } else {
                                 paginationOptions.sort = { property: sortColumns[0].name, direction: sortColumns[0].sort.direction };
-                                $scope.gridOptions.paginationCurrentPage = 1;
                             }
                             getSevisCommStatusesPage();
                         });
@@ -120,6 +130,8 @@
                     if (newValue && !sevisInfoCopy) {
                         sevisInfoCopy = angular.copy(newValue);
                         projectId = newValue.projectId;
+                    } if (newValue != oldValue) {
+                        getSevisCommStatusesPage();
                     }
                 });
 
@@ -290,7 +302,7 @@
                         keyword: paginationOptions.keyword,
                         filter: paginationOptions.filter
                     };
-                    return ParticipantPersonsSevisService.getSevisCommStatuses(projectId, participantId, params)
+                    return ParticipantPersonsSevisService.getSevisCommStatuses(projectId, $scope.participantid, params)
                     .then(function (response) {
                         $scope.view.gridOptions.totalItems = response.data.total;
                         $scope.view.gridOptions.data = response.data.results;
@@ -313,7 +325,7 @@
                         }
                     }
                 }
-                
+
                 $scope.onGovtAgency1Select = function (item) {
                     if (item.description != null)
                         if (item.description == "OTHER")

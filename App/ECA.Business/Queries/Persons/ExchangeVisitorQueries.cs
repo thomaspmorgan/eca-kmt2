@@ -190,8 +190,9 @@ namespace ECA.Business.Queries.Persons
 
                         let numberOfCitizenships = dependent.CountriesOfCitizenship.Count()
                         let countryOfCitizenship = dependent.CountriesOfCitizenship.OrderByDescending(x => x.IsPrimary).FirstOrDefault()
-                        let sevisCountryOfCitizenship = countryOfCitizenship != null ? countryOfCitizenship.Location : null
-                        let sevisCountryOfCitizenshipCode = sevisCountryOfCitizenship != null ? sevisCountryOfCitizenship.LocationIso : null
+                        let countryOfCitizenshipLocation = countryOfCitizenship != null ? countryOfCitizenship.Location : null
+                        let sevisCountryOfCitizenship = countryOfCitizenshipLocation != null ? countryOfCitizenshipLocation.BirthCountry : null
+                        let sevisCountryOfCitizenshipCode = sevisCountryOfCitizenship != null ? sevisCountryOfCitizenship.CountryCode : null
 
                         let relationship = context.DependentTypes.Where(x => x.DependentTypeId == dependent.DependentTypeId).FirstOrDefault()
                         let relationshipCode = relationship != null ? relationship.SevisDependentTypeCode : null
@@ -228,7 +229,7 @@ namespace ECA.Business.Queries.Persons
                             GenderId = gender.GenderId,
                             NumberOfCitizenships = numberOfCitizenships,
                             PermanentResidenceCountryCode = residenceSevisCountryCode,
-                            PersonId = dependent.PersonId,
+                            PersonId = dependent.DependentId,
                             ParticipantId = participantId,
                             Relationship = relationshipCode,
                             DependentTypeId = relationship != null ? relationship.DependentTypeId : -1,

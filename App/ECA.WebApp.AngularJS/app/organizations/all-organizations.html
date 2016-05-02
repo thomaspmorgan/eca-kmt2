@@ -49,7 +49,7 @@
                                    ui-select-st-search-property="organizationRoleIds"
                                    ui-select-st-search-comparison-type="containsany"
                                    close-on-select="true"
-                                   ng-model="selectedOrganizationRoles"
+                                   ng-model="selectedOrganizationRole"
                                    theme="select2"
                                    append-to-body="true"
                                    title="Choose regions to filter."
@@ -111,8 +111,21 @@
                 <p style="line-height: 34px;">Filter by Organization Role</p>
             </div>
             <div class="col-md-3">
-                <select class="form-control" ng-options="role.id as role.value for role in organizationRoles" ng-model="view.selectedOrganizationRoleId" ng-change="organizationRoleChanged()">
-                </select>
+                <ui-select 
+                           ng-change="organizationRoleChanged()"
+                           close-on-select="true"
+                           ng-model="view.selectedOrganizationRole"
+                           theme="select2"
+                           append-to-body="true"
+                           title="Choose role to filter."
+                           style="min-width: 200px;">
+                    <ui-select-match allow-clear placeholder="Select role to filter...">
+                        <div>{{$select.selected.value}}</div>
+                    </ui-select-match>
+                    <ui-select-choices repeat="role in organizationRoles | filter:$select.search">
+                        {{role.value}}
+                    </ui-select-choices>
+                </ui-select>
             </div>
         </div>
         <table class="col-md-12 alt">

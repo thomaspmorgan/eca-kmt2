@@ -134,7 +134,7 @@
                             </td>
                             <td class="text-right col-md-1">
                                 <div>
-                                    <span class="{{moneyFlow.amount < 0 ? 'outgoingMoneyFlow' : 'incomingMoneyFlow'}}">{{moneyFlow.amount | currency}}</span>
+                                    <span class="{{moneyFlow.amount < 0 ? 'outgoingMoneyFlow' : 'incomingMoneyFlow'}}">{{moneyFlow.amount | currency : "$" : 0}}</span>
                                 </div>
                             </td>
                             <td class="text-right col-md-1">
@@ -297,7 +297,7 @@
                                                        ng-blur="view.onEditableAmountChange($event, moneyFlow)"
                                                        step="any"
                                                        min="0"
-                                                       ui-money-mask="2"
+                                                       ui-money-mask="0"
                                                        class="form-control"
                                                        ui-validate="{exceedsSourceAmount: 'view.validateSourceRemainingAmount($value, moneyFlow)'}"
                                                        placeholder="Enter amount."
