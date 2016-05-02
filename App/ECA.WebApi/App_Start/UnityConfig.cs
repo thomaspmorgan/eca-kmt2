@@ -205,6 +205,7 @@ namespace ECA.WebApi.App_Start
             container.RegisterType<IFileStorageHandler, FileStorageHandler>(new HierarchicalLifetimeManager());
             container.RegisterType<IFileStorageService, FileStorageService>(new HierarchicalLifetimeManager());
             container.RegisterType<IBlobStorageSettings, BlobStorageSettings>(new HierarchicalLifetimeManager());
+            container.RegisterType<ISevisCommStatusService, SevisCommStatusService>(new HierarchicalLifetimeManager());
         }
 
         /// <summary>

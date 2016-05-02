@@ -30,6 +30,9 @@ INSERT INTO @sevisUserAccount (OrgId, Username, EmailAddress) VALUES (@orgId, @s
 --Add All ECA Accounts Here
 INSERT INTO @sevisUserAccount (OrgId, Username, EmailAddress) VALUES (@orgId, 'sshiel1521', 'ShieldsSD@statedept.us');
 INSERT INTO @sevisUserAccount (OrgId, Username, EmailAddress) VALUES (@orgId, 'sgrant5540', 'grantsb@statedept.us');
+INSERT INTO @sevisUserAccount (OrgId, Username, EmailAddress) VALUES (@orgId, 'dgusta9934', 'gustafsondp@statedept.us');
+INSERT INTO @sevisUserAccount (OrgId, Username, EmailAddress) VALUES (@orgId, 'jnelso7231', 'nelsonjg2@statedept.us');
+INSERT INTO @sevisUserAccount (OrgId, Username, EmailAddress) VALUES (@orgId, 'rmurph8772', 'murphyrm@statedept.us');
 
 
 --END ADDING ALL ACCOUNTS THAT WILL BE UPSERTED...

@@ -272,6 +272,7 @@
     <Content Include="app\services\data-point-configuration.service.js" />
     <Content Include="app\services\default-exchange-visitor-funding.service.js" />
     <Content Include="app\services\dependent.service.js" />
+    <Content Include="app\services\ui-grid-filter.service.js" />
     <Content Include="app\services\itinerary.service.js" />
     <Content Include="app\services\navigation.service.js" />
     <Content Include="app\services\participant-exchange-visitor.service.js" />
