@@ -30,7 +30,7 @@
                 <i class="material-icons md-dark md-36 pull-right" ng-show="!showPii">expand_less</i>
             </a>            
             <div class="pull-right" style="min-width:40px">
-                <a ng-show="!edit.Pii && !edit.piiLoading" ng-disabled="edit.blockEdit" ng-click="edit.editPii()">
+                <a ng-show="!edit.Pii && !edit.piiLoading" ng-disabled="edit.blockEdit" ng-click="editPii()">
                     <span tooltip="{{edit.blockEdit ? 'The participant is currently in a SEVIS Status which does not allow edits' : ''}}">
                         <i class="material-icons md-dark md-24 pull-right" style="{{edit.blockEdit ? 'opacity: .5' : 'opacity: 1'}}">edit</i>
                     </span>

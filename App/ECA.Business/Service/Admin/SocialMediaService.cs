@@ -1,4 +1,5 @@
-﻿using ECA.Business.Queries.Admin;
+﻿using ECA.Business.Exceptions;
+using ECA.Business.Queries.Admin;
 using ECA.Business.Queries.Models.Admin;
 using ECA.Core.Exceptions;
 using ECA.Core.Service;
@@ -9,7 +10,6 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Diagnostics.Contracts;
 using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
 
 namespace ECA.Business.Service.Admin
@@ -21,10 +21,11 @@ namespace ECA.Business.Service.Admin
     public class SocialMediaService : DbContextService<EcaContext>, ECA.Business.Service.Admin.ISocialMediaService
     {
         private readonly Logger logger = LogManager.GetCurrentClassLogger();
+        private EcaService service;
         private readonly Action<ISocialable, int> throwIfSocialableEntityNotFound;
         private readonly Action<SocialMedia, int> throwIfSocialMediaNotFound;
         private Action<Participant> throwValidationErrorIfParticipantSevisInfoIsLocked;
-        public readonly int[] LOCKED_SEVIS_COMM_STATUSES = { 5, 13, 14 };
+        public readonly int[] LOCKED_SEVIS_COMM_STATUSES = { SevisCommStatus.QueuedToSubmit.Id, SevisCommStatus.PendingSevisSend.Id, SevisCommStatus.SentByBatch.Id };
 
         /// <summary>
         /// Creates a new instance and initializes the context..
@@ -34,6 +35,8 @@ namespace ECA.Business.Service.Admin
         public SocialMediaService(EcaContext context, List<ISaveAction> saveActions = null)
             : base(context, saveActions)
         {
+            service = new EcaService(context);
+
             Contract.Requires(context != null, "The context must not be null.");
             throwIfSocialableEntityNotFound = (socialableEntity, id) =>
             {
@@ -60,7 +63,7 @@ namespace ECA.Business.Service.Admin
                         var msg = String.Format("An update was attempted on participant with id [{0}] but should have failed validation.",
                                 participant.ParticipantId);
 
-                        throw new WebException(msg);
+                        throw new EcaBusinessException(msg);
                     }
                 }
             };
@@ -162,7 +165,7 @@ namespace ECA.Business.Service.Admin
         {
             Contract.Requires(updatedSocialMedia != null, "The updatedSocialMedia must not be null.");
             throwIfSocialMediaNotFound(modelToUpdate, updatedSocialMedia.Id);
-            var participant = Context.Participants.Where(x => x.PersonId == modelToUpdate.PersonId && x.ParticipantStatusId == ParticipantStatus.Active.Id).Include(x => x.ParticipantPerson).Include(x => x.ParticipantPerson.ParticipantPersonSevisCommStatuses).FirstOrDefault();
+            var participant = service.GetParticipantByPersonId((int)modelToUpdate.PersonId);
             if (participant != null)
             {
                 throwValidationErrorIfParticipantSevisInfoIsLocked(participant);
