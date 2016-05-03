@@ -83,6 +83,7 @@ angular.module('staticApp')
       var projectId = $stateParams.projectId;
 
       var notifyStatuses = ConstantsService.sevisStatusIds.split(',');
+      $scope.maxCellText = ConstantsService.uiGridMaxCellTextLength;
 
       var origNonUsParticipantsEst;
       var origUsParticipantsEst;
@@ -834,13 +835,13 @@ angular.module('staticApp')
       };
 
       var defaultColumnDefs = [
-           { name: 'name', cellTemplate: '<a href="{{row.entity.href}}">{{row.entity.name}}</a>', cellClass: 'left-padding'},
+           { name: 'name', cellTemplate: '<a href="{{row.entity.href}}">{{row.entity.name | truncateLongText}}</a>', cellClass: 'left-padding' },
            { name: 'participantType' },
            { name: 'participantStatus' },
            { name: 'sevisStatus', displayName: 'SEVIS Status' }
       ];
       var sevisColumnDefs = [
-           { name: 'fullName', displayName: 'Name', cellTemplate: '<a href="{{row.entity.href}}">{{row.entity.fullName}}</a>', cellClass: 'left-padding'},
+           { name: 'fullName', displayName: 'Name', cellTemplate: '<a href="{{row.entity.href}}">{{row.entity.fullName | truncateLongText}}</a>', cellClass: 'left-padding' },
            { name: 'sevisStatus', displayName: 'SEVIS Status' },
            { name: 'sevisId'},
            { name: 'isCreatedViaBatch', displayName: 'Created via Batch', cellTemplate: '<input type="checkbox" ng-model="row.entity.isCreatedViaBatch" ng-disabled="true">', cellClass: 'text-center'},
@@ -934,4 +935,6 @@ angular.module('staticApp')
       }
 
       getPage();
-  });
+  })
+
+

@@ -691,10 +691,9 @@ namespace ECA.Business.Service
         /// </summary>
         /// <param name="locations">Locations to lookup</param>
         /// <returns>A list of citizen countries</returns>
-        protected async Task<List<PersonDependentCitizenCountry>> GetCitizenshipCountriesByIdAsync(int dependentId, List<CitizenCountryDTO> locations)
+        protected List<PersonDependentCitizenCountry> GetCitizenshipCountriesById(int dependentId, List<CitizenCountryDTO> locations)
         {
             var locationIds = locations.Select(x => x.LocationId);
-            var countries = Context.Locations.Where(x => locationIds.Contains(x.LocationId));
             List<PersonDependentCitizenCountry> dependentCitizenCountries = new List<PersonDependentCitizenCountry>();
 
             locations.ForEach(x =>

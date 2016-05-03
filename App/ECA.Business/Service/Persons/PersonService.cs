@@ -286,7 +286,7 @@ namespace ECA.Business.Service.Persons
         /// <returns></returns>
         private async Task<PersonDependent> CreatePersonDependentAsync(NewPersonDependent newPerson, List<EmailAddress> emails)
         {
-            var countriesOfCitizenship = await GetCitizenshipCountriesByIdAsync(0, newPerson.CountriesOfCitizenship);
+            var countriesOfCitizenship = GetCitizenshipCountriesById(0, newPerson.CountriesOfCitizenship);
 
             var dependent = new PersonDependent
             {

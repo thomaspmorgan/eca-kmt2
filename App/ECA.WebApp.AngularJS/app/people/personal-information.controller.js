@@ -32,11 +32,11 @@ angular.module('staticApp')
           });
       
       $scope.editPii = function () {
-          if (!$scope.edit.blockEdit) {
+          //if (!$scope.edit.blockEdit) {
               $scope.edit.Pii = !$scope.edit.Pii;
-          } else {
-              return false;
-          }
+          //} else {
+          //    return false;
+          //}
       }
 
       $scope.editContact = function () {

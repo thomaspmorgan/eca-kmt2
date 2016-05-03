@@ -218,8 +218,8 @@ angular.module('staticApp')
                       } else {
                           NotificationService.showErrorMessage(error.data);
                       }
-                  } else if (error.status === null) {
-                      NotificationService.showErrorMessage('Sevis Error: ' + error.data);
+                  } else if (error.status == 500 && error.data.exceptionMessage !== '') {
+                      NotificationService.showErrorMessage('Sevis Error: ' + error.data.exceptionMessage);
                   } else {
                       if (error) {
                           NotificationService.showErrorMessage(error.status + ': ' + error.statusText);

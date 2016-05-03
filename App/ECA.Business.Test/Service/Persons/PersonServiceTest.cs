@@ -701,9 +701,7 @@ namespace ECA.Business.Test.Service.Persons
                 PersonId = person.PersonId,
                 EmailAddressType = emailAddressType,
                 IsPrimary = true
-
             };
-
             var email2 = new EmailAddress
             {
                 EmailAddressId = 2,
