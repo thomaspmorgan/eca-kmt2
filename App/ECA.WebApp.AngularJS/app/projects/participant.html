@@ -137,7 +137,8 @@
                     <participant-person-info 
                                              participantid="{{getSelectedParticipant().participantId}}"
                                              onparticipantupdated="onParticipantUpdated" 
-                                             active="view.tabInfo" />
+                                             active="view.tabInfo"
+                                             sevisinfo="sevisInfo[getSelectedParticipant().participantId]" />
                 </tab>
                 <tab heading="SEVIS Information" class="tab" ng-if="showSevisTab(getSelectedParticipant().participantTypeId) && permissions.hasEditSevisPermission" select="onSevisTabSelected(getSelectedParticipant().participantId)" active="view.tabSevis" deselect="view.tabSevis=false">
                     <div>
