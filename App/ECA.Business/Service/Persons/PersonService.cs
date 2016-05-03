@@ -14,8 +14,6 @@ using ECA.Business.Validation;
 using ECA.Core.Query;
 using ECA.Core.DynamicLinq;
 using ECA.Core.Exceptions;
-using System.Web.Http;
-using System.Net.Http;
 using System.Net;
 
 namespace ECA.Business.Service.Persons
@@ -29,7 +27,7 @@ namespace ECA.Business.Service.Persons
         private readonly IBusinessValidator<PersonServiceValidationEntity, PersonServiceValidationEntity> validator;
         private Action<Location, int> throwIfLocationNotFound;
         private Action<Participant> throwValidationErrorIfParticipantSevisInfoIsLocked;
-        public readonly int[] LOCKED_SEVIS_COMM_STATUSES = { 5, 13, 14 };
+        public readonly int[] LOCKED_SEVIS_COMM_STATUSES = { SevisCommStatus.QueuedToSubmit.Id, SevisCommStatus.PendingSevisSend.Id, SevisCommStatus.SentByBatch.Id };
 
         /// <summary>
         /// Constructor
@@ -60,8 +58,8 @@ namespace ECA.Business.Service.Persons
                     {
                         var msg = String.Format("An update was attempted on participant with id [{0}] but should have failed validation.",
                                 participant.ParticipantId);
-                        
-                        throw new WebException(msg);
+
+                        throw new EcaBusinessException(msg);
                     }
                 }
             };
@@ -119,12 +117,11 @@ namespace ECA.Business.Service.Persons
                 throw new EcaBusinessException("The person already exists.");
             }
             var personToUpdate = await GetPersonModelByIdAsync(pii.PersonId);
-            var participant = Context.Participants.Where(x => x.PersonId == pii.PersonId && x.ParticipantStatusId == ParticipantStatus.Active.Id).Include(x => x.ParticipantPerson).Include(x => x.ParticipantPerson.ParticipantPersonSevisCommStatuses).FirstOrDefault();
+            var participant = await GetParticipantByPersonIdAsync(pii.PersonId);
             if (participant != null)
             {
                 throwValidationErrorIfParticipantSevisInfoIsLocked(participant);
-            }
-            
+            }            
             Location cityOfBirth = null;
             if (pii.CityOfBirthId.HasValue)
             {
@@ -286,7 +283,7 @@ namespace ECA.Business.Service.Persons
         /// <returns></returns>
         private async Task<PersonDependent> CreatePersonDependentAsync(NewPersonDependent newPerson, List<EmailAddress> emails)
         {
-            var countriesOfCitizenship = await GetCitizenshipCountriesByIdAsync(0, newPerson.CountriesOfCitizenship);
+            var countriesOfCitizenship = GetCitizenshipCountriesById(0, newPerson.CountriesOfCitizenship);
 
             var dependent = new PersonDependent
             {

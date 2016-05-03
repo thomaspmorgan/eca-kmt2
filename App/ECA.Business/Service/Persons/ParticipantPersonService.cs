@@ -16,6 +16,7 @@ using ECA.Business.Validation;
 using System.Web.Http;
 using System.Net.Http;
 using System.Net;
+using ECA.Business.Exceptions;
 
 namespace ECA.Business.Service.Persons
 {
@@ -73,7 +74,7 @@ namespace ECA.Business.Service.Persons
                         var msg = String.Format("An update was attempted on participant with id [{0}] but should have failed validation.",
                                 participant.ParticipantId);
 
-                        throw new WebException(msg);
+                        throw new EcaBusinessException(msg);
                     }
                 }
             };

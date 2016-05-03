@@ -1,5 +1,4 @@
 ﻿using ECA.Business.Queries.Models.Persons;
-using ECA.Business.Service.Persons;
 using ECA.Core.Service;
 using ECA.Data;
 using NLog;
@@ -685,16 +684,15 @@ namespace ECA.Business.Service
             logger.Trace("Retrieved locations by ids {0}.", String.Join(", ", locationIds));
             return locations;
         }
-
+        
         /// <summary>
         /// Get a list of citizen countries
         /// </summary>
         /// <param name="locations">Locations to lookup</param>
         /// <returns>A list of citizen countries</returns>
-        protected async Task<List<PersonDependentCitizenCountry>> GetCitizenshipCountriesByIdAsync(int dependentId, List<CitizenCountryDTO> locations)
+        protected List<PersonDependentCitizenCountry> GetCitizenshipCountriesById(int dependentId, List<CitizenCountryDTO> locations)
         {
             var locationIds = locations.Select(x => x.LocationId);
-            var countries = Context.Locations.Where(x => locationIds.Contains(x.LocationId));
             List<PersonDependentCitizenCountry> dependentCitizenCountries = new List<PersonDependentCitizenCountry>();
 
             locations.ForEach(x =>
@@ -754,6 +752,42 @@ namespace ECA.Business.Service
             return location;
         }
 
+        /// <summary>
+        /// Gets a participant by person id
+        /// </summary>
+        /// <param name="personId"></param>
+        /// <returns>Participant</returns>
+        public Participant GetParticipantByPersonId(int personId)
+        {
+            var participant = CreateGetParticipantById(personId).FirstOrDefault();
+            logger.Trace("Retrieved location by id {0}.", personId);
+            return participant;
+        }
+
+        /// <summary>
+        /// Gets a participant by person id
+        /// </summary>
+        /// <param name="personId"></param>
+        /// <returns>Participant</returns>
+        public async Task<Participant> GetParticipantByPersonIdAsync(int personId)
+        {
+            var participant = await CreateGetParticipantById(personId).FirstOrDefaultAsync();
+            logger.Trace("Retrieved location by id {0}.", personId);
+            return participant;
+        }
+
+        /// <summary>
+        /// Creates query to lookup a single participant
+        /// </summary>
+        /// <param name="personId"></param>
+        /// <returns></returns>
+        private IQueryable<Participant> CreateGetParticipantById(int personId)
+        {
+            var participant = Context.Participants.Where(x => x.PersonId == personId && x.ParticipantStatusId == ParticipantStatus.Active.Id).Include(x => x.ParticipantPerson).Include(x => x.ParticipantPerson.ParticipantPersonSevisCommStatuses);
+            logger.Trace("Retrieved location by id {0}.", personId);
+            return participant;
+        }
+        
         /// <summary>
         /// Returns a query to find locations that were not previously set on an entity and are currently inactive.  This is useful
         /// when an entity had locations set that have since become inactive and those inactive values should be not removed.

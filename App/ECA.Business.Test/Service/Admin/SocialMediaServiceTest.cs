@@ -1,4 +1,5 @@
-﻿using ECA.Business.Queries.Models.Admin;
+﻿using ECA.Business.Exceptions;
+using ECA.Business.Queries.Models.Admin;
 using ECA.Business.Service;
 using ECA.Business.Service.Admin;
 using ECA.Core.Exceptions;
@@ -297,8 +298,8 @@ namespace ECA.Business.Test.Service.Admin
 
             Action a = () => service.Update(updatedSocialMedia);
             Func<Task> f = () => service.UpdateAsync(updatedSocialMedia);
-            a.ShouldThrow<WebException>().WithMessage(message);
-            f.ShouldThrow<WebException>().WithMessage(message);
+            a.ShouldThrow<EcaBusinessException>().WithMessage(message);
+            f.ShouldThrow<EcaBusinessException>().WithMessage(message);
         }
 
         [TestMethod]
@@ -392,8 +393,8 @@ namespace ECA.Business.Test.Service.Admin
 
             Action a = () => service.Update(updatedSocialMedia);
             Func<Task> f = () => service.UpdateAsync(updatedSocialMedia);
-            a.ShouldNotThrow<WebException>();
-            f.ShouldNotThrow<WebException>();
+            a.ShouldNotThrow<EcaBusinessException>();
+            f.ShouldNotThrow<EcaBusinessException>();
         }
 
         #endregion
