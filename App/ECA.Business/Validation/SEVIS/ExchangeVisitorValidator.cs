@@ -89,10 +89,13 @@ namespace ECA.Business.Validation.Sevis
                 .WithState(x => new StartDateErrorPath())
                 .WithMessage(PROGRAM_START_DATE_REQUIRED_ERROR_MESSAGE);
 
-            RuleFor(x => x.ProgramStartDate)
-               .GreaterThan(DateTime.UtcNow.Date)
-               .WithState(x => new StartDateErrorPath())
-               .WithMessage(PROGRAM_START_DATE_MUST_BE_IN_THE_FUTURE);
+            When(x => String.IsNullOrWhiteSpace(x.SevisId), () =>
+            {
+                RuleFor(x => x.ProgramStartDate)
+                   .GreaterThan(DateTime.UtcNow.Date)
+                   .WithState(x => new StartDateErrorPath())
+                   .WithMessage(PROGRAM_START_DATE_MUST_BE_IN_THE_FUTURE);
+            });
 
             RuleFor(visitor => visitor.ProgramEndDate)
                 .NotEqual(default(DateTime))
