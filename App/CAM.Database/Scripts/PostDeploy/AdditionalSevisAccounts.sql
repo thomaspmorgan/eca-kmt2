@@ -14,7 +14,6 @@ INSERT INTO @sevisUserAccount (OrgId, Username, EmailAddress) VALUES (@orgId, @s
 INSERT INTO @sevisUserAccount (OrgId, Username, EmailAddress) VALUES (@orgId, @sevisUsername, 'comptonwa@statedept.us');
 INSERT INTO @sevisUserAccount (OrgId, Username, EmailAddress) VALUES (@orgId, @sevisUsername, 'sayyade@statedept.us');
 INSERT INTO @sevisUserAccount (OrgId, Username, EmailAddress) VALUES (@orgId, @sevisUsername, 'boustaniw@statedept.us');
-
 INSERT INTO @sevisUserAccount (OrgId, Username, EmailAddress) VALUES (@orgId, @sevisUsername, 'brian.gibowski@buchanan-edwards.com');
 INSERT INTO @sevisUserAccount (OrgId, Username, EmailAddress) VALUES (@orgId, @sevisUsername, 'brandon.tucker@buchanan-edwards.com');
 INSERT INTO @sevisUserAccount (OrgId, Username, EmailAddress) VALUES (@orgId, @sevisUsername, 'alan.compton@buchanan-edwards.com');
