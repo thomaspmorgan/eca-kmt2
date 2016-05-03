@@ -189,10 +189,13 @@ namespace ECA.Business.Service.Admin
         {
             Contract.Requires(updatedPhoneNumber != null, "The updatedPhoneNumber must not be null.");
             throwIfPhoneNumberNotFound(modelToUpdate, updatedPhoneNumber.Id);
-            var participant = service.GetParticipantByPersonId((int)modelToUpdate.PersonId);
-            if (participant != null)
+            if (modelToUpdate.PersonId.HasValue)
             {
-                throwValidationErrorIfParticipantSevisInfoIsLocked(participant);
+                var participant = service.GetParticipantByPersonId((int)modelToUpdate.PersonId);
+                if (participant != null)
+                {
+                    throwValidationErrorIfParticipantSevisInfoIsLocked(participant);
+                }
             }
             modelToUpdate.PhoneNumberTypeId = updatedPhoneNumber.PhoneNumberTypeId;
             modelToUpdate.Number = updatedPhoneNumber.Number;

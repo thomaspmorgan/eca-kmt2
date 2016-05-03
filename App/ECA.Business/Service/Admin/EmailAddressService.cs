@@ -162,7 +162,11 @@ namespace ECA.Business.Service.Admin
         public void Update(UpdatedEmailAddress updatedEmailAddress)
         {
             var emailAddress = Context.EmailAddresses.Find(updatedEmailAddress.Id);
-            var participant = service.GetParticipantByPersonId((int)emailAddress.PersonId);
+            Participant participant = null;
+            if (emailAddress != null && emailAddress.PersonId.HasValue)
+            {
+                participant = service.GetParticipantByPersonId((int)emailAddress.PersonId);
+            }            
             List<EmailAddress> existingEmailAddresses = new List<EmailAddress>();
             if (emailAddress != null && updatedEmailAddress.IsPrimary)
             {
@@ -178,7 +182,11 @@ namespace ECA.Business.Service.Admin
         public async Task UpdateAsync(UpdatedEmailAddress updatedEmailAddress)
         {
             var emailAddress = await Context.EmailAddresses.FindAsync(updatedEmailAddress.Id);
-            var participant = await service.GetParticipantByPersonIdAsync((int)emailAddress.PersonId);
+            Participant participant = null;
+            if (emailAddress != null && emailAddress.PersonId.HasValue)
+            {
+                participant = await service.GetParticipantByPersonIdAsync((int)emailAddress.PersonId);
+            }            
             List<EmailAddress> existingEmailAddresses = new List<EmailAddress>();
             if (emailAddress != null && updatedEmailAddress.IsPrimary)
             {

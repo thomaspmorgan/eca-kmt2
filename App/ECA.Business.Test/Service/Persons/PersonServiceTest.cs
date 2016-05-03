@@ -3208,7 +3208,7 @@ namespace ECA.Business.Test.Service.Persons
                         participant.ParticipantId);
 
             Func<Task> f = () => service.UpdatePiiAsync(pii);
-            f.ShouldThrow<WebException>().WithMessage(message);
+            f.ShouldThrow<EcaBusinessException>().WithMessage(message);
         }
         
         #endregion

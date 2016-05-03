@@ -14,6 +14,7 @@ using ECA.Business.Validation;
 using Moq;
 using ECA.Core.Exceptions;
 using System.Net;
+using ECA.Business.Exceptions;
 
 namespace ECA.Business.Test.Service.Persons
 {
@@ -736,8 +737,8 @@ namespace ECA.Business.Test.Service.Persons
             
             Action a = () => service.CreateOrUpdate(updatedPersonParticipant);
             Func<Task> f = () => service.CreateOrUpdateAsync(updatedPersonParticipant);
-            a.ShouldThrow<WebException>().WithMessage(message);
-            f.ShouldThrow<WebException>().WithMessage(message);
+            a.ShouldThrow<EcaBusinessException>().WithMessage(message);
+            f.ShouldThrow<EcaBusinessException>().WithMessage(message);
         }
 
         [TestMethod]
@@ -839,8 +840,8 @@ namespace ECA.Business.Test.Service.Persons
 
             Action a = () => service.CreateOrUpdate(updatedPersonParticipant);
             Func<Task> f = () => service.CreateOrUpdateAsync(updatedPersonParticipant);
-            a.ShouldNotThrow<WebException>();
-            f.ShouldNotThrow<WebException>();
+            a.ShouldNotThrow<EcaBusinessException>();
+            f.ShouldNotThrow<EcaBusinessException>();
         }
 
         [TestMethod]

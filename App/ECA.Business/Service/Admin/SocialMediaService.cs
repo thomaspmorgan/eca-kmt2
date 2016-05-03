@@ -165,11 +165,14 @@ namespace ECA.Business.Service.Admin
         {
             Contract.Requires(updatedSocialMedia != null, "The updatedSocialMedia must not be null.");
             throwIfSocialMediaNotFound(modelToUpdate, updatedSocialMedia.Id);
-            var participant = service.GetParticipantByPersonId((int)modelToUpdate.PersonId);
-            if (participant != null)
+            if (modelToUpdate.PersonId.HasValue)
             {
-                throwValidationErrorIfParticipantSevisInfoIsLocked(participant);
-            }
+                var participant = service.GetParticipantByPersonId((int)modelToUpdate.PersonId);
+                if (participant != null)
+                {
+                    throwValidationErrorIfParticipantSevisInfoIsLocked(participant);
+                }
+            }            
             modelToUpdate.SocialMediaTypeId = updatedSocialMedia.SocialMediaTypeId;
             modelToUpdate.SocialMediaValue = updatedSocialMedia.Value;
             updatedSocialMedia.Update.SetHistory(modelToUpdate);
