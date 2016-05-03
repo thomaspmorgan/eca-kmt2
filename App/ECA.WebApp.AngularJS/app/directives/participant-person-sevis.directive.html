@@ -32,7 +32,7 @@
                 </fieldset>
             </div>
         </div>
-        <div ng-show="sevisinfo.sevisValidationResult && sevisinfo.sevisValidationResult.isValid && sevisinfo.sevisBatchResult.length == 0">
+        <div ng-show="sevisinfo.sevisValidationResult && sevisinfo.sevisValidationResult.isValid && (!sevisinfo.sevisBatchResult || sevisinfo.sevisBatchResult.length == 0)">
             <div class="col-md-3">
                 <p class="title-label" style="color:green;">
                     <i class="material-icons md-dark md-18" style="color:green;">check</i> Verification passed
