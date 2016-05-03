@@ -800,5 +800,30 @@ namespace ECA.Business.Service
 
             return CreateGetNewInactiveEntityLocationsQuery(programLocations, allLocationIds);
         }
+
+        /// <summary>
+        /// Returns a query to find theme ids
+        /// </summary>
+        /// <param name="currentThemes">Current themes of project or program</param>
+        /// <returns>The query to retrieve allowed theme ids</returns>
+        protected IQueryable<int> CreateGetAllowedThemeIdsQuery(IEnumerable<int> currentThemes)
+        {
+            var activeThemeIds = Context.Themes.Where(x => x.IsActive == true).Select(x => x.ThemeId);
+            var allowedThemeIds = activeThemeIds.Union(currentThemes);
+            return allowedThemeIds;
+        }
+
+        /// <summary>
+        /// Returns a query to find goal ids
+        /// </summary>
+        /// <param name="currentGoals">Current goals of project or program</param>
+        /// <returns>The query to retrieve allowed goal ids</returns>
+        protected IQueryable<int> CreateGetAllowedGoalIdsQuery(IEnumerable<int> currentGoals)
+        {
+            var activeGoalIds = Context.Goals.Where(x => x.IsActive == true).Select(x => x.GoalId);
+            var allowedGoalIds = activeGoalIds.Union(currentGoals);
+            return allowedGoalIds;
+        }
+
     }
 }
