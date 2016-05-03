@@ -1,4 +1,5 @@
-﻿using ECA.Business.Queries.Admin;
+﻿using ECA.Business.Exceptions;
+using ECA.Business.Queries.Admin;
 using ECA.Business.Queries.Models.Admin;
 using ECA.Core.Exceptions;
 using ECA.Core.Service;
@@ -9,25 +10,22 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Diagnostics.Contracts;
 using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
-//using System.Net;
-//using System.Net.Http;
-//using System.Web.Http;
 
 namespace ECA.Business.Service.Admin
 {
     /// <summary>
-    /// The EmailAddressService is capable of handling crud operations on an ISocialable entity
+    /// The EmailAddressService is capable of handling crud operations on an IEmailAddressable entity
     /// and its email address.
     /// </summary>
     public class EmailAddressService : DbContextService<EcaContext>, IEmailAddressService
     {
         private readonly Logger logger = LogManager.GetCurrentClassLogger();
+        private EcaService service;
         private readonly Action<IEmailAddressable, int> throwIfEMailAddressableEntityNotFound;
         private readonly Action<EmailAddress, int> throwIfEmailAddressNotFound;
         private Action<Participant> throwValidationErrorIfParticipantSevisInfoIsLocked;
-        public readonly int[] LOCKED_SEVIS_COMM_STATUSES = { 5, 13, 14 };
+        public readonly int[] LOCKED_SEVIS_COMM_STATUSES = { SevisCommStatus.QueuedToSubmit.Id, SevisCommStatus.PendingSevisSend.Id, SevisCommStatus.SentByBatch.Id };
 
         /// <summary>
         /// Creates a new instance and initializes the context..
@@ -37,6 +35,8 @@ namespace ECA.Business.Service.Admin
         public EmailAddressService(EcaContext context, List<ISaveAction> saveActions = null)
             : base(context, saveActions)
         {
+            service = new EcaService(context);
+
             Contract.Requires(context != null, "The context must not be null.");
             throwIfEMailAddressableEntityNotFound = (emailAddressableEntity, id) =>
             {
@@ -63,7 +63,7 @@ namespace ECA.Business.Service.Admin
                         var msg = String.Format("An update was attempted on participant with id [{0}] but should have failed validation.",
                                 participant.ParticipantId);
 
-                        throw new WebException(msg);
+                        throw new EcaBusinessException(msg);
                     }
                 }
             };
@@ -162,7 +162,11 @@ namespace ECA.Business.Service.Admin
         public void Update(UpdatedEmailAddress updatedEmailAddress)
         {
             var emailAddress = Context.EmailAddresses.Find(updatedEmailAddress.Id);
-            var participant = Context.Participants.Where(x => x.PersonId == emailAddress.PersonId && x.ParticipantStatusId == ParticipantStatus.Active.Id).Include(x => x.ParticipantPerson).Include(x => x.ParticipantPerson.ParticipantPersonSevisCommStatuses).FirstOrDefault();
+            Participant participant = null;
+            if (emailAddress != null && emailAddress.PersonId.HasValue)
+            {
+                participant = service.GetParticipantByPersonId((int)emailAddress.PersonId);
+            }            
             List<EmailAddress> existingEmailAddresses = new List<EmailAddress>();
             if (emailAddress != null && updatedEmailAddress.IsPrimary)
             {
@@ -178,7 +182,11 @@ namespace ECA.Business.Service.Admin
         public async Task UpdateAsync(UpdatedEmailAddress updatedEmailAddress)
         {
             var emailAddress = await Context.EmailAddresses.FindAsync(updatedEmailAddress.Id);
-            var participant = Context.Participants.Where(x => x.PersonId == emailAddress.PersonId && x.ParticipantStatusId == ParticipantStatus.Active.Id).Include(x => x.ParticipantPerson).Include(x => x.ParticipantPerson.ParticipantPersonSevisCommStatuses).FirstOrDefault();
+            Participant participant = null;
+            if (emailAddress != null && emailAddress.PersonId.HasValue)
+            {
+                participant = await service.GetParticipantByPersonIdAsync((int)emailAddress.PersonId);
+            }            
             List<EmailAddress> existingEmailAddresses = new List<EmailAddress>();
             if (emailAddress != null && updatedEmailAddress.IsPrimary)
             {

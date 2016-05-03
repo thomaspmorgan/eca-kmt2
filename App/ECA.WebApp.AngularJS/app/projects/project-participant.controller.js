@@ -83,6 +83,7 @@ angular.module('staticApp')
       var projectId = $stateParams.projectId;
 
       var notifyStatuses = ConstantsService.sevisStatusIds.split(',');
+      var maxGridCellTextLength = ConstantsService.uiGridMaxCellTextLength;
 
       var origNonUsParticipantsEst;
       var origUsParticipantsEst;
@@ -834,13 +835,13 @@ angular.module('staticApp')
       };
 
       var defaultColumnDefs = [
-           { name: 'name', cellTemplate: '<a href="{{row.entity.href}}">{{row.entity.name}}</a>', cellClass: 'left-padding'},
+           { name: 'name', cellTemplate: '<a href="{{row.entity.href}}">{{row.entity.name | limitTo : ' + maxGridCellTextLength + '}}<span ng-if="row.entity.name.length > ' + maxGridCellTextLength + '">...</span></a>', cellClass: 'left-padding' },
            { name: 'participantType' },
            { name: 'participantStatus' },
            { name: 'sevisStatus', displayName: 'SEVIS Status' }
       ];
       var sevisColumnDefs = [
-           { name: 'fullName', displayName: 'Name', cellTemplate: '<a href="{{row.entity.href}}">{{row.entity.fullName}}</a>', cellClass: 'left-padding'},
+           { name: 'fullName', displayName: 'Name', cellTemplate: '<a href="{{row.entity.href}}">{{row.entity.fullName | limitTo : ' + maxGridCellTextLength + '}}<span ng-if="row.entity.name.length > ' + maxGridCellTextLength + '">...</span></a>', cellClass: 'left-padding' },
            { name: 'sevisStatus', displayName: 'SEVIS Status' },
            { name: 'sevisId'},
            { name: 'isCreatedViaBatch', displayName: 'Created via Batch', cellTemplate: '<input type="checkbox" ng-model="row.entity.isCreatedViaBatch" ng-disabled="true">', cellClass: 'text-center'},
@@ -850,7 +851,7 @@ angular.module('staticApp')
            { name: 'isCancelled', displayName: 'Cancelled', cellTemplate: '<input type="checkbox" ng-model="row.entity.isCancelled" ng-disabled="true">', cellClass: 'text-center'},
            { name: 'isDS2019Printed', displayName: 'Printed', cellTemplate: '<input type="checkbox" ng-model="row.entity.isDS2019Printed" ng-disabled="true">', cellClass: 'text-center'}
       ];
-
+      
       $scope.gridOptions = {
           paginationPageSizes: [10, 25, 50],
           paginationPageSize: 10,
@@ -882,6 +883,14 @@ angular.module('staticApp')
               });
           }
       };
+
+      function showEllipsis(value) {
+          if (value.length > maxGridCellTextLength) {
+              return '...';
+          } else {
+              return false;
+          }
+      }
 
       $scope.$watch('participantFilter', function (participantFilter) {
           if (participantFilter && participantFilter.length > 0) {
@@ -934,4 +943,6 @@ angular.module('staticApp')
       }
 
       getPage();
-  });
+  })
+
+
