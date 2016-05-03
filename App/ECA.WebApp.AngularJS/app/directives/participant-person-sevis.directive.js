@@ -94,8 +94,7 @@
                             selectOptions: [],
                             field: 'sevisCommStatusId'
                         },
-                        headerCellClass: $scope.highlightFilteredHeader,
-                        
+                        headerCellClass: $scope.highlightFilteredHeader                        
                     },
                     { name: 'displayName', displayName: 'User' },
                     {
