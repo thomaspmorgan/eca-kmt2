@@ -1,5 +1,8 @@
 ﻿using ECA.Business.Queries.Models.Persons;
+using ECA.Business.Queries.Models.Persons.ExchangeVisitor;
+using ECA.Business.Queries.Models.Sevis;
 using ECA.Business.Queries.Persons;
+using ECA.Business.Queries.Sevis;
 using ECA.Core.DynamicLinq;
 using ECA.Core.Exceptions;
 using ECA.Core.Query;
@@ -11,9 +14,10 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Diagnostics.Contracts;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
-using ECA.Core.DynamicLinq;
-using ECA.Core.Query;
+using System.Web.Http;
 
 namespace ECA.Business.Service.Persons
 {
@@ -25,7 +29,9 @@ namespace ECA.Business.Service.Persons
         private readonly Logger logger = LogManager.GetCurrentClassLogger();
         private readonly Action<int, object, Type> throwIfModelDoesNotExist;
         private Action<int, int, Participant> throwSecurityViolationIfParticipantDoesNotBelongToProject;
-        
+        private Action<Participant> throwValidationErrorIfParticipantSevisInfoIsLocked;
+        public readonly int[] LOCKED_SEVIS_COMM_STATUSES = { 5, 13, 14 };
+
         /// <summary>
         /// Creates a new ParticipantPersonService with the given context to operate against.
         /// </summary>
@@ -52,6 +58,37 @@ namespace ECA.Business.Service.Persons
                         projectId));
                 }
             };
+            throwValidationErrorIfParticipantSevisInfoIsLocked = (participant) =>
+            {
+                if (participant.ParticipantPerson != null)
+                {
+                    var sevisStatusId = participant.ParticipantPerson.ParticipantPersonSevisCommStatuses.OrderByDescending(x => x.AddedOn).Select(x => x.SevisCommStatusId).FirstOrDefault();
+
+                    if (participant != null && IndexOfInt(LOCKED_SEVIS_COMM_STATUSES, sevisStatusId) != -1)
+                    {
+                        var response = new HttpResponseMessage(HttpStatusCode.PreconditionFailed)
+                        {
+                            Content = new StringContent(String.Format("An update was attempted on participant with id [{0}] but should have failed validation.",
+                            participant.ParticipantId), System.Text.Encoding.UTF8, "text/plain"),
+                            StatusCode = HttpStatusCode.PreconditionFailed
+                        };
+
+                        throw new HttpResponseException(response);
+                    }
+                }
+            };
+        }
+
+        static int IndexOfInt(int[] arr, int value)
+        {
+            for (int i = 0; i < arr.Length; i++)
+            {
+                if (arr[i] == value)
+                {
+                    return i;
+                }
+            }
+            return -1;
         }
 
         #region Get
@@ -117,18 +154,114 @@ namespace ECA.Business.Service.Persons
         {
             return ParticipantPersonsSevisQueries.CreateGetParticipantPersonSevisCommStatusesByParticipantIdQuery(this.Context, projectId, participantId, queryOperator).ToPagedQueryResultsAsync(queryOperator.Start, queryOperator.Limit);
         }
+
+        /// <summary>
+        /// Returns the batch info with the given batch id.
+        /// </summary>
+        /// <param name="batchId">The batch id.</param>
+        /// <param name="userId">The id of the user requesting the batch status.</param>
+        /// <param name="participantId">The participant to get the status for.</param>
+        /// <param name="projectId">The project id of the participant.</param>
+        /// <returns>The info dto or null of it does not exist.</returns>
+        public SevisBatchInfoDTO GetBatchInfoByBatchId(int userId, int projectId, int participantId, string batchId)
+        {
+            var participant = Context.Participants.Find(participantId);
+            throwIfModelDoesNotExist(participantId, participant, typeof(Participant));
+            throwSecurityViolationIfParticipantDoesNotBelongToProject(userId, projectId, participant);
+
+            var commStatuses = CreateGetParticipantPersonSevisCommStatusQuery(participantId, batchId).Count();
+            if (commStatuses == 0)
+            {
+                return null;
+            }
+            else
+            {
+                return SevisBatchProcessingQueries.CreateGetSevisBatchInfoDTOByBatchIdQuery(this.Context, batchId).FirstOrDefault();
+            }
+        }
+
+        /// <summary>
+        /// Returns the batch info with the given batch id.
+        /// </summary>
+        /// <param name="batchId">The batch id.</param>
+        /// /// <param name="userId">The id of the user requesting the batch status.</param>
+        /// <param name="participantId">The participant to get the status for.</param>
+        /// <param name="projectId">The project id of the participant.</param>
+        /// <returns>The info dto or null of it does not exist.</returns>
+        public async Task<SevisBatchInfoDTO> GetBatchInfoByBatchIdAsync(int userId, int projectId, int participantId, string batchId)
+        {
+            var participant = Context.Participants.Find(participantId);
+            throwIfModelDoesNotExist(participantId, participant, typeof(Participant));
+            throwSecurityViolationIfParticipantDoesNotBelongToProject(userId, projectId, participant);
+            var commStatuses = await CreateGetParticipantPersonSevisCommStatusQuery(participantId, batchId).CountAsync();
+            if (commStatuses == 0)
+            {
+                return null;
+            }
+            else
+            {
+                return await SevisBatchProcessingQueries.CreateGetSevisBatchInfoDTOByBatchIdQuery(this.Context, batchId).FirstOrDefaultAsync();
+            }
+        }
+
+        private IQueryable<ParticipantPersonSevisCommStatus> CreateGetParticipantPersonSevisCommStatusQuery(int participantId, string batchId)
+        {
+            return Context.ParticipantPersonSevisCommStatuses.Where(x => x.ParticipantId == participantId && x.BatchId == batchId).Distinct();
+        }
+
+        /// <summary>
+        /// Gets DS2019 file name
+        /// </summary>
+        /// <param name="projectId">The project id</param>
+        /// <param name="participantId">The participant id</param>
+        /// <returns>The DS2019 file name</returns>
+        public async Task<string> GetDS2019FileNameAsync(int projectId, int participantId)
+        {
+            String fileName = null;
+            var participantPerson = await Context.ParticipantPersons.FindAsync(participantId);
+            if (participantPerson != null)
+            {
+                fileName = participantPerson.DS2019FileName;
+            }
+            return fileName;
+        }
         #endregion
 
         #region Send To Sevis
 
-        private IQueryable<ParticipantPersonSevisCommStatus> CreateGetCommStatusesThatAreReadyToSubmitQuery(int projectId, IEnumerable<int> participantIds)
+        private IQueryable<ParticipantSevisSubmissionInfo> CreateGetCommStatusesThatAreReadyToSubmitQuery(int projectId, IEnumerable<int> participantIds)
         {
-            var statuses = Context.ParticipantPersonSevisCommStatuses
-                .Where(x => x.ParticipantPerson.Participant.ProjectId == projectId)
-                .GroupBy(x => x.ParticipantId)
-                .Select(s => s.OrderByDescending(x => x.AddedOn).FirstOrDefault())
-                .Where(w => w.SevisCommStatusId == SevisCommStatus.ReadyToSubmit.Id && participantIds.Contains(w.ParticipantId));
-            return statuses;
+            var query = from participantPerson in Context.ParticipantPersons
+                        let participant = participantPerson.Participant
+
+                        let latestStatus = participantPerson.ParticipantPersonSevisCommStatuses.OrderByDescending(x => x.AddedOn).FirstOrDefault()
+                        let hasBatchedCancelledBySystemStatus = latestStatus != null && latestStatus.SevisCommStatusId == SevisCommStatus.BatchCancelledBySystem.Id
+                        
+
+                        let cancelledBatchAction = hasBatchedCancelledBySystemStatus
+                            ? participantPerson.ParticipantPersonSevisCommStatuses
+                                .OrderByDescending(x => x.AddedOn)
+                                .Where(x => x.SevisCommStatusId == SevisCommStatus.QueuedToSubmit.Id || x.SevisCommStatusId == SevisCommStatus.QueuedToValidate.Id)
+                                .FirstOrDefault()
+                            : null
+
+
+                        let hasReadyToSubmitStatus = latestStatus != null && latestStatus.SevisCommStatusId == SevisCommStatus.ReadyToSubmit.Id
+                        let isQueuedToSubmitSubmission = hasReadyToSubmitStatus 
+                            || (hasBatchedCancelledBySystemStatus && cancelledBatchAction.SevisCommStatusId == SevisCommStatus.QueuedToSubmit.Id)
+
+                        let hasReadyToValidateBatchStatus = latestStatus != null && latestStatus.SevisCommStatusId == SevisCommStatus.ReadyToValidate.Id
+                        let isQueuedToValidateSubmission = hasReadyToValidateBatchStatus 
+                            || (hasBatchedCancelledBySystemStatus && cancelledBatchAction.SevisCommStatusId == SevisCommStatus.QueuedToValidate.Id)
+
+                        where participant.ProjectId == projectId && participantIds.Contains(participant.ParticipantId)
+                        select new ParticipantSevisSubmissionInfo
+                        {
+                            IsQueuedToSubmit = isQueuedToSubmitSubmission,
+                            IsQueuedToValidate = isQueuedToValidateSubmission,
+                            ParticipantId = participant.ParticipantId,
+                        };
+            return query;
         }
 
         /// <summary>
@@ -153,24 +286,39 @@ namespace ECA.Business.Service.Persons
             return DoSendToSevis(participants, statuses).Select(x => x.ParticipantId).ToArray();
         }
 
-        private IEnumerable<ParticipantPersonSevisCommStatus> DoSendToSevis(ParticipantsToBeSentToSevis model, IEnumerable<ParticipantPersonSevisCommStatus> readyToSubmitStatuses)
+        private IEnumerable<ParticipantPersonSevisCommStatus> DoSendToSevis(ParticipantsToBeSentToSevis model, IEnumerable<ParticipantSevisSubmissionInfo> submissions)
         {
+            var now = DateTimeOffset.UtcNow;
             var addedParticipantStatuses = new List<ParticipantPersonSevisCommStatus>();
-            foreach (var status in readyToSubmitStatuses)
+            foreach (var submission in submissions)
             {
-                var newStatus = new ParticipantPersonSevisCommStatus
+                if (submission.IsQueuedToSubmit || submission.IsQueuedToValidate)
                 {
-                    ParticipantId = status.ParticipantId,
-                    SevisCommStatusId = SevisCommStatus.QueuedToSubmit.Id,
-                    AddedOn = DateTimeOffset.Now,
-                    SevisOrgId = model.SevisOrgId,
-                    SevisUsername = model.SevisUsername,
-                    PrincipalId = model.Audit.User.Id
-                };
-                Context.ParticipantPersonSevisCommStatuses.Add(newStatus);
-                addedParticipantStatuses.Add(status);
+                    var newStatus = new ParticipantPersonSevisCommStatus
+                    {
+                        ParticipantId = submission.ParticipantId,
+                        AddedOn = now,
+                        SevisOrgId = model.SevisOrgId,
+                        SevisUsername = model.SevisUsername,
+                        PrincipalId = model.Audit.User.Id
+                    };
+                    if (submission.IsQueuedToSubmit)
+                    {
+                        newStatus.SevisCommStatusId = SevisCommStatus.QueuedToSubmit.Id;
+                    }
+                    else if (submission.IsQueuedToValidate)
+                    {
+                        newStatus.SevisCommStatusId = SevisCommStatus.QueuedToValidate.Id;
+                    }
+                    else
+                    {
+                        throw new NotSupportedException("The submission type is not supported.");
+                    }
+                    Context.ParticipantPersonSevisCommStatuses.Add(newStatus);
+                    addedParticipantStatuses.Add(newStatus);
+                }
             }
-            return addedParticipantStatuses.ToList();
+            return addedParticipantStatuses;
         }
         #endregion
 
@@ -184,6 +332,7 @@ namespace ECA.Business.Service.Persons
         {
             var participantPerson = CreateGetParticipantPersonsByIdQuery(updatedParticipantPersonSevis.ParticipantId).FirstOrDefault();
             throwIfModelDoesNotExist(updatedParticipantPersonSevis.ParticipantId, participantPerson, typeof(ParticipantPerson));
+            throwValidationErrorIfParticipantSevisInfoIsLocked(participantPerson.Participant);
 
             DoUpdate(participantPerson, updatedParticipantPersonSevis);
         }
@@ -197,6 +346,7 @@ namespace ECA.Business.Service.Persons
         {
             var participantPerson = await CreateGetParticipantPersonsByIdQuery(updatedParticipantPersonSevis.ParticipantId).FirstOrDefaultAsync();
             throwIfModelDoesNotExist(updatedParticipantPersonSevis.ParticipantId, participantPerson, typeof(ParticipantPerson));
+            throwValidationErrorIfParticipantSevisInfoIsLocked(participantPerson.Participant);
 
             DoUpdate(participantPerson, updatedParticipantPersonSevis);
         }
@@ -222,9 +372,31 @@ namespace ECA.Business.Service.Persons
 
         private IQueryable<ParticipantPerson> CreateGetParticipantPersonsByIdQuery(int participantId)
         {
-            return Context.ParticipantPersons.Where(x => x.ParticipantId == participantId);
+            return Context.ParticipantPersons.Where(x => x.ParticipantId == participantId).Include(x => x.Participant);
+        }
+        #endregion
+
+        #region Ready to Validate Participants
+
+        /// <summary>
+        /// Returns a paged, filtered, sorterd collection of participants that have a sevis id and whose start date has passed and are ready to start the sevis validation process.
+        /// </summary>
+        /// <param name="queryOperator">The query operator.</param>
+        /// <returns>The participants that have a sevis id and whose start date has passed </returns>
+        public PagedQueryResults<ReadyToValidateParticipantDTO> GetReadyToValidateParticipants(QueryableOperator<ReadyToValidateParticipantDTO> queryOperator)
+        {
+            return ExchangeVisitorQueries.CreateGetReadyToValidateParticipantDTOsQuery(this.Context, DateTimeOffset.UtcNow, queryOperator).ToPagedQueryResults(queryOperator.Start, queryOperator.Limit);
         }
 
+        /// <summary>
+        /// Returns a paged, filtered, sorterd collection of participants that have a sevis id and whose start date has passed and are ready to start the sevis validation process.
+        /// </summary>
+        /// <param name="queryOperator">The query operator.</param>
+        /// <returns>The participants that have a sevis id and whose start date has passed </returns>
+        public Task<PagedQueryResults<ReadyToValidateParticipantDTO>> GetReadyToValidateParticipantsAsync(QueryableOperator<ReadyToValidateParticipantDTO> queryOperator)
+        {
+            return ExchangeVisitorQueries.CreateGetReadyToValidateParticipantDTOsQuery(this.Context, DateTimeOffset.UtcNow, queryOperator).ToPagedQueryResultsAsync(queryOperator.Start, queryOperator.Limit);
+        }
         #endregion
     }
 }

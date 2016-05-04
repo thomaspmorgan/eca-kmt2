@@ -23,6 +23,7 @@
 	types.Add(typeof(ProjectStatus));
 	types.Add(typeof(ParticipantType));
 	types.Add(typeof(OrganizationType));
+	types.Add(typeof(OrganizationRole));
 	types.Add(typeof(SocialMediaType));
 	types.Add(typeof(ProgramStatus));
 	types.Add(typeof(MoneyFlowSourceRecipientType));
@@ -51,12 +52,15 @@
 	otherConstants["cancelProjectEventName"] = "cancelProjectEdit";
 	otherConstants["saveProgramEventName"] = "saveProgram";
 	otherConstants["cancelProgramChangesEventName"] = "cancelProgramEdit";
-	otherConstants["sevisStatusIds"] = "2,3,4,5,15";
+	otherConstants["sevisStatusIds"] = "5,13,14";
+	otherConstants["fundingSourceType"] = "11";
+	otherConstants["uiGridMaxCellTextLength"] = "35";
 
 	otherConstants["removeNewAddressEventName"] = "removeNewAddress";
 	otherConstants["primaryAddressChangedEventName"] = "primaryAddressChanged";
 	otherConstants["primaryEmailAddressChangedEventName"] = "primaryEmailAddressChanged";
 	otherConstants["primaryPhoneNumberChangedEventName"] = "primaryPhoneNumberChanged";
+	otherConstants["primaryCitizenshipCountryChangedEventName"] = "primaryCitizenshipCountryChanged";
 	otherConstants["removeNewSocialMediaEventName"] = "removeNewSocialMedia";
 	otherConstants["removeNewMembershipsEventName"] = "removeNewMembership";
 	otherConstants["removeNewLanguageProficiencyEventName"] = "removeNewLanguageProficiency";
@@ -67,7 +71,8 @@
 	otherConstants["removeNewEmploymentEventName"] = "removeNewEmployment";
 	otherConstants["removeNewEvaluationEventName"] = "removeNewEvaluation";
 	otherConstants["itineraryStopExpandedEventName"] = "itineraryStopExpanded";
-	otherConstants["removeNewDependentEventName"] = "newDependent";
+	otherConstants["removeNewDependentEventName"] = "removeNewDependent";
+	otherConstants["removeNewCitizenshipCountryEventName"] = "removeNewCitizenshipCountry";
 
 	otherConstants["ascending"] = SortDirection.Ascending.Value;
 	otherConstants["descending"] = SortDirection.Descending.Value;

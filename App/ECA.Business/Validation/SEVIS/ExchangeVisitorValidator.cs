@@ -43,6 +43,11 @@ namespace ECA.Business.Validation.Sevis
         public const string PROGRAM_START_DATE_REQUIRED_ERROR_MESSAGE = "The participant's start date is required.";
 
         /// <summary>
+        /// The error message to return when the program start date is required.
+        /// </summary>
+        public const string PROGRAM_START_DATE_MUST_BE_IN_THE_FUTURE = "The participant's start date can not be in the past.";
+
+        /// <summary>
         /// The error message to return when the occupation category code is invalid.
         /// </summary>
         public static string OCCUPATION_CATEGORY_CODE_ERROR_MESSAGE = string.Format("The participant's cccupational category code must be {0} characters.", OCCUPATION_CATEGORY_CODE_LENGTH);
@@ -77,12 +82,20 @@ namespace ECA.Business.Validation.Sevis
             RuleFor(x => x.Person)
                 .NotNull()
                 .WithMessage(PERSON_INFORMATION_REQUIRED_ERROR_MESSAGE)
-                .SetValidator(new PersonValidator());
+                .SetValidator(x => new PersonValidator(x.SevisId, x.ProgramStartDate));
 
             RuleFor(x => x.ProgramStartDate)
                 .NotEqual(default(DateTime))
                 .WithState(x => new StartDateErrorPath())
                 .WithMessage(PROGRAM_START_DATE_REQUIRED_ERROR_MESSAGE);
+
+            When(x => String.IsNullOrWhiteSpace(x.SevisId), () =>
+            {
+                RuleFor(x => x.ProgramStartDate)
+                   .GreaterThan(DateTime.UtcNow.Date)
+                   .WithState(x => new StartDateErrorPath())
+                   .WithMessage(PROGRAM_START_DATE_MUST_BE_IN_THE_FUTURE);
+            });
 
             RuleFor(visitor => visitor.ProgramEndDate)
                 .NotEqual(default(DateTime))

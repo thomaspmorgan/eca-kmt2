@@ -27,6 +27,13 @@
         margin-bottom: 0;
         padding: 40px 0 0 40px;
     }
+	
+    .row4 {
+        padding: 20px 10px 20px 40px;
+        width: 100%;
+        border-top: 0 !important;
+    }
+
 }
 
 #modal-tab {
@@ -222,7 +229,7 @@ label {
 // ui-select (select2) overrides
 
 .select2-container-multi .select2-choices {
-    border: 1px solid #e5eae9;
+    border: 1px solid $bordergray;
     border-radius: 4px;
     background-image: none;
 }
@@ -232,13 +239,13 @@ label {
 }
 
 .select2-container .select2-choice {
-    border: 1px solid #e5eae9;
+    border: 1px solid $bordergray;
     height: 40px;
     line-height: 40px;
 }
 
 .select2-container .select2-choice .select2-arrow {
-    border-left: 1px solid #e5eae9;
+    border-left: 1px solid $bordergray;
 }
 
 .select2-container .select2-choice .select2-arrow b {

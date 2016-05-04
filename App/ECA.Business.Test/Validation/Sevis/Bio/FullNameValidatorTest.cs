@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace ECA.Business.Test.Validation.Sevis.Bio
 {
-   
+
     [TestClass]
     public class FullNameValidatorTest
     {
@@ -39,8 +39,12 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
 
             instance.FirstName = null;
             result = validator.Validate(instance);
-            Assert.IsTrue(result.IsValid);
-            Assert.AreEqual(0, result.Errors.Count);
+            Assert.IsFalse(result.IsValid);
+            Assert.AreEqual(1, result.Errors.Count);
+            Assert.AreEqual(
+                string.Format(FullNameValidator.FIRST_NAME_ERROR_MESSAGE, personType, FullNameValidator.FIRST_NAME_MAX_LENGTH),
+                result.Errors.First().ErrorMessage);
+            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(FullNameErrorPath));
         }
 
         [TestMethod]
@@ -56,7 +60,25 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
             Assert.AreEqual(
-                string.Format(FullNameValidator.FIRST_NAME_ERROR_MESSAGE, personType, FullNameValidator.FIRST_NAME_MAX_LENGTH), 
+                string.Format(FullNameValidator.FIRST_NAME_ERROR_MESSAGE, personType, FullNameValidator.FIRST_NAME_MAX_LENGTH),
+                result.Errors.First().ErrorMessage);
+            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(FullNameErrorPath));
+        }
+
+        [TestMethod]
+        public void TestFirstName_ContainsDigits()
+        {
+            var validator = new FullNameValidator(personType);
+            var instance = GetValidFullName();
+            var result = validator.Validate(instance);
+            Assert.IsTrue(result.IsValid);
+
+            instance.FirstName = new string('1', FullNameValidator.FIRST_NAME_MAX_LENGTH);
+            result = validator.Validate(instance);
+            Assert.IsFalse(result.IsValid);
+            Assert.AreEqual(1, result.Errors.Count);
+            Assert.AreEqual(
+                string.Format(FullNameValidator.FIRST_NAME_ERROR_MESSAGE, personType, FullNameValidator.FIRST_NAME_MAX_LENGTH),
                 result.Errors.First().ErrorMessage);
             Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(FullNameErrorPath));
         }
@@ -88,6 +110,24 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             Assert.IsTrue(result.IsValid);
 
             instance.LastName = new string('c', FullNameValidator.LAST_NAME_MAX_LENGTH + 1);
+            result = validator.Validate(instance);
+            Assert.IsFalse(result.IsValid);
+            Assert.AreEqual(1, result.Errors.Count);
+            Assert.AreEqual(
+                string.Format(FullNameValidator.LAST_NAME_ERROR_MESSAGE, personType, FullNameValidator.LAST_NAME_MAX_LENGTH),
+                result.Errors.First().ErrorMessage);
+            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(FullNameErrorPath));
+        }
+
+        [TestMethod]
+        public void TestLastName_ContainsDigits()
+        {
+            var validator = new FullNameValidator(personType);
+            var instance = GetValidFullName();
+            var result = validator.Validate(instance);
+            Assert.IsTrue(result.IsValid);
+
+            instance.LastName = new string('1', FullNameValidator.LAST_NAME_MAX_LENGTH);
             result = validator.Validate(instance);
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
@@ -207,12 +247,12 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             result = validator.Validate(instance);
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
-            
+
             Assert.AreEqual(
                 string.Format(
-                    FullNameValidator.SUFFIX_VALUE_ERROR_MESSAGE, 
-                    personType, 
-                    instance.Suffix, 
+                    FullNameValidator.SUFFIX_VALUE_ERROR_MESSAGE,
+                    personType,
+                    instance.Suffix,
                     string.Join(", ", FullNameValidator.JUNIOR_SUFFIX, FullNameValidator.SENIOR_SUFFIX, FullNameValidator.FIRST_SUFFIX, FullNameValidator.SECOND_SUFFIX, FullNameValidator.THIRD_SUFFIX, FullNameValidator.FOURTH_SUFFIX)),
                 result.Errors.First().ErrorMessage);
 
@@ -251,6 +291,24 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
         }
 
         [TestMethod]
+        public void TestPassportName_ContainsDigits()
+        {
+            var validator = new FullNameValidator(personType);
+            var instance = GetValidFullName();
+            var result = validator.Validate(instance);
+            Assert.IsTrue(result.IsValid);
+
+            instance.PassportName = new string('1', FullNameValidator.PASSPORT_NAME_MAX_LENGTH);
+            result = validator.Validate(instance);
+            Assert.IsFalse(result.IsValid);
+            Assert.AreEqual(1, result.Errors.Count);
+            Assert.AreEqual(
+                string.Format(FullNameValidator.PASSPORT_NAME_ERROR_MESSAGE, personType, FullNameValidator.PASSPORT_NAME_MAX_LENGTH),
+                result.Errors.First().ErrorMessage);
+            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(FullNameErrorPath));
+        }
+
+        [TestMethod]
         public void TestPreferredName_Null()
         {
             var validator = new FullNameValidator(personType);
@@ -272,6 +330,24 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             Assert.IsTrue(result.IsValid);
 
             instance.PreferredName = new string('c', FullNameValidator.PREFERRED_NAME_MAX_LENGTH + 1);
+            result = validator.Validate(instance);
+            Assert.IsFalse(result.IsValid);
+            Assert.AreEqual(1, result.Errors.Count);
+            Assert.AreEqual(
+                string.Format(FullNameValidator.PREFFERED_NAME_ERROR_MESSAGE, personType, FullNameValidator.PREFERRED_NAME_MAX_LENGTH),
+                result.Errors.First().ErrorMessage);
+            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(FullNameErrorPath));
+        }
+
+        [TestMethod]
+        public void TestPreferredName_ContainsDigitis()
+        {
+            var validator = new FullNameValidator(personType);
+            var instance = GetValidFullName();
+            var result = validator.Validate(instance);
+            Assert.IsTrue(result.IsValid);
+
+            instance.PreferredName = new string('1', FullNameValidator.PREFERRED_NAME_MAX_LENGTH);
             result = validator.Validate(instance);
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);

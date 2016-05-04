@@ -1,5 +1,4 @@
 ﻿using ECA.Business.Queries.Models.Persons;
-using ECA.Business.Service.Lookup;
 using ECA.Business.Service.Persons;
 using ECA.Core.DynamicLinq;
 using ECA.Core.Query;
@@ -26,8 +25,6 @@ namespace ECA.WebApi.Test.Controllers.Persons
         private Mock<ISocialMediaPresenceModelHandler> socialMediaHandler;
         private Mock<IEmailAddressHandler> emailAddressHandler;
         private Mock<IPhoneNumberHandler> phoneNumberHandler;
-        private Mock<IDependentTypeService> dependentTypeService;
-        private Mock<IBirthCountryReasonService> birthCountryReasonService;
         private PeopleController controller;
 
         [TestInitialize]
@@ -39,12 +36,11 @@ namespace ECA.WebApi.Test.Controllers.Persons
             socialMediaHandler = new Mock<ISocialMediaPresenceModelHandler>();
             emailAddressHandler = new Mock<IEmailAddressHandler>();
             phoneNumberHandler = new Mock<IPhoneNumberHandler>();
-            dependentTypeService = new Mock<IDependentTypeService>();
-            birthCountryReasonService = new Mock<IBirthCountryReasonService>();
-            controller = new PeopleController(personService.Object, dependentTypeService.Object, birthCountryReasonService.Object, userProvider.Object, addressHandler.Object, socialMediaHandler.Object, phoneNumberHandler.Object, emailAddressHandler.Object);
+            controller = new PeopleController(personService.Object, userProvider.Object, addressHandler.Object, socialMediaHandler.Object, phoneNumberHandler.Object, emailAddressHandler.Object);
         }
 
         #region Get Pii By Id
+
         [TestMethod]
         public async Task TestGetPiiById()
         {
@@ -62,6 +58,7 @@ namespace ECA.WebApi.Test.Controllers.Persons
             var response = await controller.GetPiiByIdAsync(1);
             Assert.IsInstanceOfType(response, typeof(NotFoundResult));
         }
+
         #endregion
 
         #region Get Contact Info By Id
@@ -104,45 +101,7 @@ namespace ECA.WebApi.Test.Controllers.Persons
             var response = await controller.PostPersonAsync(new PersonBindingModel());
             Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
         }
-
-        //[TestMethod]
-        //public async Task TestPostDependentAsync()
-        //{
-        //    userProvider.Setup(x => x.GetBusinessUser(It.IsAny<IWebApiUser>())).Returns(new Business.Service.User(0));
-        //    personService.Setup(x => x.CreateDependentAsync(It.IsAny<NewPersonDependent>())).ReturnsAsync(new PersonDependent());
-        //    personService.Setup(x => x.SaveChangesAsync()).ReturnsAsync(1);
-        //    var response = await controller.PostPersonDependentAsync(new DependentBindingModel { });
-        //    personService.Verify(x => x.SaveChangesAsync(), Times.Once());
-        //    Assert.IsInstanceOfType(response, typeof(OkResult));
-        //}
-
-        [TestMethod]
-        public async Task TestPostPersonDependentAsync_Invalid()
-        {
-            controller.ModelState.AddModelError("key", "error");
-            var response = await controller.PostPersonDependentAsync(new DependentBindingModel());
-            Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
-        }
-
-        #endregion
-
-        #region Dependent Types
-        [TestMethod]
-        public async Task TestGetDependentTypesAsync()
-        {
-            var response = await controller.GetDependentTypesAsync(new PagingQueryBindingModel<DependentTypeDTO>());
-            Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<PagedQueryResults<DependentTypeDTO>>));
-            dependentTypeService.Verify(x => x.GetAsync(It.IsAny<QueryableOperator<DependentTypeDTO>>()), Times.Once());
-        }
-
-        [TestMethod]
-        public async Task TestGetDependentTypesAsync_InvalidModel()
-        {
-            controller.ModelState.AddModelError("key", "error");
-            var response = await controller.GetDependentTypesAsync(new PagingQueryBindingModel<DependentTypeDTO>());
-            Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
-            dependentTypeService.Verify(x => x.GetAsync(It.IsAny<QueryableOperator<DependentTypeDTO>>()), Times.Never());
-        }
+        
         #endregion
 
         #region Get People
@@ -154,13 +113,6 @@ namespace ECA.WebApi.Test.Controllers.Persons
             personService.Verify(x => x.GetPeopleAsync(It.IsAny<QueryableOperator<SimplePersonDTO>>()), Times.Once());
         }
 
-        [TestMethod]
-        public async Task TestGetPeopleAsync_InvalidModel()
-        {
-            controller.ModelState.AddModelError("key", "error");
-            var response = await controller.GetPeopleAsync(new PagingQueryBindingModel<SimplePersonDTO>());
-            Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
-        }
         #endregion
 
         #region Addresses

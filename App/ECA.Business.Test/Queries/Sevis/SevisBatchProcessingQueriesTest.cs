@@ -63,7 +63,7 @@ namespace ECA.Business.Test.Queries.Sevis
             Assert.AreEqual(model.LastDownloadTry, firstResult.LastDownloadTry);
         }
         #endregion
-        
+
         #region CreateGetSevisBatchProcessingDTOsToUploadQuery
         [TestMethod]
         public void TestCreateGetSevisBatchProcessingDTOsToUploadQuery_DoesNotHaveSubmitDate()
@@ -113,7 +113,7 @@ namespace ECA.Business.Test.Queries.Sevis
 
         #region CreateGetQueuedToSubmitParticipantDTOsQuery
         [TestMethod]
-        public void CreateGetQueuedToSubmitParticipantDTOsQuery_CheckProperties()
+        public void TestCreateGetSevisGroupedParticipantsQuery_CheckProperties()
         {
             var project = new Project
             {
@@ -150,21 +150,117 @@ namespace ECA.Business.Test.Queries.Sevis
             context.Participants.Add(participant);
             context.ParticipantPersonSevisCommStatuses.Add(status);
 
-            var results = SevisBatchProcessingQueries.CreateGetQueuedToSubmitParticipantDTOsQuery(context).ToList();
+            var results = SevisBatchProcessingQueries.CreateGetSevisGroupedParticipantsQuery(context).ToList();
             Assert.AreEqual(1, results.Count);
 
             var firstResult = results.First();
             Assert.AreEqual(status.SevisOrgId, firstResult.SevisOrgId);
             Assert.AreEqual(status.SevisUsername, firstResult.SevisUsername);
             Assert.AreEqual(1, firstResult.Participants.Count());
+
             var firstParticipant = firstResult.Participants.First();
             Assert.AreEqual(participant.ParticipantId, firstParticipant.ParticipantId);
             Assert.AreEqual(project.ProjectId, firstParticipant.ProjectId);
             Assert.AreEqual(participantPerson.SevisId, firstParticipant.SevisId);
-        }        
+            Assert.AreEqual(status.SevisCommStatusId, firstParticipant.SevisCommStatusId);
+        }
 
         [TestMethod]
-        public void CreateGetQueuedToSubmitParticipantDTOsQuery_CheckLatestSevisCommStatus()
+        public void TestCreateGetSevisGroupedParticipantsQuery_CheckQueuedToSubmitStatus()
+        {
+            var project = new Project
+            {
+                ProjectId = 1
+            };
+            var participant = new Participant
+            {
+                ParticipantId = 10,
+                ProjectId = project.ProjectId,
+                Project = project
+            };
+            var participantPerson = new ParticipantPerson
+            {
+                ParticipantId = participant.ParticipantId,
+                Participant = participant,
+                SevisId = "sevis id"
+            };
+            participant.ParticipantPerson = participantPerson;
+
+            var status = new ParticipantPersonSevisCommStatus
+            {
+                Id = 1,
+                AddedOn = DateTimeOffset.Now,
+                ParticipantId = participant.ParticipantId,
+                ParticipantPerson = participantPerson,
+                SevisCommStatusId = SevisCommStatus.QueuedToSubmit.Id,
+                SevisOrgId = "org",
+                SevisUsername = "user"
+            };
+            participantPerson.ParticipantPersonSevisCommStatuses.Add(status);
+
+            context.Projects.Add(project);
+            context.ParticipantPersons.Add(participantPerson);
+            context.Participants.Add(participant);
+            context.ParticipantPersonSevisCommStatuses.Add(status);
+
+            var results = SevisBatchProcessingQueries.CreateGetSevisGroupedParticipantsQuery(context).ToList();
+            Assert.AreEqual(1, results.Count);
+
+            var firstResult = results.First();
+            Assert.AreEqual(status.SevisOrgId, firstResult.SevisOrgId);
+            Assert.AreEqual(status.SevisUsername, firstResult.SevisUsername);
+            Assert.AreEqual(1, firstResult.Participants.Count());
+        }
+
+        [TestMethod]
+        public void TestCreateGetSevisGroupedParticipantsQuery_CheckQueuedToValidateStatus()
+        {
+            var project = new Project
+            {
+                ProjectId = 1
+            };
+            var participant = new Participant
+            {
+                ParticipantId = 10,
+                ProjectId = project.ProjectId,
+                Project = project
+            };
+            var participantPerson = new ParticipantPerson
+            {
+                ParticipantId = participant.ParticipantId,
+                Participant = participant,
+                SevisId = "sevis id"
+            };
+            participant.ParticipantPerson = participantPerson;
+
+            var status = new ParticipantPersonSevisCommStatus
+            {
+                Id = 1,
+                AddedOn = DateTimeOffset.Now,
+                ParticipantId = participant.ParticipantId,
+                ParticipantPerson = participantPerson,
+                SevisCommStatusId = SevisCommStatus.QueuedToValidate.Id,
+                SevisOrgId = "org",
+                SevisUsername = "user"
+            };
+            participantPerson.ParticipantPersonSevisCommStatuses.Add(status);
+
+            context.Projects.Add(project);
+            context.ParticipantPersons.Add(participantPerson);
+            context.Participants.Add(participant);
+            context.ParticipantPersonSevisCommStatuses.Add(status);
+
+            var results = SevisBatchProcessingQueries.CreateGetSevisGroupedParticipantsQuery(context).ToList();
+            Assert.AreEqual(1, results.Count);
+
+            var firstResult = results.First();
+            Assert.AreEqual(status.SevisOrgId, firstResult.SevisOrgId);
+            Assert.AreEqual(status.SevisUsername, firstResult.SevisUsername);
+            Assert.AreEqual(1, firstResult.Participants.Count());
+        }
+
+        [TestMethod]
+        public void TestCreateGetSevisGroupedParticipantsQuery_CheckLatestSevisCommStatus()
         {
             var project = new Project
             {
@@ -208,12 +304,12 @@ namespace ECA.Business.Test.Queries.Sevis
             context.Participants.Add(participant);
             context.ParticipantPersonSevisCommStatuses.Add(status1);
 
-            var results = SevisBatchProcessingQueries.CreateGetQueuedToSubmitParticipantDTOsQuery(context).ToList();
+            var results = SevisBatchProcessingQueries.CreateGetSevisGroupedParticipantsQuery(context).ToList();
             Assert.AreEqual(1, results.Count);
         }
 
         [TestMethod]
-        public void CreateGetQueuedToSubmitParticipantDTOsQuery_IsNotQueuedToSubmit()
+        public void TestCreateGetSevisGroupedParticipantsQuery_IsNotQueuedToSubmitOrIsQueuedToValidate()
         {
             var project = new Project
             {
@@ -248,7 +344,7 @@ namespace ECA.Business.Test.Queries.Sevis
             context.Participants.Add(participant);
             context.ParticipantPersonSevisCommStatuses.Add(status);
 
-            var results = SevisBatchProcessingQueries.CreateGetQueuedToSubmitParticipantDTOsQuery(context).ToList();
+            var results = SevisBatchProcessingQueries.CreateGetSevisGroupedParticipantsQuery(context).ToList();
             Assert.AreEqual(0, results.Count);
         }
         #endregion
@@ -354,7 +450,7 @@ namespace ECA.Business.Test.Queries.Sevis
 
         #region CreateGetProcessedSevisBatchIdsForDeletionQuery
         [TestMethod]
-        public void TestCreateGetProcessedSevisBatchIdsForDeletionQuery()
+        public void TestCreateGetProcessedSevisBatchIdsForDeletionQuery_AllCodesSuccess()
         {
             var cutOffDate = DateTime.UtcNow;
             var batch = new SevisBatchProcessing
@@ -372,7 +468,25 @@ namespace ECA.Business.Test.Queries.Sevis
         }
 
         [TestMethod]
-        public void TestCreateGetProcessedSevisBatchIdsForDeletionQuery_DoesNotHavSuccessfulProcessDispositionCode()
+        public void TestCreateGetProcessedSevisBatchIdsForDeletionQuery_HasSuccessfulUploadAndDownload_HasBusinessValidationProcessCode()
+        {
+            var cutOffDate = DateTime.UtcNow;
+            var batch = new SevisBatchProcessing
+            {
+                Id = 1,
+                RetrieveDate = cutOffDate.AddDays(-1.0),
+                DownloadDispositionCode = DispositionCode.Success.Code,
+                UploadDispositionCode = DispositionCode.Success.Code,
+                ProcessDispositionCode = DispositionCode.BusinessRuleViolations.Code
+            };
+            context.SevisBatchProcessings.Add(batch);
+            var results = SevisBatchProcessingQueries.CreateGetProcessedSevisBatchIdsForDeletionQuery(context, cutOffDate);
+            Assert.AreEqual(1, results.Count());
+            Assert.AreEqual(batch.Id, results.First());
+        }
+
+        [TestMethod]
+        public void TestCreateGetProcessedSevisBatchIdsForDeletionQuery_DoesNotHaveSuccessfulProcessDispositionCode()
         {
             var cutOffDate = DateTime.UtcNow;
             var batch = new SevisBatchProcessing
@@ -389,7 +503,7 @@ namespace ECA.Business.Test.Queries.Sevis
         }
 
         [TestMethod]
-        public void TestCreateGetProcessedSevisBatchIdsForDeletionQuery_DoesNotHavSuccessfulUploadDispositionCode()
+        public void TestCreateGetProcessedSevisBatchIdsForDeletionQuery_DoesNotHaveSuccessfulUploadDispositionCode()
         {
             var cutOffDate = DateTime.UtcNow;
             var batch = new SevisBatchProcessing
@@ -406,7 +520,7 @@ namespace ECA.Business.Test.Queries.Sevis
         }
 
         [TestMethod]
-        public void TestCreateGetProcessedSevisBatchIdsForDeletionQuery_DoesNotHavSuccessfulDownloadDispositionCode()
+        public void TestCreateGetProcessedSevisBatchIdsForDeletionQuery_DoesNotHaveSuccessfulDownloadDispositionCode()
         {
             var cutOffDate = DateTime.UtcNow;
             var batch = new SevisBatchProcessing
@@ -488,6 +602,132 @@ namespace ECA.Business.Test.Queries.Sevis
             context.SevisBatchProcessings.Add(batch);
             var results = SevisBatchProcessingQueries.CreateGetProcessedSevisBatchIdsForDeletionQuery(context, cutOffDate);
             Assert.AreEqual(0, results.Count());
+        }
+        #endregion
+
+        #region CreateGetSevisBatchInfoDTOsQuery
+        [TestMethod]
+        public void TestCreateGetSevisBatchInfoDTOsQuery_SevisBatchIsActiveCheckProperties()
+        {
+            var batch = new SevisBatchProcessing
+            {
+                BatchId = "batchId",
+                DownloadDispositionCode = DispositionCode.BatchNeverSubmitted.Code,
+                DownloadTries = 1,
+                Id = 2,
+                LastDownloadTry = DateTimeOffset.UtcNow.AddDays(1.0),
+                LastUploadTry = DateTimeOffset.UtcNow.AddDays(2.0),
+                ProcessDispositionCode = DispositionCode.BatchNotYetProcessed.Code,
+                RetrieveDate = DateTimeOffset.UtcNow.AddDays(3.0),
+                SendString = "send string",
+                SevisOrgId = "sevis org Id",
+                SevisUsername = "username",
+                SubmitDate = DateTimeOffset.UtcNow.AddDays(4.0),
+                TransactionLogString = "transaction log",
+                UploadDispositionCode = DispositionCode.BusinessRuleViolations.Code,
+                UploadTries = 4
+            };
+            context.SevisBatchProcessings.Add(batch);
+            var result = SevisBatchProcessingQueries.CreateGetSevisBatchInfoDTOsQuery(context).ToList();
+            Assert.AreEqual(1, result.Count);
+            var first = result.First();
+
+            Assert.AreEqual(batch.BatchId, first.BatchId);
+            Assert.IsNull(first.CancelledOn);
+            Assert.IsNull(first.CancelledReason);
+            Assert.AreEqual(batch.DownloadDispositionCode, first.DownloadDispositionCode);
+            Assert.AreEqual(batch.DownloadTries, first.DownloadTries);
+            Assert.AreEqual(batch.Id, first.Id);
+            Assert.IsFalse(first.IsCancelled);
+            Assert.AreEqual(batch.LastDownloadTry, first.LastDownloadTry);
+            Assert.AreEqual(batch.LastUploadTry, first.LastUploadTry);
+            Assert.AreEqual(batch.ProcessDispositionCode, first.ProcessDispositionCode);
+            Assert.AreEqual(batch.RetrieveDate, first.RetrieveDate);
+            Assert.AreEqual(batch.SubmitDate, first.SubmitDate);
+            Assert.AreEqual(batch.UploadDispositionCode, first.UploadDispositionCode);
+            Assert.AreEqual(batch.UploadTries, first.UploadTries);
+        }
+
+        [TestMethod]
+        public void TestCreateGetSevisBatchInfoDTOsQuery_SevisBatchIsCancelledCheckProperties()
+        {
+            var batch = new CancelledSevisBatchProcessing
+            {
+                BatchId = "batchId",
+                DownloadDispositionCode = DispositionCode.BatchNeverSubmitted.Code,
+                DownloadTries = 1,
+                Id = 2,
+                LastDownloadTry = DateTimeOffset.UtcNow.AddDays(1.0),
+                LastUploadTry = DateTimeOffset.UtcNow.AddDays(2.0),
+                ProcessDispositionCode = DispositionCode.BatchNotYetProcessed.Code,
+                RetrieveDate = DateTimeOffset.UtcNow.AddDays(3.0),
+                SendString = "send string",
+                SevisOrgId = "sevis org Id",
+                SevisUsername = "username",
+                SubmitDate = DateTimeOffset.UtcNow.AddDays(4.0),
+                TransactionLogString = "transaction log",
+                UploadDispositionCode = DispositionCode.BusinessRuleViolations.Code,
+                UploadTries = 4,
+                CancelledOn = DateTimeOffset.UtcNow.AddDays(5.0),
+                Reason = "cancel reason",
+            };
+            context.CancelledSevisBatchProcessings.Add(batch);
+            var result = SevisBatchProcessingQueries.CreateGetSevisBatchInfoDTOsQuery(context).ToList();
+            Assert.AreEqual(1, result.Count);
+            var first = result.First();
+
+            Assert.AreEqual(batch.BatchId, first.BatchId);
+            Assert.AreEqual(batch.CancelledOn, first.CancelledOn);
+            Assert.AreEqual(batch.Reason, first.CancelledReason);
+            Assert.AreEqual(batch.DownloadDispositionCode, first.DownloadDispositionCode);
+            Assert.AreEqual(batch.DownloadTries, first.DownloadTries);
+            Assert.AreEqual(batch.Id, first.Id);
+            Assert.IsTrue(first.IsCancelled);
+            Assert.AreEqual(batch.LastDownloadTry, first.LastDownloadTry);
+            Assert.AreEqual(batch.LastUploadTry, first.LastUploadTry);
+            Assert.AreEqual(batch.ProcessDispositionCode, first.ProcessDispositionCode);
+            Assert.AreEqual(batch.RetrieveDate, first.RetrieveDate);
+            Assert.AreEqual(batch.SubmitDate, first.SubmitDate);
+            Assert.AreEqual(batch.UploadDispositionCode, first.UploadDispositionCode);
+            Assert.AreEqual(batch.UploadTries, first.UploadTries);
+        }
+
+        [TestMethod]
+        public void TestCreateGetSevisBatchInfoDTOByBatchIdQuery()
+        {
+            var batch = new SevisBatchProcessing
+            {
+                BatchId = "batchId",
+                DownloadDispositionCode = DispositionCode.BatchNeverSubmitted.Code,
+                DownloadTries = 1,
+                Id = 2,
+                LastDownloadTry = DateTimeOffset.UtcNow.AddDays(1.0),
+                LastUploadTry = DateTimeOffset.UtcNow.AddDays(2.0),
+                ProcessDispositionCode = DispositionCode.BatchNotYetProcessed.Code,
+                RetrieveDate = DateTimeOffset.UtcNow.AddDays(3.0),
+                SendString = "send string",
+                SevisOrgId = "sevis org Id",
+                SevisUsername = "username",
+                SubmitDate = DateTimeOffset.UtcNow.AddDays(4.0),
+                TransactionLogString = "transaction log",
+                UploadDispositionCode = DispositionCode.BusinessRuleViolations.Code,
+                UploadTries = 4
+            };
+            context.SevisBatchProcessings.Add(batch);
+            var result = SevisBatchProcessingQueries.CreateGetSevisBatchInfoDTOByBatchIdQuery(context, batch.BatchId).ToList();
+            Assert.AreEqual(1, result.Count);
+        }
+
+        [TestMethod]
+        public void TestCreateGetSevisBatchInfoDTOByBatchIdQuery_BatchDoesNotExist()
+        {
+            var batch = new SevisBatchProcessing
+            {
+                BatchId = "batchId",
+            };
+            context.SevisBatchProcessings.Add(batch);
+            var result = SevisBatchProcessingQueries.CreateGetSevisBatchInfoDTOByBatchIdQuery(context, "somebatchid").ToList();
+            Assert.AreEqual(0, result.Count);
         }
         #endregion
     }

@@ -26,30 +26,30 @@ angular.module('staticApp')
       $scope.view.isLoadingCountries = false;
       var tempCountryId = 0;
 
-      $scope.view.onAddCitizenshipCountryClick = function (entityId) {
+      $scope.view.onAddCitizenshipCountryClick = function (countriesOfCitizenship) {
           var newCountry = {
-              id: entityId,
-              name: "",
-              countryId: --tempCountryId,
+              locationId: --tempCountryId,
+              locationName: "",
+              isPrimary: false,
               isNew: true
           };
-          $scope.$parent.$parent.countriesOfCitizenship.splice(0, 0, newCountry);
+          countriesOfCitizenship.splice(0, 0, newCountry);
           $scope.view.collapseCitizenshipCountries = false;
       };
 
-      $scope.$on(ConstantsService.removenewCountryEventName, function (event, newCountry) {
-          console.assert($scope.$parent.$parent.countriesOfCitizenship instanceof Array, 'The entity countries is defined but must be an array.');
+      $scope.$on(ConstantsService.removeNewCitizenshipCountryEventName, function (event, newCountry) {
+          console.assert($scope.model.countriesOfCitizenship instanceof Array, 'The entity countries is defined but must be an array.');
 
-          var countries = $scope.$parent.$parent.countriesOfCitizenship;
+          var countries = $scope.model.countriesOfCitizenship;
           var index = countries.indexOf(newCountry);
           var removedItems = countries.splice(index, 1);
           $log.info('Removed one new country at index ' + index);
       });
+      
+      $scope.$on(ConstantsService.primaryCitizenshipCountryChangedEventName, function (event, primaryCountry) {
+          console.assert($scope.model.countriesOfCitizenship instanceof Array, 'The entity countries is defined but must be an array.');
 
-      $scope.$on(ConstantsService.primaryCountryChangedEventName, function (event, primaryCountry) {
-          console.assert($scope.$parent.$parent.countriesOfCitizenship instanceof Array, 'The entity countries is defined but must be an array.');
-
-          var countries = $scope.$parent.$parent.countriesOfCitizenship;
+          var countries = $scope.model.countriesOfCitizenship;
           var primaryCountryIndex = countries.indexOf(primaryCountry);
           angular.forEach(countries, function (country, index) {
               if (primaryCountryIndex !== index) {

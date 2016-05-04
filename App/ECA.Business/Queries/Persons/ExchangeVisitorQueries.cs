@@ -4,7 +4,9 @@ using ECA.Business.Queries.Models.Persons.ExchangeVisitor;
 using ECA.Business.Service.Admin;
 using ECA.Business.Validation.Sevis.Bio;
 using ECA.Business.Validation.Sevis.Finance;
+using ECA.Core.DynamicLinq;
 using ECA.Data;
+using System;
 using System.Diagnostics.Contracts;
 using System.Linq;
 
@@ -187,8 +189,9 @@ namespace ECA.Business.Queries.Persons
                         let birthDate = dependent.DateOfBirth
 
                         let numberOfCitizenships = dependent.CountriesOfCitizenship.Count()
-                        let countryOfCitizenship = dependent.CountriesOfCitizenship.FirstOrDefault()
-                        let sevisCountryOfCitizenship = countryOfCitizenship != null ? countryOfCitizenship.BirthCountry : null
+                        let countryOfCitizenship = dependent.CountriesOfCitizenship.OrderByDescending(x => x.IsPrimary).FirstOrDefault()
+                        let countryOfCitizenshipLocation = countryOfCitizenship != null ? countryOfCitizenship.Location : null
+                        let sevisCountryOfCitizenship = countryOfCitizenshipLocation != null ? countryOfCitizenshipLocation.BirthCountry : null
                         let sevisCountryOfCitizenshipCode = sevisCountryOfCitizenship != null ? sevisCountryOfCitizenship.CountryCode : null
 
                         let relationship = context.DependentTypes.Where(x => x.DependentTypeId == dependent.DependentTypeId).FirstOrDefault()
@@ -226,7 +229,7 @@ namespace ECA.Business.Queries.Persons
                             GenderId = gender.GenderId,
                             NumberOfCitizenships = numberOfCitizenships,
                             PermanentResidenceCountryCode = residenceSevisCountryCode,
-                            PersonId = dependent.PersonId,
+                            PersonId = dependent.DependentId,
                             ParticipantId = participantId,
                             Relationship = relationshipCode,
                             DependentTypeId = relationship != null ? relationship.DependentTypeId : -1,
@@ -293,11 +296,11 @@ namespace ECA.Business.Queries.Persons
                         {
                             Amount1 = hasFirstInternationalFunding ? visitor.FundingIntlOrg1 : null,
                             Org1 = firstInternationalFundingOrg != null && hasFirstInternationalFunding ? firstInternationalFundingOrg.OrganizationCode : null,
-                            OtherName1 = otherName1,
+                            OtherName1 = otherName1 != null && otherName1.Length > 0 ? otherName1 : null,
 
                             Amount2 = hasSecondInternationalFunding && hasSecondInternationalFunding ? visitor.FundingIntlOrg2 : null,
                             Org2 = secondIternationalFundingOrg != null && hasSecondInternationalFunding ? secondIternationalFundingOrg.OrganizationCode : null,
-                            OtherName2 = otherName2
+                            OtherName2 = otherName2 != null && otherName2.Length > 0 ? otherName2 : null
                         };
 
             return query;
@@ -334,13 +337,52 @@ namespace ECA.Business.Queries.Persons
                         {
                             Amount1 = hasFirstUsGovFunding ? visitor.FundingGovtAgency1 : null,
                             Org1 = firstUsGovFundingAgency != null && hasFirstUsGovFunding ? firstUsGovFundingAgency.AgencyCode : null,
-                            OtherName1 = otherName1,
+                            OtherName1 = otherName1 != null && otherName1.Length > 0 ? otherName1 : null,
 
                             Amount2 = hasSecondUsGovFunding ? visitor.FundingGovtAgency2 : null,
                             Org2 = secondUsGovFundingAgency != null && hasSecondUsGovFunding ? secondUsGovFundingAgency.AgencyCode : null,
-                            OtherName2 = otherName2
+                            OtherName2 = otherName2 != null && otherName2.Length > 0 ? otherName2 : null
                         };
 
+            return query;
+        }
+
+        /// <summary>
+        /// Returns a query that retrieves dtos detailing participants that have a sevis id, whos start date is before the given start date and have not yet been validated by batch.
+        /// </summary>
+        /// <param name="context">The context to query.</param>
+        /// <param name="startDate">The minimum start date for a participant.</param>
+        /// <returns>The query of dtos who are ready to be validated.</returns>
+        public static IQueryable<ReadyToValidateParticipantDTO> CreateGetReadyToValidateParticipantDTOsQuery(EcaContext context, DateTimeOffset startDate, QueryableOperator<ReadyToValidateParticipantDTO> queryOperator)
+        {
+            Contract.Requires(context != null, "The context must not be null.");
+            var statusIds = ParticipantStatus.EXCHANGE_VISITOR_VALIDATION_PARTICIPANT_STATUSES.Select(x => x.Id).ToList();
+            var informationRequiredSevisStatusId = SevisCommStatus.InformationRequired.Id;
+
+            var query = from participantPerson in context.ParticipantPersons
+                        let participant = participantPerson.Participant
+                        let participantStatus = participant.Status
+                        let hasValidatedByBatchStatus = participantPerson.ParticipantPersonSevisCommStatuses
+                            .Where(x => x.SevisCommStatusId == SevisCommStatus.ReadyToValidate.Id || x.SevisCommStatusId == SevisCommStatus.NeedsValidationInfo.Id)
+                            .Count() > 0
+                        let latestSevisStatus = participantPerson.ParticipantPersonSevisCommStatuses.OrderByDescending(x => x.AddedOn).FirstOrDefault()
+
+                        where participantPerson.SevisId != null
+                        && participantPerson.SevisId.Length > 0
+                        && participantPerson.StartDate.HasValue
+                        && participantPerson.StartDate.Value < startDate
+                        && !hasValidatedByBatchStatus
+                        && participantStatus != null
+                        && statusIds.Contains(participantStatus.ParticipantStatusId)
+                        && latestSevisStatus != null
+                        && latestSevisStatus.SevisCommStatusId != informationRequiredSevisStatusId
+                        select new ReadyToValidateParticipantDTO
+                        {
+                            ParticipantId = participant.ParticipantId,
+                            ProjectId = participant.ProjectId,
+                            SevisId = participantPerson.SevisId
+                        };
+            query = query.Apply(queryOperator);
             return query;
         }
     }

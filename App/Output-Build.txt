@@ -1,0 +1,6 @@
+﻿1>------ Build started: Project: ECA.WebJobs.Sevis.Comm, Configuration: Debug Any CPU ------
+1>E:\S\ECA-KMT\App\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets(243,5): warning : All projects referencing ECA.WebJobs.Core.csproj must install nuget package Microsoft.Bcl.Build. For more information, see http://go.microsoft.com/fwlink/?LinkID=317569.
+1>  Consider app.config remapping of assembly "Microsoft.WindowsAzure.Storage, Culture=neutral, PublicKeyToken=31bf3856ad364e35" from Version "4.3.0.0" [] to Version "5.0.2.0" [E:\S\ECA-KMT\App\packages\WindowsAzure.Storage.5.0.2\lib\net40\Microsoft.WindowsAzure.Storage.dll] to solve conflict and get rid of warning.
+1>C:\Program Files (x86)\MSBuild\14.0\bin\Microsoft.Common.CurrentVersion.targets(1819,5): warning MSB3276: Found conflicts between different versions of the same dependent assembly. Please set the "AutoGenerateBindingRedirects" property to true in the project file. For more information, see http://go.microsoft.com/fwlink/?LinkId=294190.
+1>  ECA.WebJobs.Sevis.Comm -> E:\S\ECA-KMT\App\ECA.WebJobs.Sevis.Comm\bin\Debug\ECA.WebJobs.Sevis.Comm.exe
+========== Build: 1 succeeded, 0 failed, 8 up-to-date, 0 skipped ==========

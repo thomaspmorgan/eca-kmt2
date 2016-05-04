@@ -321,158 +321,159 @@ namespace ECA.Business.Test.Service.Fundings
             Assert.AreEqual(PropertyHelper.GetPropertyName<AdditionalMoneyFlow>(x => x.Value), validationErrors.First().Property);
         }
 
-        [TestMethod]
-        public void TestDoValidateCreate_EmptyDescription()
-        {
-            var value = 1.00m;
-            var description = "description";
-            var transactionDate = DateTimeOffset.UtcNow;
-            var hasSourceEntityType = true;
-            var hasRecipientEntityType = true;
-            int? sourceEntityId = 1;
-            int? recipientEntityId = 2;
-            var sourceEntityTypeId = MoneyFlowSourceRecipientType.Post.Id;
-            var recipientEntityTypeId = MoneyFlowSourceRecipientType.Project.Id;
-            int fiscalYear = 2000;
-            int? parentFiscalYear = fiscalYear;
-            var allowedRecipientEntityTypeIds = new List<int> { recipientEntityTypeId };
-            var allowedSourceEntityTypeIds = new List<int> { sourceEntityTypeId };
-            var allowedProjectParticipantIds = new List<int>();
-            var parentMoneyFlowWithdrawalMaximum = 100m;
-            var isParentMoneyFlowDirect = true;
+        // per CE Pilot, null descriptions are allowed
+        //[TestMethod]
+        //public void TestDoValidateCreate_EmptyDescription()
+        //{
+        //    var value = 1.00m;
+        //    var description = "description";
+        //    var transactionDate = DateTimeOffset.UtcNow;
+        //    var hasSourceEntityType = true;
+        //    var hasRecipientEntityType = true;
+        //    int? sourceEntityId = 1;
+        //    int? recipientEntityId = 2;
+        //    var sourceEntityTypeId = MoneyFlowSourceRecipientType.Post.Id;
+        //    var recipientEntityTypeId = MoneyFlowSourceRecipientType.Project.Id;
+        //    int fiscalYear = 2000;
+        //    int? parentFiscalYear = fiscalYear;
+        //    var allowedRecipientEntityTypeIds = new List<int> { recipientEntityTypeId };
+        //    var allowedSourceEntityTypeIds = new List<int> { sourceEntityTypeId };
+        //    var allowedProjectParticipantIds = new List<int>();
+        //    var parentMoneyFlowWithdrawalMaximum = 100m;
+        //    var isParentMoneyFlowDirect = true;
 
-            Func<MoneyFlowServiceCreateValidationEntity> createEntity = () =>
-            {
-                return new MoneyFlowServiceCreateValidationEntity(
-                value: value,
-                parentMoneyFlowWithdrawalMaximum: parentMoneyFlowWithdrawalMaximum,
-                description: description,
-                transactionDate: transactionDate,
-                hasRecipientEntityType: hasRecipientEntityType,
-                hasSourceEntityType: hasSourceEntityType,
-                sourceEntityId: sourceEntityId,
-                recipientEntityId: recipientEntityId,
-                sourceEntityTypeId: sourceEntityTypeId,
-                recipientEntityTypeId: recipientEntityTypeId,
-                fiscalYear: fiscalYear,
-                parentFiscalYear: parentFiscalYear,
-                allowedRecipientEntityTypeIds: allowedRecipientEntityTypeIds,
-                allowedSourceEntityTypeIds: allowedSourceEntityTypeIds,
-                allowedProjectParticipantIds: allowedProjectParticipantIds,
-                isParentMoneyFlowDirect: isParentMoneyFlowDirect
-                );
-            };
-            Assert.AreEqual(0, validator.ValidateCreate(createEntity()).Count());
+        //    Func<MoneyFlowServiceCreateValidationEntity> createEntity = () =>
+        //    {
+        //        return new MoneyFlowServiceCreateValidationEntity(
+        //        value: value,
+        //        parentMoneyFlowWithdrawalMaximum: parentMoneyFlowWithdrawalMaximum,
+        //        description: description,
+        //        transactionDate: transactionDate,
+        //        hasRecipientEntityType: hasRecipientEntityType,
+        //        hasSourceEntityType: hasSourceEntityType,
+        //        sourceEntityId: sourceEntityId,
+        //        recipientEntityId: recipientEntityId,
+        //        sourceEntityTypeId: sourceEntityTypeId,
+        //        recipientEntityTypeId: recipientEntityTypeId,
+        //        fiscalYear: fiscalYear,
+        //        parentFiscalYear: parentFiscalYear,
+        //        allowedRecipientEntityTypeIds: allowedRecipientEntityTypeIds,
+        //        allowedSourceEntityTypeIds: allowedSourceEntityTypeIds,
+        //        allowedProjectParticipantIds: allowedProjectParticipantIds,
+        //        isParentMoneyFlowDirect: isParentMoneyFlowDirect
+        //        );
+        //    };
+        //    Assert.AreEqual(0, validator.ValidateCreate(createEntity()).Count());
 
-            description = String.Empty;
-            var entity = createEntity();
-            var validationErrors = validator.DoValidateCreate(entity).ToList();
-            Assert.AreEqual(1, validationErrors.Count);
-            Assert.AreEqual(MoneyFlowServiceValidator.INVALID_DESCRIPTION_ERROR_MESSAGE, validationErrors.First().ErrorMessage);
-            Assert.AreEqual(PropertyHelper.GetPropertyName<AdditionalMoneyFlow>(x => x.Description), validationErrors.First().Property);
-        }
+        //    description = String.Empty;
+        //    var entity = createEntity();
+        //    var validationErrors = validator.DoValidateCreate(entity).ToList();
+        //    Assert.AreEqual(1, validationErrors.Count);
+        //    Assert.AreEqual(MoneyFlowServiceValidator.INVALID_DESCRIPTION_ERROR_MESSAGE, validationErrors.First().ErrorMessage);
+        //    Assert.AreEqual(PropertyHelper.GetPropertyName<AdditionalMoneyFlow>(x => x.Description), validationErrors.First().Property);
+        //}
 
-        [TestMethod]
-        public void TestDoValidateCreate_WhitespaceDescription()
-        {
-            var value = 1.00m;
-            var description = "description";
-            var transactionDate = DateTimeOffset.UtcNow;
-            var hasSourceEntityType = true;
-            var hasRecipientEntityType = true;
-            int? sourceEntityId = 1;
-            int? recipientEntityId = 2;
-            var sourceEntityTypeId = MoneyFlowSourceRecipientType.Post.Id;
-            var recipientEntityTypeId = MoneyFlowSourceRecipientType.Project.Id;
-            int fiscalYear = 2000;
-            int? parentFiscalYear = fiscalYear;
-            var allowedRecipientEntityTypeIds = new List<int> { recipientEntityTypeId };
-            var allowedSourceEntityTypeIds = new List<int> { sourceEntityTypeId };
-            var allowedProjectParticipantIds = new List<int>();
-            var parentMoneyFlowWithdrawalMaximum = 100m;
-            var isParentMoneyFlowDirect = true;
+        //[TestMethod]
+        //public void TestDoValidateCreate_WhitespaceDescription()
+        //{
+        //    var value = 1.00m;
+        //    var description = "description";
+        //    var transactionDate = DateTimeOffset.UtcNow;
+        //    var hasSourceEntityType = true;
+        //    var hasRecipientEntityType = true;
+        //    int? sourceEntityId = 1;
+        //    int? recipientEntityId = 2;
+        //    var sourceEntityTypeId = MoneyFlowSourceRecipientType.Post.Id;
+        //    var recipientEntityTypeId = MoneyFlowSourceRecipientType.Project.Id;
+        //    int fiscalYear = 2000;
+        //    int? parentFiscalYear = fiscalYear;
+        //    var allowedRecipientEntityTypeIds = new List<int> { recipientEntityTypeId };
+        //    var allowedSourceEntityTypeIds = new List<int> { sourceEntityTypeId };
+        //    var allowedProjectParticipantIds = new List<int>();
+        //    var parentMoneyFlowWithdrawalMaximum = 100m;
+        //    var isParentMoneyFlowDirect = true;
 
-            Func<MoneyFlowServiceCreateValidationEntity> createEntity = () =>
-            {
-                return new MoneyFlowServiceCreateValidationEntity(
-                value: value,
-                parentMoneyFlowWithdrawalMaximum: parentMoneyFlowWithdrawalMaximum,
-                description: description,
-                transactionDate: transactionDate,
-                hasRecipientEntityType: hasRecipientEntityType,
-                hasSourceEntityType: hasSourceEntityType,
-                sourceEntityId: sourceEntityId,
-                recipientEntityId: recipientEntityId,
-                sourceEntityTypeId: sourceEntityTypeId,
-                recipientEntityTypeId: recipientEntityTypeId,
-                fiscalYear: fiscalYear,
-                parentFiscalYear: parentFiscalYear,
-                allowedRecipientEntityTypeIds: allowedRecipientEntityTypeIds,
-                allowedSourceEntityTypeIds: allowedSourceEntityTypeIds,
-                allowedProjectParticipantIds: allowedProjectParticipantIds,
-                isParentMoneyFlowDirect: isParentMoneyFlowDirect
-                );
-            };
-            Assert.AreEqual(0, validator.ValidateCreate(createEntity()).Count());
+        //    Func<MoneyFlowServiceCreateValidationEntity> createEntity = () =>
+        //    {
+        //        return new MoneyFlowServiceCreateValidationEntity(
+        //        value: value,
+        //        parentMoneyFlowWithdrawalMaximum: parentMoneyFlowWithdrawalMaximum,
+        //        description: description,
+        //        transactionDate: transactionDate,
+        //        hasRecipientEntityType: hasRecipientEntityType,
+        //        hasSourceEntityType: hasSourceEntityType,
+        //        sourceEntityId: sourceEntityId,
+        //        recipientEntityId: recipientEntityId,
+        //        sourceEntityTypeId: sourceEntityTypeId,
+        //        recipientEntityTypeId: recipientEntityTypeId,
+        //        fiscalYear: fiscalYear,
+        //        parentFiscalYear: parentFiscalYear,
+        //        allowedRecipientEntityTypeIds: allowedRecipientEntityTypeIds,
+        //        allowedSourceEntityTypeIds: allowedSourceEntityTypeIds,
+        //        allowedProjectParticipantIds: allowedProjectParticipantIds,
+        //        isParentMoneyFlowDirect: isParentMoneyFlowDirect
+        //        );
+        //    };
+        //    Assert.AreEqual(0, validator.ValidateCreate(createEntity()).Count());
 
-            description = " ";
-            var entity = createEntity();
-            var validationErrors = validator.DoValidateCreate(entity).ToList();
-            Assert.AreEqual(1, validationErrors.Count);
-            Assert.AreEqual(MoneyFlowServiceValidator.INVALID_DESCRIPTION_ERROR_MESSAGE, validationErrors.First().ErrorMessage);
-            Assert.AreEqual(PropertyHelper.GetPropertyName<AdditionalMoneyFlow>(x => x.Description), validationErrors.First().Property);
-        }
+        //    description = " ";
+        //    var entity = createEntity();
+        //    var validationErrors = validator.DoValidateCreate(entity).ToList();
+        //    Assert.AreEqual(1, validationErrors.Count);
+        //    Assert.AreEqual(MoneyFlowServiceValidator.INVALID_DESCRIPTION_ERROR_MESSAGE, validationErrors.First().ErrorMessage);
+        //    Assert.AreEqual(PropertyHelper.GetPropertyName<AdditionalMoneyFlow>(x => x.Description), validationErrors.First().Property);
+        //}
 
-        [TestMethod]
-        public void TestDoValidateCreate_NullDescription()
-        {
-            var value = 1.00m;
-            var description = "description";
-            var transactionDate = DateTimeOffset.UtcNow;
-            var hasSourceEntityType = true;
-            var hasRecipientEntityType = true;
-            int? sourceEntityId = 1;
-            int? recipientEntityId = 2;
-            var sourceEntityTypeId = MoneyFlowSourceRecipientType.Post.Id;
-            var recipientEntityTypeId = MoneyFlowSourceRecipientType.Project.Id;
-            int fiscalYear = 2000;
-            int? parentFiscalYear = fiscalYear;
-            var allowedRecipientEntityTypeIds = new List<int> { recipientEntityTypeId };
-            var allowedSourceEntityTypeIds = new List<int> { sourceEntityTypeId };
-            var allowedProjectParticipantIds = new List<int>();
-            var parentMoneyFlowWithdrawalMaximum = 100m;
-            var isParentMoneyFlowDirect = true;
+        //[TestMethod]
+        //public void TestDoValidateCreate_NullDescription()
+        //{
+        //    var value = 1.00m;
+        //    var description = "description";
+        //    var transactionDate = DateTimeOffset.UtcNow;
+        //    var hasSourceEntityType = true;
+        //    var hasRecipientEntityType = true;
+        //    int? sourceEntityId = 1;
+        //    int? recipientEntityId = 2;
+        //    var sourceEntityTypeId = MoneyFlowSourceRecipientType.Post.Id;
+        //    var recipientEntityTypeId = MoneyFlowSourceRecipientType.Project.Id;
+        //    int fiscalYear = 2000;
+        //    int? parentFiscalYear = fiscalYear;
+        //    var allowedRecipientEntityTypeIds = new List<int> { recipientEntityTypeId };
+        //    var allowedSourceEntityTypeIds = new List<int> { sourceEntityTypeId };
+        //    var allowedProjectParticipantIds = new List<int>();
+        //    var parentMoneyFlowWithdrawalMaximum = 100m;
+        //    var isParentMoneyFlowDirect = true;
 
-            Func<MoneyFlowServiceCreateValidationEntity> createEntity = () =>
-            {
-                return new MoneyFlowServiceCreateValidationEntity(
-                value: value,
-                parentMoneyFlowWithdrawalMaximum: parentMoneyFlowWithdrawalMaximum,
-                description: description,
-                transactionDate: transactionDate,
-                hasRecipientEntityType: hasRecipientEntityType,
-                hasSourceEntityType: hasSourceEntityType,
-                sourceEntityId: sourceEntityId,
-                recipientEntityId: recipientEntityId,
-                sourceEntityTypeId: sourceEntityTypeId,
-                recipientEntityTypeId: recipientEntityTypeId,
-                fiscalYear: fiscalYear,
-                parentFiscalYear: parentFiscalYear,
-                allowedRecipientEntityTypeIds: allowedRecipientEntityTypeIds,
-                allowedSourceEntityTypeIds: allowedSourceEntityTypeIds,
-                allowedProjectParticipantIds: allowedProjectParticipantIds,
-                isParentMoneyFlowDirect: isParentMoneyFlowDirect
-                );
-            };
-            Assert.AreEqual(0, validator.ValidateCreate(createEntity()).Count());
+        //    Func<MoneyFlowServiceCreateValidationEntity> createEntity = () =>
+        //    {
+        //        return new MoneyFlowServiceCreateValidationEntity(
+        //        value: value,
+        //        parentMoneyFlowWithdrawalMaximum: parentMoneyFlowWithdrawalMaximum,
+        //        description: description,
+        //        transactionDate: transactionDate,
+        //        hasRecipientEntityType: hasRecipientEntityType,
+        //        hasSourceEntityType: hasSourceEntityType,
+        //        sourceEntityId: sourceEntityId,
+        //        recipientEntityId: recipientEntityId,
+        //        sourceEntityTypeId: sourceEntityTypeId,
+        //        recipientEntityTypeId: recipientEntityTypeId,
+        //        fiscalYear: fiscalYear,
+        //        parentFiscalYear: parentFiscalYear,
+        //        allowedRecipientEntityTypeIds: allowedRecipientEntityTypeIds,
+        //        allowedSourceEntityTypeIds: allowedSourceEntityTypeIds,
+        //        allowedProjectParticipantIds: allowedProjectParticipantIds,
+        //        isParentMoneyFlowDirect: isParentMoneyFlowDirect
+        //        );
+        //    };
+        //    Assert.AreEqual(0, validator.ValidateCreate(createEntity()).Count());
 
-            description = null;
-            var entity = createEntity();
-            var validationErrors = validator.DoValidateCreate(entity).ToList();
-            Assert.AreEqual(1, validationErrors.Count);
-            Assert.AreEqual(MoneyFlowServiceValidator.INVALID_DESCRIPTION_ERROR_MESSAGE, validationErrors.First().ErrorMessage);
-            Assert.AreEqual(PropertyHelper.GetPropertyName<AdditionalMoneyFlow>(x => x.Description), validationErrors.First().Property);
-        }
+        //    description = null;
+        //    var entity = createEntity();
+        //    var validationErrors = validator.DoValidateCreate(entity).ToList();
+        //    Assert.AreEqual(1, validationErrors.Count);
+        //    Assert.AreEqual(MoneyFlowServiceValidator.INVALID_DESCRIPTION_ERROR_MESSAGE, validationErrors.First().ErrorMessage);
+        //    Assert.AreEqual(PropertyHelper.GetPropertyName<AdditionalMoneyFlow>(x => x.Description), validationErrors.First().Property);
+        //}
 
         [TestMethod]
         public void TestDoValidateCreate_DescriptionExceedsMaxLength()
@@ -1580,105 +1581,106 @@ namespace ECA.Business.Test.Service.Fundings
             Assert.AreEqual(MoneyFlowServiceValidator.INVALID_AMOUNT_MESSAGE, validationErrors.First().ErrorMessage);
             Assert.AreEqual(PropertyHelper.GetPropertyName<UpdatedMoneyFlow>(x => x.Value), validationErrors.First().Property);
         }
+         
+        // Per CE Pilot, descriptions can be null
+        //[TestMethod]
+        //public void TestDoValidateUpdate_EmptyDescription()
+        //{
+        //    var value = 1.00m;
+        //    var description = "description";
+        //    var transactionDate = DateTimeOffset.UtcNow;
+        //    int fiscalYear = 2000;
+        //    int? parentFiscalYear = fiscalYear;
+        //    decimal? withdrawalLimit = 100m;
+        //    var isDirect = true;
+        //    var numberOfChildrenMoneyFlows = 0;
+        //    Func<MoneyFlowServiceUpdateValidationEntity> createEntity = () =>
+        //    {
+        //        return new MoneyFlowServiceUpdateValidationEntity(
+        //            value: value,
+        //            parentMoneyFlowWithdrawalMaximum: withdrawalLimit,
+        //            description: description,
+        //            fiscalYear: fiscalYear,
+        //            parentFiscalYear: parentFiscalYear,
+        //            isDirect: isDirect,
+        //            numberOfChildrenMoneyFlows: numberOfChildrenMoneyFlows
+        //        );
+        //    };
+        //    Assert.AreEqual(0, validator.ValidateUpdate(createEntity()).Count());
 
-        [TestMethod]
-        public void TestDoValidateUpdate_EmptyDescription()
-        {
-            var value = 1.00m;
-            var description = "description";
-            var transactionDate = DateTimeOffset.UtcNow;
-            int fiscalYear = 2000;
-            int? parentFiscalYear = fiscalYear;
-            decimal? withdrawalLimit = 100m;
-            var isDirect = true;
-            var numberOfChildrenMoneyFlows = 0;
-            Func<MoneyFlowServiceUpdateValidationEntity> createEntity = () =>
-            {
-                return new MoneyFlowServiceUpdateValidationEntity(
-                    value: value,
-                    parentMoneyFlowWithdrawalMaximum: withdrawalLimit,
-                    description: description,
-                    fiscalYear: fiscalYear,
-                    parentFiscalYear: parentFiscalYear,
-                    isDirect: isDirect,
-                    numberOfChildrenMoneyFlows: numberOfChildrenMoneyFlows
-                );
-            };
-            Assert.AreEqual(0, validator.ValidateUpdate(createEntity()).Count());
+        //    description = String.Empty;
+        //    var entity = createEntity();
+        //    var validationErrors = validator.DoValidateUpdate(entity).ToList();
+        //    Assert.AreEqual(1, validationErrors.Count);
+        //    Assert.AreEqual(MoneyFlowServiceValidator.INVALID_DESCRIPTION_ERROR_MESSAGE, validationErrors.First().ErrorMessage);
+        //    Assert.AreEqual(PropertyHelper.GetPropertyName<UpdatedMoneyFlow>(x => x.Description), validationErrors.First().Property);
+        //}
 
-            description = String.Empty;
-            var entity = createEntity();
-            var validationErrors = validator.DoValidateUpdate(entity).ToList();
-            Assert.AreEqual(1, validationErrors.Count);
-            Assert.AreEqual(MoneyFlowServiceValidator.INVALID_DESCRIPTION_ERROR_MESSAGE, validationErrors.First().ErrorMessage);
-            Assert.AreEqual(PropertyHelper.GetPropertyName<UpdatedMoneyFlow>(x => x.Description), validationErrors.First().Property);
-        }
+        //[TestMethod]
+        //public void TestDoValidateUpdate_NullDescription()
+        //{
+        //    var value = 1.00m;
+        //    var description = "description";
+        //    var transactionDate = DateTimeOffset.UtcNow;
+        //    int fiscalYear = 2000;
+        //    int? parentFiscalYear = fiscalYear;
+        //    decimal? withdrawalLimit = 100m;
+        //    var isDirect = true;
+        //    var numberOfChildrenMoneyFlows = 0;
+        //    Func<MoneyFlowServiceUpdateValidationEntity> createEntity = () =>
+        //    {
+        //        return new MoneyFlowServiceUpdateValidationEntity(
+        //            value: value,
+        //            parentMoneyFlowWithdrawalMaximum: withdrawalLimit,
+        //            description: description,
+        //            fiscalYear: fiscalYear,
+        //            parentFiscalYear: parentFiscalYear,
+        //            isDirect: isDirect,
+        //            numberOfChildrenMoneyFlows: numberOfChildrenMoneyFlows
+        //        );
+        //    };
+        //    Assert.AreEqual(0, validator.ValidateUpdate(createEntity()).Count());
 
-        [TestMethod]
-        public void TestDoValidateUpdate_NullDescription()
-        {
-            var value = 1.00m;
-            var description = "description";
-            var transactionDate = DateTimeOffset.UtcNow;
-            int fiscalYear = 2000;
-            int? parentFiscalYear = fiscalYear;
-            decimal? withdrawalLimit = 100m;
-            var isDirect = true;
-            var numberOfChildrenMoneyFlows = 0;
-            Func<MoneyFlowServiceUpdateValidationEntity> createEntity = () =>
-            {
-                return new MoneyFlowServiceUpdateValidationEntity(
-                    value: value,
-                    parentMoneyFlowWithdrawalMaximum: withdrawalLimit,
-                    description: description,
-                    fiscalYear: fiscalYear,
-                    parentFiscalYear: parentFiscalYear,
-                    isDirect: isDirect,
-                    numberOfChildrenMoneyFlows: numberOfChildrenMoneyFlows
-                );
-            };
-            Assert.AreEqual(0, validator.ValidateUpdate(createEntity()).Count());
+        //    description = null;
+        //    var entity = createEntity();
+        //    var validationErrors = validator.DoValidateUpdate(entity).ToList();
+        //    Assert.AreEqual(1, validationErrors.Count);
+        //    Assert.AreEqual(MoneyFlowServiceValidator.INVALID_DESCRIPTION_ERROR_MESSAGE, validationErrors.First().ErrorMessage);
+        //    Assert.AreEqual(PropertyHelper.GetPropertyName<UpdatedMoneyFlow>(x => x.Description), validationErrors.First().Property);
+        //}
 
-            description = null;
-            var entity = createEntity();
-            var validationErrors = validator.DoValidateUpdate(entity).ToList();
-            Assert.AreEqual(1, validationErrors.Count);
-            Assert.AreEqual(MoneyFlowServiceValidator.INVALID_DESCRIPTION_ERROR_MESSAGE, validationErrors.First().ErrorMessage);
-            Assert.AreEqual(PropertyHelper.GetPropertyName<UpdatedMoneyFlow>(x => x.Description), validationErrors.First().Property);
-        }
+        //[TestMethod]
+        //public void TestDoValidateUpdate_WhitespaceDescription()
+        //{
+        //    var value = 1.00m;
+        //    var description = "description";
+        //    var transactionDate = DateTimeOffset.UtcNow;
+        //    int fiscalYear = 2000;
+        //    int? parentFiscalYear = fiscalYear;
+        //    decimal? withdrawalLimit = 100m;
+        //    var isDirect = true;
+        //    var numberOfChildrenMoneyFlows = 0;
+        //    Func<MoneyFlowServiceUpdateValidationEntity> createEntity = () =>
+        //    {
+        //        return new MoneyFlowServiceUpdateValidationEntity(
+        //            value: value,
+        //            parentMoneyFlowWithdrawalMaximum: withdrawalLimit,
+        //            description: description,
+        //            fiscalYear: fiscalYear,
+        //            parentFiscalYear: parentFiscalYear,
+        //            isDirect: isDirect,
+        //            numberOfChildrenMoneyFlows: numberOfChildrenMoneyFlows
+        //        );
+        //    };
+        //    Assert.AreEqual(0, validator.ValidateUpdate(createEntity()).Count());
 
-        [TestMethod]
-        public void TestDoValidateUpdate_WhitespaceDescription()
-        {
-            var value = 1.00m;
-            var description = "description";
-            var transactionDate = DateTimeOffset.UtcNow;
-            int fiscalYear = 2000;
-            int? parentFiscalYear = fiscalYear;
-            decimal? withdrawalLimit = 100m;
-            var isDirect = true;
-            var numberOfChildrenMoneyFlows = 0;
-            Func<MoneyFlowServiceUpdateValidationEntity> createEntity = () =>
-            {
-                return new MoneyFlowServiceUpdateValidationEntity(
-                    value: value,
-                    parentMoneyFlowWithdrawalMaximum: withdrawalLimit,
-                    description: description,
-                    fiscalYear: fiscalYear,
-                    parentFiscalYear: parentFiscalYear,
-                    isDirect: isDirect,
-                    numberOfChildrenMoneyFlows: numberOfChildrenMoneyFlows
-                );
-            };
-            Assert.AreEqual(0, validator.ValidateUpdate(createEntity()).Count());
-
-            description = " ";
-            var entity = createEntity();
-            var validationErrors = validator.DoValidateUpdate(entity).ToList();
-            Assert.AreEqual(1, validationErrors.Count);
-            Assert.AreEqual(MoneyFlowServiceValidator.INVALID_DESCRIPTION_ERROR_MESSAGE, validationErrors.First().ErrorMessage);
-            Assert.AreEqual(PropertyHelper.GetPropertyName<UpdatedMoneyFlow>(x => x.Description), validationErrors.First().Property);
-        }
+        //    description = " ";
+        //    var entity = createEntity();
+        //    var validationErrors = validator.DoValidateUpdate(entity).ToList();
+        //    Assert.AreEqual(1, validationErrors.Count);
+        //    Assert.AreEqual(MoneyFlowServiceValidator.INVALID_DESCRIPTION_ERROR_MESSAGE, validationErrors.First().ErrorMessage);
+        //    Assert.AreEqual(PropertyHelper.GetPropertyName<UpdatedMoneyFlow>(x => x.Description), validationErrors.First().Property);
+        //}
 
         [TestMethod]
         public void TestDoValidateUpdate_DescriptionExceedsLength()

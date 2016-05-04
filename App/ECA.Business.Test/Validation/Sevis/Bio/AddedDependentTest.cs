@@ -368,7 +368,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
 
             var instance = dependent.GetSevisExhangeVisitorDependentInstance();
             Assert.IsInstanceOfType(instance, typeof(SEVISEVBatchTypeExchangeVisitorDependentAdd));
-            var sevisModel = (SEVISEVBatchTypeExchangeVisitorDependentAdd)instance;            
+            var sevisModel = (SEVISEVBatchTypeExchangeVisitorDependentAdd)instance;
             Assert.IsFalse(sevisModel.BirthCountryReasonSpecified);
         }
 
@@ -624,6 +624,66 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 isDeleted: isDeleted
                 );
             Assert.IsFalse(dependent.IgnoreDependentValidation());
+        }
+
+        [TestMethod]
+        public void TestGetRequestId()
+        {
+            var personId = 100;
+            var participantId = 200;
+
+            var firstName = "first";
+            var lastName = "last";
+            var passport = "passport";
+            var preferred = "preferred";
+            var suffix = "Jr.";
+            var fullName = new FullName(firstName, lastName, passport, preferred, suffix);
+
+            var birthCity = "birth city";
+            var birthCountryCode = "CN";
+            var birthDate = DateTime.UtcNow;
+            var citizenshipCountryCode = "FR";
+            var email = "someone@isp.com";
+            var gender = Gender.SEVIS_MALE_GENDER_CODE_VALUE;
+            var permanentResidenceCountryCode = "MX";
+            var phone = "123-456-7890";
+            var mailAddress = new AddressDTO
+            {
+                AddressId = 1,
+                Country = LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME
+            };
+            var usAddress = new AddressDTO
+            {
+                AddressId = 2,
+                Country = LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME
+            };
+            var printForm = true;
+            var birthCountryReasonCode = USBornReasonType.Item01.ToString();
+            var relationship = DependentCodeType.Item01.ToString();
+            var isTravelingWithParticipant = true;
+            var isDeleted = true;
+            var instance = new AddedDependent(
+                fullName,
+                birthCity,
+                birthCountryCode,
+                birthCountryReasonCode,
+                birthDate,
+                citizenshipCountryCode,
+                email,
+                gender,
+                permanentResidenceCountryCode,
+                phone,
+                relationship,
+                mailAddress,
+                usAddress,
+                printForm,
+                personId,
+                participantId,
+                isTravelingWithParticipant,
+                isDeleted
+                );
+            var expectedRequestId = new RequestId(instance.PersonId, RequestIdType.Dependent, RequestActionType.Create);
+            Assert.AreEqual(expectedRequestId, instance.GetRequestId());
         }
     }
 }

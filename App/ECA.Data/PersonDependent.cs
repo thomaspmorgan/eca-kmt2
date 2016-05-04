@@ -5,12 +5,17 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ECA.Data
 {
-    public class PersonDependent : IHistorical
+    public class PersonDependent : IHistorical, IDS2019Fileable
     {
+        /// <summary>
+        /// The string to format for a dependent's ds 2019 file name.
+        /// </summary>
+        public const string DS2019_FILE_NAME_FORMAT_STRING = "Dependent_{0}_{1}.pdf";
+
         public PersonDependent()
         {
             this.History = new History();
-            this.CountriesOfCitizenship = new HashSet<Location>();
+            this.CountriesOfCitizenship = new HashSet<PersonDependentCitizenCountry>();
             this.EmailAddresses = new HashSet<EmailAddress>();
         }
 
@@ -178,16 +183,30 @@ namespace ECA.Data
         /// <summary>
         /// Gets and sets the countries of citizenship
         /// </summary>
-        public ICollection<Location> CountriesOfCitizenship { get; set; }
+        public ICollection<PersonDependentCitizenCountry> CountriesOfCitizenship { get; set; }
 
         /// <summary>
         /// Gets and sets the email addresses
         /// </summary>
         public ICollection<EmailAddress> EmailAddresses { get; set; }
-
+        
         /// <summary>
         /// create/update time and user
         /// </summary>
         public History History { get; set; }
+
+        /// <summary>
+        /// Gets or sets the ds 2019 file url.
+        /// </summary>
+        public string DS2019FileName { get; set; }
+
+        /// <summary>
+        /// Returns the name of a ds2019 file for this dependent.
+        /// </summary>
+        /// <returns>The name of a ds2019 file for this dependent.</returns>
+        public string GetDS2019FileName()
+        {
+            return string.Format(DS2019_FILE_NAME_FORMAT_STRING, this.DependentId, this.SevisId);
+        }
     }
 }

@@ -8,7 +8,7 @@
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('AllOrganizationsCtrl', function ($scope, $stateParams, $state, $log, $modal, OrganizationService, TableService, LookupService, NotificationService, StateService, BrowserService, smoothScroll) {
+  .controller('AllOrganizationsCtrl', function ($scope, $stateParams, $state, $log, $modal, OrganizationService, ConstantsService, TableService, LookupService, NotificationService, StateService, BrowserService, smoothScroll) {
 
       BrowserService.setAllOrganizationsDocumentTitle();
       $scope.organizations = [];
@@ -20,7 +20,7 @@ angular.module('staticApp')
       $scope.listType = 'hierarchy';
 
       $scope.view = {};
-      $scope.view.selectedOrganizationRoleId = 3;
+      $scope.view.selectedOrganizationRole = { id: 0, value: '' };
       
       $scope.onEditIconClick = function (org) {
           $state.go('organizations.edit', { organizationId: org.organizationId });
@@ -76,7 +76,7 @@ angular.module('staticApp')
           TableService.setTableState(tableState);
 
           var params = {
-              organizationRoleId: $scope.view.selectedOrganizationRoleId,
+              organizationRoleId: ($scope.view.selectedOrganizationRole == null ? 0 : $scope.view.selectedOrganizationRole.id),
               start: TableService.getStart(),
               limit: TableService.getLimit(),
               sort: TableService.getSort(),
@@ -102,7 +102,7 @@ angular.module('staticApp')
       $scope.expandOrganization = function (organization) {
           organization.isExpanded = true;
           organization.loadingChildrenOrganizations = true;
-          OrganizationService.getOrganizationsHierarchyByRoleId({ organizationRoleId: $scope.view.selectedOrganizationRoleId, limit: 300, filter: { property: "parentOrganization_OrganizationId", comparison: "eq", value: organization.organizationId } })
+          OrganizationService.getOrganizationsHierarchyByRoleId({ organizationRoleId: $scope.view.selectedOrganizationRole.Id, limit: 300, filter: { property: "parentOrganization_OrganizationId", comparison: "eq", value: organization.organizationId } })
           .then(function (result) {
               scrollToOrganization(organization);
               organization.loadingChildrenOrganizations = false;
@@ -161,5 +161,6 @@ angular.module('staticApp')
       LookupService.getOrganizationRoles(params)
         .then(function (result) {
             $scope.organizationRoles = result.data.results;
+            $scope.organizationRoles.shift();
         });
   });

@@ -1,0 +1,123 @@
+﻿<div class="modal-header">
+    <h3 class="modal-title">Sevis Batch {{view.sevisCommStatus.batchId}} Details</h3>
+    <div class="page-header">
+        <p class="subheader"></p>
+    </div>
+</div>
+<div class="modal-body">
+    <div class="form-group list2" ng-show="!view.isLoadingDetails && view.details">
+        <div class="row row4" ng-show="view.details.isCancelled">
+            <div>
+                <i class="icon material-icons md-18">warning</i>
+                Cancelled on {{view.details.cancelledOn | date:'MMMM dd, yyyy hh:mm:ss a'}} - 
+                {{view.details.cancelledReason}}
+            </div>
+        </div>
+        <div class="row">
+            <div class="row row4">
+                <h5>Upload</h5>
+            </div>
+            <div class="row row4">
+                <div class="col-md-4 title-label">
+                    Disposition Code
+                </div>
+                <div class="col-md-8">
+                    <div>
+                        {{view.details.uploadDispositionCode}} - {{view.details.uploadDispositionCodeDescription}}
+                    </div>                    
+                </div>
+            </div>
+            <div class="row row4">
+                <div class="col-md-4 title-label">
+                    Tries
+                </div>
+                <div class="col-md-8">
+                    {{view.details.uploadTries}}
+                </div>
+            </div>
+            <div class="row row4">
+                <div class="col-md-4 title-label">
+                    Last Upload Try
+                </div>
+                <div class="col-md-8">
+                    {{view.details.lastUploadTry | date:'MMMM dd, yyyy hh:mm:ss a'}}
+                </div>
+            </div>
+            <div class="row row4">
+                <div class="col-md-4 title-label">
+                    Submitted
+                </div>
+                <div class="col-md-8">
+                    {{view.details.submitDate | date:'MMMM dd, yyyy hh:mm:ss a'}}
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="row row4">
+                <h5>Download</h5>
+            </div>
+            <div class="row row4">
+                <div class="col-md-4 title-label">
+                    Disposition Code
+                </div>
+                <div class="col-md-8">
+                    <div>
+                        {{view.details.downloadDispositionCode}} - {{view.details.downloadDispositionCodeDescription}}
+                    </div>
+                </div>
+            </div>
+            <div class="row row4">
+                <div class="col-md-4 title-label">
+                    Tries
+                </div>
+                <div class="col-md-8">
+                    {{view.details.downloadTries}}
+                </div>
+            </div>
+            <div class="row row4">
+                <div class="col-md-4 title-label">
+                    Last Download Try
+                </div>
+                <div class="col-md-8">
+                    {{view.details.lastDownloadTry | date:'MMMM dd, yyyy hh:mm:ss a'}}
+                </div>
+            </div>
+            <div class="row row4">
+                <div class="col-md-4 title-label">
+                    Retrieved
+                </div>
+                <div class="col-md-8">
+                    {{view.details.retrieveDate | date:'MMMM dd, yyyy hh:mm:ss a'}}
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="row row4">
+                <h5>Processing</h5>
+            </div>
+            <div class="row row4">
+                <div class="col-md-4 title-label">
+                    Disposition Code
+                </div>
+                <div class="col-md-8">
+                    <div>
+                        {{view.details.processDispositionCode}} - {{view.details.processDispositionCodeDescription}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-group row" ng-show="!view.isLoadingDetails && !view.details">
+        No additional details.  This batch has been deleted after successful processing.
+    </div>
+    <div ng-show="view.isLoadingDetails">
+        <div class="spinner">
+            <div class="bounce1"></div>
+            <div class="bounce2"></div>
+            <div class="bounce3"></div>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-success" ng-click="view.onCloseClick()">Close</button>
+</div>

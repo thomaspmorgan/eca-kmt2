@@ -20,6 +20,9 @@ namespace ECA.WebJobs.Sevis.Staging
             {
                 JobActivator = new UnityWebJobActivator(unityContainer),
             };
+#if DEBUG
+            config.UseDevelopmentSettings();
+#endif
             config.UseTimers();
             var host = new JobHost(config);
             host.RunAndBlock();

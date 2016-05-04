@@ -92,6 +92,16 @@ namespace ECA.Data
         public DbSet<Contact> Contacts { get; set; }
 
         /// <summary>
+        /// Gets or sets the cancelled sevis batch processings.
+        /// </summary>
+        public DbSet<CancelledSevisBatchProcessing> CancelledSevisBatchProcessings { get; set; }
+
+        /// <summary>
+        /// Gets or sets the person dependent citizen countries.
+        /// </summary>
+        public DbSet<PersonDependentCitizenCountry> PersonDependentCitizenCountries { get; set; }
+
+        /// <summary>
         /// Gets or sets the courses.
         /// </summary>
         public DbSet<Course> Courses { get; set; }
@@ -193,7 +203,7 @@ namespace ECA.Data
         /// Gets or sets money flows.
         /// </summary>
         public DbSet<MoneyFlow> MoneyFlows { get; set; }
-        
+
         /// <summary>
         /// Gets or sets OfficeSettings for an office
         /// </summary>
@@ -258,7 +268,7 @@ namespace ECA.Data
         /// Gets or sets EvaluationNotes for a Person
         /// </summary>
         public DbSet<PersonEvaluationNote> PersonEvaluationNotes { get; set; }
-        
+
         /// <summary>
         /// Gets or sets Language Proficiencies for a Person
         /// </summary>
@@ -481,7 +491,7 @@ namespace ECA.Data
         {
             return base.Entry(x);
         }
-        
+
         /// <summary>
         /// Wraps the DbContext.Entry method to retrieve a context entry.  This is useful for unit testing.
         /// </summary>

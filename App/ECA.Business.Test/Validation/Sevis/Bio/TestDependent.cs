@@ -7,7 +7,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
 {
     public class TestDependent : Dependent
     {
-        public TestDependent() 
+        public TestDependent()
             : base(
                   fullName: null,
                   birthCity: null,
@@ -24,7 +24,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                   usAddress: null,
                   printForm: true,
                   personId: 10,
-                  participantId:20,
+                  participantId: 20,
                   isTravelingWithParticipant: true,
                   isDeleted: false
                   )
@@ -33,6 +33,11 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
         }
 
         public bool IgnoreValidation { get; set; }
+
+        public override RequestId GetRequestId()
+        {
+            return new RequestId(this.PersonId, RequestIdType.Dependent, RequestActionType.Create);
+        }
 
         public override object GetSevisExhangeVisitorDependentInstance()
         {

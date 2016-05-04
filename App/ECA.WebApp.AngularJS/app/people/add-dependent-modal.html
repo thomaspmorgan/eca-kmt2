@@ -13,7 +13,7 @@
                 <div class="col-md-12">
                     <div class="form-group">
                         <label for="dependenttype">DEPENDENT TYPE <eca-required /></label>
-                        <ui-select name="dependenttype" ng-model="dependent.dependentTypeId" theme="select2" required>
+                        <ui-select ng-change="setMaxBirthDate(dependent.dependentTypeId)" name="dependenttype" ng-model="dependent.dependentTypeId" theme="select2" required>
                             <ui-select-match placeholder="Select relationship">
                                 <div>{{$select.selected.name}}</div>
                             </ui-select-match>
@@ -74,6 +74,7 @@
                                    name="dateOfBirth"
                                    id="dateOfBirth"
                                    datepicker-popup="dd-MMMM-yyyy"
+                                   tooltip="dd-MMMM-yyyy"
                                    ng-model="dependent.dateOfBirth"
                                    is-open="datePickerOpen"
                                    max-date="maxDateOfBirth"
@@ -121,7 +122,7 @@
                     </div>
                     <div class="form-group">
                         <label for="selectedCountriesOfCitizenship">COUNTRIES OF CITIZENSHIP</label>
-                        <citizenshipcountries model="dependent" modelid="dependent.dependentId" modeltype="'personDependent'" editmode="true"></citizenshipcountries>
+                        <citizenshipcountries model="dependent" dependentid="dependent.dependentId"></citizenshipcountries>
                     </div>
                     <div class="form-group">
                         <label for="placeOfResidenceId">PERMANENT RESIDENCE COUNTRY <eca-required /></label>
@@ -138,7 +139,7 @@
                         <input type="text" name="emailAddress" class="form-control" ng-model="dependent.emailAddress" />
                     </div>
                     <div class="form-group">
-                        <label for="isTravellingWithParticipant">TRAVELLING SEPARATE FROM PARTICIPANT</label>
+                        <label for="isTravellingWithParticipant">TRAVELING SEPARATE FROM PARTICIPANT</label>
                         <div class="col-md-9">
                             <input type="checkbox"
                                    name="isTravellingWithParticipant"

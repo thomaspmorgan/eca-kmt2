@@ -78,6 +78,7 @@ namespace ECA.Business.Queries.Fundings
                         let accomodation = moneyFlow.RecipientAccommodationId.HasValue ? moneyFlow.RecipientAccommodation : null
                         let transportation = moneyFlow.RecipientTransportationId.HasValue ? moneyFlow.RecipientTransportation : null
                         let organization = moneyFlow.RecipientOrganizationId.HasValue ? moneyFlow.RecipientOrganization : null
+                        let isFundingSource = moneyFlow.RecipientOrganizationId.HasValue ? moneyFlow.RecipientOrganization.OrganizationRoles.Any(x => x.OrganizationRoleId == OrganizationRole.FundingSource.Id) : false
                         let itinerary = moneyFlow.RecipientItineraryStopId.HasValue ? ITINERARY_NAME : null
                         let project = moneyFlow.RecipientProjectId.HasValue ? moneyFlow.RecipientProject : null
                         let program = moneyFlow.RecipientProgramId.HasValue ? moneyFlow.RecipientProgram : null
@@ -123,6 +124,7 @@ namespace ECA.Business.Queries.Fundings
                             SourceRecipientEntityId = isExpense ? default(int?) : recipientEntityId,
                             SourceRecipientName = isExpense ? null : recipientEntityName,
                             TransactionDate = moneyFlow.TransactionDate,
+                            IsFundingSource = isFundingSource
                         };
             return query;
         }
@@ -166,6 +168,7 @@ namespace ECA.Business.Queries.Fundings
                             : -1
 
                         let organization = moneyFlow.SourceOrganizationId.HasValue ? moneyFlow.SourceOrganization : null
+                        let isFundingSource = moneyFlow.SourceOrganizationId.HasValue ? moneyFlow.SourceOrganization.OrganizationRoles.Any(x => x.OrganizationRoleId == OrganizationRole.FundingSource.Id) : false
                         let itinerary = moneyFlow.SourceItineraryStopId.HasValue ? ITINERARY_NAME : null
                         let project = moneyFlow.SourceProjectId.HasValue ? moneyFlow.SourceProject : null
                         let program = moneyFlow.SourceProgramId.HasValue ? moneyFlow.SourceProgram : null
@@ -209,6 +212,7 @@ namespace ECA.Business.Queries.Fundings
                             SourceRecipientEntityId = sourceEntityId,
                             SourceRecipientName = sourceEntityName,
                             TransactionDate = moneyFlow.TransactionDate,
+                            IsFundingSource = isFundingSource
                         };
             return query;
         }

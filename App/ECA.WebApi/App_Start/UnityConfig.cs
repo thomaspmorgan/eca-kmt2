@@ -9,11 +9,14 @@ using ECA.Business.Service.Persons;
 using ECA.Business.Service.Programs;
 using ECA.Business.Service.Projects;
 using ECA.Business.Service.Reports;
+using ECA.Business.Storage;
 using ECA.Business.Validation;
 using ECA.Core.Generation;
 using ECA.Core.Service;
 using ECA.Core.Settings;
 using ECA.Data;
+using ECA.WebApi.Controllers.Persons;
+using ECA.WebApi.Custom.Storage;
 using ECA.WebApi.Models.Admin;
 using ECA.WebApi.Security;
 using Microsoft.Azure.Search;
@@ -126,6 +129,8 @@ namespace ECA.WebApi.App_Start
         {
             Debug.Assert(container.IsRegistered<EcaContext>(), "The EcaContext is a dependency.  It should be registered.");
 
+            container.RegisterInstance<AppSettings>(new AppSettings());
+
             container.RegisterType<IAddressModelHandler, AddressModelHandler>(new HierarchicalLifetimeManager());
             container.RegisterType<IAddressTypeService, AddressTypeService>(new HierarchicalLifetimeManager());
             container.RegisterType<IContactService, ContactService>(new HierarchicalLifetimeManager());
@@ -190,14 +195,17 @@ namespace ECA.WebApi.App_Start
             container.RegisterType<IItineraryStopService, ItineraryStopService>(new HierarchicalLifetimeManager());
             container.RegisterType<IExchangeVisitorService>(new HierarchicalLifetimeManager(), new InjectionFactory((c) =>
             {
-                var appSettings = new AppSettings();
-                return new ExchangeVisitorService(c.Resolve<EcaContext>(), appSettings, null);
+                return new ExchangeVisitorService(c.Resolve<EcaContext>(), c.Resolve<AppSettings>(), null);
             }));
             container.RegisterType<IExchangeVisitorValidationService>(new HierarchicalLifetimeManager(), new InjectionFactory((c) =>
             {
                 return new ExchangeVisitorValidationService(c.Resolve<EcaContext>(), c.Resolve<IExchangeVisitorService>(), null, null);
             }));
             container.RegisterType<IDefaultExchangeVisitorFundingService, DefaultExchangeVisitorFundingService>(new HierarchicalLifetimeManager());
+            container.RegisterType<IFileStorageHandler, FileStorageHandler>(new HierarchicalLifetimeManager());
+            container.RegisterType<IFileStorageService, FileStorageService>(new HierarchicalLifetimeManager());
+            container.RegisterType<IBlobStorageSettings, BlobStorageSettings>(new HierarchicalLifetimeManager());
+            container.RegisterType<ISevisCommStatusService, SevisCommStatusService>(new HierarchicalLifetimeManager());
         }
 
         /// <summary>

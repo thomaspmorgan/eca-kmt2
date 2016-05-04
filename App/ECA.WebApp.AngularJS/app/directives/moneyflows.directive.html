@@ -121,7 +121,7 @@
                                 {{moneyFlow.moneyFlowStatus}}
                             </td>
                             <td class="col-md-1">
-                                {{moneyFlow.sourceRecipientTypeName}}
+                                {{moneyFlow.isFundingSource ? 'Funding Source' : moneyFlow.sourceRecipientTypeName}}
                             </td>
                             <td class="col-md-2">
                                 <a ng-show="!moneyFlow.loadingEntityState" href="{{moneyFlow.href}}">{{moneyFlow.sourceRecipientName}}</a>
@@ -134,7 +134,7 @@
                             </td>
                             <td class="text-right col-md-1">
                                 <div>
-                                    <span class="{{moneyFlow.amount < 0 ? 'outgoingMoneyFlow' : 'incomingMoneyFlow'}}">{{moneyFlow.amount | currency}}</span>
+                                    <span class="{{moneyFlow.amount < 0 ? 'outgoingMoneyFlow' : 'incomingMoneyFlow'}}">{{moneyFlow.amount | currency : "$" : 0}}</span>
                                 </div>
                             </td>
                             <td class="text-right col-md-1">
@@ -297,7 +297,7 @@
                                                        ng-blur="view.onEditableAmountChange($event, moneyFlow)"
                                                        step="any"
                                                        min="0"
-                                                       ui-money-mask="2"
+                                                       ui-money-mask="0"
                                                        class="form-control"
                                                        ui-validate="{exceedsSourceAmount: 'view.validateSourceRemainingAmount($value, moneyFlow)'}"
                                                        placeholder="Enter amount."
@@ -347,11 +347,7 @@
                                                           class="largerArea"
                                                           ng-model="moneyFlow.description"
                                                           id="description{{moneyFlow.id}}"
-                                                          required
-                                                          placeholder="Enter description..."></textarea>
-                                                <div ng-show="form.moneyFlowForm.description.$dirty || form.moneyFlowForm.description.$error.required">
-                                                    <div class="error" ng-show="form.moneyFlowForm.description.$error.required">Please enter a description.</div>
-                                                </div>
+                                                           placeholder="Enter description..."></textarea>
                                                 <p class="mute">{{moneyFlow.description.length}} of {{view.maxDescriptionLength}} characters remaining.</p>
                                             </div>
                                             <div class="pull-right" ng-show="!moneyFlow.isSavingUpdate">

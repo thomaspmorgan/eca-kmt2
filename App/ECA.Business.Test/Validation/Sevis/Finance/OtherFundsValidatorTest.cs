@@ -20,9 +20,9 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
             USGovernmentFunding usGovt = new USGovernmentFunding("us 1", null, "1", null, null, null);
             InternationalFunding international = new InternationalFunding("int 1", null, "2", null, null, null);
             Func<OtherFunds> createEntity = () =>
-             {
-                 return new OtherFunds(exchangeVisitorGovernment: evGovt, binationalCommission: binationalCommission, personal: personal, usGovernmentFunding: usGovt, internationalFunding: international, other: other);
-             };
+            {
+                return new OtherFunds(exchangeVisitorGovernment: evGovt, binationalCommission: binationalCommission, personal: personal, usGovernmentFunding: usGovt, internationalFunding: international, other: other);
+            };
 
             other = null;
             var validator = new OtherFundsValidator();

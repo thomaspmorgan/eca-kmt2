@@ -15,7 +15,10 @@ using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web.Http;
 using System.Threading.Tasks;
+using System.Net.Http;
+using System.Net;
 
 namespace ECA.Business.Test.Service.Persons
 {
@@ -698,9 +701,7 @@ namespace ECA.Business.Test.Service.Persons
                 PersonId = person.PersonId,
                 EmailAddressType = emailAddressType,
                 IsPrimary = true
-
             };
-
             var email2 = new EmailAddress
             {
                 EmailAddressId = 2,
@@ -2171,6 +2172,7 @@ namespace ECA.Business.Test.Service.Persons
                 isPlaceOfBirthUnknown: isPlaceOfBirthUnknown,
                 cityOfBirth: cityOfBirth,
                 countriesOfCitizenship: countriesOfCitizenship);
+
             var person = await service.GetExistingPersonAsync(newPerson);
             Assert.IsNotNull(person);
         }
@@ -2214,6 +2216,7 @@ namespace ECA.Business.Test.Service.Persons
                 isPlaceOfBirthUnknown: isPlaceOfBirthUnknown,
                 cityOfBirth: cityOfBirth,
                 countriesOfCitizenship: countriesOfCitizenship);
+
             var person = await service.GetExistingPersonAsync(newPerson);
             Assert.IsNotNull(person);
         }
@@ -2221,6 +2224,48 @@ namespace ECA.Business.Test.Service.Persons
         #endregion
 
         #region Dependent
+
+        [TestMethod]
+        public async Task TestGetExistingPersonDependentAsync_CheckProperties()
+        {
+            var newDependent = new PersonDependent
+            {
+                PersonId = 1,
+                DependentTypeId = DependentType.Spouse.Id,
+                FirstName = "first",
+                LastName = "last",
+                NameSuffix = "jr",
+                PassportName = "first last",
+                PreferredName = "first last",
+                GenderId = Gender.Female.Id,
+                DateOfBirth = DateTime.Now,
+                PlaceOfBirthId = 67,
+                BirthCountryReasonId = BirthCountryReason.BornToForeignDiplomat.Id,
+                EmailAddresses = new List<EmailAddress>(),
+                CountriesOfCitizenship = new List<PersonDependentCitizenCountry>(),
+                PlaceOfResidenceId = 193,
+                IsTravellingWithParticipant = true
+            };
+
+            context.PersonDependents.Add(newDependent);
+            
+            var user = new User(1);
+            var countries = new List<CitizenCountryDTO>();
+            foreach (var country in newDependent.CountriesOfCitizenship)
+            {
+                countries.Add(new CitizenCountryDTO { LocationId = country.LocationId, LocationName = country.Location.LocationName, IsPrimary = country.IsPrimary });
+            }
+
+            var newPerson = new NewPersonDependent(createdBy: user, personId: newDependent.PersonId, dependentTypeId: newDependent.DependentTypeId,
+            firstName: newDependent.FirstName, lastName: newDependent.LastName, nameSuffix: newDependent.NameSuffix, passportName: newDependent.PassportName, 
+            preferredName: newDependent.PreferredName, genderId: newDependent.GenderId, dateOfBirth: newDependent.DateOfBirth, 
+            placeOfBirthId: newDependent.PlaceOfBirthId, placeOfResidenceId: newDependent.PlaceOfResidenceId, 
+            birthCountryReasonId: newDependent.BirthCountryReasonId, emailAddress: newDependent.EmailAddresses.Select(x => x.Address).FirstOrDefault(), 
+            countriesOfCitizenship: countries, isTravelWithParticipant: newDependent.IsTravellingWithParticipant);
+            
+            var dependent = await service.GetExistingDependentAsync(newPerson);
+            Assert.IsNotNull(dependent);
+        }
 
         [TestMethod]
         public async Task TestCreateDependentAsync_CheckProperties()
@@ -2238,14 +2283,20 @@ namespace ECA.Business.Test.Service.Persons
             int placeOfBirth = 193;
             var birthCountryReasonId = BirthCountryReason.BornToForeignDiplomat.Id;
             var emailAddress = "test@test.com";
-            var countriesOfCitizenship = new List<int>();
+            var countriesOfCitizenship = new List<PersonDependentCitizenCountry>();
             var countryResidence = 193;
             bool isTravellingWithParticipant = true;
+
+            var countries = new List<CitizenCountryDTO>();
+            foreach (var country in countriesOfCitizenship)
+            {
+                countries.Add(new CitizenCountryDTO { LocationId = country.LocationId, LocationName = country.Location.LocationName, IsPrimary = country.IsPrimary });
+            }
 
             var newPerson = new NewPersonDependent(createdBy: user, personId: personId, dependentTypeId: dependentTypeId,
                 firstName: firstName, lastName: lastName, nameSuffix: suffix, passportName: passport, preferredName: preferred, genderId: gender,
                 dateOfBirth: dateOfBirth, placeOfBirthId: placeOfBirth, placeOfResidenceId: countryResidence, birthCountryReasonId: birthCountryReasonId,
-                emailAddress: emailAddress, countriesOfCitizenship: countriesOfCitizenship, isTravelWithParticipant: isTravellingWithParticipant);
+                emailAddress: emailAddress, countriesOfCitizenship: countries, isTravelWithParticipant: isTravellingWithParticipant);
 
             Action<PersonDependent> tester = (testPerson) =>
             {
@@ -2262,7 +2313,7 @@ namespace ECA.Business.Test.Service.Persons
                 Assert.AreEqual(newPerson.PlaceOfResidenceId, testPerson.PlaceOfResidenceId);
                 Assert.AreEqual(newPerson.BirthCountryReasonId, testPerson.BirthCountryReasonId);
                 Assert.AreEqual(newPerson.EmailAddress, testPerson.EmailAddresses.Select(x => x.Address).FirstOrDefault());
-                CollectionAssert.AreEqual(newPerson.CountriesOfCitizenship, testPerson.CountriesOfCitizenship.Select(x => x.LocationId).ToList());
+                CollectionAssert.AreEqual(newPerson.CountriesOfCitizenship.Select(x => x.LocationId).ToList(), testPerson.CountriesOfCitizenship.Select(x => x.LocationId).ToList());
                 Assert.AreEqual(newPerson.IsTravellingWithParticipant, testPerson.IsTravellingWithParticipant);
 
                 Assert.AreEqual(user.Id, testPerson.History.CreatedBy);
@@ -2296,14 +2347,20 @@ namespace ECA.Business.Test.Service.Persons
             int placeOfBirth = city.LocationId;
             var birthCountryReasonId = BirthCountryReason.BornToForeignDiplomat.Id;
             var emailAddress = "test@test.com";
-            var countriesOfCitizenship = new List<int>();
+            var countriesOfCitizenship = new List<PersonDependentCitizenCountry>();
             var countryResidence = 193;
             bool isTravellingWithParticipant = true;
+
+            var countries = new List<CitizenCountryDTO>();
+            foreach (var country in countriesOfCitizenship)
+            {
+                countries.Add(new CitizenCountryDTO { LocationId = country.LocationId, LocationName = country.Location.LocationName, IsPrimary = country.IsPrimary });
+            }
 
             var newPerson = new NewPersonDependent(createdBy: user, personId: personId, dependentTypeId: dependentTypeId,
                 firstName: firstName, lastName: lastName, nameSuffix: suffix, passportName: passport, preferredName: preferred, genderId: gender,
                 dateOfBirth: dateOfBirth, placeOfBirthId: placeOfBirth, placeOfResidenceId: countryResidence, birthCountryReasonId: birthCountryReasonId,
-                emailAddress: emailAddress, countriesOfCitizenship: countriesOfCitizenship, isTravelWithParticipant: isTravellingWithParticipant);
+                emailAddress: emailAddress, countriesOfCitizenship: countries, isTravelWithParticipant: isTravellingWithParticipant);
 
             context.SetupActions.Add(() =>
             {
@@ -2317,7 +2374,7 @@ namespace ECA.Business.Test.Service.Persons
             var person = await service.CreateDependentAsync(newPerson);
             tester(person);
         }
-        
+
         [TestMethod]
         public async Task TestCreateDependentAsync_CountriesOfCitizenship()
         {
@@ -2325,7 +2382,6 @@ namespace ECA.Business.Test.Service.Persons
             {
                 LocationId = 2
             };
-            
             var user = new User(1);
             int personId = 1;
             int dependentTypeId = DependentType.Spouse.Id;
@@ -2339,28 +2395,41 @@ namespace ECA.Business.Test.Service.Persons
             int placeOfBirth = 5;
             var birthCountryReasonId = BirthCountryReason.BornToForeignDiplomat.Id;
             var emailAddress = "test@test.com";
-            var countriesOfCitizenship = new List<int> { country.LocationId };
+            var countriesOfCitizenship = new List<PersonDependentCitizenCountry>();
+            var citizenCountry = new PersonDependentCitizenCountry
+            {
+                Location = country,
+                LocationId = country.LocationId
+            };
+            countriesOfCitizenship.Add(citizenCountry);
             var countryResidence = 193;
             bool isTravellingWithParticipant = true;
-
-            var newPerson = new NewPersonDependent(createdBy: user, personId: personId, dependentTypeId: dependentTypeId,
-                firstName: firstName, lastName: lastName, nameSuffix: suffix, passportName: passport, preferredName: preferred, genderId: gender,
-                dateOfBirth: dateOfBirth, placeOfBirthId: placeOfBirth, placeOfResidenceId: countryResidence, birthCountryReasonId: birthCountryReasonId,
-                emailAddress: emailAddress, countriesOfCitizenship: countriesOfCitizenship, isTravelWithParticipant: isTravellingWithParticipant);
 
             context.SetupActions.Add(() =>
             {
                 context.Locations.Add(country);
             });
+
+            var countries = new List<CitizenCountryDTO>();
+            foreach (var citizenship in countriesOfCitizenship)
+            {
+                countries.Add(new CitizenCountryDTO { LocationId = citizenship.LocationId, LocationName = citizenship.Location.LocationName, IsPrimary = citizenship.IsPrimary });
+            }
+
+            var newPerson = new NewPersonDependent(createdBy: user, personId: personId, dependentTypeId: dependentTypeId,
+                firstName: firstName, lastName: lastName, nameSuffix: suffix, passportName: passport, preferredName: preferred, genderId: gender,
+                dateOfBirth: dateOfBirth, placeOfBirthId: placeOfBirth, placeOfResidenceId: countryResidence, birthCountryReasonId: birthCountryReasonId,
+                emailAddress: emailAddress, countriesOfCitizenship: countries, isTravelWithParticipant: isTravellingWithParticipant);
+
             Action<PersonDependent> tester = (testPerson) =>
             {
-                CollectionAssert.AreEqual(newPerson.CountriesOfCitizenship, testPerson.CountriesOfCitizenship.Select(x => x.LocationId).ToList());
+                CollectionAssert.AreEqual(newPerson.CountriesOfCitizenship.Select(x => x.LocationId).ToList(), testPerson.CountriesOfCitizenship.Select(x => x.LocationId).ToList());
             };
             context.Revert();
             var person = await service.CreateDependentAsync(newPerson);
             tester(person);
         }
-        
+
         [TestMethod]
         public async Task TestGetExistingDependentAsync_DoesNotExist()
         {
@@ -2377,14 +2446,20 @@ namespace ECA.Business.Test.Service.Persons
             int placeOfBirth = 193;
             var birthCountryReasonId = BirthCountryReason.BornToForeignDiplomat.Id;
             var emailAddress = "test@test.com";
-            var countriesOfCitizenship = new List<int>();
+            var countriesOfCitizenship = new List<PersonDependentCitizenCountry>();
             var countryResidence = 193;
             bool isTravellingWithParticipant = true;
+
+            var countries = new List<CitizenCountryDTO>();
+            foreach (var citizenship in countriesOfCitizenship)
+            {
+                countries.Add(new CitizenCountryDTO { LocationId = citizenship.LocationId, LocationName = citizenship.Location.LocationName, IsPrimary = citizenship.IsPrimary });
+            }
 
             var newDependent = new NewPersonDependent(createdBy: user, personId: personId, dependentTypeId: dependentTypeId,
                 firstName: firstName, lastName: lastName, nameSuffix: suffix, passportName: passport, preferredName: preferred, genderId: gender,
                 dateOfBirth: dateOfBirth, placeOfBirthId: placeOfBirth, placeOfResidenceId: countryResidence, birthCountryReasonId: birthCountryReasonId,
-                emailAddress: emailAddress, countriesOfCitizenship: countriesOfCitizenship, isTravelWithParticipant: isTravellingWithParticipant);
+                emailAddress: emailAddress, countriesOfCitizenship: countries, isTravelWithParticipant: isTravellingWithParticipant);
             
             var dependent = await service.GetExistingDependentAsync(newDependent);
             Assert.IsNull(dependent);
@@ -2420,8 +2495,13 @@ namespace ECA.Business.Test.Service.Persons
             };
             var emailAddresses = new List<EmailAddress>();
             emailAddresses.Add(email);
-            var countriesOfCitizenship = new List<Location>();
-            countriesOfCitizenship.Add(country);
+            var countriesOfCitizenship = new List<PersonDependentCitizenCountry>();
+            var citizenCountry = new PersonDependentCitizenCountry
+            {
+                Location = country,
+                LocationId = country.LocationId
+            };
+            countriesOfCitizenship.Add(citizenCountry);
 
             var person = new Person
             {
@@ -2452,7 +2532,8 @@ namespace ECA.Business.Test.Service.Persons
                 PlaceOfBirthId = 193,
                 BirthCountryReasonId = BirthCountryReason.BornToForeignDiplomat.Id,
                 PlaceOfResidenceId = 193,
-                IsTravellingWithParticipant = true
+                IsTravellingWithParticipant = true,
+                CountriesOfCitizenship = countriesOfCitizenship
             };
             dependent.History.CreatedBy = updatorId;
             dependent.History.CreatedOn = yesterday;
@@ -2464,14 +2545,19 @@ namespace ECA.Business.Test.Service.Persons
             context.Locations.Add(country);
             context.PersonDependents.Add(dependent);
             context.People.Add(person);
-            context.PersonDependents.Add(dependent);
             context.Locations.Add(country);
             context.EmailAddresses.Add(email);
+
+            var countries = new List<CitizenCountryDTO>();
+            foreach (var citizenship in countriesOfCitizenship)
+            {
+                countries.Add(new CitizenCountryDTO { LocationId = citizenship.LocationId, LocationName = citizenship.Location.LocationName, IsPrimary = citizenship.IsPrimary });
+            }
 
             var updateDependent = new UpdatedPersonDependent(new User(updatorId), dependent.DependentId, dependent.PersonId, dependent.DependentTypeId,
                 dependent.SevisId, dependent.FirstName, dependent.LastName, dependent.NameSuffix, dependent.PassportName, dependent.PreferredName, 
                 dependent.GenderId, dependent.DateOfBirth, dependent.PlaceOfBirthId, dependent.PlaceOfResidenceId, dependent.BirthCountryReasonId, 
-                dependent.EmailAddresses.Select(x => x.Address).FirstOrDefault(), dependent.CountriesOfCitizenship.Select(x => x.LocationId).ToList(), 
+                dependent.EmailAddresses.Select(x => x.Address).FirstOrDefault(), countries, 
                 dependent.IsTravellingWithParticipant, false, false);
             
             var updatedDependent = await service.UpdatePersonDependentAsync(updateDependent);
@@ -2489,7 +2575,7 @@ namespace ECA.Business.Test.Service.Persons
             Assert.AreEqual(updateDependent.PlaceOfResidenceId, updatedDependent.PlaceOfResidenceId);
             Assert.AreEqual(updateDependent.BirthCountryReasonId, updatedDependent.BirthCountryReasonId);
             Assert.AreEqual(updateDependent.EmailAddress, updatedDependent.EmailAddresses.Select(x => x.Address).FirstOrDefault());
-            CollectionAssert.AreEqual(updateDependent.CountriesOfCitizenship, updatedDependent.CountriesOfCitizenship.Select(x => x.LocationId).ToList());
+            CollectionAssert.AreEqual(updateDependent.CountriesOfCitizenship.Select(x => x.LocationId).ToList(), updatedDependent.CountriesOfCitizenship.Select(x => x.LocationId).ToList());
             Assert.AreEqual(updateDependent.IsTravellingWithParticipant, updatedDependent.IsTravellingWithParticipant);
 
             //Assert.AreEqual(creatorId, updatedDependent.History.CreatedBy);
@@ -3012,8 +3098,119 @@ namespace ECA.Business.Test.Service.Persons
             };
             f.ShouldThrow<EcaBusinessException>().WithMessage("The person already exists.");
         }
-        
 
+        [TestMethod]
+        public async Task TestUpdatePiiAsync_CheckSevisIsLocked()
+        {
+            var personId = 1;
+            var participantId = 1;
+            var gender = new Gender
+            {
+                GenderId = Gender.Male.Id,
+                GenderName = Gender.Male.Value
+            };
+            var placeOfBirth = new Location
+            {
+                LocationId = 1
+            };
+            var dateOfBirth = DateTime.Now;
+            ParticipantType individual = new ParticipantType
+            {
+                IsPerson = true,
+                Name = ParticipantType.Individual.Value,
+                ParticipantTypeId = ParticipantType.Individual.Id
+            };
+            var programCategory = new ProgramCategory
+            {
+                ProgramCategoryCode = "program category code",
+                ProgramCategoryId = 234
+            };
+            ParticipantStatus status = new ParticipantStatus
+            {
+                ParticipantStatusId = ParticipantStatus.Active.Id,
+                Status = ParticipantStatus.Active.Value
+            };
+            var person = new Person
+            {
+                PersonId = personId,
+                FirstName = "firstName",
+                LastName = "lastName",
+                GenderId = gender.GenderId,
+                PlaceOfBirthId = placeOfBirth.LocationId,
+                DateOfBirth = dateOfBirth
+            };
+            var participant = new Participant
+            {
+                ParticipantId = participantId,
+                PersonId = person.PersonId,
+                ParticipantStatusId = ParticipantStatus.Active.Id
+            };
+            List<Participant> participants = new List<Participant>();
+            participants.Add(participant);
+            person.Participations = participants;
+
+            var participantPerson = new ParticipantPerson
+            {
+                Participant = participant,
+                ParticipantId = participant.ParticipantId,
+            };
+            participant.ParticipantPerson = participantPerson;
+
+            var queuedToSubmitStatus = new SevisCommStatus
+            {
+                SevisCommStatusId = SevisCommStatus.QueuedToSubmit.Id,
+                SevisCommStatusName = SevisCommStatus.QueuedToSubmit.Value
+            };
+            var commStatus = new ParticipantPersonSevisCommStatus
+            {
+                AddedOn = DateTimeOffset.UtcNow,
+                BatchId = "batch id",
+                Id = 501,
+                ParticipantId = participant.ParticipantId,
+                ParticipantPerson = participantPerson,
+                SevisCommStatus = queuedToSubmitStatus,
+                SevisCommStatusId = queuedToSubmitStatus.SevisCommStatusId,
+            };
+
+            participantPerson.ParticipantPersonSevisCommStatuses.Add(commStatus);
+            context.People.Add(person);
+            context.Participants.Add(participant);
+            context.ParticipantPersons.Add(participantPerson);
+            context.ParticipantStatuses.Add(status);
+            context.ParticipantPersonSevisCommStatuses.Add(commStatus);
+            context.ParticipantTypes.Add(individual);
+            context.Genders.Add(gender);
+            context.Locations.Add(placeOfBirth);
+
+            var pii = new UpdatePii(new User(0),
+                                    person.PersonId,
+                                    person.FirstName,
+                                    person.LastName,
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    person.GenderId,
+                                    null,
+                                    placeOfBirth.LocationId,
+                                    person.DateOfBirth,
+                                    false,
+                                    false,
+                                    new List<int>(),
+                                    false,
+                                    null,
+                                    default(int));
+
+            var message = String.Format("An update was attempted on participant with id [{0}] but should have failed validation.",
+                        participant.ParticipantId);
+
+            Func<Task> f = () => service.UpdatePiiAsync(pii);
+            f.ShouldThrow<EcaBusinessException>().WithMessage(message);
+        }
+        
         #endregion
 
         #region Get People

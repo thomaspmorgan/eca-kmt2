@@ -7,6 +7,7 @@ using System.IO.Compression;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ECA.Business.Sevis.Model;
 
 namespace ECA.WebJobs.Sevis.Core
 {
@@ -64,7 +65,7 @@ namespace ECA.WebJobs.Sevis.Core
         public string GetTransactionLogXml()
         {
             var transactionLogEntry = GetEntryByName(this.TransactionLogFileName);
-            if(transactionLogEntry != null)
+            if (transactionLogEntry != null)
             {
                 using (var stringReader = new StreamReader(transactionLogEntry.Open()))
                 {
@@ -98,29 +99,6 @@ namespace ECA.WebJobs.Sevis.Core
         }
 
         /// <summary>
-        /// Returns the ds2019 stream from the provided zip archive.
-        /// </summary>
-        /// <param name="participantId">The participant id.</param>
-        /// <param name="batchId">The batch id.</param>
-        /// <param name="sevisId">The sevis id.</param>
-        /// <returns></returns>
-        public Stream GetDS2019FileStream(int participantId, string batchId, string sevisId)
-        {
-            return GetStream(sevisId);
-        }
-
-        /// <summary>
-        /// Returns the ds2019 stream from the provided zip archive.
-        /// </summary>
-        /// <param name="participantId">The participant id.</param>
-        /// <param name="batchId">The batch id.</param>
-        /// <param name="sevisId">The sevis id.</param>
-        public Task<Stream> GetDS2019FileStreamAsync(int participantId, string batchId, string sevisId)
-        {
-            return Task.FromResult<Stream>(GetDS2019FileStream(participantId, batchId, sevisId));
-        }
-
-        /// <summary>
         /// Returns the ds2019 stream from the zip archive by sevis id.
         /// </summary>
         /// <param name="sevisId">The sevis id to locate the ds2019 with.</param>
@@ -129,7 +107,7 @@ namespace ECA.WebJobs.Sevis.Core
         {
             Contract.Requires(this.ZipArchive != null, "The zip archive must not be null.");
             var entry = GetEntryByName(sevisId);
-            if(entry != null)
+            if (entry != null)
             {
                 return entry.Open();
             }
@@ -137,6 +115,28 @@ namespace ECA.WebJobs.Sevis.Core
             {
                 return null;
             }
+        }
+
+        /// <summary>
+        /// Returns the ds2019 stream from the provided zip archive.
+        /// </summary>
+        /// <param name="requestId">The request id of the sevis batch.</param>
+        /// <param name="sevisId">The sevis id.</param>
+        /// <returns>The stream representing the pdf file or null if it does not exist.</returns>
+        public Stream GetDS2019FileStream(RequestId requestId, string sevisId)
+        {
+            return GetStream(sevisId);
+        }
+
+        /// <summary>
+        /// Returns the ds2019 stream from the provided zip archive.
+        /// </summary>
+        /// <param name="requestId">The request id of the sevis batch.</param>
+        /// <param name="sevisId">The sevis id.</param>
+        /// <returns>The stream representing the pdf file or null if it does not exist.</returns>
+        public Task<Stream> GetDS2019FileStreamAsync(RequestId requestId, string sevisId)
+        {
+            return Task.FromResult<Stream>(GetDS2019FileStream(requestId, sevisId));
         }
 
         private ZipArchiveEntry GetEntryByName(string name)

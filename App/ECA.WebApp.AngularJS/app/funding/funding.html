@@ -1,0 +1,16 @@
+<div class="jumbotron funding">
+    <div class="toolbar" sticky offset="49">
+        <div class="left">
+            <span class="detail">Last Updated {{(organization.revisedOn | date:"MMM dd, yyyy") || 'No revised on date.'}}</span>
+        </div>
+        <ng-include src="'/app/toolbar/toolbar-icons.html'"></ng-include>
+    </div>
+    <div class="heading">
+        <h5>FUNDING SOURCE</h5>
+        <h1>{{organization.name}}</h1>
+        <!--<div class="permalink"><a ng-show="organization.website" href="{{organization.website}}" target="_blank">{{organization.website}}</a></div>-->
+    </div>
+</div>
+<tab-bar tabs="tabs" on-add="addTab()" edit></tab-bar>
+<div class="container" ui-view>
+</div>

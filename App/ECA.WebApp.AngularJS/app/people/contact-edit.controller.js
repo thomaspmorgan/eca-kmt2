@@ -54,8 +54,7 @@ angular.module('staticApp')
                         for (var key in error.data.modelState) {
                             NotificationService.showErrorMessage(error.data.modelState[key][0]);
                         }
-                    }
-                    else if (error.data.Message && error.data.ValidationErrors) {
+                    } else if (error.data.Message && error.data.ValidationErrors) {
                         for (var key in error.data.ValidationErrors) {
                             NotificationService.showErrorMessage(error.data.ValidationErrors[key]);
                         }

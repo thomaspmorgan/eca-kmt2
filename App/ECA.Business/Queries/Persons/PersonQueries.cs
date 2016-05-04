@@ -2,6 +2,7 @@
 using ECA.Business.Queries.Models.Admin;
 using ECA.Business.Queries.Models.Persons;
 using ECA.Business.Service.Lookup;
+using ECA.Business.Service.Persons;
 using ECA.Core.DynamicLinq;
 using ECA.Data;
 using System.Diagnostics.Contracts;
@@ -114,7 +115,7 @@ namespace ECA.Business.Queries.Persons
                         let dependentType = dependentTypesQuery.Where(x => x.Id == dependent.DependentTypeId).FirstOrDefault()
                         let birthCountryReason = birthCountryReasonQuery.Where(x => x.Id == dependent.BirthCountryReasonId).FirstOrDefault()
                         let permanentResidence = locationsQuery.Where(x => x.Id == dependent.PlaceOfResidenceId).FirstOrDefault()
-
+                        
                         let PermanentResidence = (from address in context.Addresses
                                                          let addressType = address.AddressType
                                                          let location = address.Location
@@ -162,7 +163,7 @@ namespace ECA.Business.Queries.Persons
                             DateOfBirth = dependent.DateOfBirth,
                             PlaceOfBirthId = dependent.PlaceOfBirthId,
                             PlaceOfBirth = locationOfBirth,
-                            CountriesOfCitizenship = dependent.CountriesOfCitizenship.Select(x => new SimpleLookupDTO { Id = x.LocationId, Value = x.LocationName }).OrderBy(l => l.Value),
+                            CountriesOfCitizenship = dependent.CountriesOfCitizenship.Select(x => new CitizenCountryDTO { LocationId = x.LocationId, LocationName = x.Location.LocationName, IsPrimary = x.IsPrimary }),
                             PlaceOfResidenceId = dependent.PlaceOfResidenceId,
                             PlaceOfResidence = permanentResidence,
                             BirthCountryReasonId = dependent.BirthCountryReasonId,

@@ -170,6 +170,144 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
             Assert.AreEqual(usGov.Org2, instance.Org2);
             Assert.AreEqual(usGov.OtherName2, instance.OtherName2);
         }
+
+        #region GetTotalFunding
+        [TestMethod]
+        public void TestGetTotalFunding_HasAmount1Funding()
+        {
+            var agencyCode1 = GovAgencyCodeType.OTHER;
+            var agencyCode2 = GovAgencyCodeType.OTHER;
+            var usGov = new USGovernmentFunding(
+                org1: agencyCode1.ToString(),
+                amount1: "1.0",
+                otherName1: "other 1 name",
+                org2: agencyCode2.ToString(),
+                amount2: "amount 2",
+                otherName2: "other 2 name"
+                );
+
+            Assert.AreEqual(1.0m, usGov.GetTotalFunding());
+        }
+
+        [TestMethod]
+        public void TestGetTotalFunding_HasNullAmount1Funding()
+        {
+            var agencyCode1 = GovAgencyCodeType.OTHER;
+            var agencyCode2 = GovAgencyCodeType.OTHER;
+            var usGov = new USGovernmentFunding(
+                org1: agencyCode1.ToString(),
+                amount1: null,
+                otherName1: "other 1 name",
+                org2: agencyCode2.ToString(),
+                amount2: "amount 2",
+                otherName2: "other 2 name"
+                );
+
+            Assert.AreEqual(0.0m, usGov.GetTotalFunding());
+        }
+
+        [TestMethod]
+        public void TestGetTotalFunding_HasEmptyStringAmount1Funding()
+        {
+            var agencyCode1 = GovAgencyCodeType.OTHER;
+            var agencyCode2 = GovAgencyCodeType.OTHER;
+            var usGov = new USGovernmentFunding(
+                org1: agencyCode1.ToString(),
+                amount1: String.Empty,
+                otherName1: "other 1 name",
+                org2: agencyCode2.ToString(),
+                amount2: "amount 2",
+                otherName2: "other 2 name"
+                );
+
+            Assert.AreEqual(0.0m, usGov.GetTotalFunding());
+        }
+
+        [TestMethod]
+        public void TestGetTotalFunding_HasWhitespaceAmount1Funding()
+        {
+            var agencyCode1 = GovAgencyCodeType.OTHER;
+            var agencyCode2 = GovAgencyCodeType.OTHER;
+            var usGov = new USGovernmentFunding(
+                org1: agencyCode1.ToString(),
+                amount1: " ",
+                otherName1: "other 1 name",
+                org2: agencyCode2.ToString(),
+                amount2: "amount 2",
+                otherName2: "other 2 name"
+                );
+
+            Assert.AreEqual(0.0m, usGov.GetTotalFunding());
+        }
+
+        [TestMethod]
+        public void TestGetTotalFunding_HasAmount2Funding()
+        {
+            var agencyCode1 = GovAgencyCodeType.OTHER;
+            var agencyCode2 = GovAgencyCodeType.OTHER;
+            var usGov = new USGovernmentFunding(
+                org1: agencyCode1.ToString(),
+                amount1: null,
+                otherName1: "other 1 name",
+                org2: agencyCode2.ToString(),
+                amount2: "1.0",
+                otherName2: "Other name 2"
+                );
+
+            Assert.AreEqual(1.0m, usGov.GetTotalFunding());
+        }
+
+        [TestMethod]
+        public void TestGetTotalFunding_HasNullAmount2Funding()
+        {
+            var agencyCode1 = GovAgencyCodeType.OTHER;
+            var agencyCode2 = GovAgencyCodeType.OTHER;
+            var usGov = new USGovernmentFunding(
+                org1: agencyCode1.ToString(),
+                amount1: null,
+                otherName1: "other 1 name",
+                org2: agencyCode2.ToString(),
+                amount2: "amount 2",
+                otherName2: null
+                );
+
+            Assert.AreEqual(0.0m, usGov.GetTotalFunding());
+        }
+
+        [TestMethod]
+        public void TestGetTotalFunding_HasEmptyStringAmount2Funding()
+        {
+            var agencyCode1 = GovAgencyCodeType.OTHER;
+            var agencyCode2 = GovAgencyCodeType.OTHER;
+            var usGov = new USGovernmentFunding(
+                org1: agencyCode1.ToString(),
+                amount1: null,
+                otherName1: "other 1 name",
+                org2: agencyCode2.ToString(),
+                amount2: "amount 2",
+                otherName2: string.Empty
+                );
+
+            Assert.AreEqual(0.0m, usGov.GetTotalFunding());
+        }
+
+        [TestMethod]
+        public void TestGetTotalFunding_HasWhitespaceAmount2Funding()
+        {
+            var agencyCode1 = GovAgencyCodeType.OTHER;
+            var agencyCode2 = GovAgencyCodeType.OTHER;
+            var usGov = new USGovernmentFunding(
+                org1: agencyCode1.ToString(),
+                amount1: null,
+                otherName1: "other 1 name",
+                org2: agencyCode2.ToString(),
+                amount2: "amount 2",
+                otherName2: " "
+                );
+
+            Assert.AreEqual(0.0m, usGov.GetTotalFunding());
+        }
+        #endregion
     }
 }
 

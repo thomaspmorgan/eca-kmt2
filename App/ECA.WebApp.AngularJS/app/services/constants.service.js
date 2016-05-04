@@ -1,4 +1,23 @@
-﻿angular.module('staticApp').factory('ConstantsService', function() {
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+angular.module('staticApp').factory('ConstantsService', function() {
 	return {
 		dataPointCategory: {
 			office: {id: 1, value: "Office"},
@@ -55,6 +74,11 @@
 			expense: {id: 8, value: "Expense"},
 			post: {id: 9, value: "Post"},
 			office: {id: 10, value: "Office"}
+		},
+		organizationRole: {
+			partner: {id: 1, value: "Partner"},
+			sponsor: {id: 2, value: "Sponsor"},
+			fundingSource: {id: 3, value: "Funding Source"}
 		},
 		organizationType: {
 			office: {id: 1, value: "Office"},
@@ -152,7 +176,13 @@
 			formI515aIssued: {id: 12, value: "Form I-515A Issued"},
 			pendingSevisSend: {id: 13, value: "Pending Sevis Send"},
 			sentByBatch: {id: 14, value: "Sent By Batch"},
-			createdByBatch: {id: 15, value: "Created By Batch"}
+			createdByBatch: {id: 15, value: "Created By Batch"},
+			validatedByBatch: {id: 16, value: "Validated By Batch"},
+			batchCancelledBySystem: {id: 17, value: "Batch Cancelled by System"},
+			updatedByBatch: {id: 18, value: "Updated By Batch"},
+			needsValidationInfo: {id: 19, value: "Needs Validation Info"},
+			readyToValidate: {id: 20, value: "Ready to Validate"},
+			queuedToValidate: {id: 21, value: "Queued to Validate"}
 		},
 		sevisErrorType: {
 			email: {id: 1, value: "Email"},
@@ -196,6 +226,7 @@
 		emailRegex: '^[_a-zA-Z0-9]+(\.[_a-zA-Z0-9]+)*@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*(\.[a-zA-Z]{2,4})$',
 		emptyGuid: '00000000-0000-0000-0000-000000000000',
 		equalComparisonType: 'eq',
+		fundingSourceType: '11',
 		greaterThanComparisonType: 'gt',
 		inComparisonType: 'in',
 		isNotNullComparisonType: 'notnull',
@@ -215,6 +246,7 @@
 		otherInternationalOrganizationId: '18',
 		otherUSGovernmentAgencyId: '22',
 		primaryAddressChangedEventName: 'primaryAddressChanged',
+		primaryCitizenshipCountryChangedEventName: 'primaryCitizenshipCountryChanged',
 		primaryEmailAddressChangedEventName: 'primaryEmailAddressChanged',
 		primaryLanguageProficiencyChangedEventName: 'primaryLanguageProficiencyChanged',
 		primaryPhoneNumberChangedEventName: 'primaryPhoneNumberChanged',
@@ -222,7 +254,8 @@
 		registerUserFailureEventName: 'registerUserFailure',
 		registerUserSuccessEventName: 'registerUserSuccess',
 		removeNewAddressEventName: 'removeNewAddress',
-		removeNewDependentEventName: 'newDependent',
+		removeNewCitizenshipCountryEventName: 'removeNewCitizenshipCountry',
+		removeNewDependentEventName: 'removeNewDependent',
 		removeNewEducationEventName: 'removeNewEducation',
 		removeNewEmailAddressEventName: 'removeNewEmailAddress',
 		removeNewEmploymentEventName: 'removeNewEmployment',
@@ -234,8 +267,10 @@
 		saveProgramEventName: 'saveProgram',
 		saveProjectEventName: 'saveProject',
 		searchDelimiter: ' ',
-		sevisStatusIds: '2,3,4,5,15',
+		sevisStatusIds: '5,13,14',
+		uiGridMaxCellTextLength: '35',
 		updateBreadcrumbsEventName: 'updateBreadcrumbs'
 	};
 });
+
 

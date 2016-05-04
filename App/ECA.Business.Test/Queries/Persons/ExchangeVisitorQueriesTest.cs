@@ -1,7 +1,11 @@
-﻿using ECA.Business.Queries.Persons;
+﻿using ECA.Business.Queries.Models.Persons.ExchangeVisitor;
+using ECA.Business.Queries.Persons;
 using ECA.Business.Service.Admin;
 using ECA.Business.Validation.Sevis.Bio;
 using ECA.Business.Validation.Sevis.Finance;
+using ECA.Core.DynamicLinq;
+using ECA.Core.DynamicLinq.Filter;
+using ECA.Core.DynamicLinq.Sorter;
 using ECA.Data;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
@@ -38,13 +42,6 @@ namespace ECA.Business.Test.Queries.Persons
                 BirthCountryId = 1000978,
                 CountryCode = "country of citizenship code"
             };
-            var countryOfCitizenship = new Location
-            {
-                LocationId = 87,
-                LocationName = "citizenship",
-                BirthCountry = sevisCountryOfCitizenship,
-                BirthCountryId = sevisCountryOfCitizenship.BirthCountryId
-            };
             var sevisBirthCountry = new BirthCountry
             {
                 BirthCountryId = 698,
@@ -57,6 +54,18 @@ namespace ECA.Business.Test.Queries.Persons
                 BirthCountryId = sevisBirthCountry.BirthCountryId,
                 BirthCountry = sevisBirthCountry
             };
+            var countryOfCitizenship = new Location
+            {
+                LocationId = 791,
+                BirthCountry = sevisCountryOfCitizenship,
+            };
+            var personDependentCitizenCountry = new PersonDependentCitizenCountry
+            {
+                LocationId = countryOfCitizenship.LocationId,
+                Location = countryOfCitizenship,
+                IsPrimary = true,
+            };
+            
             var cityOfBirth = new Location
             {
                 LocationId = 55,
@@ -102,7 +111,7 @@ namespace ECA.Business.Test.Queries.Persons
                 IsTravellingWithParticipant = true,
                 IsDeleted = true,
             };
-            dependent.CountriesOfCitizenship.Add(countryOfCitizenship);
+            dependent.CountriesOfCitizenship.Add(personDependentCitizenCountry);
 
             var person = new Data.Person
             {
@@ -147,8 +156,8 @@ namespace ECA.Business.Test.Queries.Persons
             context.Genders.Add(gender);
             context.People.Add(person);
             context.PersonDependents.Add(dependent);
-            context.Locations.Add(countryOfCitizenship);
             context.Locations.Add(cityOfBirth);
+            context.Locations.Add(countryOfBirth);
             context.Locations.Add(countryOfBirth);
             context.BirthCountries.Add(sevisBirthCountry);
             context.BirthCountries.Add(sevisResidenceCountry);
@@ -168,7 +177,7 @@ namespace ECA.Business.Test.Queries.Persons
             Assert.AreEqual(dependent.NameSuffix, biography.FullName.Suffix);
             Assert.AreEqual(dependent.PreferredName, biography.FullName.PreferredName);
             Assert.AreEqual(dependent.PassportName, biography.FullName.PassportName);
-            Assert.AreEqual(dependent.PersonId, biography.PersonId);
+            Assert.AreEqual(dependent.DependentId, biography.PersonId);
             Assert.AreEqual(dependent.DateOfBirth, biography.BirthDate);
             Assert.AreEqual(email.EmailAddressId, biography.EmailAddressId);
             Assert.AreEqual(email.Address, biography.EmailAddress);
@@ -210,13 +219,6 @@ namespace ECA.Business.Test.Queries.Persons
                 BirthCountryId = 1000978,
                 CountryCode = "country of citizenship code"
             };
-            var countryOfCitizenship = new Location
-            {
-                LocationId = 87,
-                LocationName = "citizenship",
-                BirthCountry = sevisCountryOfCitizenship,
-                BirthCountryId = sevisCountryOfCitizenship.BirthCountryId
-            };
             var sevisBirthCountry = new BirthCountry
             {
                 BirthCountryId = 698,
@@ -236,6 +238,12 @@ namespace ECA.Business.Test.Queries.Persons
                 Country = countryOfBirth,
                 CountryId = countryOfBirth.LocationId,
                 LocationTypeId = LocationType.City.Id
+            };
+            var countryOfCitizenship = new PersonDependentCitizenCountry
+            {
+                LocationId = 87,
+                Location = countryOfBirth,
+                IsPrimary = true
             };
             var gender = new Gender
             {
@@ -319,7 +327,7 @@ namespace ECA.Business.Test.Queries.Persons
             context.Genders.Add(gender);
             context.People.Add(person);
             context.PersonDependents.Add(dependent);
-            context.Locations.Add(countryOfCitizenship);
+            
             context.Locations.Add(cityOfBirth);
             context.Locations.Add(countryOfBirth);
             context.BirthCountries.Add(sevisBirthCountry);
@@ -349,13 +357,6 @@ namespace ECA.Business.Test.Queries.Persons
                 BirthCountryId = 1000978,
                 CountryCode = "country of citizenship code"
             };
-            var countryOfCitizenship = new Location
-            {
-                LocationId = 87,
-                LocationName = "citizenship",
-                BirthCountry = sevisCountryOfCitizenship,
-                BirthCountryId = sevisCountryOfCitizenship.BirthCountryId
-            };
             var sevisBirthCountry = new BirthCountry
             {
                 BirthCountryId = 698,
@@ -375,6 +376,12 @@ namespace ECA.Business.Test.Queries.Persons
                 Country = countryOfBirth,
                 CountryId = countryOfBirth.LocationId,
                 LocationTypeId = LocationType.City.Id
+            };
+            var countryOfCitizenship = new PersonDependentCitizenCountry
+            {
+                LocationId = 87,
+                Location = countryOfBirth,
+                IsPrimary = true
             };
             var gender = new Gender
             {
@@ -458,7 +465,7 @@ namespace ECA.Business.Test.Queries.Persons
             context.Genders.Add(gender);
             context.People.Add(person);
             context.PersonDependents.Add(dependent);
-            context.Locations.Add(countryOfCitizenship);
+            
             context.Locations.Add(cityOfBirth);
             context.Locations.Add(countryOfBirth);
             context.BirthCountries.Add(sevisBirthCountry);
@@ -486,13 +493,6 @@ namespace ECA.Business.Test.Queries.Persons
                 BirthCountryId = 1000978,
                 CountryCode = "country of citizenship code"
             };
-            var countryOfCitizenship = new Location
-            {
-                LocationId = 87,
-                LocationName = "citizenship",
-                BirthCountry = sevisCountryOfCitizenship,
-                BirthCountryId = sevisCountryOfCitizenship.BirthCountryId
-            };
             var sevisBirthCountry = new BirthCountry
             {
                 BirthCountryId = 698,
@@ -512,6 +512,12 @@ namespace ECA.Business.Test.Queries.Persons
                 Country = countryOfBirth,
                 CountryId = countryOfBirth.LocationId,
                 LocationTypeId = LocationType.City.Id
+            };
+            var countryOfCitizenship = new PersonDependentCitizenCountry
+            {
+                LocationId = 87,
+                Location = countryOfBirth,
+                IsPrimary = true
             };
             var gender = new Gender
             {
@@ -593,7 +599,7 @@ namespace ECA.Business.Test.Queries.Persons
             context.Genders.Add(gender);
             context.People.Add(person);
             context.PersonDependents.Add(dependent);
-            context.Locations.Add(countryOfCitizenship);
+            
             context.Locations.Add(cityOfBirth);
             context.Locations.Add(countryOfBirth);
             context.BirthCountries.Add(sevisBirthCountry);
@@ -619,13 +625,6 @@ namespace ECA.Business.Test.Queries.Persons
                 BirthCountryId = 1000978,
                 CountryCode = "country of citizenship code"
             };
-            var countryOfCitizenship = new Location
-            {
-                LocationId = 87,
-                LocationName = "citizenship",
-                BirthCountry = sevisCountryOfCitizenship,
-                BirthCountryId = sevisCountryOfCitizenship.BirthCountryId
-            };
             var sevisBirthCountry = new BirthCountry
             {
                 BirthCountryId = 698,
@@ -645,6 +644,12 @@ namespace ECA.Business.Test.Queries.Persons
                 Country = countryOfBirth,
                 CountryId = countryOfBirth.LocationId,
                 LocationTypeId = LocationType.City.Id
+            };
+            var countryOfCitizenship = new PersonDependentCitizenCountry
+            {
+                LocationId = 87,
+                Location = countryOfBirth,
+                IsPrimary = true
             };
             var gender = new Gender
             {
@@ -713,7 +718,7 @@ namespace ECA.Business.Test.Queries.Persons
             context.Genders.Add(gender);
             context.People.Add(person);
             context.PersonDependents.Add(dependent);
-            context.Locations.Add(countryOfCitizenship);
+            
             context.Locations.Add(cityOfBirth);
             context.Locations.Add(countryOfBirth);
             context.BirthCountries.Add(sevisBirthCountry);
@@ -732,12 +737,6 @@ namespace ECA.Business.Test.Queries.Persons
             {
                 DependentTypeId = DependentType.Spouse.Id
             };
-            var sevisCountryOfCitizenship = new BirthCountry
-            {
-                BirthCountryId = 1000978,
-                CountryCode = "country of citizenship code"
-            };
-
             var sevisBirthCountry = new BirthCountry
             {
                 BirthCountryId = 698,
@@ -841,7 +840,6 @@ namespace ECA.Business.Test.Queries.Persons
             context.Locations.Add(countryOfBirth);
             context.BirthCountries.Add(sevisBirthCountry);
             context.BirthCountries.Add(sevisResidenceCountry);
-            context.BirthCountries.Add(sevisCountryOfCitizenship);
             context.Locations.Add(sevisResidenceLocation);
             context.DependentTypes.Add(spousePersonType);
 
@@ -862,13 +860,6 @@ namespace ECA.Business.Test.Queries.Persons
             {
                 BirthCountryId = 1000978,
                 CountryCode = "country of citizenship code"
-            };
-            var countryOfCitizenship = new Location
-            {
-                LocationId = 87,
-                LocationName = "citizenship",
-                BirthCountry = sevisCountryOfCitizenship,
-                BirthCountryId = sevisCountryOfCitizenship.BirthCountryId
             };
             var otherCountryOfCitizenship = new Location
             {
@@ -897,6 +888,18 @@ namespace ECA.Business.Test.Queries.Persons
                 CountryId = countryOfBirth.LocationId,
                 LocationTypeId = LocationType.City.Id
             };
+            var countryOfCitizenship = new PersonDependentCitizenCountry
+            {
+                LocationId = 87,
+                Location = countryOfBirth,
+                IsPrimary = true
+            };
+            var countryOfCitizenship2 = new PersonDependentCitizenCountry
+            {
+                LocationId = 67,
+                Location = countryOfBirth,
+                IsPrimary = true
+            };
             var gender = new Gender
             {
                 GenderId = 1,
@@ -933,7 +936,7 @@ namespace ECA.Business.Test.Queries.Persons
                 PlaceOfResidenceId = sevisResidenceLocation.LocationId
             };
             dependent.CountriesOfCitizenship.Add(countryOfCitizenship);
-            dependent.CountriesOfCitizenship.Add(otherCountryOfCitizenship);
+            dependent.CountriesOfCitizenship.Add(countryOfCitizenship2);
 
             var person = new Data.Person
             {
@@ -977,14 +980,13 @@ namespace ECA.Business.Test.Queries.Persons
             context.ParticipantPersons.Add(participantPerson);
             context.Genders.Add(gender);
             context.People.Add(person);
-            context.PersonDependents.Add(dependent);
-            context.Locations.Add(countryOfCitizenship);
-            context.Locations.Add(otherCountryOfCitizenship);
+            context.PersonDependents.Add(dependent);            
             context.Locations.Add(cityOfBirth);
             context.Locations.Add(countryOfBirth);
             context.BirthCountries.Add(sevisBirthCountry);
             context.BirthCountries.Add(sevisResidenceCountry);
             context.BirthCountries.Add(sevisCountryOfCitizenship);
+            context.Locations.Add(otherCountryOfCitizenship);
             context.Locations.Add(sevisResidenceLocation);
             context.DependentTypes.Add(spousePersonType);
 
@@ -1006,13 +1008,6 @@ namespace ECA.Business.Test.Queries.Persons
                 BirthCountryId = 1000978,
                 CountryCode = "country of citizenship code"
             };
-            var countryOfCitizenship = new Location
-            {
-                LocationId = 87,
-                LocationName = "citizenship",
-                BirthCountry = sevisCountryOfCitizenship,
-                BirthCountryId = sevisCountryOfCitizenship.BirthCountryId
-            };
             var sevisBirthCountry = new BirthCountry
             {
                 BirthCountryId = 698,
@@ -1032,6 +1027,12 @@ namespace ECA.Business.Test.Queries.Persons
                 Country = countryOfBirth,
                 CountryId = countryOfBirth.LocationId,
                 LocationTypeId = LocationType.City.Id
+            };
+            var countryOfCitizenship = new PersonDependentCitizenCountry
+            {
+                LocationId = 87,
+                Location = countryOfBirth,
+                IsPrimary = true
             };
             var gender = new Gender
             {
@@ -1096,7 +1097,7 @@ namespace ECA.Business.Test.Queries.Persons
             context.Genders.Add(gender);
             context.People.Add(person);
             context.PersonDependents.Add(dependent);
-            context.Locations.Add(countryOfCitizenship);
+            
             context.Locations.Add(cityOfBirth);
             context.Locations.Add(countryOfBirth);
             context.BirthCountries.Add(sevisBirthCountry);
@@ -1123,13 +1124,6 @@ namespace ECA.Business.Test.Queries.Persons
                 BirthCountryId = 1000978,
                 CountryCode = "country of citizenship code"
             };
-            var countryOfCitizenship = new Location
-            {
-                LocationId = 87,
-                LocationName = "citizenship",
-                BirthCountry = sevisCountryOfCitizenship,
-                BirthCountryId = sevisCountryOfCitizenship.BirthCountryId
-            };
             var sevisBirthCountry = new BirthCountry
             {
                 BirthCountryId = 698,
@@ -1149,6 +1143,12 @@ namespace ECA.Business.Test.Queries.Persons
                 Country = countryOfBirth,
                 CountryId = countryOfBirth.LocationId,
                 LocationTypeId = LocationType.City.Id
+            };
+            var countryOfCitizenship = new PersonDependentCitizenCountry
+            {
+                LocationId = 87,
+                Location = countryOfBirth,
+                IsPrimary = true
             };
             var gender = new Gender
             {
@@ -1236,7 +1236,7 @@ namespace ECA.Business.Test.Queries.Persons
             context.Genders.Add(gender);
             context.People.Add(person);
             context.PersonDependents.Add(dependent);
-            context.Locations.Add(countryOfCitizenship);
+            
             context.Locations.Add(cityOfBirth);
             context.Locations.Add(countryOfBirth);
             context.BirthCountries.Add(sevisBirthCountry);
@@ -1258,13 +1258,6 @@ namespace ECA.Business.Test.Queries.Persons
                 BirthCountryId = 1000978,
                 CountryCode = "country of citizenship code"
             };
-            var countryOfCitizenship = new Location
-            {
-                LocationId = 87,
-                LocationName = "citizenship",
-                BirthCountry = sevisCountryOfCitizenship,
-                BirthCountryId = sevisCountryOfCitizenship.BirthCountryId
-            };
             var sevisBirthCountry = new BirthCountry
             {
                 BirthCountryId = 698,
@@ -1284,6 +1277,12 @@ namespace ECA.Business.Test.Queries.Persons
                 Country = countryOfBirth,
                 CountryId = countryOfBirth.LocationId,
                 LocationTypeId = LocationType.City.Id
+            };
+            var countryOfCitizenship = new PersonDependentCitizenCountry
+            {
+                LocationId = 87,
+                Location = countryOfBirth,
+                IsPrimary = true
             };
             var gender = new Gender
             {
@@ -1365,7 +1364,7 @@ namespace ECA.Business.Test.Queries.Persons
             context.Genders.Add(gender);
             context.People.Add(person);
             context.PersonDependents.Add(dependent);
-            context.Locations.Add(countryOfCitizenship);
+            
             context.Locations.Add(cityOfBirth);
             context.Locations.Add(countryOfBirth);
             context.BirthCountries.Add(sevisBirthCountry);
@@ -1413,6 +1412,12 @@ namespace ECA.Business.Test.Queries.Persons
                 Country = countryOfBirth,
                 CountryId = countryOfBirth.LocationId,
                 LocationTypeId = LocationType.City.Id
+            };
+            var dependentCountryOfCitizenship = new PersonDependentCitizenCountry
+            {
+                LocationId = 87,
+                Location = countryOfBirth,
+                IsPrimary = true
             };
             var gender = new Gender
             {
@@ -1522,7 +1527,6 @@ namespace ECA.Business.Test.Queries.Persons
             context.ParticipantPersons.Add(participantPerson);
             context.Genders.Add(gender);
             context.People.Add(person);
-            context.Locations.Add(countryOfCitizenship);
             context.Locations.Add(cityOfBirth);
             context.Locations.Add(countryOfBirth);
             context.Locations.Add(addressLocation);
@@ -1555,13 +1559,6 @@ namespace ECA.Business.Test.Queries.Persons
                 BirthCountryId = 1000978,
                 CountryCode = "country of citizenship code"
             };
-            var countryOfCitizenship = new Location
-            {
-                LocationId = 87,
-                LocationName = "citizenship",
-                BirthCountry = sevisCountryOfCitizenship,
-                BirthCountryId = sevisCountryOfCitizenship.BirthCountryId
-            };
             var sevisBirthCountry = new BirthCountry
             {
                 BirthCountryId = 698,
@@ -1581,6 +1578,12 @@ namespace ECA.Business.Test.Queries.Persons
                 Country = countryOfBirth,
                 CountryId = countryOfBirth.LocationId,
                 LocationTypeId = LocationType.City.Id
+            };
+            var countryOfCitizenship = new PersonDependentCitizenCountry
+            {
+                LocationId = 87,
+                Location = countryOfBirth,
+                IsPrimary = true
             };
             var gender = new Gender
             {
@@ -1664,7 +1667,7 @@ namespace ECA.Business.Test.Queries.Persons
             context.Genders.Add(gender);
             context.People.Add(person);
             context.PersonDependents.Add(dependent);
-            context.Locations.Add(countryOfCitizenship);
+            
             context.Locations.Add(cityOfBirth);
             context.Locations.Add(countryOfBirth);
             context.BirthCountries.Add(sevisBirthCountry);
@@ -1702,13 +1705,6 @@ namespace ECA.Business.Test.Queries.Persons
                 BirthCountryId = 1000978,
                 CountryCode = "country of citizenship code"
             };
-            var countryOfCitizenship = new Location
-            {
-                LocationId = 87,
-                LocationName = "citizenship",
-                BirthCountry = sevisCountryOfCitizenship,
-                BirthCountryId = sevisCountryOfCitizenship.BirthCountryId
-            };
             var sevisBirthCountry = new BirthCountry
             {
                 BirthCountryId = 698,
@@ -1728,6 +1724,12 @@ namespace ECA.Business.Test.Queries.Persons
                 Country = countryOfBirth,
                 CountryId = countryOfBirth.LocationId,
                 LocationTypeId = LocationType.City.Id
+            };
+            var countryOfCitizenship = new PersonDependentCitizenCountry
+            {
+                LocationId = 87,
+                Location = countryOfBirth,
+                IsPrimary = true
             };
             var gender = new Gender
             {
@@ -1811,7 +1813,7 @@ namespace ECA.Business.Test.Queries.Persons
             context.Genders.Add(gender);
             context.People.Add(person);
             context.PersonDependents.Add(dependent);
-            context.Locations.Add(countryOfCitizenship);
+            
             context.Locations.Add(cityOfBirth);
             context.Locations.Add(countryOfBirth);
             context.BirthCountries.Add(sevisBirthCountry);
@@ -1849,13 +1851,6 @@ namespace ECA.Business.Test.Queries.Persons
                 BirthCountryId = 1000978,
                 CountryCode = "country of citizenship code"
             };
-            var countryOfCitizenship = new Location
-            {
-                LocationId = 87,
-                LocationName = "citizenship",
-                BirthCountry = sevisCountryOfCitizenship,
-                BirthCountryId = sevisCountryOfCitizenship.BirthCountryId
-            };
             var sevisBirthCountry = new BirthCountry
             {
                 BirthCountryId = 698,
@@ -1875,6 +1870,12 @@ namespace ECA.Business.Test.Queries.Persons
                 Country = countryOfBirth,
                 CountryId = countryOfBirth.LocationId,
                 LocationTypeId = LocationType.City.Id
+            };
+            var countryOfCitizenship = new PersonDependentCitizenCountry
+            {
+                LocationId = 87,
+                Location = countryOfBirth,
+                IsPrimary = true
             };
             var gender = new Gender
             {
@@ -1958,7 +1959,7 @@ namespace ECA.Business.Test.Queries.Persons
             context.Genders.Add(gender);
             context.People.Add(person);
             context.PersonDependents.Add(dependent);
-            context.Locations.Add(countryOfCitizenship);
+            
             context.Locations.Add(cityOfBirth);
             context.Locations.Add(countryOfBirth);
             context.BirthCountries.Add(sevisBirthCountry);
@@ -5893,6 +5894,82 @@ namespace ECA.Business.Test.Queries.Persons
         }
 
         [TestMethod]
+        public void TestCreateGetInternationalFundingQuery_OtherInternationalOrgNamesAreNull()
+        {
+
+            var internationalFundingOrg1 = new InternationalOrganization
+            {
+                OrganizationId = 2,
+                OrganizationCode = InternationalFundingValidator.OTHER_ORG_CODE,
+            };
+            var internationalFundingOrg2 = new InternationalOrganization
+            {
+                OrganizationId = 3,
+                OrganizationCode = InternationalFundingValidator.OTHER_ORG_CODE,
+            };
+            var org1Amount = 2.2m;
+            var org2Amount = 5.7m;
+            var visitor = new ParticipantExchangeVisitor
+            {
+                ParticipantId = 1,
+                FundingIntlOrg1 = org1Amount,
+                IntlOrg1 = internationalFundingOrg1,
+                IntlOrg1Id = internationalFundingOrg1.OrganizationId,
+                IntlOrg1OtherName = null,
+                FundingIntlOrg2 = org2Amount,
+                IntlOrg2 = internationalFundingOrg2,
+                IntlOrg2Id = internationalFundingOrg2.OrganizationId,
+                IntlOrg2OtherName = null
+            };
+            context.InternationalOrganizations.Add(internationalFundingOrg1);
+            context.InternationalOrganizations.Add(internationalFundingOrg2);
+            context.ParticipantExchangeVisitors.Add(visitor);
+
+            var result = ExchangeVisitorQueries.CreateGetInternationalFundingQuery(context, visitor.ParticipantId).FirstOrDefault();
+            Assert.IsNotNull(result);
+            Assert.IsNull(result.OtherName1);
+            Assert.IsNull(result.OtherName2);
+        }
+
+        [TestMethod]
+        public void TestCreateGetInternationalFundingQuery_OtherInternationalOrgNamesAreEmpty()
+        {
+
+            var internationalFundingOrg1 = new InternationalOrganization
+            {
+                OrganizationId = 2,
+                OrganizationCode = InternationalFundingValidator.OTHER_ORG_CODE,
+            };
+            var internationalFundingOrg2 = new InternationalOrganization
+            {
+                OrganizationId = 3,
+                OrganizationCode = InternationalFundingValidator.OTHER_ORG_CODE,
+            };
+            var org1Amount = 2.2m;
+            var org2Amount = 5.7m;
+            var visitor = new ParticipantExchangeVisitor
+            {
+                ParticipantId = 1,
+                FundingIntlOrg1 = org1Amount,
+                IntlOrg1 = internationalFundingOrg1,
+                IntlOrg1Id = internationalFundingOrg1.OrganizationId,
+                IntlOrg1OtherName = String.Empty,
+                FundingIntlOrg2 = org2Amount,
+                IntlOrg2 = internationalFundingOrg2,
+                IntlOrg2Id = internationalFundingOrg2.OrganizationId,
+                IntlOrg2OtherName = String.Empty
+            };
+            context.InternationalOrganizations.Add(internationalFundingOrg1);
+            context.InternationalOrganizations.Add(internationalFundingOrg2);
+            context.ParticipantExchangeVisitors.Add(visitor);
+
+            var result = ExchangeVisitorQueries.CreateGetInternationalFundingQuery(context, visitor.ParticipantId).FirstOrDefault();
+            Assert.IsNotNull(result);
+            Assert.IsNull(result.OtherName1);
+            Assert.IsNull(result.OtherName2);
+        }
+
+        [TestMethod]
         public void TestCreateGetInternationalFundingQuery_NoInternationalFunding()
         {
             var visitor = new ParticipantExchangeVisitor
@@ -6113,6 +6190,86 @@ namespace ECA.Business.Test.Queries.Persons
         }
 
         [TestMethod]
+        public void TestCreateGetUSFundingQuery_OtherUSGovAgencyNamesAreNull()
+        {
+
+            var govAgency1 = new USGovernmentAgency
+            {
+                AgencyId = 2,
+                AgencyCode = USGovernmentFundingValidator.OTHER_ORG_CODE,
+            };
+            var govAgency2 = new USGovernmentAgency
+            {
+                AgencyId = 3,
+                AgencyCode = USGovernmentFundingValidator.OTHER_ORG_CODE,
+            };
+            var org1Amount = 2.2m;
+            var org2Amount = 5.7m;
+            var visitor = new ParticipantExchangeVisitor
+            {
+                ParticipantId = 1,
+
+                FundingGovtAgency1 = org1Amount,
+                GovtAgency1 = govAgency1,
+                GovtAgency1Id = govAgency1.AgencyId,
+                GovtAgency1OtherName = null,
+
+                FundingGovtAgency2 = org2Amount,
+                GovtAgency2 = govAgency2,
+                GovtAgency2Id = govAgency2.AgencyId,
+                GovtAgency2OtherName = null
+            };
+            context.USGovernmentAgencies.Add(govAgency1);
+            context.USGovernmentAgencies.Add(govAgency2);
+            context.ParticipantExchangeVisitors.Add(visitor);
+
+            var result = ExchangeVisitorQueries.CreateGetUSFundingQuery(context, visitor.ParticipantId).FirstOrDefault();
+            Assert.IsNotNull(result);
+            Assert.IsNull(result.OtherName1);
+            Assert.IsNull(result.OtherName2);
+        }
+
+        [TestMethod]
+        public void TestCreateGetUSFundingQuery_OtherUSGovAgencyNamesAreEmpty()
+        {
+
+            var govAgency1 = new USGovernmentAgency
+            {
+                AgencyId = 2,
+                AgencyCode = USGovernmentFundingValidator.OTHER_ORG_CODE,
+            };
+            var govAgency2 = new USGovernmentAgency
+            {
+                AgencyId = 3,
+                AgencyCode = USGovernmentFundingValidator.OTHER_ORG_CODE,
+            };
+            var org1Amount = 2.2m;
+            var org2Amount = 5.7m;
+            var visitor = new ParticipantExchangeVisitor
+            {
+                ParticipantId = 1,
+
+                FundingGovtAgency1 = org1Amount,
+                GovtAgency1 = govAgency1,
+                GovtAgency1Id = govAgency1.AgencyId,
+                GovtAgency1OtherName = String.Empty,
+
+                FundingGovtAgency2 = org2Amount,
+                GovtAgency2 = govAgency2,
+                GovtAgency2Id = govAgency2.AgencyId,
+                GovtAgency2OtherName = String.Empty
+            };
+            context.USGovernmentAgencies.Add(govAgency1);
+            context.USGovernmentAgencies.Add(govAgency2);
+            context.ParticipantExchangeVisitors.Add(visitor);
+
+            var result = ExchangeVisitorQueries.CreateGetUSFundingQuery(context, visitor.ParticipantId).FirstOrDefault();
+            Assert.IsNotNull(result);
+            Assert.IsNull(result.OtherName1);
+            Assert.IsNull(result.OtherName2);
+        }
+
+        [TestMethod]
         public void TestCreateGetUSFundingQuery_NoUsGovFunding()
         {
 
@@ -6149,6 +6306,609 @@ namespace ECA.Business.Test.Queries.Persons
 
             result = ExchangeVisitorQueries.CreateGetUSFundingQuery(context, visitor.ParticipantId + 1).FirstOrDefault();
             Assert.IsNull(result);
+        }
+        #endregion
+
+        #region CreateGetReadyToValidateParticipantDTOsQuery
+        [TestMethod]
+        public void TestCreateGetReadyToValidateParticipantDTOsQuery_CheckProperties()
+        {
+            var activeStatus = new ParticipantStatus
+            {
+                ParticipantStatusId = ParticipantStatus.Active.Id
+            };
+            var participant = new Participant
+            {
+                ParticipantId = 1,
+                ProjectId = 10,
+                Status = activeStatus,
+                ParticipantStatusId = activeStatus.ParticipantStatusId
+            };
+            var participantPerson = new ParticipantPerson
+            {
+                ParticipantId = participant.ParticipantId,
+                Participant = participant,
+                SevisId = "sevisId",
+                StartDate = DateTimeOffset.UtcNow.AddDays(-1.0)
+            };
+            participant.ParticipantPerson = participantPerson;
+            var participantCommStatus = new ParticipantPersonSevisCommStatus
+            {
+                Id = 1,
+                SevisCommStatusId = SevisCommStatus.CreatedByBatch.Id,
+                ParticipantId = participant.ParticipantId,
+                ParticipantPerson = participantPerson
+            };
+            participantPerson.ParticipantPersonSevisCommStatuses.Add(participantCommStatus);
+
+            context.Participants.Add(participant);
+            context.ParticipantPersons.Add(participantPerson);
+            context.ParticipantPersonSevisCommStatuses.Add(participantCommStatus);
+            context.ParticipantStatuses.Add(activeStatus);
+
+            var start = 0;
+            var limit = 1;
+            var defaultSorter = new ExpressionSorter<ReadyToValidateParticipantDTO>(x => x.ParticipantId, SortDirection.Ascending);
+            var queryOperator = new QueryableOperator<ReadyToValidateParticipantDTO>(start, limit, defaultSorter);
+            var results = ExchangeVisitorQueries.CreateGetReadyToValidateParticipantDTOsQuery(context, DateTimeOffset.UtcNow, queryOperator).ToList();
+            Assert.AreEqual(1, results.Count);
+            var firstResult = results.First();
+            Assert.AreEqual(participant.ParticipantId, firstResult.ParticipantId);
+            Assert.AreEqual(participant.ProjectId, firstResult.ProjectId);
+            Assert.AreEqual(participantPerson.SevisId, firstResult.SevisId);
+        }
+
+        [TestMethod]
+        public void TestCreateGetReadyToValidateParticipantDTOsQuery_Sorted()
+        {
+            var activeStatus = new ParticipantStatus
+            {
+                ParticipantStatusId = ParticipantStatus.Active.Id
+            };
+            var participant1 = new Participant
+            {
+                ParticipantId = 1,
+                ProjectId = 10,
+                ParticipantStatusId = activeStatus.ParticipantStatusId,
+                Status = activeStatus
+            };
+            var participantPerson1 = new ParticipantPerson
+            {
+                ParticipantId = participant1.ParticipantId,
+                Participant = participant1,
+                SevisId = "sevisId",
+                StartDate = DateTimeOffset.UtcNow.AddDays(-1.0)
+            };
+            participant1.ParticipantPerson = participantPerson1;
+            var participantCommStatus1 = new ParticipantPersonSevisCommStatus
+            {
+                Id = 1,
+                SevisCommStatusId = SevisCommStatus.CreatedByBatch.Id,
+                ParticipantId = participant1.ParticipantId,
+                ParticipantPerson = participantPerson1
+            };
+            participantPerson1.ParticipantPersonSevisCommStatuses.Add(participantCommStatus1);
+
+            var participant2 = new Participant
+            {
+                ParticipantId = 2,
+                ProjectId = 100,
+                Status = activeStatus,
+                ParticipantStatusId = activeStatus.ParticipantStatusId
+            };
+            var participantPerson2 = new ParticipantPerson
+            {
+                ParticipantId = participant2.ParticipantId,
+                Participant = participant2,
+                SevisId = "sevisId",
+                StartDate = DateTimeOffset.UtcNow.AddDays(-1.0)
+            };
+            participant2.ParticipantPerson = participantPerson2;
+            var participantCommStatus2 = new ParticipantPersonSevisCommStatus
+            {
+                Id = 1,
+                SevisCommStatusId = SevisCommStatus.CreatedByBatch.Id,
+                ParticipantId = participant2.ParticipantId,
+                ParticipantPerson = participantPerson2
+            };
+            participantPerson2.ParticipantPersonSevisCommStatuses.Add(participantCommStatus1);
+
+            context.Participants.Add(participant1);
+            context.ParticipantPersons.Add(participantPerson1);
+            context.ParticipantPersonSevisCommStatuses.Add(participantCommStatus1);
+            context.Participants.Add(participant2);
+            context.ParticipantPersons.Add(participantPerson2);
+            context.ParticipantPersonSevisCommStatuses.Add(participantCommStatus2);
+            context.ParticipantStatuses.Add(activeStatus);
+
+            var start = 0;
+            var limit = 1;
+            var defaultSorter = new ExpressionSorter<ReadyToValidateParticipantDTO>(x => x.ParticipantId, SortDirection.Descending);
+            var queryOperator = new QueryableOperator<ReadyToValidateParticipantDTO>(start, limit, defaultSorter);
+            var results = ExchangeVisitorQueries.CreateGetReadyToValidateParticipantDTOsQuery(context, DateTimeOffset.UtcNow, queryOperator).ToList();
+            Assert.AreEqual(2, results.Count);
+            var firstResult = results.First();
+            Assert.AreEqual(participant2.ParticipantId, firstResult.ParticipantId);
+        }
+
+        [TestMethod]
+        public void TestCreateGetReadyToValidateParticipantDTOsQuery_Filtered()
+        {
+            var activeStatus = new ParticipantStatus
+            {
+                ParticipantStatusId = ParticipantStatus.Active.Id
+            };
+            var participant = new Participant
+            {
+                ParticipantId = 1,
+                ProjectId = 10,
+                Status = activeStatus,
+                ParticipantStatusId = activeStatus.ParticipantStatusId,
+            };
+            var participantPerson = new ParticipantPerson
+            {
+                ParticipantId = participant.ParticipantId,
+                Participant = participant,
+                SevisId = "sevisId",
+                StartDate = DateTimeOffset.UtcNow.AddDays(-1.0)
+            };
+            participant.ParticipantPerson = participantPerson;
+            var participantCommStatus = new ParticipantPersonSevisCommStatus
+            {
+                Id = 1,
+                SevisCommStatusId = SevisCommStatus.CreatedByBatch.Id,
+                ParticipantId = participant.ParticipantId,
+                ParticipantPerson = participantPerson
+            };
+            participantPerson.ParticipantPersonSevisCommStatuses.Add(participantCommStatus);
+
+            context.Participants.Add(participant);
+            context.ParticipantPersons.Add(participantPerson);
+            context.ParticipantPersonSevisCommStatuses.Add(participantCommStatus);
+            context.ParticipantStatuses.Add(activeStatus);
+
+            var start = 0;
+            var limit = 1;
+            var defaultSorter = new ExpressionSorter<ReadyToValidateParticipantDTO>(x => x.ParticipantId, SortDirection.Ascending);
+            var queryOperator = new QueryableOperator<ReadyToValidateParticipantDTO>(start, limit, defaultSorter);
+            queryOperator.Filters.Add(new ExpressionFilter<ReadyToValidateParticipantDTO>(x => x.ParticipantId, ComparisonType.NotEqual, participant.ParticipantId));
+            var results = ExchangeVisitorQueries.CreateGetReadyToValidateParticipantDTOsQuery(context, DateTimeOffset.UtcNow, queryOperator).ToList();
+            Assert.AreEqual(0, results.Count);
+        }
+
+        [TestMethod]
+        public void TestCreateGetReadyToValidateParticipantDTOsQuery_StartDateHasNotPassed()
+        {
+            var activeStatus = new ParticipantStatus
+            {
+                ParticipantStatusId = ParticipantStatus.Active.Id
+            };
+            var participant = new Participant
+            {
+                ParticipantId = 1,
+                ProjectId = 10,
+                Status = activeStatus,
+                ParticipantStatusId = activeStatus.ParticipantStatusId
+            };
+            var participantPerson = new ParticipantPerson
+            {
+                ParticipantId = participant.ParticipantId,
+                Participant = participant,
+                SevisId = "sevisId",
+                StartDate = DateTimeOffset.UtcNow.AddDays(-1.0)
+            };
+            participant.ParticipantPerson = participantPerson;
+            var participantCommStatus = new ParticipantPersonSevisCommStatus
+            {
+                Id = 1,
+                SevisCommStatusId = SevisCommStatus.CreatedByBatch.Id,
+                ParticipantId = participant.ParticipantId,
+                ParticipantPerson = participantPerson
+            };
+            participantPerson.ParticipantPersonSevisCommStatuses.Add(participantCommStatus);
+
+            context.Participants.Add(participant);
+            context.ParticipantPersons.Add(participantPerson);
+            context.ParticipantPersonSevisCommStatuses.Add(participantCommStatus);
+            context.ParticipantStatuses.Add(activeStatus);
+
+            var start = 0;
+            var limit = 1;
+            var defaultSorter = new ExpressionSorter<ReadyToValidateParticipantDTO>(x => x.ParticipantId, SortDirection.Ascending);
+            var queryOperator = new QueryableOperator<ReadyToValidateParticipantDTO>(start, limit, defaultSorter);
+            var results = ExchangeVisitorQueries.CreateGetReadyToValidateParticipantDTOsQuery(context, DateTimeOffset.UtcNow, queryOperator).ToList();
+            Assert.AreEqual(1, results.Count);
+
+            participantPerson.StartDate = DateTimeOffset.UtcNow.AddDays(1.0);
+            results = ExchangeVisitorQueries.CreateGetReadyToValidateParticipantDTOsQuery(context, DateTimeOffset.UtcNow, queryOperator).ToList();
+            Assert.AreEqual(0, results.Count);
+        }
+
+        [TestMethod]
+        public void TestCreateGetReadyToValidateParticipantDTOsQuery_HasReadyToValidateStatus()
+        {
+            var activeStatus = new ParticipantStatus
+            {
+                ParticipantStatusId = ParticipantStatus.Active.Id
+            };
+            var participant = new Participant
+            {
+                ParticipantId = 1,
+                ProjectId = 10,
+                Status = activeStatus,
+                ParticipantStatusId = activeStatus.ParticipantStatusId
+            };
+            var participantPerson = new ParticipantPerson
+            {
+                ParticipantId = participant.ParticipantId,
+                Participant = participant,
+                SevisId = "sevisId",
+                StartDate = DateTimeOffset.UtcNow.AddDays(-1.0)
+            };
+            participant.ParticipantPerson = participantPerson;
+            var participantCommStatus = new ParticipantPersonSevisCommStatus
+            {
+                Id = 1,
+                SevisCommStatusId = SevisCommStatus.CreatedByBatch.Id,
+                ParticipantId = participant.ParticipantId,
+                ParticipantPerson = participantPerson
+            };
+            participantPerson.ParticipantPersonSevisCommStatuses.Add(participantCommStatus);
+
+            context.Participants.Add(participant);
+            context.ParticipantPersons.Add(participantPerson);
+            context.ParticipantPersonSevisCommStatuses.Add(participantCommStatus);
+            context.ParticipantStatuses.Add(activeStatus);
+
+            var start = 0;
+            var limit = 1;
+            var defaultSorter = new ExpressionSorter<ReadyToValidateParticipantDTO>(x => x.ParticipantId, SortDirection.Ascending);
+            var queryOperator = new QueryableOperator<ReadyToValidateParticipantDTO>(start, limit, defaultSorter);
+
+            var results = ExchangeVisitorQueries.CreateGetReadyToValidateParticipantDTOsQuery(context, DateTimeOffset.UtcNow, queryOperator).ToList();
+            Assert.AreEqual(1, results.Count);
+
+            participantCommStatus.SevisCommStatusId = SevisCommStatus.ReadyToValidate.Id;
+            results = ExchangeVisitorQueries.CreateGetReadyToValidateParticipantDTOsQuery(context, DateTimeOffset.UtcNow, queryOperator).ToList();
+            Assert.AreEqual(0, results.Count);
+        }
+
+        [TestMethod]
+        public void TestCreateGetReadyToValidateParticipantDTOsQuery_HasNeedsValidationInfo()
+        {
+            var activeStatus = new ParticipantStatus
+            {
+                ParticipantStatusId = ParticipantStatus.Active.Id
+            };
+            var participant = new Participant
+            {
+                ParticipantId = 1,
+                ProjectId = 10,
+                Status = activeStatus,
+                ParticipantStatusId = activeStatus.ParticipantStatusId
+            };
+            var participantPerson = new ParticipantPerson
+            {
+                ParticipantId = participant.ParticipantId,
+                Participant = participant,
+                SevisId = "sevisId",
+                StartDate = DateTimeOffset.UtcNow.AddDays(-1.0)
+            };
+            participant.ParticipantPerson = participantPerson;
+            var participantCommStatus = new ParticipantPersonSevisCommStatus
+            {
+                Id = 1,
+                SevisCommStatusId = SevisCommStatus.CreatedByBatch.Id,
+                ParticipantId = participant.ParticipantId,
+                ParticipantPerson = participantPerson
+            };
+            participantPerson.ParticipantPersonSevisCommStatuses.Add(participantCommStatus);
+
+            context.Participants.Add(participant);
+            context.ParticipantPersons.Add(participantPerson);
+            context.ParticipantPersonSevisCommStatuses.Add(participantCommStatus);
+            context.ParticipantStatuses.Add(activeStatus);
+
+            var start = 0;
+            var limit = 1;
+            var defaultSorter = new ExpressionSorter<ReadyToValidateParticipantDTO>(x => x.ParticipantId, SortDirection.Ascending);
+            var queryOperator = new QueryableOperator<ReadyToValidateParticipantDTO>(start, limit, defaultSorter);
+            var results = ExchangeVisitorQueries.CreateGetReadyToValidateParticipantDTOsQuery(context, DateTimeOffset.UtcNow, queryOperator).ToList();
+            Assert.AreEqual(1, results.Count);
+
+            participantCommStatus.SevisCommStatusId = SevisCommStatus.NeedsValidationInfo.Id;
+            results = ExchangeVisitorQueries.CreateGetReadyToValidateParticipantDTOsQuery(context, DateTimeOffset.UtcNow, queryOperator).ToList();
+            Assert.AreEqual(0, results.Count);
+        }
+
+        [TestMethod]
+        public void TestCreateGetReadyToValidateParticipantDTOsQuery_StartDateDoesNotHaveValue()
+        {
+            var activeStatus = new ParticipantStatus
+            {
+                ParticipantStatusId = ParticipantStatus.Active.Id
+            };
+            var participant = new Participant
+            {
+                ParticipantId = 1,
+                ProjectId = 10,
+                ParticipantStatusId = activeStatus.ParticipantStatusId,
+                Status = activeStatus
+            };
+            var participantPerson = new ParticipantPerson
+            {
+                ParticipantId = participant.ParticipantId,
+                Participant = participant,
+                SevisId = "sevisId",
+                StartDate = DateTimeOffset.UtcNow.AddDays(-1.0)
+            };
+            participant.ParticipantPerson = participantPerson;
+            var participantCommStatus = new ParticipantPersonSevisCommStatus
+            {
+                Id = 1,
+                SevisCommStatusId = SevisCommStatus.CreatedByBatch.Id,
+                ParticipantId = participant.ParticipantId,
+                ParticipantPerson = participantPerson
+            };
+            participantPerson.ParticipantPersonSevisCommStatuses.Add(participantCommStatus);
+
+            context.Participants.Add(participant);
+            context.ParticipantPersons.Add(participantPerson);
+            context.ParticipantPersonSevisCommStatuses.Add(participantCommStatus);
+            context.ParticipantStatuses.Add(activeStatus);
+            var start = 0;
+            var limit = 1;
+            var defaultSorter = new ExpressionSorter<ReadyToValidateParticipantDTO>(x => x.ParticipantId, SortDirection.Ascending);
+            var queryOperator = new QueryableOperator<ReadyToValidateParticipantDTO>(start, limit, defaultSorter);
+
+            var results = ExchangeVisitorQueries.CreateGetReadyToValidateParticipantDTOsQuery(context, DateTimeOffset.UtcNow, queryOperator).ToList();
+            Assert.AreEqual(1, results.Count);
+
+            participantPerson.StartDate = null;
+            results = ExchangeVisitorQueries.CreateGetReadyToValidateParticipantDTOsQuery(context, DateTimeOffset.UtcNow, queryOperator).ToList();
+            Assert.AreEqual(0, results.Count);
+        }
+
+        [TestMethod]
+        public void TestCreateGetReadyToValidateParticipantDTOsQuery_SevisIdIsNull()
+        {
+            var activeStatus = new ParticipantStatus
+            {
+                ParticipantStatusId = ParticipantStatus.Active.Id
+            };
+            var participant = new Participant
+            {
+                ParticipantId = 1,
+                ProjectId = 10,
+                Status = activeStatus,
+                ParticipantStatusId = activeStatus.ParticipantStatusId
+            };
+            var participantPerson = new ParticipantPerson
+            {
+                ParticipantId = participant.ParticipantId,
+                Participant = participant,
+                SevisId = "sevisId",
+                StartDate = DateTimeOffset.UtcNow.AddDays(-1.0)
+            };
+            participant.ParticipantPerson = participantPerson;
+            var participantCommStatus = new ParticipantPersonSevisCommStatus
+            {
+                Id = 1,
+                SevisCommStatusId = SevisCommStatus.CreatedByBatch.Id,
+                ParticipantId = participant.ParticipantId,
+                ParticipantPerson = participantPerson
+            };
+            participantPerson.ParticipantPersonSevisCommStatuses.Add(participantCommStatus);
+
+            context.Participants.Add(participant);
+            context.ParticipantPersons.Add(participantPerson);
+            context.ParticipantPersonSevisCommStatuses.Add(participantCommStatus);
+            context.ParticipantStatuses.Add(activeStatus);
+            var start = 0;
+            var limit = 1;
+            var defaultSorter = new ExpressionSorter<ReadyToValidateParticipantDTO>(x => x.ParticipantId, SortDirection.Ascending);
+            var queryOperator = new QueryableOperator<ReadyToValidateParticipantDTO>(start, limit, defaultSorter);
+
+            var results = ExchangeVisitorQueries.CreateGetReadyToValidateParticipantDTOsQuery(context, DateTimeOffset.UtcNow, queryOperator).ToList();
+            Assert.AreEqual(1, results.Count);
+
+            participantPerson.SevisId = null;
+            results = ExchangeVisitorQueries.CreateGetReadyToValidateParticipantDTOsQuery(context, DateTimeOffset.UtcNow, queryOperator).ToList();
+            Assert.AreEqual(0, results.Count);
+        }
+
+        [TestMethod]
+        public void TestCreateGetReadyToValidateParticipantDTOsQuery_SevisIdIsEmpty()
+        {
+            var activeStatus = new ParticipantStatus
+            {
+                ParticipantStatusId = ParticipantStatus.Active.Id
+            };
+            var participant = new Participant
+            {
+                ParticipantId = 1,
+                ProjectId = 10,
+                Status = activeStatus,
+                ParticipantStatusId = activeStatus.ParticipantStatusId
+            };
+            var participantPerson = new ParticipantPerson
+            {
+                ParticipantId = participant.ParticipantId,
+                Participant = participant,
+                SevisId = "sevisId",
+                StartDate = DateTimeOffset.UtcNow.AddDays(-1.0)
+            };
+            participant.ParticipantPerson = participantPerson;
+            var participantCommStatus = new ParticipantPersonSevisCommStatus
+            {
+                Id = 1,
+                SevisCommStatusId = SevisCommStatus.CreatedByBatch.Id,
+                ParticipantId = participant.ParticipantId,
+                ParticipantPerson = participantPerson
+            };
+            participantPerson.ParticipantPersonSevisCommStatuses.Add(participantCommStatus);
+
+            context.Participants.Add(participant);
+            context.ParticipantPersons.Add(participantPerson);
+            context.ParticipantPersonSevisCommStatuses.Add(participantCommStatus);
+            context.ParticipantStatuses.Add(activeStatus);
+            var start = 0;
+            var limit = 1;
+            var defaultSorter = new ExpressionSorter<ReadyToValidateParticipantDTO>(x => x.ParticipantId, SortDirection.Ascending);
+            var queryOperator = new QueryableOperator<ReadyToValidateParticipantDTO>(start, limit, defaultSorter);
+
+            var results = ExchangeVisitorQueries.CreateGetReadyToValidateParticipantDTOsQuery(context, DateTimeOffset.UtcNow, queryOperator).ToList();
+            Assert.AreEqual(1, results.Count);
+
+            participantPerson.SevisId = String.Empty;
+            results = ExchangeVisitorQueries.CreateGetReadyToValidateParticipantDTOsQuery(context, DateTimeOffset.UtcNow, queryOperator).ToList();
+            Assert.AreEqual(0, results.Count);
+        }
+
+        [TestMethod]
+        public void TestCreateGetReadyToValidateParticipantDTOsQuery_ParticipantStatusIsNotUsedInValidation()
+        {
+            var status = new ParticipantStatus
+            {
+                ParticipantStatusId = ParticipantStatus.Active.Id
+            };
+            var participant = new Participant
+            {
+                ParticipantId = 1,
+                ProjectId = 10,
+                Status = status,
+                ParticipantStatusId = status.ParticipantStatusId
+            };
+            var participantPerson = new ParticipantPerson
+            {
+                ParticipantId = participant.ParticipantId,
+                Participant = participant,
+                SevisId = "sevisId",
+                StartDate = DateTimeOffset.UtcNow.AddDays(-1.0)
+            };
+            participant.ParticipantPerson = participantPerson;
+            var participantCommStatus = new ParticipantPersonSevisCommStatus
+            {
+                Id = 1,
+                SevisCommStatusId = SevisCommStatus.CreatedByBatch.Id,
+                ParticipantId = participant.ParticipantId,
+                ParticipantPerson = participantPerson
+            };
+            participantPerson.ParticipantPersonSevisCommStatuses.Add(participantCommStatus);
+
+            context.Participants.Add(participant);
+            context.ParticipantPersons.Add(participantPerson);
+            context.ParticipantPersonSevisCommStatuses.Add(participantCommStatus);
+            context.ParticipantStatuses.Add(status);
+            var start = 0;
+            var limit = 1;
+            var defaultSorter = new ExpressionSorter<ReadyToValidateParticipantDTO>(x => x.ParticipantId, SortDirection.Ascending);
+            var queryOperator = new QueryableOperator<ReadyToValidateParticipantDTO>(start, limit, defaultSorter);
+
+            var results = ExchangeVisitorQueries.CreateGetReadyToValidateParticipantDTOsQuery(context, DateTimeOffset.UtcNow, queryOperator).ToList();
+            Assert.AreEqual(1, results.Count);
+
+            status.ParticipantStatusId = ParticipantStatus.Disapproved.Id;
+            results = ExchangeVisitorQueries.CreateGetReadyToValidateParticipantDTOsQuery(context, DateTimeOffset.UtcNow, queryOperator).ToList();
+            Assert.AreEqual(0, results.Count);
+        }
+
+        [TestMethod]
+        public void TestCreateGetReadyToValidateParticipantDTOsQuery_ParticipantStatusIsNull()
+        {
+            var status = new ParticipantStatus
+            {
+                ParticipantStatusId = ParticipantStatus.Active.Id
+            };
+            var participant = new Participant
+            {
+                ParticipantId = 1,
+                ProjectId = 10,
+                Status = status,
+                ParticipantStatusId = status.ParticipantStatusId
+            };
+            var participantPerson = new ParticipantPerson
+            {
+                ParticipantId = participant.ParticipantId,
+                Participant = participant,
+                SevisId = "sevisId",
+                StartDate = DateTimeOffset.UtcNow.AddDays(-1.0)
+            };
+            participant.ParticipantPerson = participantPerson;
+            var participantCommStatus = new ParticipantPersonSevisCommStatus
+            {
+                Id = 1,
+                SevisCommStatusId = SevisCommStatus.CreatedByBatch.Id,
+                ParticipantId = participant.ParticipantId,
+                ParticipantPerson = participantPerson
+            };
+            participantPerson.ParticipantPersonSevisCommStatuses.Add(participantCommStatus);
+
+            context.Participants.Add(participant);
+            context.ParticipantPersons.Add(participantPerson);
+            context.ParticipantPersonSevisCommStatuses.Add(participantCommStatus);
+            context.ParticipantStatuses.Add(status);
+            var start = 0;
+            var limit = 1;
+            var defaultSorter = new ExpressionSorter<ReadyToValidateParticipantDTO>(x => x.ParticipantId, SortDirection.Ascending);
+            var queryOperator = new QueryableOperator<ReadyToValidateParticipantDTO>(start, limit, defaultSorter);
+
+            var results = ExchangeVisitorQueries.CreateGetReadyToValidateParticipantDTOsQuery(context, DateTimeOffset.UtcNow, queryOperator).ToList();
+            Assert.AreEqual(1, results.Count);
+
+            participant.Status = null;
+            
+            results = ExchangeVisitorQueries.CreateGetReadyToValidateParticipantDTOsQuery(context, DateTimeOffset.UtcNow, queryOperator).ToList();
+            Assert.AreEqual(0, results.Count);
+        }
+
+        [TestMethod]
+        public void TestCreateGetReadyToValidateParticipantDTOsQuery_LatestSevisCommStatusIsInformationRequired()
+        {
+            var status = new ParticipantStatus
+            {
+                ParticipantStatusId = ParticipantStatus.Active.Id
+            };
+            var participant = new Participant
+            {
+                ParticipantId = 1,
+                ProjectId = 10,
+                Status = status,
+                ParticipantStatusId = status.ParticipantStatusId
+            };
+            var participantPerson = new ParticipantPerson
+            {
+                ParticipantId = participant.ParticipantId,
+                Participant = participant,
+                SevisId = "sevisId",
+                StartDate = DateTimeOffset.UtcNow.AddDays(-1.0)
+            };
+            participant.ParticipantPerson = participantPerson;
+            var participantCommStatus = new ParticipantPersonSevisCommStatus
+            {
+                Id = 1,
+                SevisCommStatusId = SevisCommStatus.CreatedByBatch.Id,
+                ParticipantId = participant.ParticipantId,
+                ParticipantPerson = participantPerson
+            };
+            participantPerson.ParticipantPersonSevisCommStatuses.Add(participantCommStatus);
+
+            context.Participants.Add(participant);
+            context.ParticipantPersons.Add(participantPerson);
+            context.ParticipantPersonSevisCommStatuses.Add(participantCommStatus);
+            context.ParticipantStatuses.Add(status);
+            var start = 0;
+            var limit = 1;
+            var defaultSorter = new ExpressionSorter<ReadyToValidateParticipantDTO>(x => x.ParticipantId, SortDirection.Ascending);
+            var queryOperator = new QueryableOperator<ReadyToValidateParticipantDTO>(start, limit, defaultSorter);
+
+            var results = ExchangeVisitorQueries.CreateGetReadyToValidateParticipantDTOsQuery(context, DateTimeOffset.UtcNow, queryOperator).ToList();
+            Assert.AreEqual(1, results.Count);
+
+            participantCommStatus.SevisCommStatusId = SevisCommStatus.InformationRequired.Id;
+
+            results = ExchangeVisitorQueries.CreateGetReadyToValidateParticipantDTOsQuery(context, DateTimeOffset.UtcNow, queryOperator).ToList();
+            Assert.AreEqual(0, results.Count);
         }
         #endregion
     }

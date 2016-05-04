@@ -121,7 +121,7 @@ namespace ECA.Business.Service.Sevis
         /// </summary>
         public void DeleteProcessedBatches()
         {
-            
+
         }
 
         /// <summary>
@@ -149,7 +149,7 @@ namespace ECA.Business.Service.Sevis
         public Task<SevisBatchProcessingDTO> GetNextBatchToDownloadAsync()
         {
             return Task.FromResult<SevisBatchProcessingDTO>(null);
-        }        
+        }
 
         /// <summary>
         /// 
@@ -254,7 +254,7 @@ namespace ECA.Business.Service.Sevis
         /// <param name="e"></param>
         public void HandleFailedUploadBatch(int batchId, Exception e)
         {
-            
+
         }
 
         /// <summary>
@@ -275,7 +275,7 @@ namespace ECA.Business.Service.Sevis
         /// <param name="e"></param>
         public void HandleFailedDownloadBatch(int batchId, Exception e)
         {
-            
+
         }
 
         /// <summary>

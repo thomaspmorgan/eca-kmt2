@@ -102,6 +102,7 @@
     <Compile Include="BookmarkTest.cs" />
     <Compile Include="ItineraryStopTest.cs" />
     <Compile Include="ItineraryTest.cs" />
+    <Compile Include="PersonDependentTest.cs" />
     <Compile Include="SocialMediaTest.cs" />
     <Compile Include="CreateModelDbTest.cs" />
     <Compile Include="DbContextHelper.cs" />
@@ -118,6 +119,7 @@
     <Compile Include="ProjectTest.cs" />
     <Compile Include="LocationTest.cs" />
     <Compile Include="ParticipantStatusTest.cs" />
+    <Compile Include="ParticipantPersonTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

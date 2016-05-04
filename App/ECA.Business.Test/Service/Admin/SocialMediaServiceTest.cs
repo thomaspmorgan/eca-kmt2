@@ -1,4 +1,5 @@
-﻿using ECA.Business.Queries.Models.Admin;
+﻿using ECA.Business.Exceptions;
+using ECA.Business.Queries.Models.Admin;
 using ECA.Business.Service;
 using ECA.Business.Service.Admin;
 using ECA.Core.Exceptions;
@@ -7,7 +8,9 @@ using FluentAssertions;
 using Microsoft.QualityTools.Testing.Fakes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace ECA.Business.Test.Service.Admin
@@ -203,6 +206,197 @@ namespace ECA.Business.Test.Service.Admin
                 .WithMessage(String.Format("The social media with id [{0}] was not found.", updatedInstance.Id));
 
         }
+        
+        [TestMethod]
+        public async Task TestUpdate_SocialMedia_SevisLocked()
+        {
+            var personId = 1;
+            var participantId = 1;            
+            var creator = 1;
+            var updatorId = 2;
+            var updator = new User(updatorId);
+            var facebookType = new SocialMediaType
+            {
+                SocialMediaTypeId = SocialMediaType.Facebook.Id,
+                SocialMediaTypeName = SocialMediaType.Facebook.Value
+            };
+            var twitter = new SocialMediaType
+            {
+                SocialMediaTypeId = SocialMediaType.Twitter.Id,
+                SocialMediaTypeName = SocialMediaType.Twitter.Value
+            };
+
+            var oldSocialMediaTypeId = facebookType.SocialMediaTypeId;
+            var oldValue = "oldValue";
+            var yesterday = DateTimeOffset.Now.AddDays(-1.0);
+            Person person = new Person
+            {
+                PersonId = personId
+            };
+            var socialMedia = new SocialMedia
+            {
+                SocialMediaId = 1,
+                Person = person,
+                PersonId = person.PersonId
+            };
+            var participant = new Participant
+            {
+                ParticipantId = participantId,
+                PersonId = person.PersonId,
+                ParticipantStatusId = ParticipantStatus.Active.Id
+            };
+            List<Participant> participants = new List<Participant>();
+            participants.Add(participant);
+            person.Participations = participants;
+            var participantPerson = new ParticipantPerson
+            {
+                Participant = participant,
+                ParticipantId = participant.ParticipantId,
+            };
+            participant.ParticipantPerson = participantPerson;
+
+            var queuedToSubmitStatus = new SevisCommStatus
+            {
+                SevisCommStatusId = SevisCommStatus.QueuedToSubmit.Id,
+                SevisCommStatusName = SevisCommStatus.QueuedToSubmit.Value
+            };
+            var commStatus = new ParticipantPersonSevisCommStatus
+            {
+                AddedOn = DateTimeOffset.UtcNow,
+                BatchId = "batch id",
+                Id = 501,
+                ParticipantId = participant.ParticipantId,
+                ParticipantPerson = participantPerson,
+                SevisCommStatus = queuedToSubmitStatus,
+                SevisCommStatusId = queuedToSubmitStatus.SevisCommStatusId,
+            };
+            participantPerson.ParticipantPersonSevisCommStatuses.Add(commStatus);
+            person.SocialMedias.Add(socialMedia);
+            
+            context.SetupActions.Add(() =>
+            {
+                context.SocialMedias.Add(socialMedia);
+                context.SocialMediaTypes.Add(facebookType);
+                context.SocialMediaTypes.Add(twitter);
+                context.Participants.Add(participant);
+                context.ParticipantPersons.Add(participantPerson);
+                context.ParticipantPersonSevisCommStatuses.Add(commStatus);
+                socialMedia.History.CreatedBy = creator;
+                socialMedia.History.CreatedOn = yesterday;
+                socialMedia.History.RevisedBy = creator;
+                socialMedia.History.RevisedOn = yesterday;
+                socialMedia.SocialMediaTypeId = facebookType.SocialMediaTypeId;
+                socialMedia.SocialMediaType = facebookType;
+                socialMedia.SocialMediaValue = oldValue;
+            });
+            context.Revert();
+                        
+            var updatedSocialMedia = new UpdatedSocialMediaPresence(updator, socialMedia.SocialMediaId, "newValue", twitter.SocialMediaTypeId);
+
+            var message = String.Format("An update was attempted on participant with id [{0}] but should have failed validation.",
+                        participant.ParticipantId);
+
+            Action a = () => service.Update(updatedSocialMedia);
+            Func<Task> f = () => service.UpdateAsync(updatedSocialMedia);
+            a.ShouldThrow<EcaBusinessException>().WithMessage(message);
+            f.ShouldThrow<EcaBusinessException>().WithMessage(message);
+        }
+
+        [TestMethod]
+        public async Task TestUpdate_SocialMedia_SevisNotLocked()
+        {
+            var personId = 1;
+            var participantId = 1;
+            var creator = 1;
+            var updatorId = 2;
+            var updator = new User(updatorId);
+            var facebookType = new SocialMediaType
+            {
+                SocialMediaTypeId = SocialMediaType.Facebook.Id,
+                SocialMediaTypeName = SocialMediaType.Facebook.Value
+            };
+            var twitter = new SocialMediaType
+            {
+                SocialMediaTypeId = SocialMediaType.Twitter.Id,
+                SocialMediaTypeName = SocialMediaType.Twitter.Value
+            };
+
+            var oldSocialMediaTypeId = facebookType.SocialMediaTypeId;
+            var oldValue = "oldValue";
+            var yesterday = DateTimeOffset.Now.AddDays(-1.0);
+            Person person = new Person
+            {
+                PersonId = personId
+            };
+            var socialMedia = new SocialMedia
+            {
+                SocialMediaId = 1,
+                Person = person,
+                PersonId = person.PersonId
+            };
+            var participant = new Participant
+            {
+                ParticipantId = participantId,
+                PersonId = person.PersonId,
+                ParticipantStatusId = ParticipantStatus.Active.Id
+            };
+            List<Participant> participants = new List<Participant>();
+            participants.Add(participant);
+            person.Participations = participants;
+            var participantPerson = new ParticipantPerson
+            {
+                Participant = participant,
+                ParticipantId = participant.ParticipantId,
+            };
+            participant.ParticipantPerson = participantPerson;
+
+            var queuedToSubmitStatus = new SevisCommStatus
+            {
+                SevisCommStatusId = SevisCommStatus.InformationRequired.Id,
+                SevisCommStatusName = SevisCommStatus.InformationRequired.Value
+            };
+            var commStatus = new ParticipantPersonSevisCommStatus
+            {
+                AddedOn = DateTimeOffset.UtcNow,
+                BatchId = "batch id",
+                Id = 501,
+                ParticipantId = participant.ParticipantId,
+                ParticipantPerson = participantPerson,
+                SevisCommStatus = queuedToSubmitStatus,
+                SevisCommStatusId = queuedToSubmitStatus.SevisCommStatusId,
+            };
+            participantPerson.ParticipantPersonSevisCommStatuses.Add(commStatus);
+            person.SocialMedias.Add(socialMedia);
+
+            context.SetupActions.Add(() =>
+            {
+                context.SocialMedias.Add(socialMedia);
+                context.SocialMediaTypes.Add(facebookType);
+                context.SocialMediaTypes.Add(twitter);
+                context.Participants.Add(participant);
+                context.ParticipantPersons.Add(participantPerson);
+                context.ParticipantPersonSevisCommStatuses.Add(commStatus);
+                socialMedia.History.CreatedBy = creator;
+                socialMedia.History.CreatedOn = yesterday;
+                socialMedia.History.RevisedBy = creator;
+                socialMedia.History.RevisedOn = yesterday;
+                socialMedia.SocialMediaTypeId = facebookType.SocialMediaTypeId;
+                socialMedia.SocialMediaType = facebookType;
+                socialMedia.SocialMediaValue = oldValue;
+            });
+            context.Revert();
+
+            var updatedSocialMedia = new UpdatedSocialMediaPresence(updator, socialMedia.SocialMediaId, "newValue", twitter.SocialMediaTypeId);
+
+            var message = String.Format("An update was attempted on participant with id [{0}] but should have failed validation.",
+                        participant.ParticipantId);
+
+            Action a = () => service.Update(updatedSocialMedia);
+            Func<Task> f = () => service.UpdateAsync(updatedSocialMedia);
+            a.ShouldNotThrow<EcaBusinessException>();
+            f.ShouldNotThrow<EcaBusinessException>();
+        }
+
         #endregion
 
         #region Get

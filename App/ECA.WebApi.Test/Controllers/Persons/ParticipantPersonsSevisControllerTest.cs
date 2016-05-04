@@ -10,13 +10,18 @@ using ECA.WebApi.Security;
 using ECA.WebApi.Models.Person;
 using System.Collections.Generic;
 using ECA.Business.Service;
-using System.Web;
 using System.Web.Http;
 using System.Net;
 using ECA.WebApi.Models.Query;
 using ECA.Business.Queries.Models.Persons;
 using ECA.Core.DynamicLinq;
 using ECA.Core.Query;
+using ECA.Business.Queries.Models.Sevis;
+using ECA.WebApi.Custom.Storage;
+using System.Net.Http;
+using ECA.Core.Settings;
+using System.Collections.Specialized;
+using System.Configuration;
 
 namespace ECA.WebApi.Test.Controllers.Persons
 {
@@ -26,13 +31,21 @@ namespace ECA.WebApi.Test.Controllers.Persons
         private ParticipantPersonsSevisController controller;
         private Mock<IParticipantPersonsSevisService> participantPersonSevisService;
         private Mock<IUserProvider> userProvider;
+        private Mock<IFileStorageHandler> storageHandler;
+        private NameValueCollection appSettings;
+        private ConnectionStringSettingsCollection connectionStrings;
+        private AppSettings settings;
 
         [TestInitialize]
         public void TestInit()
         {
             participantPersonSevisService = new Mock<IParticipantPersonsSevisService>();
             userProvider = new Mock<IUserProvider>();
-            controller = new ParticipantPersonsSevisController(participantPersonSevisService.Object, userProvider.Object);
+            storageHandler = new Mock<IFileStorageHandler>(); appSettings = new NameValueCollection();
+            connectionStrings = new ConnectionStringSettingsCollection();
+            settings = new AppSettings(appSettings, connectionStrings);
+            controller = new ParticipantPersonsSevisController(participantPersonSevisService.Object, userProvider.Object, storageHandler.Object, settings);
+            appSettings.Add(AppSettings.SEVIS_DS2019_STORAGE_CONTAINER, "ds2019files");
         }
 
         [TestMethod]
@@ -58,6 +71,38 @@ namespace ECA.WebApi.Test.Controllers.Persons
             Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
         }
 
+        [TestMethod]
+        public async Task TestGetSevisParticipantsByProjectIdAsync_InvalidModel()
+        {
+            controller.ModelState.AddModelError("key", "error");
+            var response = await controller.GetSevisParticipantsByProjectIdAsync(1, new PagingQueryBindingModel<ParticipantPersonSevisDTO>());
+            Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
+        }
+        
+        [TestMethod]
+        public async Task TestGetSevisParticipantsByProjectIdAsync()
+        {
+            participantPersonSevisService.Setup(x => x.GetSevisParticipantsByProjectIdAsync(It.IsAny<int>(), It.IsAny<QueryableOperator<ParticipantPersonSevisDTO>>()))
+                .ReturnsAsync(new PagedQueryResults<ParticipantPersonSevisDTO>(1, new List<ParticipantPersonSevisDTO>()));
+            var response = await controller.GetSevisParticipantsByProjectIdAsync(1, new PagingQueryBindingModel<ParticipantPersonSevisDTO>());
+            participantPersonSevisService.Verify(x => x.GetSevisParticipantsByProjectIdAsync(It.IsAny<int>(), It.IsAny<QueryableOperator<ParticipantPersonSevisDTO>>()), Times.Once());
+            Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<PagedQueryResults<ParticipantPersonSevisDTO>>));
+        }
+
+        [TestMethod]
+        public async Task GetSevisBatchProcessingInfoAsync()
+        {
+            userProvider.Setup(x => x.GetCurrentUser()).Returns(new DebugWebApiUser());
+            userProvider.Setup(x => x.GetBusinessUser(It.IsAny<IWebApiUser>())).Returns(new User(20));
+
+            participantPersonSevisService.Setup(x => x.GetBatchInfoByBatchIdAsync(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<int>(), It.IsAny<string>()))
+                .ReturnsAsync(new SevisBatchInfoDTO());
+
+            var response = await controller.GetSevisBatchProcessingInfoAsync(1, 2, "batchId");
+            participantPersonSevisService.Verify(x => x.GetBatchInfoByBatchIdAsync(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<int>(), It.IsAny<string>()), Times.Once());
+            Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<SevisBatchInfoDTO>));
+        }
+        
         [TestMethod]
         public async Task TestPostSendToSevisAsync()
         {
@@ -91,7 +136,7 @@ namespace ECA.WebApi.Test.Controllers.Persons
             userProvider.Setup(x => x.HasSevisUserAccountAsync(It.IsAny<IWebApiUser>(), It.IsAny<string>(), It.IsAny<string>())).ReturnsAsync(false);
 
             participantPersonSevisService.Setup(x => x.SendToSevisAsync(It.IsAny<ParticipantsToBeSentToSevis>())).ReturnsAsync(new int[] { });
-            Func<Task> f =() => controller.PostSendToSevisAsync(1, projectId, model);
+            Func<Task> f = () => controller.PostSendToSevisAsync(1, projectId, model);
             f.ShouldThrow<HttpResponseException>().And.Response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
         }
 
@@ -110,22 +155,36 @@ namespace ECA.WebApi.Test.Controllers.Persons
         }
 
         [TestMethod]
-        public async Task TestGetSevisParticipantsByProjectIdAsync_InvalidModel()
+        public async Task GetDS2019FileAsync()
         {
-            controller.ModelState.AddModelError("key", "error");
-            var response = await controller.GetSevisParticipantsByProjectIdAsync(1, new PagingQueryBindingModel<ParticipantPersonSevisDTO>());
-            Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
+            participantPersonSevisService.Setup(x => x.GetDS2019FileNameAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync("fileName.pdf");
+            storageHandler.Setup(x => x.GetFileAsync(It.IsAny<string>(), It.IsAny<string>())).ReturnsAsync(new HttpResponseMessage(HttpStatusCode.OK));
+            var response = await controller.GetDS2019FileAsync(1, 1);
+            storageHandler.Verify(x => x.GetFileAsync(It.IsAny<string>(), It.IsAny<string>()), Times.Once());
+            Assert.IsInstanceOfType(response, typeof(HttpResponseMessage));
+            Assert.AreEqual(response.StatusCode, HttpStatusCode.OK);
         }
 
         [TestMethod]
-        public async Task TestGetSevisParticipantsByProjectIdAsync()
+        public async Task GetDS2019FileAsync_NullFileName()
         {
-            participantPersonSevisService.Setup(x => x.GetSevisParticipantsByProjectIdAsync(It.IsAny<int>(), It.IsAny<QueryableOperator<ParticipantPersonSevisDTO>>()))
-                .ReturnsAsync(new PagedQueryResults<ParticipantPersonSevisDTO>(1, new List<ParticipantPersonSevisDTO>()));
-            var response = await controller.GetSevisParticipantsByProjectIdAsync(1, new PagingQueryBindingModel<ParticipantPersonSevisDTO>());
-            participantPersonSevisService.Verify(x => x.GetSevisParticipantsByProjectIdAsync(It.IsAny<int>(), It.IsAny<QueryableOperator<ParticipantPersonSevisDTO>>()), Times.Once());
-            Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<PagedQueryResults<ParticipantPersonSevisDTO>>));
+            participantPersonSevisService.Setup(x => x.GetDS2019FileNameAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(null);
+            controller.Request = new HttpRequestMessage();
+            var response = await controller.GetDS2019FileAsync(1, 1);
+            Assert.IsInstanceOfType(response, typeof(HttpResponseMessage));
+            Assert.AreEqual(response.StatusCode, HttpStatusCode.NotFound);
         }
 
+        [TestMethod]
+        public async Task GetDS2019FileAsync_NullMessage()
+        {
+            participantPersonSevisService.Setup(x => x.GetDS2019FileNameAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync("fileName.pdf");
+            controller.Request = new HttpRequestMessage();
+            storageHandler.Setup(x => x.GetFileAsync(It.IsAny<string>(), It.IsAny<string>())).ReturnsAsync(null);
+            var response = await controller.GetDS2019FileAsync(1, 1);
+            storageHandler.Verify(x => x.GetFileAsync(It.IsAny<string>(), It.IsAny<string>()), Times.Once());
+            Assert.IsInstanceOfType(response, typeof(HttpResponseMessage));
+            Assert.AreEqual(response.StatusCode, HttpStatusCode.NotFound);
+        }
     }
 }

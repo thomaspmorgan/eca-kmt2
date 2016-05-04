@@ -210,8 +210,10 @@
     <Compile Include="Queries\Models\Itineraries\ItineraryStopDTO.cs" />
     <Compile Include="Queries\Models\Itineraries\ItineraryParticipantDTO.cs" />
     <Compile Include="Queries\Models\Lookup\BirthCountryReasonDTO.cs" />
+    <Compile Include="Queries\Models\Persons\CitizenCountryDTO.cs" />
     <Compile Include="Queries\Models\Persons\ExchangeVisitor\DependentBiographicalDTO.cs" />
     <Compile Include="Queries\Models\Persons\ExchangeVisitor\ExchangeVisitorFundingDTO.cs" />
+    <Compile Include="Queries\Models\Persons\ExchangeVisitor\ReadyToValidateParticipantDTO.cs" />
     <Compile Include="Queries\Models\Persons\ExchangeVisitor\SubjectFieldDTO.cs" />
     <Compile Include="Queries\Models\Persons\LanguageProficiencyDTO.cs" />
     <Compile Include="Queries\Models\Persons\MembershipDTO.cs" />
@@ -224,11 +226,9 @@
     <Compile Include="Queries\Models\Persons\SimplePersonDependentDTO.cs" />
     <Compile Include="Queries\Models\Programs\ProgramSnapshotDTO.cs" />
     <Compile Include="Queries\Models\Reports\ProjectWithGrantNumberDTO.cs" />
-    <Compile Include="Queries\Models\Sevis\ParticipantSevisBatchProcessingResultDTO.cs" />
-    <Compile Include="Queries\Models\Sevis\ParticipantSevisBatchResultDTO.cs" />
-    <Compile Include="Queries\Models\Sevis\ParticipantSevisBatchResultRecordDTO.cs" />
+    <Compile Include="Queries\Models\Sevis\SevisBatchInfoDTO.cs" />
     <Compile Include="Queries\Models\Sevis\SevisBatchProcessingDTO.cs" />
-    <Compile Include="Queries\Models\Sevis\SevisGroupedQueuedToSubmitParticipantsDTO.cs" />
+    <Compile Include="Queries\Models\Sevis\SevisGroupedParticipantsDTO.cs" />
     <Compile Include="Queries\Persons\EvaluationNoteQueries.cs" />
     <Compile Include="Queries\Persons\ExchangeVisitorQueries.cs" />
     <Compile Include="Queries\Persons\LanguageProficiencyQueries.cs" />
@@ -237,7 +237,7 @@
     <Compile Include="Queries\Persons\ParticipantPersonsSevisQueries.cs" />
     <Compile Include="Queries\Persons\ProfessionEducationQueries.cs" />
     <Compile Include="Queries\Projects\DefaultExchangeVisitorFundingQueries.cs" />
-    <Compile Include="Queries\Models\Sevis\QueuedToSubmitParticipantDTO.cs" />
+    <Compile Include="Queries\Models\Sevis\SevisGroupedParticipantDTO.cs" />
     <Compile Include="Queries\Sevis\SevisBatchProcessingQueries.cs" />
     <Compile Include="Search\AddressToEntityDocumentSaveAction.cs" />
     <Compile Include="Search\OrganizationDocumentSaveAction.cs" />
@@ -358,6 +358,7 @@
     <Compile Include="Service\Persons\ParticipantPersonsSevisService.cs" />
     <Compile Include="Service\Persons\ParticipantsToBeSentToSevis.cs" />
     <Compile Include="Service\Persons\PersonSevisServiceValidationEntity.cs" />
+    <Compile Include="Service\Persons\ParticipantSevisSubmissionInfo.cs" />
     <Compile Include="Service\Persons\UpdatedParticipantExchangeVisitor.cs" />
     <Compile Include="Service\Persons\UpdatedParticipantPersonSevis.cs" />
     <Compile Include="Service\Persons\UpdatedParticipantPerson.cs" />
@@ -549,7 +550,6 @@
     <Compile Include="Service\Reports\IReportService.cs" />
     <Compile Include="Service\Reports\ReportService.cs" />
     <Compile Include="Service\Sevis\IDS2019FileProvider.cs" />
-    <Compile Include="Service\Sevis\IDummyCloudStorage.cs" />
     <Compile Include="Service\Sevis\ISevisBatchProcessingNotificationService.cs" />
     <Compile Include="Service\Sevis\ISevisBatchProcessingService.cs" />
     <Compile Include="Service\Sevis\SevisBatchProcessingService.cs" />
@@ -636,6 +636,10 @@
     <ProjectReference Include="..\ECA.Business.Sevis.Model\ECA.Business.Sevis.Model.csproj">
       <Project>{55a1102d-da8f-41e7-8955-85e62e9c01a6}</Project>
       <Name>ECA.Business.Sevis.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ECA.Business.Storage\ECA.Business.Storage.csproj">
+      <Project>{8dd0c39a-6734-402f-8fdb-baf9fb7697e0}</Project>
+      <Name>ECA.Business.Storage</Name>
     </ProjectReference>
     <ProjectReference Include="..\ECA.Core.DynamicLinq\ECA.Core.DynamicLinq.csproj">
       <Project>{2ffe2c53-412a-43ae-840d-470901649ed8}</Project>

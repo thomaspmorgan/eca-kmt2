@@ -1239,4 +1239,32 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="LastUploadTry" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="b5361bb3-f309-4435-a7a7-d96395ab042d" ChangeDateTime="04/15/2016 19:00:08">
+    <Property Name="ElementName" Value="[dbo].[FK_PersonDependentCitizenCountry_DependentId]" />
+    <Property Name="ElementType" Value="SqlForeignKeyConstraint" />
+    <Property Name="ParentElementName" Value="[dbo].[PersonDependentCitizenCountry]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="[FK_dbo.PersonDependentCitizenCountry_DependentId]" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="8e3229f0-e126-4338-82d1-1851a898ec0b" ChangeDateTime="04/15/2016 19:00:31">
+    <Property Name="ElementName" Value="[dbo].[FK_PersonDependentCitizenCountry_Locationid]" />
+    <Property Name="ElementType" Value="SqlForeignKeyConstraint" />
+    <Property Name="ParentElementName" Value="[dbo].[PersonDependentCitizenCountry]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="[FK_dbo.PersonDependentCitizenCountry_Locationid]" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="ed9009c5-b6ef-44e0-8840-b55af43ace8a" ChangeDateTime="04/15/2016 19:00:41">
+    <Property Name="ElementName" Value="[dbo].[FK_dbo.PersonDependentCitizenCountry_Locationid]" />
+    <Property Name="ElementType" Value="SqlForeignKeyConstraint" />
+    <Property Name="ParentElementName" Value="[dbo].[PersonDependentCitizenCountry]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="[FK_dbo.PersonDependentCitizenCountry_LocationId]" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="b3971c75-d94b-4277-bea8-074665f7233d" ChangeDateTime="04/21/2016 19:18:08">
+    <Property Name="ElementName" Value="[dbo].[ParticipantPerson].[DS2019FileUrl]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[ParticipantPerson]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="DS2019FileName" />
+  </Operation>
 </Operations>

@@ -75,6 +75,7 @@ angular.module('staticApp')
 
       $scope.view.save = function () {
           $scope.view.isSaving = true;
+          $scope.view.moneyFlow.peerEntityTypeId = ($scope.view.moneyFlow.peerEntityTypeId == ConstantsService.fundingSourceType) ? ConstantsService.moneyFlowSourceRecipientType.organization.id : $scope.view.moneyFlow.peerEntityTypeId
           return MoneyFlowService.create($scope.view.moneyFlow)
           .then(function (response) {
               NotificationService.showSuccessMessage("Successfully saved the new funding.");
@@ -180,12 +181,19 @@ angular.module('staticApp')
           onModelChange($scope.view.moneyFlow);
           $scope.view.loadValuesThatCanFilterPeerEntities(null, $scope.view.moneyFlow);
           $scope.view.getPeers(null);
+          // clear peer, year and parent money flow selected models to clear dropdowns
+          $scope.view.moneyFlow.peerEntity = null;
+          $scope.view.moneyFlow.fiscalYear = null;
+          $scope.view.moneyFlow.parentMoneyFlowId = null;
       }
 
       $scope.view.onSelectPeer = function ($item, $model) {
           console.assert($model.peerEntityId, "The $model must have the peer entity id defined.");
           console.assert($scope.view.moneyFlow.peerEntityTypeId, "The money flow must have the peer entity type id defined.");
           $scope.view.moneyFlow.peerEntityId = $model.peerEntityId;
+          // clear year and parent money flow selected models to clear dropdowns
+          $scope.view.moneyFlow.fiscalYear = null;
+          $scope.view.moneyFlow.parentMoneyFlowId = null;
           loadSourceMoneyFlows($scope.view.moneyFlow);
       }
 
@@ -279,6 +287,12 @@ angular.module('staticApp')
               idMapFn = function (role) { return role.id; };
               valueMapFn = function (role) { return role.name; };
           }
+          else if (peerEntityTypeId === ConstantsService.fundingSourceType) {
+              loadFn = LookupService.getOrganizationalRoles;
+              propertyToFilter = 'value'
+              idMapFn = function (role) { return role.id; };
+              valueMapFn = function (role) { return role.value; };
+          }
 
           $scope.view.thisEntityCanFilterPeerEntities =
               filterEntityTypeId !== 0
@@ -309,6 +323,9 @@ angular.module('staticApp')
                       item.id = idMapFn(item);
                       item.value = valueMapFn(item);
                   });
+                  //remove Funding Source from Roles
+                  data.splice(data.indexOf({ id: ConstantsService.organizationRole.fundingSource.id, value: ConstantsService.organizationRole.fundingSource.value }), 1);
+
                   $scope.view.valuesThatCanFilterPeerEntities = data;
                   $scope.view.valuesThatCanFilterPeerEntitiesCount = total;
                   return $scope.view.valuesThatCanFilterPeerEntities;
@@ -374,7 +391,7 @@ angular.module('staticApp')
               entityId = entity.entityId;
           }
           else {
-              peerEntityTypeId = moneyFlow.peerEntityTypeId;
+              peerEntityTypeId = (moneyFlow.peerEntityTypeId == ConstantsService.fundingSourceType) ? ConstantsService.moneyFlowSourceRecipientType.organization.id : moneyFlow.peerEntityTypeId
               entityId = moneyFlow.peerEntityId;
           }
           if (peerEntityTypeId && entityId) {
@@ -457,6 +474,9 @@ angular.module('staticApp')
           else if (peerEntityTypeId === ConstantsService.moneyFlowSourceRecipientType.participant.id) {
               return handleParticipantSearchResponse(response);
           }
+          else if (peerEntityTypeId === ConstantsService.fundingSourceType) {
+              return handleOrganizationsSearchResponse(response);
+          }
           else {
               throw Error("The peer entity type id [" + peerEntityTypeId + "] is not yet supported.");
           }
@@ -531,14 +551,14 @@ angular.module('staticApp')
           else if (peerEntityTypeId === ConstantsService.moneyFlowSourceRecipientType.organization.id) {
               return OrganizationService.getOrganizations(searchParams).then(thenCallback).catch(catchCallback);
           }
-          else if (peerEntityTypeId === ConstantsService.moneyFlowSourceRecipientType.organization.id) {
-              return OrganizationService.getOrganizations(searchParams).then(thenCallback).catch(catchCallback);
-          }
           else if (peerEntityTypeId === ConstantsService.moneyFlowSourceRecipientType.office.id) {
               return OfficeService.getAll(searchParams).then(thenCallback).catch(catchCallback);
           }
           else if (peerEntityTypeId === ConstantsService.moneyFlowSourceRecipientType.participant.id) {
               return ParticipantService.getParticipantsByProject(entity.entityId, searchParams).then(thenCallback).catch(catchCallback);
+          }
+          else if (peerEntityTypeId === ConstantsService.fundingSourceType) {
+              return OrganizationService.getOrganizations(searchParams).then(thenCallback).catch(catchCallback);
           }
           else {
               throw Error("The peer entity type id [" + peerEntityTypeId + "] is not yet supported.");
@@ -588,6 +608,11 @@ angular.module('staticApp')
                   console.assert(filterByValue.id, 'The filter by value id must have a value.  Its a look up for participant status to filter by.');
                   searchFilter = searchFilter.equal('statusId', filterByValue.id);
               }
+          }
+          else if (peerEntityTypeId === ConstantsService.fundingSourceType) {
+              namePropertyName = 'name';
+              idPropertyName = 'organizationId';
+              searchFilter = searchFilter.containsAny('organizationRoleIds', [ConstantsService.organizationRole.fundingSource.id]);
           }
           else {
               throw Error("The peer entity type id [" + peerEntityTypeId + "] is not yet supported.");
@@ -689,6 +714,7 @@ angular.module('staticApp')
           return LookupService.getAllowedSourceMoneyFlowSourceRecipientTypesByRecipientTypeId(entity.entityTypeId)
           .then(function (response) {
               $scope.view.allowedSourceMoneyFlowSourceRecipientTypes = response.data;
+              addFundingSource();
           })
           .catch(function (response) {
               var message = "Unable to load money flow source recipient types.";
@@ -697,17 +723,27 @@ angular.module('staticApp')
           });
       }
 
-      function getAllMoneyFlowTypes() {
-          return LookupService.getAllMoneyFlowTypes(lookupParams)
-          .then(function (response) {
-              $scope.view.moneyFlowTypes = response.data.results;
-          })
-          .catch(function (response) {
-              var message = "Unable to load money flow types.";
-              $log.error(message);
-              NotificationService.showErrorMessage(message);
-          });
+      function addFundingSource() {
+
+          if ((entity.entityTypeId === ConstantsService.moneyFlowSourceRecipientType.project.id) ||
+             (entity.entityTypeId === ConstantsService.moneyFlowSourceRecipientType.program.id) ||
+             (entity.entityTypeId === ConstantsService.moneyFlowSourceRecipientType.office.id) ||
+             (entity.entityTypeId === ConstantsService.moneyFlowSourceRecipientType.organization.id)) {
+              $scope.view.allowedSourceMoneyFlowSourceRecipientTypes.push({ id: ConstantsService.fundingSourceType, name: "Funding Source" });
+          }
       }
+
+      //function getAllMoneyFlowTypes() {
+      //    return LookupService.getAllMoneyFlowTypes(lookupParams)
+      //    .then(function (response) {
+      //        $scope.view.allowedSourceMoneyFlowSourceRecipientTypes = response.data;
+      //    })
+      //    .catch(function (response) {
+      //        var message = "Unable to load money flow types.";
+      //        $log.error(message);
+      //        NotificationService.showErrorMessage(message);
+      //    });
+      //}
 
       function getAllMoneyFlowStati() {
           return LookupService.getAllMoneyFlowStati(lookupParams)
@@ -722,7 +758,7 @@ angular.module('staticApp')
       }
 
       $scope.view.isLoadingRequiredData = true;
-      $q.all([getAllowedRecipientMoneyFlowSourceRecipientTypes(), getAllowedSourceMoneyFlowSourceRecipientTypes(), getAllMoneyFlowTypes(), getAllMoneyFlowStati()])
+      $q.all([getAllowedRecipientMoneyFlowSourceRecipientTypes(), getAllowedSourceMoneyFlowSourceRecipientTypes(), getAllMoneyFlowStati()])
         .then(function () {
             $scope.view.isLoadingRequiredData = false;
             if (entity.isCopy) {

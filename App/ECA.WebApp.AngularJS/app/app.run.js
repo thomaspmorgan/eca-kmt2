@@ -11,6 +11,7 @@ angular.module('staticApp')
             { name: 'Programs', state: 'allprograms' },
             { name: 'People', state: 'allpeople' },
             { name: 'Organizations', state: 'allorganizations' },
+            { name: 'Funding Sources', state: 'allfunding'},
             { name: 'Activities', state: 'activities' },
             { name: 'Reports', state: 'reports.archive' },
             { name: 'Partners', state: 'home.notifications' }
@@ -87,7 +88,6 @@ angular.module('staticApp')
               if(!authenticated && toState.name !== 'consent') {
                   // Need to remove the hash
                   var savedPath = $state.href(toState.name, toParams).slice(1);
-                  console.log(savedPath);
                   localStorage.setItem('savedPath', savedPath);
                   event.preventDefault();
                   $state.go('consent');
@@ -96,11 +96,17 @@ angular.module('staticApp')
 
           $rootScope.$on("adal:loginSuccess", function () {
               loginSuccess = true;
+              AppSettingsService.get()
+                 .then(function (response) {
+                     Idle.setIdle(parseInt(response.data.idleDurationInSeconds));
+                     Idle.setTimeout(parseInt(response.data.idleTimeoutInSeconds));
+                     Idle.watch();
+                 }, function (error) {
+                     console.log(error);
+                 });
           });
 
-
           $rootScope.$on('$stateChangeSuccess', function () {
-              //$location.hash('top');
               closeMenus();
           });
 
@@ -122,17 +128,6 @@ angular.module('staticApp')
               // Prevent the transition from happening
               event.preventDefault();
           });
-
-          AppSettingsService.get()
-         .then(function (response) {
-             Idle.setIdle(parseInt(response.data.idleDurationInSeconds));
-             Idle.setTimeout(parseInt(response.data.idleTimeoutInSeconds));
-         }, function () {
-             console.log('Unable to load app settings.');
-         });
-
-          Idle.watch();
-
 
           var modalInstance;
 

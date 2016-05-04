@@ -293,7 +293,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             instance.BirthCity = null;
             result = validator.Validate(instance);
             Assert.IsFalse(result.IsValid);
-            Assert.AreEqual(1, result.Errors.Count);            
+            Assert.AreEqual(1, result.Errors.Count);
             Assert.AreEqual(
                 String.Format(BiographicalTestClassValidator.CITY_OF_BIRTH_REQUIRED_ERROR_MESSAGE, validator.GetPersonType(instance), validator.GetNameDelegate()(instance)),
                 result.Errors.First().ErrorMessage);
@@ -354,7 +354,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             instance.BirthCountryCode = null;
             result = validator.Validate(instance);
             Assert.IsFalse(result.IsValid);
-            Assert.AreEqual(1, result.Errors.Count);            
+            Assert.AreEqual(1, result.Errors.Count);
             Assert.AreEqual(
                 String.Format(BiographicalTestClassValidator.BIRTH_COUNTRY_CODE_ERROR_MESSAGE, validator.GetPersonType(instance), validator.GetNameDelegate()(instance)),
                 result.Errors.First().ErrorMessage);
@@ -527,13 +527,13 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             instance.PhoneNumber = "abc";
             result = validator.Validate(instance);
             Assert.IsFalse(result.IsValid);
-            Assert.AreEqual(1, result.Errors.Count);            
+            Assert.AreEqual(1, result.Errors.Count);
 
             Assert.AreEqual(
                 String.Format(BiographicalTestClassValidator.PHONE_NUMBER_ERROR_MESSAGE,
                 Data.PhoneNumberType.Visiting.Value,
                 instance.PhoneNumber,
-                validator.GetPersonType(instance), 
+                validator.GetPersonType(instance),
                 validator.GetNameDelegate()(instance),
                 formattedExample),
                 result.Errors.First().ErrorMessage);

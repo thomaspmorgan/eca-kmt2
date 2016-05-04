@@ -45,7 +45,7 @@ namespace ECA.Business.Validation.Sevis.Finance
                 .WithState(x => new FundingErrorPath())
                 .Length(1, NAME_MAX_LENGTH)
                 .WithMessage(OTHER_ORGNAIZATION_FUNDING_ERROR_MESSAGE)
-                .WithState(x => new FundingErrorPath()); 
+                .WithState(x => new FundingErrorPath());
 
             RuleFor(x => x.Amount)
                 .NotNull()

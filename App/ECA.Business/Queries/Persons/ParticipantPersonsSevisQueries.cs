@@ -76,7 +76,8 @@ namespace ECA.Business.Queries.Persons
                             SevisStatus = latestStatusCommStatus != null ? latestStatusCommStatus.SevisCommStatusName : NONE_SEVIS_COMM_STATUS_NAME,
                             SevisStatusId = latestStatusCommStatus != null ? latestStatusCommStatus.SevisCommStatusId : NONE_SEVIS_COMM_STATUS_ID,
                             IsCreatedViaBatch = createdByBatch != null ? true : false,
-                            IsValidatedViaBatch = validatedByBatch != null ? true : false
+                            IsValidatedViaBatch = validatedByBatch != null ? true : false,
+                            HasDS2019 = p.DS2019FileName != null ? true : false
                         };
             return query;
         }

@@ -159,11 +159,30 @@ namespace ECA.Business.Service.Persons
             if (!result.IsValid)
             {
                 var latestCommStatus = await CreateGetLatestParticipantPersonSevisCommStatusQuery(person.ParticipantId).FirstOrDefaultAsync();
-                return AddOrUpdateParticipantPersonSevisCommStatus(latestCommStatus, person.ParticipantId, SevisCommStatus.InformationRequired.Id);
+                if (person.StartDate < DateTimeOffset.UtcNow
+                    && !String.IsNullOrWhiteSpace(person.SevisId)
+                    && !(await HasParticipantBeenValidatedByBatchAsync(person.ParticipantId)))
+                {
+                    return AddOrUpdateParticipantPersonSevisCommStatus(latestCommStatus, person.ParticipantId, SevisCommStatus.NeedsValidationInfo.Id);
+                }
+                else
+                {
+                    return AddOrUpdateParticipantPersonSevisCommStatus(latestCommStatus, person.ParticipantId, SevisCommStatus.InformationRequired.Id);
+                }
             }
             else
             {
-                return AddParticipantPersonSevisCommStatus(person.ParticipantId, SevisCommStatus.ReadyToSubmit.Id);
+                //should only be running validation one time
+                if (person.StartDate < DateTimeOffset.UtcNow
+                    && !String.IsNullOrWhiteSpace(person.SevisId)
+                    && !(await HasParticipantBeenValidatedByBatchAsync(person.ParticipantId)))
+                {
+                    return AddParticipantPersonSevisCommStatus(person.ParticipantId, SevisCommStatus.ReadyToValidate.Id);
+                }
+                else
+                {
+                    return AddParticipantPersonSevisCommStatus(person.ParticipantId, SevisCommStatus.ReadyToSubmit.Id);
+                }
             }
         }
 
@@ -171,13 +190,32 @@ namespace ECA.Business.Service.Persons
         {
             person.SevisValidationResult = GetSevisValidationResultAsJson(result);
             if (!result.IsValid)
-            {   
+            {
                 var latestCommStatus = CreateGetLatestParticipantPersonSevisCommStatusQuery(person.ParticipantId).FirstOrDefault();
-                return AddOrUpdateParticipantPersonSevisCommStatus(latestCommStatus, person.ParticipantId, SevisCommStatus.InformationRequired.Id);
+                if (person.StartDate < DateTimeOffset.UtcNow
+                    && !String.IsNullOrWhiteSpace(person.SevisId)
+                    && !HasParticipantBeenValidatedByBatch(person.ParticipantId))
+                {
+                    return AddOrUpdateParticipantPersonSevisCommStatus(latestCommStatus, person.ParticipantId, SevisCommStatus.NeedsValidationInfo.Id);
+                }
+                else
+                {
+                    return AddOrUpdateParticipantPersonSevisCommStatus(latestCommStatus, person.ParticipantId, SevisCommStatus.InformationRequired.Id);
+                }
             }
             else
             {
-                return AddParticipantPersonSevisCommStatus(person.ParticipantId, SevisCommStatus.ReadyToSubmit.Id);
+                //should only be running validation one time
+                if (person.StartDate < DateTimeOffset.UtcNow
+                    && !String.IsNullOrWhiteSpace(person.SevisId)
+                    && !HasParticipantBeenValidatedByBatch(person.ParticipantId))
+                {
+                    return AddParticipantPersonSevisCommStatus(person.ParticipantId, SevisCommStatus.ReadyToValidate.Id);
+                }
+                else
+                {
+                    return AddParticipantPersonSevisCommStatus(person.ParticipantId, SevisCommStatus.ReadyToSubmit.Id);
+                }
             }
         }
 
@@ -205,6 +243,22 @@ namespace ECA.Business.Service.Persons
             return Context.ParticipantPersonSevisCommStatuses.Where(x => x.ParticipantId == participantId).OrderByDescending(x => x.AddedOn);
         }
 
+        private bool HasParticipantBeenValidatedByBatch(int participantId)
+        {
+            return CreateGetParticipantPersonSevisCommStatusBySevisCommStatusIdQuery(participantId, SevisCommStatus.ValidatedByBatch.Id).Count() > 0;
+        }
+
+        private async Task<bool> HasParticipantBeenValidatedByBatchAsync(int participantId)
+        {
+            return (await CreateGetParticipantPersonSevisCommStatusBySevisCommStatusIdQuery(participantId, SevisCommStatus.ValidatedByBatch.Id).CountAsync()) > 0;
+        }
+
+        private IQueryable<ParticipantPersonSevisCommStatus> CreateGetParticipantPersonSevisCommStatusBySevisCommStatusIdQuery(int participantId, int sevisCommStatusId)
+        {
+            return Context.ParticipantPersonSevisCommStatuses.Where(x => x.ParticipantId == participantId && x.SevisCommStatusId == sevisCommStatusId);
+        }
+
+
         private ParticipantPersonSevisCommStatus AddParticipantPersonSevisCommStatus(int participantId, int commStatusId)
         {
             var status = new ParticipantPersonSevisCommStatus
@@ -225,7 +279,8 @@ namespace ECA.Business.Service.Persons
             }
             else
             {
-                if (latestStatus.SevisCommStatusId == SevisCommStatus.InformationRequired.Id)
+                if (latestStatus.SevisCommStatusId == SevisCommStatus.InformationRequired.Id
+                    || latestStatus.SevisCommStatusId == SevisCommStatus.NeedsValidationInfo.Id)
                 {
                     latestStatus.AddedOn = DateTimeOffset.UtcNow;
                     return latestStatus;

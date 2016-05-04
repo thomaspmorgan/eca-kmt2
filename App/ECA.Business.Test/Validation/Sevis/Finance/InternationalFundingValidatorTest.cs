@@ -20,18 +20,18 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
             string org2 = null;
             string otherName2 = null;
             Func<InternationalFunding> createEntity = () =>
-             {
-                 return new InternationalFunding(
-                     org1: org1,
-                     otherName1: otherName1,
-                     amount1: amount1,
-                     org2: org2,
-                     otherName2: otherName2,
-                     amount2: amount2
-                 );
-             };
+            {
+                return new InternationalFunding(
+                    org1: org1,
+                    otherName1: otherName1,
+                    amount1: amount1,
+                    org2: org2,
+                    otherName2: otherName2,
+                    amount2: amount2
+                );
+            };
             var validator = new InternationalFundingValidator();
-            
+
             org1 = new string('a', InternationalFundingValidator.ORG_CODE_MAX_LENGTH);
             amount1 = "1";
             var instance = createEntity();
@@ -155,7 +155,7 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
             org1 = "abc";
             amount1 = "1234";
             var instance = createEntity();
-            
+
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
 
@@ -189,7 +189,7 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
                 );
             };
             var validator = new InternationalFundingValidator();
-            
+
             org1 = "abc";
             amount1 = "1234";
             var instance = createEntity();
@@ -230,7 +230,7 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
             org1 = "abc";
             amount1 = "1234";
             var instance = createEntity();
-            
+
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
 
@@ -264,7 +264,7 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
                 );
             };
             var validator = new InternationalFundingValidator();
-            
+
             org1 = "abc";
             amount1 = "1";
             org2 = "xyz";
@@ -303,7 +303,7 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
                 );
             };
             var validator = new InternationalFundingValidator();
-            
+
             org1 = "abc";
             amount1 = "1";
             org2 = "xyz";
@@ -342,7 +342,7 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
                 );
             };
             var validator = new InternationalFundingValidator();
-            
+
             org1 = "abc";
             amount1 = "1";
             org2 = "xyz";
@@ -381,7 +381,7 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
                 );
             };
             var validator = new InternationalFundingValidator();
-            
+
             org1 = "abc";
             amount1 = "1";
             org2 = null;
@@ -461,7 +461,7 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
                 );
             };
             var validator = new InternationalFundingValidator();
-            
+
             org1 = new string('a', InternationalFundingValidator.ORG_CODE_MAX_LENGTH);
             amount1 = "1";
             org2 = new string('a', InternationalFundingValidator.ORG_CODE_MAX_LENGTH);
@@ -509,7 +509,7 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
                 );
             };
             var validator = new InternationalFundingValidator();
-            
+
 
             org1 = InternationalFundingValidator.OTHER_ORG_CODE;
             amount1 = "1";
@@ -552,7 +552,7 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
                 );
             };
             var validator = new InternationalFundingValidator();
-            
+
 
             org1 = InternationalFundingValidator.OTHER_ORG_CODE;
             amount1 = "1";
@@ -566,7 +566,7 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
             var instance = createEntity();
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
-            
+
             otherName2 = null;
             instance = createEntity();
             result = validator.Validate(instance);

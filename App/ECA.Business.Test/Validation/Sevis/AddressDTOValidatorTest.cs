@@ -231,7 +231,7 @@ namespace ECA.Business.Test.Validation.Sevis
             Assert.AreEqual(String.Format(AddressDTOValidator.POSTAL_CODE_ERROR_MESSAGE, name, AddressDTOValidator.POSTAL_CODE_LENGTH), result.Errors.First().ErrorMessage);
             Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(AddressErrorPath));
         }
-        
+
 
         [TestMethod]
         public void TestCity_ExceedsMaxLength()

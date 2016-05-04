@@ -1,14 +1,20 @@
 ﻿using CAM.Data;
 using ECA.Business.Queries.Models.Persons;
+using ECA.Business.Queries.Models.Sevis;
 using ECA.Business.Service.Persons;
 using ECA.Business.Validation.Sevis;
 using ECA.Core.DynamicLinq;
 using ECA.Core.DynamicLinq.Sorter;
 using ECA.Core.Query;
+using ECA.Core.Settings;
+using ECA.WebApi.Custom.Storage;
 using ECA.WebApi.Models.Person;
 using ECA.WebApi.Models.Query;
 using ECA.WebApi.Security;
+using System;
 using System.Diagnostics.Contracts;
+using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
@@ -34,17 +40,23 @@ namespace ECA.WebApi.Controllers.Persons
 
         private IParticipantPersonsSevisService participantService;
         private IUserProvider userProvider;
+        private IFileStorageHandler storageHandler;
+        private AppSettings appSettings;
 
         /// <summary>
         /// Creates a new ParticipantPersonsSevisController with the given service.
         /// </summary>
         /// <param name="participantService">The participant person sevis service.</param>
         /// <param name="userProvider">The user provider</param>
-        public ParticipantPersonsSevisController(IParticipantPersonsSevisService participantService, IUserProvider userProvider)
+        public ParticipantPersonsSevisController(IParticipantPersonsSevisService participantService, IUserProvider userProvider, IFileStorageHandler storageHandler, AppSettings appSettings)
         {
             Contract.Requires(participantService != null, "The participantPersonSevis service must not be null.");
+            Contract.Requires(userProvider != null, "The user provider must not be null.");
+            Contract.Requires(storageHandler != null, "The storage handler must not be null.");
             this.participantService = participantService;
             this.userProvider = userProvider;
+            this.storageHandler = storageHandler;
+            this.appSettings = appSettings;
         }
 
         /// <summary>
@@ -61,7 +73,8 @@ namespace ECA.WebApi.Controllers.Persons
             {
                 var results = await participantService.GetSevisParticipantsByProjectIdAsync(projectId, queryModel.ToQueryableOperator(DEFAULT_SORTER, x => x.FullName, x => x.SevisStatus, x => x.SevisId));
                 return Ok(results);
-            } else
+            }
+            else
             {
                 return BadRequest(ModelState);
             }
@@ -111,6 +124,23 @@ namespace ECA.WebApi.Controllers.Persons
         }
 
         /// <summary>
+        /// Retrieves the participantPersonSevis comm statuses with the given id.
+        /// </summary>
+        /// <param name="participantId">The id of the participant.</param>
+        /// <param name="projectId">The id of the project.</param>
+        /// <param name="batchId">The BatchId to process.</param>
+        /// <returns>The participantPersonSevis with the given id.</returns>
+        [ResponseType(typeof(SevisBatchInfoDTO))]
+        [Route("Project/{projectId:int}/ParticipantPersonsSevis/{participantId:int}/Batch/{batchId}")]
+        public async Task<IHttpActionResult> GetSevisBatchProcessingInfoAsync(int projectId, int participantId, string batchId)
+        {
+            var currentUser = this.userProvider.GetCurrentUser();
+            var businessUser = this.userProvider.GetBusinessUser(currentUser);
+            var info = await participantService.GetBatchInfoByBatchIdAsync(businessUser.Id, projectId, participantId, batchId);
+            return Ok(info);
+        }
+
+        /// <summary>
         /// Updates the new participantPersonSevis with the given participantId.
         /// </summary>
         /// <param name="model">The new email address.</param>
@@ -121,7 +151,7 @@ namespace ECA.WebApi.Controllers.Persons
         [ResourceAuthorize(Permission.EDIT_SEVIS_VALUE, ResourceType.PROJECT_VALUE, "projectId")]
         [ResponseType(typeof(ParticipantPersonSevisDTO))]
         public async Task<IHttpActionResult> PutParticipantPersonsSevisAsync(int projectId, [FromBody]UpdatedParticipantPersonSevisBindingModel model)
-        {   
+        {
             if (ModelState.IsValid)
             {
                 var currentUser = userProvider.GetCurrentUser();
@@ -151,7 +181,7 @@ namespace ECA.WebApi.Controllers.Persons
         {
             if (ModelState.IsValid)
             {
-                var currentUser = userProvider.GetCurrentUser();                
+                var currentUser = userProvider.GetCurrentUser();
                 var businessUser = userProvider.GetBusinessUser(currentUser);
                 var hasSevisCredentials = await userProvider.HasSevisUserAccountAsync(currentUser, model.SevisUsername, model.SevisOrgId);
                 if (!hasSevisCredentials)
@@ -167,6 +197,30 @@ namespace ECA.WebApi.Controllers.Persons
             {
                 return BadRequest(ModelState);
             }
+        }
+
+        /// <summary>
+        /// Gets the DS2019 file asyncronously
+        /// </summary>
+        /// <param name="projectId">The project id</param>
+        /// <param name="participantId">The participant id</param>
+        /// <returns>DS2019 file</returns>
+        [Route("Project/{projectId:int}/ParticipantPersonSevis/{participantId:int}/DS2019File")]
+        [ResourceAuthorize(Permission.EDIT_SEVIS_VALUE, ResourceType.PROJECT_VALUE, "projectId")]
+        public async Task<HttpResponseMessage> GetDS2019FileAsync(int projectId, int participantId)
+        {
+            var fileName = await participantService.GetDS2019FileNameAsync(projectId, participantId);
+            if (fileName != null)
+            {
+                var container = appSettings.DS2019FileStorageContainer;
+                var message = await storageHandler.GetFileAsync(fileName, container);
+                if (message != null)
+                {
+                    return message;
+                }
+            } 
+
+            return Request.CreateErrorResponse(HttpStatusCode.NotFound, "File not found.");
         }
     }
 }

@@ -177,7 +177,7 @@ namespace ECA.Business.Test.Service.Admin
             Assert.AreEqual(bookmark.OfficeId, firstResult.OfficeId);
             Assert.AreEqual(bookmark.PrincipalId, firstResult.PrincipalId);
             Assert.AreEqual(bookmark.Automatic, firstResult.Automatic);
-            bookmark.AddedOn.Should().BeCloseTo(DateTimeOffset.Now, 3000);
+            bookmark.AddedOn.Should().BeCloseTo(DateTimeOffset.Now, 6000);
             Assert.AreEqual("Office", firstResult.Type);
             Assert.AreEqual(office.OfficeSymbol, firstResult.OfficeSymbolOrStatus);
             Assert.AreEqual(office.Name, firstResult.Name);

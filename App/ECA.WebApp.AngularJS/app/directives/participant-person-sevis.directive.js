@@ -9,6 +9,7 @@
         '$log',
         '$q',
         '$filter',
+        '$modal',
         'LookupService',
         'FilterService',
         'NotificationService',
@@ -16,13 +17,18 @@
         'StateService',
         'MessageBox',
         'ConstantsService',
+        'UiGridFilterService',
         'smoothScroll',
-        '$state'];
+        '$state',
+        '$timeout',
+        'DownloadService',
+        'uiGridConstants'];
 
     function participantPersonSevis(
         $log,
         $q,
         $filter,
+        $modal,
         LookupService,
         FilterService,
         NotificationService,
@@ -30,8 +36,12 @@
         StateService,
         MessageBox,
         ConstantsService,
+        UiGridFilterService,
         smoothScroll,
-        $state) {
+        $state,
+        $timeout,
+        DownloadService,
+        uiGridConstants) {
         // Usage:
         //     <participant_person_sevis participantId={{id}} active=activevariable, update=updatefunction></participant_person_sevis>
         // Creates:
@@ -50,50 +60,84 @@
             templateUrl: 'app/directives/participant-person-sevis.directive.html',
             controller: function ($scope, $attrs) {
                 var limit = 300;
-                var paginationOptions = {
-                    pageNumber: 1,
-                    pageSize: 25,
-                    sort: null,
-                    keyword: null,
-                    filter: null
-                };
-
-                $scope.edit = [];
+                var defaultPageSize = 10;
+                UiGridFilterService.setPageSize(defaultPageSize);
+                $scope.edit = {};
                 $scope.view = {};
                 $scope.view.PositionAndField = false;
                 $scope.view.PositionAndFieldEdit = false;
+                $scope.edit.sevisCommStatuses = [];
                 $scope.edit.isStartDatePickerOpen = false;
                 $scope.edit.isEndDatePickerOpen = false;
                 $scope.view.Funding = false;
                 $scope.view.FundingEdit = false;
                 $scope.positionAndFieldElementId = 'positionAndField' + $scope.participantid;
                 $scope.fundingElementId = 'funding' + $scope.participantid;
+                $scope.pageTimeout = null;
+
+                $scope.highlightFilteredHeader = function (row, rowRenderIndex, col, colRenderIndex) {
+                    if (col.filters[0].term) {
+                        return 'header-filtered';
+                    } else {
+                        return '';
+                    }
+                };
+
+                $scope.columns = [
+                    { name: 'addedOn', displayName: 'Date', type: 'date', cellFilter: 'date:\'MMM dd, yyyy hh:mm a\'', enableFiltering: false },
+                    {
+                        name: 'sevisCommStatusName',
+                        displayName: 'Status',
+                        filter: {
+                            noTerm: true,
+                            type: uiGridConstants.filter.SELECT,
+                            selectOptions: [],
+                            field: 'sevisCommStatusId'
+                        },
+                        headerCellClass: $scope.highlightFilteredHeader                        
+                    },
+                    { name: 'displayName', displayName: 'User' },
+                    {
+                        name: 'batchId',
+                        cellTemplate:
+                        '<div class="ui-grid-cell-contents">'
+                        + '<a ng-click="grid.appScope.onBatchIdClick(row.entity)" ng-bind="row.entity.batchId"></a>'
+                        + '</div>'
+                    }
+                ];
 
                 $scope.view.gridOptions = {
-                    paginationPageSizes: [25, 50, 75],
-                    paginationPageSize: 25,
+                    paginationPageSizes: [defaultPageSize, 25, 50, 75],
+                    paginationPageSize: defaultPageSize,
                     useExternalPagination: true,
+                    useExternalSorting: true,
+                    useExternalFiltering: true,
+                    enableFiltering: true,
                     multiSelect: false,
-                    columnDefs: [
-                      { name: 'addedOn', displayName: 'Date', type: 'date', cellFilter: 'date:\'MMM dd, yyyy hh:mm a\'' },
-                      { name: 'sevisCommStatusName', displayName: 'Status' },
-                      { name: 'displayName', displayName: 'User' },
-                      { name: 'batchId' }
+                    enableGridMenu: true,
+                    gridMenuCustomItems: [
+                      {
+                          title: 'Refresh',
+                          action: function ($event) {
+                              getSevisCommStatusesPage();
+                          },
+                          order: 210
+                      }
                     ],
+                    columnDefs: $scope.columns,
                     onRegisterApi: function (gridApi) {
                         $scope.gridApi = gridApi;
                         $scope.gridApi.core.on.sortChanged($scope, function (grid, sortColumns) {
-                            if (sortColumns.length == 0) {
-                                paginationOptions.sort = null;
-                            } else {
-                                paginationOptions.sort = { property: sortColumns[0].name, direction: sortColumns[0].sort.direction };
-                                $scope.gridOptions.paginationCurrentPage = 1;
-                            }
+                            UiGridFilterService.setSort(grid, sortColumns);
                             getSevisCommStatusesPage();
                         });
                         gridApi.pagination.on.paginationChanged($scope, function (newPage, pageSize) {
-                            paginationOptions.pageNumber = newPage;
-                            paginationOptions.pageSize = pageSize;
+                            UiGridFilterService.setPagination(newPage, pageSize);
+                            getSevisCommStatusesPage();
+                        });
+                        $scope.gridApi.core.on.filterChanged($scope, function () {
+                            var grid = this.grid;
+                            UiGridFilterService.setFilters(grid);
                             getSevisCommStatusesPage();
                         });
                     }
@@ -110,6 +154,8 @@
                     if (newValue && !sevisInfoCopy) {
                         sevisInfoCopy = angular.copy(newValue);
                         projectId = newValue.projectId;
+                    } if (newValue != oldValue) {
+                        getSevisCommStatusesPage();
                     }
                 });
 
@@ -121,20 +167,34 @@
                     }
                 });
 
+                $scope.$on("$destroy", function (event) {
+                    if (angular.isDefined($scope.pageTimeout)) {
+                        $timeout.cancel($scope.pageTimeout);
+                    }
+                });
+
+                $scope.downloadDS2019 = function () {
+                    var url = 'Project/' + projectId + '/ParticipantPersonSevis/' + $scope.sevisinfo.participantId + '/DS2019File';
+                    DownloadService.get(url, 'application/pdf')
+                    .then(function () {
+
+                    }, function () {
+                        NotificationService.showErrorMessage('Unable to download file.');
+                    });
+                }
+
                 $scope.view.showNextSevisCommStatuses = function () {
                     $scope.view.maxNumberOfSevisCommStatusesToShow += $scope.view.sevisCommStatusesPageSize;
                 }
 
                 $scope.edit.onDosStatusChange = function ($event, checkboxId, checked) {
-                    var ok = function () {
+                    if (!$scope.sevisinfo.blockEdit) {
                         $scope.sevisinfo[checkboxId] = checked;
                         $scope.updatesevisinfo({ participantId: $scope.participantid });
                         sevisInfoCopy = angular.copy($scope.sevisinfo);
-                    };
-                    var cancel = function () {
-                        $scope.sevisinfo[checkboxId] = sevisInfoCopy[checkboxId];
-                    };
-                    promptUserToOverrideEdit(ok, cancel);
+                    } else {
+                        return false;
+                    }
                 }
 
                 $scope.edit.onStartDateChange = function () {
@@ -161,6 +221,30 @@
 
                 $scope.getSevisStartDateDivId = function (participantId) {
                     return 'sevisStartDate' + participantId;
+                }
+
+                $scope.onBatchIdClick = function (commStatus) {
+                    var modal = $modal.open({
+                        animation: true,
+                        templateUrl: 'app/projects/sevis-batch-processing-info-modal.html',
+                        controller: 'SevisBatchProcessingInfoModalCtrl',
+                        size: 'lg',
+                        resolve: {
+                            projectId: function () {
+                                return projectId;
+                            },
+                            sevisCommStatus: function () {
+                                return commStatus;
+                            }
+                        }
+                    });
+                    modal.result.then(function (addedLocation) {
+                        $log.info('Finished viewing sevis batch info.');
+                        modal.close();
+
+                    }, function () {
+                        $log.info('Modal dismissed at: ' + new Date());
+                    });
                 }
 
                 $scope.onErrorClick = function (error) {
@@ -220,79 +304,55 @@
                 };
 
                 $scope.edit.onFundingEditChange = function () {
-                    var ok = function () {
+                    if (!$scope.sevisinfo.blockEdit) {
                         $scope.view.FundingEdit = true;
                         $scope.view.GovtAgency1Other = ($scope.exchangevisitorinfo.govtAgency1Id == ConstantsService.otherUSGovernmentAgencyId);
                         $scope.view.GovtAgency2Other = ($scope.exchangevisitorinfo.govtAgency2Id == ConstantsService.otherUSGovernmentAgencyId);
                         $scope.view.IntlOrg1Other = ($scope.exchangevisitorinfo.intlOrg1Id == ConstantsService.otherInternationalOrganizationId);
                         $scope.view.IntlOrg2Other = ($scope.exchangevisitorinfo.intlOrg2Id == ConstantsService.otherInternationalOrganizationId);
-                    };
-                    var cancel = function () {
-                        $scope.view.FundingEdit = false;
-                    };
-                    promptUserToOverrideEdit(ok, cancel);
+                    } else {
+                        return false;
+                    }
                 };
 
                 $scope.edit.onPositionAndFieldEditChange = function () {
-                    var ok = function () {
+                    if (!$scope.sevisinfo.blockEdit) {
                         $scope.view.PositionAndFieldEdit = true;
                         loadFieldOfStudies($scope.exchangevisitorinfo.fieldOfStudy);
-                    };
-                    var cancel = function () {
-                        $scope.view.PositionAndFieldEdit = false;
-                    };
-                    promptUserToOverrideEdit(ok, cancel);
+                    } else {
+                        return false;
+                    }
                 }
 
                 function getSevisCommStatusesPage() {
-                    var params = {
-                        start: (paginationOptions.pageNumber - 1) * paginationOptions.pageSize,
-                        limit: ((paginationOptions.pageNumber - 1) * paginationOptions.pageSize) + paginationOptions.pageSize,
-                        sort: paginationOptions.sort,
-                        keyword: paginationOptions.keyword,
-                        filter: paginationOptions.filter
-                    };
-                    return ParticipantPersonsSevisService.getSevisCommStatuses(projectId, participantId, params)
-                    .then(function (response) {
-                        $scope.view.gridOptions.totalItems = response.data.total;
-                        $scope.view.gridOptions.data = response.data.results;
-                        return response.data.results;
-                    })
-                    .catch(function (response) {
-                        var message = "Unable to load sevis comm statuses for the participant.";
-                        $log.error(message);
-                        NotificationService.showErrorMessage(message);
-                    })
+                    if (angular.isDefined($scope.pageTimeout)) {
+                        $timeout.cancel($scope.pageTimeout);
+                    }
+
+                    $scope.pageTimeout = $timeout(function () {
+                        var params = UiGridFilterService.getParams();
+                        return ParticipantPersonsSevisService.getSevisCommStatuses(projectId, $scope.participantid, params)
+                        .then(function (response) {
+                            $scope.view.gridOptions.totalItems = response.data.total;
+                            $scope.view.gridOptions.data = response.data.results;
+                            return response.data.results;
+                        })
+                        .catch(function (response) {
+                            var message = "Unable to load sevis comm statuses for the participant.";
+                            $log.error(message);
+                            NotificationService.showErrorMessage(message);
+                        })
+                    }, 500);
                 }
 
                 function onFormDateChange(form, sevisInfoPropertyName) {
                     if (form.$valid) {
-                        var ok = function () {
+                        if (!$scope.sevisinfo.blockEdit) {
                             $scope.updatesevisinfo({ participantId: $scope.participantid });
                             sevisInfoCopy = angular.copy($scope.sevisinfo);
-                        };
-                        var cancel = function () {
-                            form.$setPristine();
-                            form.$setUntouched();
-                            $scope.sevisinfo[sevisInfoPropertyName] = sevisInfoCopy[sevisInfoPropertyName];
-                        };
-                        promptUserToOverrideEdit(ok, cancel);
-                    }
-                }
-
-                function promptUserToOverrideEdit(okCallback, cancelCallback) {
-                    if (notifyStatuses.indexOf($scope.sevisinfo.sevisStatusId.toString()) !== -1) {
-                        MessageBox.confirm({
-                            title: 'Confirm Edit',
-                            message: 'The SEVIS participant status of this person is ' + $scope.sevisinfo.sevisStatus + '. Are you sure you want to edit?',
-                            okText: 'Yes',
-                            cancelText: 'No',
-                            okCallback: okCallback,
-                            cancelCallback: cancelCallback
-                        });
-                    }
-                    else {
-                        okCallback();
+                        } else {
+                            return false;
+                        }
                     }
                 }
 
@@ -464,10 +524,36 @@
                     });
                 }
 
+                function loadSevisCommStatuses() {
+                    var commStatusFilter = FilterService.add('project-participant-editSevis-allseviscommstatuses');
+                    commStatusFilter = commStatusFilter.skip(0).take(limit);
+                    return LookupService.getSevisCommStatuses(commStatusFilter.toParams())
+                    .then(function (response) {
+                        if (response.data.total > limit) {
+                            var message = "The number of sevis comm statuses loaded is less than the total number.  Some sevis comm statuses may not be shown."
+                            NotificationService.showErrorMessage(message);
+                            $log.error(message);
+                        }
+                        angular.forEach(response.data.results, function (result, index) {
+                            result.value = result.id;
+                            result.label = result.name;
+                        });
+                        $scope.edit.sevisCommStatuses = response.data.results;
+                        $scope.columns[1].filter.selectOptions = $scope.edit.sevisCommStatuses;
+                        return $scope.edit.sevisCommStatuses;
+                    })
+                    .catch(function (response) {
+                        var message = "Unable to load sevis comm statuses.";
+                        $log.error(message);
+                        NotificationService.showErrorMessage(message);
+                    });
+                }
+
                 loadPositions();
                 loadProgramCategories();
                 loadUSGovernmentAgencies();
-                loadInternationalOrganizations();                
+                loadInternationalOrganizations();
+                loadSevisCommStatuses();
             }
         };
 
