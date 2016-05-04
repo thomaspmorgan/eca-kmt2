@@ -18,10 +18,9 @@ namespace ECA.Business.Service.Admin
     /// The SocialMediaService is capable of handling crud operations on an ISocialable entity
     /// and its social media presence.
     /// </summary>
-    public class SocialMediaService : DbContextService<EcaContext>, ECA.Business.Service.Admin.ISocialMediaService
+    public class SocialMediaService : EcaService, ECA.Business.Service.Admin.ISocialMediaService
     {
         private readonly Logger logger = LogManager.GetCurrentClassLogger();
-        private EcaService service;
         private readonly Action<ISocialable, int> throwIfSocialableEntityNotFound;
         private readonly Action<SocialMedia, int> throwIfSocialMediaNotFound;
         private Action<Participant> throwValidationErrorIfParticipantSevisInfoIsLocked;
@@ -35,8 +34,6 @@ namespace ECA.Business.Service.Admin
         public SocialMediaService(EcaContext context, List<ISaveAction> saveActions = null)
             : base(context, saveActions)
         {
-            service = new EcaService(context);
-
             Contract.Requires(context != null, "The context must not be null.");
             throwIfSocialableEntityNotFound = (socialableEntity, id) =>
             {
@@ -148,7 +145,12 @@ namespace ECA.Business.Service.Admin
         public void Update(UpdatedSocialMediaPresence updatedSocialMedia)
         {
             var socialMedia = Context.SocialMedias.Find(updatedSocialMedia.Id);
-            DoUpdate(updatedSocialMedia, socialMedia);
+            Participant participant = null;
+            if (socialMedia != null && socialMedia.PersonId.HasValue)
+            {
+                participant = GetParticipantByPersonId((int)socialMedia.PersonId);
+            }
+            DoUpdate(updatedSocialMedia, socialMedia, participant);
         }
 
         /// <summary>
@@ -158,21 +160,22 @@ namespace ECA.Business.Service.Admin
         public async Task UpdateAsync(UpdatedSocialMediaPresence updatedSocialMedia)
         {
             var socialMedia = await Context.SocialMedias.FindAsync(updatedSocialMedia.Id);
-            DoUpdate(updatedSocialMedia, socialMedia);
+            Participant participant = null;
+            if (socialMedia != null && socialMedia.PersonId.HasValue)
+            {
+                participant = GetParticipantByPersonId((int)socialMedia.PersonId);
+            }
+            DoUpdate(updatedSocialMedia, socialMedia, participant);
         }
 
-        private void DoUpdate(UpdatedSocialMediaPresence updatedSocialMedia, SocialMedia modelToUpdate)
+        private void DoUpdate(UpdatedSocialMediaPresence updatedSocialMedia, SocialMedia modelToUpdate, Participant participant)
         {
             Contract.Requires(updatedSocialMedia != null, "The updatedSocialMedia must not be null.");
             throwIfSocialMediaNotFound(modelToUpdate, updatedSocialMedia.Id);
-            if (modelToUpdate.PersonId.HasValue)
+            if (participant != null)
             {
-                var participant = service.GetParticipantByPersonId((int)modelToUpdate.PersonId);
-                if (participant != null)
-                {
-                    throwValidationErrorIfParticipantSevisInfoIsLocked(participant);
-                }
-            }            
+                throwValidationErrorIfParticipantSevisInfoIsLocked(participant);
+            }
             modelToUpdate.SocialMediaTypeId = updatedSocialMedia.SocialMediaTypeId;
             modelToUpdate.SocialMediaValue = updatedSocialMedia.Value;
             updatedSocialMedia.Update.SetHistory(modelToUpdate);
