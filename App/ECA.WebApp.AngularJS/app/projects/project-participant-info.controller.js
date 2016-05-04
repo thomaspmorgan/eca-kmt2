@@ -48,34 +48,6 @@ angular.module('staticApp')
 
       var notifyStatuses = ConstantsService.sevisStatusIds.split(',');
 
-      $scope.editGeneral = function () {
-          return CreateMessageBox($scope.view.isInfoTabInEditMode)
-          .then(function (response) {
-              $scope.view.isInfoTabInEditMode = response;
-          });
-      }
-
-      function CreateMessageBox(userSection) {
-          var defer = $q.defer();
-          if (notifyStatuses.indexOf($scope.view.participantPerson.sevisStatusId.toString()) !== -1) {
-              MessageBox.confirm({
-                  title: 'Confirm Edit',
-                  message: 'The SEVIS participant status of this person is ' + $scope.view.participantPerson.sevisStatus + '. Are you sure you want to edit?',
-                  okText: 'Yes',
-                  cancelText: 'No',
-                  okCallback: function () {
-                      userSection = true
-                      defer.resolve(userSection);
-                  }
-              });
-          } else {
-              userSection = !userSection
-              defer.resolve(userSection);
-          }
-
-          return defer.promise;
-      }
-
       $scope.view.loadHomeInstitutions = function ($search) {
           return loadHomeInstitutions($search);
       }

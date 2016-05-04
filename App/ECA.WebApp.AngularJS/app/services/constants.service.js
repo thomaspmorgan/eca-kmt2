@@ -268,6 +268,7 @@ angular.module('staticApp').factory('ConstantsService', function() {
 		saveProjectEventName: 'saveProject',
 		searchDelimiter: ' ',
 		sevisStatusIds: '5,13,14',
+		uiGridMaxCellTextLength: '35',
 		updateBreadcrumbsEventName: 'updateBreadcrumbs'
 	};
 });

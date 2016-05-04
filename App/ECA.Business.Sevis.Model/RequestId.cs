@@ -64,6 +64,12 @@ namespace ECA.Business.Sevis.Model
 
         private const string REQUEST_ID_FORMAT_STRING = "{0}-{1}-{2}";
 
+        /// <summary>
+        /// Creates a new request id with the id of the object and request id and request action types.
+        /// </summary>
+        /// <param name="id">The id of the participant or dependent.</param>
+        /// <param name="requestIdType">The request id type.</param>
+        /// <param name="actionType">The request action type.</param>
         public RequestId(int id, RequestIdType requestIdType, RequestActionType actionType)
         {
             this.Id = id;

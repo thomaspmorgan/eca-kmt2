@@ -11,6 +11,7 @@ using ECA.Business.Service;
 using ECA.Core.Exceptions;
 using System.Net;
 using System.Collections.Generic;
+using ECA.Business.Exceptions;
 
 namespace ECA.Business.Test.Service.Admin
 {
@@ -415,8 +416,8 @@ namespace ECA.Business.Test.Service.Admin
             
             Action a = () => service.Update(updatedEmailModel);
             Func<Task> f = () => service.UpdateAsync(updatedEmailModel);
-            a.ShouldThrow<WebException>().WithMessage(message);
-            f.ShouldThrow<WebException>().WithMessage(message);            
+            a.ShouldThrow<EcaBusinessException>().WithMessage(message);
+            f.ShouldThrow<EcaBusinessException>().WithMessage(message);            
         }
 
         [TestMethod]
@@ -501,8 +502,8 @@ namespace ECA.Business.Test.Service.Admin
 
             Action a = () => service.Update(updatedEmailModel);
             Func<Task> f = () => service.UpdateAsync(updatedEmailModel);
-            a.ShouldNotThrow<WebException>();
-            f.ShouldNotThrow<WebException>();
+            a.ShouldNotThrow<EcaBusinessException>();
+            f.ShouldNotThrow<EcaBusinessException>();
         }
 
         [TestMethod]

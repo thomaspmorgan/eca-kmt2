@@ -701,9 +701,7 @@ namespace ECA.Business.Test.Service.Persons
                 PersonId = person.PersonId,
                 EmailAddressType = emailAddressType,
                 IsPrimary = true
-
             };
-
             var email2 = new EmailAddress
             {
                 EmailAddressId = 2,
@@ -3210,7 +3208,7 @@ namespace ECA.Business.Test.Service.Persons
                         participant.ParticipantId);
 
             Func<Task> f = () => service.UpdatePiiAsync(pii);
-            f.ShouldThrow<WebException>().WithMessage(message);
+            f.ShouldThrow<EcaBusinessException>().WithMessage(message);
         }
         
         #endregion

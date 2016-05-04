@@ -14,7 +14,6 @@ INSERT INTO @sevisUserAccount (OrgId, Username, EmailAddress) VALUES (@orgId, @s
 INSERT INTO @sevisUserAccount (OrgId, Username, EmailAddress) VALUES (@orgId, @sevisUsername, 'comptonwa@statedept.us');
 INSERT INTO @sevisUserAccount (OrgId, Username, EmailAddress) VALUES (@orgId, @sevisUsername, 'sayyade@statedept.us');
 INSERT INTO @sevisUserAccount (OrgId, Username, EmailAddress) VALUES (@orgId, @sevisUsername, 'boustaniw@statedept.us');
-
 INSERT INTO @sevisUserAccount (OrgId, Username, EmailAddress) VALUES (@orgId, @sevisUsername, 'brian.gibowski@buchanan-edwards.com');
 INSERT INTO @sevisUserAccount (OrgId, Username, EmailAddress) VALUES (@orgId, @sevisUsername, 'brandon.tucker@buchanan-edwards.com');
 INSERT INTO @sevisUserAccount (OrgId, Username, EmailAddress) VALUES (@orgId, @sevisUsername, 'alan.compton@buchanan-edwards.com');
@@ -29,6 +28,10 @@ INSERT INTO @sevisUserAccount (OrgId, Username, EmailAddress) VALUES (@orgId, 's
 INSERT INTO @sevisUserAccount (OrgId, Username, EmailAddress) VALUES (@orgId, 'sgrant5540', 'grantsb@statedept.us');
 INSERT INTO @sevisUserAccount (OrgId, Username, EmailAddress) VALUES (@orgId, 'Tmorga3488', 'thomas.morgan@buchanan-edwards.com');
 INSERT INTO @sevisUserAccount (OrgId, Username, EmailAddress) VALUES (@orgId, 'Tmorga3488', 'morgant@statedept.us');
+INSERT INTO @sevisUserAccount (OrgId, Username, EmailAddress) VALUES (@orgId, 'dgusta9934', 'gustafsondp@statedept.us');
+INSERT INTO @sevisUserAccount (OrgId, Username, EmailAddress) VALUES (@orgId, 'jnelso7231', 'nelsonjg2@statedept.us');
+INSERT INTO @sevisUserAccount (OrgId, Username, EmailAddress) VALUES (@orgId, 'rmurph8772', 'murphyrm@statedept.us');
+
 
 --END ADDING ALL ACCOUNTS THAT WILL BE UPSERTED...
 

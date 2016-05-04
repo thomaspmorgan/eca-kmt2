@@ -28,13 +28,14 @@
             <a ng-click="showPii = !showPii">
                 <i class="material-icons md-dark md-36 pull-right" ng-show="showPii">expand_more</i>
                 <i class="material-icons md-dark md-36 pull-right" ng-show="!showPii">expand_less</i>
-            </a>
-            <a ng-show="!edit.Pii && !edit.piiLoading" ng-disabled="edit.blockEdit" ng-click="editPii()" class="pull-right">
-                <span tooltip="{{edit.blockEdit ? 'The participant is currently in a SEVIS Status which does not allow edits' : ''}}"
-                      tooltip-placement="top">
-                    <i class="material-icons md-dark md-24" style="{{edit.blockEdit ? 'opacity: .5' : 'opacity: 1'}}">edit</i>
-                </span>
-            </a>
+            </a>            
+            <div class="pull-right" style="min-width:40px">
+                <a ng-show="!edit.Pii && !edit.piiLoading" ng-disabled="edit.blockEdit" ng-click="editPii()">
+                    <span tooltip="{{edit.blockEdit ? 'The participant is currently in a SEVIS Status which does not allow edits' : ''}}">
+                        <i class="material-icons md-dark md-24 pull-right" style="{{edit.blockEdit ? 'opacity: .5' : 'opacity: 1'}}">edit</i>
+                    </span>
+                </a>
+            </div>
         </div>
     </div>
     <div collapse="!showPii">
@@ -51,11 +52,13 @@
                 <i class="material-icons md-dark md-36 pull-right" ng-show="showContact">expand_more</i>
                 <i class="material-icons md-dark md-36 pull-right" ng-show="!showContact">expand_less</i>
             </a>
-            <a ng-show="!edit.Contact && !edit.contactsLoading" ng-disabled="edit.blockEdit" ng-click="editContact()" class="pull-right">
-                <span tooltip="{{edit.blockEdit ? 'The participant is currently in a SEVIS Status which does not allow edits' : ''}}">
-                    <i class="material-icons md-dark md-24" style="{{edit.blockEdit ? 'opacity: .5' : 'opacity: 1'}}">edit</i>
-                </span>
-            </a>
+            <div class="pull-right" style="min-width:40px">
+                <a ng-show="!edit.Contact && !edit.contactsLoading" ng-disabled="edit.blockEdit" ng-click="editContact()">
+                    <span tooltip="{{edit.blockEdit ? 'The participant is currently in a SEVIS Status which does not allow edits' : ''}}">
+                        <i class="material-icons md-dark md-24 pull-right" style="{{edit.blockEdit ? 'opacity: .5' : 'opacity: 1'}}">edit</i>
+                    </span>
+                </a>
+            </div>
         </div>
     </div>
     <div collapse="!showContact">
