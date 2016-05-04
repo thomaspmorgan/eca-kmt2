@@ -317,8 +317,11 @@ angular.module('staticApp')
           });
       }
 
+      var themesFilter = FilterService.add('programmodal_themes');
       function loadThemes() {
-          return LookupService.getAllThemes({ limit: maxLimit })
+          themesFilter.reset();
+          themesFilter = themesFilter.skip(0).take(maxLimit).isTrue('isActive');
+          return LookupService.getAllThemes(themesFilter.toParams())
             .then(function (data) {
                 $scope.view.themes = data.results;
                 if (data.total > maxLimit) {
@@ -332,8 +335,11 @@ angular.module('staticApp')
           });
       }
 
+      var goalsFilter = FilterService.add('programmodal_goals');
       function loadGoals() {
-          return LookupService.getAllGoals({ limit: maxLimit })
+          goalsFilter.reset();
+          goalsFilter = goalsFilter.skip(0).take(maxLimit).isTrue('isActive');
+          return LookupService.getAllGoals(goalsFilter.toParams())
             .then(function (data) {
                 $scope.view.goals = data.results;
                 if (data.total > maxLimit) {

@@ -26,7 +26,8 @@ namespace ECA.Business.Queries.Admin
             var query = context.Goals.Select(x => new GoalDTO
             {
                 Id = x.GoalId,
-                Name = x.GoalName
+                Name = x.GoalName,
+                IsActive = x.IsActive
             });
             return query;
         }

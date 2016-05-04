@@ -51,7 +51,9 @@ namespace ECA.Business.Service.Programs
             OfficeSettings ownerOfficeSettings,
             int? parentProgramId, 
             Program parentProgram,
-            List<OrganizationProgramDTO> parentProgramParentPrograms)
+            List<OrganizationProgramDTO> parentProgramParentPrograms,
+            List<int> allowedThemeIds,
+            List<int> allowedGoalIds)
         {
             this.ProgramId = programId;
             this.RegionLocationTypeIds = regionLocationTypeIds;
@@ -69,6 +71,8 @@ namespace ECA.Business.Service.Programs
             this.OwnerOfficeSettings = ownerOfficeSettings;
             this.InactiveRegionIds = inactiveRegionIds == null ? new List<int>() : inactiveRegionIds.Distinct();
             this.ParentProgramParentPrograms = parentProgramParentPrograms ?? new List<OrganizationProgramDTO>();
+            this.AllowedThemeIds = allowedThemeIds == null ? new List<int>() : allowedThemeIds.Distinct();
+            this.AllowedGoalIds = allowedGoalIds == null ? new List<int>() : allowedGoalIds.Distinct();
         }
 
         /// <summary>
@@ -150,5 +154,15 @@ namespace ECA.Business.Service.Programs
         /// Gets or sets the regions by id that are inactive.
         /// </summary>
         public IEnumerable<int> InactiveRegionIds { get; private set; }
+
+        /// <summary>
+        /// Gets or sets the allowed theme ids
+        /// </summary>
+        public IEnumerable<int> AllowedThemeIds { get; private set; }
+
+        /// <summary>
+        /// Gets or sets the allowed goal ids
+        /// </summary>
+        public IEnumerable<int> AllowedGoalIds { get; private set; }
     }
 }

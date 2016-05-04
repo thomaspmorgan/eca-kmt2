@@ -18,10 +18,9 @@ namespace ECA.Business.Service.Admin
     /// The PhoneNumberService is capable of handling crud operations on an IPhoneNumberable entity
     /// and its phone number.
     /// </summary>
-    public class PhoneNumberService : DbContextService<EcaContext>, IPhoneNumberService
+    public class PhoneNumberService : EcaService, IPhoneNumberService
     {
         private readonly Logger logger = LogManager.GetCurrentClassLogger();
-        private EcaService service;
         private readonly Action<IPhoneNumberable, int> throwIfPhoneNumberableEntityNotFound;
         private readonly Action<PhoneNumber, int> throwIfPhoneNumberNotFound;
         private Action<Participant> throwValidationErrorIfParticipantSevisInfoIsLocked;
@@ -35,8 +34,6 @@ namespace ECA.Business.Service.Admin
         public PhoneNumberService(EcaContext context, List<ISaveAction> saveActions = null)
             : base(context, saveActions)
         {
-            service = new EcaService(context);
-
             Contract.Requires(context != null, "The context must not be null.");
             throwIfPhoneNumberableEntityNotFound = (phoneNumberableEntity, id) =>
             {
@@ -162,12 +159,17 @@ namespace ECA.Business.Service.Admin
         public void Update(UpdatedPhoneNumber updatedPhoneNumber)
         {
             var phoneNumber = Context.PhoneNumbers.Find(updatedPhoneNumber.Id);
+            Participant participant = null;
+            if (phoneNumber != null && phoneNumber.PersonId.HasValue)
+            {
+                participant = GetParticipantByPersonId((int)phoneNumber.PersonId);
+            }
             List<PhoneNumber> existingPhoneNumbers = new List<PhoneNumber>();
             if (phoneNumber != null && updatedPhoneNumber.IsPrimary)
             {
                 existingPhoneNumbers = CreateGetOtherPhoneNumbersQuery(phoneNumber).ToList();
             }
-            DoUpdate(updatedPhoneNumber, phoneNumber, existingPhoneNumbers);
+            DoUpdate(updatedPhoneNumber, phoneNumber, existingPhoneNumbers, participant);
         }
 
         /// <summary>
@@ -177,25 +179,27 @@ namespace ECA.Business.Service.Admin
         public async Task UpdateAsync(UpdatedPhoneNumber updatedPhoneNumber)
         {
             var phoneNumber = await Context.PhoneNumbers.FindAsync(updatedPhoneNumber.Id);
+            Participant participant = null;
+            if (phoneNumber != null && phoneNumber.PersonId.HasValue)
+            {
+                participant = GetParticipantByPersonId((int)phoneNumber.PersonId);
+            }
             List<PhoneNumber> existingPhoneNumbers = new List<PhoneNumber>();
             if (phoneNumber != null && updatedPhoneNumber.IsPrimary)
             {
                 existingPhoneNumbers = await CreateGetOtherPhoneNumbersQuery(phoneNumber).ToListAsync();
             }
-            DoUpdate(updatedPhoneNumber, phoneNumber, existingPhoneNumbers);
+            DoUpdate(updatedPhoneNumber, phoneNumber, existingPhoneNumbers, participant);
         }
 
-        private void DoUpdate(UpdatedPhoneNumber updatedPhoneNumber, PhoneNumber modelToUpdate, List<PhoneNumber> existingPhoneNumbers)
+        private void DoUpdate(UpdatedPhoneNumber updatedPhoneNumber, PhoneNumber modelToUpdate, 
+            List<PhoneNumber> existingPhoneNumbers, Participant participant)
         {
             Contract.Requires(updatedPhoneNumber != null, "The updatedPhoneNumber must not be null.");
             throwIfPhoneNumberNotFound(modelToUpdate, updatedPhoneNumber.Id);
-            if (modelToUpdate.PersonId.HasValue)
+            if (participant != null)
             {
-                var participant = service.GetParticipantByPersonId((int)modelToUpdate.PersonId);
-                if (participant != null)
-                {
-                    throwValidationErrorIfParticipantSevisInfoIsLocked(participant);
-                }
+                throwValidationErrorIfParticipantSevisInfoIsLocked(participant);
             }
             modelToUpdate.PhoneNumberTypeId = updatedPhoneNumber.PhoneNumberTypeId;
             modelToUpdate.Number = updatedPhoneNumber.Number;

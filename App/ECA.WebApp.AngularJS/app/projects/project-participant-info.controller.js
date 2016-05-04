@@ -46,35 +46,7 @@ angular.module('staticApp')
       $scope.view.participantPerson = null;
       $scope.view.isInfoTabInEditMode = false;
 
-      var notifyStatuses = ConstantsService.sevisStatusIds.split(',');
-
-      $scope.editGeneral = function () {
-          return CreateMessageBox($scope.view.isInfoTabInEditMode)
-          .then(function (response) {
-              $scope.view.isInfoTabInEditMode = response;
-          });
-      }
-
-      function CreateMessageBox(userSection) {
-          var defer = $q.defer();
-          if (notifyStatuses.indexOf($scope.view.participantPerson.sevisStatusId.toString()) !== -1) {
-              MessageBox.confirm({
-                  title: 'Confirm Edit',
-                  message: 'The SEVIS participant status of this person is ' + $scope.view.participantPerson.sevisStatus + '. Are you sure you want to edit?',
-                  okText: 'Yes',
-                  cancelText: 'No',
-                  okCallback: function () {
-                      userSection = true
-                      defer.resolve(userSection);
-                  }
-              });
-          } else {
-              userSection = !userSection
-              defer.resolve(userSection);
-          }
-
-          return defer.promise;
-      }
+      var notifyStatuses = ConstantsService.sevisStatuChangeAlertIds.split(',');
 
       $scope.view.loadHomeInstitutions = function ($search) {
           return loadHomeInstitutions($search);
@@ -139,6 +111,14 @@ angular.module('staticApp')
               });
       }
 
+      $scope.editGeneral = function () {
+          if (!$scope.sevisinfo.blockEdit) {
+              $scope.view.isInfoTabInEditMode = true;
+          } else {
+              return false;
+          }
+      };
+
       $scope.view.onSaveButtonClick = function () {
           $scope.view.isSavingUpdate = true;
           return saveParticipantPerson($scope.view.participantPerson)
@@ -149,6 +129,7 @@ angular.module('staticApp')
                     $scope.view.isInfoTabInEditMode = false;
                     updateParentTableParticipantSevisStatus(response);
                     NotificationService.showSuccessMessage('Successfully updated the participant personal information.');
+                    showSevisUpdateAlert(response.participantStatusId, $scope.$parent.sevisinfo);
                 });
             })
             .catch(function (response) {
@@ -158,6 +139,27 @@ angular.module('staticApp')
                 NotificationService.showErrorMessage(message);
             });
       }
+
+      function showSevisUpdateAlert(statusId, sevisInfo) {
+            if (notifyStatuses.indexOf(statusId.toString()) !== -1 && sevisInfo) {
+                var defer = $q.defer();
+
+                MessageBox.confirm({
+                    title: 'SEVIS Alert',
+                    message: 'Remember to manually cancel the user in the SEVIS RTI interface',
+                    okText: 'OK',
+                    cancelText: 'Cancel',
+                    hideCancel: true,
+                    okCallback: function () {
+                        defer.resolve();
+                    }
+                });
+
+                return defer.promise;
+            } else {
+                return false;
+            }
+      };
 
       $scope.$watch('participantid', function () {
           loadParticipantInfo(projectId, $scope.participantid)

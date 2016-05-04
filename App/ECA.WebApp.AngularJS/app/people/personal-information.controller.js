@@ -15,8 +15,9 @@ angular.module('staticApp')
       $scope.edit.blockEdit = false;
       $scope.showEvalNotes = true;
       $scope.showEduEmp = true;
-      $scope.showGeneral = true;
+      $scope.showGeneral = false;
       $scope.showContact = true;
+      $scope.showPii = true;
       $scope.sevisStatus = { statusName: "", statusNameId: 0 };
 
       var notifyStatuses = ConstantsService.sevisStatusIds.split(',');

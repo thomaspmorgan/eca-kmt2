@@ -1,4 +1,4 @@
-<h2 class="person-color tab-header">Personal Information</h2>
+<!--<h2 class="person-color tab-header">Personal Information</h2>-->
 
 <div class="row table">
     <div class="row">
@@ -71,16 +71,16 @@
             <h4 class="tab-subheader" id="eduemp">Education &amp; Employment</h4>
         </div>
         <div class="col-md-6">
-            <a ng-click="view.collapseEduEmp = !view.collapseEduEmp">
-                <i class="material-icons md-dark md-36 pull-right" ng-show="view.collapseEduEmp">expand_more</i>
-                <i class="material-icons md-dark md-36 pull-right" ng-show="!view.collapseEduEmp">expand_less</i>
+            <a ng-click="showEduEmp = !showEduEmp">
+                <i class="material-icons md-dark md-36 pull-right" ng-show="showEduEmp">expand_more</i>
+                <i class="material-icons md-dark md-36 pull-right" ng-show="!showEduEmp">expand_less</i>
             </a>
             <a ng-show="!edit.EduEmp" ng-click="edit.EduEmp = !edit.EduEmp">
                 <i class="material-icons md-dark md-24 pull-right">edit</i>
             </a>
         </div>
     </div>
-    <div collapse="!view.collapseEduEmp">
+    <div collapse="!showEduEmp">
         <div ng-if="!edit.EduEmp"><ng-include src="'/app/people/education-employment.html'"></ng-include></div>
         <div ng-if="edit.EduEmp"><ng-include src="'/app/people/education-employment-edit.html'"></ng-include></div>
     </div>

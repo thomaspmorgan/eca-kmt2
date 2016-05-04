@@ -1,7 +1,7 @@
 ﻿'use strict';
 
 angular.module('staticApp')
-  .config(function ($httpProvider, $urlRouterProvider, adalAuthenticationServiceProvider, insightsProvider, $locationProvider, IdleProvider) {
+  .config(function ($httpProvider, $urlRouterProvider, adalAuthenticationServiceProvider, insightsProvider, $locationProvider, IdleProvider, $compileProvider) {
 
       adalAuthenticationServiceProvider.init({
           tenant: 'statedept.us',
@@ -35,4 +35,7 @@ angular.module('staticApp')
       $httpProvider.interceptors.push('ErrorInterceptor');
 
       IdleProvider.autoResume('notIdle');
+
+      $compileProvider.debugInfoEnabled(false);
+
   });

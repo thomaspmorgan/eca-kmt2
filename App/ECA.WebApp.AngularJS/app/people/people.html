@@ -6,10 +6,9 @@
         <ng-include src="'/app/toolbar/toolbar-icons.html'"></ng-include>
     </div>
     <div class="heading">
-        <h5>Person</h5>
+        <h5>Person</h5><span class="prominent pull-right" ng-if="person.prominentCategories.length > 0">{{person.prominentCategories.join(', ')}}</span>
         <h1>{{person.fullName}}</h1>
-        <span class="prominent" ng-if="person.prominentCategories.length > 0">{{person.prominentCategories.join(', ')}}</span>
-        <div class="permalink">Permalink: url goes here</div>
+        <!--<div class="permalink">Permalink: url goes here</div>-->
     </div>
 </div>
 <tab-bar tabs="tabs"></tab-bar>
