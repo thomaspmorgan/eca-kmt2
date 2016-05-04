@@ -181,12 +181,19 @@ angular.module('staticApp')
           onModelChange($scope.view.moneyFlow);
           $scope.view.loadValuesThatCanFilterPeerEntities(null, $scope.view.moneyFlow);
           $scope.view.getPeers(null);
+          // clear peer, year and parent money flow selected models to clear dropdowns
+          $scope.view.moneyFlow.peerEntity = null;
+          $scope.view.moneyFlow.fiscalYear = null;
+          $scope.view.moneyFlow.parentMoneyFlowId = null;
       }
 
       $scope.view.onSelectPeer = function ($item, $model) {
           console.assert($model.peerEntityId, "The $model must have the peer entity id defined.");
           console.assert($scope.view.moneyFlow.peerEntityTypeId, "The money flow must have the peer entity type id defined.");
           $scope.view.moneyFlow.peerEntityId = $model.peerEntityId;
+          // clear year and parent money flow selected models to clear dropdowns
+          $scope.view.moneyFlow.fiscalYear = null;
+          $scope.view.moneyFlow.parentMoneyFlowId = null;
           loadSourceMoneyFlows($scope.view.moneyFlow);
       }
 
@@ -316,6 +323,9 @@ angular.module('staticApp')
                       item.id = idMapFn(item);
                       item.value = valueMapFn(item);
                   });
+                  //remove Funding Source from Roles
+                  data.splice(data.indexOf({ id: ConstantsService.organizationRole.fundingSource.id, value: ConstantsService.organizationRole.fundingSource.value }), 1);
+
                   $scope.view.valuesThatCanFilterPeerEntities = data;
                   $scope.view.valuesThatCanFilterPeerEntitiesCount = total;
                   return $scope.view.valuesThatCanFilterPeerEntities;
