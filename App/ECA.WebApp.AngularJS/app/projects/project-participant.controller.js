@@ -600,6 +600,7 @@ angular.module('staticApp')
       $scope.onInfoTabSelected = function (participantId) {
           $scope.view.tabInfo = true;
           $scope.view.tabSevis = false;
+          loadSevisInfo(participantId);
       }
 
       $scope.isDisabled = function (participantId) {

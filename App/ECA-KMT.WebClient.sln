@@ -1,11 +1,14 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECA.WebApp.AngularJS", "ECA.WebApp.AngularJS\ECA.WebApp.AngularJS.csproj", "{6634FB37-1B43-40F4-BE9E-C0FC316E0CB9}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B8608E27-F039-4553-8E94-E635C1ABE684}"
+	ProjectSection(SolutionItems) = preProject
+		.a11yrc = .a11yrc
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECA.Core", "ECA.Core\ECA.Core.csproj", "{983C0BE6-5E42-494D-9947-0D67B84016C1}"
 EndProject

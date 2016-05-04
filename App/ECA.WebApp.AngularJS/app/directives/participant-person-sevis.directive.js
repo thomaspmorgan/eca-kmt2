@@ -324,7 +324,6 @@
                     }
                 }
 
-
                 function getSevisCommStatusesPage() {
                     if (angular.isDefined($scope.pageTimeout)) {
                         $timeout.cancel($scope.pageTimeout);
