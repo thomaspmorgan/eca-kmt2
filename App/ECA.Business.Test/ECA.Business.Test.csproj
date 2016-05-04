@@ -209,6 +209,16 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
     <Compile Include="Queries\Admin\BookmarkQueriesTest.cs" />
     <Compile Include="Queries\Admin\SnapshotQueriesTest.cs" />
     <Compile Include="Queries\Fundings\MoneyFlowQueriesTest.cs" />
@@ -352,6 +362,7 @@
     <Compile Include="Service\DeleteTest.cs" />
     <Compile Include="Service\Sevis\SevisBatchProcessingServiceTest.cs" />
     <Compile Include="Service\Sevis\StagedSevisBatchTest.cs" />
+    <Compile Include="Service\Sevis\SevisBatchProcessingServiceTest_RealData.cs" />
     <Compile Include="Service\UserTest.cs" />
     <Compile Include="Service\UpdateTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -362,6 +373,10 @@
     <Compile Include="Service\Programs\ProgramServiceTest.cs" />
     <Compile Include="Service\Projects\ProjectServiceTest.cs" />
     <Compile Include="Service\Lookup\ThemeServiceTest.cs" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
     <None Include="SevisBatchStressTest.csold" />
     <Compile Include="TestEcaContext.cs" />
     <Compile Include="Validation\BusinessValidationResultTest.cs" />
@@ -470,7 +485,18 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\TransactionLogWithNewParticipantAndNewDependent.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\NewParticipantWithNewDependentBatchXml.txt" />
+  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>
