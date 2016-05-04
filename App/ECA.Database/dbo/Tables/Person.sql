@@ -39,7 +39,7 @@
     [IsPlaceOfBirthUnknown] BIT NULL, 
     [IVLP_PersonId] NVARCHAR(32) NULL, 
     [CE_PersonId] NVARCHAR(32) NULL, 
-    [Fulbright_PersonId] INT NULL, 
+    [Fulbright_PersonId] NVARCHAR(32) NULL, 
     CONSTRAINT [PK_dbo.Person] PRIMARY KEY CLUSTERED ([PersonId] ASC),
     CONSTRAINT [FK_dbo.Person_dbo.Location_Location_LocationId] FOREIGN KEY ([Location_LocationId]) REFERENCES [dbo].[Location] ([LocationId]), 
     CONSTRAINT [FK_Person_ToGender] FOREIGN KEY ([GenderId]) REFERENCES [Gender]([GenderId]), 
