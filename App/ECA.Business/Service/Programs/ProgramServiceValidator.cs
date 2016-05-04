@@ -82,6 +82,16 @@ namespace ECA.Business.Service.Programs
         public const string INVALID_DESCRIPTION_ERROR_MESSAGE = "The program description is invalid.";
 
         /// <summary>
+        /// The error message when at least one theme is inactive and was not previously set on the program.
+        /// </summary>
+        public const string INACTIVE_THEMES_ERROR_MESSAGE = "At least one theme is no longer active and was not previously set on the program.";
+
+        /// <summary>
+        /// The error message when at least one goal is inactive and was not previously set on the program.
+        /// </summary>
+        public const string INACTIVE_GOALS_ERROR_MESSAGE = "At least one goal is no longer active and was not previously set on the program.";
+
+        /// <summary>
         /// Validates the given ProgramServiceValidationEntity.
         /// </summary>
         /// <param name="validationEntity">The entity to validate.</param>
@@ -138,6 +148,22 @@ namespace ECA.Business.Service.Programs
             if(validationEntity.InactiveRegionIds.Count() > 0)
             {
                 yield return new BusinessValidationResult<EcaProgram>(x => x.RegionIds, INACTIVE_LOCATIONS_ERROR_MESSAGE);
+            }
+            if (validationEntity.ThemeIds != null)
+            {
+                var invalidThemeIds = validationEntity.ThemeIds.Where(x => !validationEntity.AllowedThemeIds.Contains(x)).ToList();
+                if (invalidThemeIds.Count > 0)
+                {
+                    yield return new BusinessValidationResult<EcaProgram>(x => x.ThemeIds, INACTIVE_THEMES_ERROR_MESSAGE);
+                }
+            }
+            if (validationEntity.GoalIds != null)
+            {
+                var invalidGoalIds = validationEntity.GoalIds.Where(x => !validationEntity.AllowedGoalIds.Contains(x)).ToList();
+                if (invalidGoalIds.Count > 0)
+                {
+                    yield return new BusinessValidationResult<EcaProgram>(x => x.GoalIds, INACTIVE_GOALS_ERROR_MESSAGE);
+                }
             }
         }
 
