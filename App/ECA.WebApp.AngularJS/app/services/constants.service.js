@@ -267,6 +267,7 @@ angular.module('staticApp').factory('ConstantsService', function() {
 		saveProgramEventName: 'saveProgram',
 		saveProjectEventName: 'saveProject',
 		searchDelimiter: ' ',
+		sevisStatuChangeAlertIds: '6,7,11',
 		sevisStatusIds: '5,13,14',
 		uiGridMaxCellTextLength: '35',
 		updateBreadcrumbsEventName: 'updateBreadcrumbs'

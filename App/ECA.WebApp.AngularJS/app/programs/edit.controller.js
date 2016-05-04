@@ -394,8 +394,11 @@ angular.module('staticApp')
           });
       }
 
+      var themesFilter = FilterService.add('programedit_themesfilter');
       function loadThemes() {
-          return LookupService.getAllThemes({ limit: maxLimit })
+          themesFilter.reset();
+          themesFilter = themesFilter.skip(0).take(maxLimit).isTrue('isActive');
+          return LookupService.getAllThemes(themesFilter.toParams())
             .then(function (data) {
                 normalizeLookupProperties(data.results);
                 $scope.view.themes = data.results;
@@ -410,8 +413,11 @@ angular.module('staticApp')
           });
       }
 
+      var goalsFilter = FilterService.add('projectedit_goalsfilter');
       function loadGoals() {
-          return LookupService.getAllGoals({ limit: maxLimit })
+          goalsFilter.reset();
+          goalsFilter = goalsFilter.skip(0).take(maxLimit).isTrue('isActive');
+          return LookupService.getAllGoals(goalsFilter.toParams())
             .then(function (data) {
                 normalizeLookupProperties(data.results);
                 $scope.view.goals = data.results;

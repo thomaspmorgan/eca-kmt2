@@ -24,10 +24,10 @@ angular.module('staticApp')
           $log.info('message not defined.  Using default message.');
       }
       if (!options.okText) {
-          $log.info('okText not defined.  Uinsg default ok button text.');
+          $log.info('okText not defined.  Using default ok button text.');
       }
       if (!options.cancelText) {
-          $log.info('cancelText not defined.  Uinsg default ok button text.');
+          $log.info('cancelText not defined.  Using default ok button text.');
       }
       if (!options.okCallback) {
           $log.info('The okCallback function is not defined, using empty function.');
@@ -41,8 +41,8 @@ angular.module('staticApp')
       $scope.message = options.message || 'Are you sure?';
       $scope.okText = options.okText || 'Ok';
       $scope.cancelText = options.cancelText || 'Cancel';
-
-
+      $scope.hideCancel = options.hideCancel || false;
+      
       $scope.onOkClick = function () {
           $log.info('User confirmed, executing okCallback.');
           $modalInstance.close();
