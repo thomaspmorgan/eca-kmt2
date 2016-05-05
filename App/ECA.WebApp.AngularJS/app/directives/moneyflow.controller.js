@@ -64,6 +64,7 @@ angular.module('staticApp')
       $scope.view.isSourceMoneyFlowAmountExpended = false;
       $scope.view.copiedMoneyFlowExceedsSourceLimit = false;
 
+
       $scope.view.openTransactionDatePicker = function ($event) {
           $event.preventDefault();
           $event.stopPropagation();
@@ -681,7 +682,7 @@ angular.module('staticApp')
           else {
               moneyFlow = {
                   value: 0,
-                  isOutgoing: false,
+                  isOutgoing: true,
                   isExpense: false,
                   description: '',
                   transactionDate: null,
