@@ -28,6 +28,10 @@ namespace ECA.Data
         public ICollection<Program> Programs { get; set; }
         public ICollection<Project> Projects { get; set; }
 
+        /// <summary>
+        /// Gets or sets is active
+        /// </summary>
+        public bool IsActive { get; set; }
     }
 
 }

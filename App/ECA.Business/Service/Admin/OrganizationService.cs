@@ -73,6 +73,18 @@ namespace ECA.Business.Service.Admin
         }
 
         /// <summary>
+        /// Returns list of organizations asyncronously
+        /// </summary>
+        /// <param name="queryOperator">The query operator to apply</param>
+        /// <returns>List of organizations</returns>
+        public Task<PagedQueryResults<SimpleOrganizationDTO>> GetOrganizationsWOFundingSourceAsync(QueryableOperator<SimpleOrganizationDTO> queryOperator)
+        {
+            var organizations = OrganizationQueries.CreateGetSimpleOrganizationsDTOQueryWOFundingSource(this.Context, queryOperator).ToPagedQueryResultsAsync(queryOperator.Start, queryOperator.Limit);
+            this.logger.Trace("Retrieved organizations with query operator [{0}].", queryOperator);
+            return organizations;
+        }
+
+        /// <summary>
         /// Returns organization hierarchy by role id
         /// </summary>
         /// <param name="organizationRoleId">The organization role id</param>

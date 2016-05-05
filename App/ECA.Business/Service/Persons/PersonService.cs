@@ -26,9 +26,8 @@ namespace ECA.Business.Service.Persons
         private readonly Logger logger = LogManager.GetCurrentClassLogger();
         private readonly IBusinessValidator<PersonServiceValidationEntity, PersonServiceValidationEntity> validator;
         private Action<Location, int> throwIfLocationNotFound;
-        private Action<Participant> throwValidationErrorIfParticipantSevisInfoIsLocked;
-        public readonly int[] LOCKED_SEVIS_COMM_STATUSES = { SevisCommStatus.QueuedToSubmit.Id, SevisCommStatus.PendingSevisSend.Id, SevisCommStatus.SentByBatch.Id };
-
+        private Action<ParticipantPersonSevisDTO> throwValidationErrorIfParticipantSevisInfoIsLocked;
+        
         /// <summary>
         /// Constructor
         /// </summary>
@@ -50,11 +49,9 @@ namespace ECA.Business.Service.Persons
             };
             throwValidationErrorIfParticipantSevisInfoIsLocked = (participant) =>
             {
-                if (participant.ParticipantPerson != null)
+                if (participant != null && participant.SevisStatusId.HasValue)
                 {
-                    var sevisStatusId = participant.ParticipantPerson.ParticipantPersonSevisCommStatuses.OrderByDescending(x => x.AddedOn).Select(x => x.SevisCommStatusId).FirstOrDefault();
-
-                    if (participant != null && IndexOfInt(LOCKED_SEVIS_COMM_STATUSES, sevisStatusId) != -1)
+                    if (participant != null && IndexOfInt(participant.LOCKED_SEVIS_COMM_STATUSES, (int)participant.SevisStatusId) != -1)
                     {
                         var msg = String.Format("An update was attempted on participant with id [{0}] but should have failed validation.",
                                 participant.ParticipantId);
@@ -429,7 +426,7 @@ namespace ECA.Business.Service.Persons
         public async Task<Person> UpdateContactInfoAsync(UpdateContactInfo contactInfo)
         {
             var personToUpdate = await GetPersonModelByIdAsync(contactInfo.PersonId);
-            var participant = personToUpdate.Participations.Where(x => x.ParticipantStatusId == ParticipantStatus.Active.Id).FirstOrDefault();
+            var participant = await GetParticipantByPersonIdAsync(contactInfo.PersonId);
             if (participant != null)
             {
                 throwValidationErrorIfParticipantSevisInfoIsLocked(participant);

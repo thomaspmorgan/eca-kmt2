@@ -47,7 +47,9 @@ namespace ECA.Business.Service.Projects
             IEnumerable<int> allowedCategoryIds,
             IEnumerable<int> allowedObjectiveIds,
             IEnumerable<int> regionLocationTypeIds,
-            OfficeSettings officeSettings)
+            OfficeSettings officeSettings,
+            IEnumerable<int> allowedThemeIds,
+            IEnumerable<int> allowedGoalIds)
         {
             Contract.Requires(updatedProject != null, "The updated project must not be null.");
             Contract.Requires(projectToUpdate != null, "The project to update must not be null.");
@@ -80,6 +82,11 @@ namespace ECA.Business.Service.Projects
             this.AllowedObjectiveIds = allowedObjectiveIds == null ? new List<int>() : allowedObjectiveIds.Distinct();
             this.NewInactiveLocationIds = newInactiveLocations == null ? new List<int>() : newInactiveLocations.Distinct();
             this.RegionLocationTypeIds = regionLocationTypeIds == null ? new List<int>() : regionLocationTypeIds.Distinct();
+            this.ThemeIds = updatedProject.ThemeIds;
+            this.GoalIds = updatedProject.GoalIds;
+            this.AllowedThemeIds = allowedThemeIds == null ? new List<int>() : allowedThemeIds.Distinct();
+            this.AllowedGoalIds = allowedGoalIds == null ? new List<int>() : allowedGoalIds.Distinct();
+
         }
 
         /// <summary>
@@ -191,5 +198,25 @@ namespace ECA.Business.Service.Projects
         /// Gets the value indicating all locations exist.
         /// </summary>
         public bool LocationsExist { get; private set; }
+
+        /// <summary>
+        /// Gets the theme ids
+        /// </summary>
+        public IEnumerable<int> ThemeIds { get; private set; }
+
+        /// <summary>
+        /// Gets the goal ids
+        /// </summary>
+        public IEnumerable<int> GoalIds { get; private set; }
+
+        /// <summary>
+        /// Gets the allowed theme ids
+        /// </summary>
+        public IEnumerable<int> AllowedThemeIds { get; private set; }
+
+        /// <summary>
+        /// Gets the allowed goal ids
+        /// </summary>
+        public IEnumerable<int> AllowedGoalIds { get; private set; }
     }
 }

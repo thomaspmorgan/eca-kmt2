@@ -44,6 +44,7 @@ namespace ECA.Business.Queries.Admin
                                             && address.Location.Country.LocationName != null
 
                         where !Organization.OFFICE_ORGANIZATION_TYPE_IDS.Contains(organization.OrganizationTypeId)
+
                         select new SimpleOrganizationDTO
                         {
                             OrganizationId = organization.OrganizationId,
@@ -77,6 +78,59 @@ namespace ECA.Business.Queries.Admin
             return query;
         }
 
+        public static IQueryable<SimpleOrganizationDTO> CreateGetSimpleOrganizationsDTOQueryWOFundingSource(EcaContext context, QueryableOperator<SimpleOrganizationDTO> queryOperator)
+        {
+            Contract.Requires(context != null, "The context must not be null.");
+            Contract.Requires(queryOperator != null, "The query operator must not be null.");
+
+            var query = CreateGetSimpleOrganizationDTOQueryWOFundingSourceRole(context);
+            query = query.Apply(queryOperator);
+            return query;
+        }
+    
+        public static IQueryable<SimpleOrganizationDTO> CreateGetSimpleOrganizationDTOQueryWOFundingSourceRole(EcaContext context)
+        {
+            Contract.Requires(context != null, "The context must not be null.");
+            var query = from organization in context.Organizations
+                        let organizationType = organization.OrganizationType
+                        let organizationRoles = organization.OrganizationRoles.OrderBy(x => x.OrganizationRoleName)
+                        let address = organization.Addresses.OrderByDescending(x => x.IsPrimary).FirstOrDefault()
+
+                        let addressHasCity = address != null
+                                            && address.Location != null
+                                            && address.Location.City != null
+                                            && address.Location.City.LocationName != null
+                        let addressHasDivision = address != null
+                                            && address.Location != null
+                                            && address.Location.Division != null
+                                            && address.Location.Division.LocationName != null
+                        let addressHasCountry = address != null
+                                            && address.Location != null
+                                            && address.Location.Country != null
+                                            && address.Location.Country.LocationName != null
+
+                        where !Organization.OFFICE_ORGANIZATION_TYPE_IDS.Contains(organization.OrganizationTypeId) &&
+                            (organization.OrganizationRoles.Any(x => x.OrganizationRoleId != OrganizationRole.FundingSource.Id) ||
+                            organization.OrganizationRoles.Count == 0)
+
+                        select new SimpleOrganizationDTO
+                        {
+                            OrganizationId = organization.OrganizationId,
+                            Name = organization.Name,
+                            Description = organization.Description,
+                            OrganizationType = organizationType.OrganizationTypeName,
+                            OrganizationRoleIds = organizationRoles.Select(x => x.OrganizationRoleId),
+                            OrganizationRoleNames = organizationRoles.Select(x => x.OrganizationRoleName),
+                            Status = organization.Status,
+                            Location = (addressHasCity ? address.Location.City.LocationName : String.Empty)
+                                       + (addressHasCity && (addressHasDivision || addressHasCountry) ? ", " : String.Empty)
+                                       + (addressHasDivision ? address.Location.Division.LocationName : String.Empty)
+                                       + (addressHasCity && addressHasDivision && addressHasCountry ? ", " : String.Empty)
+                                       + (addressHasCountry ? address.Location.Country.LocationName : String.Empty)
+                        };
+            return query;
+        }
+
         /// <summary>
         /// Creates a query that returns and organization dto from the eca organizations.
         /// </summary>
@@ -92,6 +146,7 @@ namespace ECA.Business.Queries.Admin
                         let addresses = org.Addresses
                         let parentOrg = org.ParentOrganization
                         let orgRoles = org.OrganizationRoles
+
                         select new OrganizationDTO
                         {
                             Contacts = contacts.Select(x => new SimpleLookupDTO { Id = x.ContactId, Value = x.FullName }),

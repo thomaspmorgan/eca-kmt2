@@ -55,6 +55,8 @@ namespace ECA.Business.Test.Service.Projects
             var allowedObjectiveIds = new List<int> { 2 };
             var newInactiveLocationIds = new List<int> { 3 };
             List<int> regionLocationTypeIds = new List<int> { LocationType.Region.Id };
+            var allowedThemeIds = new List<int> { 1 };
+            var allowedGoalIds = new List<int> { 1 };
 
             var instance = new ProjectServiceUpdateValidationEntity(
                 updatedProject,                
@@ -71,7 +73,9 @@ namespace ECA.Business.Test.Service.Projects
                 allowedCategoryIds,
                 allowedObjectiveIds,
                 regionLocationTypeIds,
-                officeSettings);
+                officeSettings,
+                allowedThemeIds,
+                allowedGoalIds);
             Assert.AreEqual(updatedProject.Name, instance.Name);
             Assert.AreEqual(updatedProject.Description, instance.Description);
             Assert.AreEqual(updatedProject.StartDate, instance.StartDate);
@@ -90,6 +94,8 @@ namespace ECA.Business.Test.Service.Projects
             CollectionAssert.AreEqual(updatedProject.CategoryIds.ToList(), instance.CategoryIds.ToList());
             CollectionAssert.AreEqual(newInactiveLocationIds, instance.NewInactiveLocationIds.ToList());
             Assert.IsTrue(Object.ReferenceEquals(officeSettings, instance.OfficeSettings));
+            CollectionAssert.AreEqual(allowedThemeIds.ToList(), instance.AllowedThemeIds.ToList());
+            CollectionAssert.AreEqual(allowedGoalIds.ToList(), instance.AllowedGoalIds.ToList());
         }
 
         [TestMethod]
@@ -133,6 +139,8 @@ namespace ECA.Business.Test.Service.Projects
             List<int> allowedObjectiveIds = new List<int>();
             List<int> newInactiveLocationIds = new List<int>();
             List<int> regionLocationTypeIds = new List<int> { LocationType.Region.Id };
+            List<int> allowedThemeIds = new List<int>();
+            List<int> allowedGoalIds = new List<int>();
 
             var instance = new ProjectServiceUpdateValidationEntity(
                 updatedProject,
@@ -149,7 +157,9 @@ namespace ECA.Business.Test.Service.Projects
                 allowedCategoryIds,
                 allowedObjectiveIds,
                 regionLocationTypeIds,
-                officeSettings);
+                officeSettings,
+                allowedThemeIds,
+                allowedGoalIds);
             Assert.IsNotNull(instance.AllowedCategoryIds);
         }
 
@@ -194,6 +204,8 @@ namespace ECA.Business.Test.Service.Projects
             List<int> allowedObjectiveIds = new List<int>();
             List<int> newInactiveLocationIds = new List<int>();
             List<int> regionLocationTypeIds = new List<int> { LocationType.Region.Id };
+            List<int> allowedThemeIds = new List<int>();
+            List<int> allowedGoalIds = new List<int>();
 
             var instance = new ProjectServiceUpdateValidationEntity(
                 updatedProject,
@@ -210,7 +222,9 @@ namespace ECA.Business.Test.Service.Projects
                 allowedCategoryIds,
                 allowedObjectiveIds,
                 regionLocationTypeIds,
-                officeSettings);
+                officeSettings,
+                allowedThemeIds,
+                allowedGoalIds);
             CollectionAssert.AreEqual(allowedCategoryIds.Distinct().ToList(), instance.AllowedCategoryIds.ToList());
         }
 
@@ -256,6 +270,8 @@ namespace ECA.Business.Test.Service.Projects
             List<int> allowedObjectiveIds = new List<int> { 1, 1 };
             List<int> newInactiveLocationIds = new List<int>();
             List<int> regionLocationTypeIds = new List<int> { LocationType.Region.Id };
+            List<int> allowedThemeIds = new List<int>();
+            List<int> allowedGoalIds = new List<int>();
 
             var instance = new ProjectServiceUpdateValidationEntity(
                 updatedProject,
@@ -272,7 +288,9 @@ namespace ECA.Business.Test.Service.Projects
                 allowedCategoryIds,
                 allowedObjectiveIds,
                 regionLocationTypeIds,
-                officeSettings);
+                officeSettings,
+                allowedThemeIds,
+                allowedGoalIds);
             CollectionAssert.AreEqual(allowedObjectiveIds.Distinct().ToList(), instance.AllowedObjectiveIds.ToList());
         }
 
@@ -317,6 +335,8 @@ namespace ECA.Business.Test.Service.Projects
             List<int> allowedObjectiveIds = null;
             List<int> newInactiveLocationIds = new List<int>();
             List<int> regionLocationTypeIds = new List<int> { LocationType.Region.Id };
+            List<int> allowedThemeIds = new List<int>();
+            List<int> allowedGoalIds = new List<int>();
 
             var instance = new ProjectServiceUpdateValidationEntity(
                 updatedProject,
@@ -333,7 +353,9 @@ namespace ECA.Business.Test.Service.Projects
                 allowedCategoryIds,
                 allowedObjectiveIds,
                 regionLocationTypeIds,
-                officeSettings);
+                officeSettings,
+                allowedThemeIds,
+                allowedGoalIds);
             Assert.IsNotNull(instance.AllowedObjectiveIds);
         }
 
@@ -378,6 +400,8 @@ namespace ECA.Business.Test.Service.Projects
             List<int> allowedObjectiveIds = new List<int>();
             List<int> newInactiveLocationIds = new List<int> { 1, 1 };
             List<int> regionLocationTypeIds = new List<int> { LocationType.Region.Id };
+            List<int> allowedThemeIds = new List<int>();
+            List<int> allowedGoalIds = new List<int>();
 
             var instance = new ProjectServiceUpdateValidationEntity(
                 updatedProject,
@@ -394,7 +418,9 @@ namespace ECA.Business.Test.Service.Projects
                 allowedCategoryIds,
                 allowedObjectiveIds,
                 regionLocationTypeIds,
-                officeSettings);
+                officeSettings,
+                allowedThemeIds,
+                allowedGoalIds);
             CollectionAssert.AreEqual(newInactiveLocationIds.Distinct().ToList(), instance.NewInactiveLocationIds.ToList());
         }
 
@@ -439,6 +465,8 @@ namespace ECA.Business.Test.Service.Projects
             List<int> allowedObjectiveIds = new List<int>();
             List<int> newInactiveLocationIds = null;
             List<int> regionLocationTypeIds = new List<int> { LocationType.Region.Id };
+            List<int> allowedThemeIds = new List<int>();
+            List<int> allowedGoalIds = new List<int>();
 
             var instance = new ProjectServiceUpdateValidationEntity(
                 updatedProject,
@@ -455,7 +483,9 @@ namespace ECA.Business.Test.Service.Projects
                 allowedCategoryIds,
                 allowedObjectiveIds,
                 regionLocationTypeIds,
-                officeSettings);
+                officeSettings,
+                allowedThemeIds,
+                allowedGoalIds);
             Assert.IsNotNull(instance.NewInactiveLocationIds);
         }
 
@@ -500,6 +530,8 @@ namespace ECA.Business.Test.Service.Projects
             List<int> allowedObjectiveIds = new List<int>();
             List<int> newInactiveLocationIds = new List<int>();
             List<int> regionLocationTypeIds = new List<int> { LocationType.Region.Id, LocationType.Region.Id };
+            List<int> allowedThemeIds = new List<int>();
+            List<int> allowedGoalIds = new List<int>();
 
             var instance = new ProjectServiceUpdateValidationEntity(
                 updatedProject,
@@ -516,7 +548,9 @@ namespace ECA.Business.Test.Service.Projects
                 allowedCategoryIds,
                 allowedObjectiveIds,
                 regionLocationTypeIds,
-                officeSettings);
+                officeSettings,
+                allowedThemeIds,
+                allowedGoalIds);
             CollectionAssert.AreEqual(regionLocationTypeIds.Distinct().ToList(), instance.RegionLocationTypeIds.ToList());
         }
 
@@ -561,6 +595,8 @@ namespace ECA.Business.Test.Service.Projects
             List<int> allowedObjectiveIds = new List<int>();
             List<int> newInactiveLocationIds = new List<int>();
             List<int> regionLocationTypeIds = null;
+            List<int> allowedThemeIds = new List<int>();
+            List<int> allowedGoalIds = new List<int>();
 
             var instance = new ProjectServiceUpdateValidationEntity(
                 updatedProject,
@@ -577,7 +613,9 @@ namespace ECA.Business.Test.Service.Projects
                 allowedCategoryIds,
                 allowedObjectiveIds,
                 regionLocationTypeIds,
-                officeSettings);
+                officeSettings,
+                allowedThemeIds,
+                allowedGoalIds);
             Assert.IsNotNull(instance.RegionLocationTypeIds);
         }
 
@@ -633,7 +671,9 @@ namespace ECA.Business.Test.Service.Projects
                 new List<int>(),
                 new List<int>(),
                 new List<int>(),
-                new OfficeSettings());
+                new OfficeSettings(),
+                new List<int>(),
+                new List<int>());
             Assert.AreEqual(pointsOfContactExist, instance.PointsOfContactExist);
             Assert.AreEqual(themesExist, instance.ThemesExist);
             Assert.AreEqual(goalsExist, instance.GoalsExist);
@@ -692,7 +732,9 @@ namespace ECA.Business.Test.Service.Projects
                 new List<int>(),
                 new List<int>(),
                 new List<int>(),
-                new OfficeSettings());
+                new OfficeSettings(),
+                new List<int>(),
+                new List<int>());
             Assert.AreEqual(pointsOfContactExist, instance.PointsOfContactExist);
             Assert.AreEqual(themesExist, instance.ThemesExist);
             Assert.AreEqual(goalsExist, instance.GoalsExist);
@@ -751,7 +793,9 @@ namespace ECA.Business.Test.Service.Projects
                 new List<int>(),
                 new List<int>(),
                 new List<int>(),
-                new OfficeSettings());
+                new OfficeSettings(),
+                new List<int>(),
+                new List<int>());
             Assert.AreEqual(pointsOfContactExist, instance.PointsOfContactExist);
             Assert.AreEqual(themesExist, instance.ThemesExist);
             Assert.AreEqual(goalsExist, instance.GoalsExist);
@@ -810,7 +854,9 @@ namespace ECA.Business.Test.Service.Projects
                 new List<int>(),
                 new List<int>(),
                 new List<int>(),
-                new OfficeSettings());
+                new OfficeSettings(),
+                new List<int>(),
+                new List<int>());
             Assert.AreEqual(pointsOfContactExist, instance.PointsOfContactExist);
             Assert.AreEqual(themesExist, instance.ThemesExist);
             Assert.AreEqual(goalsExist, instance.GoalsExist);
@@ -870,7 +916,125 @@ namespace ECA.Business.Test.Service.Projects
                 new List<int>(),
                 new List<int>(),
                 new List<int>(),
-                new OfficeSettings());
+                new OfficeSettings(),
+                new List<int>(),
+                new List<int>());
+        }
+
+        [TestMethod]
+        public void TestConstructor_CheckThemesGoalsNull()
+        {
+            var updatedProject = new PublishedProject(
+                new User(1),
+                1,
+                "name",
+                "description",
+                1,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                DateTimeOffset.UtcNow,
+                DateTimeOffset.UtcNow,
+                1,
+                null,
+                null,
+                null,
+                null);
+            var project = new Project
+            {
+                ProjectStatusId = ProjectStatus.Other.Id
+            };
+            var goalsExist = true;
+            var themesExist = true;
+            var pointsOfContactExist = true;
+            var categoriesExist = true;
+            var objectivesExist = true;
+            var locationsExist = false;
+            var numberOfCategories = 10;
+            var numberOfObjectives = 20;
+
+            var instance = new ProjectServiceUpdateValidationEntity(
+                updatedProject,
+                project,
+                new List<int>(),
+                goalsExist,
+                themesExist,
+                pointsOfContactExist,
+                categoriesExist,
+                objectivesExist,
+                locationsExist,
+                numberOfObjectives,
+                numberOfCategories,
+                new List<int>(),
+                new List<int>(),
+                new List<int>(),
+                new OfficeSettings(),
+                null,
+                null);
+            Assert.IsNotNull(instance.AllowedThemeIds);
+            Assert.IsNotNull(instance.AllowedGoalIds);
+        }
+
+        [TestMethod]
+        public void TestConstructor_CheckThemesGoalsDistinct()
+        {
+            var updatedProject = new PublishedProject(
+                new User(1),
+                1,
+                "name",
+                "description",
+                1,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                DateTimeOffset.UtcNow,
+                DateTimeOffset.UtcNow,
+                1,
+                null,
+                null,
+                null,
+                null);
+            var project = new Project
+            {
+                ProjectStatusId = ProjectStatus.Other.Id
+            };
+            var goalsExist = true;
+            var themesExist = true;
+            var pointsOfContactExist = true;
+            var categoriesExist = true;
+            var objectivesExist = true;
+            var locationsExist = false;
+            var numberOfCategories = 10;
+            var numberOfObjectives = 20;
+
+            var instance = new ProjectServiceUpdateValidationEntity(
+                updatedProject,
+                project,
+                new List<int>(),
+                goalsExist,
+                themesExist,
+                pointsOfContactExist,
+                categoriesExist,
+                objectivesExist,
+                locationsExist,
+                numberOfObjectives,
+                numberOfCategories,
+                new List<int>(),
+                new List<int>(),
+                new List<int>(),
+                new OfficeSettings(),
+                new List<int> { 1, 1 },
+                new List<int> { 2, 2});
+            CollectionAssert.AreEqual(new List<int> { 1 }, instance.AllowedThemeIds.ToList());
+            CollectionAssert.AreEqual(new List<int> { 2 }, instance.AllowedGoalIds.ToList());
         }
     }
 }

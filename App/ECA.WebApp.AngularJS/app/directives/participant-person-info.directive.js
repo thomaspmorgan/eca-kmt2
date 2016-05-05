@@ -27,6 +27,7 @@
                 var notifyStatuses = ConstantsService.sevisStatusIds.split(',');
                 var projectId = 0;
                 var participantId = $scope.participantid;
+                $scope.view = {};
 
                 $scope.$watch(function () {
                     return $scope.sevisinfo;
@@ -35,15 +36,7 @@
                         sevisInfoCopy = angular.copy(newValue);
                         projectId = newValue.projectId;
                     }
-                });
-                
-                $scope.editGeneral = function () {
-                    if (!$scope.sevisinfo.blockEdit) {
-                        $scope.view.isInfoTabInEditMode = true;
-                    } else {
-                        return false;
-                    }
-                };                
+                });                
             }
         };
 

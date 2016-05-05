@@ -55,7 +55,7 @@ namespace ECA.Data
         /// </summary>
         [ForeignKey("ParticipantId")]
         public ParticipantExchangeVisitor ParticipantExchangeVisitor { get; set; }
-
+        
         /// <summary>
         /// History data for this participant
         /// </summary>

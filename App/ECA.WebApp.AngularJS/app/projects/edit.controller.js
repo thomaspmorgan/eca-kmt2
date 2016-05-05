@@ -647,7 +647,7 @@ angular.module('staticApp')
       var themesFilter = FilterService.add('projectedit_themesfilter');
       function loadThemes(search) {
           themesFilter.reset();
-          themesFilter = themesFilter.skip(0).take(maxLimit);
+          themesFilter = themesFilter.skip(0).take(maxLimit).isTrue('isActive');
           if (search) {
               themesFilter = themesFilter.like('name', search);
           }
@@ -664,7 +664,7 @@ angular.module('staticApp')
       var goalsFilter = FilterService.add('projectedit_goalsfilter');
       function loadGoals(search) {
           goalsFilter.reset();
-          goalsFilter = goalsFilter.skip(0).take(maxLimit);
+          goalsFilter = goalsFilter.skip(0).take(maxLimit).isTrue('isActive');
           if (search) {
               goalsFilter = goalsFilter.like('name', search);
           }
