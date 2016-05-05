@@ -14,6 +14,11 @@ namespace ECA.Business.Service.Sevis
     public class SimpleSevisBatchErrorResult
     {
         /// <summary>
+        /// Creates a new default instance.
+        /// </summary>
+        public SimpleSevisBatchErrorResult() { }
+
+        /// <summary>
         /// Creates a new instance with the error data in the given result type.
         /// </summary>
         /// <param name="result">The sevis transaction log result type.</param>
