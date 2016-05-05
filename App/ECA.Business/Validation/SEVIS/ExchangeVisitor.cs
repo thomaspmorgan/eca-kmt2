@@ -21,6 +21,11 @@ namespace ECA.Business.Validation.Sevis
     public class ExchangeVisitor : ISevisIdentifable
     {
         /// <summary>
+        /// The remarks for why a reprint ds2019 was requested.
+        /// </summary>
+        public const string REPRINT_DS2019_REMARKS = "Updates made to exchange visitor.";
+
+        /// <summary>
         /// Creates a new instance.
         /// </summary>
         /// <param name="user">The user requesting the exchange visitor.</param>
@@ -273,6 +278,13 @@ namespace ECA.Business.Validation.Sevis
             exchangeVisitorProgram.Item = this.Person.SubjectField.GetSEVISEVBatchTypeExchangeVisitorProgramEditSubject();
             visitors.Add(createUpdateExchangeVisitor(exchangeVisitorProgram, new RequestId(this.Person.ParticipantId, RequestIdType.SubjectField, RequestActionType.Update)));
 
+            var reprintForm = new ReprintType
+            {
+                printForm = true,
+                Reason = EVReprintRequestReasonType.Item05, //other reprint code
+                OtherRemarks = REPRINT_DS2019_REMARKS
+            };
+            visitors.Add(createUpdateExchangeVisitor(reprintForm, new RequestId(this.Person.ParticipantId, RequestIdType.Reprint, RequestActionType.Update)));
             return visitors;
         }
 

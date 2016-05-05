@@ -877,7 +877,7 @@ namespace ECA.Business.Test.Validation.Sevis
                 Assert.IsFalse(visitor.statusCodeSpecified);
             };
             var list = exchangeVisitor.GetSEVISEVBatchTypeExchangeVisitor1Collection(sevisUserId).ToList();
-            Assert.AreEqual(4, list.Count);
+            Assert.AreEqual(5, list.Count);
             list.ForEach(x => propertyTester(x));
 
             var personVisitorItem = CreateGetItemQuery<SEVISEVBatchTypeExchangeVisitorBiographical>(list).FirstOrDefault();
@@ -914,6 +914,16 @@ namespace ECA.Business.Test.Validation.Sevis
                 .FirstOrDefault();
             Assert.IsNotNull(editSubjectExchangeVisitorProgramItem);
             Assert.AreEqual(new RequestId(person.ParticipantId, RequestIdType.SubjectField, RequestActionType.Update).ToString(), exchangeVisitorPrograms.First().requestID);
+
+            var reprintItem = CreateGetItemQuery<ReprintType>(list).FirstOrDefault();
+            Assert.AreEqual(new RequestId(person.ParticipantId, RequestIdType.Reprint, RequestActionType.Update).ToString(), reprintItem.requestID);
+            Assert.IsNotNull(reprintItem);
+            Assert.IsNotNull(reprintItem.Item);
+            Assert.IsInstanceOfType(reprintItem.Item, typeof(ReprintType));
+            var reprintItemInstance = (ReprintType)reprintItem.Item;
+            Assert.AreEqual(ExchangeVisitor.REPRINT_DS2019_REMARKS, reprintItemInstance.OtherRemarks);
+            Assert.AreEqual(EVReprintRequestReasonType.Item05, reprintItemInstance.Reason);
+            Assert.IsTrue(reprintItemInstance.printForm);
         }
 
         private IQueryable<SEVISEVBatchTypeExchangeVisitor1> CreateGetItemQuery<T>(List<SEVISEVBatchTypeExchangeVisitor1> items)

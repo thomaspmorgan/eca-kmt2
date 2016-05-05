@@ -50,7 +50,7 @@ namespace ECA.Business.Test.Validation.Sevis
             Assert.AreEqual(code.GetProgSubjectCodeType(), model.SubjectFieldCode);
             Assert.AreEqual(instance.Remarks, model.Remarks);
             Assert.AreEqual(instance.Remarks, model.SubjectFieldRemarks);
-            Assert.IsTrue(model.printForm);
+            Assert.IsFalse(model.printForm);
         }
     }
 }

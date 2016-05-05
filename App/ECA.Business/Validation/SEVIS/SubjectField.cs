@@ -60,7 +60,7 @@ namespace ECA.Business.Validation.Sevis
         {
             return new SEVISEVBatchTypeExchangeVisitorProgramEditSubject
             {
-                printForm = true,
+                printForm = false,
                 Remarks = this.Remarks,
                 SubjectFieldRemarks = this.Remarks,
                 SubjectFieldCode = this.SubjectFieldCode.GetProgSubjectCodeType()

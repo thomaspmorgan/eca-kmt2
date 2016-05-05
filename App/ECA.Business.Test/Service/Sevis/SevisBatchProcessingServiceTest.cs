@@ -936,9 +936,7 @@ namespace ECA.Business.Test.Service.Sevis
                     );
                     exchangeVisitors.Add(exchangeVisitor);
                 }
-                for (var i = 1;
-                    i <= maxUpdateExchangeVisitorBatchSize;
-                    i++)
+                for (var i = 1; i <= maxUpdateExchangeVisitorBatchSize; i++)
                 {
                     var participant = new Participant
                     {
@@ -979,10 +977,10 @@ namespace ECA.Business.Test.Service.Sevis
                     exchangeVisitors.Add(exchangeVisitor);
                 }
             });
-            var numberOfUpdateRecordsPerExchangeVisitor = 3;
+            var numberOfUpdateRecordsPerExchangeVisitor = 4;
             Action<List<StagedSevisBatch>> tester = (batches) =>
             {
-                var expectedBatchCount = 4;
+                var expectedBatchCount = 5;
                 Assert.IsNotNull(batches);
                 Assert.AreEqual(expectedBatchCount, batches.Count);
 
@@ -1001,7 +999,7 @@ namespace ECA.Business.Test.Service.Sevis
                     if (i > 0 && i < expectedBatchCount - 1)
                     {
                         Assert.IsNull(batch.SEVISBatchCreateUpdateEV.CreateEV);
-                        Assert.AreEqual(numberOfUpdateRecordsPerExchangeVisitor * 3, batch.SEVISBatchCreateUpdateEV.UpdateEV.Count());
+                        Assert.AreEqual(numberOfUpdateRecordsPerExchangeVisitor * 2, batch.SEVISBatchCreateUpdateEV.UpdateEV.Count());
                     }
                 }
             };
