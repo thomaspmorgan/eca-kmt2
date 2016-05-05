@@ -37,6 +37,11 @@ namespace ECA.Data
         public const int MAX_DESCRIPTION_LENGTH = 3000;
 
         /// <summary>
+        /// The max SEVIS Region Id length.
+        /// </summary>
+        public const int MAX_SEVIS_ORG_ID_LENGTH = 15;
+
+        /// <summary>
         /// Creates a new Project and initializes the collections.
         /// </summary>
         public Project()
@@ -126,6 +131,13 @@ namespace ECA.Data
         /// Gets or sets the nomination source.
         /// </summary>
         public virtual Organization NominationSource { get; set; }
+
+        /// <summary>
+        /// Gets or sets the sevis region id.
+        /// </summary>
+        //[Required]
+        [MaxLength(MAX_SEVIS_ORG_ID_LENGTH)]
+        public string SevisOrgId { get; set; }
 
         /// <summary>
         /// Gets or sets the start date.

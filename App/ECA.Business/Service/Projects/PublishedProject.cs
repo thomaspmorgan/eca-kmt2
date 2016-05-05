@@ -36,6 +36,7 @@ namespace ECA.Business.Service.Projects
             string name,
             string description,
             int projectStatusId,
+            string sevisOrgId,
             IEnumerable<int> goalIds,
             IEnumerable<int> themeIds,
             IEnumerable<int> pointsOfContactIds,
@@ -56,6 +57,7 @@ namespace ECA.Business.Service.Projects
             this.ProjectId = projectId;
             this.Name = name;
             this.Description = description;
+            this.SevisOrgId = sevisOrgId;
             this.ProjectStatusId = projectStatusId;
             this.GoalIds = goalIds ?? new List<int>();
             this.ThemeIds = themeIds ?? new List<int>();
@@ -101,6 +103,11 @@ namespace ECA.Business.Service.Projects
         /// Gets the project status id.
         /// </summary>
         public int ProjectStatusId { get; private set; }
+
+        /// <summary>
+        /// Gets the sevis org id.
+        /// </summary>
+        public string SevisOrgId { get; private set; }
 
         /// <summary>
         /// Gets the Themes by id.

@@ -19,6 +19,7 @@ namespace ECA.Business.Test.Service.Projects
             var projectStatusId = ProjectStatus.Active.Id;
             var name = "name";
             var description = "description";
+            var sevisOrgId = "abcde1234567890";
             var goalIds = new List<int> { 1 };
             var pocIds = new List<int> { 2 };
             var themeIds = new List<int> { 3 };
@@ -39,6 +40,7 @@ namespace ECA.Business.Test.Service.Projects
                 name,
                 description,
                 projectStatusId,
+                sevisOrgId,
                 goalIds,
                 themeIds,
                 pocIds,
@@ -56,6 +58,7 @@ namespace ECA.Business.Test.Service.Projects
 
             Assert.AreEqual(projectId, instance.ProjectId);
             Assert.AreEqual(projectStatusId, instance.ProjectStatusId);
+            Assert.AreEqual(sevisOrgId, instance.SevisOrgId);
             Assert.AreEqual(name, instance.Name);
             Assert.AreEqual(description, instance.Description);
             Assert.AreEqual(startDate, instance.StartDate);
@@ -82,6 +85,7 @@ namespace ECA.Business.Test.Service.Projects
             var projectStatusId = ProjectStatus.Active.Id;
             var name = "name";
             var description = "description";
+            var sevisOrgId = "abcde1234567890";
             var goalIds = new List<int> { 1, 1 };
             var pocIds = new List<int> { 2, 2 };
             var themeIds = new List<int> { 3, 3 };
@@ -98,6 +102,7 @@ namespace ECA.Business.Test.Service.Projects
                 name: name,
                 description: description,
                 projectStatusId: projectStatusId,
+                sevisOrgId: sevisOrgId,
                 goalIds: goalIds,
                 themeIds: themeIds,
                 pointsOfContactIds: pocIds,
@@ -130,6 +135,7 @@ namespace ECA.Business.Test.Service.Projects
             var projectStatusId = ProjectStatus.Active.Id;
             var name = "name";
             var description = "description";
+            var sevisOrgId = "abcde1234567890";
             var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
             var endDate = DateTimeOffset.UtcNow.AddDays(1.0);
             var user = new User(1);
@@ -139,6 +145,7 @@ namespace ECA.Business.Test.Service.Projects
                 name: name,
                 description: description,
                 projectStatusId: projectStatusId,
+                sevisOrgId: sevisOrgId,
                 goalIds: null,
                 themeIds: null,
                 pointsOfContactIds: null,
