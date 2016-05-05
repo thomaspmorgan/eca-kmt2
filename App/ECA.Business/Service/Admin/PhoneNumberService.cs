@@ -1,6 +1,7 @@
 ﻿using ECA.Business.Exceptions;
 using ECA.Business.Queries.Admin;
 using ECA.Business.Queries.Models.Admin;
+using ECA.Business.Queries.Models.Persons;
 using ECA.Core.Exceptions;
 using ECA.Core.Service;
 using ECA.Data;
@@ -23,7 +24,7 @@ namespace ECA.Business.Service.Admin
         private readonly Logger logger = LogManager.GetCurrentClassLogger();
         private readonly Action<IPhoneNumberable, int> throwIfPhoneNumberableEntityNotFound;
         private readonly Action<PhoneNumber, int> throwIfPhoneNumberNotFound;
-        private Action<Participant> throwValidationErrorIfParticipantSevisInfoIsLocked;
+        private Action<ParticipantPersonSevisDTO> throwValidationErrorIfParticipantSevisInfoIsLocked;
 
         /// <summary>
         /// Creates a new instance and initializes the context..
@@ -50,9 +51,9 @@ namespace ECA.Business.Service.Admin
             };
             throwValidationErrorIfParticipantSevisInfoIsLocked = (participant) =>
             {
-                if (participant.ParticipantPerson != null)
+                if (participant != null && participant.SevisStatusId.HasValue)
                 {
-                    if (participant != null && IndexOfInt(participant.LOCKED_SEVIS_COMM_STATUSES, participant.CurrentSevisCommStatusId) != -1)
+                    if (participant != null && IndexOfInt(participant.LOCKED_SEVIS_COMM_STATUSES, (int)participant.SevisStatusId) != -1)
                     {
                         var msg = String.Format("An update was attempted on participant with id [{0}] but should have failed validation.",
                                 participant.ParticipantId);
@@ -156,7 +157,7 @@ namespace ECA.Business.Service.Admin
         public void Update(UpdatedPhoneNumber updatedPhoneNumber)
         {
             var phoneNumber = Context.PhoneNumbers.Find(updatedPhoneNumber.Id);
-            Participant participant = null;
+            ParticipantPersonSevisDTO participant = null;
             if (phoneNumber != null && phoneNumber.PersonId.HasValue)
             {
                 participant = GetParticipantByPersonId((int)phoneNumber.PersonId);
@@ -176,7 +177,7 @@ namespace ECA.Business.Service.Admin
         public async Task UpdateAsync(UpdatedPhoneNumber updatedPhoneNumber)
         {
             var phoneNumber = await Context.PhoneNumbers.FindAsync(updatedPhoneNumber.Id);
-            Participant participant = null;
+            ParticipantPersonSevisDTO participant = null;
             if (phoneNumber != null && phoneNumber.PersonId.HasValue)
             {
                 participant = await GetParticipantByPersonIdAsync((int)phoneNumber.PersonId);
@@ -190,7 +191,7 @@ namespace ECA.Business.Service.Admin
         }
 
         private void DoUpdate(UpdatedPhoneNumber updatedPhoneNumber, PhoneNumber modelToUpdate, 
-            List<PhoneNumber> existingPhoneNumbers, Participant participant)
+            List<PhoneNumber> existingPhoneNumbers, ParticipantPersonSevisDTO participant)
         {
             Contract.Requires(updatedPhoneNumber != null, "The updatedPhoneNumber must not be null.");
             throwIfPhoneNumberNotFound(modelToUpdate, updatedPhoneNumber.Id);

@@ -16,11 +16,6 @@ namespace ECA.Data
             this.History = new History();
         }
 
-        /// <summary>
-        /// Participant SEVIS statuses that do not allow edits.
-        /// </summary>
-        public int[] LOCKED_SEVIS_COMM_STATUSES = { SevisCommStatus.QueuedToSubmit.Id, SevisCommStatus.PendingSevisSend.Id, SevisCommStatus.SentByBatch.Id };
-
         [Key]
         public int ParticipantId { get; set; }
         public int? OrganizationId { get; set; }
@@ -56,16 +51,11 @@ namespace ECA.Data
         public ParticipantPerson ParticipantPerson { get; set; }
 
         /// <summary>
-        /// Gets the latest SEVIS communication status
-        /// </summary>
-        public int CurrentSevisCommStatusId { get; set; }
-
-        /// <summary>
         /// reference to the ParticipantExchangeVisitor record for this Participant if person is an ExchangeVisitor
         /// </summary>
         [ForeignKey("ParticipantId")]
         public ParticipantExchangeVisitor ParticipantExchangeVisitor { get; set; }
-
+        
         /// <summary>
         /// History data for this participant
         /// </summary>
