@@ -105,8 +105,7 @@ namespace ECA.Business.Service.Persons
         /// <returns>The Contact that was added to the context.</returns>
         public Contact Create(AdditionalPointOfContact pointOfContact)
         {
-            var matchingEmailAddresses = CreateGetLikeEmailAddressesQuery(pointOfContact.EmailAddresses.Select(x => x.Address).ToList()).ToList();
-            return DoCreate(pointOfContact, matchingEmailAddresses);
+            return DoCreate(pointOfContact);
         }
 
         /// <summary>
@@ -116,13 +115,12 @@ namespace ECA.Business.Service.Persons
         /// <returns>The Contact that was added to the context.</returns>
         public async Task<Contact> CreateAsync(AdditionalPointOfContact pointOfContact)
         {
-            var matchingEmailAddresses = await CreateGetLikeEmailAddressesQuery(pointOfContact.EmailAddresses.Select(x => x.Address).ToList()).ToListAsync();
-            return DoCreate(pointOfContact, matchingEmailAddresses);
+            return DoCreate(pointOfContact);
         }
 
-        private Contact DoCreate(AdditionalPointOfContact pointOfContact, IEnumerable<EmailAddress> matchingEmailAddresses)
+        private Contact DoCreate(AdditionalPointOfContact pointOfContact)
         {
-            var validationEntity = GetAdditionalPointOfContactValidationEntity(pointOfContact, matchingEmailAddresses.Count());
+            var validationEntity = GetAdditionalPointOfContactValidationEntity(pointOfContact);
             pointOfContactValidator.ValidateCreate(validationEntity);
 
             var contact = new Contact();
@@ -163,7 +161,7 @@ namespace ECA.Business.Service.Persons
             return contact;
         }
 
-        private AdditionalPointOfContactValidationEntity GetAdditionalPointOfContactValidationEntity(AdditionalPointOfContact pointOfContact, int likeEmailAddressesCount)
+        private AdditionalPointOfContactValidationEntity GetAdditionalPointOfContactValidationEntity(AdditionalPointOfContact pointOfContact)
         {
             var numberOfPrimaryEmailAddresses = pointOfContact.EmailAddresses.Where(x => x.IsPrimary).Count();
             var numberOfPrimaryPhoneNumbers = pointOfContact.PhoneNumbers.Where(x => x.IsPrimary).Count();
@@ -171,8 +169,7 @@ namespace ECA.Business.Service.Persons
                 fullName: pointOfContact.FullName,
                 position: pointOfContact.Position,
                 numberOfPrimaryEmailAddresses: numberOfPrimaryEmailAddresses,
-                numberOfPrimaryPhoneNumbers: numberOfPrimaryPhoneNumbers,
-                likeEmailAddressCount: likeEmailAddressesCount);
+                numberOfPrimaryPhoneNumbers: numberOfPrimaryPhoneNumbers);
         }
         #endregion
     }
