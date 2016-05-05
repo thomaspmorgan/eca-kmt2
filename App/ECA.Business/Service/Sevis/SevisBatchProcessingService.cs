@@ -336,14 +336,15 @@ namespace ECA.Business.Service.Sevis
             notificationService.NotifyCancelledSevisBatch(batch.BatchId, reason);
         }
 
+        /// <summary>
+        /// Returns a json string of representing the sevis batch result cancellation.
+        /// </summary>
+        /// <param name="reason">The reason for the cancellation.</param>
+        /// <returns>A Json string of the cancellation reasons.</returns>
         public string GetBatchCancelledBySystemAsSevisBatchResultJsonString(string reason)
         {
             var list = new List<SimpleSevisBatchErrorResult>();
-            list.Add(new SimpleSevisBatchErrorResult
-            {
-                ErrorCode = SevisCommStatus.BatchCancelledBySystem.Value,
-                ErrorMessage = reason
-            });
+            list.Add(new SimpleSevisBatchErrorResult(SevisCommStatus.BatchCancelledBySystem.Value, reason));
             return JsonConvert.SerializeObject(list, GetSerializerSettings());
         }
 
@@ -577,7 +578,7 @@ namespace ECA.Business.Service.Sevis
                         var participantPerson = Context.ParticipantPersons.Find(groupedProcessRecord.ObjectId);
                         var dependents = participant.Person.Family.ToList();
                         UpdateParticipant(user, participantPerson, dependents, sevisBatchCreateUpdateEV, groupedProcessRecord, batch);
-                        UploadDS2019(groupedProcessRecord, participantPerson, fileProvider);                        
+                        UploadDS2019(groupedProcessRecord, participantPerson, fileProvider);
                     }
                     else if (groupedProcessRecord.IsPersonDependent)
                     {
@@ -649,15 +650,7 @@ namespace ECA.Business.Service.Sevis
         public string GetSevisBatchResultTypeAsJson(ResultType resultType)
         {
             Contract.Requires(resultType != null, "The result type must not be null.");
-            var list = new List<SimpleSevisBatchErrorResult>();
-            if (!resultType.status)
-            {
-                var instance = new SimpleSevisBatchErrorResult();
-                instance.ErrorCode = resultType.ErrorCode;
-                instance.ErrorMessage = resultType.ErrorMessage;
-                list.Add(instance);
-            }
-            return JsonConvert.SerializeObject(list, GetSerializerSettings());
+            return GetSevisBatchResultTypeAsJson(new List<ResultType> { resultType });
         }
 
         /// <summary>
@@ -673,10 +666,7 @@ namespace ECA.Business.Service.Sevis
             {
                 if (!resultType.status)
                 {
-                    var instance = new SimpleSevisBatchErrorResult();
-                    instance.ErrorCode = resultType.ErrorCode;
-                    instance.ErrorMessage = resultType.ErrorMessage;
-                    list.Add(instance);
+                    list.Add(new SimpleSevisBatchErrorResult(resultType));
                 }
             }
             return JsonConvert.SerializeObject(list, GetSerializerSettings());
@@ -748,8 +738,6 @@ namespace ECA.Business.Service.Sevis
             Context.ParticipantPersonSevisCommStatuses.Add(sevisCommStatus);
             return sevisCommStatus;
         }
-
-
 
         private IQueryable<SevisBatchProcessing> CreateGetSevisBatchProcessingByBatchIdQuery(string batchId)
         {
@@ -887,82 +875,9 @@ namespace ECA.Business.Service.Sevis
             };
             participantPerson.ParticipantPersonSevisCommStatuses.Add(participantCommStatus);
             Context.ParticipantPersonSevisCommStatuses.Add(participantCommStatus);
-
         }
 
         #endregion
-
-        //#region Update Dependent
-
-        ///// <summary>
-        ///// Updates the dependents in the system.
-        ///// </summary>
-        ///// <param name="user">The user performing the updates.</param>
-        ///// <param name="dependents">The dependents to update.</param>
-        ///// <param name="batch">The sent batch.</param>
-        ///// <param name="record">The sevis api process record.</param>
-        //public void UpdateDependents(User user, List<PersonDependent> dependents, SEVISBatchCreateUpdateEV batch, TransactionLogTypeBatchDetailProcessRecord record)
-        //{
-        //    Contract.Requires(user != null, "The user must not be null.");
-        //    Contract.Requires(batch != null, "The batch must not be null.");
-        //    Contract.Requires(dependents != null, "The dependents must not be null.");
-        //    if (record.Dependent != null)
-        //    {
-        //        foreach (var processedDependent in record.Dependent)
-        //        {
-        //            var participantSevisKey = new ParticipantSevisKey(processedDependent);
-        //            var dependentToUpdate = (from dependent in dependents
-        //                                     where dependent.SevisId == processedDependent.dependentSevisID
-        //                                     || dependent.DependentId == participantSevisKey.PersonId
-        //                                     select dependent).FirstOrDefault();
-        //            UpdateDependent(user, batch, processedDependent, dependentToUpdate);
-        //        }
-        //    }
-        //}
-
-        ///// <summary>
-        ///// Updates the dependent with the depenent record from the transaction log.
-        ///// </summary>
-        ///// <param name="user">The user processing the dependents.</param>
-        ///// <param name="dependentRecord">The dependent record from the transaction log.</param>
-        ///// <param name="dependent">The dependent to update.</param>
-        ///// <param name="batch">The sevis batch that was sent to the batch api.</param>
-        //public void UpdateDependent(User user, SEVISBatchCreateUpdateEV batch, TransactionLogTypeBatchDetailProcessRecordDependent dependentRecord, PersonDependent dependent)
-        //{
-        //    Contract.Requires(user != null, "The user must not be null.");
-        //    Contract.Requires(batch != null, "The batch must not be null.");
-        //    Contract.Requires(dependentRecord != null, "The dependent record must not be null.");
-        //    UpdateDependent(user, batch, dependentRecord.dependentSevisID, dependent);
-        //}
-
-        ///// <summary>
-        ///// Updates the dependent with the process record from the transaction log.
-        ///// </summary>
-        ///// <param name="user">The user processing the dependents.</param>
-        ///// <param name="dependentRecord">The dependent record from the transaction log.</param>
-        ///// <param name="dependent">The dependent to update.</param>
-        ///// <param name="batch">The sevis batch that was sent to the batch api.</param>
-        //public void UpdateDependent(User user, SEVISBatchCreateUpdateEV batch, TransactionLogTypeBatchDetailProcessRecord dependentRecord, PersonDependent dependent)
-        //{
-        //    Contract.Requires(user != null, "The user must not be null.");
-        //    Contract.Requires(batch != null, "The batch must not be null.");
-        //    Contract.Requires(dependentRecord != null, "The dependent record must not be null.");
-        //    UpdateDependent(user, batch, dependentRecord.sevisID, dependent);
-        //}
-
-        //private void UpdateDependent(User user, SEVISBatchCreateUpdateEV batch, string dependentSevisId, PersonDependent dependent)
-        //{
-        //    Contract.Requires(user != null, "The user must not be null.");
-        //    Contract.Requires(batch != null, "The batch must not be null.");
-        //    if (dependent != null && dependentSevisId != null)
-        //    {
-        //        dependent.SevisId = dependentSevisId;
-        //        dependent.IsSevisDeleted = batch.ContainsDeletedParticipantDependent(dependentSevisId);
-        //        var update = new Update(user);
-        //        update.SetHistory(dependent);
-        //    }
-        //}
-//#endregion
 
         #region DS2019 Uploads
         private async Task UploadDS2019Async(GroupedTransactionLogTypeBatchDetailProcess groupedProcessRecord, IDS2019Fileable fileable, IDS2019FileProvider fileProvider)
@@ -1022,41 +937,17 @@ namespace ECA.Business.Service.Sevis
                 {
                     var requestId = record.GetRequestId();
                     doUpload(requestId, record.sevisID);
-                    if(record.Dependent != null)
+                    if (record.Dependent != null)
                     {
                         foreach (var dependentRecord in record.Dependent)
                         {
                             doUpload(requestId, dependentRecord.dependentSevisID);
                         }
                     }
-                    
+
                 }
             }
-        }
-
-        //private async Task UploadDS2019Async(RequestId requestId, TransactionLogTypeBatchDetailProcessRecord record, List<PersonDependent> dependents, IDS2019FileProvider fileProvider)
-        //{
-        //    Contract.Requires(record != null, "The record must not be null.");
-        //    Contract.Requires(fileProvider != null, "The file provider must not be null.");
-        //    Contract.Requires(requestId != null, "The request id must not be null.");
-        //    Contract.Requires(dependents != null, "The dependents must not be null.");
-        //    foreach (var dependent in dependents)
-        //    {
-        //        await UploadDS2019Async(requestId, record, dependent, fileProvider);
-        //    }
-        //}
-
-        //private void UploadDS2019(RequestId requestId, TransactionLogTypeBatchDetailProcessRecord record, List<PersonDependent> dependents, IDS2019FileProvider fileProvider)
-        //{
-        //    Contract.Requires(record != null, "The record must not be null.");
-        //    Contract.Requires(fileProvider != null, "The file provider must not be null.");
-        //    Contract.Requires(requestId != null, "The request id must not be null.");
-        //    Contract.Requires(dependents != null, "The dependents must not be null.");
-        //    foreach (var dependent in dependents)
-        //    {
-        //        UploadDS2019(requestId, record, dependent, fileProvider);
-        //    }
-        //}
+        }        
         #endregion
 
         #region XML Serialization
