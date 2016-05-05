@@ -103,7 +103,8 @@ angular.module('staticApp')
           var newMoneyFlow = {
               entityId: $scope.view.entityId,
               entityTypeId: $scope.sourceEntityTypeId,
-              entityName: $scope.entityName
+              entityName: $scope.entityName,
+              entityParentId: $scope.entityparentid
           };
           showEditMoneyFlow(newMoneyFlow);
       };

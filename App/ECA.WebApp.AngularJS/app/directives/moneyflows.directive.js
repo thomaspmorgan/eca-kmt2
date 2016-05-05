@@ -14,7 +14,8 @@ angular.module('staticApp')
               stateParamName: '=stateparamname',
               sourceEntityTypeId: '=sourceentitytypeid',
               resourceTypeId: '=resourcetypeid',
-              entityName: '=entityname'
+              entityName: '=entityname',
+              entityparentid: '=entityparentid'
           },
           link: function (scope, element, attrs) {
 

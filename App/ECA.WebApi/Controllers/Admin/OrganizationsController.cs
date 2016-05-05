@@ -82,6 +82,26 @@ namespace ECA.WebApi.Controllers.Admin
         }
 
         /// <summary>
+        /// Returns the organizations in the system without funding sources.
+        /// </summary>
+        /// <param name="queryModel">The query operator.</param>
+        /// <returns>The organizations in the system.</returns>
+        [ResponseType(typeof(PagedQueryResults<SimpleOrganizationDTO>))]
+        [Route("OrganizationsWOFundingSource")]
+        public async Task<IHttpActionResult> GetOrganizationsWOFundingSourceAsync([FromUri]PagingQueryBindingModel<SimpleOrganizationDTO> queryModel)
+        {
+            if (ModelState.IsValid)
+            {
+                var results = await organizationService.GetOrganizationsWOFundingSourceAsync(
+                    queryModel.ToQueryableOperator(DEFAULT_SORTER, x => x.Name, x => x.Location, x => x.Status));
+                return Ok(results);
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+        }
+        /// <summary>
         /// Gets organization hierarchy by role id
         /// </summary>
         /// <param name="organizationRoleId">The organization role id to lookup</param>

@@ -18,6 +18,9 @@ angular.module('staticApp')
                 });
               return defer.promise;
           },
+          getOrganizationsWoFundingSource: function (params) {
+              return DragonBreath.get(params, 'organizationsWOFundingSource');
+          },
           getOrganizationsHierarchyByRoleId : function (params) {
               return DragonBreath.get(params, 'organizations/hierarchyByRoleId');
           },
