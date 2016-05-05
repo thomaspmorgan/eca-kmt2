@@ -2,9 +2,9 @@
     <h3 class="modal-title">{{title}}</h3>
 </div>
 <div class="modal-body">
-   {{message}}
+    {{message}}
 </div>
 <div class="modal-footer">
     <button class="btn btn-primary" ng-click="onOkClick()">{{okText}}</button>
-    <button class="btn btn-cancel" ng-click="onCancelClick()">{{cancelText}}</button>
+    <button class="btn btn-cancel" ng-click="onCancelClick()" ng-show="{{hideCancel !== true}}">{{cancelText}}</button>
 </div>

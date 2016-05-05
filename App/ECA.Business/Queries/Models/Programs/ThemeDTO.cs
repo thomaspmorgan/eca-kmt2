@@ -14,5 +14,10 @@
         /// Gets or sets the Name.
         /// </summary>
         public string Name { get; set; }
+
+        /// <summary>
+        /// Gets or sets is active
+        /// </summary>
+        public bool IsActive { get; set; }
     }
 }
