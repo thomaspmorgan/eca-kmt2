@@ -783,7 +783,35 @@ namespace ECA.Business.Service
         /// <returns></returns>
         private IQueryable<Participant> CreateGetParticipantById(int personId)
         {
-            var participant = Context.Participants.Where(x => x.PersonId == personId && x.ParticipantStatusId == ParticipantStatus.Active.Id).Include(x => x.ParticipantPerson).Include(x => x.ParticipantPerson.ParticipantPersonSevisCommStatuses);
+            var participant = (from p in Context.Participants
+                              let sevisStatus = p.ParticipantPerson.ParticipantPersonSevisCommStatuses.OrderByDescending(x => x.AddedOn).Select(x => x.SevisCommStatusId).FirstOrDefault()
+                              where p.PersonId == personId 
+                              && p.ParticipantStatusId == ParticipantStatus.Active.Id
+                              select new Participant
+                              {
+                                  ParticipantId = p.ParticipantId,
+                                  OrganizationId = p.OrganizationId,
+                                  Organization = p.Organization,
+                                  PersonId = p.PersonId,
+                                  Person = p.Person,
+                                  ParticipantTypeId = p.ParticipantTypeId,
+                                  ParticipantType = p.ParticipantType,
+                                  Status = p.Status,
+                                  ParticipantStatusId = p.ParticipantStatusId,
+                                  StatusDate = p.StatusDate,
+                                  ProjectId = p.ProjectId,
+                                  Project = p.Project,
+                                  ItineraryStops = p.ItineraryStops,
+                                  SourceParticipantMoneyFlows = p.SourceParticipantMoneyFlows,
+                                  RecipientParticipantMoneyFlows = p.RecipientParticipantMoneyFlows,
+                                  Itineraries = p.Itineraries,
+                                  ParticipantPerson = p.ParticipantPerson,
+                                  CurrentSevisCommStatusId = sevisStatus,
+                                  ParticipantExchangeVisitor = p.ParticipantExchangeVisitor,
+                                  History = p.History
+                              });
+
+            //Context.Participants.Where(x => x.PersonId == personId && x.ParticipantStatusId == ParticipantStatus.Active.Id).Include(x => x.ParticipantPerson).Include(x => x.ParticipantPerson.ParticipantPersonSevisCommStatuses.OrderByDescending(d => d.AddedOn).Select(s => s.SevisCommStatusId).FirstOrDefault());
             logger.Trace("Retrieved location by id {0}.", personId);
             return participant;
         }

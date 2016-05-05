@@ -56,6 +56,11 @@ namespace ECA.Data
         public ParticipantPerson ParticipantPerson { get; set; }
 
         /// <summary>
+        /// Gets the latest SEVIS communication status
+        /// </summary>
+        public int CurrentSevisCommStatusId { get; set; }
+
+        /// <summary>
         /// reference to the ParticipantExchangeVisitor record for this Participant if person is an ExchangeVisitor
         /// </summary>
         [ForeignKey("ParticipantId")]
