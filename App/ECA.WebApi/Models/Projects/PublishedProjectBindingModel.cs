@@ -37,6 +37,13 @@ namespace ECA.WebApi.Models.Projects
         public int ProjectStatusId { get; set; }
 
         /// <summary>
+        /// Gets or sets the sevis region id.
+        /// </summary>
+        //[Required]
+        [MaxLength(Project.MAX_SEVIS_ORG_ID_LENGTH)]
+        public string SevisOrgId { get; set; }
+
+        /// <summary>
         /// The themes of the project by id.
         /// </summary>
         [Required]
@@ -125,6 +132,7 @@ namespace ECA.WebApi.Models.Projects
                 name: this.Name,
                 description: this.Description,
                 projectStatusId: this.ProjectStatusId,
+                sevisOrgId: this.SevisOrgId,
                 goalIds: this.GoalIds,
                 themeIds: this.ThemeIds,
                 pointsOfContactIds: this.PointsOfContactIds,

@@ -53,6 +53,11 @@ namespace ECA.Business.Queries.Models.Admin
         public string ProjectStatusName { get; set; }
 
         /// <summary>
+        /// Gets or sets the name of the sevis region id.
+        /// </summary>
+        public string SevisOrgId { get; set; }
+
+        /// <summary>
         /// Gets or sets the start date.
         /// </summary>
         public DateTimeOffset StartDate { get; set; }

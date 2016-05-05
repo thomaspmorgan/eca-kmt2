@@ -67,6 +67,7 @@ namespace ECA.Business.Service.Projects
             this.CategoriesExist = categoriesExist;
             this.ObjectivesExist = objectivesExist;
             this.UpdatedProjectStatusId = updatedProject.ProjectStatusId;
+            this.SevisOrgId = updatedProject.SevisOrgId;
             this.OriginalProjectStatusId = projectToUpdate.ProjectStatusId;
             this.StartDate = updatedProject.StartDate;
             this.EndDate = updatedProject.EndDate;
@@ -145,6 +146,11 @@ namespace ECA.Business.Service.Projects
         /// Gets the new project status id.
         /// </summary>
         public int UpdatedProjectStatusId { get; private set; }
+
+        /// <summary>
+        /// Gets the name of the sevis org id.
+        /// </summary>
+        public string SevisOrgId { get; private set; }
 
         /// <summary>
         /// Gets the name of the project.
