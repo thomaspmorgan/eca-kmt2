@@ -33,7 +33,8 @@ angular.module('staticApp')
         ParticipantService,
         ParticipantPersonsService,
         ParticipantPersonsSevisService,
-        ParticipantExchangeVisitorService
+        ParticipantExchangeVisitorService,
+        filterFilter
         ) {
 
       $scope.view = {};
@@ -745,8 +746,9 @@ angular.module('staticApp')
                       return sendParticipantsToSevis(selectedParticipants, sevisUserAccount.username, sevisUserAccount.orgId);
                   }
                   var sevisUserAccounts = userInfo.sevisUserAccounts;
-                  var sevisUserAccount = sevisUserAccounts[0];
-                  if (sevisUserAccounts.length > 1) {
+                  var filteredSevisUserAccounts = filterFilter(sevisUserAccounts, { sevisOrgId : $scope.$parent.obj.sevisOrgId }, true);
+                  var sevisUserAccount = filteredSevisUserAccounts[0];
+                  if (filteredSevisUserAccounts.length > 1) {
                       promptUserForSevisUserAccount(userInfo, doSendParticipantsToSevis, function () { });
                   }
                   else {
