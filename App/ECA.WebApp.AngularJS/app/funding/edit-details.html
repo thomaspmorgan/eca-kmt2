@@ -59,6 +59,9 @@
             <div class="form-group row" ng-show="organization.contacts">
                 <div class="col-md-4 title-label"><ng-pluralize count="organization.contacts.length" when="{'1':'Point','other':'Points'}"></ng-pluralize> of Contact</div>
                 <div class="col-md-8">
+
+
+
                     <ui-select multiple
                                close-on-select="true"
                                ng-model="view.selectedPointsOfContact"
@@ -79,6 +82,9 @@
                             <div class="small">{{person.position}}</div>
                         </ui-select-choices>
                     </ui-select>
+
+
+
                     <div style="margin-top:5px;">
                         <button class="btn btn-default" ng-click="view.onAddPointsOfContactClick()">Add <i class="material-icons md-dark">person</i></button>
                     </div>
