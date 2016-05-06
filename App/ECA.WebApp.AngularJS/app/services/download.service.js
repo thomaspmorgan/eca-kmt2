@@ -60,6 +60,21 @@ angular.module('staticApp')
                   $log.error('Unable to download file requested at path ' + path + ' with content type ' + contentType);
               });
 
+          },
+
+          print: function (path, contentType) {
+              var url = DragonBreath.getUrl(path);
+              return $http.get(url, { responseType: 'arraybuffer' }).
+              success(function (data) {
+                  var file = new Blob([data], { type: contentType });
+                  var fileUrl = URL.createObjectURL(file);
+                  var w = window.open(fileUrl);
+                  w.print();
+              })
+              .error(function (data, status, headers, config) {
+                $log.error('Unable to print file requested at path ' + path + ' with content type ' + contentType);
+              });
           }
+
       };
   });
