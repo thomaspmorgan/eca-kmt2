@@ -981,25 +981,21 @@ namespace ECA.Business.Test.Service.Sevis
             Action<List<StagedSevisBatch>> tester = (batches) =>
             {
                 var expectedBatchCount = 5;
+                var expectedNumberOfUpdateRecordsPerBatch = numberOfUpdateRecordsPerExchangeVisitor * 2;
                 Assert.IsNotNull(batches);
                 Assert.AreEqual(expectedBatchCount, batches.Count);
 
                 for (var i = 0; i < expectedBatchCount; i++)
                 {
-                    var batch = batches[i];
-                    if (i == expectedBatchCount - 1)
-                    {
-                        Assert.IsNull(batch.SEVISBatchCreateUpdateEV.CreateEV);
-                        Assert.AreEqual(numberOfUpdateRecordsPerExchangeVisitor, batch.SEVISBatchCreateUpdateEV.UpdateEV.Count());
-                    }
+                    var batch = batches[i];                    
                     if (i == 0)
                     {
                         Assert.AreEqual(maxCreateExchangeVisitorBatchSize, batch.SEVISBatchCreateUpdateEV.CreateEV.Count());
                     }
-                    if (i > 0 && i < expectedBatchCount - 1)
+                    else
                     {
                         Assert.IsNull(batch.SEVISBatchCreateUpdateEV.CreateEV);
-                        Assert.AreEqual(numberOfUpdateRecordsPerExchangeVisitor * 2, batch.SEVISBatchCreateUpdateEV.UpdateEV.Count());
+                        Assert.AreEqual(expectedNumberOfUpdateRecordsPerBatch, batch.SEVISBatchCreateUpdateEV.UpdateEV.Count());
                     }
                 }
             };
@@ -1015,7 +1011,7 @@ namespace ECA.Business.Test.Service.Sevis
             Assert.AreEqual(result.Count * 2, context.SaveChangesCalledCount);
 
             notificationService.Verify(x => x.NotifyNumberOfParticipantsToStage(It.IsAny<int>()), Times.Exactly(2));
-            notificationService.Verify(x => x.NotifyStagedSevisBatchCreated(It.IsAny<StagedSevisBatch>()), Times.Exactly(8));
+            notificationService.Verify(x => x.NotifyStagedSevisBatchCreated(It.IsAny<StagedSevisBatch>()), Times.Exactly(10));
             notificationService.Verify(x => x.NotifyStagedSevisBatchesFinished(It.IsAny<List<StagedSevisBatch>>()), Times.Exactly(2));
             notificationService.Verify(x => x.NotifyInvalidExchangeVisitor(It.IsAny<ExchangeVisitor>()), Times.Never());
         }
