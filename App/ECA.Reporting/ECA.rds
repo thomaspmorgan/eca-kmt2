@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RptDataSource xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Name="ECA">
+  <ConnectionProperties>
+    <Extension>SQL</Extension>
+    <ConnectString>Data Source=eca.database.windows.net;Initial Catalog=ECA_KMT_PRE</ConnectString>
+  </ConnectionProperties>
+  <DataSourceID>a61d1a56-3dd6-41e3-acb7-63ec856df758</DataSourceID>
+</RptDataSource>
