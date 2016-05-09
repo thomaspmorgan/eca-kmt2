@@ -206,6 +206,7 @@ namespace ECA.Business.Test.Service.Projects
             var name = "name";
             var description = "desc";
             var statusId = ProjectStatus.Completed.Id;
+            var sevisOrgId = "abcde1234567890";
             var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
             var endDate = DateTimeOffset.UtcNow;
             var projectToUpdate = new Project
@@ -225,6 +226,8 @@ namespace ECA.Business.Test.Service.Projects
             var allowedObjectiveIds = new List<int>();
             var newInactiveLocationIds = new List<int>();
             var regionLocationTypeIds = new List<int>();
+            var allowedThemeIds = new List<int>();
+            var allowedGoalIds = new List<int>();
             Func<PublishedProject> createUpdatedProject = () =>
             {
                 return new PublishedProject(
@@ -233,6 +236,7 @@ namespace ECA.Business.Test.Service.Projects
                     name: name,
                     description: description,
                     projectStatusId: statusId,
+                    sevisOrgId: sevisOrgId,
                     goalIds: null,
                     themeIds: null,
                     pointsOfContactIds: null,
@@ -266,7 +270,9 @@ namespace ECA.Business.Test.Service.Projects
                   allowedObjectiveIds: allowedObjectiveIds,
                   officeSettings: officeSettings,
                   regionLocationTypeIds: regionLocationTypeIds,
-                  newInactiveLocations: newInactiveLocationIds
+                  newInactiveLocations: newInactiveLocationIds,
+                  allowedThemeIds: allowedThemeIds,
+                  allowedGoalIds: allowedGoalIds
                 );
             };
 
@@ -288,6 +294,7 @@ namespace ECA.Business.Test.Service.Projects
             var name = "name";
             var description = "desc";
             var statusId = ProjectStatus.Completed.Id;
+            var sevisOrgId = "abcde1234567890";
             var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
             var endDate = DateTimeOffset.UtcNow;
             var projectToUpdate = new Project
@@ -311,6 +318,8 @@ namespace ECA.Business.Test.Service.Projects
             var allowedObjectiveIds = new List<int>();
             var newInactiveLocationIds = new List<int>();
             var regionLocationTypeIds = new List<int>();
+            var allowedThemeIds = new List<int>();
+            var allowedGoalIds = new List<int>();
             Func<PublishedProject> createUpdatedProject = () =>
             {
                 return new PublishedProject(
@@ -319,6 +328,7 @@ namespace ECA.Business.Test.Service.Projects
                     name: name,
                     description: description,
                     projectStatusId: statusId,
+                    sevisOrgId: sevisOrgId,
                     goalIds: null,
                     themeIds: null,
                     pointsOfContactIds: null,
@@ -352,7 +362,9 @@ namespace ECA.Business.Test.Service.Projects
                   allowedObjectiveIds: allowedObjectiveIds,
                   officeSettings: officeSettings,
                   regionLocationTypeIds: regionLocationTypeIds,
-                  newInactiveLocations: newInactiveLocationIds
+                  newInactiveLocations: newInactiveLocationIds,
+                  allowedThemeIds: allowedThemeIds,
+                  allowedGoalIds: allowedThemeIds
                 );
 
             };
@@ -376,6 +388,7 @@ namespace ECA.Business.Test.Service.Projects
             var name = "name";
             var description = "desc";
             var statusId = ProjectStatus.Completed.Id;
+            var sevisOrgId = "abcde1234567890";
             var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
             var endDate = DateTimeOffset.UtcNow;
             var projectToUpdate = new Project
@@ -399,6 +412,8 @@ namespace ECA.Business.Test.Service.Projects
             var allowedObjectiveIds = new List<int>();
             var newInactiveLocationIds = new List<int>();
             var regionLocationTypeIds = new List<int>();
+            var allowedThemeIds = new List<int>();
+            var allowedGoalIds = new List<int>();
             Func<PublishedProject> createUpdatedProject = () =>
             {
                 return new PublishedProject(
@@ -407,6 +422,7 @@ namespace ECA.Business.Test.Service.Projects
                     name: name,
                     description: description,
                     projectStatusId: statusId,
+                    sevisOrgId: sevisOrgId,
                     goalIds: null,
                     themeIds: null,
                     pointsOfContactIds: null,
@@ -440,7 +456,9 @@ namespace ECA.Business.Test.Service.Projects
                   allowedObjectiveIds: allowedObjectiveIds,
                   officeSettings: officeSettings,
                   regionLocationTypeIds: regionLocationTypeIds,
-                  newInactiveLocations: newInactiveLocationIds
+                  newInactiveLocations: newInactiveLocationIds,
+                  allowedThemeIds: allowedThemeIds,
+                  allowedGoalIds: allowedGoalIds
                 );
 
             };
@@ -463,6 +481,7 @@ namespace ECA.Business.Test.Service.Projects
             var name = "name";
             var description = "desc";
             var statusId = ProjectStatus.Completed.Id;
+            var sevisOrgId = "abcde1234567890";
             var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
             var endDate = DateTimeOffset.UtcNow;
             var projectToUpdate = new Project
@@ -486,6 +505,8 @@ namespace ECA.Business.Test.Service.Projects
             var allowedObjectiveIds = new List<int>();
             var newInactiveLocationIds = new List<int>();
             var regionLocationTypeIds = new List<int>();
+            var allowedThemeIds = new List<int>();
+            var allowedGoalIds = new List<int>();
             Func<PublishedProject> createUpdatedProject = () =>
             {
                 return new PublishedProject(
@@ -494,6 +515,7 @@ namespace ECA.Business.Test.Service.Projects
                     name: name,
                     description: description,
                     projectStatusId: statusId,
+                    sevisOrgId: sevisOrgId,
                     goalIds: null,
                     themeIds: null,
                     pointsOfContactIds: null,
@@ -527,7 +549,9 @@ namespace ECA.Business.Test.Service.Projects
                   allowedObjectiveIds: allowedObjectiveIds,
                   officeSettings: officeSettings,
                   regionLocationTypeIds: regionLocationTypeIds,
-                  newInactiveLocations: newInactiveLocationIds
+                  newInactiveLocations: newInactiveLocationIds,
+                  allowedThemeIds: allowedThemeIds,
+                  allowedGoalIds: allowedGoalIds
                 );
 
             };
@@ -550,6 +574,7 @@ namespace ECA.Business.Test.Service.Projects
             var name = "name";
             var description = "desc";
             var statusId = ProjectStatus.Completed.Id;
+            var sevisOrgId = "abcde1234567890";
             var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
             var endDate = DateTimeOffset.UtcNow;
             var projectToUpdate = new Project
@@ -573,6 +598,8 @@ namespace ECA.Business.Test.Service.Projects
             var allowedObjectiveIds = new List<int>();
             var newInactiveLocationIds = new List<int>();
             var regionLocationTypeIds = new List<int>();
+            var allowedThemeIds = new List<int>();
+            var allowedGoalIds = new List<int>();
             Func<PublishedProject> createUpdatedProject = () =>
             {
                 return new PublishedProject(
@@ -581,6 +608,7 @@ namespace ECA.Business.Test.Service.Projects
                     name: name,
                     description: description,
                     projectStatusId: statusId,
+                    sevisOrgId: sevisOrgId,
                     goalIds: null,
                     themeIds: null,
                     pointsOfContactIds: null,
@@ -614,7 +642,9 @@ namespace ECA.Business.Test.Service.Projects
                   allowedObjectiveIds: allowedObjectiveIds,
                   officeSettings: officeSettings,
                   regionLocationTypeIds: regionLocationTypeIds,
-                  newInactiveLocations: newInactiveLocationIds
+                  newInactiveLocations: newInactiveLocationIds,
+                  allowedThemeIds: allowedThemeIds,
+                  allowedGoalIds: allowedGoalIds
                 );
 
             };
@@ -638,6 +668,7 @@ namespace ECA.Business.Test.Service.Projects
             var name = "name";
             var description = "desc";
             var statusId = ProjectStatus.Completed.Id;
+            var sevisOrgId = "abcde1234567890";
             var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
             var endDate = DateTimeOffset.UtcNow;
             var projectToUpdate = new Project
@@ -661,6 +692,8 @@ namespace ECA.Business.Test.Service.Projects
             var allowedObjectiveIds = new List<int>();
             var newInactiveLocationIds = new List<int>();
             var regionLocationTypeIds = new List<int>();
+            var allowedThemeIds = new List<int>();
+            var allowedGoalIds = new List<int>();
             Func<PublishedProject> createUpdatedProject = () =>
             {
                 return new PublishedProject(
@@ -669,6 +702,7 @@ namespace ECA.Business.Test.Service.Projects
                     name: name,
                     description: description,
                     projectStatusId: statusId,
+                    sevisOrgId: sevisOrgId,
                     goalIds: null,
                     themeIds: null,
                     pointsOfContactIds: null,
@@ -702,7 +736,9 @@ namespace ECA.Business.Test.Service.Projects
                   allowedObjectiveIds: allowedObjectiveIds,
                   officeSettings: officeSettings,
                   regionLocationTypeIds: regionLocationTypeIds,
-                  newInactiveLocations: newInactiveLocationIds
+                  newInactiveLocations: newInactiveLocationIds,
+                  allowedThemeIds: allowedThemeIds,
+                  allowedGoalIds: allowedGoalIds
                 );
 
             };
@@ -725,6 +761,7 @@ namespace ECA.Business.Test.Service.Projects
             var name = "name";
             var description = "desc";
             var statusId = ProjectStatus.Completed.Id;
+            var sevisOrgId = "abcde1234567890";
             var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
             var endDate = DateTimeOffset.UtcNow;
             var projectToUpdate = new Project
@@ -748,6 +785,8 @@ namespace ECA.Business.Test.Service.Projects
             var allowedObjectiveIds = new List<int>();
             var newInactiveLocationIds = new List<int>();
             var regionLocationTypeIds = new List<int>();
+            var allowedThemeIds = new List<int>();
+            var allowedGoalIds = new List<int>();
             Func<PublishedProject> createUpdatedProject = () =>
             {
                 return new PublishedProject(
@@ -756,6 +795,7 @@ namespace ECA.Business.Test.Service.Projects
                     name: name,
                     description: description,
                     projectStatusId: statusId,
+                    sevisOrgId: sevisOrgId,
                     goalIds: null,
                     themeIds: null,
                     pointsOfContactIds: null,
@@ -789,7 +829,9 @@ namespace ECA.Business.Test.Service.Projects
                   allowedObjectiveIds: allowedObjectiveIds,
                   officeSettings: officeSettings,
                   regionLocationTypeIds: regionLocationTypeIds,
-                  newInactiveLocations: newInactiveLocationIds
+                  newInactiveLocations: newInactiveLocationIds,
+                  allowedThemeIds: allowedThemeIds,
+                  allowedGoalIds: allowedGoalIds
                 );
 
             };
@@ -812,6 +854,7 @@ namespace ECA.Business.Test.Service.Projects
             var name = "name";
             var description = "desc";
             var statusId = ProjectStatus.Completed.Id;
+            var sevisOrgId = "abcde1234567890";
             var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
             var endDate = DateTimeOffset.UtcNow;
             var projectToUpdate = new Project
@@ -835,6 +878,8 @@ namespace ECA.Business.Test.Service.Projects
             var allowedObjectiveIds = new List<int>();
             var newInactiveLocationIds = new List<int>();
             var regionLocationTypeIds = new List<int>();
+            var allowedThemeIds = new List<int>();
+            var allowedGoalIds = new List<int>();
             Func<PublishedProject> createUpdatedProject = () =>
             {
                 return new PublishedProject(
@@ -843,6 +888,7 @@ namespace ECA.Business.Test.Service.Projects
                     name: name,
                     description: description,
                     projectStatusId: statusId,
+                    sevisOrgId: sevisOrgId,
                     goalIds: null,
                     themeIds: null,
                     pointsOfContactIds: null,
@@ -876,7 +922,9 @@ namespace ECA.Business.Test.Service.Projects
                   allowedObjectiveIds: allowedObjectiveIds,
                   officeSettings: officeSettings,
                   regionLocationTypeIds: regionLocationTypeIds,
-                  newInactiveLocations: newInactiveLocationIds
+                  newInactiveLocations: newInactiveLocationIds,
+                  allowedThemeIds: allowedThemeIds,
+                  allowedGoalIds: allowedGoalIds
                 );
 
             };
@@ -899,6 +947,7 @@ namespace ECA.Business.Test.Service.Projects
             var name = "name";
             var description = "desc";
             var statusId = ProjectStatus.Completed.Id;
+            var sevisOrgId = "abcde1234567890";
             var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
             var endDate = DateTimeOffset.UtcNow;
             var projectToUpdate = new Project
@@ -922,6 +971,8 @@ namespace ECA.Business.Test.Service.Projects
             var allowedObjectiveIds = new List<int>();
             var newInactiveLocationIds = new List<int>();
             var regionLocationTypeIds = new List<int>();
+            var allowedThemeIds = new List<int>();
+            var allowedGoalIds = new List<int>();
             Func<PublishedProject> createUpdatedProject = () =>
             {
                 return new PublishedProject(
@@ -930,6 +981,7 @@ namespace ECA.Business.Test.Service.Projects
                     name: name,
                     description: description,
                     projectStatusId: statusId,
+                    sevisOrgId: sevisOrgId,
                     goalIds: null,
                     themeIds: null,
                     pointsOfContactIds: null,
@@ -963,7 +1015,9 @@ namespace ECA.Business.Test.Service.Projects
                   allowedObjectiveIds: allowedObjectiveIds,
                   officeSettings: officeSettings,
                   regionLocationTypeIds: regionLocationTypeIds,
-                  newInactiveLocations: newInactiveLocationIds
+                  newInactiveLocations: newInactiveLocationIds,
+                  allowedThemeIds: allowedThemeIds,
+                  allowedGoalIds: allowedGoalIds
                 );
 
             };
@@ -986,6 +1040,7 @@ namespace ECA.Business.Test.Service.Projects
             var name = "name";
             var description = "desc";
             var statusId = ProjectStatus.Completed.Id;
+            var sevisOrgId = "abcde1234567890";
             var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
             var endDate = DateTimeOffset.UtcNow;
             var projectToUpdate = new Project
@@ -1009,6 +1064,8 @@ namespace ECA.Business.Test.Service.Projects
             var allowedObjectiveIds = new List<int>();
             var newInactiveLocationIds = new List<int>();
             var regionLocationTypeIds = new List<int>();
+            var allowedThemeIds = new List<int>();
+            var allowedGoalIds = new List<int>();
             Func<PublishedProject> createUpdatedProject = () =>
             {
                 return new PublishedProject(
@@ -1017,6 +1074,7 @@ namespace ECA.Business.Test.Service.Projects
                     name: name,
                     description: description,
                     projectStatusId: statusId,
+                    sevisOrgId: sevisOrgId,
                     goalIds: null,
                     themeIds: null,
                     pointsOfContactIds: null,
@@ -1050,7 +1108,9 @@ namespace ECA.Business.Test.Service.Projects
                   allowedObjectiveIds: allowedObjectiveIds,
                   officeSettings: officeSettings,
                   regionLocationTypeIds: regionLocationTypeIds,
-                  newInactiveLocations: newInactiveLocationIds
+                  newInactiveLocations: newInactiveLocationIds,
+                  allowedThemeIds: allowedThemeIds,
+                  allowedGoalIds: allowedGoalIds
                 );
 
             };
@@ -1073,6 +1133,7 @@ namespace ECA.Business.Test.Service.Projects
             var name = "name";
             var description = "desc";
             var statusId = ProjectStatus.Completed.Id;
+            var sevisOrgId = "abcde1234567890";
             var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
             var endDate = DateTimeOffset.UtcNow;
             var projectToUpdate = new Project
@@ -1096,6 +1157,8 @@ namespace ECA.Business.Test.Service.Projects
             var allowedObjectiveIds = new List<int>();
             var newInactiveLocationIds = new List<int>();
             var regionLocationTypeIds = new List<int>();
+            var allowedThemeIds = new List<int>();
+            var allowedGoalIds = new List<int>();
             Func<PublishedProject> createUpdatedProject = () =>
             {
                 return new PublishedProject(
@@ -1104,6 +1167,7 @@ namespace ECA.Business.Test.Service.Projects
                     name: name,
                     description: description,
                     projectStatusId: statusId,
+                    sevisOrgId: sevisOrgId,
                     goalIds: null,
                     themeIds: null,
                     pointsOfContactIds: null,
@@ -1137,7 +1201,9 @@ namespace ECA.Business.Test.Service.Projects
                   allowedObjectiveIds: allowedObjectiveIds,
                   officeSettings: officeSettings,
                   regionLocationTypeIds: regionLocationTypeIds,
-                  newInactiveLocations: newInactiveLocationIds
+                  newInactiveLocations: newInactiveLocationIds,
+                  allowedThemeIds: allowedThemeIds,
+                  allowedGoalIds: allowedGoalIds
                 );
 
             };
@@ -1161,6 +1227,7 @@ namespace ECA.Business.Test.Service.Projects
             var name = "name";
             var description = "desc";
             var statusId = ProjectStatus.Completed.Id;
+            var sevisOrgId = "abcde1234567890";
             var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
             var endDate = DateTimeOffset.UtcNow;
             var projectToUpdate = new Project
@@ -1184,6 +1251,8 @@ namespace ECA.Business.Test.Service.Projects
             var allowedObjectiveIds = new List<int>();
             var newInactiveLocationIds = new List<int>();
             var regionLocationTypeIds = new List<int>();
+            var allowedThemeIds = new List<int>();
+            var allowedGoalIds = new List<int>();
             Func<PublishedProject> createUpdatedProject = () =>
             {
                 return new PublishedProject(
@@ -1192,6 +1261,7 @@ namespace ECA.Business.Test.Service.Projects
                     name: name,
                     description: description,
                     projectStatusId: statusId,
+                    sevisOrgId: sevisOrgId,
                     goalIds: null,
                     themeIds: null,
                     pointsOfContactIds: null,
@@ -1225,7 +1295,9 @@ namespace ECA.Business.Test.Service.Projects
                   allowedObjectiveIds: allowedObjectiveIds,
                   officeSettings: officeSettings,
                   regionLocationTypeIds: regionLocationTypeIds,
-                  newInactiveLocations: newInactiveLocationIds
+                  newInactiveLocations: newInactiveLocationIds,
+                  allowedThemeIds: allowedThemeIds,
+                  allowedGoalIds: allowedGoalIds
                 );
 
             };
@@ -1248,6 +1320,7 @@ namespace ECA.Business.Test.Service.Projects
             var name = "name";
             var description = "desc";
             var statusId = ProjectStatus.Completed.Id;
+            var sevisOrgId = "abcde1234567890";
             var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
             var endDate = DateTimeOffset.UtcNow;
             var projectToUpdate = new Project
@@ -1272,6 +1345,8 @@ namespace ECA.Business.Test.Service.Projects
             var regionLocationTypeIds = new List<int>();
             var officeSettings = new OfficeSettings();
             officeSettings.IsObjectiveRequired = true;
+            var allowedThemeIds = new List<int>();
+            var allowedGoalIds = new List<int>();
             Func<PublishedProject> createUpdatedProject = () =>
             {
                 return new PublishedProject(
@@ -1280,6 +1355,7 @@ namespace ECA.Business.Test.Service.Projects
                     name: name,
                     description: description,
                     projectStatusId: statusId,
+                    sevisOrgId: sevisOrgId,
                     goalIds: null,
                     themeIds: null,
                     pointsOfContactIds: null,
@@ -1313,7 +1389,9 @@ namespace ECA.Business.Test.Service.Projects
                   allowedObjectiveIds: allowedObjectiveIds,
                   officeSettings: officeSettings,
                   regionLocationTypeIds: regionLocationTypeIds,
-                  newInactiveLocations: newInactiveLocationIds
+                  newInactiveLocations: newInactiveLocationIds,
+                  allowedThemeIds: allowedThemeIds,
+                  allowedGoalIds: allowedGoalIds
                 );
 
             };
@@ -1336,6 +1414,7 @@ namespace ECA.Business.Test.Service.Projects
             var name = "name";
             var description = "desc";
             var statusId = ProjectStatus.Completed.Id;
+            var sevisOrgId = "abcde1234567890";
             var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
             var endDate = DateTimeOffset.UtcNow;
             var projectToUpdate = new Project
@@ -1362,6 +1441,8 @@ namespace ECA.Business.Test.Service.Projects
             officeSettings.IsCategoryRequired = false;
             officeSettings.MinimumRequiredFoci = 0;
             officeSettings.MaximumRequiredFoci = 10;
+            var allowedThemeIds = new List<int>();
+            var allowedGoalIds = new List<int>();
             Func<PublishedProject> createUpdatedProject = () =>
             {
                 return new PublishedProject(
@@ -1370,6 +1451,7 @@ namespace ECA.Business.Test.Service.Projects
                     name: name,
                     description: description,
                     projectStatusId: statusId,
+                    sevisOrgId: sevisOrgId,
                     goalIds: null,
                     themeIds: null,
                     pointsOfContactIds: null,
@@ -1403,7 +1485,9 @@ namespace ECA.Business.Test.Service.Projects
                   allowedObjectiveIds: allowedObjectiveIds,
                   officeSettings: officeSettings,
                   regionLocationTypeIds: regionLocationTypeIds,
-                  newInactiveLocations: newInactiveLocationIds
+                  newInactiveLocations: newInactiveLocationIds,
+                  allowedThemeIds: allowedThemeIds,
+                  allowedGoalIds: allowedGoalIds
                 );
 
             };
@@ -1426,6 +1510,7 @@ namespace ECA.Business.Test.Service.Projects
             var name = "name";
             var description = "desc";
             var statusId = ProjectStatus.Completed.Id;
+            var sevisOrgId = "abcde1234567890";
             var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
             var endDate = DateTimeOffset.UtcNow;
             var projectToUpdate = new Project
@@ -1452,6 +1537,8 @@ namespace ECA.Business.Test.Service.Projects
             officeSettings.IsCategoryRequired = false;
             officeSettings.MinimumRequiredFoci = 0;
             officeSettings.MaximumRequiredFoci = 10;
+            var allowedThemeIds = new List<int>();
+            var allowedGoalIds = new List<int>();
             Func<PublishedProject> createUpdatedProject = () =>
             {
                 return new PublishedProject(
@@ -1460,6 +1547,7 @@ namespace ECA.Business.Test.Service.Projects
                     name: name,
                     description: description,
                     projectStatusId: statusId,
+                    sevisOrgId: sevisOrgId,
                     goalIds: null,
                     themeIds: null,
                     pointsOfContactIds: null,
@@ -1493,7 +1581,9 @@ namespace ECA.Business.Test.Service.Projects
                   allowedObjectiveIds: allowedObjectiveIds,
                   officeSettings: officeSettings,
                   regionLocationTypeIds: regionLocationTypeIds,
-                  newInactiveLocations: newInactiveLocationIds
+                  newInactiveLocations: newInactiveLocationIds,
+                  allowedThemeIds: allowedThemeIds,
+                  allowedGoalIds: allowedGoalIds
                 );
 
             };
@@ -1515,6 +1605,7 @@ namespace ECA.Business.Test.Service.Projects
             var name = "name";
             var description = "desc";
             var statusId = ProjectStatus.Completed.Id;
+            var sevisOrgId = "abcde1234567890";
             var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
             var endDate = DateTimeOffset.UtcNow;
             var projectToUpdate = new Project
@@ -1540,6 +1631,8 @@ namespace ECA.Business.Test.Service.Projects
             var officeSettings = new OfficeSettings();
             officeSettings.IsCategoryRequired = true;
             officeSettings.MaximumRequiredFoci = 1;
+            var allowedThemeIds = new List<int>();
+            var allowedGoalIds = new List<int>();
             Func<PublishedProject> createUpdatedProject = () =>
             {
                 return new PublishedProject(
@@ -1548,6 +1641,7 @@ namespace ECA.Business.Test.Service.Projects
                     name: name,
                     description: description,
                     projectStatusId: statusId,
+                    sevisOrgId: sevisOrgId,
                     goalIds: null,
                     themeIds: null,
                     pointsOfContactIds: null,
@@ -1581,7 +1675,9 @@ namespace ECA.Business.Test.Service.Projects
                   allowedObjectiveIds: allowedObjectiveIds,
                   officeSettings: officeSettings,
                   regionLocationTypeIds: regionLocationTypeIds,
-                  newInactiveLocations: newInactiveLocationIds
+                  newInactiveLocations: newInactiveLocationIds,
+                  allowedThemeIds: allowedThemeIds,
+                  allowedGoalIds: allowedGoalIds
                 );
 
             };
@@ -1604,6 +1700,7 @@ namespace ECA.Business.Test.Service.Projects
             var name = "name";
             var description = "desc";
             var statusId = ProjectStatus.Completed.Id;
+            var sevisOrgId = "abcde1234567890";
             var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
             var endDate = DateTimeOffset.UtcNow;
             var projectToUpdate = new Project
@@ -1629,6 +1726,8 @@ namespace ECA.Business.Test.Service.Projects
             var officeSettings = new OfficeSettings();
             officeSettings.IsCategoryRequired = true;
             officeSettings.MaximumRequiredFoci = 1;
+            var allowedThemeIds = new List<int>();
+            var allowedGoalIds = new List<int>();
             Func<PublishedProject> createUpdatedProject = () =>
             {
                 return new PublishedProject(
@@ -1637,6 +1736,7 @@ namespace ECA.Business.Test.Service.Projects
                     name: name,
                     description: description,
                     projectStatusId: statusId,
+                    sevisOrgId: sevisOrgId,
                     goalIds: null,
                     themeIds: null,
                     pointsOfContactIds: null,
@@ -1670,7 +1770,9 @@ namespace ECA.Business.Test.Service.Projects
                   allowedObjectiveIds: allowedObjectiveIds,
                   officeSettings: officeSettings,
                   regionLocationTypeIds: regionLocationTypeIds,
-                  newInactiveLocations: newInactiveLocationIds
+                  newInactiveLocations: newInactiveLocationIds,
+                  allowedThemeIds: allowedThemeIds,
+                  allowedGoalIds: allowedGoalIds
                 );
 
             };
@@ -1692,6 +1794,7 @@ namespace ECA.Business.Test.Service.Projects
             var name = "name";
             var description = "desc";
             var statusId = ProjectStatus.Completed.Id;
+            var sevisOrgId = "abcde1234567890";
             var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
             var endDate = DateTimeOffset.UtcNow;
             var projectToUpdate = new Project
@@ -1716,6 +1819,8 @@ namespace ECA.Business.Test.Service.Projects
             var regionLocationTypeIds = new List<int>();
             var officeSettings = new OfficeSettings();
             officeSettings.IsObjectiveRequired = false;
+            var allowedThemeIds = new List<int>();
+            var allowedGoalIds = new List<int>();
             Func<PublishedProject> createUpdatedProject = () =>
             {
                 return new PublishedProject(
@@ -1724,6 +1829,7 @@ namespace ECA.Business.Test.Service.Projects
                     name: name,
                     description: description,
                     projectStatusId: statusId,
+                    sevisOrgId: sevisOrgId,
                     goalIds: null,
                     themeIds: null,
                     pointsOfContactIds: null,
@@ -1757,7 +1863,9 @@ namespace ECA.Business.Test.Service.Projects
                   allowedObjectiveIds: allowedObjectiveIds,
                   officeSettings: officeSettings,
                   regionLocationTypeIds: regionLocationTypeIds,
-                  newInactiveLocations: newInactiveLocationIds
+                  newInactiveLocations: newInactiveLocationIds,
+                  allowedThemeIds: allowedThemeIds,
+                  allowedGoalIds: allowedGoalIds
                 );
 
             };
@@ -1778,6 +1886,7 @@ namespace ECA.Business.Test.Service.Projects
             var name = "name";
             var description = "desc";
             var statusId = ProjectStatus.Completed.Id;
+            var sevisOrgId = "abcde1234567890";
             var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
             var endDate = DateTimeOffset.UtcNow;
             var projectToUpdate = new Project
@@ -1802,6 +1911,8 @@ namespace ECA.Business.Test.Service.Projects
             var regionLocationTypeIds = new List<int>();
             var officeSettings = new OfficeSettings();
             officeSettings.IsCategoryRequired = false;
+            var allowedThemeIds = new List<int>();
+            var allowedGoalIds = new List<int>();
             Func<PublishedProject> createUpdatedProject = () =>
             {
                 return new PublishedProject(
@@ -1810,6 +1921,7 @@ namespace ECA.Business.Test.Service.Projects
                     name: name,
                     description: description,
                     projectStatusId: statusId,
+                    sevisOrgId: sevisOrgId,
                     goalIds: null,
                     themeIds: null,
                     pointsOfContactIds: null,
@@ -1843,7 +1955,9 @@ namespace ECA.Business.Test.Service.Projects
                   allowedObjectiveIds: allowedObjectiveIds,
                   officeSettings: officeSettings,
                   regionLocationTypeIds: regionLocationTypeIds,
-                  newInactiveLocations: newInactiveLocationIds
+                  newInactiveLocations: newInactiveLocationIds,
+                  allowedThemeIds: allowedThemeIds,
+                  allowedGoalIds: allowedGoalIds
                 );
 
             };
@@ -1864,6 +1978,7 @@ namespace ECA.Business.Test.Service.Projects
             var name = "name";
             var description = "desc";
             var statusId = ProjectStatus.Completed.Id;
+            var sevisOrgId = "abcde1234567890";
             var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
             var endDate = DateTimeOffset.UtcNow;
             var projectToUpdate = new Project
@@ -1887,6 +2002,8 @@ namespace ECA.Business.Test.Service.Projects
             var newInactiveLocationIds = new List<int>();
             var regionLocationTypeIds = new List<int>();
             var officeSettings = new OfficeSettings();
+            var allowedThemeIds = new List<int>();
+            var allowedGoalIds = new List<int>();
             Func<PublishedProject> createUpdatedProject = () =>
             {
                 return new PublishedProject(
@@ -1895,6 +2012,7 @@ namespace ECA.Business.Test.Service.Projects
                     name: name,
                     description: description,
                     projectStatusId: statusId,
+                    sevisOrgId: sevisOrgId,
                     goalIds: null,
                     themeIds: null,
                     pointsOfContactIds: null,
@@ -1928,7 +2046,9 @@ namespace ECA.Business.Test.Service.Projects
                   allowedObjectiveIds: allowedObjectiveIds,
                   officeSettings: officeSettings,
                   regionLocationTypeIds: regionLocationTypeIds,
-                  newInactiveLocations: newInactiveLocationIds
+                  newInactiveLocations: newInactiveLocationIds,
+                  allowedThemeIds: allowedThemeIds,
+                  allowedGoalIds: allowedGoalIds
                 );
 
             };
@@ -1949,6 +2069,7 @@ namespace ECA.Business.Test.Service.Projects
             var name = "name";
             var description = "desc";
             var statusId = ProjectStatus.Completed.Id;
+            var sevisOrgId = "abcde1234567890";
             var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
             var endDate = DateTimeOffset.UtcNow;
             var projectToUpdate = new Project
@@ -1972,6 +2093,8 @@ namespace ECA.Business.Test.Service.Projects
             var newInactiveLocationIds = new List<int>();
             var regionLocationTypeIds = new List<int>();
             var officeSettings = new OfficeSettings();
+            var allowedThemeIds = new List<int>();
+            var allowedGoalIds = new List<int>();
             Func<PublishedProject> createUpdatedProject = () =>
             {
                 return new PublishedProject(
@@ -1980,6 +2103,7 @@ namespace ECA.Business.Test.Service.Projects
                     name: name,
                     description: description,
                     projectStatusId: statusId,
+                    sevisOrgId: sevisOrgId,
                     goalIds: null,
                     themeIds: null,
                     pointsOfContactIds: null,
@@ -2013,7 +2137,9 @@ namespace ECA.Business.Test.Service.Projects
                   allowedObjectiveIds: allowedObjectiveIds,
                   officeSettings: officeSettings,
                   regionLocationTypeIds: regionLocationTypeIds,
-                  newInactiveLocations: newInactiveLocationIds
+                  newInactiveLocations: newInactiveLocationIds,
+                  allowedThemeIds: allowedThemeIds,
+                  allowedGoalIds: allowedGoalIds
                 );
 
             };
@@ -2034,6 +2160,7 @@ namespace ECA.Business.Test.Service.Projects
             var name = "name";
             var description = "desc";
             var statusId = ProjectStatus.Completed.Id;
+            var sevisOrgId = "abcde1234567890";
             var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
             var endDate = DateTimeOffset.UtcNow;
             var projectToUpdate = new Project
@@ -2057,6 +2184,8 @@ namespace ECA.Business.Test.Service.Projects
             var newInactiveLocationIds = new List<int>();
             var regionLocationTypeIds = new List<int>();
             var officeSettings = new OfficeSettings();
+            var allowedThemeIds = new List<int>();
+            var allowedGoalIds = new List<int>();
             Func<PublishedProject> createUpdatedProject = () =>
             {
                 return new PublishedProject(
@@ -2065,6 +2194,7 @@ namespace ECA.Business.Test.Service.Projects
                     name: name,
                     description: description,
                     projectStatusId: statusId,
+                    sevisOrgId: sevisOrgId,
                     goalIds: null,
                     themeIds: null,
                     pointsOfContactIds: null,
@@ -2098,7 +2228,9 @@ namespace ECA.Business.Test.Service.Projects
                   allowedObjectiveIds: allowedObjectiveIds,
                   officeSettings: officeSettings,
                   regionLocationTypeIds: regionLocationTypeIds,
-                  newInactiveLocations: newInactiveLocationIds
+                  newInactiveLocations: newInactiveLocationIds,
+                  allowedThemeIds: allowedThemeIds,
+                  allowedGoalIds: allowedGoalIds
                 );
 
             };
@@ -2119,6 +2251,7 @@ namespace ECA.Business.Test.Service.Projects
             var name = "name";
             var description = "desc";
             var statusId = ProjectStatus.Completed.Id;
+            var sevisOrgId = "abcde1234567890";
             var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
             var endDate = DateTimeOffset.UtcNow;
             var projectToUpdate = new Project
@@ -2142,6 +2275,8 @@ namespace ECA.Business.Test.Service.Projects
             var newInactiveLocationIds = new List<int>();
             var regionLocationTypeIds = new List<int>();
             var officeSettings = new OfficeSettings();
+            var allowedThemeIds = new List<int>();
+            var allowedGoalIds = new List<int>();
             Func<PublishedProject> createUpdatedProject = () =>
             {
                 return new PublishedProject(
@@ -2150,6 +2285,7 @@ namespace ECA.Business.Test.Service.Projects
                     name: name,
                     description: description,
                     projectStatusId: statusId,
+                    sevisOrgId: sevisOrgId,
                     goalIds: null,
                     themeIds: null,
                     pointsOfContactIds: null,
@@ -2183,7 +2319,9 @@ namespace ECA.Business.Test.Service.Projects
                   allowedObjectiveIds: allowedObjectiveIds,
                   officeSettings: officeSettings,
                   regionLocationTypeIds: regionLocationTypeIds,
-                  newInactiveLocations: newInactiveLocationIds
+                  newInactiveLocations: newInactiveLocationIds,
+                  allowedThemeIds: allowedThemeIds,
+                  allowedGoalIds: allowedGoalIds
                 );
 
             };
@@ -2205,6 +2343,7 @@ namespace ECA.Business.Test.Service.Projects
             var name = "name";
             var description = "desc";
             var statusId = ProjectStatus.Completed.Id;
+            var sevisOrgId = "abcde1234567890";
             var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
             var endDate = DateTimeOffset.UtcNow;
             var projectToUpdate = new Project
@@ -2228,6 +2367,8 @@ namespace ECA.Business.Test.Service.Projects
             var newInactiveLocationIds = new List<int>();
             var regionLocationTypeIds = new List<int>();
             var officeSettings = new OfficeSettings();
+            var allowedThemeIds = new List<int>();
+            var allowedGoalIds = new List<int>();
             Func<PublishedProject> createUpdatedProject = () =>
             {
                 return new PublishedProject(
@@ -2236,6 +2377,7 @@ namespace ECA.Business.Test.Service.Projects
                     name: name,
                     description: description,
                     projectStatusId: statusId,
+                    sevisOrgId: sevisOrgId,
                     goalIds: null,
                     themeIds: null,
                     pointsOfContactIds: null,
@@ -2269,7 +2411,9 @@ namespace ECA.Business.Test.Service.Projects
                   allowedObjectiveIds: allowedObjectiveIds,
                   officeSettings: officeSettings,
                   regionLocationTypeIds: regionLocationTypeIds,
-                  newInactiveLocations: newInactiveLocationIds
+                  newInactiveLocations: newInactiveLocationIds,
+                  allowedThemeIds: allowedThemeIds,
+                  allowedGoalIds: allowedGoalIds
                 );
 
             };
@@ -2293,6 +2437,7 @@ namespace ECA.Business.Test.Service.Projects
             var name = "name";
             var description = "desc";
             var statusId = ProjectStatus.Completed.Id;
+            var sevisOrgId = "abcde1234567890";
             var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
             var endDate = DateTimeOffset.UtcNow;
             var projectToUpdate = new Project
@@ -2316,6 +2461,8 @@ namespace ECA.Business.Test.Service.Projects
             var newInactiveLocationIds = new List<int>();
             var regionLocationTypeIds = new List<int>();
             var officeSettings = new OfficeSettings();
+            var allowedThemeIds = new List<int>();
+            var allowedGoalIds = new List<int>();
             Func<PublishedProject> createUpdatedProject = () =>
             {
                 return new PublishedProject(
@@ -2324,6 +2471,7 @@ namespace ECA.Business.Test.Service.Projects
                     name: name,
                     description: description,
                     projectStatusId: statusId,
+                    sevisOrgId: sevisOrgId,
                     goalIds: null,
                     themeIds: null,
                     pointsOfContactIds: null,
@@ -2357,7 +2505,9 @@ namespace ECA.Business.Test.Service.Projects
                   allowedObjectiveIds: allowedObjectiveIds,
                   officeSettings: officeSettings,
                   regionLocationTypeIds: regionLocationTypeIds,
-                  newInactiveLocations: newInactiveLocationIds
+                  newInactiveLocations: newInactiveLocationIds,
+                  allowedThemeIds: allowedThemeIds,
+                  allowedGoalIds: allowedGoalIds
                 );
 
             };
@@ -2380,6 +2530,7 @@ namespace ECA.Business.Test.Service.Projects
             var name = "name";
             var description = "desc";
             var statusId = ProjectStatus.Draft.Id;
+            var sevisOrgId = "abcde1234567890";
             var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
             var endDate = DateTimeOffset.UtcNow;
             var projectToUpdate = new Project
@@ -2403,6 +2554,8 @@ namespace ECA.Business.Test.Service.Projects
             var newInactiveLocationIds = new List<int>();
             var regionLocationTypeIds = new List<int>();
             var officeSettings = new OfficeSettings();
+            var allowedThemeIds = new List<int>();
+            var allowedGoalIds = new List<int>();
             Func<PublishedProject> createUpdatedProject = () =>
             {
                 return new PublishedProject(
@@ -2411,6 +2564,7 @@ namespace ECA.Business.Test.Service.Projects
                     name: name,
                     description: description,
                     projectStatusId: statusId,
+                    sevisOrgId: sevisOrgId,
                     goalIds: null,
                     themeIds: null,
                     pointsOfContactIds: null,
@@ -2444,7 +2598,9 @@ namespace ECA.Business.Test.Service.Projects
                   allowedObjectiveIds: allowedObjectiveIds,
                   officeSettings: officeSettings,
                   regionLocationTypeIds: regionLocationTypeIds,
-                  newInactiveLocations: newInactiveLocationIds
+                  newInactiveLocations: newInactiveLocationIds,
+                  allowedThemeIds: allowedThemeIds,
+                  allowedGoalIds: allowedGoalIds
                 );
 
             };
@@ -2460,6 +2616,7 @@ namespace ECA.Business.Test.Service.Projects
             var name = "name";
             var description = "desc";
             var statusId = ProjectStatus.Active.Id;
+            var sevisOrgId = "abcde1234567890";
             var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
             var endDate = DateTimeOffset.UtcNow;
             var projectToUpdate = new Project
@@ -2483,6 +2640,8 @@ namespace ECA.Business.Test.Service.Projects
             var newInactiveLocationIds = new List<int>();
             var regionLocationTypeIds = new List<int>();
             var officeSettings = new OfficeSettings();
+            var allowedThemeIds = new List<int>();
+            var allowedGoalIds = new List<int>();
             Func<PublishedProject> createUpdatedProject = () =>
             {
                 return new PublishedProject(
@@ -2491,6 +2650,7 @@ namespace ECA.Business.Test.Service.Projects
                     name: name,
                     description: description,
                     projectStatusId: statusId,
+                    sevisOrgId: sevisOrgId,
                     goalIds: null,
                     themeIds: null,
                     pointsOfContactIds: null,
@@ -2524,7 +2684,9 @@ namespace ECA.Business.Test.Service.Projects
                   allowedObjectiveIds: allowedObjectiveIds,
                   officeSettings: officeSettings,
                   regionLocationTypeIds: regionLocationTypeIds,
-                  newInactiveLocations: newInactiveLocationIds
+                  newInactiveLocations: newInactiveLocationIds,
+                  allowedThemeIds: allowedThemeIds,
+                  allowedGoalIds: allowedGoalIds
                 );
 
             };
@@ -2547,6 +2709,7 @@ namespace ECA.Business.Test.Service.Projects
             var name = "name";
             var description = "desc";
             var statusId = ProjectStatus.Active.Id;
+            var sevisOrgId = "abcde1234567890";
             var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
             var endDate = DateTimeOffset.UtcNow;
             var projectToUpdate = new Project
@@ -2570,6 +2733,8 @@ namespace ECA.Business.Test.Service.Projects
             var newInactiveLocationIds = new List<int>();
             var regionLocationTypeIds = new List<int>();
             var officeSettings = new OfficeSettings();
+            var allowedThemeIds = new List<int>();
+            var allowedGoalIds = new List<int>();
             Func<PublishedProject> createUpdatedProject = () =>
             {
                 return new PublishedProject(
@@ -2578,6 +2743,7 @@ namespace ECA.Business.Test.Service.Projects
                     name: name,
                     description: description,
                     projectStatusId: statusId,
+                    sevisOrgId: sevisOrgId,
                     goalIds: null,
                     themeIds: null,
                     pointsOfContactIds: null,
@@ -2611,7 +2777,9 @@ namespace ECA.Business.Test.Service.Projects
                   allowedObjectiveIds: allowedObjectiveIds,
                   officeSettings: officeSettings,
                   regionLocationTypeIds: regionLocationTypeIds,
-                  newInactiveLocations: newInactiveLocationIds
+                  newInactiveLocations: newInactiveLocationIds,
+                  allowedThemeIds: allowedThemeIds,
+                  allowedGoalIds: allowedGoalIds
                 );
             };
 
@@ -2634,6 +2802,7 @@ namespace ECA.Business.Test.Service.Projects
             var name = "name";
             var description = "desc";
             var statusId = ProjectStatus.Active.Id;
+            var sevisOrgId = "abcde1234567890";
             var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
             var endDate = DateTimeOffset.UtcNow;
             var projectToUpdate = new Project
@@ -2657,6 +2826,8 @@ namespace ECA.Business.Test.Service.Projects
             var newInactiveLocationIds = new List<int>();
             var regionLocationTypeIds = new List<int>();
             var officeSettings = new OfficeSettings();
+            var allowedThemeIds = new List<int>();
+            var allowedGoalIds = new List<int>();
             Func<PublishedProject> createUpdatedProject = () =>
             {
                 return new PublishedProject(
@@ -2665,6 +2836,7 @@ namespace ECA.Business.Test.Service.Projects
                     name: name,
                     description: description,
                     projectStatusId: statusId,
+                    sevisOrgId: sevisOrgId,
                     goalIds: null,
                     themeIds: null,
                     pointsOfContactIds: null,
@@ -2698,7 +2870,9 @@ namespace ECA.Business.Test.Service.Projects
                   allowedObjectiveIds: allowedObjectiveIds,
                   officeSettings: officeSettings,
                   regionLocationTypeIds: regionLocationTypeIds,
-                  newInactiveLocations: newInactiveLocationIds
+                  newInactiveLocations: newInactiveLocationIds,
+                  allowedThemeIds: allowedThemeIds,
+                  allowedGoalIds: allowedGoalIds
                 );
 
             };
@@ -2722,6 +2896,7 @@ namespace ECA.Business.Test.Service.Projects
             var name = "name";
             var description = "desc";
             var statusId = ProjectStatus.Active.Id;
+            var sevisOrgId = "abcde1234567890";
             var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
             var endDate = DateTimeOffset.UtcNow;
             var projectToUpdate = new Project
@@ -2745,6 +2920,8 @@ namespace ECA.Business.Test.Service.Projects
             var newInactiveLocationIds = new List<int>();
             var regionLocationTypeIds = new List<int>();
             var officeSettings = new OfficeSettings();
+            var allowedThemeIds = new List<int>();
+            var allowedGoalIds = new List<int>();
             Func<PublishedProject> createUpdatedProject = () =>
             {
                 return new PublishedProject(
@@ -2753,6 +2930,7 @@ namespace ECA.Business.Test.Service.Projects
                     name: name,
                     description: description,
                     projectStatusId: statusId,
+                    sevisOrgId: sevisOrgId,
                     goalIds: null,
                     themeIds: null,
                     pointsOfContactIds: null,
@@ -2786,7 +2964,9 @@ namespace ECA.Business.Test.Service.Projects
                   allowedObjectiveIds: allowedObjectiveIds,
                   officeSettings: officeSettings,
                   regionLocationTypeIds: regionLocationTypeIds,
-                  newInactiveLocations: newInactiveLocationIds
+                  newInactiveLocations: newInactiveLocationIds,
+                  allowedThemeIds: allowedThemeIds,
+                  allowedGoalIds: allowedGoalIds
                 );
 
             };
@@ -2810,6 +2990,7 @@ namespace ECA.Business.Test.Service.Projects
             var name = "name";
             var description = "desc";
             var statusId = ProjectStatus.Active.Id;
+            var sevisOrgId = "abcde1234567890";
             var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
             var endDate = DateTimeOffset.UtcNow;
             var projectToUpdate = new Project
@@ -2833,6 +3014,8 @@ namespace ECA.Business.Test.Service.Projects
             var newInactiveLocationIds = new List<int>();
             var regionLocationTypeIds = new List<int>();
             var officeSettings = new OfficeSettings();
+            var allowedThemeIds = new List<int>();
+            var allowedGoalIds = new List<int>();
             Func<PublishedProject> createUpdatedProject = () =>
             {
                 return new PublishedProject(
@@ -2841,6 +3024,7 @@ namespace ECA.Business.Test.Service.Projects
                     name: name,
                     description: description,
                     projectStatusId: statusId,
+                    sevisOrgId: sevisOrgId,
                     goalIds: null,
                     themeIds: null,
                     pointsOfContactIds: null,
@@ -2874,7 +3058,9 @@ namespace ECA.Business.Test.Service.Projects
                   allowedObjectiveIds: allowedObjectiveIds,
                   officeSettings: officeSettings,
                   regionLocationTypeIds: regionLocationTypeIds,
-                  newInactiveLocations: newInactiveLocationIds
+                  newInactiveLocations: newInactiveLocationIds,
+                  allowedThemeIds: allowedThemeIds,
+                  allowedGoalIds: allowedGoalIds
                 );
 
             };
@@ -2899,6 +3085,7 @@ namespace ECA.Business.Test.Service.Projects
             var name = "name";
             var description = "desc";
             var statusId = ProjectStatus.Active.Id;
+            var sevisOrgId = "abcde1234567890";
             var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
             var endDate = DateTimeOffset.UtcNow;
             var projectToUpdate = new Project
@@ -2922,6 +3109,8 @@ namespace ECA.Business.Test.Service.Projects
             var newInactiveLocationIds = new List<int>();
             var regionLocationTypeIds = new List<int>();
             var officeSettings = new OfficeSettings();
+            var allowedThemeIds = new List<int>();
+            var allowedGoalIds = new List<int>();
             Func<PublishedProject> createUpdatedProject = () =>
             {
                 return new PublishedProject(
@@ -2930,6 +3119,7 @@ namespace ECA.Business.Test.Service.Projects
                     name: name,
                     description: description,
                     projectStatusId: statusId,
+                    sevisOrgId: sevisOrgId,
                     goalIds: null,
                     themeIds: null,
                     pointsOfContactIds: null,
@@ -2963,7 +3153,9 @@ namespace ECA.Business.Test.Service.Projects
                   allowedObjectiveIds: allowedObjectiveIds,
                   officeSettings: officeSettings,
                   regionLocationTypeIds: regionLocationTypeIds,
-                  newInactiveLocations: newInactiveLocationIds
+                  newInactiveLocations: newInactiveLocationIds,
+                  allowedThemeIds: allowedThemeIds,
+                  allowedGoalIds: allowedGoalIds
                 );
 
             };
@@ -2992,6 +3184,7 @@ namespace ECA.Business.Test.Service.Projects
             var name = "name";
             var description = "desc";
             var statusId = ProjectStatus.Active.Id;
+            var sevisOrgId = "abcde1234567890";
             var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
             var endDate = DateTimeOffset.UtcNow;
             var projectToUpdate = new Project
@@ -3015,6 +3208,8 @@ namespace ECA.Business.Test.Service.Projects
             var newInactiveLocationIds = new List<int>();
             var regionLocationTypeIds = new List<int>();
             var officeSettings = new OfficeSettings();
+            var allowedThemeIds = new List<int>();
+            var allowedGoalIds = new List<int>();
             Func<PublishedProject> createUpdatedProject = () =>
             {
                 return new PublishedProject(
@@ -3023,6 +3218,7 @@ namespace ECA.Business.Test.Service.Projects
                     name: name,
                     description: description,
                     projectStatusId: statusId,
+                    sevisOrgId: sevisOrgId,
                     goalIds: null,
                     themeIds: null,
                     pointsOfContactIds: null,
@@ -3056,7 +3252,9 @@ namespace ECA.Business.Test.Service.Projects
                   allowedObjectiveIds: allowedObjectiveIds,
                   officeSettings: officeSettings,
                   regionLocationTypeIds: regionLocationTypeIds,
-                  newInactiveLocations: newInactiveLocationIds
+                  newInactiveLocations: newInactiveLocationIds,
+                  allowedThemeIds: allowedThemeIds,
+                  allowedGoalIds: allowedGoalIds
                 );
 
             };
@@ -3070,6 +3268,196 @@ namespace ECA.Business.Test.Service.Projects
             Assert.AreEqual("RegionIds", validationErrors.First().Property);
 
             regionLocationTypeIds.Clear();
+            entity = createEntity();
+
+            validationErrors = validator.DoValidateUpdate(entity).ToList();
+            Assert.AreEqual(0, validationErrors.Count);
+        }
+
+        [TestMethod]
+        public void TestDoValidateUpdate_InactiveThemes()
+        {
+            var user = new User(1);
+            var name = "name";
+            var description = "desc";
+            var statusId = ProjectStatus.Active.Id;
+            var sevisOrgId = "abcde1234567890";
+            var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var endDate = DateTimeOffset.UtcNow;
+            var projectToUpdate = new Project
+            {
+                ProjectStatusId = ProjectStatus.Active.Id,
+            };
+            var focus = new Focus
+            {
+
+            };
+            var goalsExist = true;
+            var themesExist = true;
+            var pointsOfContactsExist = true;
+            var categoriesExist = true;
+            var objectivesExist = true;
+            var locationsExist = true;
+            var numberOfCategories = 1;
+            var numberOfObjectives = 1;
+            var allowedCategoryIds = new List<int> { 1 };
+            var allowedObjectiveIds = new List<int> { 1 };
+            var newInactiveLocationIds = new List<int>();
+            var regionLocationTypeIds = new List<int>();
+            var officeSettings = new OfficeSettings();
+            var allowedThemeIds = new List<int> { 1 };
+            var allowedGoalIds = new List<int>();
+            Func<PublishedProject> createUpdatedProject = () =>
+            {
+                return new PublishedProject(
+                    updatedBy: user,
+                    projectId: 1,
+                    name: name,
+                    description: description,
+                    projectStatusId: statusId,
+                    sevisOrgId: sevisOrgId,
+                    goalIds: null,
+                    themeIds: new List<int> { 2 },
+                    pointsOfContactIds: null,
+                    categoryIds: new List<int> { 1 },
+                    objectiveIds: new List<int> { 1 },
+                    regionIds: new List<int>(),
+                    locationIds: null,
+                    startDate: startDate,
+                    endDate: endDate,
+                    visitorTypeId: 1,
+                    usParticipantsEst: null,
+                    nonUsParticipantsEst: null,
+                    usParticipantsActual: null,
+                    nonUsParticipantsActual: null
+                    );
+            };
+            Func<ProjectServiceUpdateValidationEntity> createEntity = () =>
+            {
+                return new ProjectServiceUpdateValidationEntity(
+                  updatedProject: createUpdatedProject(),
+                  projectToUpdate: projectToUpdate,
+                  goalsExist: goalsExist,
+                  themesExist: themesExist,
+                  pointsOfContactExist: pointsOfContactsExist,
+                  categoriesExist: categoriesExist,
+                  objectivesExist: objectivesExist,
+                  locationsExist: locationsExist,
+                  numberOfCategories: numberOfCategories,
+                  numberOfObjectives: numberOfObjectives,
+                  allowedCategoryIds: allowedCategoryIds,
+                  allowedObjectiveIds: allowedObjectiveIds,
+                  officeSettings: officeSettings,
+                  regionLocationTypeIds: regionLocationTypeIds,
+                  newInactiveLocations: newInactiveLocationIds,
+                  allowedThemeIds: allowedThemeIds,
+                  allowedGoalIds: allowedGoalIds
+                );
+
+            };
+
+            var entity = createEntity();
+            var validationErrors = validator.DoValidateUpdate(entity).ToList();
+            Assert.AreEqual(1, validationErrors.Count);
+            Assert.AreEqual(ProjectServiceValidator.INACTIVE_THEMES_ERROR_MESSAGE, validationErrors.First().ErrorMessage);
+            Assert.AreEqual("ThemeIds", validationErrors.First().Property);
+
+            allowedThemeIds.Add(2);
+            entity = createEntity();
+
+            validationErrors = validator.DoValidateUpdate(entity).ToList();
+            Assert.AreEqual(0, validationErrors.Count);
+        }
+
+        [TestMethod]
+        public void TestDoValidateUpdate_InactiveGoals()
+        {
+            var user = new User(1);
+            var name = "name";
+            var description = "desc";
+            var statusId = ProjectStatus.Active.Id;
+            var sevisOrgId = "abcde1234567890";
+            var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var endDate = DateTimeOffset.UtcNow;
+            var projectToUpdate = new Project
+            {
+                ProjectStatusId = ProjectStatus.Active.Id,
+            };
+            var focus = new Focus
+            {
+
+            };
+            var goalsExist = true;
+            var themesExist = true;
+            var pointsOfContactsExist = true;
+            var categoriesExist = true;
+            var objectivesExist = true;
+            var locationsExist = true;
+            var numberOfCategories = 1;
+            var numberOfObjectives = 1;
+            var allowedCategoryIds = new List<int> { 1 };
+            var allowedObjectiveIds = new List<int> { 1 };
+            var newInactiveLocationIds = new List<int>();
+            var regionLocationTypeIds = new List<int>();
+            var officeSettings = new OfficeSettings();
+            var allowedThemeIds = new List<int>();
+            var allowedGoalIds = new List<int> { 1 };
+            Func<PublishedProject> createUpdatedProject = () =>
+            {
+                return new PublishedProject(
+                    updatedBy: user,
+                    projectId: 1,
+                    name: name,
+                    description: description,
+                    projectStatusId: statusId,
+                    sevisOrgId: sevisOrgId,
+                    goalIds: new List<int> { 2 },
+                    themeIds: null,
+                    pointsOfContactIds: null,
+                    categoryIds: new List<int> { 1 },
+                    objectiveIds: new List<int> { 1 },
+                    regionIds: new List<int>(),
+                    locationIds: null,
+                    startDate: startDate,
+                    endDate: endDate,
+                    visitorTypeId: 1,
+                    usParticipantsEst: null,
+                    nonUsParticipantsEst: null,
+                    usParticipantsActual: null,
+                    nonUsParticipantsActual: null
+                    );
+            };
+            Func<ProjectServiceUpdateValidationEntity> createEntity = () =>
+            {
+                return new ProjectServiceUpdateValidationEntity(
+                  updatedProject: createUpdatedProject(),
+                  projectToUpdate: projectToUpdate,
+                  goalsExist: goalsExist,
+                  themesExist: themesExist,
+                  pointsOfContactExist: pointsOfContactsExist,
+                  categoriesExist: categoriesExist,
+                  objectivesExist: objectivesExist,
+                  locationsExist: locationsExist,
+                  numberOfCategories: numberOfCategories,
+                  numberOfObjectives: numberOfObjectives,
+                  allowedCategoryIds: allowedCategoryIds,
+                  allowedObjectiveIds: allowedObjectiveIds,
+                  officeSettings: officeSettings,
+                  regionLocationTypeIds: regionLocationTypeIds,
+                  newInactiveLocations: newInactiveLocationIds,
+                  allowedThemeIds: allowedThemeIds,
+                  allowedGoalIds: allowedGoalIds
+                );
+
+            };
+
+            var entity = createEntity();
+            var validationErrors = validator.DoValidateUpdate(entity).ToList();
+            Assert.AreEqual(1, validationErrors.Count);
+            Assert.AreEqual(ProjectServiceValidator.INACTIVE_GOALS_ERROR_MESSAGE, validationErrors.First().ErrorMessage);
+            Assert.AreEqual("GoalIds", validationErrors.First().Property);
+
+            allowedGoalIds.Add(2);
             entity = createEntity();
 
             validationErrors = validator.DoValidateUpdate(entity).ToList();

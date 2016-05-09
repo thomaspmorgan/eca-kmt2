@@ -104,6 +104,16 @@ namespace ECA.Business.Service.Projects
         public const string REGION_IS_NOT_A_REGION_LOCATION_TYPE_ERROR_MESSAGE = "At least one of the given regions is not a region location type.";
 
         /// <summary>
+        /// The error message when at least one theme is inactive and was not previously set on the project.
+        /// </summary>
+        public const string INACTIVE_THEMES_ERROR_MESSAGE = "At least one theme is no longer active and was not previously set on the project.";
+
+        /// <summary>
+        /// The error message when at least one goal is inactive and was not previously set on the project.
+        /// </summary>
+        public const string INACTIVE_GOALS_ERROR_MESSAGE = "At least one goal is no longer active and was not previously set on the project.";
+
+        /// <summary>
         /// Returns enumerated validation results for a project create.
         /// </summary>
         /// <param name="validationEntity">The create entity.</param>
@@ -210,6 +220,17 @@ namespace ECA.Business.Service.Projects
             if(validationEntity.RegionLocationTypeIds.Count() > 1)
             {
                 yield return new BusinessValidationResult<PublishedProject>(x => x.RegionIds, REGION_IS_NOT_A_REGION_LOCATION_TYPE_ERROR_MESSAGE);
+            }
+
+            var invalidThemeIds = validationEntity.ThemeIds.Where(x => !validationEntity.AllowedThemeIds.Contains(x)).ToList();
+            if (invalidThemeIds.Count > 0)
+            {
+                yield return new BusinessValidationResult<PublishedProject>(x => x.ThemeIds, INACTIVE_THEMES_ERROR_MESSAGE);
+            }
+            var invalidGoalIds = validationEntity.GoalIds.Where(x => !validationEntity.AllowedGoalIds.Contains(x)).ToList();
+            if (invalidGoalIds.Count > 0)
+            {
+                yield return new BusinessValidationResult<PublishedProject>(x => x.GoalIds, INACTIVE_GOALS_ERROR_MESSAGE);
             }
         }
     }

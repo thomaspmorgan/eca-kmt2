@@ -18,13 +18,13 @@
 
 .tab {
     margin-right: 40px;
-    margin-top: 20px;
+    margin-top: 10px;
     text-decoration: none;
     font-weight: 500;
 
     &.active {
         border-bottom: 5px solid #415358;
-        height: 44px;
+        height: 30px;
         text-decoration: none;
 
         a {
@@ -52,7 +52,7 @@
     a:hover {
         border-bottom: 5px solid $blue;
         color: $blue;
-        padding-bottom: 21px;
+        padding-bottom: 7px;
         text-decoration: none;
     }
 }
@@ -61,7 +61,7 @@
 
 .tabs {
     border-bottom: 1px solid #efefef;
-    height: 65px;
+    height: 40px;
     padding-left: 42px;
 
     div {
@@ -70,7 +70,7 @@
 
         &.add-tab {
             background-color: $lightgray;
-            height: 65px;
+            height: 40px;
             padding: 0 20px;
         }
     }

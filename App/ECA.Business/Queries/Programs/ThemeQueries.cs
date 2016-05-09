@@ -22,7 +22,8 @@ namespace ECA.Business.Queries.Programs
             var query = context.Themes.Select(x => new ThemeDTO
             {
                 Id = x.ThemeId,
-                Name = x.ThemeName
+                Name = x.ThemeName,
+                IsActive = x.IsActive
             });
             return query;
         }

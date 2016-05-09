@@ -377,6 +377,12 @@ namespace ECA.Business.Service.Projects
                 this.logger.Trace("Loaded participant ids without a participant exchange visitor record.");
             }
 
+            var allowedThemeIds = CreateGetAllowedThemeIdsQuery(projectToUpdate.Themes.Select(x => x.ThemeId)).ToList();
+            this.logger.Trace("Loaded allowed theme ids [{0}] for project with id [{1}].", String.Join(", ", allowedThemeIds), projectToUpdate.ProjectId);
+
+            var allowedGoalIds = CreateGetAllowedGoalIdsQuery(projectToUpdate.Goals.Select(x => x.GoalId)).ToList();
+            this.logger.Trace("Loaded allowed goal ids [{0}] for project with id [{1}].", String.Join(", ", allowedGoalIds), projectToUpdate.ProjectId);
+
             validator.ValidateUpdate(GetUpdateValidationEntity(
                 publishedProject: updatedProject,
                 projectToUpdate: projectToUpdate,
@@ -392,7 +398,9 @@ namespace ECA.Business.Service.Projects
                 newInactiveLocationIds: newInactiveLocationIds,
                 regionLocationTypeIds: regionLocationTypeIds,
                 numberOfCategories: updatedProject.CategoryIds.Count(),
-                numberOfObjectives: updatedProject.ObjectiveIds.Count()));
+                numberOfObjectives: updatedProject.ObjectiveIds.Count(),
+                allowedThemeIds: allowedThemeIds,
+                allowedGoalIds: allowedGoalIds));
             DoUpdate(updatedProject, projectToUpdate, existingDefaultExchangeVisitorFunding, participantsWithoutParticipantExchangeVisitor);
         }
 
@@ -455,6 +463,12 @@ namespace ECA.Business.Service.Projects
                 this.logger.Trace("Loaded participant ids without a participant exchange visitor record.");
             }
 
+            var allowedThemeIds = await CreateGetAllowedThemeIdsQuery(projectToUpdate.Themes.Select(x => x.ThemeId)).ToListAsync();
+            this.logger.Trace("Loaded allowed theme ids [{0}] for project with id [{1}].", String.Join(", ", allowedThemeIds), projectToUpdate.ProjectId);
+
+            var allowedGoalIds = await CreateGetAllowedGoalIdsQuery(projectToUpdate.Goals.Select(x => x.GoalId)).ToListAsync();
+            this.logger.Trace("Loaded allowed goal ids [{0}] for project with id [{1}].", String.Join(", ", allowedGoalIds), projectToUpdate.ProjectId);
+
             validator.ValidateUpdate(GetUpdateValidationEntity(
                 publishedProject: updatedProject,
                 projectToUpdate: projectToUpdate,
@@ -470,7 +484,9 @@ namespace ECA.Business.Service.Projects
                 newInactiveLocationIds: newInactiveLocationIds,
                 regionLocationTypeIds: regionLocationTypeIds,
                 numberOfCategories: updatedProject.CategoryIds.Count(),
-                numberOfObjectives: updatedProject.ObjectiveIds.Count()));
+                numberOfObjectives: updatedProject.ObjectiveIds.Count(),
+                allowedThemeIds: allowedThemeIds,
+                allowedGoalIds: allowedGoalIds));
             DoUpdate(updatedProject, projectToUpdate, existingDefaultExchangeVisitorFunding, participantsWithoutParticipantExchangeVisitor);
         }
 
@@ -489,6 +505,7 @@ namespace ECA.Business.Service.Projects
             CreateParticipantExchangeVisitors(participantsWithoutParticipantExchangeVisitor);
             projectToUpdate.Name = updatedProject.Name;
             projectToUpdate.Description = updatedProject.Description;
+            projectToUpdate.SevisOrgId = updatedProject.SevisOrgId;
             projectToUpdate.EndDate = updatedProject.EndDate;
             projectToUpdate.Name = updatedProject.Name;
             projectToUpdate.ProjectStatusId = updatedProject.ProjectStatusId;
@@ -559,7 +576,9 @@ namespace ECA.Business.Service.Projects
             List<int> allowedObjectiveIds,
             List<int> newInactiveLocationIds,
             List<int> regionLocationTypeIds,
-            OfficeSettings settings)
+            OfficeSettings settings,
+            List<int> allowedThemeIds,
+            List<int> allowedGoalIds)
         {
             return new ProjectServiceUpdateValidationEntity(
                 updatedProject: publishedProject,
@@ -576,7 +595,9 @@ namespace ECA.Business.Service.Projects
                 allowedCategoryIds: allowedCategoryIds,
                 allowedObjectiveIds: allowedObjectiveIds,
                 regionLocationTypeIds: regionLocationTypeIds,
-                newInactiveLocations: newInactiveLocationIds
+                newInactiveLocations: newInactiveLocationIds,
+                allowedThemeIds: allowedThemeIds,
+                allowedGoalIds: allowedGoalIds
                 );
         }
         #endregion

@@ -349,6 +349,12 @@ namespace ECA.Business.Service.Programs
 
             var inactiveRegionIds = GetLocationsById(draftProgram.RegionIds).Where(x => !x.IsActive).Select(x => x.LocationId).ToList();
 
+            var allowedThemeIds = CreateGetAllowedThemeIdsQuery(draftProgram.ThemeIds).ToList();
+            this.logger.Trace("Loaded allowed theme ids [{0}] for program with id [{1}].", String.Join(", ", allowedThemeIds), draftProgram.Id);
+
+            var allowedGoalIds = CreateGetAllowedGoalIdsQuery(draftProgram.GoalIds).ToList();
+            this.logger.Trace("Loaded allowed goal ids [{0}] for program with id [{1}].", String.Join(", ", allowedGoalIds), draftProgram.Id);
+
             var program = DoCreate(draftProgram, GetValidationEntity(
                     program: draftProgram,
                     owner: owner,
@@ -356,7 +362,9 @@ namespace ECA.Business.Service.Programs
                     parentProgram: parentProgram,
                     regionTypesIds: regionTypeIds,
                     inactiveRegionIds: inactiveRegionIds,
-                    parentProgramParentPrograms: new List<OrganizationProgramDTO>()));
+                    parentProgramParentPrograms: new List<OrganizationProgramDTO>(),
+                    allowedThemeIds: allowedThemeIds,
+                    allowedGoalIds: allowedGoalIds));
             this.logger.Trace("Created program.");
 
             return program;
@@ -383,6 +391,12 @@ namespace ECA.Business.Service.Programs
 
             var inactiveRegionIds = (await GetLocationsByIdAsync(draftProgram.RegionIds)).Where(x => !x.IsActive).Select(x => x.LocationId).ToList();
 
+            var allowedThemeIds = await CreateGetAllowedThemeIdsQuery(draftProgram.ThemeIds).ToListAsync();
+            this.logger.Trace("Loaded allowed theme ids [{0}] for program with id [{1}].", String.Join(", ", allowedThemeIds), draftProgram.Id);
+
+            var allowedGoalIds = await CreateGetAllowedGoalIdsQuery(draftProgram.GoalIds).ToListAsync();
+            this.logger.Trace("Loaded allowed goal ids [{0}] for program with id [{1}].", String.Join(", ", allowedGoalIds), draftProgram.Id);
+
             var program = DoCreate(draftProgram, GetValidationEntity(
                     program: draftProgram,
                     owner: owner,
@@ -390,7 +404,9 @@ namespace ECA.Business.Service.Programs
                     parentProgram: parentProgram,
                     regionTypesIds: regionTypeIds,
                     inactiveRegionIds: inactiveRegionIds,
-                    parentProgramParentPrograms: new List<OrganizationProgramDTO>()));
+                    parentProgramParentPrograms: new List<OrganizationProgramDTO>(),
+                    allowedThemeIds: allowedThemeIds,
+                    allowedGoalIds: allowedGoalIds));
             this.logger.Trace("Created program.");
             return program;
         }
@@ -491,6 +507,12 @@ namespace ECA.Business.Service.Programs
 
                 var inactiveRegionIds = GetNewInactiveProgramLocations(updatedProgram.Id, updatedProgram.RegionIds).Select(x => x.LocationId).ToList();
 
+                var allowedThemeIds = CreateGetAllowedThemeIdsQuery(updatedProgram.ThemeIds).ToList();
+                this.logger.Trace("Loaded allowed theme ids [{0}] for program with id [{1}].", String.Join(", ", allowedThemeIds), updatedProgram.Id);
+
+                var allowedGoalIds = CreateGetAllowedGoalIdsQuery(updatedProgram.GoalIds).ToList();
+                this.logger.Trace("Loaded allowed goal ids [{0}] for program with id [{1}].", String.Join(", ", allowedGoalIds), updatedProgram.Id);
+
                 DoUpdate(programToUpdate, updatedProgram, GetValidationEntity(
                     program: updatedProgram,
                     owner: owner,
@@ -498,7 +520,9 @@ namespace ECA.Business.Service.Programs
                     parentProgram: parentProgram,
                     regionTypesIds: regionTypeIds,
                     inactiveRegionIds: inactiveRegionIds,
-                    parentProgramParentPrograms: parentProgramParentPrograms));
+                    parentProgramParentPrograms: parentProgramParentPrograms,
+                    allowedThemeIds: allowedThemeIds,
+                    allowedGoalIds: allowedGoalIds));
                 this.logger.Trace("Performed update on program.");
             }
             else
@@ -538,6 +562,12 @@ namespace ECA.Business.Service.Programs
 
                 var inactiveRegionIds = await (GetNewInactiveProgramLocations(updatedProgram.Id, updatedProgram.RegionIds).Select(x => x.LocationId)).ToListAsync();
 
+                var allowedThemeIds = await CreateGetAllowedThemeIdsQuery(updatedProgram.ThemeIds).ToListAsync();
+                this.logger.Trace("Loaded allowed theme ids [{0}] for program with id [{1}].", String.Join(", ", allowedThemeIds), updatedProgram.Id);
+
+                var allowedGoalIds = await CreateGetAllowedGoalIdsQuery(updatedProgram.GoalIds).ToListAsync();
+                this.logger.Trace("Loaded allowed goal ids [{0}] for program with id [{1}].", String.Join(", ", allowedGoalIds), updatedProgram.Id);
+
                 DoUpdate(programToUpdate, updatedProgram, GetValidationEntity(
                     program: updatedProgram,
                     owner: owner,
@@ -545,7 +575,9 @@ namespace ECA.Business.Service.Programs
                     parentProgram: parentProgram,
                     regionTypesIds: regionTypeIds,
                     inactiveRegionIds: inactiveRegionIds,
-                    parentProgramParentPrograms: parentProgramParentPrograms));
+                    parentProgramParentPrograms: parentProgramParentPrograms,
+                    allowedThemeIds: allowedThemeIds,
+                    allowedGoalIds: allowedGoalIds));
                 this.logger.Trace("Performed update on program.");
             }
             else
@@ -662,7 +694,9 @@ namespace ECA.Business.Service.Programs
             Program parentProgram,
             List<int> regionTypesIds,
             List<int> inactiveRegionIds,
-            List<OrganizationProgramDTO> parentProgramParentPrograms)
+            List<OrganizationProgramDTO> parentProgramParentPrograms,
+            List<int> allowedThemeIds,
+            List<int> allowedGoalIds)
         {
             return new ProgramServiceValidationEntity(
                 programId: program.Id,
@@ -680,7 +714,9 @@ namespace ECA.Business.Service.Programs
                 parentProgramId: program.ParentProgramId,
                 parentProgram: parentProgram,
                 ownerOfficeSettings: ownerOfficeSettings,
-                parentProgramParentPrograms: parentProgramParentPrograms
+                parentProgramParentPrograms: parentProgramParentPrograms,
+                allowedThemeIds: allowedThemeIds,
+                allowedGoalIds: allowedGoalIds
                 );
         }
 

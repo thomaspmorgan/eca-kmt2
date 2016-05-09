@@ -89,45 +89,38 @@
         </a>
     </div>
 </div>
-<div class="row row2" ng-show="view.DoSStatus" style="border:none; padding-bottom: 0px;">
-    <div class="col-md-3">&nbsp;</div>
-    <div class="form-group col-md-3" style="margin-bottom:0">
+<div class="row row2" ng-show="view.DoSStatus" style="padding-left: 60px;">
+    <div class="form-group col-md-3">
         <span tooltip="{{sevisinfo.blockEdit ? 'The participant is currently in a SEVIS Status which does not allow edits' : ''}}">
             <input type="checkbox" ng-model="sevisinfo.isSentToSevisViaRTI" ng-disabled="sevisinfo.blockEdit" ng-click="edit.onDosStatusChange($event, 'isSentToSevisViaRTI', sevisinfo.isSentToSevisViaRTI)" /> Sent to DHS via RTI
         </span>
     </div>
-    <div class="form-group col-md-3" style="margin-bottom:0">
+    <div class="form-group col-md-3">
         <span tooltip="{{sevisinfo.blockEdit ? 'The participant is currently in a SEVIS Status which does not allow edits' : ''}}">
             <input type="checkbox" ng-model="sevisinfo.isCancelled" ng-disabled="sevisinfo.blockEdit" ng-click="edit.onDosStatusChange($event, 'isCancelled', sevisinfo.isCancelled)" /> Cancelled
         </span>        
     </div>
-    <div class="col-md-3">&nbsp;</div>
-</div>
-<div class="row row2" ng-show="view.DoSStatus" style="border:none; padding-bottom: 0px;">
-    <div class="col-md-3">&nbsp;</div>
-    <div class="form-group col-md-3" style="margin-bottom:0">
+    <div class="form-group col-md-3">
         <span tooltip="{{sevisinfo.blockEdit ? 'The participant is currently in a SEVIS Status which does not allow edits' : ''}}">
             <input type="checkbox" ng-model="sevisinfo.isValidatedViaRTI" ng-disabled="sevisinfo.blockEdit" ng-click="edit.onDosStatusChange($event, 'isValidatedViaRTI', sevisinfo.isValidatedViaRTI)" /> Validated via RTI
         </span>        
     </div>
-    <div class="form-group col-md-3" style="margin-bottom:0">
+    <div class="form-group col-md-3">
         <span tooltip="{{sevisinfo.blockEdit ? 'The participant is currently in a SEVIS Status which does not allow edits' : ''}}">
             <input type="checkbox" ng-model="sevisinfo.isDS2019SentToTraveler" ng-disabled="sevisinfo.blockEdit" ng-click="edit.onDosStatusChange($event, 'isDS2019SentToTraveler', sevisinfo.isDS2019SentToTraveler)" /> DS 2019 Sent to Traveler
         </span>
     </div>
-    <div class="col-md-3">&nbsp;</div>
-</div>
-<div class="row row2" ng-show="view.DoSStatus" style="border:none">
-    <div class="col-md-3">&nbsp;</div>
-    <div class="form-group col-md-3" style="margin-bottom:0">
+    <div class="form-group col-md-3">
         <span tooltip="{{sevisinfo.blockEdit ? 'The participant is currently in a SEVIS Status which does not allow edits' : ''}}">
             <input type="checkbox" ng-model="sevisinfo.isDS2019Printed" ng-disabled="sevisinfo.blockEdit" ng-click="edit.onDosStatusChange($event, 'isDS2019Printed', sevisinfo.isDS2019Printed)" /> DS 2019 Printed
         </span>
     </div>
-    <div class="form-group col-md-3" style="margin-bottom:0">
+    <div class="form-group col-md-3">
         <a ng-click="downloadDS2019()" ng-if="sevisinfo.hasDS2019"><i class="material-icons md-24" style="vertical-align: middle;">file_download</i><span> Download DS2019</span></a>
     </div>
-    <div class="col-md-3">&nbsp;</div>
+    <div class="form-group col-md-3" ng-if="!browserSupportsMsSaveOrOpenBlob()">
+        <a ng-click="printDS2019()" ng-if="sevisinfo.hasDS2019"><i class="material-icons md-24" style="vertical-align: middle;">print</i><span> Print DS2019</span></a>
+    </div>
 </div>
 <div class="form-group row row2">
     <form name="form.startDate">

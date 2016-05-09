@@ -22,10 +22,8 @@
         <ng-include src="'/app/toolbar/toolbar-icons.html'"></ng-include>
     </div>
     <div class="heading">
-        <h5>PROGRAM</h5>
+        <h5>PROGRAM</h5> <span class="owner-office pull-right">{{program.ownerOfficeSymbol}}</span>
         <h1>{{program.name}}</h1>
-        <span class="owner-office">{{program.ownerOfficeSymbol}}</span>
-        <div class="permalink">Permalink: <a href="{{view.permalink}}">{{view.permalink}}</a></div>
     </div>
 </div>
 <tab-bar tabs="tabs"></tab-bar>

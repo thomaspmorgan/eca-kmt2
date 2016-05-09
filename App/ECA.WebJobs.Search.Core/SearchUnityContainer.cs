@@ -59,14 +59,15 @@ namespace ECA.WebJobs.Search.Core
             //Register the document services
             this.RegisterType<IList<IDocumentService>>(new InjectionFactory((c) =>
             {
+                var batchSize = 20;
                 var list = new List<IDocumentService>();
                 var context = c.Resolve<EcaContext>();
                 var indexService = c.Resolve<IIndexService>();
                 var notificationService = c.Resolve<IIndexNotificationService>();
-                list.Add(new ProgramDocumentService(context, indexService, notificationService, 300));
-                list.Add(new ProjectDocumentService(context, indexService, notificationService, 300));
-                list.Add(new OfficeDocumentService(context, indexService, notificationService, 300));
-                list.Add(new OrganizationDocumentService(context, indexService, notificationService, 300));
+                list.Add(new ProgramDocumentService(context, indexService, notificationService, batchSize));
+                list.Add(new ProjectDocumentService(context, indexService, notificationService, batchSize));
+                list.Add(new OfficeDocumentService(context, indexService, notificationService, batchSize));
+                list.Add(new OrganizationDocumentService(context, indexService, notificationService, batchSize));
                 return list;
             }));
         }

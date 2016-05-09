@@ -14,6 +14,7 @@ angular.module('staticApp')
         $q,
         $log,
         $modalInstance,
+        $filter,
         entity,
         fiscalYears,
         FilterService,
@@ -62,6 +63,7 @@ angular.module('staticApp')
       $scope.view.isSourceRecipientFieldRequired = true;
       $scope.view.isSourceMoneyFlowAmountExpended = false;
       $scope.view.copiedMoneyFlowExceedsSourceLimit = false;
+
 
       $scope.view.openTransactionDatePicker = function ($event) {
           $event.preventDefault();
@@ -150,13 +152,19 @@ angular.module('staticApp')
                   var peers = handleSearchResponse(peerEntityTypeId, response);
                   $scope.view.peerCount = total;
                   $scope.view.peers = peers;
+                  var parentSourceType = getEntityParentSourceType(entity.entityTypeId);
+                  if (parentSourceType == peerEntityTypeId) {
+                      var parentPeer = findPeer(peers, entity.entityParentId);
+                      if (parentPeer)
+                          $scope.view.peerEntity = parentPeer;
+                  }
                   return $scope.view.peers;
               };
               var failure = function () {
                   $scope.view.isLoadingSources = false;
 
                   var message = "Unable to load ";
-                  if ($scope.view.isOutgoing) {
+                  if ($scope.view.moneyFlow.isOutgoing) {
                       message += "recipients.";
                   }
                   else {
@@ -172,6 +180,25 @@ angular.module('staticApp')
           }
       }
 
+      function findPeer(peers, id)
+      {
+          for (var i = 0, iLen = peers.length; i < iLen; i++)
+              if (peers[i].peerEntityId == id)
+                  return peers[i];
+      }
+
+      function getEntityParentSourceType(id)
+      {
+          if (id = ConstantsService.moneyFlowSourceRecipientType.program.id)
+              return ConstantsService.moneyFlowSourceRecipientType.office.id
+          else if (id = ConstantsService.moneyFlowSourceRecipientType.project.id)
+              return ConstantsService.moneyFlowSourceRecipientType.program.id
+          else if (id = ConstantsService.moneyFlowSourceRecipientType.participant.id)
+              return ConstantsService.moneyFlowSourceRecipientType.project.id
+          else
+              return null;
+      }
+
       $scope.view.onFilterPeerEntityValueSelect = function ($item, $model) {
           $scope.view.moneyFlow.peerEntity = null;
           $scope.view.getPeers(null);
@@ -181,12 +208,19 @@ angular.module('staticApp')
           onModelChange($scope.view.moneyFlow);
           $scope.view.loadValuesThatCanFilterPeerEntities(null, $scope.view.moneyFlow);
           $scope.view.getPeers(null);
+          // clear peer, year and parent money flow selected models to clear dropdowns
+          $scope.view.moneyFlow.peerEntity = null;
+          $scope.view.moneyFlow.fiscalYear = null;
+          $scope.view.moneyFlow.parentMoneyFlowId = null;
       }
 
       $scope.view.onSelectPeer = function ($item, $model) {
           console.assert($model.peerEntityId, "The $model must have the peer entity id defined.");
           console.assert($scope.view.moneyFlow.peerEntityTypeId, "The money flow must have the peer entity type id defined.");
           $scope.view.moneyFlow.peerEntityId = $model.peerEntityId;
+          // clear year and parent money flow selected models to clear dropdowns
+          $scope.view.moneyFlow.fiscalYear = null;
+          $scope.view.moneyFlow.parentMoneyFlowId = null;
           loadSourceMoneyFlows($scope.view.moneyFlow);
       }
 
@@ -316,6 +350,13 @@ angular.module('staticApp')
                       item.id = idMapFn(item);
                       item.value = valueMapFn(item);
                   });
+                  if ($scope.view.moneyFlow.peerEntityTypeId == ConstantsService.moneyFlowSourceRecipientType.organization.id)
+                  {
+                      //remove Funding Source from Roles
+                      var filterValue = '!' + ConstantsService.organizationRole.fundingSource.value
+                      data = $filter('filter')(data, { value: filterValue });
+                      total = data.length;
+                  }
                   $scope.view.valuesThatCanFilterPeerEntities = data;
                   $scope.view.valuesThatCanFilterPeerEntitiesCount = total;
                   return $scope.view.valuesThatCanFilterPeerEntities;
@@ -641,7 +682,7 @@ angular.module('staticApp')
           else {
               moneyFlow = {
                   value: 0,
-                  isOutgoing: false,
+                  isOutgoing: true,
                   isExpense: false,
                   description: '',
                   transactionDate: null,

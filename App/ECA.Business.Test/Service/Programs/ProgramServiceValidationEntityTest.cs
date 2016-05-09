@@ -32,6 +32,8 @@ namespace ECA.Business.Test.Service.Programs
             var description = "desc";
             var programId = 1;
             var officeSettings = new OfficeSettings();
+            var allowedThemeIds = new List<int> { 1, 1, 1 };
+            var allowedGoalIds = new List<int> { 1, 1, 1 };
             var entity = new ProgramServiceValidationEntity(
                 programId,
                 name,
@@ -48,7 +50,9 @@ namespace ECA.Business.Test.Service.Programs
                 officeSettings,
                 parentProgramId,
                 parentProgram,
-                parentPrograms
+                parentPrograms,
+                allowedThemeIds,
+                allowedGoalIds
                 );
 
             Assert.IsTrue(Object.ReferenceEquals(regionLocationTypeIds, entity.RegionLocationTypeIds));
@@ -67,6 +71,8 @@ namespace ECA.Business.Test.Service.Programs
 
             Assert.AreEqual(parentProgramId, entity.ParentProgramId);
             Assert.AreEqual(programId, entity.ProgramId);
+            CollectionAssert.AreEqual(allowedThemeIds.Distinct().ToList(), entity.AllowedThemeIds.ToList());
+            CollectionAssert.AreEqual(allowedGoalIds.Distinct().ToList(), entity.AllowedGoalIds.ToList());
         }
 
         [TestMethod]
@@ -88,6 +94,8 @@ namespace ECA.Business.Test.Service.Programs
             var description = "desc";
             var programId = 1;
             var officeSettings = new OfficeSettings();
+            var allowedThemeIds = new List<int>();
+            var allowedGoalIds = new List<int>();
             var entity = new ProgramServiceValidationEntity(
                 programId,
                 name,
@@ -104,7 +112,9 @@ namespace ECA.Business.Test.Service.Programs
                 officeSettings,
                 parentProgramId,
                 parentProgram,
-                null
+                null,
+                allowedThemeIds,
+                allowedGoalIds
                 );
 
             Assert.IsNotNull(entity.ParentProgramParentPrograms);

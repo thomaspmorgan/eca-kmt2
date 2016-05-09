@@ -1,6 +1,7 @@
 ﻿using ECA.Business.Exceptions;
 using ECA.Business.Queries.Admin;
 using ECA.Business.Queries.Models.Admin;
+using ECA.Business.Queries.Models.Persons;
 using ECA.Core.Exceptions;
 using ECA.Core.Service;
 using ECA.Data;
@@ -18,14 +19,12 @@ namespace ECA.Business.Service.Admin
     /// The SocialMediaService is capable of handling crud operations on an ISocialable entity
     /// and its social media presence.
     /// </summary>
-    public class SocialMediaService : DbContextService<EcaContext>, ECA.Business.Service.Admin.ISocialMediaService
+    public class SocialMediaService : EcaService, ECA.Business.Service.Admin.ISocialMediaService
     {
         private readonly Logger logger = LogManager.GetCurrentClassLogger();
-        private EcaService service;
         private readonly Action<ISocialable, int> throwIfSocialableEntityNotFound;
         private readonly Action<SocialMedia, int> throwIfSocialMediaNotFound;
-        private Action<Participant> throwValidationErrorIfParticipantSevisInfoIsLocked;
-        public readonly int[] LOCKED_SEVIS_COMM_STATUSES = { SevisCommStatus.QueuedToSubmit.Id, SevisCommStatus.PendingSevisSend.Id, SevisCommStatus.SentByBatch.Id };
+        private Action<ParticipantPersonSevisDTO> throwValidationErrorIfParticipantSevisInfoIsLocked;
 
         /// <summary>
         /// Creates a new instance and initializes the context..
@@ -35,8 +34,6 @@ namespace ECA.Business.Service.Admin
         public SocialMediaService(EcaContext context, List<ISaveAction> saveActions = null)
             : base(context, saveActions)
         {
-            service = new EcaService(context);
-
             Contract.Requires(context != null, "The context must not be null.");
             throwIfSocialableEntityNotFound = (socialableEntity, id) =>
             {
@@ -54,11 +51,9 @@ namespace ECA.Business.Service.Admin
             };
             throwValidationErrorIfParticipantSevisInfoIsLocked = (participant) =>
             {
-                if (participant.ParticipantPerson != null)
+                if (participant != null && participant.SevisStatusId.HasValue)
                 {
-                    var sevisStatusId = participant.ParticipantPerson.ParticipantPersonSevisCommStatuses.OrderByDescending(x => x.AddedOn).Select(x => x.SevisCommStatusId).FirstOrDefault();
-
-                    if (participant != null && IndexOfInt(LOCKED_SEVIS_COMM_STATUSES, sevisStatusId) != -1)
+                    if (participant != null && IndexOfInt(participant.LOCKED_SEVIS_COMM_STATUSES, (int)participant.SevisStatusId) != -1)
                     {
                         var msg = String.Format("An update was attempted on participant with id [{0}] but should have failed validation.",
                                 participant.ParticipantId);
@@ -148,7 +143,12 @@ namespace ECA.Business.Service.Admin
         public void Update(UpdatedSocialMediaPresence updatedSocialMedia)
         {
             var socialMedia = Context.SocialMedias.Find(updatedSocialMedia.Id);
-            DoUpdate(updatedSocialMedia, socialMedia);
+            ParticipantPersonSevisDTO participant = null;
+            if (socialMedia != null && socialMedia.PersonId.HasValue)
+            {
+                participant = GetParticipantByPersonId((int)socialMedia.PersonId);
+            }
+            DoUpdate(updatedSocialMedia, socialMedia, participant);
         }
 
         /// <summary>
@@ -158,21 +158,22 @@ namespace ECA.Business.Service.Admin
         public async Task UpdateAsync(UpdatedSocialMediaPresence updatedSocialMedia)
         {
             var socialMedia = await Context.SocialMedias.FindAsync(updatedSocialMedia.Id);
-            DoUpdate(updatedSocialMedia, socialMedia);
+            ParticipantPersonSevisDTO participant = null;
+            if (socialMedia != null && socialMedia.PersonId.HasValue)
+            {
+                participant = await GetParticipantByPersonIdAsync((int)socialMedia.PersonId);
+            }
+            DoUpdate(updatedSocialMedia, socialMedia, participant);
         }
 
-        private void DoUpdate(UpdatedSocialMediaPresence updatedSocialMedia, SocialMedia modelToUpdate)
+        private void DoUpdate(UpdatedSocialMediaPresence updatedSocialMedia, SocialMedia modelToUpdate, ParticipantPersonSevisDTO participant)
         {
             Contract.Requires(updatedSocialMedia != null, "The updatedSocialMedia must not be null.");
             throwIfSocialMediaNotFound(modelToUpdate, updatedSocialMedia.Id);
-            if (modelToUpdate.PersonId.HasValue)
+            if (participant != null)
             {
-                var participant = service.GetParticipantByPersonId((int)modelToUpdate.PersonId);
-                if (participant != null)
-                {
-                    throwValidationErrorIfParticipantSevisInfoIsLocked(participant);
-                }
-            }            
+                throwValidationErrorIfParticipantSevisInfoIsLocked(participant);
+            }
             modelToUpdate.SocialMediaTypeId = updatedSocialMedia.SocialMediaTypeId;
             modelToUpdate.SocialMediaValue = updatedSocialMedia.Value;
             updatedSocialMedia.Update.SetHistory(modelToUpdate);

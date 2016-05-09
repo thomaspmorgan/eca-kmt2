@@ -183,6 +183,16 @@
                     });
                 }
 
+                $scope.printDS2019 = function () {
+                    var url = 'Project/' + projectId + '/ParticipantPersonSevis/' + $scope.sevisinfo.participantId + '/DS2019File';
+                    DownloadService.print(url, 'application/pdf')
+                    .then(function () {
+
+                    }, function () {
+                        NotificationService.showErrorMessage('Unable to print file.');
+                    });
+                }
+
                 $scope.view.showNextSevisCommStatuses = function () {
                     $scope.view.maxNumberOfSevisCommStatusesToShow += $scope.view.sevisCommStatusesPageSize;
                 }
@@ -324,7 +334,6 @@
                     }
                 }
 
-
                 function getSevisCommStatusesPage() {
                     if (angular.isDefined($scope.pageTimeout)) {
                         $timeout.cancel($scope.pageTimeout);
@@ -395,6 +404,15 @@
                             $scope.view.IntlOrg2Other = false;
                             $scope.exchangevisitorinfo.intlOrg2OtherName = '';
                         }
+                };
+
+                // IE and Edge do not support printing
+                $scope.browserSupportsMsSaveOrOpenBlob = function () {
+                    var msSaveOrOpenBlob = false;
+                    if (window.navigator.msSaveOrOpenBlob) {
+                        msSaveOrOpenBlob = true;
+                    }
+                    return msSaveOrOpenBlob;
                 };
 
                 function scrollToFunding() {

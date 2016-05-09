@@ -56,15 +56,15 @@ angular.module('staticApp')
               filter: TableService.getFilter()
           };
 
-          OrganizationService.getOrganizations(params)
+          OrganizationService.getOrganizationsWoFundingSource(params)
             .then(function (data) {
-                $scope.organizations = data.results;
+                $scope.organizations = data.data.results;
                 var limit = TableService.getLimit();
                 var start = TableService.getStart();
-                tableState.pagination.numberOfPages = Math.ceil(data.total / limit);
+                tableState.pagination.numberOfPages = Math.ceil(data.data.total / limit);
                 $scope.start = start + 1;
-                $scope.end = start + data.results.length;
-                $scope.total = data.total;
+                $scope.end = start + data.data.results.length;
+                $scope.total = data.data.total;
                 $scope.organizationsLoading = false;
             });
       };
