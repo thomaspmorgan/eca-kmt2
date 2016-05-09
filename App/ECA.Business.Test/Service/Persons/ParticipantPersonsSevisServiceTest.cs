@@ -878,7 +878,62 @@ namespace ECA.Business.Test.Service.Persons
             var serviceResultsAsync = await sevisService.GetReadyToValidateParticipantsAsync(queryOperator);
             tester(serviceResults);
             tester(serviceResultsAsync);
+        }
 
+        [TestMethod]
+        public async Task TestGetReadyToValidateParticipants_CheckStartDateIsAfterMinimumStartDate()
+        {
+            var status = new ParticipantStatus
+            {
+                ParticipantStatusId = ParticipantStatus.Active.Id
+            };
+            var participant = new Participant
+            {
+                ParticipantId = 1,
+                ProjectId = 10,
+                Status = status,
+                ParticipantStatusId = status.ParticipantStatusId
+            };
+            var participantPerson = new ParticipantPerson
+            {
+                ParticipantId = participant.ParticipantId,
+                Participant = participant,
+                SevisId = "sevisId",
+                StartDate = DateTimeOffset.UtcNow.AddDays(ParticipantPersonsSevisService.NUMBER_OF_DAYS_BEFORE_START_DATE_A_PARTICIPANT_NEEDS_VALIDATION_INFO - 1.0)
+            };
+            participant.ParticipantPerson = participantPerson;
+            var participantCommStatus = new ParticipantPersonSevisCommStatus
+            {
+                Id = 1,
+                SevisCommStatusId = SevisCommStatus.CreatedByBatch.Id,
+                ParticipantId = participant.ParticipantId,
+                ParticipantPerson = participantPerson
+            };
+            participantPerson.ParticipantPersonSevisCommStatuses.Add(participantCommStatus);
+
+            context.Participants.Add(participant);
+            context.ParticipantPersons.Add(participantPerson);
+            context.ParticipantPersonSevisCommStatuses.Add(participantCommStatus);
+            context.ParticipantStatuses.Add(status);
+            
+            var start = 0;
+            var limit = 1;
+            var defaultSorter = new ExpressionSorter<ReadyToValidateParticipantDTO>(x => x.ParticipantId, SortDirection.Ascending);
+            var queryOperator = new QueryableOperator<ReadyToValidateParticipantDTO>(start, limit, defaultSorter);
+
+            Assert.AreEqual(1, sevisService.GetReadyToValidateParticipants(queryOperator).Total);
+            Assert.AreEqual(1, (await sevisService.GetReadyToValidateParticipantsAsync(queryOperator)).Total);
+
+            participantPerson.StartDate = DateTimeOffset.UtcNow.AddDays(ParticipantPersonsSevisService.NUMBER_OF_DAYS_BEFORE_START_DATE_A_PARTICIPANT_NEEDS_VALIDATION_INFO + 1.0);
+            Action<PagedQueryResults<ReadyToValidateParticipantDTO>> tester = (results) =>
+            {
+                Assert.AreEqual(0, results.Total);
+                Assert.AreEqual(0, results.Results.Count);
+            };
+            var serviceResults = sevisService.GetReadyToValidateParticipants(queryOperator);
+            var serviceResultsAsync = await sevisService.GetReadyToValidateParticipantsAsync(queryOperator);
+            tester(serviceResults);
+            tester(serviceResultsAsync);
         }
         #endregion
 

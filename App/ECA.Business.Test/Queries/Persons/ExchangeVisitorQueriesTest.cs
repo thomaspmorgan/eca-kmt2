@@ -6519,8 +6519,7 @@ namespace ECA.Business.Test.Queries.Persons
             var results = ExchangeVisitorQueries.CreateGetReadyToValidateParticipantDTOsQuery(context, DateTimeOffset.UtcNow, queryOperator).ToList();
             Assert.AreEqual(1, results.Count);
 
-            participantPerson.StartDate = DateTimeOffset.UtcNow.AddDays(1.0);
-            results = ExchangeVisitorQueries.CreateGetReadyToValidateParticipantDTOsQuery(context, DateTimeOffset.UtcNow, queryOperator).ToList();
+            results = ExchangeVisitorQueries.CreateGetReadyToValidateParticipantDTOsQuery(context, DateTimeOffset.UtcNow.AddDays(-10.0), queryOperator).ToList();
             Assert.AreEqual(0, results.Count);
         }
 

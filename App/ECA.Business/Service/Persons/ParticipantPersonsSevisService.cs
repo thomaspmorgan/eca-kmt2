@@ -26,12 +26,17 @@ namespace ECA.Business.Service.Persons
     /// </summary>
     public class ParticipantPersonsSevisService : DbContextService<EcaContext>, IParticipantPersonsSevisService
     {
+        /// <summary>
+        /// The number of days to add to now to find participants who can be set to needs validation info.
+        /// </summary>
+        public const double NUMBER_OF_DAYS_BEFORE_START_DATE_A_PARTICIPANT_NEEDS_VALIDATION_INFO = 30.0;
+
         private readonly Logger logger = LogManager.GetCurrentClassLogger();
         private readonly Action<int, object, Type> throwIfModelDoesNotExist;
         private Action<int, int, Participant> throwSecurityViolationIfParticipantDoesNotBelongToProject;
         private Action<Participant> throwValidationErrorIfParticipantSevisInfoIsLocked;
         public readonly int[] LOCKED_SEVIS_COMM_STATUSES = { 5, 13, 14 };
-
+        
         /// <summary>
         /// Creates a new ParticipantPersonService with the given context to operate against.
         /// </summary>
@@ -379,23 +384,25 @@ namespace ECA.Business.Service.Persons
         #region Ready to Validate Participants
 
         /// <summary>
-        /// Returns a paged, filtered, sorterd collection of participants that have a sevis id and whose start date has passed and are ready to start the sevis validation process.
+        /// Returns a paged, filtered, sorterd collection of participants that have a sevis id and whose start date is at least 30 days away and are ready to start the sevis validation process.
         /// </summary>
         /// <param name="queryOperator">The query operator.</param>
         /// <returns>The participants that have a sevis id and whose start date has passed </returns>
         public PagedQueryResults<ReadyToValidateParticipantDTO> GetReadyToValidateParticipants(QueryableOperator<ReadyToValidateParticipantDTO> queryOperator)
         {
-            return ExchangeVisitorQueries.CreateGetReadyToValidateParticipantDTOsQuery(this.Context, DateTimeOffset.UtcNow, queryOperator).ToPagedQueryResults(queryOperator.Start, queryOperator.Limit);
+            return ExchangeVisitorQueries.CreateGetReadyToValidateParticipantDTOsQuery(this.Context, DateTimeOffset.UtcNow.AddDays(NUMBER_OF_DAYS_BEFORE_START_DATE_A_PARTICIPANT_NEEDS_VALIDATION_INFO), queryOperator)
+                .ToPagedQueryResults(queryOperator.Start, queryOperator.Limit);
         }
 
         /// <summary>
-        /// Returns a paged, filtered, sorterd collection of participants that have a sevis id and whose start date has passed and are ready to start the sevis validation process.
+        /// Returns a paged, filtered, sorterd collection of participants that have a sevis id and whose start date is at least 30 days away and are ready to start the sevis validation process.
         /// </summary>
         /// <param name="queryOperator">The query operator.</param>
         /// <returns>The participants that have a sevis id and whose start date has passed </returns>
         public Task<PagedQueryResults<ReadyToValidateParticipantDTO>> GetReadyToValidateParticipantsAsync(QueryableOperator<ReadyToValidateParticipantDTO> queryOperator)
         {
-            return ExchangeVisitorQueries.CreateGetReadyToValidateParticipantDTOsQuery(this.Context, DateTimeOffset.UtcNow, queryOperator).ToPagedQueryResultsAsync(queryOperator.Start, queryOperator.Limit);
+            return ExchangeVisitorQueries.CreateGetReadyToValidateParticipantDTOsQuery(this.Context, DateTimeOffset.UtcNow.AddDays(NUMBER_OF_DAYS_BEFORE_START_DATE_A_PARTICIPANT_NEEDS_VALIDATION_INFO), queryOperator)
+                .ToPagedQueryResultsAsync(queryOperator.Start, queryOperator.Limit);
         }
         #endregion
     }
