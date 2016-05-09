@@ -152,6 +152,9 @@
                                                   updateexchangevisitorinfo="saveExchangeVisitorInfo(getSelectedParticipant().participantId)" />
                     </div>
                 </tab>
+                <tab heading="Personal Identifiable Information (PII)" class="tab">
+                    <pii personid="{{getSelectedParticipant().personId}}"></pii>
+                </tab>
             </tabset>
         </div>
         <div class="col-md-12" style="margin-top: 20px;" ng-if="getSelectedParticipants().length === 1 && getSelectedParticipant().organizationId">

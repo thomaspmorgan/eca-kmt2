@@ -39,7 +39,7 @@
         </div>
     </div>
     <div collapse="!showPii">
-        <div ng-if="!edit.Pii"><ng-include src="'/app/people/pii.html'"></ng-include></div>
+        <div ng-if="!edit.Pii"><pii personid="{{personId}}"></pii></div>
         <div ng-if="edit.Pii"><ng-include src="'/app/people/pii-edit.html'"></ng-include></div>
     </div>
 

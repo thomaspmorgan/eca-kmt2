@@ -20,6 +20,8 @@ angular.module('staticApp')
       $scope.showPii = true;
       $scope.sevisStatus = { statusName: "", statusNameId: 0 };
 
+      $scope.personId = $stateParams.personId;
+
       var notifyStatuses = ConstantsService.sevisStatusIds.split(',');
       
       ParticipantPersonsService.getParticipantPersonById($stateParams.personId)

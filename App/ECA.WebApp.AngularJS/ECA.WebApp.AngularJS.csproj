@@ -191,6 +191,7 @@
     <Content Include="app\directives\eca-required.directive.html" />
     <Content Include="app\directives\participant-person-info.directive.html" />
     <Content Include="app\directives\participant-person-info.directive.js" />
+    <Content Include="app\directives\pii.directive.js" />
     <Content Include="app\directives\programs.directive.html" />
     <Content Include="app\directives\programs.directive.js" />
     <Content Include="app\directives\snapshots-graphs.controller.js" />
@@ -305,7 +306,7 @@
     <Content Include="app\organizations\add-organization-modal.controller.js" />
     <Content Include="app\people\evaluation-notes-edit.controller.js" />
     <Content Include="app\people\pii-edit.controller.js" />
-    <Content Include="app\people\pii.controller.js" />
+    <Content Include="app\directives\pii.controller.js" />
     <Content Include="app\people\personal-information.controller.js" />
     <Content Include="app\directives\phone-number.controller.js" />
     <Content Include="app\directives\phone-numbers.controller.js" />
@@ -417,7 +418,7 @@
     <Content Include="app\people\general.html" />
     <Content Include="app\organizations\organization.html" />
     <Content Include="app\people\pii-edit.html" />
-    <Content Include="app\people\pii.html" />
+    <Content Include="app\directives\pii.directive.html" />
     <Content Include="app\programs\edit.html" />
     <Content Include="app\programs\moneyflows.html" />
     <Content Include="app\programs\add-program-modal.html" />
