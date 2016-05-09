@@ -1,22 +1,26 @@
 ﻿<div ng-controller="PointsOfContactCtrl">
     <div>
-        <a ng-click="view.collapsePoc = !view.collapsePoc">
-            <i class="material-icons md-dark md-24 pull-right" ng-show="view.collapsePoc">expand_less</i>
-            <i class="material-icons md-dark md-24 pull-right" ng-show="!view.collapsePoc">expand_more</i>
+        <a ng-click="view.collapsePocs = !view.collapsePocs">
+            <i class="material-icons md-dark md-24 pull-right" ng-show="view.collapsePocs">expand_less</i>
+            <i class="material-icons md-dark md-24 pull-right" ng-show="!view.collapsePocs">expand_more</i>
         </a>
-        <a ng-click="view.onAddPointOfContactClick(model)" ng-show="editMode">
+        <a ng-click="view.onAddPointOfContactClick(view.pointsOfContact)">
             <i class="material-icons md-24 md-dark pull-right">add</i>
         </a>
-        <div class="pull-right" style="margin-top: 3px;">({{model.selectedPointsOfContact.length}})</div>
+        <div class="pull-right" style="margin-top: 3px;">({{view.pointsOfContact.length}})</div>
     </div>
-    <div class="col-md-12" collapse="view.collapsePoc">
-        <div ng-repeat="poc in model.selectedPointsOfContact track by poc.id">
-            <div ng-controller="PointsOfContactCtrl" class="expandIndent">
+    <div class="col-md-12" collapse="view.collapsePocs">
+        <div ng-repeat="poc in view.pointsOfContact track by poc.id">
+            <div ng-controller="PointOfContactCtrl" class="expandIndent">
                 <div class="spinner" ng-show="view.isSavingChanges">
                     <div class="bounce1"></div>
                     <div class="bounce2"></div>
                     <div class="bounce3"></div>
                 </div>
+                <a ng-click="view.collapsePoc = !view.collapsePoc">
+                    <i class="material-icons md-dark md-24 pull-right" ng-show="view.collapsePoc">expand_less</i>
+                    <i class="material-icons md-dark md-24 pull-right" ng-show="!view.collapsePoc">expand_more</i>
+                </a>
                 <div class="row" ng-show="!view.isSavingChanges">
                     <div ng-class="{true: '', false: 'row2'}[editMode]" ng-show="!view.showEditPoc">
                         {{poc.fullName}}
@@ -40,66 +44,59 @@
                         <button ng-click="view.showConfirmDelete = !view.showConfirmDelete" class="btn btn-cancel">Cancel</button>
                     </div>
                     <div ng-show="!view.showConfirmDelete" collapse="view.collapsePoc">
-                        <div class="row" ng-show="view.showEditPoc">
-                            <div form-group">
-                                <div class="col-md-2">
+                        <form name="form.pocForm" class="row form-horizontal">
+                            <div class="col-md-12" ng-show="view.showEditPoc">
+                                <div class="form-group">
                                     <label>
                                         Full Name <eca-required />
                                     </label>
-                                </div>
-                                <div class="col-md-10">
                                     <input name="name"
-                                           maxlength="{{view.maxNameLength}}"
-                                           ng-model="view.newPointOfContact.fullName"
-                                           ng-change="view.onFullNameChange()"
-                                           ng-model-options="{debounce: 500}"
-                                           type="text"
-                                           class="form-control"
-                                           placeholder="Enter the full name of the point of contact..."
-                                           required>
-                                    <div ng-show="form.newPointOfContact.name.$dirty">
-                                        <div class="error" ng-show="form.pointOfContactForm.name.$error.required">Please enter the full name of the point of contact.</div>
+                                            maxlength="{{view.maxNameLength}}"
+                                            ng-model="view.newPointOfContact.fullName"
+                                            ng-change="view.onFullNameChange()"
+                                            ng-model-options="{debounce: 500}"
+                                            type="text"
+                                            class="form-control"
+                                            placeholder="Enter the full name of the point of contact..."
+                                            required />
+                                </div>
+                                <div ng-show="form.newPointOfContact.name.$dirty">
+                                    <div class="error" ng-show="form.pointOfContactForm.name.$error.required">Please enter the full name of the point of contact.</div>
+                                </div>
+                                <div class="warning" ng-show="view.likePointsOfContactByFullNameTotal > 0">
+                                    <div ng-if="view.likePointsOfContactByFullNameTotal == 1">
+                                        There is {{view.likePointsOfContactByFullNameTotal}} other point of contact with this name.
                                     </div>
-                                    <div class="warning" ng-show="view.likePointsOfContactByFullNameTotal > 0">
-                                        <div ng-if="view.likePointsOfContactByFullNameTotal == 1">
-                                            There is {{view.likePointsOfContactByFullNameTotal}} other point of contact with this name.
-                                        </div>
-                                        <div ng-if="view.likePointsOfContactByFullNameTotal > 1">
-                                            There are {{view.likePointsOfContactByFullNameTotal}} other points of contact with this name.
-                                        </div>
+                                    <div ng-if="view.likePointsOfContactByFullNameTotal > 1">
+                                        There are {{view.likePointsOfContactByFullNameTotal}} other points of contact with this name.
                                     </div>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-md-2">
+                                <div class="form-group">
                                     <label>
                                         Position
                                     </label>
-                                </div>
-                                <div class="col-md-10">
                                     <input name="position"
-                                           maxlength="{{view.maxNameLength}}"
-                                           ng-model="view.newPointOfContact.position"
-                                           type="text"
-                                           class="form-control"
-                                           placeholder="Enter the point of contact's position...">
+                                            maxlength="{{view.maxNameLength}}"
+                                            ng-model="view.newPointOfContact.position"
+                                            type="text"
+                                            class="form-control"
+                                            placeholder="Enter the point of contact's position..." />
+                                </div>
+                                <div class="row right" ng-show="view.showEditPoc">
+                                    <button ng-click="view.savePointOfContact($event)" class="btn btn-success" ng-disabled="form.emailAddressForm.$invalid">Save</button>
+                                    <button ng-click="view.cancelPointOfContactChanges($event)" class="btn btn-cancel">Cancel</button>
                                 </div>
                             </div>
-                        </div>
+                        </form>                        
                         <div class="row">
                             <i class="material-icons md-dark col-md-1">email</i>
                             <div class="col-md-3 title-label">Emails</div>
-                            <emailaddresses model="poc" modelid="poc.id" modeltype="'project'" editmode="view.showEditPoc"></emailaddresses>
+                            <emailaddresses model="poc" modelid="poc.id" modeltype="'project'" editmode="true"></emailaddresses>
                         </div>
                         <div class="row">
                             <i class="material-icons md-dark col-md-1">phone</i>
                             <div class="col-md-4 title-label">Phone Numbers</div>
-                            <phonenumbers model="poc" modelid="poc.id" modeltype="'project'" editmode="view.showEditPoc"></phonenumbers>
-                        </div>
-                        <div class="row">
-                            <i class="material-icons md-dark col-md-1">personal_video</i>
-                            <div class="col-md-6 title-label">Social Media</div>
-                            <socialmedias model="poc" modelid="poc.id" modeltype="'project'" editmode="view.showEditPoc" />
+                            <phonenumbers model="poc" modelid="poc.id" modeltype="'project'" editmode="true"></phonenumbers>
                         </div>
                     </div>
                 </div>

@@ -13,8 +13,6 @@ angular.module('staticApp')
         $stateParams,
         $q,
         $log,
-        $modal,
-        $modalInstance,
         filterFilter,
         ContactsService,
         LookupService,
@@ -22,44 +20,63 @@ angular.module('staticApp')
         ConstantsService,
         FilterService) {
             
-      var emailRegex = new RegExp(ConstantsService.emailRegex);
-
       $scope.view = {};
       $scope.view.pointOfContactFilter = '';
       $scope.view.isLoadingRequiredData = false;
       $scope.view.isSavingPointOfContact = false;
       $scope.view.isLoadingPointsOfContactByFullName = false;
+      var tempId = 0;
 
       $scope.view.maxNameLength = 100;
       $scope.view.searchLimit = 30;
       $scope.view.maxEmailAddresses = 10;
       $scope.view.maxPhoneNumbers = 10;
-      $scope.view.contacts = [];
+      $scope.view.collapsePocs = true;
+      $scope.view.collapsePoc = true;
+      $scope.view.showEditPoc = false;
+      $scope.view.pointsOfContact = [];
+      $scope.view.selectedPointsOfContact = [];
       $scope.view.newPointOfContact = createNewPointOfContact();
       $scope.view.likePointsOfContactByFullNameTotal = 0;
-            
-      $scope.view.onFullNameChange = function () {
-          if ($scope.view.newPointOfContact.fullName && $scope.view.newPointOfContact.fullName.length > 0) {
-              return loadPointsOfContactByFullName($scope.view.newPointOfContact.fullName);
+      $scope.view.showConfirmDelete = false;
+      
+      var maxLimit = 300;
+      var pocFilter = FilterService.add('projectedit_pocfilter');
+      function loadPointsOfContact(search) {
+          pocFilter.reset();
+          pocFilter = pocFilter.skip(0).take(maxLimit);
+          if (search) {
+              pocFilter = pocFilter.like('fullName', search);
           }
+          return LookupService.getAllContacts(pocFilter.toParams())
+              .then(function (response) {
+                  if (response.total > maxLimit) {
+                      $log.error('There are more contacts in the system then are currently loaded, an issue could occur in the UI not showing all possible values.');
+                  }
+                  for (var i = 0; i < response.results.length; i++) {
+                      var position = "";
+                      if (response.results[i].position) {
+                          position = " (" + response.results[i].position + ")";
+                      }
+                      response.results[i].value = response.results[i].fullName + position;
+                  }
+                  $scope.view.pointsOfContact = response.results;
+              });
       }
 
-      $scope.view.onSaveClick = function () {
-          return savePointOfContact($scope.view.newPointOfContact)
-          .then(function (pointOfContact) {
-              $modalInstance.close(pointOfContact);
-          });
+      $scope.view.onAddPointOfContactClick = function (pointsOfContact) {
+          console.assert(pointsOfContact, 'The entity points of contact is not defined.');
+          console.assert(pointsOfContact instanceof Array, 'The entity points of contact is defined but must be an array.');
+          var newPointOfContact = {
+              id: --tempId,
+              isNew: true,
+              emailAddresses: [],
+              phoneNumbers: []
+          };
+          pointsOfContact.splice(0, 0, newPointOfContact);
+          $scope.view.collapsePoc = false;
       }
-
-      $scope.view.onCancelClick = function () {
-          if ($scope.form.pointOfContactForm.$dirty) {
-              $scope.view.showConfirmCancel = true;
-          }
-          else {
-              $modalInstance.dismiss('cancel');
-          }
-      }
-
+      
       var likePointsOfContactByFullNameFilter = FilterService.add('points-of-contact-model-search-by-full-name-filter');
       function loadPointsOfContactByFullName(fullName) {
           if (fullName && fullName.length > 0) {
@@ -85,24 +102,7 @@ angular.module('staticApp')
               });
           }
       }
-
-      $scope.view.isUniquePointOfContact = function ($value, $index) {
-          var dfd = $q.defer();
-          loadPointsOfContactByEmail($value)
-          .then(function (likePointsOfContact) {
-              if (likePointsOfContact.length !== 0) {
-                  dfd.reject();
-              }
-              else {
-                  dfd.resolve();
-              }
-          })
-          .catch(function (response) {
-              dfd.reject();
-          });
-          return dfd.promise;
-      }
-
+      
       function createNewPointOfContact() {
           var newPointOfContact = {
               emailAddresses: [],
@@ -111,20 +111,6 @@ angular.module('staticApp')
           return newPointOfContact;
       }
 
-      function savePointOfContact(pointOfContact) {
-          $scope.view.isSavingPointOfContact = true;
-          return ContactsService.create(pointOfContact)
-          .then(function (response) {
-              $scope.view.isSavingPointOfContact = false;
-              pointOfContact = response.data;
-              return pointOfContact;
-          })
-          .catch(function (response) {
-              $scope.view.isSavingPointOfContact = false;
-              var message = "Unable to save new contact.";
-              NotificationService.showErrorMessage(message);
-              $log.error(message);
-          });
-      }
+      $q.all([loadPointsOfContact(null)]);
 
   });
