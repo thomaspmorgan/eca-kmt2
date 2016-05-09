@@ -206,6 +206,7 @@ namespace ECA.Business.Test.Service.Projects
             var name = "name";
             var description = "desc";
             var statusId = ProjectStatus.Completed.Id;
+            var sevisOrgId = "abcde1234567890";
             var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
             var endDate = DateTimeOffset.UtcNow;
             var projectToUpdate = new Project
@@ -235,6 +236,7 @@ namespace ECA.Business.Test.Service.Projects
                     name: name,
                     description: description,
                     projectStatusId: statusId,
+                    sevisOrgId: sevisOrgId,
                     goalIds: null,
                     themeIds: null,
                     pointsOfContactIds: null,
@@ -292,6 +294,7 @@ namespace ECA.Business.Test.Service.Projects
             var name = "name";
             var description = "desc";
             var statusId = ProjectStatus.Completed.Id;
+            var sevisOrgId = "abcde1234567890";
             var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
             var endDate = DateTimeOffset.UtcNow;
             var projectToUpdate = new Project
@@ -325,6 +328,7 @@ namespace ECA.Business.Test.Service.Projects
                     name: name,
                     description: description,
                     projectStatusId: statusId,
+                    sevisOrgId: sevisOrgId,
                     goalIds: null,
                     themeIds: null,
                     pointsOfContactIds: null,
@@ -384,6 +388,7 @@ namespace ECA.Business.Test.Service.Projects
             var name = "name";
             var description = "desc";
             var statusId = ProjectStatus.Completed.Id;
+            var sevisOrgId = "abcde1234567890";
             var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
             var endDate = DateTimeOffset.UtcNow;
             var projectToUpdate = new Project
@@ -417,6 +422,7 @@ namespace ECA.Business.Test.Service.Projects
                     name: name,
                     description: description,
                     projectStatusId: statusId,
+                    sevisOrgId: sevisOrgId,
                     goalIds: null,
                     themeIds: null,
                     pointsOfContactIds: null,
@@ -475,6 +481,7 @@ namespace ECA.Business.Test.Service.Projects
             var name = "name";
             var description = "desc";
             var statusId = ProjectStatus.Completed.Id;
+            var sevisOrgId = "abcde1234567890";
             var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
             var endDate = DateTimeOffset.UtcNow;
             var projectToUpdate = new Project
@@ -508,6 +515,7 @@ namespace ECA.Business.Test.Service.Projects
                     name: name,
                     description: description,
                     projectStatusId: statusId,
+                    sevisOrgId: sevisOrgId,
                     goalIds: null,
                     themeIds: null,
                     pointsOfContactIds: null,
@@ -566,6 +574,7 @@ namespace ECA.Business.Test.Service.Projects
             var name = "name";
             var description = "desc";
             var statusId = ProjectStatus.Completed.Id;
+            var sevisOrgId = "abcde1234567890";
             var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
             var endDate = DateTimeOffset.UtcNow;
             var projectToUpdate = new Project
@@ -599,6 +608,7 @@ namespace ECA.Business.Test.Service.Projects
                     name: name,
                     description: description,
                     projectStatusId: statusId,
+                    sevisOrgId: sevisOrgId,
                     goalIds: null,
                     themeIds: null,
                     pointsOfContactIds: null,
@@ -658,6 +668,7 @@ namespace ECA.Business.Test.Service.Projects
             var name = "name";
             var description = "desc";
             var statusId = ProjectStatus.Completed.Id;
+            var sevisOrgId = "abcde1234567890";
             var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
             var endDate = DateTimeOffset.UtcNow;
             var projectToUpdate = new Project
@@ -691,6 +702,7 @@ namespace ECA.Business.Test.Service.Projects
                     name: name,
                     description: description,
                     projectStatusId: statusId,
+                    sevisOrgId: sevisOrgId,
                     goalIds: null,
                     themeIds: null,
                     pointsOfContactIds: null,
@@ -749,6 +761,7 @@ namespace ECA.Business.Test.Service.Projects
             var name = "name";
             var description = "desc";
             var statusId = ProjectStatus.Completed.Id;
+            var sevisOrgId = "abcde1234567890";
             var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
             var endDate = DateTimeOffset.UtcNow;
             var projectToUpdate = new Project
@@ -782,6 +795,7 @@ namespace ECA.Business.Test.Service.Projects
                     name: name,
                     description: description,
                     projectStatusId: statusId,
+                    sevisOrgId: sevisOrgId,
                     goalIds: null,
                     themeIds: null,
                     pointsOfContactIds: null,
@@ -840,6 +854,7 @@ namespace ECA.Business.Test.Service.Projects
             var name = "name";
             var description = "desc";
             var statusId = ProjectStatus.Completed.Id;
+            var sevisOrgId = "abcde1234567890";
             var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
             var endDate = DateTimeOffset.UtcNow;
             var projectToUpdate = new Project
@@ -873,6 +888,7 @@ namespace ECA.Business.Test.Service.Projects
                     name: name,
                     description: description,
                     projectStatusId: statusId,
+                    sevisOrgId: sevisOrgId,
                     goalIds: null,
                     themeIds: null,
                     pointsOfContactIds: null,
@@ -931,6 +947,7 @@ namespace ECA.Business.Test.Service.Projects
             var name = "name";
             var description = "desc";
             var statusId = ProjectStatus.Completed.Id;
+            var sevisOrgId = "abcde1234567890";
             var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
             var endDate = DateTimeOffset.UtcNow;
             var projectToUpdate = new Project
@@ -964,6 +981,7 @@ namespace ECA.Business.Test.Service.Projects
                     name: name,
                     description: description,
                     projectStatusId: statusId,
+                    sevisOrgId: sevisOrgId,
                     goalIds: null,
                     themeIds: null,
                     pointsOfContactIds: null,
@@ -1022,6 +1040,7 @@ namespace ECA.Business.Test.Service.Projects
             var name = "name";
             var description = "desc";
             var statusId = ProjectStatus.Completed.Id;
+            var sevisOrgId = "abcde1234567890";
             var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
             var endDate = DateTimeOffset.UtcNow;
             var projectToUpdate = new Project
@@ -1055,6 +1074,7 @@ namespace ECA.Business.Test.Service.Projects
                     name: name,
                     description: description,
                     projectStatusId: statusId,
+                    sevisOrgId: sevisOrgId,
                     goalIds: null,
                     themeIds: null,
                     pointsOfContactIds: null,
@@ -1113,6 +1133,7 @@ namespace ECA.Business.Test.Service.Projects
             var name = "name";
             var description = "desc";
             var statusId = ProjectStatus.Completed.Id;
+            var sevisOrgId = "abcde1234567890";
             var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
             var endDate = DateTimeOffset.UtcNow;
             var projectToUpdate = new Project
@@ -1146,6 +1167,7 @@ namespace ECA.Business.Test.Service.Projects
                     name: name,
                     description: description,
                     projectStatusId: statusId,
+                    sevisOrgId: sevisOrgId,
                     goalIds: null,
                     themeIds: null,
                     pointsOfContactIds: null,
@@ -1205,6 +1227,7 @@ namespace ECA.Business.Test.Service.Projects
             var name = "name";
             var description = "desc";
             var statusId = ProjectStatus.Completed.Id;
+            var sevisOrgId = "abcde1234567890";
             var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
             var endDate = DateTimeOffset.UtcNow;
             var projectToUpdate = new Project
@@ -1238,6 +1261,7 @@ namespace ECA.Business.Test.Service.Projects
                     name: name,
                     description: description,
                     projectStatusId: statusId,
+                    sevisOrgId: sevisOrgId,
                     goalIds: null,
                     themeIds: null,
                     pointsOfContactIds: null,
@@ -1296,6 +1320,7 @@ namespace ECA.Business.Test.Service.Projects
             var name = "name";
             var description = "desc";
             var statusId = ProjectStatus.Completed.Id;
+            var sevisOrgId = "abcde1234567890";
             var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
             var endDate = DateTimeOffset.UtcNow;
             var projectToUpdate = new Project
@@ -1330,6 +1355,7 @@ namespace ECA.Business.Test.Service.Projects
                     name: name,
                     description: description,
                     projectStatusId: statusId,
+                    sevisOrgId: sevisOrgId,
                     goalIds: null,
                     themeIds: null,
                     pointsOfContactIds: null,
@@ -1388,6 +1414,7 @@ namespace ECA.Business.Test.Service.Projects
             var name = "name";
             var description = "desc";
             var statusId = ProjectStatus.Completed.Id;
+            var sevisOrgId = "abcde1234567890";
             var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
             var endDate = DateTimeOffset.UtcNow;
             var projectToUpdate = new Project
@@ -1424,6 +1451,7 @@ namespace ECA.Business.Test.Service.Projects
                     name: name,
                     description: description,
                     projectStatusId: statusId,
+                    sevisOrgId: sevisOrgId,
                     goalIds: null,
                     themeIds: null,
                     pointsOfContactIds: null,
@@ -1482,6 +1510,7 @@ namespace ECA.Business.Test.Service.Projects
             var name = "name";
             var description = "desc";
             var statusId = ProjectStatus.Completed.Id;
+            var sevisOrgId = "abcde1234567890";
             var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
             var endDate = DateTimeOffset.UtcNow;
             var projectToUpdate = new Project
@@ -1518,6 +1547,7 @@ namespace ECA.Business.Test.Service.Projects
                     name: name,
                     description: description,
                     projectStatusId: statusId,
+                    sevisOrgId: sevisOrgId,
                     goalIds: null,
                     themeIds: null,
                     pointsOfContactIds: null,
@@ -1575,6 +1605,7 @@ namespace ECA.Business.Test.Service.Projects
             var name = "name";
             var description = "desc";
             var statusId = ProjectStatus.Completed.Id;
+            var sevisOrgId = "abcde1234567890";
             var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
             var endDate = DateTimeOffset.UtcNow;
             var projectToUpdate = new Project
@@ -1610,6 +1641,7 @@ namespace ECA.Business.Test.Service.Projects
                     name: name,
                     description: description,
                     projectStatusId: statusId,
+                    sevisOrgId: sevisOrgId,
                     goalIds: null,
                     themeIds: null,
                     pointsOfContactIds: null,
@@ -1668,6 +1700,7 @@ namespace ECA.Business.Test.Service.Projects
             var name = "name";
             var description = "desc";
             var statusId = ProjectStatus.Completed.Id;
+            var sevisOrgId = "abcde1234567890";
             var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
             var endDate = DateTimeOffset.UtcNow;
             var projectToUpdate = new Project
@@ -1703,6 +1736,7 @@ namespace ECA.Business.Test.Service.Projects
                     name: name,
                     description: description,
                     projectStatusId: statusId,
+                    sevisOrgId: sevisOrgId,
                     goalIds: null,
                     themeIds: null,
                     pointsOfContactIds: null,
@@ -1760,6 +1794,7 @@ namespace ECA.Business.Test.Service.Projects
             var name = "name";
             var description = "desc";
             var statusId = ProjectStatus.Completed.Id;
+            var sevisOrgId = "abcde1234567890";
             var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
             var endDate = DateTimeOffset.UtcNow;
             var projectToUpdate = new Project
@@ -1794,6 +1829,7 @@ namespace ECA.Business.Test.Service.Projects
                     name: name,
                     description: description,
                     projectStatusId: statusId,
+                    sevisOrgId: sevisOrgId,
                     goalIds: null,
                     themeIds: null,
                     pointsOfContactIds: null,
@@ -1850,6 +1886,7 @@ namespace ECA.Business.Test.Service.Projects
             var name = "name";
             var description = "desc";
             var statusId = ProjectStatus.Completed.Id;
+            var sevisOrgId = "abcde1234567890";
             var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
             var endDate = DateTimeOffset.UtcNow;
             var projectToUpdate = new Project
@@ -1884,6 +1921,7 @@ namespace ECA.Business.Test.Service.Projects
                     name: name,
                     description: description,
                     projectStatusId: statusId,
+                    sevisOrgId: sevisOrgId,
                     goalIds: null,
                     themeIds: null,
                     pointsOfContactIds: null,
@@ -1940,6 +1978,7 @@ namespace ECA.Business.Test.Service.Projects
             var name = "name";
             var description = "desc";
             var statusId = ProjectStatus.Completed.Id;
+            var sevisOrgId = "abcde1234567890";
             var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
             var endDate = DateTimeOffset.UtcNow;
             var projectToUpdate = new Project
@@ -1973,6 +2012,7 @@ namespace ECA.Business.Test.Service.Projects
                     name: name,
                     description: description,
                     projectStatusId: statusId,
+                    sevisOrgId: sevisOrgId,
                     goalIds: null,
                     themeIds: null,
                     pointsOfContactIds: null,
@@ -2029,6 +2069,7 @@ namespace ECA.Business.Test.Service.Projects
             var name = "name";
             var description = "desc";
             var statusId = ProjectStatus.Completed.Id;
+            var sevisOrgId = "abcde1234567890";
             var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
             var endDate = DateTimeOffset.UtcNow;
             var projectToUpdate = new Project
@@ -2062,6 +2103,7 @@ namespace ECA.Business.Test.Service.Projects
                     name: name,
                     description: description,
                     projectStatusId: statusId,
+                    sevisOrgId: sevisOrgId,
                     goalIds: null,
                     themeIds: null,
                     pointsOfContactIds: null,
@@ -2118,6 +2160,7 @@ namespace ECA.Business.Test.Service.Projects
             var name = "name";
             var description = "desc";
             var statusId = ProjectStatus.Completed.Id;
+            var sevisOrgId = "abcde1234567890";
             var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
             var endDate = DateTimeOffset.UtcNow;
             var projectToUpdate = new Project
@@ -2151,6 +2194,7 @@ namespace ECA.Business.Test.Service.Projects
                     name: name,
                     description: description,
                     projectStatusId: statusId,
+                    sevisOrgId: sevisOrgId,
                     goalIds: null,
                     themeIds: null,
                     pointsOfContactIds: null,
@@ -2207,6 +2251,7 @@ namespace ECA.Business.Test.Service.Projects
             var name = "name";
             var description = "desc";
             var statusId = ProjectStatus.Completed.Id;
+            var sevisOrgId = "abcde1234567890";
             var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
             var endDate = DateTimeOffset.UtcNow;
             var projectToUpdate = new Project
@@ -2240,6 +2285,7 @@ namespace ECA.Business.Test.Service.Projects
                     name: name,
                     description: description,
                     projectStatusId: statusId,
+                    sevisOrgId: sevisOrgId,
                     goalIds: null,
                     themeIds: null,
                     pointsOfContactIds: null,
@@ -2297,6 +2343,7 @@ namespace ECA.Business.Test.Service.Projects
             var name = "name";
             var description = "desc";
             var statusId = ProjectStatus.Completed.Id;
+            var sevisOrgId = "abcde1234567890";
             var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
             var endDate = DateTimeOffset.UtcNow;
             var projectToUpdate = new Project
@@ -2330,6 +2377,7 @@ namespace ECA.Business.Test.Service.Projects
                     name: name,
                     description: description,
                     projectStatusId: statusId,
+                    sevisOrgId: sevisOrgId,
                     goalIds: null,
                     themeIds: null,
                     pointsOfContactIds: null,
@@ -2389,6 +2437,7 @@ namespace ECA.Business.Test.Service.Projects
             var name = "name";
             var description = "desc";
             var statusId = ProjectStatus.Completed.Id;
+            var sevisOrgId = "abcde1234567890";
             var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
             var endDate = DateTimeOffset.UtcNow;
             var projectToUpdate = new Project
@@ -2422,6 +2471,7 @@ namespace ECA.Business.Test.Service.Projects
                     name: name,
                     description: description,
                     projectStatusId: statusId,
+                    sevisOrgId: sevisOrgId,
                     goalIds: null,
                     themeIds: null,
                     pointsOfContactIds: null,
@@ -2480,6 +2530,7 @@ namespace ECA.Business.Test.Service.Projects
             var name = "name";
             var description = "desc";
             var statusId = ProjectStatus.Draft.Id;
+            var sevisOrgId = "abcde1234567890";
             var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
             var endDate = DateTimeOffset.UtcNow;
             var projectToUpdate = new Project
@@ -2513,6 +2564,7 @@ namespace ECA.Business.Test.Service.Projects
                     name: name,
                     description: description,
                     projectStatusId: statusId,
+                    sevisOrgId: sevisOrgId,
                     goalIds: null,
                     themeIds: null,
                     pointsOfContactIds: null,
@@ -2564,6 +2616,7 @@ namespace ECA.Business.Test.Service.Projects
             var name = "name";
             var description = "desc";
             var statusId = ProjectStatus.Active.Id;
+            var sevisOrgId = "abcde1234567890";
             var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
             var endDate = DateTimeOffset.UtcNow;
             var projectToUpdate = new Project
@@ -2597,6 +2650,7 @@ namespace ECA.Business.Test.Service.Projects
                     name: name,
                     description: description,
                     projectStatusId: statusId,
+                    sevisOrgId: sevisOrgId,
                     goalIds: null,
                     themeIds: null,
                     pointsOfContactIds: null,
@@ -2655,6 +2709,7 @@ namespace ECA.Business.Test.Service.Projects
             var name = "name";
             var description = "desc";
             var statusId = ProjectStatus.Active.Id;
+            var sevisOrgId = "abcde1234567890";
             var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
             var endDate = DateTimeOffset.UtcNow;
             var projectToUpdate = new Project
@@ -2688,6 +2743,7 @@ namespace ECA.Business.Test.Service.Projects
                     name: name,
                     description: description,
                     projectStatusId: statusId,
+                    sevisOrgId: sevisOrgId,
                     goalIds: null,
                     themeIds: null,
                     pointsOfContactIds: null,
@@ -2746,6 +2802,7 @@ namespace ECA.Business.Test.Service.Projects
             var name = "name";
             var description = "desc";
             var statusId = ProjectStatus.Active.Id;
+            var sevisOrgId = "abcde1234567890";
             var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
             var endDate = DateTimeOffset.UtcNow;
             var projectToUpdate = new Project
@@ -2779,6 +2836,7 @@ namespace ECA.Business.Test.Service.Projects
                     name: name,
                     description: description,
                     projectStatusId: statusId,
+                    sevisOrgId: sevisOrgId,
                     goalIds: null,
                     themeIds: null,
                     pointsOfContactIds: null,
@@ -2838,6 +2896,7 @@ namespace ECA.Business.Test.Service.Projects
             var name = "name";
             var description = "desc";
             var statusId = ProjectStatus.Active.Id;
+            var sevisOrgId = "abcde1234567890";
             var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
             var endDate = DateTimeOffset.UtcNow;
             var projectToUpdate = new Project
@@ -2871,6 +2930,7 @@ namespace ECA.Business.Test.Service.Projects
                     name: name,
                     description: description,
                     projectStatusId: statusId,
+                    sevisOrgId: sevisOrgId,
                     goalIds: null,
                     themeIds: null,
                     pointsOfContactIds: null,
@@ -2930,6 +2990,7 @@ namespace ECA.Business.Test.Service.Projects
             var name = "name";
             var description = "desc";
             var statusId = ProjectStatus.Active.Id;
+            var sevisOrgId = "abcde1234567890";
             var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
             var endDate = DateTimeOffset.UtcNow;
             var projectToUpdate = new Project
@@ -2963,6 +3024,7 @@ namespace ECA.Business.Test.Service.Projects
                     name: name,
                     description: description,
                     projectStatusId: statusId,
+                    sevisOrgId: sevisOrgId,
                     goalIds: null,
                     themeIds: null,
                     pointsOfContactIds: null,
@@ -3023,6 +3085,7 @@ namespace ECA.Business.Test.Service.Projects
             var name = "name";
             var description = "desc";
             var statusId = ProjectStatus.Active.Id;
+            var sevisOrgId = "abcde1234567890";
             var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
             var endDate = DateTimeOffset.UtcNow;
             var projectToUpdate = new Project
@@ -3056,6 +3119,7 @@ namespace ECA.Business.Test.Service.Projects
                     name: name,
                     description: description,
                     projectStatusId: statusId,
+                    sevisOrgId: sevisOrgId,
                     goalIds: null,
                     themeIds: null,
                     pointsOfContactIds: null,
@@ -3120,6 +3184,7 @@ namespace ECA.Business.Test.Service.Projects
             var name = "name";
             var description = "desc";
             var statusId = ProjectStatus.Active.Id;
+            var sevisOrgId = "abcde1234567890";
             var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
             var endDate = DateTimeOffset.UtcNow;
             var projectToUpdate = new Project
@@ -3153,6 +3218,7 @@ namespace ECA.Business.Test.Service.Projects
                     name: name,
                     description: description,
                     projectStatusId: statusId,
+                    sevisOrgId: sevisOrgId,
                     goalIds: null,
                     themeIds: null,
                     pointsOfContactIds: null,
@@ -3215,6 +3281,7 @@ namespace ECA.Business.Test.Service.Projects
             var name = "name";
             var description = "desc";
             var statusId = ProjectStatus.Active.Id;
+            var sevisOrgId = "abcde1234567890";
             var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
             var endDate = DateTimeOffset.UtcNow;
             var projectToUpdate = new Project
@@ -3248,6 +3315,7 @@ namespace ECA.Business.Test.Service.Projects
                     name: name,
                     description: description,
                     projectStatusId: statusId,
+                    sevisOrgId: sevisOrgId,
                     goalIds: null,
                     themeIds: new List<int> { 2 },
                     pointsOfContactIds: null,
@@ -3308,6 +3376,7 @@ namespace ECA.Business.Test.Service.Projects
             var name = "name";
             var description = "desc";
             var statusId = ProjectStatus.Active.Id;
+            var sevisOrgId = "abcde1234567890";
             var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
             var endDate = DateTimeOffset.UtcNow;
             var projectToUpdate = new Project
@@ -3341,6 +3410,7 @@ namespace ECA.Business.Test.Service.Projects
                     name: name,
                     description: description,
                     projectStatusId: statusId,
+                    sevisOrgId: sevisOrgId,
                     goalIds: new List<int> { 2 },
                     themeIds: null,
                     pointsOfContactIds: null,

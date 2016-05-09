@@ -363,7 +363,6 @@ namespace ECA.Business.Test.Service.Persons
             {
                 Assert.AreEqual(fullName, entity.FullName);
                 Assert.AreEqual(position, entity.Position);
-                Assert.AreEqual(0, entity.LikeEmailAddressCount);
                 Assert.AreEqual(1, entity.NumberOfPrimaryEmailAddresses);
                 Assert.AreEqual(1, entity.NumberOfPrimaryPhoneNumbers);
             };
@@ -403,8 +402,7 @@ namespace ECA.Business.Test.Service.Persons
                 Assert.AreEqual(userId, secondEmail.History.RevisedBy);
                 DateTimeOffset.Now.Should().BeCloseTo(secondEmail.History.CreatedOn, 20000);
                 DateTimeOffset.Now.Should().BeCloseTo(secondEmail.History.RevisedOn, 20000);
-
-
+                
                 var firstPhone = pointOfContact.PhoneNumbers.First();
                 var secondPhone = pointOfContact.PhoneNumbers.Last();
                 Assert.IsTrue(context.PhoneNumbers.Contains(firstPhone));
@@ -579,7 +577,6 @@ namespace ECA.Business.Test.Service.Persons
             {
                 Assert.AreEqual(fullName, entity.FullName);
                 Assert.AreEqual(position, entity.Position);
-                Assert.AreEqual(1, entity.LikeEmailAddressCount);
             };
             Action afterTester = () =>
             {

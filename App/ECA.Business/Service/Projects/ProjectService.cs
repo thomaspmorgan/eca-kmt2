@@ -505,6 +505,7 @@ namespace ECA.Business.Service.Projects
             CreateParticipantExchangeVisitors(participantsWithoutParticipantExchangeVisitor);
             projectToUpdate.Name = updatedProject.Name;
             projectToUpdate.Description = updatedProject.Description;
+            projectToUpdate.SevisOrgId = updatedProject.SevisOrgId;
             projectToUpdate.EndDate = updatedProject.EndDate;
             projectToUpdate.Name = updatedProject.Name;
             projectToUpdate.ProjectStatusId = updatedProject.ProjectStatusId;

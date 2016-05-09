@@ -2,8 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ECA.Business.Service.Persons
 {
@@ -26,12 +24,7 @@ namespace ECA.Business.Service.Persons
         /// The error message to return when a point of contact is not provided a full name.
         /// </summary>
         public const string POINT_OF_CONTACT_MUST_HAVE_A_FULL_NAME_VALUE = "The point of contact must have a full name.";
-
-        /// <summary>
-        /// The error message to return when a point of contact with an email address already exists in the system.
-        /// </summary>
-        public const string POINT_OF_CONTACT_WITH_EMAIL_ADDRESS_EXISTS = "A point of contact with a given email address already exists.";
-
+        
         /// <summary>
         /// 
         /// </summary>
@@ -50,10 +43,6 @@ namespace ECA.Business.Service.Persons
             if (validationEntity.NumberOfPrimaryPhoneNumbers > 1)
             {
                 yield return new BusinessValidationResult<AdditionalPointOfContact>(x => x.PhoneNumbers, MORE_THAN_ONE_PRIMARY_PHONE_NUMBER_ERROR);
-            }
-            if(validationEntity.LikeEmailAddressCount > 0)
-            {
-                yield return new BusinessValidationResult<AdditionalPointOfContact>(x => x.EmailAddresses, POINT_OF_CONTACT_WITH_EMAIL_ADDRESS_EXISTS);
             }
         }
 

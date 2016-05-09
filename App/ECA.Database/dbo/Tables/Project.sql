@@ -3,6 +3,7 @@
     [Name]                            NVARCHAR (500)     NOT NULL,
     [Description]                     NVARCHAR (3000)     NOT NULL,
     [ProjectTypeId]                   INT                NOT NULL,
+	[SevisOrgId]                        NVARCHAR (15)     NULL,
 	[FocusArea]                       NVARCHAR (100)     NULL,
     [StartDate]                       DATETIMEOFFSET (7) NOT NULL,
     [EndDate]                         DATETIMEOFFSET (7) NULL,

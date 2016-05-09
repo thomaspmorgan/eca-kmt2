@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ECA.Data;
+using System;
 using System.Collections.Generic;
 
 namespace ECA.Business.Queries.Models.Persons
@@ -8,6 +9,11 @@ namespace ECA.Business.Queries.Models.Persons
     /// </summary>
     public class ParticipantPersonSevisDTO
     {
+        /// <summary>
+        /// Participant SEVIS statuses that do not allow edits.
+        /// </summary>
+        public int[] LOCKED_SEVIS_COMM_STATUSES = { SevisCommStatus.QueuedToSubmit.Id, SevisCommStatus.PendingSevisSend.Id, SevisCommStatus.SentByBatch.Id };
+
         /// <summary>
         /// Gets or sets the participant id.
         /// </summary>

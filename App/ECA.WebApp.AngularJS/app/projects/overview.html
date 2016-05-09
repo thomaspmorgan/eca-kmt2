@@ -33,6 +33,12 @@
             </div>
             <div ng-if="project.visitorTypeId === constants.visitorType.exchangeVisitor.id">
                 <div class="row">
+                    <div class="col-md-4 title-label">SEVIS Organization Id</div>
+                    <div class="col-md-8">{{project.sevisOrgId}}</div>
+                </div>
+            </div>
+            <div ng-if="project.visitorTypeId === constants.visitorType.exchangeVisitor.id">
+                <div class="row">
                     <div class="col-md-4 title-label">Sevis Funding</div>
                     <div class="col-md-8">
                         <a ng-click="showSevisFunding = !showSevisFunding">
