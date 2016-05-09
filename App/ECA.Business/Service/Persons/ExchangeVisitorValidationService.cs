@@ -1,4 +1,5 @@
-﻿using ECA.Business.Validation;
+﻿using ECA.Business.Queries.Persons;
+using ECA.Business.Validation;
 using ECA.Business.Validation.Sevis;
 using ECA.Core.Exceptions;
 using ECA.Core.Service;
@@ -156,12 +157,12 @@ namespace ECA.Business.Service.Persons
         private async Task<ParticipantPersonSevisCommStatus> HandleValidationResultAsync(ParticipantPerson person, ValidationResult result)
         {
             person.SevisValidationResult = GetSevisValidationResultAsJson(result);
+            var hasParticipantNeededValidationInfo = await CreateGetParticipantPersonSevisCommStatusBySevisCommStatusIdQuery(person.ParticipantId, SevisCommStatus.NeedsValidationInfo.Id).CountAsync() > 0;
+            var hasParticipantBeenValidated = await CreateGetParticipantPersonSevisCommStatusBySevisCommStatusIdQuery(person.ParticipantId, SevisCommStatus.ValidatedByBatch.Id).CountAsync() > 0;
             if (!result.IsValid)
             {
                 var latestCommStatus = await CreateGetLatestParticipantPersonSevisCommStatusQuery(person.ParticipantId).FirstOrDefaultAsync();
-                if (person.StartDate < DateTimeOffset.UtcNow
-                    && !String.IsNullOrWhiteSpace(person.SevisId)
-                    && !(await HasParticipantBeenValidatedByBatchAsync(person.ParticipantId)))
+                if (hasParticipantNeededValidationInfo && !hasParticipantBeenValidated)
                 {
                     return AddOrUpdateParticipantPersonSevisCommStatus(latestCommStatus, person.ParticipantId, SevisCommStatus.NeedsValidationInfo.Id);
                 }
@@ -172,10 +173,7 @@ namespace ECA.Business.Service.Persons
             }
             else
             {
-                //should only be running validation one time
-                if (person.StartDate < DateTimeOffset.UtcNow
-                    && !String.IsNullOrWhiteSpace(person.SevisId)
-                    && !(await HasParticipantBeenValidatedByBatchAsync(person.ParticipantId)))
+                if (hasParticipantNeededValidationInfo && !hasParticipantBeenValidated)
                 {
                     return AddParticipantPersonSevisCommStatus(person.ParticipantId, SevisCommStatus.ReadyToValidate.Id);
                 }
@@ -189,12 +187,12 @@ namespace ECA.Business.Service.Persons
         private ParticipantPersonSevisCommStatus HandleValidationResult(ParticipantPerson person, ValidationResult result)
         {
             person.SevisValidationResult = GetSevisValidationResultAsJson(result);
+            var hasParticipantNeededValidationInfo = CreateGetParticipantPersonSevisCommStatusBySevisCommStatusIdQuery(person.ParticipantId, SevisCommStatus.NeedsValidationInfo.Id).Count() > 0;
+            var hasParticipantBeenValidated = CreateGetParticipantPersonSevisCommStatusBySevisCommStatusIdQuery(person.ParticipantId, SevisCommStatus.ValidatedByBatch.Id).Count() > 0;
             if (!result.IsValid)
             {
                 var latestCommStatus = CreateGetLatestParticipantPersonSevisCommStatusQuery(person.ParticipantId).FirstOrDefault();
-                if (person.StartDate < DateTimeOffset.UtcNow
-                    && !String.IsNullOrWhiteSpace(person.SevisId)
-                    && !HasParticipantBeenValidatedByBatch(person.ParticipantId))
+                if (hasParticipantNeededValidationInfo && !hasParticipantBeenValidated)
                 {
                     return AddOrUpdateParticipantPersonSevisCommStatus(latestCommStatus, person.ParticipantId, SevisCommStatus.NeedsValidationInfo.Id);
                 }
@@ -205,10 +203,7 @@ namespace ECA.Business.Service.Persons
             }
             else
             {
-                //should only be running validation one time
-                if (person.StartDate < DateTimeOffset.UtcNow
-                    && !String.IsNullOrWhiteSpace(person.SevisId)
-                    && !HasParticipantBeenValidatedByBatch(person.ParticipantId))
+                if (hasParticipantNeededValidationInfo && !hasParticipantBeenValidated)
                 {
                     return AddParticipantPersonSevisCommStatus(person.ParticipantId, SevisCommStatus.ReadyToValidate.Id);
                 }
@@ -218,6 +213,7 @@ namespace ECA.Business.Service.Persons
                 }
             }
         }
+
 
         private string GetSevisValidationResultAsJson(ValidationResult result)
         {
@@ -243,21 +239,15 @@ namespace ECA.Business.Service.Persons
             return Context.ParticipantPersonSevisCommStatuses.Where(x => x.ParticipantId == participantId).OrderByDescending(x => x.AddedOn);
         }
 
-        private bool HasParticipantBeenValidatedByBatch(int participantId)
-        {
-            return CreateGetParticipantPersonSevisCommStatusBySevisCommStatusIdQuery(participantId, SevisCommStatus.ValidatedByBatch.Id).Count() > 0;
-        }
-
-        private async Task<bool> HasParticipantBeenValidatedByBatchAsync(int participantId)
-        {
-            return (await CreateGetParticipantPersonSevisCommStatusBySevisCommStatusIdQuery(participantId, SevisCommStatus.ValidatedByBatch.Id).CountAsync()) > 0;
-        }
-
         private IQueryable<ParticipantPersonSevisCommStatus> CreateGetParticipantPersonSevisCommStatusBySevisCommStatusIdQuery(int participantId, int sevisCommStatusId)
         {
-            return Context.ParticipantPersonSevisCommStatuses.Where(x => x.ParticipantId == participantId && x.SevisCommStatusId == sevisCommStatusId);
+            return CreateGetParticipantPersonSevisCommStatusBySevisCommStatusIdQuery(participantId, new List<int> { sevisCommStatusId });
         }
 
+        private IQueryable<ParticipantPersonSevisCommStatus> CreateGetParticipantPersonSevisCommStatusBySevisCommStatusIdQuery(int participantId, IEnumerable<int> sevisCommStatusIds)
+        {
+            return Context.ParticipantPersonSevisCommStatuses.Where(x => x.ParticipantId == participantId && sevisCommStatusIds.Contains(x.SevisCommStatusId));
+        }
 
         private ParticipantPersonSevisCommStatus AddParticipantPersonSevisCommStatus(int participantId, int commStatusId)
         {
