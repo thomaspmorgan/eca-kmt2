@@ -52,7 +52,7 @@
                                     </label>
                                     <input name="name"
                                             maxlength="{{view.maxNameLength}}"
-                                            ng-model="view.newPointOfContact.fullName"
+                                            ng-model="poc.fullName"
                                             ng-change="view.onFullNameChange()"
                                             ng-model-options="{debounce: 500}"
                                             type="text"
@@ -60,7 +60,7 @@
                                             placeholder="Enter the full name of the point of contact..."
                                             required />
                                 </div>
-                                <div ng-show="form.newPointOfContact.name.$dirty">
+                                <div ng-show="form.pocForm.name.$dirty">
                                     <div class="error" ng-show="form.pointOfContactForm.name.$error.required">Please enter the full name of the point of contact.</div>
                                 </div>
                                 <div class="warning" ng-show="view.likePointsOfContactByFullNameTotal > 0">
@@ -77,13 +77,13 @@
                                     </label>
                                     <input name="position"
                                             maxlength="{{view.maxNameLength}}"
-                                            ng-model="view.newPointOfContact.position"
+                                            ng-model="poc.position"
                                             type="text"
                                             class="form-control"
                                             placeholder="Enter the point of contact's position..." />
                                 </div>
                                 <div class="row right" ng-show="view.showEditPoc">
-                                    <button ng-click="view.savePointOfContact($event)" class="btn btn-success" ng-disabled="form.emailAddressForm.$invalid">Save</button>
+                                    <button ng-click="view.savePointOfContact($event)" class="btn btn-success" ng-disabled="form.pointOfContactForm.$invalid">Save</button>
                                     <button ng-click="view.cancelPointOfContactChanges($event)" class="btn btn-cancel">Cancel</button>
                                 </div>
                             </div>

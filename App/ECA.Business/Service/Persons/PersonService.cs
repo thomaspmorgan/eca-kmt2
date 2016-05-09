@@ -51,7 +51,7 @@ namespace ECA.Business.Service.Persons
             {
                 if (participant != null && participant.SevisStatusId.HasValue)
                 {
-                    if (participant != null && IndexOfInt(participant.LOCKED_SEVIS_COMM_STATUSES, (int)participant.SevisStatusId) != -1)
+                    if (participant != null && Participant.LOCKED_SEVIS_COMM_STATUSES.Contains((int)participant.SevisStatusId))
                     {
                         var msg = String.Format("An update was attempted on participant with id [{0}] but should have failed validation.",
                                 participant.ParticipantId);

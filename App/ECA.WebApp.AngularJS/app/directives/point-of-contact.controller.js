@@ -37,28 +37,46 @@ angular.module('staticApp')
       $scope.view.selectedPointsOfContact = [];
       $scope.view.likePointsOfContactByFullNameTotal = 0;
       $scope.view.showConfirmDelete = false;
-      var originalPointOfContact = angular.copy($scope.pointOfContact);
+      var originalPointOfContact = angular.copy($scope.$parent.poc);
       
-      function savePointOfContact(event) {
+      $scope.view.savePointOfContact = function (event) {
           event.preventDefault();
           $scope.view.isSavingPointOfContact = true;
-          return ContactsService.create(pointOfContact)
-          .then(function (response) {
-              $scope.view.isSavingPointOfContact = false;
-              pointOfContact = response.data;
-              return pointOfContact;
-          })
-          .catch(function (response) {
-              $scope.view.isSavingPointOfContact = false;
-              var message = "Unable to save new contact.";
-              NotificationService.showErrorMessage(message);
-              $log.error(message);
-          });
+
+          if (isNewPoc($scope.$parent.poc)) {
+              var tempId = angular.copy($scope.$parent.poc.id);
+              return ContactsService.create($scope.$parent.poc)
+                .then(function (response) {
+                    $scope.view.isSavingPointOfContact = false;
+                    pointOfContact = response.data;
+                    return pointOfContact;
+                })
+                .catch(function (response) {
+                    $scope.view.isSavingPointOfContact = false;
+                    var message = "Unable to save new contact.";
+                    NotificationService.showErrorMessage(message);
+                    $log.error(message);
+                });
+          }
+          else {
+              return ContactsService.update($scope.$parent.poc)
+                  .then(function (response) {
+                    $scope.view.isSavingPointOfContact = false;
+                    pointOfContact = response.data;
+                    return pointOfContact;
+                  })
+                  .catch(function (response) {
+                        $scope.view.isSavingPointOfContact = false;
+                        var message = "Unable to update contact.";
+                        NotificationService.showErrorMessage(message);
+                        $log.error(message);
+                  });
+          }          
       }
       
       $scope.view.onEditPocClick = function () {
           $scope.view.showEditPoc = true;
-          var id = getPocFormDivId();
+          $scope.view.collapsePoc = false;
       };
       
       $scope.view.onFullNameChange = function () {
@@ -78,11 +96,11 @@ angular.module('staticApp')
       $scope.view.cancelPointOfContactChanges = function (event) {
           event.preventDefault();
           $scope.view.showEditPoc = false;
-          if (isNewPoc($scope.pointOfContact)) {
-              removePointsOfContactFromView($scope.pointOfContact);
+          if (isNewPoc($scope.$parent.poc)) {
+              removePointsOfContactFromView($scope.$parent.poc);
           }
           else {
-              $scope.pointOfContact = angular.copy(originalpointOfContact);
+              $scope.$parent.poc = angular.copy(originalPointOfContact);
           }
       };
 
@@ -108,13 +126,13 @@ angular.module('staticApp')
       }
 
       function getPocFormDivId() {
-          return getPocFormDivIdPrefix() + $scope.Poc.id;
+          return getPocFormDivIdPrefix() + $scope.$parent.poc.id;
       }
       
       function updatePocFormDivId(tempId) {
           var id = getPocFormDivIdPrefix() + tempId;
           var e = getPocFormDivElement(id);
-          e.id = getPocFormDivIdPrefix() + $scope.Poc.id.toString();
+          e.id = getPocFormDivIdPrefix() + $scope.$parent.poc.id.toString();
       }
 
       function getPocFormDivElement(id) {

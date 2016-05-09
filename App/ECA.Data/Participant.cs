@@ -16,6 +16,11 @@ namespace ECA.Data
             this.History = new History();
         }
 
+        /// <summary>
+        /// Participant SEVIS statuses that do not allow edits.
+        /// </summary>
+        public static readonly int[] LOCKED_SEVIS_COMM_STATUSES = { SevisCommStatus.QueuedToSubmit.Id, SevisCommStatus.PendingSevisSend.Id, SevisCommStatus.SentByBatch.Id };
+
         [Key]
         public int ParticipantId { get; set; }
         public int? OrganizationId { get; set; }

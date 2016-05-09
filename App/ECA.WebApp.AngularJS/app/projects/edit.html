@@ -396,7 +396,7 @@
                 <div class="form-group row">  <!--ng-show="project.contacts"-->
                     <div class="col-md-3 title-label"><ng-pluralize count="project.contacts.length" when="{'1':'Point','other':'Points'}"></ng-pluralize> of Contact</div>
                     <div class="col-md-9">                        
-                        <pointsofcontact model="editView.pointsOfContact" modelid="editView.params.projectId" modeltype="'project'" editmode="true" />                        
+                        <pointsofcontact model="editView.pointsOfContact" modelid="$stateParams.projectId" modeltype="'project'" editmode="true" />                        
                     </div>
                 </div>
                 <div class="form-group row" ng-show="project.locations && editView.dataPointConfigurations[constants.dataPointProperty.locations.id]">
