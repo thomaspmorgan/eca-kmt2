@@ -43,7 +43,7 @@ namespace ECA.WebApi.Controllers.Projects
         {
             if (ModelState.IsValid)
             {
-                var results = await service.GetAsync(queryModel.ToQueryableOperator(DEFAULT_FIELD_OF_STUDIES_DTO_SORTER));
+                var results = await service.GetAsync(queryModel.ToQueryableOperator(DEFAULT_FIELD_OF_STUDIES_DTO_SORTER, x => x.Description, x => x.Code));
                 return Ok(results);
             }
             else
