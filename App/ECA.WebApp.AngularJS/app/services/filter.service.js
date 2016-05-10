@@ -26,6 +26,7 @@ angular.module('staticApp')
               limit: 0,
               sort: [],
               filter: [],
+              keyword: [],
               key: key,
               reset: function () {
                   this.start = 0;
@@ -78,6 +79,16 @@ angular.module('staticApp')
                   return this;
               },
 
+              keywords: function (terms) {
+                  if (!angular.isArray(terms))
+                  {
+                      terms = [terms];
+                      
+                  }
+                  this.keyword = terms;
+                  return this;
+              },
+
               equal: function (propertyName, value) {
                   return this._addFilter(ConstantsService.equalComparisonType, propertyName, value);
               },
@@ -122,7 +133,8 @@ angular.module('staticApp')
                       start: this.start,
                       limit: this.limit,
                       filter: this.filter,
-                      sort: this.sort
+                      sort: this.sort,
+                      keyword: this.keyword
                   }
               },
 

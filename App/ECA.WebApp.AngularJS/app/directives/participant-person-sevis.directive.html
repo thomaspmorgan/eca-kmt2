@@ -256,8 +256,8 @@
             <div class="col-md-6">
                 <ui-select ng-model="exchangevisitorinfo.positionId" theme="select2" tabindex="1" ng-required="true">
                     <ui-select-match placeholder="Select a position...">{{$select.selected.description}}</ui-select-match>
-                    <ui-select-choices repeat="position.id as position in edit.positions | filter: {description: $select.search} track by position.id">
-                        <div ng-bind-html="position.code + '  ' + position.description | highlight: $select.search"></div>
+                    <ui-select-choices repeat="position.id as position in edit.positions | propsFilter: {code: $select.search, description: $select.search} track by position.id">
+                        <div ng-bind-html="position.code + ' - ' + position.description | highlight: $select.search"></div>
                     </ui-select-choices>
                 </ui-select>
             </div>
@@ -273,8 +273,8 @@
             <div class="col-md-6">
                 <ui-select ng-model="exchangevisitorinfo.programCategoryId" theme="select2" tabindex="1" ng-required="true">
                     <ui-select-match placeholder="Select a program category...">{{$select.selected.description}}</ui-select-match>
-                    <ui-select-choices repeat="programCategory.id as programCategory in edit.programCategories | filter: {description: $select.search} track by programCategory.id">
-                        <div ng-bind-html="programCategory.code + '  ' + programCategory.description | highlight: $select.search"></div>
+                    <ui-select-choices repeat="programCategory.id as programCategory in edit.programCategories | propsFilter: {code: $select.search, description: $select.search} track by programCategory.id">
+                        <div ng-bind-html="programCategory.code + ' - ' + programCategory.description | highlight: $select.search"></div>
                     </ui-select-choices>
                 </ui-select>
             </div>
@@ -290,8 +290,8 @@
             <div class="col-md-6">
                 <ui-select ng-model="exchangevisitorinfo.fieldOfStudyId" theme="select2" tabindex="1" ng-required="true">
                     <ui-select-match placeholder="Select a field of study...">{{$select.selected.description}}</ui-select-match>
-                    <ui-select-choices refresh="edit.searchFieldOfStudies($select.search)" refresh-delay="250" repeat="fieldOfStudy.id as fieldOfStudy in edit.fieldOfStudies | filter: {description: $select.search} track by fieldOfStudy.id">
-                        <div ng-bind-html="fieldOfStudy.code + '  ' + fieldOfStudy.description | highlight: $select.search"></div>
+                    <ui-select-choices refresh="edit.searchFieldOfStudies($select.search)" refresh-delay="250" repeat="fieldOfStudy.id as fieldOfStudy in edit.fieldOfStudies">
+                        <div ng-bind-html="fieldOfStudy.code + ' - ' + fieldOfStudy.description | highlight: $select.search"></div>
                     </ui-select-choices>
                 </ui-select>
             </div>
@@ -299,6 +299,10 @@
                 <i class="material-icons md-dark md-36 pull-right">group</i>
                 <i class="material-icons md-dark md-36 pull-right">add</i>
             </div>
+
+
+
+
         </div>
     </form>
 </div>
