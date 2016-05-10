@@ -27,7 +27,7 @@ namespace ECA.Business.Service.Persons
         private readonly IBusinessValidator<PersonServiceValidationEntity, PersonServiceValidationEntity> validator;
         private Action<Location, int> throwIfLocationNotFound;
         private Action<ParticipantPersonSevisDTO> throwValidationErrorIfParticipantSevisInfoIsLocked;
-        
+
         /// <summary>
         /// Constructor
         /// </summary>
@@ -49,31 +49,10 @@ namespace ECA.Business.Service.Persons
             };
             throwValidationErrorIfParticipantSevisInfoIsLocked = (participant) =>
             {
-                if (participant != null && participant.SevisStatusId.HasValue)
-                {
-                    if (participant != null && Participant.LOCKED_SEVIS_COMM_STATUSES.Contains((int)participant.SevisStatusId))
-                    {
-                        var msg = String.Format("An update was attempted on participant with id [{0}] but should have failed validation.",
-                                participant.ParticipantId);
-
-                        throw new EcaBusinessException(msg);
-                    }
-                }
+                participant.ValidateSevisLock();
             };
         }
-
-        static int IndexOfInt(int[] arr, int value)
-        {
-            for (int i = 0; i < arr.Length; i++)
-            {
-                if (arr[i] == value)
-                {
-                    return i;
-                }
-            }
-            return -1;
-        }
-
+        
         #region Pii
 
         /// <summary>

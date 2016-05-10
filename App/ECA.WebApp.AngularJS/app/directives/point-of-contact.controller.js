@@ -37,7 +37,7 @@ angular.module('staticApp')
       $scope.view.selectedPointsOfContact = [];
       $scope.view.likePointsOfContactByFullNameTotal = 0;
       $scope.view.showConfirmDelete = false;
-      var originalPointOfContact = angular.copy($scope.$parent.poc);
+      var originalPointOfContact = angular.copy($scope.poc);
       
       $scope.view.savePointOfContact = function (event) {
           event.preventDefault();

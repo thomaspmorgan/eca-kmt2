@@ -1,4 +1,7 @@
-﻿using System;
+﻿using ECA.Business.Exceptions;
+using ECA.Data;
+using System;
+using System.Linq;
 
 namespace ECA.Business.Queries.Models.Persons
 {
@@ -142,4 +145,23 @@ namespace ECA.Business.Queries.Models.Persons
         /// </summary>
         public bool HasDS2019 { get; set; }
     }
+    
+    public static class Validation
+    {
+        public static void ValidateSevisLock(this ParticipantPersonSevisDTO participant)
+        {
+            if (participant != null && participant.SevisStatusId.HasValue)
+            {
+                if (participant != null && Participant.LOCKED_SEVIS_COMM_STATUSES.Contains((int)participant.SevisStatusId))
+                {
+                    var msg = String.Format("An update was attempted on participant with id [{0}] but should have failed validation.",
+                            participant.ParticipantId);
+
+                    throw new EcaBusinessException(msg);
+                }
+            }
+        }
+    }
+
+
 }
