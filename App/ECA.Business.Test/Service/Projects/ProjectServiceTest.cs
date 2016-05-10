@@ -2887,6 +2887,7 @@ namespace ECA.Business.Test.Service.Projects
                 name: "new name",
                 description: "new description",
                 projectStatusId: ProjectStatus.Pending.Id,
+                sevisOrgId: "abcde1234567890",
                 goalIds: null,
                 themeIds: null,
                 pointsOfContactIds: null,
@@ -2968,6 +2969,7 @@ namespace ECA.Business.Test.Service.Projects
                 name: "new name",
                 description: "new description",
                 projectStatusId: ProjectStatus.Pending.Id,
+                sevisOrgId: "abcde1234567890",
                 goalIds: null,
                 themeIds: null,
                 pointsOfContactIds: null,
@@ -2991,6 +2993,7 @@ namespace ECA.Business.Test.Service.Projects
                 Assert.AreEqual(updater.Id, oldHistory.RevisedBy);
                 DateTimeOffset.UtcNow.Should().BeCloseTo(oldHistory.RevisedOn, DbContextHelper.DATE_PRECISION);
 
+                Assert.AreEqual(updatedProject.SevisOrgId, projectToUpdate.SevisOrgId);
                 Assert.AreEqual(updatedProject.Description, projectToUpdate.Description);
                 Assert.AreEqual(updatedProject.EndDate, projectToUpdate.EndDate);
                 Assert.AreEqual(updatedProject.Name, projectToUpdate.Name);
@@ -3048,6 +3051,7 @@ namespace ECA.Business.Test.Service.Projects
                 name: "new name",
                 description: "new description",
                 projectStatusId: ProjectStatus.Pending.Id,
+                sevisOrgId: "abcde1234567890",
                 goalIds: null,
                 themeIds: null,
                 pointsOfContactIds: contactIds,
@@ -3117,6 +3121,7 @@ namespace ECA.Business.Test.Service.Projects
                 name: "new name",
                 description: "new description",
                 projectStatusId: ProjectStatus.Pending.Id,
+                sevisOrgId: "abcde1234567890",
                 goalIds: null,
                 themeIds: themeIds,
                 pointsOfContactIds: null,
@@ -3186,6 +3191,7 @@ namespace ECA.Business.Test.Service.Projects
                 name: "new name",
                 description: "new description",
                 projectStatusId: ProjectStatus.Pending.Id,
+                sevisOrgId: "abcde1234567890",
                 goalIds: goalIds,
                 themeIds: null,
                 pointsOfContactIds: null,
@@ -3255,6 +3261,7 @@ namespace ECA.Business.Test.Service.Projects
                 name: "new name",
                 description: "new description",
                 projectStatusId: ProjectStatus.Pending.Id,
+                sevisOrgId: "abcde1234567890",
                 goalIds: null,
                 themeIds: null,
                 pointsOfContactIds: null,
@@ -3324,6 +3331,7 @@ namespace ECA.Business.Test.Service.Projects
                 name: "new name",
                 description: "new description",
                 projectStatusId: ProjectStatus.Pending.Id,
+                sevisOrgId: "abcde1234567890",
                 goalIds: null,
                 themeIds: null,
                 pointsOfContactIds: null,
@@ -3393,6 +3401,7 @@ namespace ECA.Business.Test.Service.Projects
                 name: "new name",
                 description: "new description",
                 projectStatusId: ProjectStatus.Pending.Id,
+                sevisOrgId: "abcde1234567890",
                 goalIds: null,
                 themeIds: null,
                 pointsOfContactIds: null,
@@ -3461,6 +3470,7 @@ namespace ECA.Business.Test.Service.Projects
                 name: "new name",
                 description: "new description",
                 projectStatusId: ProjectStatus.Pending.Id,
+                sevisOrgId: "abcde1234567890",
                 goalIds: null,
                 themeIds: null,
                 pointsOfContactIds: null,
@@ -3529,6 +3539,7 @@ namespace ECA.Business.Test.Service.Projects
                 name: "new name",
                 description: "new description",
                 projectStatusId: ProjectStatus.Pending.Id,
+                sevisOrgId: "abcde1234567890",
                 goalIds: null,
                 themeIds: null,
                 pointsOfContactIds: null,
@@ -3599,6 +3610,7 @@ namespace ECA.Business.Test.Service.Projects
                 name: "new name",
                 description: "new description",
                 projectStatusId: ProjectStatus.Pending.Id,
+                sevisOrgId: "abcde1234567890",
                 goalIds: null,
                 themeIds: null,
                 pointsOfContactIds: null,
@@ -3686,6 +3698,7 @@ namespace ECA.Business.Test.Service.Projects
                 name: "new name",
                 description: "new description",
                 projectStatusId: ProjectStatus.Pending.Id,
+                sevisOrgId: "abcde1234567890",
                 goalIds: null,
                 themeIds: null,
                 pointsOfContactIds: null,

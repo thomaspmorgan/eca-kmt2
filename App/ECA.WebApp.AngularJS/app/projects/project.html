@@ -17,9 +17,9 @@
         <ng-include src="'/app/toolbar/toolbar-icons.html'"></ng-include>
     </div>
     <div class="heading">
-        <h5>PROJECT</h5>
+        <h5>PROJECT</h5><span class="owner-office pull-right">{{project.ownerOfficeSymbol}}</span>
         <h1>{{project.name}}</h1>
-        <span class="owner-office">{{project.ownerOfficeSymbol}}</span>
+
     </div>
 </div>
 <tab-bar tabs="tabs"></tab-bar>

@@ -203,6 +203,7 @@ namespace ECA.Business.Queries.Projects
                             ProjectStatusId = status.ProjectStatusId,
                             Status = status.Status,
                             RevisedOn = project.History.RevisedOn,
+                            SevisOrgId = project.SevisOrgId,
                             StartDate = project.StartDate,
                             EndDate = project.EndDate,
                             ProgramId = project.ProgramId,

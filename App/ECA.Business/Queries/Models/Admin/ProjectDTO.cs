@@ -73,6 +73,11 @@ namespace ECA.Business.Queries.Models.Admin
         public string OwnerName { get; set; }
 
         /// <summary>
+        /// Gets or sets the project sevis org id.
+        /// </summary>
+        public string SevisOrgId { get; set; }
+
+        /// <summary>
         /// Gets or sets the start date.
         /// </summary>
         public DateTimeOffset? StartDate { get; set; }

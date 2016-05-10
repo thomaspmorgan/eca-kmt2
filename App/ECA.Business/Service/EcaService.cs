@@ -757,7 +757,7 @@ namespace ECA.Business.Service
         /// </summary>
         /// <param name="personId"></param>
         /// <returns>Participant</returns>
-        public Participant GetParticipantByPersonId(int personId)
+        public ParticipantPersonSevisDTO GetParticipantByPersonId(int personId)
         {
             var participant = CreateGetParticipantById(personId).FirstOrDefault();
             logger.Trace("Retrieved location by id {0}.", personId);
@@ -769,7 +769,7 @@ namespace ECA.Business.Service
         /// </summary>
         /// <param name="personId"></param>
         /// <returns>Participant</returns>
-        public async Task<Participant> GetParticipantByPersonIdAsync(int personId)
+        public async Task<ParticipantPersonSevisDTO> GetParticipantByPersonIdAsync(int personId)
         {
             var participant = await CreateGetParticipantById(personId).FirstOrDefaultAsync();
             logger.Trace("Retrieved location by id {0}.", personId);
@@ -781,9 +781,19 @@ namespace ECA.Business.Service
         /// </summary>
         /// <param name="personId"></param>
         /// <returns></returns>
-        private IQueryable<Participant> CreateGetParticipantById(int personId)
+        private IQueryable<ParticipantPersonSevisDTO> CreateGetParticipantById(int personId)
         {
-            var participant = Context.Participants.Where(x => x.PersonId == personId && x.ParticipantStatusId == ParticipantStatus.Active.Id).Include(x => x.ParticipantPerson).Include(x => x.ParticipantPerson.ParticipantPersonSevisCommStatuses);
+            var participant = (from p in Context.ParticipantPersons
+                              let sevisStatus = p.ParticipantPersonSevisCommStatuses.OrderByDescending(x => x.AddedOn).Select(x => x.SevisCommStatusId).FirstOrDefault()
+                              where p.Participant.PersonId == personId 
+                              && p.Participant.ParticipantStatusId == ParticipantStatus.Active.Id
+                               select new ParticipantPersonSevisDTO
+                               {
+                                   ParticipantId = p.ParticipantId,
+                                   SevisStatusId = sevisStatus
+                               });
+
+            //Context.Participants.Where(x => x.PersonId == personId && x.ParticipantStatusId == ParticipantStatus.Active.Id).Include(x => x.ParticipantPerson).Include(x => x.ParticipantPerson.ParticipantPersonSevisCommStatuses.OrderByDescending(d => d.AddedOn).Select(s => s.SevisCommStatusId).FirstOrDefault());
             logger.Trace("Retrieved location by id {0}.", personId);
             return participant;
         }

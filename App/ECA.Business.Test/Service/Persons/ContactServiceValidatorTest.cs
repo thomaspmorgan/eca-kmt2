@@ -1,11 +1,7 @@
-﻿using ECA.Business.Models.Fundings;
-using ECA.Business.Service.Fundings;
-using ECA.Business.Service.Persons;
+﻿using ECA.Business.Service.Persons;
 using ECA.Core.DynamicLinq;
-using ECA.Data;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace ECA.Business.Test.Service.Persons
@@ -21,40 +17,12 @@ namespace ECA.Business.Test.Service.Persons
             validator = new ContactServiceValidator();
         }
         #region Create
-        [TestMethod]
-        public void TestDoValidateCreate_PointOfContactWithEmailAddressAlreadyExists()
-        {
-            var fullName = "full name";
-            var position = "position";
-            var likeEmailAddressCount = 0;
-            var numberOfPrimaryEmailAddresses = 1;
-            var numberOfPrimaryPhoneNumbers = 1;
-            Func<AdditionalPointOfContactValidationEntity> createEntity = () =>
-            {
-                return new AdditionalPointOfContactValidationEntity(
-                    fullName: fullName,
-                    position: position,
-                    likeEmailAddressCount: likeEmailAddressCount,
-                    numberOfPrimaryEmailAddresses: numberOfPrimaryEmailAddresses,
-                    numberOfPrimaryPhoneNumbers: numberOfPrimaryPhoneNumbers
-                );
-            };
-            Assert.AreEqual(0, validator.ValidateCreate(createEntity()).Count());
-            likeEmailAddressCount = 2;
-
-            var entity = createEntity();
-            var results = validator.DoValidateCreate(entity);
-            Assert.AreEqual(1, results.Count());
-            Assert.AreEqual(PropertyHelper.GetPropertyName<AdditionalPointOfContact>(x => x.EmailAddresses), results.First().Property);
-            Assert.AreEqual(ContactServiceValidator.POINT_OF_CONTACT_WITH_EMAIL_ADDRESS_EXISTS, results.First().ErrorMessage);
-        }
-
+        
         [TestMethod]
         public void TestDoValidateCreate_MoreThanOnePrimaryEmail()
         {
             var fullName = "full name";
             var position = "position";
-            var likeEmailAddressCount = 0;
             var numberOfPrimaryEmailAddresses = 1;
             var numberOfPrimaryPhoneNumbers = 1;
             Func<AdditionalPointOfContactValidationEntity> createEntity = () =>
@@ -62,7 +30,6 @@ namespace ECA.Business.Test.Service.Persons
                 return new AdditionalPointOfContactValidationEntity(
                     fullName: fullName,
                     position: position,
-                    likeEmailAddressCount: likeEmailAddressCount,
                     numberOfPrimaryEmailAddresses: numberOfPrimaryEmailAddresses,
                     numberOfPrimaryPhoneNumbers: numberOfPrimaryPhoneNumbers
                 );
@@ -82,7 +49,6 @@ namespace ECA.Business.Test.Service.Persons
         {
             var fullName = "full name";
             var position = "position";
-            var likeEmailAddressCount = 0;
             var numberOfPrimaryEmailAddresses = 1;
             var numberOfPrimaryPhoneNumbers = 1;
             Func<AdditionalPointOfContactValidationEntity> createEntity = () =>
@@ -90,7 +56,6 @@ namespace ECA.Business.Test.Service.Persons
                 return new AdditionalPointOfContactValidationEntity(
                     fullName: fullName,
                     position: position,
-                    likeEmailAddressCount: likeEmailAddressCount,
                     numberOfPrimaryEmailAddresses: numberOfPrimaryEmailAddresses,
                     numberOfPrimaryPhoneNumbers: numberOfPrimaryPhoneNumbers
                 );
@@ -110,7 +75,6 @@ namespace ECA.Business.Test.Service.Persons
         {
             string fullName = "full name";
             var position = "position";
-            var likeEmailAddressCount = 0;
             var numberOfPrimaryEmailAddresses = 1;
             var numberOfPrimaryPhoneNumbers = 1;
             Func<AdditionalPointOfContactValidationEntity> createEntity = () =>
@@ -118,7 +82,6 @@ namespace ECA.Business.Test.Service.Persons
                 return new AdditionalPointOfContactValidationEntity(
                     fullName: fullName,
                     position: position,
-                    likeEmailAddressCount: likeEmailAddressCount,
                     numberOfPrimaryEmailAddresses: numberOfPrimaryEmailAddresses,
                     numberOfPrimaryPhoneNumbers: numberOfPrimaryPhoneNumbers
                 );
@@ -138,7 +101,6 @@ namespace ECA.Business.Test.Service.Persons
         {
             string fullName = "full name";
             var position = "position";
-            var likeEmailAddressCount = 0;
             var numberOfPrimaryEmailAddresses = 1;
             var numberOfPrimaryPhoneNumbers = 1;
             Func<AdditionalPointOfContactValidationEntity> createEntity = () =>
@@ -146,7 +108,6 @@ namespace ECA.Business.Test.Service.Persons
                 return new AdditionalPointOfContactValidationEntity(
                     fullName: fullName,
                     position: position,
-                    likeEmailAddressCount: likeEmailAddressCount,
                     numberOfPrimaryEmailAddresses: numberOfPrimaryEmailAddresses,
                     numberOfPrimaryPhoneNumbers: numberOfPrimaryPhoneNumbers
                 );
@@ -166,7 +127,6 @@ namespace ECA.Business.Test.Service.Persons
         {
             string fullName = "full name";
             var position = "position";
-            var likeEmailAddressCount = 0;
             var numberOfPrimaryEmailAddresses = 1;
             var numberOfPrimaryPhoneNumbers = 1;
             Func<AdditionalPointOfContactValidationEntity> createEntity = () =>
@@ -174,7 +134,6 @@ namespace ECA.Business.Test.Service.Persons
                 return new AdditionalPointOfContactValidationEntity(
                     fullName: fullName,
                     position: position,
-                    likeEmailAddressCount: likeEmailAddressCount,
                     numberOfPrimaryEmailAddresses: numberOfPrimaryEmailAddresses,
                     numberOfPrimaryPhoneNumbers: numberOfPrimaryPhoneNumbers
                 );
@@ -196,7 +155,6 @@ namespace ECA.Business.Test.Service.Persons
         {
             var fullName = "full name";
             var position = "position";
-            var likeEmailAddressCount = 0;
             var numberOfPrimaryEmailAddresses = 0;
             var numberOfPrimaryPhoneNumbers = 0;
             Func<AdditionalPointOfContactValidationEntity> createEntity = () =>
@@ -204,7 +162,6 @@ namespace ECA.Business.Test.Service.Persons
                 return new AdditionalPointOfContactValidationEntity(
                     fullName: fullName,
                     position: position,
-                    likeEmailAddressCount: likeEmailAddressCount,
                     numberOfPrimaryEmailAddresses: numberOfPrimaryEmailAddresses,
                     numberOfPrimaryPhoneNumbers: numberOfPrimaryPhoneNumbers
                 );

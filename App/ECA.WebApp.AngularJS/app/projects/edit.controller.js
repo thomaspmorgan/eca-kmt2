@@ -42,6 +42,7 @@ angular.module('staticApp')
       $scope.editView = {};
       $scope.editView.maxNameLength = 500;
       $scope.editView.maxDescriptionLength = 3000;
+      $scope.editView.maxSevisOrgLength = 15;
       $scope.editView.params = $stateParams;
       $scope.editView.isLoading = false;
       $scope.editView.isSaving = false;
