@@ -10,10 +10,6 @@
   <DataSets />
   <Reports>
     <ProjectItem>
-      <Name>Report1.rdl</Name>
-      <FullPath>Report1.rdl</FullPath>
-    </ProjectItem>
-    <ProjectItem>
       <Name>ECAProgramsByOffice.rdl</Name>
       <FullPath>ECAProgramsByOffice.rdl</FullPath>
     </ProjectItem>
