@@ -14,7 +14,7 @@
       <Query>
         <DataSourceName>ECA</DataSourceName>
         <CommandType>StoredProcedure</CommandType>
-        <CommandText>GetPrograms</CommandText>
+        <CommandText>GetProgramsWithOfficeDesc</CommandText>
         <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
       </Query>
       <Fields>
@@ -54,6 +54,10 @@
           <DataField>OfficeSymbol</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="OfficeDescription">
+          <DataField>OfficeDescription</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
         <Field Name="Status">
           <DataField>Status</DataField>
           <rd:TypeName>System.String</rd:TypeName>
@@ -75,6 +79,15 @@
           <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
       </Fields>
+      <Filters>
+        <Filter>
+          <FilterExpression>=Fields!Status.Value</FilterExpression>
+          <Operator>Like</Operator>
+          <FilterValues>
+            <FilterValue>Active</FilterValue>
+          </FilterValues>
+        </Filter>
+      </Filters>
     </DataSet>
   </DataSets>
   <ReportSections>
@@ -101,7 +114,7 @@
             </Paragraphs>
             <rd:DefaultName>textbox1</rd:DefaultName>
             <Height>0.50917in</Height>
-            <Width>4.59375in</Width>
+            <Width>6.47917in</Width>
             <Style>
               <PaddingLeft>2pt</PaddingLeft>
               <PaddingRight>2pt</PaddingRight>
@@ -109,145 +122,211 @@
               <PaddingBottom>2pt</PaddingBottom>
             </Style>
           </Textbox>
-          <Tablix Name="Tablix2">
+          <Tablix Name="Tablix4">
             <TablixBody>
               <TablixColumns>
                 <TablixColumn>
-                  <Width>6.89583in</Width>
+                  <Width>6.83208in</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
                 <TablixRow>
-                  <Height>0.54167in</Height>
+                  <Height>1.5625in</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="OfficeSymbol">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>=Fields!OfficeSymbol.Value + "-" + Fields!OrgName.Value</Value>
-                                  <Style>
-                                    <FontSize>20pt</FontSize>
-                                    <FontWeight>Bold</FontWeight>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style />
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>OfficeSymbol</rd:DefaultName>
-                          <ZIndex>2</ZIndex>
-                          <Style>
-                            <Border>
-                              <Style>None</Style>
-                            </Border>
-                            <BottomBorder>
-                              <Style>Solid</Style>
-                            </BottomBorder>
-                            <VerticalAlign>Bottom</VerticalAlign>
-                            <PaddingLeft>=CStr(20 * Fields!programLevel.Value) + "pt"</PaddingLeft>
-                            <PaddingRight>=CStr(10 * Fields!programLevel.Value-1) + "pt"</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                  </TablixCells>
-                </TablixRow>
-                <TablixRow>
-                  <Height>1.15625in</Height>
-                  <TablixCells>
-                    <TablixCell>
-                      <CellContents>
-                        <Rectangle Name="Rectangle2">
+                        <Rectangle Name="Rectangle4">
                           <ReportItems>
-                            <Textbox Name="name">
+                            <Textbox Name="OfficeSymbol">
                               <CanGrow>true</CanGrow>
                               <KeepTogether>true</KeepTogether>
                               <Paragraphs>
                                 <Paragraph>
                                   <TextRuns>
                                     <TextRun>
-                                      <Value>=Fields!name.Value</Value>
+                                      <Value>=First(Fields!OfficeSymbol.Value) + " - " + First(Fields!OrgName.Value)</Value>
                                       <Style>
                                         <FontFamily>Segoe UI Semibold</FontFamily>
-                                        <FontSize>16pt</FontSize>
-                                        <TextDecoration>None</TextDecoration>
+                                        <FontSize>20pt</FontSize>
                                       </Style>
                                     </TextRun>
                                   </TextRuns>
                                   <Style />
                                 </Paragraph>
                               </Paragraphs>
-                              <rd:DefaultName>name</rd:DefaultName>
-                              <Top>0.14583in</Top>
-                              <Left>0.00694in</Left>
-                              <Height>0.41667in</Height>
-                              <Width>5.83333in</Width>
+                              <rd:DefaultName>OfficeSymbol</rd:DefaultName>
+                              <Height>0.40625in</Height>
+                              <Width>6.81028in</Width>
                               <Style>
                                 <Border>
                                   <Style>None</Style>
                                 </Border>
-                                <PaddingLeft>=CStr(20 * Fields!programLevel.Value) + "pt"</PaddingLeft>
+                                <PaddingLeft>2pt</PaddingLeft>
                                 <PaddingRight>2pt</PaddingRight>
                                 <PaddingTop>2pt</PaddingTop>
                                 <PaddingBottom>2pt</PaddingBottom>
                               </Style>
                             </Textbox>
-                            <Textbox Name="description">
-                              <CanGrow>true</CanGrow>
-                              <CanShrink>true</CanShrink>
-                              <KeepTogether>true</KeepTogether>
-                              <Paragraphs>
-                                <Paragraph>
-                                  <TextRuns>
-                                    <TextRun>
-                                      <Value>=Fields!description.Value</Value>
-                                      <Style />
-                                    </TextRun>
-                                  </TextRuns>
-                                  <Style />
-                                </Paragraph>
-                              </Paragraphs>
-                              <rd:DefaultName>description</rd:DefaultName>
-                              <Top>0.63194in</Top>
-                              <Height>0.31597in</Height>
-                              <Width>6.89583in</Width>
+                            <Tablix Name="Tablix5">
+                              <TablixBody>
+                                <TablixColumns>
+                                  <TablixColumn>
+                                    <Width>6.59153in</Width>
+                                  </TablixColumn>
+                                </TablixColumns>
+                                <TablixRows>
+                                  <TablixRow>
+                                    <Height>0.69792in</Height>
+                                    <TablixCells>
+                                      <TablixCell>
+                                        <CellContents>
+                                          <Rectangle Name="Rectangle5">
+                                            <ReportItems>
+                                              <Textbox Name="name">
+                                                <CanGrow>true</CanGrow>
+                                                <KeepTogether>true</KeepTogether>
+                                                <Paragraphs>
+                                                  <Paragraph>
+                                                    <TextRuns>
+                                                      <TextRun>
+                                                        <Value>=Fields!name.Value</Value>
+                                                        <Style>
+                                                          <FontFamily>Segoe UI Semibold</FontFamily>
+                                                          <FontSize>16pt</FontSize>
+                                                        </Style>
+                                                      </TextRun>
+                                                    </TextRuns>
+                                                    <Style />
+                                                  </Paragraph>
+                                                </Paragraphs>
+                                                <rd:DefaultName>name</rd:DefaultName>
+                                                <Height>0.36458in</Height>
+                                                <Width>5.52209in</Width>
+                                                <Style>
+                                                  <Border>
+                                                    <Style>None</Style>
+                                                  </Border>
+                                                  <PaddingLeft>=CStr(Fields!programLevel.Value*20) + "pt"</PaddingLeft>
+                                                  <PaddingRight>2pt</PaddingRight>
+                                                  <PaddingTop>2pt</PaddingTop>
+                                                  <PaddingBottom>2pt</PaddingBottom>
+                                                </Style>
+                                              </Textbox>
+                                              <Textbox Name="description">
+                                                <CanGrow>true</CanGrow>
+                                                <KeepTogether>true</KeepTogether>
+                                                <Paragraphs>
+                                                  <Paragraph>
+                                                    <TextRuns>
+                                                      <TextRun>
+                                                        <Value>=Fields!description.Value</Value>
+                                                        <Style />
+                                                      </TextRun>
+                                                    </TextRuns>
+                                                    <Style />
+                                                  </Paragraph>
+                                                </Paragraphs>
+                                                <rd:DefaultName>description</rd:DefaultName>
+                                                <Top>0.37847in</Top>
+                                                <Height>0.31944in</Height>
+                                                <Width>6.59153in</Width>
+                                                <ZIndex>1</ZIndex>
+                                                <Style>
+                                                  <Border>
+                                                    <Style>None</Style>
+                                                  </Border>
+                                                  <PaddingLeft>=CStr(Fields!programLevel.Value*20) + "pt"</PaddingLeft>
+                                                  <PaddingRight>2pt</PaddingRight>
+                                                  <PaddingTop>2pt</PaddingTop>
+                                                  <PaddingBottom>2pt</PaddingBottom>
+                                                </Style>
+                                              </Textbox>
+                                              <Textbox Name="Status">
+                                                <CanGrow>true</CanGrow>
+                                                <KeepTogether>true</KeepTogether>
+                                                <Paragraphs>
+                                                  <Paragraph>
+                                                    <TextRuns>
+                                                      <TextRun>
+                                                        <Value>=Fields!Status.Value</Value>
+                                                        <Style />
+                                                      </TextRun>
+                                                    </TextRuns>
+                                                    <Style />
+                                                  </Paragraph>
+                                                </Paragraphs>
+                                                <rd:DefaultName>Status</rd:DefaultName>
+                                                <Top>0.11458in</Top>
+                                                <Left>5.59153in</Left>
+                                                <Height>0.25in</Height>
+                                                <Width>1in</Width>
+                                                <ZIndex>2</ZIndex>
+                                                <Style>
+                                                  <Border>
+                                                    <Style>None</Style>
+                                                  </Border>
+                                                  <PaddingLeft>2pt</PaddingLeft>
+                                                  <PaddingRight>2pt</PaddingRight>
+                                                  <PaddingTop>2pt</PaddingTop>
+                                                  <PaddingBottom>2pt</PaddingBottom>
+                                                </Style>
+                                              </Textbox>
+                                            </ReportItems>
+                                            <KeepTogether>true</KeepTogether>
+                                            <Style>
+                                              <Border>
+                                                <Style>None</Style>
+                                              </Border>
+                                            </Style>
+                                          </Rectangle>
+                                        </CellContents>
+                                      </TablixCell>
+                                    </TablixCells>
+                                  </TablixRow>
+                                </TablixRows>
+                              </TablixBody>
+                              <TablixColumnHierarchy>
+                                <TablixMembers>
+                                  <TablixMember />
+                                </TablixMembers>
+                              </TablixColumnHierarchy>
+                              <TablixRowHierarchy>
+                                <TablixMembers>
+                                  <TablixMember>
+                                    <Group Name="Details1" />
+                                  </TablixMember>
+                                </TablixMembers>
+                              </TablixRowHierarchy>
+                              <DataSetName>DataSet1</DataSetName>
+                              <Top>0.86458in</Top>
+                              <Left>0.21875in</Left>
+                              <Height>0.69792in</Height>
+                              <Width>6.59153in</Width>
                               <ZIndex>1</ZIndex>
                               <Style>
                                 <Border>
                                   <Style>None</Style>
                                 </Border>
-                                <PaddingLeft>=CStr(20 * Fields!programLevel.Value) + "pt"</PaddingLeft>
-                                <PaddingRight>2pt</PaddingRight>
-                                <PaddingTop>2pt</PaddingTop>
-                                <PaddingBottom>2pt</PaddingBottom>
                               </Style>
-                            </Textbox>
-                            <Textbox Name="Status">
+                            </Tablix>
+                            <Textbox Name="OfficeDescription">
                               <CanGrow>true</CanGrow>
                               <KeepTogether>true</KeepTogether>
                               <Paragraphs>
                                 <Paragraph>
                                   <TextRuns>
                                     <TextRun>
-                                      <Value>=Fields!Status.Value</Value>
+                                      <Value>=First(Fields!OfficeDescription.Value)</Value>
                                       <Style />
                                     </TextRun>
                                   </TextRuns>
                                   <Style />
                                 </Paragraph>
                               </Paragraphs>
-                              <rd:DefaultName>Status</rd:DefaultName>
-                              <Top>0.3125in</Top>
-                              <Left>5.89583in</Left>
-                              <Height>0.25in</Height>
-                              <Width>1in</Width>
+                              <rd:DefaultName>OfficeDescription</rd:DefaultName>
+                              <Top>0.46181in</Top>
+                              <Height>0.26736in</Height>
+                              <Width>6.81028in</Width>
                               <ZIndex>2</ZIndex>
                               <Style>
                                 <Border>
@@ -281,45 +360,28 @@
             <TablixRowHierarchy>
               <TablixMembers>
                 <TablixMember>
-                  <Group Name="OfficeSymbol">
+                  <Group Name="Details">
+                    <DocumentMapLabel>=Fields!OfficeSymbol.Value</DocumentMapLabel>
                     <GroupExpressions>
                       <GroupExpression>=Fields!OfficeSymbol.Value</GroupExpression>
                     </GroupExpressions>
+                    <PageBreak>
+                      <BreakLocation>Between</BreakLocation>
+                    </PageBreak>
                   </Group>
                   <SortExpressions>
                     <SortExpression>
                       <Value>=Fields!OfficeSymbol.Value</Value>
                     </SortExpression>
                   </SortExpressions>
-                  <TablixMembers>
-                    <TablixMember>
-                      <KeepWithGroup>After</KeepWithGroup>
-                    </TablixMember>
-                    <TablixMember>
-                      <Group Name="Details" />
-                      <SortExpressions>
-                        <SortExpression>
-                          <Value>=Fields!path.Value</Value>
-                        </SortExpression>
-                      </SortExpressions>
-                    </TablixMember>
-                  </TablixMembers>
                 </TablixMember>
               </TablixMembers>
             </TablixRowHierarchy>
-            <RepeatRowHeaders>true</RepeatRowHeaders>
             <DataSetName>DataSet1</DataSetName>
-            <PageBreak>
-              <BreakLocation>End</BreakLocation>
-            </PageBreak>
-            <SortExpressions>
-              <SortExpression>
-                <Value>=Fields!path.Value</Value>
-              </SortExpression>
-            </SortExpressions>
-            <Top>0.64806in</Top>
-            <Height>1.69792in</Height>
-            <Width>6.89583in</Width>
+            <Top>0.62722in</Top>
+            <Left>0in</Left>
+            <Height>1.5625in</Height>
+            <Width>6.83208in</Width>
             <ZIndex>1</ZIndex>
             <Style>
               <Border>
@@ -327,46 +389,16 @@
               </Border>
             </Style>
           </Tablix>
-          <Textbox Name="Textbox12">
-            <CanGrow>true</CanGrow>
-            <KeepTogether>true</KeepTogether>
-            <Paragraphs>
-              <Paragraph>
-                <TextRuns>
-                  <TextRun>
-                    <Value>=Globals!ExecutionTime</Value>
-                    <Style />
-                  </TextRun>
-                </TextRuns>
-                <Style />
-              </Paragraph>
-            </Paragraphs>
-            <rd:DefaultName>Textbox12</rd:DefaultName>
-            <Top>0.20833in</Top>
-            <Left>5.16542in</Left>
-            <Height>0.30083in</Height>
-            <Width>1.61458in</Width>
-            <ZIndex>2</ZIndex>
-            <Style>
-              <Border>
-                <Style>None</Style>
-              </Border>
-              <PaddingLeft>2pt</PaddingLeft>
-              <PaddingRight>2pt</PaddingRight>
-              <PaddingTop>2pt</PaddingTop>
-              <PaddingBottom>2pt</PaddingBottom>
-            </Style>
-          </Textbox>
         </ReportItems>
-        <Height>3.45014in</Height>
+        <Height>2.25917in</Height>
         <Style />
       </Body>
-      <Width>6.89583in</Width>
+      <Width>6.91667in</Width>
       <Page>
         <LeftMargin>0.75in</LeftMargin>
         <RightMargin>0.75in</RightMargin>
-        <TopMargin>1in</TopMargin>
-        <BottomMargin>1in</BottomMargin>
+        <TopMargin>0.75in</TopMargin>
+        <BottomMargin>0.75in</BottomMargin>
         <Style />
       </Page>
     </ReportSection>
