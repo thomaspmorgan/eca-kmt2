@@ -4,8 +4,10 @@ using ECA.Business.Service.Admin;
 using ECA.Business.Sevis.Model;
 using ECA.Business.Validation.Sevis.Bio;
 using ECA.Business.Validation.Sevis.Finance;
+using ECA.Core.DynamicLinq;
 using FluentValidation;
 using FluentValidation.Results;
+using KellermanSoftware.CompareNetObjects;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -18,7 +20,7 @@ namespace ECA.Business.Validation.Sevis
     /// The ExchangeVisitor model is used to send created and updated exchange visitor information to sevis.  This class can be used to validate exchange visitor information
     /// as well as convert directly to the sevis xsd schema exchange visitor objects.
     /// </summary>
-    public class ExchangeVisitor : ISevisIdentifable
+    public class ExchangeVisitor : ISevisIdentifable, IChangeComparable<ExchangeVisitor, ExchangeVisitorChangeDetail>
     {
         /// <summary>
         /// The remarks for why a reprint ds2019 was requested.
@@ -250,8 +252,9 @@ namespace ECA.Business.Validation.Sevis
         /// will contain all update sevis exchange visitor objects to perform those updates.
         /// </summary>
         /// <param name="sevisUsername">The sevis username the exchange visitor is being sent with.</param>
+        /// <param name="previouslySubmittedExchangeVisitor">The previously submitted exchange visitor model to sevis.</param>
         /// <returns>All update sevis batch objects.</returns>
-        public IEnumerable<SEVISEVBatchTypeExchangeVisitor1> GetSEVISEVBatchTypeExchangeVisitor1Collection(string sevisUsername)
+        public IEnumerable<SEVISEVBatchTypeExchangeVisitor1> GetSEVISEVBatchTypeExchangeVisitor1Collection(string sevisUsername, ExchangeVisitor previouslySubmittedExchangeVisitor)
         {
             Contract.Requires(sevisUsername != null, "The sevis username must not be null.");
             var visitors = new List<SEVISEVBatchTypeExchangeVisitor1>();
@@ -266,25 +269,52 @@ namespace ECA.Business.Validation.Sevis
                     userID = sevisUsername
                 };
             };
-            visitors.Add(createUpdateExchangeVisitor(this.Person.GetSEVISEVBatchTypeExchangeVisitorBiographical(), new RequestId(this.Person.ParticipantId, RequestIdType.Participant, RequestActionType.Update)));
-            visitors.Add(createUpdateExchangeVisitor(this.FinancialInfo.GetSEVISEVBatchTypeExchangeVisitorFinancialInfo(), new RequestId(this.Person.ParticipantId, RequestIdType.FinancialInfo, RequestActionType.Update)));
-            foreach (var dependent in this.Dependents)
+            PersonChangeDetail personChangeDetail = this.Person.GetChangeDetail(previouslySubmittedExchangeVisitor.Person);
+            SubjectFieldChangeDetail subjectFieldChangeDetail = this.Person.SubjectField.GetChangeDetail(previouslySubmittedExchangeVisitor.Person.SubjectField);
+            FinancialInfoChangeDetail financialInfoChangeDetail = this.FinancialInfo.GetChangeDetail(previouslySubmittedExchangeVisitor.FinancialInfo);
+            ExchangeVisitorChangeDetail exchangeVisitorChangeDetail = this.GetChangeDetail(previouslySubmittedExchangeVisitor);
+
+            if (personChangeDetail.HasChanges())
             {
-                var modifiedDependent = new ModifiedParticipantDependent(dependent);
-                visitors.Add(createUpdateExchangeVisitor(modifiedDependent.GetSEVISEVBatchTypeExchangeVisitorDependent(), dependent.GetRequestId()));
+                visitors.Add(createUpdateExchangeVisitor(this.Person.GetSEVISEVBatchTypeExchangeVisitorBiographical(), new RequestId(this.Person.ParticipantId, RequestIdType.Participant, RequestActionType.Update)));
+            }
+            if (subjectFieldChangeDetail.HasChanges())
+            {
+                var exchangeVisitorProgram = new SEVISEVBatchTypeExchangeVisitorProgram();
+                exchangeVisitorProgram.Item = this.Person.SubjectField.GetSEVISEVBatchTypeExchangeVisitorProgramEditSubject();
+                visitors.Add(createUpdateExchangeVisitor(exchangeVisitorProgram, new RequestId(this.Person.ParticipantId, RequestIdType.SubjectField, RequestActionType.Update)));
+            }
+            if (financialInfoChangeDetail.HasChanges())
+            {
+                visitors.Add(createUpdateExchangeVisitor(this.FinancialInfo.GetSEVISEVBatchTypeExchangeVisitorFinancialInfo(), new RequestId(this.Person.ParticipantId, RequestIdType.FinancialInfo, RequestActionType.Update)));
             }
 
-            var exchangeVisitorProgram = new SEVISEVBatchTypeExchangeVisitorProgram();
-            exchangeVisitorProgram.Item = this.Person.SubjectField.GetSEVISEVBatchTypeExchangeVisitorProgramEditSubject();
-            visitors.Add(createUpdateExchangeVisitor(exchangeVisitorProgram, new RequestId(this.Person.ParticipantId, RequestIdType.SubjectField, RequestActionType.Update)));
-
-            var reprintForm = new ReprintType
+            foreach (var dependent in this.Dependents)
             {
-                printForm = true,
-                Reason = EVReprintRequestReasonType.Item05, //other reprint code
-                OtherRemarks = REPRINT_DS2019_REMARKS
-            };
-            visitors.Add(createUpdateExchangeVisitor(reprintForm, new RequestId(this.Person.ParticipantId, RequestIdType.Reprint, RequestActionType.Update)));
+                var previousDependent = previouslySubmittedExchangeVisitor.Dependents.Where(x => x.PersonId == dependent.PersonId).FirstOrDefault();
+                if (previousDependent == null)
+                {
+                    var modifiedDependent = new ModifiedParticipantDependent(dependent);
+                    visitors.Add(createUpdateExchangeVisitor(modifiedDependent.GetSEVISEVBatchTypeExchangeVisitorDependent(), dependent.GetRequestId()));
+                }
+                else
+                {
+                    var changeDetail = dependent.GetChangeDetail(previousDependent);
+                    if (changeDetail.HasChanges())
+                    {
+                        var modifiedDependent = new ModifiedParticipantDependent(dependent);
+                        visitors.Add(createUpdateExchangeVisitor(modifiedDependent.GetSEVISEVBatchTypeExchangeVisitorDependent(), dependent.GetRequestId()));
+                    }
+                }
+            }
+
+            //var reprintForm = new ReprintType
+            //{
+            //    printForm = true,
+            //    Reason = EVReprintRequestReasonType.Item05, //other reprint code
+            //    OtherRemarks = REPRINT_DS2019_REMARKS
+            //};
+            //visitors.Add(createUpdateExchangeVisitor(reprintForm, new RequestId(this.Person.ParticipantId, RequestIdType.Reprint, RequestActionType.Update)));
             return visitors;
         }
 
@@ -340,6 +370,27 @@ namespace ECA.Business.Validation.Sevis
                 TypeNameHandling = TypeNameHandling.All,
                 Formatting = Formatting.Indented
             };
+        }
+
+        /// <summary>
+        /// Returns a ChangeDetail instance for this exchange visitor.
+        /// </summary>
+        /// <param name="otherChangeComparable">The exchange visitor to compare.</param>
+        /// <returns>The change detail.</returns>
+        public ExchangeVisitorChangeDetail GetChangeDetail(ExchangeVisitor otherChangeComparable)
+        {
+            Contract.Requires(otherChangeComparable != null, "The otherExchangeVisitor must not be null.");
+            var compareConfig = new ComparisonConfig
+            {
+                CompareChildren = false,
+                MembersToIgnore = new List<string>
+                {
+                    nameof(this.SevisId)
+                }
+            };
+            var compareLogic = new CompareLogic(compareConfig);
+            var result = compareLogic.Compare(this, otherChangeComparable);
+            return new ExchangeVisitorChangeDetail(result);
         }
     }
 }

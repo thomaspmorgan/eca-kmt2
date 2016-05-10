@@ -179,15 +179,7 @@ namespace ECA.Business.Service.Persons
                 }
                 else
                 {
-                    if (!String.IsNullOrWhiteSpace(person.SevisId) && !hasParticipantNeededValidationInfo)
-                    {
-                        
-                        //UpdatedPriorToValidation
-                    }
-                    else
-                    {
-                        return AddParticipantPersonSevisCommStatus(person.ParticipantId, SevisCommStatus.ReadyToSubmit.Id);
-                    }
+                    return AddParticipantPersonSevisCommStatus(person.ParticipantId, SevisCommStatus.ReadyToSubmit.Id);
                 }
             }
         }

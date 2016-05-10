@@ -1,6 +1,9 @@
-﻿using ECA.Business.Sevis.Model;
+﻿using System;
+using ECA.Business.Sevis.Model;
 using FluentValidation.Attributes;
 using Newtonsoft.Json;
+using KellermanSoftware.CompareNetObjects;
+using System.Collections.Generic;
 
 namespace ECA.Business.Validation.Sevis.Finance
 {
@@ -8,7 +11,7 @@ namespace ECA.Business.Validation.Sevis.Finance
     /// Financial support information
     /// </summary>
     [Validator(typeof(FinancialInfoValidator))]
-    public class FinancialInfo : IFormPrintable
+    public class FinancialInfo : IFormPrintable, IChangeComparable<FinancialInfo, FinancialInfoChangeDetail>
     {
         [JsonConstructor]
         public FinancialInfo(
@@ -99,6 +102,18 @@ namespace ECA.Business.Validation.Sevis.Finance
                 instance.OtherFunds = this.OtherFunds.GetOtherFundsNullableType();
             }
             return instance;
+        }
+
+        public FinancialInfoChangeDetail GetChangeDetail(FinancialInfo otherChangeComparable)
+        {
+            var compareConfig = new ComparisonConfig
+            {
+                CompareChildren = true,
+                MembersToIgnore = new List<string> { nameof(this.PrintForm) }
+            };
+            var compareLogic = new CompareLogic(compareConfig);
+            var result = compareLogic.Compare(this, otherChangeComparable);
+            return new FinancialInfoChangeDetail(result);
         }
     }
 }

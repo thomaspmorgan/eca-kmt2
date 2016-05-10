@@ -947,7 +947,7 @@ namespace ECA.Business.Service.Sevis
 
                 }
             }
-        }        
+        }
         #endregion
 
         #region XML Serialization
@@ -1000,7 +1000,52 @@ namespace ECA.Business.Service.Sevis
             }
         }
 
-        #endregion     
+        #endregion
+
+        #region History
+
+        /// <summary>
+        /// Adds or updates an ExchangeVisitorHistory for the given exchange visitor.
+        /// </summary>
+        /// <param name="exchangeVisitor">The exchange visitor.</param>
+        /// <returns>The added or updated exchange visitor history.</returns>
+        public ExchangeVisitorHistory AddOrUpdateStagedExchangeVisitorHistory(ExchangeVisitor exchangeVisitor)
+        {
+            var existingHistory = Context.ExchangeVisitorHistories.Find(exchangeVisitor.Person.ParticipantId);
+            var historyToReturn = DoAddOrUpdateStagedExchangeVisitorHistory(exchangeVisitor, existingHistory);
+            this.Context.SaveChanges();
+            return historyToReturn;
+        }
+
+        /// <summary>
+        /// Adds or updates an ExchangeVisitorHistory for the given exchange visitor.
+        /// </summary>
+        /// <param name="exchangeVisitor">The exchange visitor.</param>
+        /// <returns>The added or updated exchange visitor history.</returns>
+        public async Task<ExchangeVisitorHistory> AddOrUpdateStagedExchangeVisitorHistoryAsync(ExchangeVisitor exchangeVisitor)
+        {
+            var existingHistory = await Context.ExchangeVisitorHistories.FindAsync(exchangeVisitor.Person.ParticipantId);
+            var historyToReturn = DoAddOrUpdateStagedExchangeVisitorHistory(exchangeVisitor, existingHistory);
+            await this.Context.SaveChangesAsync();
+            return historyToReturn;
+        }
+
+        private ExchangeVisitorHistory DoAddOrUpdateStagedExchangeVisitorHistory(ExchangeVisitor exchangeVisitor, ExchangeVisitorHistory existingHistory)
+        {
+            if (existingHistory == null)
+            {
+                existingHistory = new ExchangeVisitorHistory
+                {
+                    ParticipantId = exchangeVisitor.Person.ParticipantId
+                };
+                Context.ExchangeVisitorHistories.Add(existingHistory);
+            }
+            existingHistory.PendingModel = exchangeVisitor.ToJson();
+            existingHistory.RevisedOn = DateTimeOffset.UtcNow;
+            return existingHistory;
+        }
+
+        #endregion
 
         #region Staging
         /// <summary>
@@ -1031,7 +1076,13 @@ namespace ECA.Business.Service.Sevis
                         var results = exchangeVisitor.Validate(this.exchangeVisitorValidationService.GetValidator());
                         if (results.IsValid)
                         {
-                            var accomodatingSevisBatch = GetAccomodatingStagedSevisBatch(stagedSevisBatches, participant, exchangeVisitor, groupedParticipant.SevisUsername, groupedParticipant.SevisOrgId);
+                            ExchangeVisitor previouslySubmittedExchangeVisitor = null;
+                            if (!String.IsNullOrWhiteSpace(exchangeVisitor.SevisId))
+                            {
+                                var exchangeVisitorHistory = Context.ExchangeVisitorHistories.Find(exchangeVisitor.Person.ParticipantId);
+                                previouslySubmittedExchangeVisitor = ExchangeVisitor.GetExchangeVisitor(exchangeVisitorHistory.LastSuccessfulModel);
+                            }
+                            var accomodatingSevisBatch = GetAccomodatingStagedSevisBatch(stagedSevisBatches, participant, exchangeVisitor, previouslySubmittedExchangeVisitor, groupedParticipant.SevisUsername, groupedParticipant.SevisOrgId);
                             if (accomodatingSevisBatch != null)
                             {
                                 stagedSevisBatch = accomodatingSevisBatch;
@@ -1042,8 +1093,9 @@ namespace ECA.Business.Service.Sevis
                                 stagedSevisBatch = getNewStagedSevisBatch(groupedParticipant.SevisUsername, groupedParticipant.SevisOrgId, stagedSevisBatches);
                                 this.notificationService.NotifyStagedSevisBatchCreated(stagedSevisBatch);
                             }
-                            stagedSevisBatch.AddExchangeVisitor(participant, exchangeVisitor);
+                            stagedSevisBatch.AddExchangeVisitor(participant, exchangeVisitor, previouslySubmittedExchangeVisitor);
                             AddPendingSendToSevisStatus(participant.ParticipantId, stagedSevisBatch.BatchId, groupedParticipant.SevisUsername, groupedParticipant.SevisOrgId);
+                            AddOrUpdateStagedExchangeVisitorHistory(exchangeVisitor);
                         }
                         else
                         {
@@ -1087,7 +1139,13 @@ namespace ECA.Business.Service.Sevis
                         var results = exchangeVisitor.Validate(this.exchangeVisitorValidationService.GetValidator());
                         if (results.IsValid)
                         {
-                            var accomodatingSevisBatch = GetAccomodatingStagedSevisBatch(stagedSevisBatches, participant, exchangeVisitor, groupedParticipant.SevisUsername, groupedParticipant.SevisOrgId);
+                            ExchangeVisitor previouslySubmittedExchangeVisitor = null;
+                            if (!String.IsNullOrWhiteSpace(exchangeVisitor.SevisId))
+                            {
+                                var exchangeVisitorHistory = await Context.ExchangeVisitorHistories.FindAsync(exchangeVisitor.Person.ParticipantId);
+                                previouslySubmittedExchangeVisitor = ExchangeVisitor.GetExchangeVisitor(exchangeVisitorHistory.LastSuccessfulModel);
+                            }
+                            var accomodatingSevisBatch = GetAccomodatingStagedSevisBatch(stagedSevisBatches, participant, exchangeVisitor, previouslySubmittedExchangeVisitor, groupedParticipant.SevisUsername, groupedParticipant.SevisOrgId);
                             if (accomodatingSevisBatch != null)
                             {
                                 stagedSevisBatch = accomodatingSevisBatch;
@@ -1098,8 +1156,9 @@ namespace ECA.Business.Service.Sevis
                                 stagedSevisBatch = getNewStagedSevisBatch(groupedParticipant.SevisUsername, groupedParticipant.SevisOrgId, stagedSevisBatches);
                                 this.notificationService.NotifyStagedSevisBatchCreated(stagedSevisBatch);
                             }
-                            stagedSevisBatch.AddExchangeVisitor(participant, exchangeVisitor);
+                            stagedSevisBatch.AddExchangeVisitor(participant, exchangeVisitor, previouslySubmittedExchangeVisitor);
                             AddPendingSendToSevisStatus(participant.ParticipantId, stagedSevisBatch.BatchId, groupedParticipant.SevisUsername, groupedParticipant.SevisOrgId);
+                            AddOrUpdateStagedExchangeVisitorHistory(exchangeVisitor);
                         }
                         else
                         {
@@ -1163,11 +1222,13 @@ namespace ECA.Business.Service.Sevis
         /// <param name="sevisUsername">The sevis username.</param>
         /// <param name="visitor">The exchange visitor.</param>
         /// <param name="participant">The grouped participant representing the exchange visitor.</param>
+        /// <param name="previouslySubmittedExchangeVisitor">The previously sent exchange visitor.</param>
         /// <returns>The first staged sevis batch that can accomodate the visitor, or null if none can accomodate.</returns>
         public StagedSevisBatch GetAccomodatingStagedSevisBatch(
             List<StagedSevisBatch> batches,
             SevisGroupedParticipantDTO participant,
             ExchangeVisitor visitor,
+            ExchangeVisitor previouslySubmittedExchangeVisitor,
             string sevisUsername,
             string sevisOrgId)
         {
@@ -1178,7 +1239,7 @@ namespace ECA.Business.Service.Sevis
             Contract.Requires(participant.ParticipantId == visitor.Person.ParticipantId, "The participant must belong to the exchange visitor.");
             foreach (var batch in batches)
             {
-                if (!batch.IsSaved && batch.CanAccomodate(participant, visitor, sevisUsername, sevisOrgId))
+                if (!batch.IsSaved && batch.CanAccomodate(participant, visitor, sevisUsername, sevisOrgId, previouslySubmittedExchangeVisitor))
                 {
                     return batch;
                 }

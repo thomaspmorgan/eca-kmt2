@@ -292,16 +292,24 @@ namespace ECA.Business.Test.Service.Sevis
                 Assert.AreEqual(firstBatch.BatchId.ToString(), addedCommStatus.BatchId);
                 Assert.AreEqual(status.SevisUsername, addedCommStatus.SevisUsername);
                 Assert.AreEqual(status.SevisOrgId, addedCommStatus.SevisOrgId);
+
+                Assert.AreEqual(1, context.ExchangeVisitorHistories.Count());
+                var firstHistory = context.ExchangeVisitorHistories.First();
+                Assert.AreEqual(participantId, firstHistory.ParticipantId);
+                Assert.AreEqual(exchangeVisitor.ToJson(), firstHistory.PendingModel);
+                Assert.IsNull(firstHistory.LastSuccessfulModel);
+                DateTimeOffset.UtcNow.Should().BeCloseTo(firstHistory.RevisedOn, 20000);
+
             };
             context.Revert();
             var result = service.StageBatches();
-            Assert.AreEqual(result.Count, context.SaveChangesCalledCount);
+            Assert.AreEqual(result.Count * 2, context.SaveChangesCalledCount);
             tester(result);
 
             context.Revert();
             var resultAsync = await service.StageBatchesAsync();
             tester(resultAsync);
-            Assert.AreEqual(result.Count * 2, context.SaveChangesCalledCount);
+            Assert.AreEqual(result.Count * 4, context.SaveChangesCalledCount);
             notificationService.Verify(x => x.NotifyNumberOfParticipantsToStage(It.IsAny<int>()), Times.Exactly(2));
             notificationService.Verify(x => x.NotifyStagedSevisBatchCreated(It.IsAny<StagedSevisBatch>()), Times.Exactly(2));
             notificationService.Verify(x => x.NotifyStagedSevisBatchesFinished(It.IsAny<List<StagedSevisBatch>>()), Times.Exactly(2));
@@ -407,13 +415,13 @@ namespace ECA.Business.Test.Service.Sevis
             };
             context.Revert();
             var result = service.StageBatches();
-            Assert.AreEqual(result.Count, context.SaveChangesCalledCount);
+            Assert.AreEqual(result.Count * 2, context.SaveChangesCalledCount);
             tester(result);
 
             context.Revert();
             var resultAsync = await service.StageBatchesAsync();
             tester(resultAsync);
-            Assert.AreEqual(result.Count * 2, context.SaveChangesCalledCount);
+            Assert.AreEqual(result.Count * 4, context.SaveChangesCalledCount);
             notificationService.Verify(x => x.NotifyNumberOfParticipantsToStage(It.IsAny<int>()), Times.Exactly(2));
             notificationService.Verify(x => x.NotifyStagedSevisBatchCreated(It.IsAny<StagedSevisBatch>()), Times.Exactly(4));
             notificationService.Verify(x => x.NotifyStagedSevisBatchesFinished(It.IsAny<List<StagedSevisBatch>>()), Times.Exactly(2));
@@ -519,13 +527,13 @@ namespace ECA.Business.Test.Service.Sevis
             };
             context.Revert();
             var result = service.StageBatches();
-            Assert.AreEqual(result.Count, context.SaveChangesCalledCount);
+            Assert.AreEqual(result.Count * 2, context.SaveChangesCalledCount);
             tester(result);
 
             context.Revert();
             var resultAsync = await service.StageBatchesAsync();
             tester(resultAsync);
-            Assert.AreEqual(result.Count * 2, context.SaveChangesCalledCount);
+            Assert.AreEqual(result.Count * 4, context.SaveChangesCalledCount);
             notificationService.Verify(x => x.NotifyNumberOfParticipantsToStage(It.IsAny<int>()), Times.Exactly(2));
             notificationService.Verify(x => x.NotifyStagedSevisBatchCreated(It.IsAny<StagedSevisBatch>()), Times.Exactly(4));
             notificationService.Verify(x => x.NotifyStagedSevisBatchesFinished(It.IsAny<List<StagedSevisBatch>>()), Times.Exactly(2));
@@ -622,8 +630,10 @@ namespace ECA.Business.Test.Service.Sevis
             var personId = 10;
             var participantId = 1;
             var projectId = 2;
+            var sevisId = "sevisid";
             Participant participant = null;
             ParticipantPerson participantPerson = null;
+            ExchangeVisitorHistory exchangeVisitorHistory = null;
             var status = new ParticipantPersonSevisCommStatus
             {
                 Id = 1,
@@ -632,14 +642,13 @@ namespace ECA.Business.Test.Service.Sevis
                 SevisOrgId = "sevis org Id",
                 SevisUsername = "sevis user"
             };
-
             var siteOfActivity = new AddressDTO
             {
                 DivisionIso = "DC",
                 LocationName = "name"
             };
             var exchangeVisitor = new ExchangeVisitor(
-                sevisId: "sevisid",
+                sevisId: sevisId,
                 person: GetPerson(personId, participantId),
                 financialInfo: new Business.Validation.Sevis.Finance.FinancialInfo(true, true, null, null),
                 occupationCategoryCode: "99",
@@ -647,6 +656,17 @@ namespace ECA.Business.Test.Service.Sevis
                 programStartDate: DateTime.Now,
                 dependents: new List<Business.Validation.Sevis.Bio.Dependent>(),
                 siteOfActivity: siteOfActivity);
+
+            var previouslySubmittedExchangeVisitor = new ExchangeVisitor(
+                sevisId: sevisId,
+                person: GetPerson(personId, participantId),
+                financialInfo: new Business.Validation.Sevis.Finance.FinancialInfo(true, true, null, null),
+                occupationCategoryCode: "99",
+                programEndDate: DateTime.Now.AddDays(-10.0),
+                programStartDate: DateTime.Now.AddDays(-10.0),
+                dependents: new List<Business.Validation.Sevis.Bio.Dependent>(),
+                siteOfActivity: siteOfActivity);
+
             exchangeVisitorService.Setup(x => x.GetExchangeVisitor(It.IsAny<int>(), It.IsAny<int>())).Returns(exchangeVisitor);
             exchangeVisitorService.Setup(x => x.GetExchangeVisitorAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(exchangeVisitor);
             validator.Setup(x => x.Validate(It.IsAny<ExchangeVisitor>())).Returns(new FluentValidation.Results.ValidationResult());
@@ -662,15 +682,25 @@ namespace ECA.Business.Test.Service.Sevis
                     Participant = participant,
                     ParticipantId = participantId
                 };
+                exchangeVisitorHistory = new ExchangeVisitorHistory
+                {
+                    RevisedOn = DateTimeOffset.UtcNow.AddDays(-1.0),
+                    ParticipantId = participantId,
+                    LastSuccessfulModel = previouslySubmittedExchangeVisitor.ToJson()
+                };
                 status.ParticipantPerson = participantPerson;
                 status.ParticipantId = participantId;
                 participantPerson.ParticipantPersonSevisCommStatuses.Add(status);
                 context.Participants.Add(participant);
                 context.ParticipantPersons.Add(participantPerson);
                 context.ParticipantPersonSevisCommStatuses.Add(status);
+                context.ExchangeVisitorHistories.Add(exchangeVisitorHistory);
             });
             Action<List<StagedSevisBatch>> tester = (batches) =>
             {
+                Assert.IsTrue(exchangeVisitor.GetChangeDetail(previouslySubmittedExchangeVisitor).HasChanges());
+                Assert.IsTrue(1 < exchangeVisitor.GetSEVISEVBatchTypeExchangeVisitor1Collection(status.SevisUsername, previouslySubmittedExchangeVisitor).Count());
+
                 Assert.IsNotNull(batches);
                 Assert.AreEqual(1, batches.Count);
                 var firstBatch = batches.First();
@@ -690,7 +720,7 @@ namespace ECA.Business.Test.Service.Sevis
 
                 Assert.IsNotNull(firstBatch.SEVISBatchCreateUpdateEV.BatchHeader);
                 Assert.IsNull(firstBatch.SEVISBatchCreateUpdateEV.CreateEV);
-                Assert.AreEqual(exchangeVisitor.GetSEVISEVBatchTypeExchangeVisitor1Collection(status.SevisUsername).Count(), firstBatch.SEVISBatchCreateUpdateEV.UpdateEV.Count());
+                Assert.AreEqual(exchangeVisitor.GetSEVISEVBatchTypeExchangeVisitor1Collection(status.SevisUsername, previouslySubmittedExchangeVisitor).Count(), firstBatch.SEVISBatchCreateUpdateEV.UpdateEV.Count());
                 Assert.AreEqual(status.SevisUsername, firstBatch.SEVISBatchCreateUpdateEV.userID);
                 Assert.AreEqual(status.SevisOrgId, firstBatch.SEVISBatchCreateUpdateEV.BatchHeader.OrgID);
                 Assert.IsNotNull(firstBatch.SEVISBatchCreateUpdateEV.BatchHeader.BatchID);
@@ -706,16 +736,22 @@ namespace ECA.Business.Test.Service.Sevis
                 Assert.AreEqual(firstBatch.BatchId.ToString(), addedCommStatus.BatchId);
                 Assert.AreEqual(status.SevisUsername, addedCommStatus.SevisUsername);
                 Assert.AreEqual(status.SevisOrgId, addedCommStatus.SevisOrgId);
+
+                Assert.AreEqual(1, context.ExchangeVisitorHistories.Count());
+                Assert.AreEqual(previouslySubmittedExchangeVisitor.ToJson(), exchangeVisitorHistory.LastSuccessfulModel);
+                Assert.AreEqual(exchangeVisitor.ToJson(), exchangeVisitorHistory.PendingModel);
+                DateTimeOffset.UtcNow.Should().BeCloseTo(exchangeVisitorHistory.RevisedOn, 20000);
+                Assert.AreEqual(participantId, exchangeVisitorHistory.ParticipantId);
             };
             context.Revert();
             var result = service.StageBatches();
-            Assert.AreEqual(result.Count, context.SaveChangesCalledCount);
+            Assert.AreEqual(result.Count * 2, context.SaveChangesCalledCount);
             tester(result);
 
             context.Revert();
             var resultAsync = await service.StageBatchesAsync();
             tester(resultAsync);
-            Assert.AreEqual(result.Count * 2, context.SaveChangesCalledCount);
+            Assert.AreEqual(result.Count * 4, context.SaveChangesCalledCount);
 
             notificationService.Verify(x => x.NotifyNumberOfParticipantsToStage(It.IsAny<int>()), Times.Exactly(2));
             notificationService.Verify(x => x.NotifyStagedSevisBatchCreated(It.IsAny<StagedSevisBatch>()), Times.Exactly(2));
@@ -795,7 +831,7 @@ namespace ECA.Business.Test.Service.Sevis
                     exchangeVisitors.Add(exchangeVisitor);
                 }
                 for (var i = 1;
-                    i <= maxUpdateExchangeVisitorBatchSize / exchangeVisitors.First().GetSEVISEVBatchTypeExchangeVisitor1Collection(sevisUsername).Count();
+                    i <= maxUpdateExchangeVisitorBatchSize;
                     i++)
                 {
                     var participant = new Participant
@@ -834,7 +870,26 @@ namespace ECA.Business.Test.Service.Sevis
                         dependents: new List<Business.Validation.Sevis.Bio.Dependent>(),
                         siteOfActivity: siteOfActivity
                     );
+
+                    var previousExchangeVisitor = new ExchangeVisitor(
+                        sevisId: "sevisId",
+                        person: GetPerson(personId, participant.ParticipantId),
+                        financialInfo: new Business.Validation.Sevis.Finance.FinancialInfo(false, false, null, null),
+                        occupationCategoryCode: "99",
+                        programEndDate: DateTime.Now.AddDays(-1.0),
+                        programStartDate: DateTime.Now.AddDays(-1.0),
+                        dependents: new List<Business.Validation.Sevis.Bio.Dependent>(),
+                        siteOfActivity: siteOfActivity
+                    );
                     exchangeVisitors.Add(exchangeVisitor);
+                    Assert.IsTrue(exchangeVisitor.GetChangeDetail(previousExchangeVisitor).HasChanges());
+                    Assert.IsTrue(0 < exchangeVisitor.GetSEVISEVBatchTypeExchangeVisitor1Collection(readyToSubmitStatus.SevisUsername, previousExchangeVisitor).Count());
+                    var history = new ExchangeVisitorHistory
+                    {
+                        ParticipantId = participant.ParticipantId,
+                        LastSuccessfulModel = previousExchangeVisitor.ToJson()
+                    };
+                    context.ExchangeVisitorHistories.Add(history);
                 }
             });
 
@@ -974,7 +1029,25 @@ namespace ECA.Business.Test.Service.Sevis
                         dependents: new List<Business.Validation.Sevis.Bio.Dependent>(),
                         siteOfActivity: siteOfActivity
                     );
+                    var previousExchangeVisitor = new ExchangeVisitor(
+                        sevisId: "sevisId",
+                        person: GetPerson(personId, participant.ParticipantId),
+                        financialInfo: new Business.Validation.Sevis.Finance.FinancialInfo(false, false, null, null),
+                        occupationCategoryCode: "99",
+                        programEndDate: DateTime.Now.AddDays(-1.0),
+                        programStartDate: DateTime.Now.AddDays(-1.0),
+                        dependents: new List<Business.Validation.Sevis.Bio.Dependent>(),
+                        siteOfActivity: siteOfActivity
+                    );
                     exchangeVisitors.Add(exchangeVisitor);
+                    Assert.IsTrue(exchangeVisitor.GetChangeDetail(previousExchangeVisitor).HasChanges());
+                    Assert.IsTrue(0 < exchangeVisitor.GetSEVISEVBatchTypeExchangeVisitor1Collection(readyToSubmitStatus.SevisUsername, previousExchangeVisitor).Count());
+                    var history = new ExchangeVisitorHistory
+                    {
+                        ParticipantId = participant.ParticipantId,
+                        LastSuccessfulModel = previousExchangeVisitor.ToJson()
+                    };
+                    context.ExchangeVisitorHistories.Add(history);
                 }
             });
             var numberOfUpdateRecordsPerExchangeVisitor = 4;
@@ -987,7 +1060,7 @@ namespace ECA.Business.Test.Service.Sevis
 
                 for (var i = 0; i < expectedBatchCount; i++)
                 {
-                    var batch = batches[i];                    
+                    var batch = batches[i];
                     if (i == 0)
                     {
                         Assert.AreEqual(maxCreateExchangeVisitorBatchSize, batch.SEVISBatchCreateUpdateEV.CreateEV.Count());
@@ -1003,12 +1076,12 @@ namespace ECA.Business.Test.Service.Sevis
             context.Revert();
             var result = service.StageBatches();
             tester(result);
-            Assert.AreEqual(result.Count, context.SaveChangesCalledCount);
+            Assert.AreEqual(result.Count * 5, context.SaveChangesCalledCount);
 
             context.Revert();
             var resultAsync = await service.StageBatchesAsync();
             tester(resultAsync);
-            Assert.AreEqual(result.Count * 2, context.SaveChangesCalledCount);
+            Assert.AreEqual(result.Count * 2 * 5, context.SaveChangesCalledCount);
 
             notificationService.Verify(x => x.NotifyNumberOfParticipantsToStage(It.IsAny<int>()), Times.Exactly(2));
             notificationService.Verify(x => x.NotifyStagedSevisBatchCreated(It.IsAny<StagedSevisBatch>()), Times.Exactly(10));
@@ -1111,7 +1184,7 @@ namespace ECA.Business.Test.Service.Sevis
             {
                 ParticipantId = exchangeVisitor.Person.ParticipantId
             };
-            Assert.IsNull(service.GetAccomodatingStagedSevisBatch(batches, participant, exchangeVisitor, status.SevisUsername, status.SevisOrgId));
+            Assert.IsNull(service.GetAccomodatingStagedSevisBatch(batches, participant, exchangeVisitor, null, status.SevisUsername, status.SevisOrgId));
         }
 
         [TestMethod]
@@ -1150,7 +1223,7 @@ namespace ECA.Business.Test.Service.Sevis
             {
                 ParticipantId = exchangeVisitor.Person.ParticipantId
             };
-            Assert.IsNull(service.GetAccomodatingStagedSevisBatch(batches, participant, exchangeVisitor, status.SevisUsername, status.SevisOrgId));
+            Assert.IsNull(service.GetAccomodatingStagedSevisBatch(batches, participant, exchangeVisitor, null, status.SevisUsername, status.SevisOrgId));
         }
 
         [TestMethod]
@@ -1191,7 +1264,7 @@ namespace ECA.Business.Test.Service.Sevis
             {
                 ParticipantId = exchangeVisitor.Person.ParticipantId
             };
-            Assert.IsTrue(Object.ReferenceEquals(batches.First(), service.GetAccomodatingStagedSevisBatch(batches, participant, exchangeVisitor, status.SevisUsername, status.SevisOrgId)));
+            Assert.IsTrue(Object.ReferenceEquals(batches.First(), service.GetAccomodatingStagedSevisBatch(batches, participant, exchangeVisitor, null, status.SevisUsername, status.SevisOrgId)));
         }
 
         [TestMethod]
@@ -1230,7 +1303,7 @@ namespace ECA.Business.Test.Service.Sevis
             {
                 ParticipantId = exchangeVisitor.Person.ParticipantId
             };
-            Assert.IsNull(service.GetAccomodatingStagedSevisBatch(batches, participant, exchangeVisitor, status.SevisUsername, status.SevisOrgId));
+            Assert.IsNull(service.GetAccomodatingStagedSevisBatch(batches, participant, exchangeVisitor, null, status.SevisUsername, status.SevisOrgId));
         }
 
         [TestMethod]
@@ -1271,7 +1344,7 @@ namespace ECA.Business.Test.Service.Sevis
             {
                 ParticipantId = exchangeVisitor.Person.ParticipantId
             };
-            Assert.IsNull(service.GetAccomodatingStagedSevisBatch(batches, participant, exchangeVisitor, "other user", status.SevisOrgId));
+            Assert.IsNull(service.GetAccomodatingStagedSevisBatch(batches, participant, exchangeVisitor, null, "other user", status.SevisOrgId));
         }
 
         [TestMethod]
@@ -1312,7 +1385,60 @@ namespace ECA.Business.Test.Service.Sevis
             {
                 ParticipantId = exchangeVisitor.Person.ParticipantId
             };
-            Assert.IsNull(service.GetAccomodatingStagedSevisBatch(batches, participant, exchangeVisitor, status.SevisUsername, "other org"));
+            Assert.IsNull(service.GetAccomodatingStagedSevisBatch(batches, participant, exchangeVisitor, null, status.SevisUsername, "other org"));
+        }
+
+        [TestMethod]
+        public void TestGetAccomodatingSevisBatch_SevisBatchCanNotAccomodateByPreviouslySubmittedExchangeVisitor()
+        {
+            var sevisUsername = "sevis username";
+            var sevisOrgId = "orgId";
+            var batches = new List<StagedSevisBatch>();
+            batches.Add(new StagedSevisBatch(BatchId.NewBatchId(), sevisUsername, sevisOrgId, 1, 1)
+            {
+                IsSaved = false,
+            });
+            var status = new ParticipantPersonSevisCommStatus
+            {
+                Id = 1,
+                SevisCommStatusId = SevisCommStatus.QueuedToSubmit.Id,
+                AddedOn = DateTime.UtcNow.AddDays(-1.0),
+                SevisUsername = sevisUsername,
+                SevisOrgId = sevisOrgId
+            };
+
+            var siteOfActivity = new AddressDTO
+            {
+                DivisionIso = "DC",
+                LocationName = "name"
+            };
+
+            var exchangeVisitor = new ExchangeVisitor(
+                sevisId: null,
+                person: GetPerson(1, 2),
+                financialInfo: new Business.Validation.Sevis.Finance.FinancialInfo(true, true, null, null),
+                occupationCategoryCode: "99",
+                programEndDate: DateTime.Now,
+                programStartDate: DateTime.Now,
+                dependents: new List<Business.Validation.Sevis.Bio.Dependent>(),
+                siteOfActivity: siteOfActivity);
+
+            var otherExchangeVisitor = new ExchangeVisitor(
+                sevisId: null,
+                person: GetPerson(1, 2),
+                financialInfo: new Business.Validation.Sevis.Finance.FinancialInfo(false, false, null, null),
+                occupationCategoryCode: "99",
+                programEndDate: DateTime.Now.AddDays(1.0),
+                programStartDate: DateTime.Now.AddDays(1.0),
+                dependents: new List<Business.Validation.Sevis.Bio.Dependent>(),
+                siteOfActivity: siteOfActivity);
+            var participant = new SevisGroupedParticipantDTO
+            {
+                ParticipantId = exchangeVisitor.Person.ParticipantId
+            };
+            Assert.IsTrue(exchangeVisitor.GetChangeDetail(otherExchangeVisitor).HasChanges());
+            Assert.IsTrue(1 < exchangeVisitor.GetSEVISEVBatchTypeExchangeVisitor1Collection(sevisUsername, otherExchangeVisitor).Count());
+            Assert.IsNull(service.GetAccomodatingStagedSevisBatch(batches, participant, exchangeVisitor, null, status.SevisUsername, "other org"));
         }
         #endregion
 

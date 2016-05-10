@@ -2,6 +2,8 @@
 using ECA.Business.Validation.Sevis;
 using FluentValidation.Attributes;
 using System.Xml.Serialization;
+using System;
+using KellermanSoftware.CompareNetObjects;
 
 namespace ECA.Business.Validation.Sevis
 {
@@ -9,7 +11,7 @@ namespace ECA.Business.Validation.Sevis
     /// Subject or field of study
     /// </summary>
     [Validator(typeof(SubjectFieldValidator))]
-    public class SubjectField : IRemarkable
+    public class SubjectField : IRemarkable, IChangeComparable<SubjectField, SubjectFieldChangeDetail>
     {
         public SubjectField(string subjectFieldCode, string foreignDegreeLevel, string foreignFieldOfStudy, string remarks)
         {
@@ -65,6 +67,22 @@ namespace ECA.Business.Validation.Sevis
                 SubjectFieldRemarks = this.Remarks,
                 SubjectFieldCode = this.SubjectFieldCode.GetProgSubjectCodeType()
             };
+        }
+
+        /// <summary>
+        /// Returns a change detail object.
+        /// </summary>
+        /// <param name="otherChangeComparable">The subject field to compare.</param>
+        /// <returns>The subject field change detail.</returns>
+        public SubjectFieldChangeDetail GetChangeDetail(SubjectField otherChangeComparable)
+        {
+            var compareConfig = new ComparisonConfig
+            {
+                CompareChildren = false
+            };
+            var compareLogic = new CompareLogic(compareConfig);
+            var result = compareLogic.Compare(this, otherChangeComparable);
+            return new SubjectFieldChangeDetail(result);
         }
     }
 }
