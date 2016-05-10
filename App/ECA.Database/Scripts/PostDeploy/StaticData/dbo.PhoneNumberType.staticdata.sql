@@ -40,6 +40,8 @@ DECLARE @tblTempTable TABLE (
 INSERT INTO @tblTempTable ([PhoneNumberTypeId], [PhoneNumberTypeName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('1', 'Home', '0', '2/22/2015 12:00:00 AM -05:00', '0', '2/22/2015 12:00:00 AM -05:00')
 INSERT INTO @tblTempTable ([PhoneNumberTypeId], [PhoneNumberTypeName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('2', 'Work', '0', '2/22/2015 12:00:00 AM -05:00', '0', '2/22/2015 12:00:00 AM -05:00')
 INSERT INTO @tblTempTable ([PhoneNumberTypeId], [PhoneNumberTypeName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('3', 'Cell', '0', '2/22/2015 12:00:00 AM -05:00', '0', '2/22/2015 12:00:00 AM -05:00')
+INSERT INTO @tblTempTable ([PhoneNumberTypeId], [PhoneNumberTypeName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('4', 'Visiting', '1', '11/10/2015 7:11:57 PM -05:00', '1', '11/10/2015 7:11:57 PM -05:00')
+INSERT INTO @tblTempTable ([PhoneNumberTypeId], [PhoneNumberTypeName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('5', 'Undetermined', '1', '11/10/2015 7:11:57 PM -05:00', '1', '11/10/2015 7:11:57 PM -05:00')
 
 
 -- 3: Insert any new items into the table from the table variable
