@@ -664,6 +664,7 @@ namespace ECA.Business.Test.Service.Sevis
 
             var previouslySubmittedExchangeVisitor = new ExchangeVisitor(
                 sevisId: sevisId,
+                sevisOrgId: "sevisOrgId",
                 person: GetPerson(birthDate, personId, participantId),
                 financialInfo: new Business.Validation.Sevis.Finance.FinancialInfo(true, true, "1.0", null),
                 occupationCategoryCode: "99",
@@ -867,18 +868,19 @@ namespace ECA.Business.Test.Service.Sevis
 
                     var exchangeVisitor = new ExchangeVisitor(
                         sevisId: "sevisId",
+                        sevisOrgId: "abcde1234567890",
                         person: GetPerson(birthDate, personId, participant.ParticipantId),
                         financialInfo: new Business.Validation.Sevis.Finance.FinancialInfo(true, true, null, null),
                         occupationCategoryCode: "99",
                         programEndDate: DateTime.Now,
                         programStartDate: DateTime.Now,
                         dependents: new List<Business.Validation.Sevis.Bio.Dependent>(),
-                        siteOfActivity: siteOfActivity,
-                        sevisOrgId: "abcde1234567890"
+                        siteOfActivity: siteOfActivity
                     );
 
                     var previousExchangeVisitor = new ExchangeVisitor(
                         sevisId: "sevisId",
+                        sevisOrgId: "abcde1234567890",
                         person: GetPerson(birthDate, personId, participant.ParticipantId),
                         financialInfo: new Business.Validation.Sevis.Finance.FinancialInfo(true, true, "1.0", null),
                         occupationCategoryCode: "99",
@@ -1034,18 +1036,18 @@ namespace ECA.Business.Test.Service.Sevis
 
                     var exchangeVisitor = new ExchangeVisitor(
                         sevisId: "sevisId",
+                        sevisOrgId: "sevisOrgId",
                         person: GetPerson(birthDate, personId, participant.ParticipantId),
                         financialInfo: new Business.Validation.Sevis.Finance.FinancialInfo(true, true, null, null),
                         occupationCategoryCode: "99",
                         programEndDate: DateTime.Now,
                         programStartDate: DateTime.Now,
                         dependents: new List<Business.Validation.Sevis.Bio.Dependent>(),
-                        siteOfActivity: siteOfActivity,
-                        sevisOrgId: "abcde1234567890"
-                    );
+                        siteOfActivity: siteOfActivity);
 
                     var previousExchangeVisitor = new ExchangeVisitor(
                         sevisId: "sevisId",
+                        sevisOrgId: "sevisOrgId",
                         person: GetPerson(birthDate, personId, participant.ParticipantId),
                         financialInfo: new Business.Validation.Sevis.Finance.FinancialInfo(true, true, "1.0", null),
                         occupationCategoryCode: "99",
@@ -1437,6 +1439,7 @@ namespace ECA.Business.Test.Service.Sevis
 
             var exchangeVisitor = new ExchangeVisitor(
                 sevisId: null,
+                sevisOrgId: "sevisOrgId",
                 person: GetPerson(birthDate, 1, 2),
                 financialInfo: new Business.Validation.Sevis.Finance.FinancialInfo(true, true, null, null),
                 occupationCategoryCode: "99",
@@ -1447,6 +1450,7 @@ namespace ECA.Business.Test.Service.Sevis
 
             var otherExchangeVisitor = new ExchangeVisitor(
                 sevisId: null,
+                sevisOrgId: "sevisOrgId",
                 person: GetPerson(birthDate, 1, 2),
                 financialInfo: new Business.Validation.Sevis.Finance.FinancialInfo(false, false, null, null),
                 occupationCategoryCode: "99",
@@ -3152,11 +3156,11 @@ namespace ECA.Business.Test.Service.Sevis
             context.Revert();
             service.ProcessBatchDetailProcess(user, processDetail, batch, fileProvider.Object);
             tester();
-           
+
             context.Revert();
             await service.ProcessBatchDetailProcessAsync(user, processDetail, batch, fileProvider.Object);
             tester();
-           
+
         }
 
         [TestMethod]
@@ -5379,6 +5383,7 @@ namespace ECA.Business.Test.Service.Sevis
             };
             var exchangeVisitor = new ExchangeVisitor(
                 sevisId: null,
+                sevisOrgId: "sevisOrgId",
                 person: GetPerson(DateTime.UtcNow, personId, participantId),
                 financialInfo: new Business.Validation.Sevis.Finance.FinancialInfo(true, true, null, null),
                 occupationCategoryCode: "99",
@@ -5425,6 +5430,7 @@ namespace ECA.Business.Test.Service.Sevis
             };
             var exchangeVisitor = new ExchangeVisitor(
                 sevisId: null,
+                sevisOrgId: "sevisOrgId",
                 person: GetPerson(DateTime.UtcNow, personId, participantId),
                 financialInfo: new Business.Validation.Sevis.Finance.FinancialInfo(true, true, null, null),
                 occupationCategoryCode: "99",

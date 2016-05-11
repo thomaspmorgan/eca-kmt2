@@ -186,8 +186,10 @@ namespace ECA.Business.Service.Persons
             }
             else
             {
+                var hasParticipantNeededValidationInfo = await CreateGetParticipantPersonSevisCommStatusBySevisCommStatusIdQuery(person.ParticipantId, SevisCommStatus.NeedsValidationInfo.Id).CountAsync() > 0;
+                var hasParticipantBeenValidated = await CreateGetParticipantPersonSevisCommStatusBySevisCommStatusIdQuery(person.ParticipantId, SevisCommStatus.ValidatedByBatch.Id).CountAsync() > 0;
                 var isParticipantReadyToValidate = await this.participantPersonSevisService.IsParticipantReadyToValidateAsync(person.ParticipantId);
-                if (isParticipantReadyToValidate)
+                if ((hasParticipantNeededValidationInfo && !hasParticipantBeenValidated) || isParticipantReadyToValidate)
                 {
                     return AddParticipantPersonSevisCommStatus(person.ParticipantId, SevisCommStatus.ReadyToValidate.Id);
                 }
@@ -223,8 +225,10 @@ namespace ECA.Business.Service.Persons
             }
             else
             {
+                var hasParticipantNeededValidationInfo = CreateGetParticipantPersonSevisCommStatusBySevisCommStatusIdQuery(person.ParticipantId, SevisCommStatus.NeedsValidationInfo.Id).Count() > 0;
+                var hasParticipantBeenValidated = CreateGetParticipantPersonSevisCommStatusBySevisCommStatusIdQuery(person.ParticipantId, SevisCommStatus.ValidatedByBatch.Id).Count() > 0;
                 var isParticipantReadyToValidate = this.participantPersonSevisService.IsParticipantReadyToValidate(person.ParticipantId);
-                if (isParticipantReadyToValidate)
+                if ((hasParticipantNeededValidationInfo && !hasParticipantBeenValidated) || isParticipantReadyToValidate)
                 {
                     return AddParticipantPersonSevisCommStatus(person.ParticipantId, SevisCommStatus.ReadyToValidate.Id);
                 }
@@ -290,6 +294,16 @@ namespace ECA.Business.Service.Persons
                     return AddParticipantPersonSevisCommStatus(participantId, commStatusId);
                 }
             }
+        }
+
+        private IQueryable<ParticipantPersonSevisCommStatus> CreateGetParticipantPersonSevisCommStatusBySevisCommStatusIdQuery(int participantId, int sevisCommStatusId)
+        {
+            return CreateGetParticipantPersonSevisCommStatusBySevisCommStatusIdQuery(participantId, new List<int> { sevisCommStatusId });
+        }
+
+        private IQueryable<ParticipantPersonSevisCommStatus> CreateGetParticipantPersonSevisCommStatusBySevisCommStatusIdQuery(int participantId, IEnumerable<int> sevisCommStatusIds)
+        {
+            return Context.ParticipantPersonSevisCommStatuses.Where(x => x.ParticipantId == participantId && sevisCommStatusIds.Contains(x.SevisCommStatusId));
         }
 
         /// <summary>

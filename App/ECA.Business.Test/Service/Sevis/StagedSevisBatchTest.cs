@@ -174,6 +174,7 @@ namespace ECA.Business.Test.Service.Sevis
             };
             var exchangeVisitor = new ExchangeVisitor(
                 sevisId: sevisId,
+                sevisOrgId: "sevisOrgId",
                 person: person,
                 financialInfo: new Business.Validation.Sevis.Finance.FinancialInfo(true, true, null, null),
                 occupationCategoryCode: "99",
