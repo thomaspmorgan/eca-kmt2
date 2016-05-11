@@ -60,6 +60,7 @@ angular.module('staticApp')
       $scope.view.tabExchangeVisitor = false;
       $scope.view.tabStudentVisitor = false;
       $scope.view.sevisCommStatuses = null;
+      $scope.view.filteredSevisUserAccounts = null;
 
       $scope.view.hasRealActualParticipants = false;
       $scope.view.editingEstParticipants = false;
