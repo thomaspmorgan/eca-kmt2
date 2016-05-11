@@ -3,17 +3,10 @@ using ECA.Business.Service.Persons;
 using ECA.Core.DynamicLinq;
 using ECA.Core.DynamicLinq.Sorter;
 using ECA.Core.Query;
-using ECA.Data;
 using ECA.WebApi.Models.Person;
 using ECA.WebApi.Models.Query;
 using ECA.WebApi.Security;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Diagnostics.Contracts;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
@@ -23,6 +16,7 @@ namespace ECA.WebApi.Controllers.Persons
     /// <summary>
     /// The ContactsController is used for crud operations on points of contact in the eca system.
     /// </summary>
+    [RoutePrefix("api")]
     [Authorize]
     public class ContactsController : ApiController
     {
@@ -53,7 +47,7 @@ namespace ECA.WebApi.Controllers.Persons
         /// <param name="queryModel">The paging, filtering, and sorting model.</param>
         /// <returns>The list of contacts.</returns>
         [ResponseType(typeof(PagedQueryResults<ContactDTO>))]
-        public async Task<IHttpActionResult> GetContactsAsync([FromUri]PagingQueryBindingModel<Contact> queryModel)
+        public async Task<IHttpActionResult> GetContactsAsync([FromUri]PagingQueryBindingModel<ContactDTO> queryModel)
         {
             if (ModelState.IsValid)
             {
@@ -94,6 +88,7 @@ namespace ECA.WebApi.Controllers.Persons
         /// </summary>
         /// <param name="model">The updated contact</param>
         /// <returns></returns>
+        [ResponseType(typeof(ContactDTO))]
         public async Task<IHttpActionResult> PutContactAsync(UpdatedPointOfContactBindingModel model)
         {
             if (ModelState.IsValid)
@@ -103,7 +98,7 @@ namespace ECA.WebApi.Controllers.Persons
                 var instance = model.ToUpdatePointOfContact(businessUser);
                 var contact = await service.UpdateContactAsync(instance);
                 await service.SaveChangesAsync();
-                var dto = await service.GetContactByIdAsync(contact.ContactId);
+                var dto = await service.GetContactByIdAsync(contact.Id);
                 return Ok(dto);
             }
             else

@@ -48,11 +48,12 @@ angular.module('staticApp')
               return ContactsService.create($scope.poc)
                 .then(function (response) {
                     $scope.view.isSavingPointOfContact = false;
-                    pointOfContact = response.data;
-                    return pointOfContact;
+                    $scope.view.showEditPoc = false;
+                    return response.data;
                 })
                 .catch(function (response) {
                     $scope.view.isSavingPointOfContact = false;
+                    $scope.view.showEditPoc = false;
                     var message = "Unable to save new contact.";
                     NotificationService.showErrorMessage(message);
                     $log.error(message);
@@ -61,12 +62,13 @@ angular.module('staticApp')
           else {
               return ContactsService.update($scope.poc)
                   .then(function (response) {
-                    $scope.view.isSavingPointOfContact = false;
-                    pointOfContact = response.data;
-                    return pointOfContact;
+                      $scope.view.isSavingPointOfContact = false;
+                      $scope.view.showEditPoc = false;
+                    return response.data;
                   })
                   .catch(function (response) {
-                        $scope.view.isSavingPointOfContact = false;
+                      $scope.view.isSavingPointOfContact = false;
+                      $scope.view.showEditPoc = false;
                         var message = "Unable to update contact.";
                         NotificationService.showErrorMessage(message);
                         $log.error(message);
@@ -74,14 +76,40 @@ angular.module('staticApp')
           }          
       }
       
+      var likePointsOfContactByFullNameFilter = FilterService.add('points-of-contact-model-search-by-full-name-filter');
+      function loadPointsOfContactByFullName(fullName) {
+          if (fullName && fullName.length > 0) {
+              likePointsOfContactByFullNameFilter.reset();
+              likePointsOfContactByFullNameFilter = likePointsOfContactByFullNameFilter
+                  .skip(0)
+                  .take(1)
+                  .equal('fullName', fullName);
+              $scope.view.isLoadingPointsOfContactByFullName = true;
+              var params = likePointsOfContactByFullNameFilter.toParams();
+              return ContactsService.get(params)
+              .then(function (response) {
+                  $scope.view.likePointsOfContactByFullName = response.data.results;
+                  $scope.view.isLoadingPointsOfContactByFullName = false;
+                  $scope.view.likePointsOfContactByFullNameTotal = response.data.total;
+                  return $scope.view.likePointsOfContactByFullName;
+              })
+              .catch(function (response) {
+                  $scope.view.isLoadingPointsOfContactByFullName = false;
+                  var mesage = "Unable to load like points of contact.";
+                  NotificationService.showErrorMessage(message);
+                  $log.error(message);
+              });
+          }
+      }
+
       $scope.view.onEditPocClick = function () {
           $scope.view.showEditPoc = true;
           $scope.view.collapsePoc = false;
       };
       
-      $scope.view.onFullNameChange = function () {
-          if ($scope.view.newPointOfContact.fullName && $scope.view.newPointOfContact.fullName.length > 0) {
-              return loadPointsOfContactByFullName($scope.view.newPointOfContact.fullName);
+      $scope.view.onFullNameChange = function (fullName) {
+          if (fullName && fullName.length > 0) {
+              return loadPointsOfContactByFullName(fullName);
           }
       }
       
@@ -142,7 +170,5 @@ angular.module('staticApp')
       function isNewPoc(poc) {
           return poc.isNew;
       }
-
-
 
   });

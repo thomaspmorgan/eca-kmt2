@@ -13,7 +13,7 @@ namespace ECA.WebApi.Models.Person
         /// <summary>
         /// The id of the point of contact
         /// </summary>
-        public int ContactId { get; set; }
+        public int Id { get; set; }
 
         /// <summary>
         /// The full name of the point of contact.
@@ -44,7 +44,7 @@ namespace ECA.WebApi.Models.Person
         {
             var model = new UpdatedPointOfContact(
                 updater: user,
-                contactId: ContactId,
+                id: Id,
                 fullName: FullName,
                 position: Position,
                 emailAddresses: EmailAddresses,

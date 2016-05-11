@@ -7,10 +7,10 @@
         <a ng-click="view.onAddPointOfContactClick(view.pointsOfContact)">
             <i class="material-icons md-24 md-dark pull-right">add</i>
         </a>
-        <div class="pull-right" style="margin-top: 3px;">({{view.pointsOfContact.length}})</div>
+        <div class="pull-right" style="margin-top: 3px;">({{model.length}})</div>
     </div>
     <div class="col-md-12" collapse="view.collapsePocs">
-        <div ng-repeat="poc in view.pointsOfContact track by poc.id">
+        <div ng-repeat="poc in model | orderBy : 'value' track by poc.id">
             <div ng-controller="PointOfContactCtrl" class="expandIndent">
                 <div class="spinner" ng-show="view.isSavingChanges">
                     <div class="bounce1"></div>
@@ -53,7 +53,7 @@
                                     <input name="name"
                                             maxlength="{{view.maxNameLength}}"
                                             ng-model="poc.fullName"
-                                            ng-change="view.onFullNameChange()"
+                                            ng-change="view.onFullNameChange(poc.fullName)"
                                             ng-model-options="{debounce: 500}"
                                             type="text"
                                             class="form-control"

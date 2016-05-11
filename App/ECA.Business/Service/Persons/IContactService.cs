@@ -19,28 +19,14 @@ namespace ECA.Business.Service.Persons
         /// </summary>
         /// <param name="queryOperator">The query operator.</param>
         /// <returns>The paged, filtered, and sorted contacts in the ECA system.</returns>
-        ECA.Core.Query.PagedQueryResults<Contact> GetContacts(ECA.Core.DynamicLinq.QueryableOperator<Contact> queryOperator);
+        ECA.Core.Query.PagedQueryResults<ContactDTO> GetContacts(ECA.Core.DynamicLinq.QueryableOperator<ContactDTO> queryOperator);
 
         /// <summary>
         /// Returns the contacts currently in the ECA system.
         /// </summary>
         /// <param name="queryOperator">The query operator.</param>
         /// <returns>The paged, filtered, and sorted contacts in the ECA system.</returns>
-        System.Threading.Tasks.Task<ECA.Core.Query.PagedQueryResults<Contact>> GetContactsAsync(ECA.Core.DynamicLinq.QueryableOperator<Contact> queryOperator);
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="queryOperator"></param>
-        /// <returns></returns>
-        ECA.Core.Query.PagedQueryResults<ContactDTO> GetContactDTOs(ECA.Core.DynamicLinq.QueryableOperator<ContactDTO> queryOperator);
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="queryOperator"></param>
-        /// <returns></returns>
-        System.Threading.Tasks.Task<ECA.Core.Query.PagedQueryResults<ContactDTO>> GetContactDTOsAsync(ECA.Core.DynamicLinq.QueryableOperator<ContactDTO> queryOperator);
+        System.Threading.Tasks.Task<ECA.Core.Query.PagedQueryResults<ContactDTO>> GetContactsAsync(ECA.Core.DynamicLinq.QueryableOperator<ContactDTO> queryOperator);
         
         /// <summary>
         /// Adds a new point of the contact to the datastore.
@@ -61,36 +47,22 @@ namespace ECA.Business.Service.Persons
         /// </summary>
         /// <param name="updatedPointOfContact"></param>
         /// <returns></returns>
-        System.Threading.Tasks.Task<Contact> UpdateContactAsync(UpdatedPointOfContact updatedPointOfContact);
-        
-        /// <summary>
-        /// Returns the contact with the given id.
-        /// </summary>
-        /// <param name="contactId">The id of the contact.</param>
-        /// <returns>The contact, or null, if it does not exist.</returns>
-        Contact GetContactById(int contactId);
+        System.Threading.Tasks.Task<ContactDTO> UpdateContactAsync(UpdatedPointOfContact updatedPointOfContact);
 
         /// <summary>
         /// Returns the contact with the given id.
         /// </summary>
         /// <param name="contactId">The id of the contact.</param>
         /// <returns>The contact, or null, if it does not exist.</returns>
-        Task<Contact> GetContactByIdAsync(int contactId);
+        ContactDTO GetContactById(int contactId);
 
         /// <summary>
-        /// 
+        /// Returns the contact with the given id.
         /// </summary>
-        /// <param name="contactId"></param>
-        /// <returns></returns>
-        ContactDTO GetContactDTOById(int contactId);
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="contactId"></param>
-        /// <returns></returns>
-        System.Threading.Tasks.Task<ContactDTO> GetContactDTOByIdAsync(int contactId);
-        
+        /// <param name="contactId">The id of the contact.</param>
+        /// <returns>The contact, or null, if it does not exist.</returns>
+        Task<ContactDTO> GetContactByIdAsync(int contactId);
+                
     }
 
     /// <summary>
@@ -126,10 +98,10 @@ namespace ECA.Business.Service.Persons
         /// </summary>
         /// <param name="pointOfContact"></param>
         /// <returns></returns>
-        public Task<Contact> UpdateContactAsync(UpdatedPointOfContact updatedPointOfContact)
+        public Task<ContactDTO> UpdateContactAsync(UpdatedPointOfContact updatedPointOfContact)
         {
             Contract.Requires(updatedPointOfContact != null, "The point of contact must not be null.");
-            return Task.FromResult<Contact>(null);
+            return Task.FromResult<ContactDTO>(null);
         }
 
         /// <summary>
@@ -137,7 +109,7 @@ namespace ECA.Business.Service.Persons
         /// </summary>
         /// <param name="contactId"></param>
         /// <returns></returns>
-        public Contact GetContactById(int contactId)
+        public ContactDTO GetContactById(int contactId)
         {
             return null;
         }
@@ -147,27 +119,7 @@ namespace ECA.Business.Service.Persons
         /// </summary>
         /// <param name="contactId"></param>
         /// <returns></returns>
-        public Task<Contact> GetContactByIdAsync(int contactId)
-        {
-            return Task.FromResult<Contact>(null);
-        }
-        
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="contactId"></param>
-        /// <returns></returns>
-        public ContactDTO GetContactDTOById(int contactId)
-        {
-            return null;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="contactId"></param>
-        /// <returns></returns>
-        public Task<ContactDTO> GetContactDTOByIdAsync(int contactId)
+        public Task<ContactDTO> GetContactByIdAsync(int contactId)
         {
             return Task.FromResult<ContactDTO>(null);
         }
@@ -177,7 +129,7 @@ namespace ECA.Business.Service.Persons
         /// </summary>
         /// <param name="queryOperator"></param>
         /// <returns></returns>
-        public PagedQueryResults<Contact> GetContacts(QueryableOperator<Contact> queryOperator)
+        public PagedQueryResults<ContactDTO> GetContacts(QueryableOperator<ContactDTO> queryOperator)
         {
             Contract.Requires(queryOperator != null, "The query operator must not be null.");
             return null;
@@ -188,29 +140,7 @@ namespace ECA.Business.Service.Persons
         /// </summary>
         /// <param name="queryOperator"></param>
         /// <returns></returns>
-        public Task<PagedQueryResults<Contact>> GetContactsAsync(QueryableOperator<Contact> queryOperator)
-        {
-            Contract.Requires(queryOperator != null, "The query operator must not be null.");
-            return Task.FromResult<PagedQueryResults<Contact>>(null);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="queryOperator"></param>
-        /// <returns></returns>
-        public PagedQueryResults<ContactDTO> GetContactDTOs(QueryableOperator<ContactDTO> queryOperator)
-        {
-            Contract.Requires(queryOperator != null, "The query operator must not be null.");
-            return null;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="queryOperator"></param>
-        /// <returns></returns>
-        public Task<PagedQueryResults<ContactDTO>> GetContactDTOsAsync(QueryableOperator<ContactDTO> queryOperator)
+        public Task<PagedQueryResults<ContactDTO>> GetContactsAsync(QueryableOperator<ContactDTO> queryOperator)
         {
             Contract.Requires(queryOperator != null, "The query operator must not be null.");
             return Task.FromResult<PagedQueryResults<ContactDTO>>(null);

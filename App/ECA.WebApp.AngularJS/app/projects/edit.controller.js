@@ -62,6 +62,8 @@ angular.module('staticApp')
       $scope.editView.locations = [];
       $scope.editView.regions = [];
       $scope.editView.visitorTypes = [];
+      $scope.editView.pointsOfContact = [];
+      $scope.editView.selectedPointsOfContact = [];
 
       $scope.editView.selectedGoals = [];
       $scope.editView.selectedThemes = [];
@@ -537,7 +539,23 @@ angular.module('staticApp')
               $scope.editView[editViewSelectedPropertyName].push(projectItem);
           }
       }
+            
+      function setSelectedPointsOfContact() {
+          var projectContacts = $scope.$parent.project.contacts;
+          var len1 = projectContacts.length;
+          var fullContacts = $scope.editView.pointsOfContact;
+          var len2 = fullContacts.length;
 
+          for (var i = 0; i < len1; i++) {
+              for (var j = 0; j < len2; j++) {
+                  if (fullContacts[j].id == projectContacts[i].id) {
+                      $scope.editView.selectedPointsOfContact.push(fullContacts[j]);
+                      break;
+                  }
+              }
+          }
+      }
+      
       function setSelectedGoals() {
           setSelectedItems('goals', 'selectedGoals');
       }
@@ -575,6 +593,29 @@ angular.module('staticApp')
           for (var i = 0; i < lookups.length; i++) {
               lookups[i].value = lookups[i].name;
           }
+      }
+      
+      var pocFilter = FilterService.add('projectedit_pocfilter');
+      function loadPointsOfContact(search) {
+          pocFilter.reset();
+          pocFilter = pocFilter.skip(0).take(maxLimit);
+          if (search) {
+              pocFilter = pocFilter.like('fullName', search);
+          }
+          return LookupService.getAllContacts(pocFilter.toParams())
+              .then(function (response) {
+                  if (response.total > maxLimit) {
+                      $log.error('There are more contacts in the system then are currently loaded, an issue could occur in the UI not showing all possible values.');
+                  }
+                  for (var i = 0; i < response.results.length; i++) {
+                      var position = "";
+                      if (response.results[i].position) {
+                          position = " (" + response.results[i].position + ")";
+                      }
+                      response.results[i].value = response.results[i].fullName + position;
+                  }
+                  $scope.editView.pointsOfContact = response.results;
+              });
       }
 
       var themesFilter = FilterService.add('projectedit_themesfilter');
@@ -783,9 +824,10 @@ angular.module('staticApp')
               loadUSGovernmentAgencies();
               loadInternationalOrganizations();
           }
-          $q.all([loadPermissions(), loadThemes(null), loadObjectives(), loadCategories(), loadProjectStati(), loadVisitorTypes(), loadGoals(null), loadUSGovernmentAgencies(), loadInternationalOrganizations()])
+          $q.all([loadPermissions(), loadThemes(null), loadPointsOfContact(null), loadObjectives(), loadCategories(), loadProjectStati(), loadVisitorTypes(), loadGoals(null), loadUSGovernmentAgencies(), loadInternationalOrganizations()])
           .then(function (results) {
               //results is an array
+              setSelectedPointsOfContact();
               setSelectedGoals();
               setSelectedThemes();
               setSelectedCategories();
