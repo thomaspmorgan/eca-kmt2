@@ -287,8 +287,7 @@ namespace ECA.Business.Validation.Sevis
             if (financialInfoChangeDetail.HasChanges())
             {
                 visitors.Add(createUpdateExchangeVisitor(this.FinancialInfo.GetSEVISEVBatchTypeExchangeVisitorFinancialInfo(), new RequestId(this.Person.ParticipantId, RequestIdType.FinancialInfo, RequestActionType.Update)));
-            }
-
+            }            
             foreach (var dependent in this.Dependents)
             {
                 var previousDependent = previouslySubmittedExchangeVisitor.Dependents.Where(x => x.PersonId == dependent.PersonId).FirstOrDefault();
@@ -307,14 +306,6 @@ namespace ECA.Business.Validation.Sevis
                     }
                 }
             }
-
-            //var reprintForm = new ReprintType
-            //{
-            //    printForm = true,
-            //    Reason = EVReprintRequestReasonType.Item05, //other reprint code
-            //    OtherRemarks = REPRINT_DS2019_REMARKS
-            //};
-            //visitors.Add(createUpdateExchangeVisitor(reprintForm, new RequestId(this.Person.ParticipantId, RequestIdType.Reprint, RequestActionType.Update)));
             return visitors;
         }
 

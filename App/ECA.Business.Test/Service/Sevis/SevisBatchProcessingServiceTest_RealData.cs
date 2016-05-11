@@ -25,6 +25,7 @@ namespace ECA.Business.Test.Service.Sevis
             PersonDependent personDependent = null;
             Data.Person person = null;
             SevisBatchProcessing batch = null;
+            ExchangeVisitorHistory history = null;
             var personId = 63280;
             var participantId = 59079;
             context.SetupActions.Add(() =>
@@ -65,7 +66,11 @@ namespace ECA.Business.Test.Service.Sevis
                     PersonId = person.PersonId
                 };
                 person.Family.Add(personDependent);
-
+                history = new ExchangeVisitorHistory
+                {
+                    ParticipantId = participantId
+                };
+                context.ExchangeVisitorHistories.Add(history);
                 context.PersonDependents.Add(personDependent);
                 context.Participants.Add(participant);
                 context.ParticipantPersons.Add(participantPerson);

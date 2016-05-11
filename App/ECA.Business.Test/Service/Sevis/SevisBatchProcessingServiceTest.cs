@@ -3053,6 +3053,8 @@ namespace ECA.Business.Test.Service.Sevis
             var participantId = 1;
             var personId = 2;
             SEVISBatchCreateUpdateEV createUpdateBatch = null;
+            ExchangeVisitorHistory history = null;
+            var pendingHistoryModel = "pending";
             context.SetupActions.Add(() =>
             {
                 createUpdateBatch = new SEVISBatchCreateUpdateEV();
@@ -3085,6 +3087,12 @@ namespace ECA.Business.Test.Service.Sevis
                 participant.Person = person;
                 participant.PersonId = person.PersonId;
                 context.Participants.Add(participant);
+                history = new ExchangeVisitorHistory
+                {
+                    ParticipantId = participantId,
+                    PendingModel = pendingHistoryModel
+                };
+                context.ExchangeVisitorHistories.Add(history);
                 context.ParticipantPersons.Add(participantPerson);
                 context.People.Add(person);
                 context.SevisBatchProcessings.Add(batch);
@@ -3132,6 +3140,10 @@ namespace ECA.Business.Test.Service.Sevis
                 Assert.AreEqual(1, context.ParticipantPersonSevisCommStatuses.Count());
                 Assert.AreEqual(processDetail.resultCode, batch.ProcessDispositionCode);
                 Assert.AreEqual(participantPerson.GetDS2019FileName(), participantPerson.DS2019FileName);
+
+                Assert.IsNull(history.PendingModel);
+                Assert.AreEqual(pendingHistoryModel, history.LastSuccessfulModel);
+                DateTimeOffset.UtcNow.Should().BeCloseTo(history.RevisedOn, 20000);
             };
             context.Revert();
             service.ProcessBatchDetailProcess(user, processDetail, batch, fileProvider.Object);
@@ -3162,6 +3174,8 @@ namespace ECA.Business.Test.Service.Sevis
             PersonDependent dependent = null;
             Data.Person person = null;
             SevisBatchProcessing batch = null;
+            ExchangeVisitorHistory history = null;
+            var pendingHistoryModel = "pending";
             var participantId = 1;
             var personId = 2;
             var dependentId = 3;
@@ -3209,7 +3223,12 @@ namespace ECA.Business.Test.Service.Sevis
                 dependent.History.RevisedBy = otherUser.Id;
                 dependent.History.RevisedOn = yesterday;
                 person.Family.Add(dependent);
-
+                history = new ExchangeVisitorHistory
+                {
+                    ParticipantId = participantId,
+                    PendingModel = pendingHistoryModel
+                };
+                context.ExchangeVisitorHistories.Add(history);
                 context.PersonDependents.Add(dependent);
                 context.Participants.Add(participant);
                 context.ParticipantPersons.Add(participantPerson);
@@ -3261,6 +3280,10 @@ namespace ECA.Business.Test.Service.Sevis
                 DateTimeOffset.UtcNow.Should().BeCloseTo(dependent.History.RevisedOn, 20000);
                 dependent.SevisId = dependentRecord.dependentSevisID;
                 dependent.IsSevisDeleted = false;
+
+                Assert.IsNull(history.PendingModel);
+                Assert.AreEqual(pendingHistoryModel, history.LastSuccessfulModel);
+                DateTimeOffset.UtcNow.Should().BeCloseTo(history.RevisedOn, 20000);
             };
             context.Revert();
             service.ProcessBatchDetailProcess(user, processDetail, batch, fileProvider.Object);
@@ -3292,6 +3315,8 @@ namespace ECA.Business.Test.Service.Sevis
             SEVISBatchCreateUpdateEV createUpdateBatch = null;
             PersonDependent dependent = null;
             ParticipantPerson participantPerson = null;
+            var pendingHistoryModel = "pending";
+            ExchangeVisitorHistory history = null;
             context.SetupActions.Add(() =>
             {
                 participantPerson = new ParticipantPerson
@@ -3314,6 +3339,12 @@ namespace ECA.Business.Test.Service.Sevis
                     Id = 1,
                     SendString = GetXml(createUpdateBatch)
                 };
+                history = new ExchangeVisitorHistory
+                {
+                    ParticipantId = participantId,
+                    PendingModel = pendingHistoryModel
+                };
+                context.ExchangeVisitorHistories.Add(history);
                 context.PersonDependents.Add(dependent);
                 context.ParticipantPersons.Add(participantPerson);
                 context.SevisBatchProcessings.Add(batch);
@@ -3356,6 +3387,10 @@ namespace ECA.Business.Test.Service.Sevis
                 Assert.AreEqual(yesterday, dependent.History.CreatedOn);
                 DateTimeOffset.UtcNow.Should().BeCloseTo(dependent.History.RevisedOn, 20000);
                 Assert.AreEqual(sevisId, dependent.SevisId);
+
+                Assert.IsNull(history.PendingModel);
+                Assert.AreEqual(pendingHistoryModel, history.LastSuccessfulModel);
+                DateTimeOffset.UtcNow.Should().BeCloseTo(history.RevisedOn, 20000);
             };
             context.Revert();
             service.ProcessBatchDetailProcess(user, processDetail, batch, fileProvider.Object);
@@ -3383,6 +3418,7 @@ namespace ECA.Business.Test.Service.Sevis
             var otherUser = new User(user.Id + 1);
             Participant participant = null;
             ParticipantPerson participantPerson = null;
+            ExchangeVisitorHistory history = null;
             Data.Person person = null;
             SevisBatchProcessing batch = null;
             var participantId = 1;
@@ -3419,6 +3455,12 @@ namespace ECA.Business.Test.Service.Sevis
                 };
                 participant.Person = person;
                 participant.PersonId = person.PersonId;
+
+                history = new ExchangeVisitorHistory
+                {
+                    ParticipantId = participantId
+                };
+                context.ExchangeVisitorHistories.Add(history);
                 context.Participants.Add(participant);
                 context.ParticipantPersons.Add(participantPerson);
                 context.People.Add(person);
@@ -3475,6 +3517,7 @@ namespace ECA.Business.Test.Service.Sevis
             var otherUser = new User(user.Id + 1);
             Participant participant = null;
             ParticipantPerson participantPerson = null;
+            ExchangeVisitorHistory history = null;
             Data.Person person = null;
             SevisBatchProcessing batch = null;
             var participantId = 1;
@@ -3512,6 +3555,12 @@ namespace ECA.Business.Test.Service.Sevis
                 };
                 participant.Person = person;
                 participant.PersonId = person.PersonId;
+
+                history = new ExchangeVisitorHistory
+                {
+                    ParticipantId = participantId
+                };
+                context.ExchangeVisitorHistories.Add(history);
                 context.Participants.Add(participant);
                 context.ParticipantPersons.Add(participantPerson);
                 context.People.Add(person);
@@ -4198,6 +4247,52 @@ namespace ECA.Business.Test.Service.Sevis
         }
 
         [TestMethod]
+        public async Task TestProcessUpload_UploadDispostionCodeDenotesInvalidOrganizationInformation()
+        {
+            var participantId = 1;
+            var batchId = "batchId";
+            SevisBatchProcessing sevisBatch = null;
+            var today = DateTime.UtcNow;
+            var code = DispositionCode.InvalidOrganizationInformation;
+            var uploadDetail = new TransactionLogTypeBatchDetailUpload
+            {
+                resultCode = code.Code,
+                dateTimeStamp = today
+            };
+            ParticipantPerson person = null;
+            context.SetupActions.Add(() =>
+            {
+                person = new ParticipantPerson
+                {
+                    ParticipantId = participantId
+                };
+                sevisBatch = new SevisBatchProcessing
+                {
+                    BatchId = batchId,
+                    UploadTries = 0
+                };
+                context.ParticipantPersons.Add(person);
+                context.SevisBatchProcessings.Add(sevisBatch);
+            });
+            Action tester = () =>
+            {
+                Assert.AreEqual(0, context.SevisBatchProcessings.Count());
+                Assert.AreEqual(1, context.CancelledSevisBatchProcessings.Count());
+                var first = context.CancelledSevisBatchProcessings.First();
+                Assert.AreEqual(code.Description, first.Reason);
+            };
+            context.Revert();
+            service.ProcessUpload(uploadDetail, sevisBatch);
+            tester();
+            notificationService.Verify(x => x.NotifyUploadedBatchProcessed(It.IsAny<string>(), It.IsAny<DispositionCode>()), Times.Exactly(1));
+
+            context.Revert();
+            await service.ProcessUploadAsync(uploadDetail, sevisBatch);
+            tester();
+            notificationService.Verify(x => x.NotifyUploadedBatchProcessed(It.IsAny<string>(), It.IsAny<DispositionCode>()), Times.Exactly(2));
+        }
+
+        [TestMethod]
         public async Task TestProcessUpload_UploadDispostionCodeDenotesMalformedXml()
         {
             var participantId = 1;
@@ -4291,7 +4386,7 @@ namespace ECA.Business.Test.Service.Sevis
             PersonDependent dependent = null;
             Data.Person person = null;
             SevisBatchProcessing batch = null;
-
+            ExchangeVisitorHistory history = null;
             var participantId = 1;
             var personId = 2;
             var personDependentId = 12;
@@ -4334,6 +4429,11 @@ namespace ECA.Business.Test.Service.Sevis
                 dependent.Person = person;
                 participant.Person = person;
                 participant.PersonId = person.PersonId;
+                history = new ExchangeVisitorHistory
+                {
+                    ParticipantId = participantId
+                };
+                context.ExchangeVisitorHistories.Add(history);
                 context.Participants.Add(participant);
                 context.ParticipantPersons.Add(participantPerson);
                 context.People.Add(person);
@@ -5121,6 +5221,124 @@ namespace ECA.Business.Test.Service.Sevis
             Assert.IsNull(instance.BatchDetail.Process.Record.First().PhysicalCorrectedAddress);
 
         }
+        #endregion
+
+        #region History
+        [TestMethod]
+        public void TestPromotePendingModelToLastSuccessfulModel()
+        {
+            var value = "pending";
+            var history = new ExchangeVisitorHistory
+            {
+                PendingModel = value
+            };
+            service.PromotePendingModelToLastSuccessfulModel(history);
+            Assert.AreEqual(value, history.LastSuccessfulModel);
+            Assert.IsNull(history.PendingModel);
+            DateTimeOffset.UtcNow.Should().BeCloseTo(history.RevisedOn, 20000);
+        }
+
+        [TestMethod]
+        public async Task TestAddOrUpdateStagedExchangeVisitorHistory_CheckAddsExchangeVisitorHistory()
+        {
+            var personId = 10;
+            var participantId = 1;
+            var status = new ParticipantPersonSevisCommStatus
+            {
+                Id = 1,
+                SevisCommStatusId = SevisCommStatus.QueuedToSubmit.Id,
+                AddedOn = DateTime.UtcNow.AddDays(-1.0),
+                SevisUsername = "sevis username",
+                SevisOrgId = "sevis org id"
+            };
+
+            var siteOfActivity = new AddressDTO
+            {
+                DivisionIso = "DC",
+                LocationName = "name"
+            };
+            var exchangeVisitor = new ExchangeVisitor(
+                sevisId: null,
+                person: GetPerson(DateTime.UtcNow, personId, participantId),
+                financialInfo: new Business.Validation.Sevis.Finance.FinancialInfo(true, true, null, null),
+                occupationCategoryCode: "99",
+                programEndDate: DateTime.Now,
+                programStartDate: DateTime.Now,
+                dependents: new List<Business.Validation.Sevis.Bio.Dependent>(),
+                siteOfActivity: siteOfActivity);
+
+            Action tester = () =>
+            {
+                Assert.AreEqual(1, context.ExchangeVisitorHistories.Count());
+                var firstHistory = context.ExchangeVisitorHistories.First();
+                Assert.AreEqual(exchangeVisitor.ToJson(), firstHistory.PendingModel);
+                Assert.AreEqual(exchangeVisitor.Person.ParticipantId, firstHistory.ParticipantId);
+                DateTimeOffset.UtcNow.Should().BeCloseTo(firstHistory.RevisedOn, 20000);
+            };
+            context.Revert();
+            service.AddOrUpdateStagedExchangeVisitorHistory(exchangeVisitor);
+            tester();
+
+            context.Revert();
+            await service.AddOrUpdateStagedExchangeVisitorHistoryAsync(exchangeVisitor);
+            tester();
+        }
+
+        [TestMethod]
+        public async Task TestAddOrUpdateStagedExchangeVisitorHistory_CheckUpdatesExistingExchangeVisitorHistory()
+        {
+            var personId = 10;
+            var participantId = 1;
+            var status = new ParticipantPersonSevisCommStatus
+            {
+                Id = 1,
+                SevisCommStatusId = SevisCommStatus.QueuedToSubmit.Id,
+                AddedOn = DateTime.UtcNow.AddDays(-1.0),
+                SevisUsername = "sevis username",
+                SevisOrgId = "sevis org id"
+            };
+
+            var siteOfActivity = new AddressDTO
+            {
+                DivisionIso = "DC",
+                LocationName = "name"
+            };
+            var exchangeVisitor = new ExchangeVisitor(
+                sevisId: null,
+                person: GetPerson(DateTime.UtcNow, personId, participantId),
+                financialInfo: new Business.Validation.Sevis.Finance.FinancialInfo(true, true, null, null),
+                occupationCategoryCode: "99",
+                programEndDate: DateTime.Now,
+                programStartDate: DateTime.Now,
+                dependents: new List<Business.Validation.Sevis.Bio.Dependent>(),
+                siteOfActivity: siteOfActivity);
+
+            var history = new ExchangeVisitorHistory
+            {
+                ParticipantId = exchangeVisitor.Person.ParticipantId
+            };
+            context.SetupActions.Add(() =>
+            {
+                context.ExchangeVisitorHistories.Add(history);
+            });
+            Action tester = () =>
+            {
+                Assert.AreEqual(1, context.ExchangeVisitorHistories.Count());
+                var firstHistory = context.ExchangeVisitorHistories.First();
+                Assert.IsTrue(Object.ReferenceEquals(history, context.ExchangeVisitorHistories.First()));
+                Assert.AreEqual(exchangeVisitor.ToJson(), firstHistory.PendingModel);
+                Assert.AreEqual(exchangeVisitor.Person.ParticipantId, firstHistory.ParticipantId);
+                DateTimeOffset.UtcNow.Should().BeCloseTo(firstHistory.RevisedOn, 20000);
+            };
+            context.Revert();
+            service.AddOrUpdateStagedExchangeVisitorHistory(exchangeVisitor);
+            tester();
+
+            context.Revert();
+            await service.AddOrUpdateStagedExchangeVisitorHistoryAsync(exchangeVisitor);
+            tester();
+        }
+
         #endregion
 
         public void SetUserDefinedFields(TransactionLogTypeBatchDetailProcessRecord record, int participantId, int personId)

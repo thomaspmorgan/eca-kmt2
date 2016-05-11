@@ -465,7 +465,8 @@ namespace ECA.Business.Service.Sevis
                     if (dispositionCode == DispositionCode.DuplicateBatchId
                         || dispositionCode == DispositionCode.DocumentNameInvalid
                         || dispositionCode == DispositionCode.MalformedXml
-                        || dispositionCode == DispositionCode.InvalidXml)
+                        || dispositionCode == DispositionCode.InvalidXml
+                        || dispositionCode == DispositionCode.InvalidOrganizationInformation)
                     {
                         Cancel(batch, dispositionCode.Description);
                     }
@@ -502,7 +503,8 @@ namespace ECA.Business.Service.Sevis
                     if (dispositionCode == DispositionCode.DuplicateBatchId
                         || dispositionCode == DispositionCode.DocumentNameInvalid
                         || dispositionCode == DispositionCode.MalformedXml
-                        || dispositionCode == DispositionCode.InvalidXml)
+                        || dispositionCode == DispositionCode.InvalidXml
+                        || dispositionCode == DispositionCode.InvalidOrganizationInformation)
                     {
                         Cancel(batch, dispositionCode.Description);
                     }
@@ -572,11 +574,13 @@ namespace ECA.Business.Service.Sevis
                 var sevisBatchCreateUpdateEV = DeserializeSEVISBatchCreateUpdateEV(batch.SendString);
                 foreach (var groupedProcessRecord in process.GetGroupedProcessRecords())
                 {
+                    int? participantId = null;
                     if (groupedProcessRecord.IsParticipant)
                     {
                         var participant = CreateGetParticipantAndDependentsQuery(groupedProcessRecord.ObjectId).FirstOrDefault();
                         var participantPerson = Context.ParticipantPersons.Find(groupedProcessRecord.ObjectId);
                         var dependents = participant.Person.Family.ToList();
+                        participantId = participant.ParticipantId;
                         UpdateParticipant(user, participantPerson, dependents, sevisBatchCreateUpdateEV, groupedProcessRecord, batch);
                         UploadDS2019(groupedProcessRecord, participantPerson, fileProvider);
                     }
@@ -585,8 +589,15 @@ namespace ECA.Business.Service.Sevis
                         var dependentAndPerson = CreateGetPersonDependentAndPersonQuery(groupedProcessRecord.ObjectId).FirstOrDefault();
                         var key = new ParticipantSevisKey(groupedProcessRecord.Records.First());
                         var participantPerson = Context.ParticipantPersons.Find(key.ParticipantId);
+                        participantId = participantPerson.ParticipantId;
                         UpdateParticipant(user, participantPerson, new List<PersonDependent> { dependentAndPerson }, sevisBatchCreateUpdateEV, groupedProcessRecord, batch);
                         UploadDS2019(groupedProcessRecord, dependentAndPerson, fileProvider);
+                    }
+                    Contract.Assert(participantId.HasValue, "The participant id must have a value.");
+                    if (participantId.HasValue)
+                    {
+                        var history = Context.ExchangeVisitorHistories.Find(participantId.Value);
+                        PromotePendingModelToLastSuccessfulModel(history);
                     }
                 }
                 notificationService.NotifyFinishedProcessingSevisBatchDetails(batch.BatchId, process.DispositionCode);
@@ -612,11 +623,13 @@ namespace ECA.Business.Service.Sevis
                 var sevisBatchCreateUpdateEV = DeserializeSEVISBatchCreateUpdateEV(batch.SendString);
                 foreach (var groupedProcessRecord in process.GetGroupedProcessRecords())
                 {
+                    int? participantId = null;
                     if (groupedProcessRecord.IsParticipant)
                     {
                         var participant = await CreateGetParticipantAndDependentsQuery(groupedProcessRecord.ObjectId).FirstOrDefaultAsync();
                         var participantPerson = await Context.ParticipantPersons.FindAsync(groupedProcessRecord.ObjectId);
                         var dependents = participant.Person.Family.ToList();
+                        participantId = participantPerson.ParticipantId;
                         UpdateParticipant(user, participantPerson, dependents, sevisBatchCreateUpdateEV, groupedProcessRecord, batch);
                         await UploadDS2019Async(groupedProcessRecord, participantPerson, fileProvider);
                     }
@@ -625,8 +638,15 @@ namespace ECA.Business.Service.Sevis
                         var dependentAndPerson = await CreateGetPersonDependentAndPersonQuery(groupedProcessRecord.ObjectId).FirstOrDefaultAsync();
                         var key = new ParticipantSevisKey(groupedProcessRecord.Records.First());
                         var participantPerson = await Context.ParticipantPersons.FindAsync(key.ParticipantId);
+                        participantId = participantPerson.ParticipantId;
                         UpdateParticipant(user, participantPerson, new List<PersonDependent> { dependentAndPerson }, sevisBatchCreateUpdateEV, groupedProcessRecord, batch);
                         await UploadDS2019Async(groupedProcessRecord, dependentAndPerson, fileProvider);
+                    }
+                    Contract.Assert(participantId.HasValue, "The participant id must have a value.");
+                    if (participantId.HasValue)
+                    {
+                        var history = await Context.ExchangeVisitorHistories.FindAsync(participantId.Value);
+                        PromotePendingModelToLastSuccessfulModel(history);
                     }
                 }
                 notificationService.NotifyFinishedProcessingSevisBatchDetails(batch.BatchId, process.DispositionCode);
@@ -1003,6 +1023,17 @@ namespace ECA.Business.Service.Sevis
         #endregion
 
         #region History
+
+        /// <summary>
+        /// Promotes the given history's pending model to the last successful model.
+        /// </summary>
+        /// <param name="history">The history to update.</param>
+        public void PromotePendingModelToLastSuccessfulModel(ExchangeVisitorHistory history)
+        {
+            history.LastSuccessfulModel = history.PendingModel;
+            history.PendingModel = null;
+            history.RevisedOn = DateTimeOffset.UtcNow;
+        }
 
         /// <summary>
         /// Adds or updates an ExchangeVisitorHistory for the given exchange visitor.

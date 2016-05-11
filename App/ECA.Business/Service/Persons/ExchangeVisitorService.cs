@@ -196,7 +196,7 @@ namespace ECA.Business.Service.Persons
                 participantId: participantExchangeVisitor.ParticipantId,
                 usAddress: siteOfActivityAddress,
                 personId: biography.PersonId,
-                printForm: false,
+                printForm: true,
                 subjectField: subjectField
                 );
             return instance;
@@ -336,7 +336,7 @@ namespace ECA.Business.Service.Persons
                 other: other);
 
             var financialInfo = new FinancialInfo(
-                printForm: false,
+                printForm: true,
                 receivedUSGovtFunds: receivedUsGovtFunds,
                 programSponsorFunds: programSponsorFunds,
                 otherFunds: otherFunds);

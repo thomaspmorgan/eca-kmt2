@@ -579,7 +579,7 @@ namespace ECA.Business.Test.Service.Persons
             Assert.AreEqual(participantExchangeVisitor.ProgramCategory.ProgramCategoryCode, person.ProgramCategoryCode);
             Assert.AreEqual(participantExchangeVisitor.Position.PositionCode, person.PositionCode);
             Assert.IsNull(person.Remarks);
-            Assert.IsFalse(person.PrintForm);
+            Assert.IsTrue(person.PrintForm);
         }
 
         [TestMethod]
@@ -1209,7 +1209,7 @@ namespace ECA.Business.Test.Service.Persons
             Action<FinancialInfo> tester = (financialInfo) =>
             {
                 Assert.IsNotNull(financialInfo);
-                Assert.IsFalse(financialInfo.PrintForm);
+                Assert.IsTrue(financialInfo.PrintForm);
             };
             var results = service.GetFinancialInfo(participantExchangeVisitor);
             var resultsAsync = await service.GetFinancialInfoAsync(participantExchangeVisitor);
