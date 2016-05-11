@@ -25,6 +25,7 @@ namespace ECA.Business.Validation.Sevis
         /// </summary>
         /// <param name="user">The user requesting the exchange visitor.</param>
         /// <param name="sevisId">The sevis id of the exchange visitor, or null, if none has been provided yet.</param>
+        /// <param name="sevisOrgId">The sevis org id of the exchange visitor, or null, if none has been provided yet.</param>
         /// <param name="person">The person object representing the biographical information of the exchange visitor.</param>
         /// <param name="financialInfo">The financial info, detailing financial information about the exchange visitor.</param>
         /// <param name="occupationCategoryCode">The occupation category code.</param>
@@ -34,6 +35,7 @@ namespace ECA.Business.Validation.Sevis
         /// <param name="dependents">The dependents of the exchange visitor.</param>
         public ExchangeVisitor(
             string sevisId,
+            string sevisOrgId,
             Bio.Person person,
             FinancialInfo financialInfo,
             string occupationCategoryCode,
@@ -51,12 +53,18 @@ namespace ECA.Business.Validation.Sevis
             this.Dependents = dependents ?? new List<Dependent>();
             this.SiteOfActivity = siteOfActivity;
             this.SevisId = sevisId;
+            this.SevisOrgId = sevisOrgId;
         }
 
         /// <summary>
         /// Gets or sets the sevis id.
         /// </summary>
         public string SevisId { get; private set; }
+
+        /// <summary>
+        /// Gets or sets the sevis org id.
+        /// </summary>
+        public string SevisOrgId { get; private set; }
 
         /// <summary>
         /// Gets the site of activity, i.e. State Dept at the C Street address.

@@ -109,7 +109,8 @@ namespace ECA.Business.Service.Persons
                 participantPerson: participantPerson,
                 occupationCategoryCode: null,
                 dependents: dependents,
-                siteOfActivity: siteOfActivityAddress);
+                siteOfActivity: siteOfActivityAddress,
+                sevisOrgId: project.SevisOrgId);
         }
 
         /// <summary>
@@ -149,7 +150,8 @@ namespace ECA.Business.Service.Persons
                 participantPerson: participantPerson,
                 occupationCategoryCode: null,
                 dependents: dependents,
-                siteOfActivity: siteOfActivityAddress);
+                siteOfActivity: siteOfActivityAddress,
+                sevisOrgId: project.SevisOrgId);
         }
 
         /// <summary>
@@ -219,7 +221,8 @@ namespace ECA.Business.Service.Persons
             ParticipantPerson participantPerson, 
             string occupationCategoryCode, 
             IEnumerable<DependentBiographicalDTO> dependents, 
-            AddressDTO siteOfActivity)
+            AddressDTO siteOfActivity,
+            string sevisOrgId)
         {
             Contract.Requires(person != null, "The person must not be null.");
             Contract.Requires(financialInfo != null, "The financial info must not be null.");
@@ -237,6 +240,7 @@ namespace ECA.Business.Service.Persons
 
             return new ExchangeVisitor(
                 sevisId: participantPerson.SevisId,
+                sevisOrgId: sevisOrgId,
                 person: person,
                 financialInfo: financialInfo,
                 occupationCategoryCode: occupationCategoryCode,

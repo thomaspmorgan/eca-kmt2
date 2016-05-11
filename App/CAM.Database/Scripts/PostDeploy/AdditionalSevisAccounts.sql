@@ -26,8 +26,8 @@ INSERT INTO @sevisUserAccount (OrgId, Username, EmailAddress) VALUES (@orgId, @s
 --Add All ECA Accounts Here
 INSERT INTO @sevisUserAccount (OrgId, Username, EmailAddress) VALUES (@orgId, 'sshiel1521', 'ShieldsSD@statedept.us');
 INSERT INTO @sevisUserAccount (OrgId, Username, EmailAddress) VALUES (@orgId, 'sgrant5540', 'grantsb@statedept.us');
-INSERT INTO @sevisUserAccount (OrgId, Username, EmailAddress) VALUES (@orgId, 'Tmorga3488', 'thomas.morgan@buchanan-edwards.com');
-INSERT INTO @sevisUserAccount (OrgId, Username, EmailAddress) VALUES (@orgId, 'Tmorga3488', 'morgant@statedept.us');
+INSERT INTO @sevisUserAccount (OrgId, Username, EmailAddress) VALUES (@orgId, 'tmorga3488', 'thomas.morgan@buchanan-edwards.com');
+INSERT INTO @sevisUserAccount (OrgId, Username, EmailAddress) VALUES (@orgId, 'tmorga3488', 'morgant@statedept.us');
 INSERT INTO @sevisUserAccount (OrgId, Username, EmailAddress) VALUES (@orgId, 'dgusta9934', 'gustafsondp@statedept.us');
 INSERT INTO @sevisUserAccount (OrgId, Username, EmailAddress) VALUES (@orgId, 'jnelso7231', 'nelsonjg2@statedept.us');
 INSERT INTO @sevisUserAccount (OrgId, Username, EmailAddress) VALUES (@orgId, 'rmurph8772', 'murphyrm@statedept.us');
