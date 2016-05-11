@@ -63,6 +63,8 @@ namespace ECA.Business.Test.Service.Sevis
             var subjectFieldCode = "01.0102";
             var subjectField = new SubjectField(subjectFieldCode, null, null, "remarks");
 
+            var sevisOrgId = "abcde12347890";
+
             var person = new Business.Validation.Sevis.Bio.Person(
                 fullName,
                 birthCity,
@@ -91,6 +93,7 @@ namespace ECA.Business.Test.Service.Sevis
             };
             var exchangeVisitor = new ExchangeVisitor(
                 sevisId: sevisId,
+                sevisOrgId: sevisOrgId,
                 person: person,
                 financialInfo: new Business.Validation.Sevis.Finance.FinancialInfo(true, true, null, null),
                 occupationCategoryCode: "99",

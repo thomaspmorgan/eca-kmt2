@@ -231,7 +231,8 @@ namespace ECA.Business.Test.Service.Sevis
                 programEndDate: DateTime.Now,
                 programStartDate: DateTime.Now,
                 dependents: new List<Business.Validation.Sevis.Bio.Dependent>(),
-                siteOfActivity: siteOfActivity);
+                siteOfActivity: siteOfActivity,
+                sevisOrgId: "abcde1234567890");
             exchangeVisitorService.Setup(x => x.GetExchangeVisitor(It.IsAny<int>(), It.IsAny<int>())).Returns(exchangeVisitor);
             exchangeVisitorService.Setup(x => x.GetExchangeVisitorAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(exchangeVisitor);
             validator.Setup(x => x.Validate(It.IsAny<ExchangeVisitor>())).Returns(new FluentValidation.Results.ValidationResult());
@@ -357,7 +358,8 @@ namespace ECA.Business.Test.Service.Sevis
                 programEndDate: DateTime.Now,
                 programStartDate: DateTime.Now,
                 dependents: new List<Business.Validation.Sevis.Bio.Dependent>(),
-                siteOfActivity: siteOfActivity);
+                siteOfActivity: siteOfActivity,
+                sevisOrgId: "abcde1234567890");
             exchangeVisitorService.Setup(x => x.GetExchangeVisitor(It.IsAny<int>(), It.IsAny<int>())).Returns(exchangeVisitor);
             exchangeVisitorService.Setup(x => x.GetExchangeVisitorAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(exchangeVisitor);
             validator.Setup(x => x.Validate(It.IsAny<ExchangeVisitor>())).Returns(new FluentValidation.Results.ValidationResult());
@@ -469,7 +471,8 @@ namespace ECA.Business.Test.Service.Sevis
                 programEndDate: DateTime.Now,
                 programStartDate: DateTime.Now,
                 dependents: new List<Business.Validation.Sevis.Bio.Dependent>(),
-                siteOfActivity: siteOfActivity);
+                siteOfActivity: siteOfActivity,
+                sevisOrgId: "abcde1234567890");
             exchangeVisitorService.Setup(x => x.GetExchangeVisitor(It.IsAny<int>(), It.IsAny<int>())).Returns(exchangeVisitor);
             exchangeVisitorService.Setup(x => x.GetExchangeVisitorAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(exchangeVisitor);
             validator.Setup(x => x.Validate(It.IsAny<ExchangeVisitor>())).Returns(new FluentValidation.Results.ValidationResult());
@@ -569,7 +572,8 @@ namespace ECA.Business.Test.Service.Sevis
                 programEndDate: DateTime.Now,
                 programStartDate: DateTime.Now,
                 dependents: new List<Business.Validation.Sevis.Bio.Dependent>(),
-                siteOfActivity: siteOfActivity);
+                siteOfActivity: siteOfActivity,
+                sevisOrgId: "abcde1234567890");
             exchangeVisitorService.Setup(x => x.GetExchangeVisitor(It.IsAny<int>(), It.IsAny<int>())).Returns(exchangeVisitor);
             exchangeVisitorService.Setup(x => x.GetExchangeVisitorAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(exchangeVisitor);
 
@@ -655,7 +659,8 @@ namespace ECA.Business.Test.Service.Sevis
                 programEndDate: DateTime.Now,
                 programStartDate: DateTime.Now,
                 dependents: new List<Business.Validation.Sevis.Bio.Dependent>(),
-                siteOfActivity: siteOfActivity);
+                siteOfActivity: siteOfActivity,
+                sevisOrgId: "abcde1234567890");
 
             var previouslySubmittedExchangeVisitor = new ExchangeVisitor(
                 sevisId: sevisId,
@@ -827,7 +832,8 @@ namespace ECA.Business.Test.Service.Sevis
                         programEndDate: DateTime.Now,
                         programStartDate: DateTime.Now,
                         dependents: new List<Business.Validation.Sevis.Bio.Dependent>(),
-                        siteOfActivity: siteOfActivity
+                        siteOfActivity: siteOfActivity,
+                        sevisOrgId: "abcde1234567890"
                     );
                     exchangeVisitors.Add(exchangeVisitor);
                 }
@@ -867,7 +873,8 @@ namespace ECA.Business.Test.Service.Sevis
                         programEndDate: DateTime.Now,
                         programStartDate: DateTime.Now,
                         dependents: new List<Business.Validation.Sevis.Bio.Dependent>(),
-                        siteOfActivity: siteOfActivity
+                        siteOfActivity: siteOfActivity,
+                        sevisOrgId: "abcde1234567890"
                     );
 
                     var previousExchangeVisitor = new ExchangeVisitor(
@@ -990,7 +997,8 @@ namespace ECA.Business.Test.Service.Sevis
                         programEndDate: DateTime.Now,
                         programStartDate: DateTime.Now,
                         dependents: new List<Business.Validation.Sevis.Bio.Dependent>(),
-                        siteOfActivity: siteOfActivity
+                        siteOfActivity: siteOfActivity,
+                        sevisOrgId: "abcde1234567890"
                     );
                     exchangeVisitors.Add(exchangeVisitor);
                 }
@@ -1032,7 +1040,8 @@ namespace ECA.Business.Test.Service.Sevis
                         programEndDate: DateTime.Now,
                         programStartDate: DateTime.Now,
                         dependents: new List<Business.Validation.Sevis.Bio.Dependent>(),
-                        siteOfActivity: siteOfActivity
+                        siteOfActivity: siteOfActivity,
+                        sevisOrgId: "abcde1234567890"
                     );
 
                     var previousExchangeVisitor = new ExchangeVisitor(
@@ -1185,7 +1194,8 @@ namespace ECA.Business.Test.Service.Sevis
                 programEndDate: DateTime.Now,
                 programStartDate: DateTime.Now,
                 dependents: new List<Business.Validation.Sevis.Bio.Dependent>(),
-                siteOfActivity: siteOfActivity);
+                siteOfActivity: siteOfActivity,
+                sevisOrgId: "abcde1234567890");
             var participant = new SevisGroupedParticipantDTO
             {
                 ParticipantId = exchangeVisitor.Person.ParticipantId
@@ -1224,7 +1234,8 @@ namespace ECA.Business.Test.Service.Sevis
                 programEndDate: DateTime.Now,
                 programStartDate: DateTime.Now,
                 dependents: new List<Business.Validation.Sevis.Bio.Dependent>(),
-                siteOfActivity: siteOfActivity);
+                siteOfActivity: siteOfActivity,
+                sevisOrgId: "abcde1234567890");
             var participant = new SevisGroupedParticipantDTO
             {
                 ParticipantId = exchangeVisitor.Person.ParticipantId
@@ -1265,7 +1276,8 @@ namespace ECA.Business.Test.Service.Sevis
                 programEndDate: DateTime.Now,
                 programStartDate: DateTime.Now,
                 dependents: new List<Business.Validation.Sevis.Bio.Dependent>(),
-                siteOfActivity: siteOfActivity);
+                siteOfActivity: siteOfActivity,
+                sevisOrgId: "abcde1234567890");
             var participant = new SevisGroupedParticipantDTO
             {
                 ParticipantId = exchangeVisitor.Person.ParticipantId
@@ -1304,7 +1316,8 @@ namespace ECA.Business.Test.Service.Sevis
                 programEndDate: DateTime.Now,
                 programStartDate: DateTime.Now,
                 dependents: new List<Business.Validation.Sevis.Bio.Dependent>(),
-                siteOfActivity: siteOfActivity);
+                siteOfActivity: siteOfActivity,
+                sevisOrgId: "abcde1234567890");
             var participant = new SevisGroupedParticipantDTO
             {
                 ParticipantId = exchangeVisitor.Person.ParticipantId
@@ -1340,6 +1353,7 @@ namespace ECA.Business.Test.Service.Sevis
             var exchangeVisitor = new ExchangeVisitor(
                 sevisId: null,
                 person: GetPerson(DateTime.UtcNow, 1, 2),
+                sevisOrgId: sevisOrgId,
                 financialInfo: new Business.Validation.Sevis.Finance.FinancialInfo(true, true, null, null),
                 occupationCategoryCode: "99",
                 programEndDate: DateTime.Now,
@@ -1381,6 +1395,7 @@ namespace ECA.Business.Test.Service.Sevis
             var exchangeVisitor = new ExchangeVisitor(
                 sevisId: null,
                 person: GetPerson(DateTime.UtcNow, 1, 2),
+                sevisOrgId: sevisOrgId,
                 financialInfo: new Business.Validation.Sevis.Finance.FinancialInfo(true, true, null, null),
                 occupationCategoryCode: "99",
                 programEndDate: DateTime.Now,
