@@ -86,6 +86,11 @@ namespace ECA.Business.Queries.Models.Persons
         public string FamilyName { get; set; }
 
         /// <summary>
+        /// Gets and sets passport name
+        /// </summary>
+        public string PassportName { get; set; }
+
+        /// <summary>
         /// Gets and sets middle name
         /// </summary>
         public string MiddleName { get; set; }

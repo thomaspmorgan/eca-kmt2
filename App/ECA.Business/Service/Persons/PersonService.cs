@@ -128,6 +128,7 @@ namespace ECA.Business.Service.Persons
             person.GivenName = updatePii.GivenName;
             person.FamilyName = updatePii.FamilyName;
             person.MiddleName = updatePii.MiddleName;
+            person.PassportName = updatePii.PassportName;
             person.Patronym = updatePii.Patronym;
             person.Alias = updatePii.Alias;
             person.GenderId = updatePii.GenderId;

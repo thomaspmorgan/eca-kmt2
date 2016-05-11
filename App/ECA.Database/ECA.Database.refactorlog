@@ -1267,4 +1267,11 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="DS2019FileName" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="1090a32d-3a0a-4186-8064-4bd5c758736f" ChangeDateTime="05/09/2016 15:46:46">
+    <Property Name="ElementName" Value="[dbo].[Person].[Passport]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Person]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="PassportName" />
+  </Operation>
 </Operations>
