@@ -465,6 +465,7 @@
     <Compile Include="Service\Lookup\SocialMediaTypeService.cs" />
     <Compile Include="Service\Persons\UpdateContactInfo.cs" />
     <Compile Include="Service\Persons\UpdatedParticipantPersonValidationEntity.cs" />
+    <Compile Include="Service\Persons\UpdatedPointOfContact.cs" />
     <Compile Include="Service\Persons\UpdateGeneral.cs" />
     <Compile Include="Service\Programs\IProgramStatusService.cs" />
     <Compile Include="Service\Programs\ProgramStatusService.cs" />

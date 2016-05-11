@@ -103,8 +103,8 @@ namespace ECA.Business.Test.Service.Persons
                 Assert.IsNull(firstPhoneNumber.PersonId);
             };
 
-            var serviceResults = service.GetContactById(contact.ContactId);
-            var serviceResultsAsync = await service.GetContactByIdAsync(contact.ContactId);
+            var serviceResults = service.GetContactDTOById(contact.ContactId);
+            var serviceResultsAsync = await service.GetContactDTOByIdAsync(contact.ContactId);
             tester(serviceResults);
             tester(serviceResultsAsync);
         }
@@ -118,8 +118,8 @@ namespace ECA.Business.Test.Service.Persons
                 Assert.IsNull(serviceResult);
             };
 
-            var serviceResults = service.GetContactById(1);
-            var serviceResultsAsync = await service.GetContactByIdAsync(1);
+            var serviceResults = service.GetContactDTOById(1);
+            var serviceResultsAsync = await service.GetContactDTOByIdAsync(1);
             tester(serviceResults);
             tester(serviceResultsAsync);
         }
@@ -201,8 +201,8 @@ namespace ECA.Business.Test.Service.Persons
             var defaultSorter = new ExpressionSorter<ContactDTO>(x => x.Id, SortDirection.Ascending);
             var queryOperator = new QueryableOperator<ContactDTO>(0, 10, defaultSorter);
 
-            var serviceResults = service.GetContacts(queryOperator);
-            var serviceResultsAsync = await service.GetContactsAsync(queryOperator);
+            var serviceResults = service.GetContactDTOs(queryOperator);
+            var serviceResultsAsync = await service.GetContactDTOsAsync(queryOperator);
             tester(serviceResults);
             tester(serviceResultsAsync);
         }
@@ -231,8 +231,8 @@ namespace ECA.Business.Test.Service.Persons
             var defaultSorter = new ExpressionSorter<ContactDTO>(x => x.Id, SortDirection.Descending);
             var queryOperator = new QueryableOperator<ContactDTO>(0, 1, defaultSorter);
 
-            var serviceResults = service.GetContacts(queryOperator);
-            var serviceResultsAsync = await service.GetContactsAsync(queryOperator);
+            var serviceResults = service.GetContactDTOs(queryOperator);
+            var serviceResultsAsync = await service.GetContactDTOsAsync(queryOperator);
             tester(serviceResults);
             tester(serviceResultsAsync);
         }
@@ -262,8 +262,8 @@ namespace ECA.Business.Test.Service.Persons
             var queryOperator = new QueryableOperator<ContactDTO>(0, 1, defaultSorter);
             queryOperator.Filters.Add(new ExpressionFilter<ContactDTO>(x => x.Id, ComparisonType.Equal, contact1.ContactId));
 
-            var serviceResults = service.GetContacts(queryOperator);
-            var serviceResultsAsync = await service.GetContactsAsync(queryOperator);
+            var serviceResults = service.GetContactDTOs(queryOperator);
+            var serviceResultsAsync = await service.GetContactDTOsAsync(queryOperator);
             tester(serviceResults);
             tester(serviceResultsAsync);
         }
@@ -294,8 +294,8 @@ namespace ECA.Business.Test.Service.Persons
             var queryOperator = new QueryableOperator<ContactDTO>(0, 1, defaultSorter);
             queryOperator.Sorters.Add(new ExpressionSorter<ContactDTO>(x => x.Id, SortDirection.Descending));
 
-            var serviceResults = service.GetContacts(queryOperator);
-            var serviceResultsAsync = await service.GetContactsAsync(queryOperator);
+            var serviceResults = service.GetContactDTOs(queryOperator);
+            var serviceResultsAsync = await service.GetContactDTOsAsync(queryOperator);
             tester(serviceResults);
             tester(serviceResultsAsync);
         }
@@ -322,8 +322,8 @@ namespace ECA.Business.Test.Service.Persons
             var defaultSorter = new ExpressionSorter<ContactDTO>(x => x.Id, SortDirection.Descending);
             var queryOperator = new QueryableOperator<ContactDTO>(0, 1, defaultSorter);
 
-            var serviceResults = service.GetContacts(queryOperator);
-            var serviceResultsAsync = await service.GetContactsAsync(queryOperator);
+            var serviceResults = service.GetContactDTOs(queryOperator);
+            var serviceResultsAsync = await service.GetContactDTOsAsync(queryOperator);
             tester(serviceResults);
             tester(serviceResultsAsync);
         }

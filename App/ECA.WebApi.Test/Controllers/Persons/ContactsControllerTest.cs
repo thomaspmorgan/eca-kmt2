@@ -28,8 +28,8 @@ namespace ECA.WebApi.Test.Controllers.Persons
         {
             userProvider = new Mock<IUserProvider>();
             serviceMock = new Mock<IContactService>();
-            serviceMock.Setup(x => x.GetContactsAsync(It.IsAny<QueryableOperator<ContactDTO>>()))
-                .ReturnsAsync(new PagedQueryResults<ContactDTO>(1, new List<ContactDTO>()));
+            serviceMock.Setup(x => x.GetContactsAsync(It.IsAny<QueryableOperator<Contact>>()))
+                .ReturnsAsync(new PagedQueryResults<Contact>(1, new List<Contact>()));
 
             controller = new ContactsController(serviceMock.Object, userProvider.Object);
         }
@@ -40,7 +40,7 @@ namespace ECA.WebApi.Test.Controllers.Persons
         {
             userProvider.Setup(x => x.GetCurrentUser()).Returns(new DebugWebApiUser());
             userProvider.Setup(x => x.GetBusinessUser(It.IsAny<IWebApiUser>())).Returns(new User(1));
-            serviceMock.Setup(x => x.GetContactByIdAsync(It.IsAny<int>())).ReturnsAsync(new ContactDTO());
+            serviceMock.Setup(x => x.GetContactByIdAsync(It.IsAny<int>())).ReturnsAsync(new Contact());
             serviceMock.Setup(x => x.CreateAsync(It.IsAny<AdditionalPointOfContact>())).ReturnsAsync(new Contact());
 
             var model = new AdditionalPointOfContactBindingModel();
@@ -73,17 +73,17 @@ namespace ECA.WebApi.Test.Controllers.Persons
 
         #region Get
         [TestMethod]
-        public async Task TestGetThemesAsync()
+        public async Task TestGetContactsAsync()
         {
-            var response = await controller.GetContactsAsync(new PagingQueryBindingModel<ContactDTO>());
+            var response = await controller.GetContactsAsync(new PagingQueryBindingModel<Contact>());
             Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<PagedQueryResults<ContactDTO>>));
         }
 
         [TestMethod]
-        public async Task TestGetThemesAsync_InvalidModel()
+        public async Task TestGetContactsAsync_InvalidModel()
         {
             controller.ModelState.AddModelError("key", "error");
-            var response = await controller.GetContactsAsync(new PagingQueryBindingModel<ContactDTO>());
+            var response = await controller.GetContactsAsync(new PagingQueryBindingModel<Contact>());
             Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
         }
         #endregion

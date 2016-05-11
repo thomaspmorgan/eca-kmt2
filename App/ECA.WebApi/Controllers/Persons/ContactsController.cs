@@ -3,6 +3,7 @@ using ECA.Business.Service.Persons;
 using ECA.Core.DynamicLinq;
 using ECA.Core.DynamicLinq.Sorter;
 using ECA.Core.Query;
+using ECA.Data;
 using ECA.WebApi.Models.Person;
 using ECA.WebApi.Models.Query;
 using ECA.WebApi.Security;
@@ -52,7 +53,7 @@ namespace ECA.WebApi.Controllers.Persons
         /// <param name="queryModel">The paging, filtering, and sorting model.</param>
         /// <returns>The list of contacts.</returns>
         [ResponseType(typeof(PagedQueryResults<ContactDTO>))]
-        public async Task<IHttpActionResult> GetContactsAsync([FromUri]PagingQueryBindingModel<ContactDTO> queryModel)
+        public async Task<IHttpActionResult> GetContactsAsync([FromUri]PagingQueryBindingModel<Contact> queryModel)
         {
             if (ModelState.IsValid)
             {
@@ -68,6 +69,7 @@ namespace ECA.WebApi.Controllers.Persons
         /// <summary>
         /// Adds a new contact to the system.
         /// </summary>
+        /// <param name="model"></param>
         /// <returns>The saved contact.</returns>
         public async Task<IHttpActionResult> PostCreateContactAsync(AdditionalPointOfContactBindingModel model)
         {
@@ -86,5 +88,29 @@ namespace ECA.WebApi.Controllers.Persons
                 return BadRequest(ModelState);
             }
         }
+
+        /// <summary>
+        /// Updates a contact in the system.
+        /// </summary>
+        /// <param name="model">The updated contact</param>
+        /// <returns></returns>
+        public async Task<IHttpActionResult> PutContactAsync(UpdatedPointOfContactBindingModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var currentUser = userProvider.GetCurrentUser();
+                var businessUser = userProvider.GetBusinessUser(currentUser);
+                var instance = model.ToUpdatePointOfContact(businessUser);
+                var contact = await service.UpdateContactAsync(instance);
+                await service.SaveChangesAsync();
+                var dto = await service.GetContactByIdAsync(contact.ContactId);
+                return Ok(dto);
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+        }
+        
     }
 }

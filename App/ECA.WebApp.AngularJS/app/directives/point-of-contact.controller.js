@@ -43,9 +43,9 @@ angular.module('staticApp')
           event.preventDefault();
           $scope.view.isSavingPointOfContact = true;
 
-          if (isNewPoc($scope.$parent.poc)) {
-              var tempId = angular.copy($scope.$parent.poc.id);
-              return ContactsService.create($scope.$parent.poc)
+          if (isNewPoc($scope.poc)) {
+              var tempId = angular.copy($scope.poc.id);
+              return ContactsService.create($scope.poc)
                 .then(function (response) {
                     $scope.view.isSavingPointOfContact = false;
                     pointOfContact = response.data;
@@ -59,7 +59,7 @@ angular.module('staticApp')
                 });
           }
           else {
-              return ContactsService.update($scope.$parent.poc)
+              return ContactsService.update($scope.poc)
                   .then(function (response) {
                     $scope.view.isSavingPointOfContact = false;
                     pointOfContact = response.data;
@@ -96,11 +96,11 @@ angular.module('staticApp')
       $scope.view.cancelPointOfContactChanges = function (event) {
           event.preventDefault();
           $scope.view.showEditPoc = false;
-          if (isNewPoc($scope.$parent.poc)) {
-              removePointsOfContactFromView($scope.$parent.poc);
+          if (isNewPoc($scope.poc)) {
+              removePointsOfContactFromView($scope.poc);
           }
           else {
-              $scope.$parent.poc = angular.copy(originalPointOfContact);
+              $scope.poc = angular.copy(originalPointOfContact);
           }
       };
 
@@ -126,13 +126,13 @@ angular.module('staticApp')
       }
 
       function getPocFormDivId() {
-          return getPocFormDivIdPrefix() + $scope.$parent.poc.id;
+          return getPocFormDivIdPrefix() + $scope.poc.id;
       }
       
       function updatePocFormDivId(tempId) {
           var id = getPocFormDivIdPrefix() + tempId;
           var e = getPocFormDivElement(id);
-          e.id = getPocFormDivIdPrefix() + $scope.$parent.poc.id.toString();
+          e.id = getPocFormDivIdPrefix() + $scope.poc.id.toString();
       }
 
       function getPocFormDivElement(id) {

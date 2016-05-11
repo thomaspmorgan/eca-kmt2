@@ -23,7 +23,7 @@
                 </a>
                 <div class="row" ng-show="!view.isSavingChanges">
                     <div ng-class="{true: '', false: 'row2'}[editMode]" ng-show="!view.showEditPoc">
-                        {{poc.fullName}}
+                        {{poc.value}}
                         <div class="pull-right" ng-show="editMode">
                             <a ng-show="!view.isDeletingPoc" ng-click="view.showConfirmDelete = true">
                                 <i class="material-icons md-dark">delete</i>

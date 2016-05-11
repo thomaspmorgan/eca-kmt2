@@ -53,12 +53,13 @@ angular.module('staticApp')
                   if (response.total > maxLimit) {
                       $log.error('There are more contacts in the system then are currently loaded, an issue could occur in the UI not showing all possible values.');
                   }
+                  var position = "";
                   for (var i = 0; i < response.results.length; i++) {
-                      var position = "";
-                      if (response.results[i].position) {
-                          position = " (" + response.results[i].position + ")";
-                      }
-                      response.results[i].value = response.results[i].fullName + position;
+                        position = "";
+                        if (response.results[i].position) {
+                            position = " (" + response.results[i].position + ")";
+                        }
+                        response.results[i].value = response.results[i].fullName + position;
                   }
                   $scope.view.pointsOfContact = response.results;
               });

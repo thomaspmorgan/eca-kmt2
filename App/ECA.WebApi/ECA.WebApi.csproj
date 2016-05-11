@@ -577,6 +577,7 @@
     <Compile Include="Models\Person\UpdatedParticipantExchangeVisitorBindingModel.cs" />
     <Compile Include="Models\Person\UpdatedParticipantPersonSevisBindingModel.cs" />
     <Compile Include="Models\Person\UpdatedPersonDependentBindingModel.cs" />
+    <Compile Include="Models\Person\UpdatedPointOfContactBindingModel.cs" />
     <Compile Include="Models\Projects\UpdatedDefaultExchangeVisitorFundingBindingModel.cs" />
     <Compile Include="Models\Search\DeleteIndexBindingModel.cs" />
     <Compile Include="Models\Search\DocumentSuggestResponseViewModel.cs" />
