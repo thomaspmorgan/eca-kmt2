@@ -461,7 +461,7 @@ namespace ECA.Business.Test.Service.Sevis
             Assert.IsTrue(exchangeVisitor.GetChangeDetail(previouslySubmittedExchangeVisitor).HasChanges());
 
             instance.AddExchangeVisitor(participant, exchangeVisitor, previouslySubmittedExchangeVisitor);
-            Assert.AreEqual(exchangeVisitor.GetSEVISEVBatchTypeExchangeVisitor1Collection(sevisUsername, null).Count(),
+            Assert.AreEqual(exchangeVisitor.GetSEVISEVBatchTypeExchangeVisitor1Collection(sevisUsername, previouslySubmittedExchangeVisitor).Count(),
                 instance.SEVISBatchCreateUpdateEV.UpdateEV.Count());
         }
 

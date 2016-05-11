@@ -104,6 +104,11 @@ namespace ECA.Business.Validation.Sevis.Finance
             return instance;
         }
 
+        /// <summary>
+        /// Returns a change detail object for changes from this financial info and the given financial info.
+        /// </summary>
+        /// <param name="otherChangeComparable">The financial info object to compare.</param>
+        /// <returns>The change detail.</returns>
         public FinancialInfoChangeDetail GetChangeDetail(FinancialInfo otherChangeComparable)
         {
             var compareConfig = new ComparisonConfig

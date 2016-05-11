@@ -224,7 +224,7 @@ namespace ECA.Business.Service.Sevis
             {
                 var count = this.SEVISBatchCreateUpdateEV.UpdateEV == null ? 0 : this.SEVISBatchCreateUpdateEV.UpdateEV.Count();
                 var addedItemCount = 1;
-                return count + addedItemCount <= this.MaxCreateExchangeVisitorRecordsPerBatch;
+                return count + addedItemCount <= this.MaxUpdateExchangeVisitorRecordPerBatch;
             }
             else
             {
@@ -235,7 +235,7 @@ namespace ECA.Business.Service.Sevis
                 Contract.Assert(previouslySubmittedExchangeVisitor != null, "The previously submitted exchange visitor must not be null.");
                 var count = this.SEVISBatchCreateUpdateEV.UpdateEV == null ? 0 : this.SEVISBatchCreateUpdateEV.UpdateEV.Count();
                 var addedItemCount = exchangeVisitor.GetSEVISEVBatchTypeExchangeVisitor1Collection(sevisUsername, previouslySubmittedExchangeVisitor).Count();
-                return count + addedItemCount <= this.MaxCreateExchangeVisitorRecordsPerBatch;
+                return count + addedItemCount <= this.MaxUpdateExchangeVisitorRecordPerBatch;
             }
         }
 
