@@ -746,9 +746,10 @@ angular.module('staticApp')
                       return sendParticipantsToSevis(selectedParticipants, sevisUserAccount.username, sevisUserAccount.orgId);
                   }
                   var sevisUserAccounts = userInfo.sevisUserAccounts;
-                  var filteredSevisUserAccounts = filterFilter(sevisUserAccounts, { sevisOrgId : $scope.$parent.obj.sevisOrgId }, true);
-                  var sevisUserAccount = filteredSevisUserAccounts[0];
+                  var filteredSevisUserAccounts = filterFilter(sevisUserAccounts, { orgId: $scope.$parent.project.sevisOrgId }, true);
+                  var sevisUserAccount = filteredSevisUserAccounts[0];                  
                   if (filteredSevisUserAccounts.length > 1) {
+                      userInfo.sevisUserAccounts = filteredSevisUserAccounts;
                       promptUserForSevisUserAccount(userInfo, doSendParticipantsToSevis, function () { });
                   }
                   else {
@@ -784,6 +785,7 @@ angular.module('staticApp')
               backdrop: 'static',
               resolve: {
                   userInfo: function () {
+                      console.log("User Info", userInfo);
                       return userInfo;
                   }
               },
