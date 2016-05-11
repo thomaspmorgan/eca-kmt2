@@ -153,7 +153,14 @@
                     </div>
                 </tab>
                 <tab heading="Personal Identifiable Information (PII)" class="tab">
-                    <pii personid="{{getSelectedParticipant().personId}}"></pii>
+                    <!--
+                    <div class="col-md-12" ng-show="!view.piiEdit">
+                        <a ng-click="view.piiEdit = !view.piiEdit">
+                            <i class="material-icons md-dark md-24 pull-right">edit</i>
+                        </a>
+                    </div>
+                    -->
+                    <pii personid="{{getSelectedParticipant().personId}}" updatepiicallback="updatePiiCallback()"></pii>
                 </tab>
             </tabset>
         </div>

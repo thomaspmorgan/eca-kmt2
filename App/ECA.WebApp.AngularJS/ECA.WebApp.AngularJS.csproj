@@ -305,7 +305,7 @@
     <Content Include="app\offices\branches-and-programs.controller.js" />
     <Content Include="app\organizations\add-organization-modal.controller.js" />
     <Content Include="app\people\evaluation-notes-edit.controller.js" />
-    <Content Include="app\people\pii-edit.controller.js" />
+    <Content Include="app\directives\pii-edit.controller.js" />
     <Content Include="app\directives\pii.controller.js" />
     <Content Include="app\people\personal-information.controller.js" />
     <Content Include="app\directives\phone-number.controller.js" />
@@ -417,7 +417,6 @@
     <Content Include="app\people\contact.html" />
     <Content Include="app\people\general.html" />
     <Content Include="app\organizations\organization.html" />
-    <Content Include="app\people\pii-edit.html" />
     <Content Include="app\directives\pii.directive.html" />
     <Content Include="app\programs\edit.html" />
     <Content Include="app\programs\moneyflows.html" />

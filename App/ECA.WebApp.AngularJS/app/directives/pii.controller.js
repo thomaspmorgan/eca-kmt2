@@ -50,6 +50,10 @@ angular.module('staticApp')
              });
       };
 
+      $scope.$watch('personid', function () {
+          loadPii($scope.personid);
+      });
+
       $scope.getCities = function (val) {
           return LocationService.get({
               start: 0,
