@@ -3040,6 +3040,111 @@ namespace ECA.Business.Test.Service.Sevis
         }
 
         [TestMethod]
+        public async Task TestProcessBatchDetailProcess_NotSuccessCode()
+        {
+            var sevisId = "sevis id";
+            var user = new User(1);
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var otherUser = new User(user.Id + 1);
+            Participant participant = null;
+            ParticipantPerson participantPerson = null;
+            Data.Person person = null;
+            SevisBatchProcessing batch = null;
+            var participantId = 1;
+            var personId = 2;
+            SEVISBatchCreateUpdateEV createUpdateBatch = null;
+            ExchangeVisitorHistory history = null;
+            var pendingHistoryModel = "pending";
+            context.SetupActions.Add(() =>
+            {
+                createUpdateBatch = new SEVISBatchCreateUpdateEV();
+                batch = new SevisBatchProcessing
+                {
+                    BatchId = "hello",
+                    Id = 1,
+                    SendString = GetXml(createUpdateBatch)
+                };
+                participant = new Participant
+                {
+                    ParticipantId = participantId
+                };
+                participantPerson = new ParticipantPerson
+                {
+                    ParticipantId = participant.ParticipantId,
+                    Participant = participant,
+                    SevisBatchResult = "sevis batch result",
+                };
+                participantPerson.History.CreatedBy = otherUser.Id;
+                participantPerson.History.CreatedOn = yesterday;
+                participantPerson.History.RevisedBy = otherUser.Id;
+                participantPerson.History.RevisedOn = yesterday;
+
+                participant.ParticipantPerson = participantPerson;
+                person = new Data.Person
+                {
+                    PersonId = personId
+                };
+                participant.Person = person;
+                participant.PersonId = person.PersonId;
+                context.Participants.Add(participant);
+                history = new ExchangeVisitorHistory
+                {
+                    ParticipantId = participantId,
+                    PendingModel = pendingHistoryModel
+                };
+                context.ExchangeVisitorHistories.Add(history);
+                context.ParticipantPersons.Add(participantPerson);
+                context.People.Add(person);
+                context.SevisBatchProcessings.Add(batch);
+            });
+            var requestId = new RequestId(participantId, RequestIdType.Participant, RequestActionType.Create);
+            var record = new TransactionLogTypeBatchDetailProcessRecord
+            {
+                requestID = requestId.ToString(),
+                sevisID = sevisId,
+                Result = new ResultType
+                {
+                    status = true
+                },
+                Dependent = null,
+            };
+            SetUserDefinedFields(record, participantId, personId);
+
+            var processDetail = new TransactionLogTypeBatchDetailProcess
+            {
+                Record = new List<TransactionLogTypeBatchDetailProcessRecord> { record }.ToArray(),
+                resultCode = DispositionCode.GeneralUploadDownloadFailure.Code,
+                RecordCount = new TransactionLogTypeBatchDetailProcessRecordCount
+                {
+                    Failure = "1",
+                    Success = "2"
+                }
+            };
+            var url = new Uri("http://www.google.com");
+            var fileContents = new byte[1] { (byte)1 };
+            var fileContentStream = new MemoryStream(fileContents);
+            var fileContentStreamAsync = new MemoryStream(fileContents);
+
+            fileProvider.Setup(x => x.GetDS2019FileStream(It.IsAny<RequestId>(), It.IsAny<string>())).Returns(fileContentStream);
+            fileProvider.Setup(x => x.GetDS2019FileStreamAsync(It.IsAny<RequestId>(), It.IsAny<string>())).ReturnsAsync(fileContentStreamAsync);
+            cloudStorageService.Setup(x => x.UploadBlob(It.IsAny<Stream>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Returns(url);
+            cloudStorageService.Setup(x => x.UploadBlobAsync(It.IsAny<Stream>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).ReturnsAsync(url);
+            Action tester = () =>
+            {
+                Assert.AreEqual(pendingHistoryModel, history.PendingModel);
+                Assert.IsNull(history.LastSuccessfulModel);
+            };
+            context.Revert();
+            service.ProcessBatchDetailProcess(user, processDetail, batch, fileProvider.Object);
+            tester();
+           
+            context.Revert();
+            await service.ProcessBatchDetailProcessAsync(user, processDetail, batch, fileProvider.Object);
+            tester();
+           
+        }
+
+        [TestMethod]
         public async Task TestProcessBatchDetailProcess_IsParticipantRequest_NoDependents()
         {
             var sevisId = "sevis id";
@@ -3113,7 +3218,7 @@ namespace ECA.Business.Test.Service.Sevis
             var processDetail = new TransactionLogTypeBatchDetailProcess
             {
                 Record = new List<TransactionLogTypeBatchDetailProcessRecord> { record }.ToArray(),
-                resultCode = DispositionCode.BusinessRuleViolations.Code,
+                resultCode = DispositionCode.Success.Code,
                 RecordCount = new TransactionLogTypeBatchDetailProcessRecordCount
                 {
                     Failure = "1",
@@ -3256,7 +3361,7 @@ namespace ECA.Business.Test.Service.Sevis
             var processDetail = new TransactionLogTypeBatchDetailProcess
             {
                 Record = new List<TransactionLogTypeBatchDetailProcessRecord> { record }.ToArray(),
-                resultCode = DispositionCode.BusinessRuleViolations.Code,
+                resultCode = DispositionCode.Success.Code,
                 RecordCount = new TransactionLogTypeBatchDetailProcessRecordCount
                 {
                     Failure = "1",
@@ -3364,7 +3469,7 @@ namespace ECA.Business.Test.Service.Sevis
             var processDetail = new TransactionLogTypeBatchDetailProcess
             {
                 Record = new List<TransactionLogTypeBatchDetailProcessRecord> { record }.ToArray(),
-                resultCode = DispositionCode.BusinessRuleViolations.Code,
+                resultCode = DispositionCode.Success.Code,
                 RecordCount = new TransactionLogTypeBatchDetailProcessRecordCount
                 {
                     Failure = "1",

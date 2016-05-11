@@ -594,7 +594,7 @@ namespace ECA.Business.Service.Sevis
                         UploadDS2019(groupedProcessRecord, dependentAndPerson, fileProvider);
                     }
                     Contract.Assert(participantId.HasValue, "The participant id must have a value.");
-                    if (participantId.HasValue)
+                    if (participantId.HasValue && dispositionCode == DispositionCode.Success)
                     {
                         var history = Context.ExchangeVisitorHistories.Find(participantId.Value);
                         PromotePendingModelToLastSuccessfulModel(history);
@@ -643,7 +643,7 @@ namespace ECA.Business.Service.Sevis
                         await UploadDS2019Async(groupedProcessRecord, dependentAndPerson, fileProvider);
                     }
                     Contract.Assert(participantId.HasValue, "The participant id must have a value.");
-                    if (participantId.HasValue)
+                    if (participantId.HasValue && dispositionCode == DispositionCode.Success)
                     {
                         var history = await Context.ExchangeVisitorHistories.FindAsync(participantId.Value);
                         PromotePendingModelToLastSuccessfulModel(history);
@@ -1065,15 +1065,21 @@ namespace ECA.Business.Service.Sevis
         {
             if (existingHistory == null)
             {
-                existingHistory = new ExchangeVisitorHistory
+                var newHistory = new ExchangeVisitorHistory
                 {
-                    ParticipantId = exchangeVisitor.Person.ParticipantId
+                    ParticipantId = exchangeVisitor.Person.ParticipantId,
+                    PendingModel = exchangeVisitor.ToJson(),
+                    RevisedOn = DateTimeOffset.UtcNow
                 };
-                Context.ExchangeVisitorHistories.Add(existingHistory);
+                Context.ExchangeVisitorHistories.Add(newHistory);
+                return newHistory;
             }
-            existingHistory.PendingModel = exchangeVisitor.ToJson();
-            existingHistory.RevisedOn = DateTimeOffset.UtcNow;
-            return existingHistory;
+            else
+            {
+                existingHistory.PendingModel = exchangeVisitor.ToJson();
+                existingHistory.RevisedOn = DateTimeOffset.UtcNow;
+                return existingHistory;
+            }
         }
 
         #endregion
@@ -1189,7 +1195,7 @@ namespace ECA.Business.Service.Sevis
                             }
                             stagedSevisBatch.AddExchangeVisitor(participant, exchangeVisitor, previouslySubmittedExchangeVisitor);
                             AddPendingSendToSevisStatus(participant.ParticipantId, stagedSevisBatch.BatchId, groupedParticipant.SevisUsername, groupedParticipant.SevisOrgId);
-                            AddOrUpdateStagedExchangeVisitorHistory(exchangeVisitor);
+                            await AddOrUpdateStagedExchangeVisitorHistoryAsync(exchangeVisitor);
                         }
                         else
                         {

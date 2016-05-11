@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,6 +16,7 @@ namespace ECA.Data
         /// <summary>
         /// Gets or sets the participant id.
         /// </summary>
+        [Key]
         public int ParticipantId { get; set; }
 
         /// <summary>
@@ -32,5 +35,11 @@ namespace ECA.Data
         /// Gets or sets the last revised on date.
         /// </summary>
         public DateTimeOffset RevisedOn { get; set; }
+
+        /// <summary>
+        /// Gets or sets the participant.
+        /// </summary>
+        [ForeignKey(nameof(ParticipantExchangeVisitor.ParticipantId))]
+        public virtual Participant Participant { get; set; }
     }
 }

@@ -390,7 +390,7 @@ namespace ECA.Business.Service.Persons
         /// <returns>The participants that have a sevis id and whose start date has passed </returns>
         public PagedQueryResults<ReadyToValidateParticipantDTO> GetReadyToValidateParticipants(QueryableOperator<ReadyToValidateParticipantDTO> queryOperator)
         {
-            return ExchangeVisitorQueries.CreateGetReadyToValidateParticipantDTOsQuery(this.Context, DateTimeOffset.UtcNow.AddDays(NUMBER_OF_DAYS_BEFORE_START_DATE_A_PARTICIPANT_NEEDS_VALIDATION_INFO), queryOperator)
+            return ExchangeVisitorQueries.CreateGetReadyToValidateParticipantDTOsQuery(this.Context, GetEarliestNeedsValidationInfoParticipantDate(), queryOperator)
                 .ToPagedQueryResults(queryOperator.Start, queryOperator.Limit);
         }
 
@@ -401,8 +401,38 @@ namespace ECA.Business.Service.Persons
         /// <returns>The participants that have a sevis id and whose start date has passed </returns>
         public Task<PagedQueryResults<ReadyToValidateParticipantDTO>> GetReadyToValidateParticipantsAsync(QueryableOperator<ReadyToValidateParticipantDTO> queryOperator)
         {
-            return ExchangeVisitorQueries.CreateGetReadyToValidateParticipantDTOsQuery(this.Context, DateTimeOffset.UtcNow.AddDays(NUMBER_OF_DAYS_BEFORE_START_DATE_A_PARTICIPANT_NEEDS_VALIDATION_INFO), queryOperator)
+            return ExchangeVisitorQueries.CreateGetReadyToValidateParticipantDTOsQuery(this.Context, GetEarliestNeedsValidationInfoParticipantDate(), queryOperator)
                 .ToPagedQueryResultsAsync(queryOperator.Start, queryOperator.Limit);
+        }
+
+        private DateTimeOffset GetEarliestNeedsValidationInfoParticipantDate()
+        {
+            return DateTimeOffset.UtcNow.AddDays(NUMBER_OF_DAYS_BEFORE_START_DATE_A_PARTICIPANT_NEEDS_VALIDATION_INFO);
+        }
+
+        /// <summary>
+        /// Returns true if the participant with the given id is ready to validate.
+        /// </summary>
+        /// <param name="participantId">The participant by id.</param>
+        /// <returns>True, if the participant is ready to be validated.</returns>
+        public bool IsParticipantReadyToValidate(int participantId)
+        {
+            return CreateGetReadyToValidationParticipantDTOByParticipantIdQuery(participantId).Count() > 0;
+        }
+
+        /// <summary>
+        /// Returns true if the participant with the given id is ready to validate.
+        /// </summary>
+        /// <param name="participantId">The participant by id.</param>
+        /// <returns>True, if the participant is ready to be validated.</returns>
+        public async Task<bool> IsParticipantReadyToValidateAsync(int participantId)
+        {
+            return await CreateGetReadyToValidationParticipantDTOByParticipantIdQuery(participantId).CountAsync() > 0;
+        }
+
+        private IQueryable<ReadyToValidateParticipantDTO> CreateGetReadyToValidationParticipantDTOByParticipantIdQuery(int participantId)
+        {
+            return ExchangeVisitorQueries.CreateGetReadyToValidateParticipantDTOsQuery(this.Context, GetEarliestNeedsValidationInfoParticipantDate()).Where(x => x.ParticipantId == participantId);
         }
         #endregion
     }

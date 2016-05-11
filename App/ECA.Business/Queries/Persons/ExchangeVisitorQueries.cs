@@ -352,8 +352,23 @@ namespace ECA.Business.Queries.Persons
         /// </summary>
         /// <param name="context">The context to query.</param>
         /// <param name="startDate">The maximum start date for a participant.</param>
+        /// <param name="queryOperator">The query operator.</param>
         /// <returns>The query of dtos who are ready to be validated.</returns>
         public static IQueryable<ReadyToValidateParticipantDTO> CreateGetReadyToValidateParticipantDTOsQuery(EcaContext context, DateTimeOffset startDate, QueryableOperator<ReadyToValidateParticipantDTO> queryOperator)
+        {
+            Contract.Requires(context != null, "The context must not be null.");            
+            var query = CreateGetReadyToValidateParticipantDTOsQuery(context, startDate);
+            query = query.Apply(queryOperator);
+            return query;
+        }
+
+        /// <summary>
+        /// Returns a query that retrieves dtos detailing participants that have a sevis id, whos start date is before the given start date and have not yet been validated by batch.
+        /// </summary>
+        /// <param name="context">The context to query.</param>
+        /// <param name="startDate">The maximum start date for a participant.</param>
+        /// <returns>The query of dtos who are ready to be validated.</returns>
+        public static IQueryable<ReadyToValidateParticipantDTO> CreateGetReadyToValidateParticipantDTOsQuery(EcaContext context, DateTimeOffset startDate)
         {
             Contract.Requires(context != null, "The context must not be null.");
             var statusIds = ParticipantStatus.EXCHANGE_VISITOR_VALIDATION_PARTICIPANT_STATUSES.Select(x => x.Id).ToList();
@@ -382,7 +397,6 @@ namespace ECA.Business.Queries.Persons
                             ProjectId = participant.ProjectId,
                             SevisId = participantPerson.SevisId
                         };
-            query = query.Apply(queryOperator);
             return query;
         }
     }

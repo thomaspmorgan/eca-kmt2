@@ -108,7 +108,7 @@ namespace ECA.Business.Validation.Sevis.Bio
                 .WithState(x => new FieldOfStudyErrorPath())
                 .SetValidator(new SubjectFieldValidator());
 
-            When(x => !String.IsNullOrWhiteSpace(this.SevisId) && this.ParticipantStartDate < DateTime.UtcNow, () =>
+            When(x => !String.IsNullOrWhiteSpace(this.SevisId) && this.ParticipantStartDate > DateTime.UtcNow, () =>
             {
                 RuleFor(x => x.EmailAddress)
                     .NotNull()
