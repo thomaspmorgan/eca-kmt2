@@ -53,6 +53,12 @@ namespace ECA.Business.Queries.Models.Persons
         /// </summary>
         public string MiddleName { get; set; }
 
+
+        /// <summary>
+        /// Gets or sets the Passport Name.
+        /// </summary>
+        public string PassportName { get; set; }
+
         /// <summary>
         /// Gets or sets the patronym.
         /// </summary>

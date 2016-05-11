@@ -57,6 +57,13 @@ namespace ECA.WebApi.Models.Person
         public string MiddleName { get; set; }
 
         /// <summary>
+        /// Gets or sets the passport name
+        /// </summary>
+        public string PassportName { get; set; }
+
+
+
+        /// <summary>
         /// Gets or sets the patronym
         /// </summary>
         public string Patronym { get; set; }
@@ -135,6 +142,7 @@ namespace ECA.WebApi.Models.Person
                 givenName: this.GivenName,
                 familyName: this.FamilyName,
                 middleName: this.MiddleName,
+                passportName: this.PassportName,
                 patronym: this.Patronym,
                 alias: this.Alias,
                 genderId: this.GenderId,
