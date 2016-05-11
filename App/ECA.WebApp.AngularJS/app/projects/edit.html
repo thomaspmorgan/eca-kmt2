@@ -109,15 +109,15 @@
                     </div>
                 </div>
                 <div class="form-group row" ng-if="project.visitorTypeId === constants.visitorType.exchangeVisitor.id">
-                    <label class="col-md-3 title-label" for="sevisOrgId">SEVIS Organization Id</label>
+                    <label class="col-md-3 title-label" for="sevisOrgId">SEVIS Program Id</label>
                     <div class="col-md-9">
                         <input name="sevisOrgId"
                                ng-model="project.sevisOrgId"
-                               form-element guidance="The Id number of this project's SEVIS organization"
+                               form-element guidance="The Id number of this project's SEVIS program"
                                type="text"
                                id="sevisOrgId"
                                class="form-control"
-                               placeholder="Enter SEVIS Organization Id..." />
+                               placeholder="Enter SEVIS Program Id..." />
                         <p class="mute" style="margin-top:5px;">{{project.sevisOrgId.length}} of {{editView.maxSevisOrgLength}} characters remaining.</p>
                     </div>
                 </div>

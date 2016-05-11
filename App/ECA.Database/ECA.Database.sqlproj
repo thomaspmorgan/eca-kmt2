@@ -301,6 +301,7 @@
     <Build Include="dbo\Tables\CancelledSevisBatchProcessing.sql" />
     <Build Include="dbo\Stored Procedures\GetPrograms.sql" />
     <Build Include="dbo\Stored Procedures\GetProgramsWithOfficeDesc.sql" />
+    <Build Include="dbo\Functions\NoDiacritics.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="ECA.Database.refactorlog" />
