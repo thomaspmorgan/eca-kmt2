@@ -98,6 +98,7 @@ namespace ECA.Business.Test.Service.Persons
             var exchangeVisitor = new ExchangeVisitor(
                 sevisId: null,
                 person: null,
+                isValidated: false,
                 financialInfo: null,
                 occupationCategoryCode: null,
                 programEndDate: DateTime.UtcNow,
@@ -160,6 +161,7 @@ namespace ECA.Business.Test.Service.Persons
 
             var exchangeVisitor = new ExchangeVisitor(
                 sevisId: null,
+                isValidated: false,
                 person: null,
                 financialInfo: null,
                 occupationCategoryCode: null,
@@ -223,6 +225,7 @@ namespace ECA.Business.Test.Service.Persons
 
             var exchangeVisitor = new ExchangeVisitor(
                 sevisId: null,
+                isValidated: false,
                 person: null,
                 financialInfo: null,
                 occupationCategoryCode: null,
@@ -287,6 +290,7 @@ namespace ECA.Business.Test.Service.Persons
             };
             var exchangeVisitor = new ExchangeVisitor(
                 sevisId: null,
+                isValidated: false,
                 person: null,
                 financialInfo: null,
                 occupationCategoryCode: null,
@@ -360,6 +364,7 @@ namespace ECA.Business.Test.Service.Persons
             };
             var exchangeVisitor = new ExchangeVisitor(
                 sevisId: String.Empty,
+                isValidated: false,
                 person: null,
                 financialInfo: null,
                 occupationCategoryCode: null,
@@ -433,6 +438,7 @@ namespace ECA.Business.Test.Service.Persons
             };
             var exchangeVisitor = new ExchangeVisitor(
                 sevisId: " ",
+                isValidated: false,
                 person: null,
                 financialInfo: null,
                 occupationCategoryCode: null,
@@ -515,6 +521,7 @@ namespace ECA.Business.Test.Service.Persons
             };
             var exchangeVisitor = new ExchangeVisitor(
                 sevisId: null,
+                isValidated: false,
                 person: null,
                 financialInfo: null,
                 occupationCategoryCode: null,
@@ -601,6 +608,7 @@ namespace ECA.Business.Test.Service.Persons
             };
             var exchangeVisitor = new ExchangeVisitor(
                 sevisId: null,
+                isValidated: false,
                 person: null,
                 financialInfo: null,
                 occupationCategoryCode: null,
@@ -681,6 +689,7 @@ namespace ECA.Business.Test.Service.Persons
             };
             var exchangeVisitor = new ExchangeVisitor(
                 sevisId: null,
+                isValidated: false,
                 sevisOrgId: "sevisOrgId",
                 person: null,
                 financialInfo: null,
@@ -766,6 +775,7 @@ namespace ECA.Business.Test.Service.Persons
             };
             var exchangeVisitor = new ExchangeVisitor(
                 sevisId: null,
+                isValidated: false,
                 person: null,
                 financialInfo: null,
                 occupationCategoryCode: null,
@@ -850,6 +860,7 @@ namespace ECA.Business.Test.Service.Persons
             };
             var exchangeVisitor = new ExchangeVisitor(
                 sevisId: null,
+                isValidated: false,
                 person: null,
                 financialInfo: null,
                 occupationCategoryCode: null,
@@ -934,6 +945,7 @@ namespace ECA.Business.Test.Service.Persons
             };
             var exchangeVisitor = new ExchangeVisitor(
                 sevisId: null,
+                isValidated: false,
                 person: null,
                 financialInfo: null,
                 occupationCategoryCode: null,
@@ -1020,6 +1032,7 @@ namespace ECA.Business.Test.Service.Persons
             };
             var exchangeVisitor = new ExchangeVisitor(
                 sevisId: null,
+                isValidated: false,
                 person: null,
                 financialInfo: null,
                 occupationCategoryCode: null,
@@ -1106,6 +1119,7 @@ namespace ECA.Business.Test.Service.Persons
             };
             var exchangeVisitor = new ExchangeVisitor(
                 sevisId: null,
+                isValidated: false,
                 person: null,
                 financialInfo: null,
                 occupationCategoryCode: null,
@@ -1190,6 +1204,7 @@ namespace ECA.Business.Test.Service.Persons
             };
             var exchangeVisitor = new ExchangeVisitor(
                 sevisId: null,
+                isValidated: false,
                 person: null,
                 financialInfo: null,
                 occupationCategoryCode: null,
@@ -1281,6 +1296,7 @@ namespace ECA.Business.Test.Service.Persons
             };
             var exchangeVisitor = new ExchangeVisitor(
                 sevisId: null,
+                isValidated: false,
                 person: null,
                 financialInfo: null,
                 occupationCategoryCode: null,

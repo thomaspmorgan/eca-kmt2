@@ -43,6 +43,7 @@ namespace ECA.Business.Validation.Sevis
         public ExchangeVisitor(
             string sevisId,
             string sevisOrgId,
+            bool isValidated,
             Bio.Person person,
             FinancialInfo financialInfo,
             string occupationCategoryCode,
@@ -61,7 +62,13 @@ namespace ECA.Business.Validation.Sevis
             this.SiteOfActivity = siteOfActivity;
             this.SevisId = sevisId;
             this.SevisOrgId = sevisOrgId;
+            this.IsValidated = isValidated;
         }
+
+        /// <summary>
+        /// Gets whether or not the exchange visitor has been validated, i.e. Active in Sevis.
+        /// </summary>
+        public bool IsValidated { get; private set; }
 
         /// <summary>
         /// Gets or sets the sevis id.
@@ -384,7 +391,8 @@ namespace ECA.Business.Validation.Sevis
                 CompareChildren = false,
                 MembersToIgnore = new List<string>
                 {
-                    nameof(this.SevisId)
+                    nameof(this.SevisId),
+                    nameof(this.IsValidated)
                 }
             };
             var compareLogic = new CompareLogic(compareConfig);

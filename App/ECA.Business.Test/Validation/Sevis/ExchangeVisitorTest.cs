@@ -136,10 +136,12 @@ namespace ECA.Business.Test.Validation.Sevis
             var dependents = new List<Dependent>();
             var sevisId = "sevis id";
             var sevisOrgId = "abcde1234567890";
+            var isValidated = true;
 
             var exchangeVisitor = new ExchangeVisitor(
                 sevisId,
                 sevisOrgId,
+                isValidated,
                 person,
                 financialInfo,
                 occupationCategoryCode,
@@ -156,6 +158,8 @@ namespace ECA.Business.Test.Validation.Sevis
             Assert.AreEqual(endDate, exchangeVisitor.ProgramEndDate);
             Assert.AreEqual(startDate, exchangeVisitor.ProgramStartDate);
             Assert.AreEqual(sevisId, exchangeVisitor.SevisId);
+            Assert.AreEqual(sevisOrgId, exchangeVisitor.SevisOrgId);
+            Assert.AreEqual(isValidated, exchangeVisitor.IsValidated);
         }
 
         [TestMethod]
@@ -170,10 +174,13 @@ namespace ECA.Business.Test.Validation.Sevis
             var dependents = new List<Dependent>();
             var sevisId = "sevis id";
             var sevisOrgId = "abcde12347890";
+            var isValidated = true;
+
 
             var exchangeVisitor = new ExchangeVisitor(
                 sevisId,
                 sevisOrgId,
+                isValidated,
                 person,
                 financialInfo,
                 occupationCategoryCode,
@@ -195,6 +202,8 @@ namespace ECA.Business.Test.Validation.Sevis
             Assert.AreEqual(endDate, jsonObject.ProgramEndDate);
             Assert.AreEqual(startDate, jsonObject.ProgramStartDate);
             Assert.AreEqual(occupationCategoryCode, jsonObject.OccupationCategoryCode);
+            Assert.AreEqual(sevisOrgId, exchangeVisitor.SevisOrgId);
+            Assert.AreEqual(isValidated, exchangeVisitor.IsValidated);
         }
 
         [TestMethod]
@@ -212,10 +221,12 @@ namespace ECA.Business.Test.Validation.Sevis
             dependents.Add(addedDependent);
             var sevisId = "sevis id";
             var sevisOrgId = "abcde12347890";
+            var isValidated = true;
 
             var exchangeVisitor = new ExchangeVisitor(
                 sevisId,
                 sevisOrgId,
+                isValidated,
                 person,
                 financialInfo,
                 occupationCategoryCode,
@@ -250,10 +261,12 @@ namespace ECA.Business.Test.Validation.Sevis
             dependents.Add(updatedDependent);
             var sevisId = "sevis id";
             var sevisOrgId = "abcde12347890";
+            var isValidated = true;
 
             var exchangeVisitor = new ExchangeVisitor(
                 sevisId,
                 sevisOrgId,
+                isValidated,
                 person,
                 financialInfo,
                 occupationCategoryCode,
@@ -290,10 +303,12 @@ namespace ECA.Business.Test.Validation.Sevis
             dependents.Add(addedDependent);
             var sevisId = "sevis id";
             var sevisOrgId = "abcde12347890";
+            var isValidated = true;
 
             var exchangeVisitor = new ExchangeVisitor(
                 sevisId,
                 sevisOrgId,
+                isValidated,
                 person,
                 financialInfo,
                 occupationCategoryCode,
@@ -329,10 +344,12 @@ namespace ECA.Business.Test.Validation.Sevis
             List<Dependent> dependents = null;
             var sevisId = "sevis id";
             var sevisOrgId = "abcde12347890";
+            var isValidated = true;
 
             var exchangeVisitor = new ExchangeVisitor(
                 sevisId: sevisId,
                 sevisOrgId: sevisOrgId,
+                isValidated: isValidated,
                 person: person,
                 financialInfo: financialInfo,
                 occupationCategoryCode: occupationCategoryCode,
@@ -354,6 +371,7 @@ namespace ECA.Business.Test.Validation.Sevis
             var sevisUserId = "sevisUserId";
             var person = GetPerson(DateTime.UtcNow);
             var sevisOrgId = "abcde12347890";
+            var isValidated = true;
             var financialInfo = GetFinancialInfo();
             var occupationCategoryCode = "99";
             var endDate = DateTime.UtcNow.AddDays(1.0);
@@ -364,6 +382,7 @@ namespace ECA.Business.Test.Validation.Sevis
             var exchangeVisitor = new ExchangeVisitor(
                 sevisId: sevisId,
                 sevisOrgId: sevisOrgId,
+                isValidated: isValidated,
                 person: person,
                 financialInfo: financialInfo,
                 occupationCategoryCode: occupationCategoryCode,
@@ -405,6 +424,7 @@ namespace ECA.Business.Test.Validation.Sevis
             var sevisId = "sevis id";
             var sevisOrgId = "abcde12347890";
             var sevisUserId = "sevisUserId";
+            var isValidated = true;
             var person = GetPerson(DateTime.UtcNow);
             var financialInfo = GetFinancialInfo();
             string occupationCategoryCode = null;
@@ -416,6 +436,7 @@ namespace ECA.Business.Test.Validation.Sevis
             var exchangeVisitor = new ExchangeVisitor(
                 sevisId: sevisId,
                 sevisOrgId: sevisOrgId,
+                isValidated: isValidated,
                 person: person,
                 financialInfo: financialInfo,
                 occupationCategoryCode: occupationCategoryCode,
@@ -434,6 +455,7 @@ namespace ECA.Business.Test.Validation.Sevis
             var sevisId = "sevis id";
             var sevisOrgId = "abcde12347890";
             var sevisUserId = "sevisUserId";
+            var isValidated = true;
             var person = GetPerson(DateTime.UtcNow, false, true);
             var financialInfo = GetFinancialInfo();
             var occupationCategoryCode = "99";
@@ -445,6 +467,7 @@ namespace ECA.Business.Test.Validation.Sevis
             var exchangeVisitor = new ExchangeVisitor(
                 sevisId: sevisId,
                 sevisOrgId: sevisOrgId,
+                isValidated: isValidated,
                 person: person,
                 financialInfo: financialInfo,
                 occupationCategoryCode: occupationCategoryCode,
@@ -464,6 +487,7 @@ namespace ECA.Business.Test.Validation.Sevis
             var sevisId = "sevis id";
             var sevisUserId = "sevisUserId";
             var sevisOrgId = "abcde12347890";
+            var isValidated = true;
             var person = GetPerson(DateTime.UtcNow, true, false);
             var financialInfo = GetFinancialInfo();
             var occupationCategoryCode = "99";
@@ -475,6 +499,7 @@ namespace ECA.Business.Test.Validation.Sevis
             var exchangeVisitor = new ExchangeVisitor(
                 sevisId: sevisId,
                 sevisOrgId: sevisOrgId,
+                isValidated: isValidated,
                 person: person,
                 financialInfo: financialInfo,
                 occupationCategoryCode: occupationCategoryCode,
@@ -494,6 +519,7 @@ namespace ECA.Business.Test.Validation.Sevis
             var sevisId = "sevis id";
             var sevisUserId = "sevisUserId";
             var sevisOrgId = "abcde12347890";
+            var isValidated = true;
             var person = GetPerson(DateTime.UtcNow);
             var financialInfo = GetFinancialInfo();
             var occupationCategoryCode = "99";
@@ -505,6 +531,7 @@ namespace ECA.Business.Test.Validation.Sevis
             var exchangeVisitor = new ExchangeVisitor(
                 sevisId: sevisId,
                 sevisOrgId: sevisOrgId,
+                isValidated: isValidated,
                 person: person,
                 financialInfo: financialInfo,
                 occupationCategoryCode: occupationCategoryCode,
@@ -526,6 +553,7 @@ namespace ECA.Business.Test.Validation.Sevis
         {
             var sevisId = "sevis id";
             var sevisUserId = "sevisUserId";
+            var isValidated = true;
             var person = GetPerson(DateTime.UtcNow);
             var financialInfo = GetFinancialInfo();
             var occupationCategoryCode = "99";
@@ -594,6 +622,7 @@ namespace ECA.Business.Test.Validation.Sevis
             var exchangeVisitor = new ExchangeVisitor(
                 sevisId: sevisId,
                 sevisOrgId: sevisOrgId,
+                isValidated: isValidated,
                 person: person,
                 financialInfo: financialInfo,
                 occupationCategoryCode: occupationCategoryCode,
@@ -613,6 +642,7 @@ namespace ECA.Business.Test.Validation.Sevis
         {
             var sevisId = "sevis id";
             var sevisUserId = "sevisUserId";
+            var isValidated = true;
             var person = GetPerson(DateTime.UtcNow);
             var financialInfo = GetFinancialInfo();
             var occupationCategoryCode = "99";
@@ -681,6 +711,7 @@ namespace ECA.Business.Test.Validation.Sevis
             var exchangeVisitor = new ExchangeVisitor(
                 sevisId: sevisId,
                 sevisOrgId: sevisOrgId,
+                isValidated: isValidated,
                 person: person,
                 financialInfo: financialInfo,
                 occupationCategoryCode: occupationCategoryCode,
@@ -699,6 +730,7 @@ namespace ECA.Business.Test.Validation.Sevis
         {
             var sevisId = "sevis id";
             var sevisUserId = "sevisUserId";
+            var isValidated = true;
             var person = GetPerson(DateTime.UtcNow);
             var financialInfo = GetFinancialInfo();
             var occupationCategoryCode = "99";
@@ -711,6 +743,7 @@ namespace ECA.Business.Test.Validation.Sevis
             var exchangeVisitor = new ExchangeVisitor(
                 sevisId: sevisId,
                 sevisOrgId: sevisOrgId,
+                isValidated: isValidated,
                 person: person,
                 financialInfo: financialInfo,
                 occupationCategoryCode: occupationCategoryCode,
@@ -729,6 +762,7 @@ namespace ECA.Business.Test.Validation.Sevis
         {
             var sevisId = "sevis id";
             var sevisUserId = "sevisUserId";
+            var isValidated = true;
             var person = GetPerson(DateTime.UtcNow);
             var financialInfo = GetFinancialInfo();
             var occupationCategoryCode = "99";
@@ -799,6 +833,7 @@ namespace ECA.Business.Test.Validation.Sevis
             var exchangeVisitor = new ExchangeVisitor(
                 sevisId: sevisId,
                 sevisOrgId: sevisOrgId,
+                isValidated: isValidated,
                 person: person,
                 financialInfo: financialInfo,
                 occupationCategoryCode: occupationCategoryCode,
@@ -818,6 +853,7 @@ namespace ECA.Business.Test.Validation.Sevis
         public void TestGetSOA()
         {
             var sevisId = "sevis id";
+            var isValidated = true;
             var person = GetPerson(DateTime.UtcNow);
             var financialInfo = GetFinancialInfo();
             var occupationCategoryCode = "99";
@@ -830,6 +866,7 @@ namespace ECA.Business.Test.Validation.Sevis
             var exchangeVisitor = new ExchangeVisitor(
                 sevisId: sevisId,
                 sevisOrgId: sevisOrgId,
+                isValidated: isValidated,
                 person: person,
                 financialInfo: financialInfo,
                 occupationCategoryCode: occupationCategoryCode,
@@ -855,6 +892,7 @@ namespace ECA.Business.Test.Validation.Sevis
         public void TestGetAddSiteOfActivity()
         {
             var sevisId = "sevis id";
+            var isValidated = true;
             var person = GetPerson(DateTime.UtcNow);
             var financialInfo = GetFinancialInfo();
             var occupationCategoryCode = "99";
@@ -867,6 +905,7 @@ namespace ECA.Business.Test.Validation.Sevis
             var exchangeVisitor = new ExchangeVisitor(
                 sevisId: sevisId,
                 sevisOrgId: sevisOrgId,
+                isValidated: isValidated,
                 person: person,
                 financialInfo: financialInfo,
                 occupationCategoryCode: occupationCategoryCode,
@@ -887,6 +926,7 @@ namespace ECA.Business.Test.Validation.Sevis
         public void TestGetSEVISEVBatchTypeExchangeVisitor1Collection_SameInstance()
         {
             var sevisUserId = "sevisUserId";
+            var isValidated = true;
             var person = GetPerson(DateTime.UtcNow);
             var financialInfo = GetFinancialInfo();
             var occupationCategoryCode = "99";
@@ -902,6 +942,7 @@ namespace ECA.Business.Test.Validation.Sevis
             var exchangeVisitor = new ExchangeVisitor(
                 sevisId: sevisId,
                 sevisOrgId: sevisOrgId,
+                isValidated: isValidated,
                 person: person,
                 financialInfo: financialInfo,
                 occupationCategoryCode: occupationCategoryCode,
@@ -929,10 +970,12 @@ namespace ECA.Business.Test.Validation.Sevis
             dependents.Add(testDependent);
             var sevisId = "sevis id";
             var sevisOrgId = "abcde12347890";
+            var isValidated = true;
 
             var exchangeVisitor = new ExchangeVisitor(
                 sevisId: sevisId,
                 sevisOrgId: sevisOrgId,
+                isValidated: isValidated,
                 person: person,
                 financialInfo: financialInfo,
                 occupationCategoryCode: occupationCategoryCode,
@@ -945,6 +988,7 @@ namespace ECA.Business.Test.Validation.Sevis
             var previousExchangeVisitor = new ExchangeVisitor(
                 sevisId: sevisId,
                 sevisOrgId: sevisOrgId,
+                isValidated: isValidated,
                 person: otherPerson,
                 financialInfo: financialInfo,
                 occupationCategoryCode: occupationCategoryCode,
@@ -980,6 +1024,7 @@ namespace ECA.Business.Test.Validation.Sevis
         public void TestGetSEVISEVBatchTypeExchangeVisitor1Collection_FinancialInfoHasChanges()
         {
             var sevisUserId = "sevisUserId";
+            var isValidated = true;
             var birthDate = DateTime.UtcNow;
             var person = GetPerson(birthDate);
             var financialInfo = GetFinancialInfo();
@@ -996,6 +1041,7 @@ namespace ECA.Business.Test.Validation.Sevis
             var exchangeVisitor = new ExchangeVisitor(
                 sevisId: sevisId,
                 sevisOrgId: sevisOrgId,
+                isValidated: isValidated,
                 person: person,
                 financialInfo: financialInfo,
                 occupationCategoryCode: occupationCategoryCode,
@@ -1008,6 +1054,7 @@ namespace ECA.Business.Test.Validation.Sevis
             var previousExchangeVisitor = new ExchangeVisitor(
                 sevisId: sevisId,
                 sevisOrgId: sevisOrgId,
+                isValidated: isValidated,
                 person: person,
                 financialInfo: otherFinancialInfo,
                 occupationCategoryCode: occupationCategoryCode,
@@ -1055,10 +1102,12 @@ namespace ECA.Business.Test.Validation.Sevis
             dependents.Add(testDependent);
             var sevisId = "sevis id";
             var sevisOrgId = "sevisOrgId";
+            var isValidated = true;
 
             var exchangeVisitor = new ExchangeVisitor(
                 sevisId: sevisId,
                 sevisOrgId: sevisOrgId,
+                isValidated: isValidated,
                 person: person,
                 financialInfo: financialInfo,
                 occupationCategoryCode: occupationCategoryCode,
@@ -1071,6 +1120,7 @@ namespace ECA.Business.Test.Validation.Sevis
             var previousExchangeVisitor = new ExchangeVisitor(
                 sevisId: sevisId,
                 sevisOrgId: sevisOrgId,
+                isValidated: isValidated,
                 person: otherPerson,
                 financialInfo: financialInfo,
                 occupationCategoryCode: occupationCategoryCode,
@@ -1117,6 +1167,7 @@ namespace ECA.Business.Test.Validation.Sevis
         [TestMethod]
         public void TestGetSEVISEVBatchTypeExchangeVisitor1Collection_DependentHasBeenAdded()
         {
+            var isValidated = true;
             var sevisUserId = "sevisUserId";
             var birthDate = DateTime.UtcNow;
             var person = GetPerson(birthDate);
@@ -1134,6 +1185,7 @@ namespace ECA.Business.Test.Validation.Sevis
             var exchangeVisitor = new ExchangeVisitor(
                 sevisId: sevisId,
                 sevisOrgId: sevisOrgId,
+                isValidated: isValidated,
                 person: person,
                 financialInfo: financialInfo,
                 occupationCategoryCode: occupationCategoryCode,
@@ -1146,6 +1198,7 @@ namespace ECA.Business.Test.Validation.Sevis
             var previousExchangeVisitor = new ExchangeVisitor(
                 sevisId: sevisId,
                 sevisOrgId: sevisOrgId,
+                isValidated: isValidated,
                 person: person,
                 financialInfo: financialInfo,
                 occupationCategoryCode: occupationCategoryCode,
@@ -1190,10 +1243,12 @@ namespace ECA.Business.Test.Validation.Sevis
             var previousTestDependent = new TestDependent();
             var sevisId = "sevis id";
             var sevisOrgId = "sevisOrgId";
+            var isValidated = true;
 
             var exchangeVisitor = new ExchangeVisitor(
                 sevisId: sevisId,
                 sevisOrgId: sevisOrgId,
+                isValidated: isValidated,
                 person: person,
                 financialInfo: financialInfo,
                 occupationCategoryCode: occupationCategoryCode,
@@ -1206,6 +1261,7 @@ namespace ECA.Business.Test.Validation.Sevis
             var previousExchangeVisitor = new ExchangeVisitor(
                 sevisId: sevisId,
                 sevisOrgId: sevisOrgId,
+                isValidated: isValidated,
                 person: person,
                 financialInfo: financialInfo,
                 occupationCategoryCode: occupationCategoryCode,
@@ -1256,10 +1312,12 @@ namespace ECA.Business.Test.Validation.Sevis
             var previousTestDependent = new TestDependent();
             var sevisId = "sevis id";
             var sevisOrgId = "sevisOrgId";
+            var isValidated = true;
 
             var exchangeVisitor = new ExchangeVisitor(
                 sevisId: sevisId,
                 sevisOrgId: sevisOrgId,
+                isValidated: isValidated,
                 person: person,
                 financialInfo: financialInfo,
                 occupationCategoryCode: occupationCategoryCode,
@@ -1272,6 +1330,7 @@ namespace ECA.Business.Test.Validation.Sevis
             var previousExchangeVisitor = new ExchangeVisitor(
                 sevisId: sevisId,
                 sevisOrgId: sevisOrgId,
+                isValidated: isValidated,
                 person: person,
                 financialInfo: financialInfo,
                 occupationCategoryCode: occupationCategoryCode,
@@ -1290,7 +1349,7 @@ namespace ECA.Business.Test.Validation.Sevis
             };
 
             var list = exchangeVisitor.GetSEVISEVBatchTypeExchangeVisitor1Collection(sevisUserId, previousExchangeVisitor).ToList();
-            Assert.AreEqual(0, list.Count);            
+            Assert.AreEqual(0, list.Count);
         }
 
         private IQueryable<SEVISEVBatchTypeExchangeVisitor1> CreateGetItemQuery<T>(List<SEVISEVBatchTypeExchangeVisitor1> items)
@@ -1312,11 +1371,13 @@ namespace ECA.Business.Test.Validation.Sevis
             var siteOfActivity = GetSOAAsAddressDTO();
             var dependents = new List<Dependent>();
             var sevisOrgId = "abcde12347890";
+            var isValidated = true;
 
             var validator = new Mock<AbstractValidator<ExchangeVisitor>>();
             var exchangeVisitor = new ExchangeVisitor(
                 sevisId: sevisId,
                 sevisOrgId: sevisOrgId,
+                isValidated: isValidated,
                 person: person,
                 financialInfo: financialInfo,
                 occupationCategoryCode: occupationCategoryCode,
@@ -1343,11 +1404,13 @@ namespace ECA.Business.Test.Validation.Sevis
             List<Dependent> dependents = null;
             var sevisId = "sevis id";
             var username = "username";
+            var isValidated = true;
             var sevisOrgId = "abcde12347890";
 
             var exchangeVisitor = new ExchangeVisitor(
                 sevisId: sevisId,
                 sevisOrgId: sevisOrgId,
+                isValidated: isValidated,
                 person: person,
                 financialInfo: financialInfo,
                 occupationCategoryCode: occupationCategoryCode,
@@ -1388,11 +1451,13 @@ namespace ECA.Business.Test.Validation.Sevis
             List<Dependent> dependents = null;
             var sevisId = "sevis id";
             var username = "username";
+            var isValidated = true;
             var sevisOrgId = "abcde12347890";
 
             var exchangeVisitor = new ExchangeVisitor(
                 sevisId: sevisId,
                 sevisOrgId: sevisOrgId,
+                isValidated: isValidated,
                 person: person,
                 financialInfo: financialInfo,
                 occupationCategoryCode: occupationCategoryCode,
@@ -1421,6 +1486,7 @@ namespace ECA.Business.Test.Validation.Sevis
         {
             var sevisId = "sevis id";
             var sevisOrgId = "sevisOrgId";
+            var isValidated = true;
             var person = GetPerson(DateTime.UtcNow);
             var financialInfo = GetFinancialInfo();
             var occupationCategoryCode = "99";
@@ -1432,6 +1498,7 @@ namespace ECA.Business.Test.Validation.Sevis
             var exchangeVisitor = new ExchangeVisitor(
                 sevisId: sevisId,
                 sevisOrgId: sevisOrgId,
+                isValidated: isValidated,
                 person: person,
                 financialInfo: financialInfo,
                 occupationCategoryCode: occupationCategoryCode,
@@ -1449,6 +1516,7 @@ namespace ECA.Business.Test.Validation.Sevis
         {
             var sevisId = "sevis id";
             var sevisOrgId = "sevisOrgId";
+            var isValidated = true;
             var person = GetPerson(DateTime.UtcNow);
             var financialInfo = GetFinancialInfo();
             var occupationCategoryCode = "99";
@@ -1460,6 +1528,7 @@ namespace ECA.Business.Test.Validation.Sevis
             var exchangeVisitor = new ExchangeVisitor(
                 sevisId: sevisId,
                 sevisOrgId: sevisOrgId,
+                isValidated: isValidated,
                 person: person,
                 financialInfo: financialInfo,
                 occupationCategoryCode: occupationCategoryCode,
@@ -1471,6 +1540,48 @@ namespace ECA.Business.Test.Validation.Sevis
             var otherExchangeVisitor = new ExchangeVisitor(
                 sevisId: "other sevis id",
                 sevisOrgId: sevisOrgId,
+                isValidated: isValidated,
+                person: person,
+                financialInfo: financialInfo,
+                occupationCategoryCode: occupationCategoryCode,
+                programEndDate: endDate,
+                programStartDate: startDate,
+                dependents: dependents,
+                siteOfActivity: siteOfActivity);
+            var detail = exchangeVisitor.GetChangeDetail(otherExchangeVisitor);
+            Assert.IsFalse(detail.HasChanges());
+        }
+
+        [TestMethod]
+        public void TestCompare_ShouldIgnoreIsValidated()
+        {
+            var sevisId = "sevis id";
+            var sevisOrgId = "sevisOrgId";
+            var isValidated = true;
+            var person = GetPerson(DateTime.UtcNow);
+            var financialInfo = GetFinancialInfo();
+            var occupationCategoryCode = "99";
+            var endDate = DateTime.UtcNow.AddDays(1.0);
+            var startDate = DateTime.UtcNow.AddDays(-1.0);
+            var siteOfActivity = GetSOAAsAddressDTO();
+            var dependents = new List<Dependent>();
+
+            var exchangeVisitor = new ExchangeVisitor(
+                sevisId: sevisId,
+                sevisOrgId: sevisOrgId,
+                isValidated: isValidated,
+                person: person,
+                financialInfo: financialInfo,
+                occupationCategoryCode: occupationCategoryCode,
+                programEndDate: endDate,
+                programStartDate: startDate,
+                dependents: dependents,
+                siteOfActivity: siteOfActivity);
+
+            var otherExchangeVisitor = new ExchangeVisitor(
+                sevisId: sevisId,
+                sevisOrgId: sevisOrgId,
+                isValidated: !isValidated,
                 person: person,
                 financialInfo: financialInfo,
                 occupationCategoryCode: occupationCategoryCode,
@@ -1487,6 +1598,7 @@ namespace ECA.Business.Test.Validation.Sevis
         {
             var sevisId = "sevis id";
             var sevisOrgId = "sevisOrgId";
+            var isValidated = true;
             var person = GetPerson(DateTime.UtcNow);
             var financialInfo = GetFinancialInfo();
             var occupationCategoryCode = "99";
@@ -1498,6 +1610,7 @@ namespace ECA.Business.Test.Validation.Sevis
             var exchangeVisitor = new ExchangeVisitor(
                 sevisId: sevisId,
                 sevisOrgId: sevisOrgId,
+                isValidated: isValidated,
                 person: person,
                 financialInfo: financialInfo,
                 occupationCategoryCode: occupationCategoryCode,
@@ -1509,6 +1622,7 @@ namespace ECA.Business.Test.Validation.Sevis
             var otherExchangeVisitor = new ExchangeVisitor(
                 sevisId: sevisId,
                 sevisOrgId: sevisOrgId,
+                isValidated:isValidated,
                 person: person,
                 financialInfo: financialInfo,
                 occupationCategoryCode: occupationCategoryCode,
@@ -1526,6 +1640,7 @@ namespace ECA.Business.Test.Validation.Sevis
         {
             var sevisId = "sevis id";
             var sevisUserId = "sevisUserId";
+            var isValidated = true;
             var person = GetPerson(DateTime.UtcNow);
             var financialInfo = GetFinancialInfo();
             var occupationCategoryCode = "99";
@@ -1538,6 +1653,7 @@ namespace ECA.Business.Test.Validation.Sevis
             var exchangeVisitor = new ExchangeVisitor(
                 sevisId: sevisId,
                 sevisOrgId: sevisOrgId,
+                isValidated: isValidated,
                 person: person,
                 financialInfo: financialInfo,
                 occupationCategoryCode: occupationCategoryCode,
@@ -1561,6 +1677,7 @@ namespace ECA.Business.Test.Validation.Sevis
         {
             var sevisId = "sevis id";
             var sevisUserId = "sevisUserId";
+            var isValidated = true;
             var person = GetPerson(DateTime.UtcNow);
             var financialInfo = GetFinancialInfo();
             var occupationCategoryCode = "99";
@@ -1573,6 +1690,7 @@ namespace ECA.Business.Test.Validation.Sevis
             var exchangeVisitor = new ExchangeVisitor(
                 sevisId: sevisId,
                 sevisOrgId: sevisOrgId,
+                isValidated: isValidated,
                 person: person,
                 financialInfo: financialInfo,
                 occupationCategoryCode: occupationCategoryCode,

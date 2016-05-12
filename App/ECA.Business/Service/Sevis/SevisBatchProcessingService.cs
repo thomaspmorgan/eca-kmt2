@@ -28,6 +28,7 @@ using System.Data.Entity.Core.Objects;
 using ECA.Business.Storage;
 using System.Text;
 using ECA.Business.Queries.Persons;
+using ECA.Business.Queries.Models.Persons;
 
 namespace ECA.Business.Service.Sevis
 {
@@ -586,12 +587,15 @@ namespace ECA.Business.Service.Sevis
                     }
                     else if (groupedProcessRecord.IsPersonDependent)
                     {
-                        var dependentAndPerson = CreateGetPersonDependentAndPersonQuery(groupedProcessRecord.ObjectId).FirstOrDefault();
-                        var key = new ParticipantSevisKey(groupedProcessRecord.Records.First());
-                        var participantPerson = Context.ParticipantPersons.Find(key.ParticipantId);
-                        participantId = participantPerson.ParticipantId;
-                        UpdateParticipant(user, participantPerson, new List<PersonDependent> { dependentAndPerson }, sevisBatchCreateUpdateEV, groupedProcessRecord, batch);
-                        UploadDS2019(groupedProcessRecord, dependentAndPerson, fileProvider);
+                        var dependent = Context.PersonDependents.Find(groupedProcessRecord.ObjectId);
+                        var participantDTO = CreateGetSimplePersonDTOsByParticipantIdQuery(dependent.PersonId).FirstOrDefault();
+                        Contract.Assert(participantDTO.ParticipantId.HasValue, "The participant dto should have a participant id.");
+                        var participant = CreateGetParticipantAndDependentsQuery(participantDTO.ParticipantId.Value).FirstOrDefault();
+                        var participantPerson = participant.ParticipantPerson;
+                        var dependents = participant.Person.Family.ToList();
+                        participantId = participant.ParticipantId;
+                        UpdateParticipant(user, participantPerson, dependents, sevisBatchCreateUpdateEV, groupedProcessRecord, batch);
+                        UploadDS2019(groupedProcessRecord, dependent, fileProvider);
                     }
                     Contract.Assert(participantId.HasValue, "The participant id must have a value.");
                     if (participantId.HasValue && dispositionCode == DispositionCode.Success)
@@ -627,20 +631,23 @@ namespace ECA.Business.Service.Sevis
                     if (groupedProcessRecord.IsParticipant)
                     {
                         var participant = await CreateGetParticipantAndDependentsQuery(groupedProcessRecord.ObjectId).FirstOrDefaultAsync();
-                        var participantPerson = await Context.ParticipantPersons.FindAsync(groupedProcessRecord.ObjectId);
+                        var participantPerson = participant.ParticipantPerson;
                         var dependents = participant.Person.Family.ToList();
-                        participantId = participantPerson.ParticipantId;
+                        participantId = participant.ParticipantId;
                         UpdateParticipant(user, participantPerson, dependents, sevisBatchCreateUpdateEV, groupedProcessRecord, batch);
                         await UploadDS2019Async(groupedProcessRecord, participantPerson, fileProvider);
                     }
                     else if (groupedProcessRecord.IsPersonDependent)
                     {
-                        var dependentAndPerson = await CreateGetPersonDependentAndPersonQuery(groupedProcessRecord.ObjectId).FirstOrDefaultAsync();
-                        var key = new ParticipantSevisKey(groupedProcessRecord.Records.First());
-                        var participantPerson = await Context.ParticipantPersons.FindAsync(key.ParticipantId);
-                        participantId = participantPerson.ParticipantId;
-                        UpdateParticipant(user, participantPerson, new List<PersonDependent> { dependentAndPerson }, sevisBatchCreateUpdateEV, groupedProcessRecord, batch);
-                        await UploadDS2019Async(groupedProcessRecord, dependentAndPerson, fileProvider);
+                        var dependent = await Context.PersonDependents.FindAsync(groupedProcessRecord.ObjectId);
+                        var participantDTO = await CreateGetSimplePersonDTOsByParticipantIdQuery(dependent.PersonId).FirstOrDefaultAsync();
+                        Contract.Assert(participantDTO.ParticipantId.HasValue, "The participant dto should have a participant id.");
+                        var participant = await CreateGetParticipantAndDependentsQuery(participantDTO.ParticipantId.Value).FirstOrDefaultAsync();
+                        var participantPerson = participant.ParticipantPerson;
+                        var dependents = participant.Person.Family.ToList();
+                        participantId = participant.ParticipantId;
+                        UpdateParticipant(user, participantPerson, dependents, sevisBatchCreateUpdateEV, groupedProcessRecord, batch);
+                        await UploadDS2019Async(groupedProcessRecord, dependent, fileProvider);
                     }
                     Contract.Assert(participantId.HasValue, "The participant id must have a value.");
                     if (participantId.HasValue && dispositionCode == DispositionCode.Success)
@@ -770,18 +777,19 @@ namespace ECA.Business.Service.Sevis
             var query = Context.Participants
                 .Include(x => x.Person)
                 .Include(x => x.Person.Family)
+                .Include(x => x.ParticipantPerson)
                 .Where(x => x.ParticipantId == participantId);
             return query;
-        }
-
-        private IQueryable<PersonDependent> CreateGetPersonDependentAndPersonQuery(int personDependentId)
-        {
-            return Context.PersonDependents.Include(x => x.Person).Where(x => x.DependentId == personDependentId);
         }
 
         private IQueryable<int> CreateGetParticipantIdsByBatchId(string batchId)
         {
             return SevisBatchProcessingQueries.CreateGetParticipantPersonsByBatchId(this.Context, batchId).Select(x => x.ParticipantId);
+        }
+
+        private IQueryable<SimplePersonDTO> CreateGetSimplePersonDTOsByParticipantIdQuery(int personId)
+        {
+            return PersonQueries.CreateGetSimplePersonDTOsQuery(this.Context).Where(x => x.PersonId == personId);
         }
 
         private IQueryable<int> CreateGetParticipantIdsWhoNeedSuccessfulUploadStatus(string batchId)
@@ -827,22 +835,10 @@ namespace ECA.Business.Service.Sevis
             var update = new Update(user);
             update.SetHistory(participantPerson);
             var requestIds = groupedDetailProcessBatch.Records.Select(x => x.GetRequestId()).ToList();
-            int sevisCommStatusId = 0;
+            int sevisCommStatusId = GetSevisCommStatusByRequestIds(success, requestIds);
+            Contract.Assert(sevisCommStatusId != 0, "The sevis comm status must be set.");
             if (success)
-            {
-                if (requestIds.Where(x => x.RequestIdType == RequestIdType.Validate).Count() > 0)
-                {
-                    sevisCommStatusId = SevisCommStatus.ValidatedByBatch.Id;
-                }
-                else if (requestIds.Where(x => x.RequestActionType == RequestActionType.Update).Count() > 0)
-                {
-                    sevisCommStatusId = SevisCommStatus.UpdatedByBatch.Id;
-                }
-                else if (requestIds.Where(x => x.RequestActionType == RequestActionType.Create).Count() > 0)
-                {
-                    sevisCommStatusId = SevisCommStatus.CreatedByBatch.Id;
-                }
-                Contract.Assert(sevisCommStatusId != 0, "The sevis comm status must be set.");
+            {   
                 if (groupedDetailProcessBatch.IsParticipant)
                 {
                     foreach (var record in groupedDetailProcessBatch.Records)
@@ -857,9 +853,7 @@ namespace ECA.Business.Service.Sevis
                             {
                                 var participantSevisKey = new ParticipantSevisKey(dependentRecord);
                                 var dependentToUpdate = dependents.Where(x => x.DependentId == participantSevisKey.PersonId).FirstOrDefault();
-                                dependentToUpdate.SevisId = dependentRecord.dependentSevisID;
-                                dependentToUpdate.IsSevisDeleted = false;
-                                update.SetHistory(dependentToUpdate);
+                                DoUpdateDependent(dependentToUpdate, update, dependentRecord.dependentSevisID, false);
                             }
                         }
                     }
@@ -868,21 +862,11 @@ namespace ECA.Business.Service.Sevis
                 {
                     foreach (var record in groupedDetailProcessBatch.Records)
                     {
-                        var dependentToUpdate = dependents.Where(x => x.SevisId == record.sevisID).FirstOrDefault();
-                        dependentToUpdate.IsSevisDeleted = createUpdateEVBatch.ContainsDeletedParticipantDependent(record.sevisID);
-                        update.SetHistory(dependentToUpdate);
+                        var requestId = record.GetRequestId();
+                        Contract.Assert(requestId.IsPersonDependentId, "The request id should be for a dendent.");
+                        var dependentToUpdate = dependents.Where(x => x.DependentId == requestId.Id).FirstOrDefault();
+                        DoUpdateDependent(dependentToUpdate, update, record.sevisID, createUpdateEVBatch.ContainsDeletedParticipantDependent(record.sevisID));
                     }
-                }
-            }
-            else
-            {
-                if (requestIds.Where(x => x.RequestIdType == RequestIdType.Validate).Count() > 0)
-                {
-                    sevisCommStatusId = SevisCommStatus.NeedsValidationInfo.Id;
-                }
-                else
-                {
-                    sevisCommStatusId = SevisCommStatus.InformationRequired.Id;
                 }
             }
             var participantCommStatus = new ParticipantPersonSevisCommStatus
@@ -895,6 +879,53 @@ namespace ECA.Business.Service.Sevis
             };
             participantPerson.ParticipantPersonSevisCommStatuses.Add(participantCommStatus);
             Context.ParticipantPersonSevisCommStatuses.Add(participantCommStatus);
+        }
+
+        private int GetSevisCommStatusByRequestIds(bool isSuccess, IEnumerable<RequestId> requestIds)
+        {
+            if (isSuccess)
+            {
+                if (requestIds.Where(x => x.RequestIdType == RequestIdType.Validate).Count() > 0)
+                {
+                    return SevisCommStatus.ValidatedByBatch.Id;
+                }
+                //remember we could be creating a new dependent on an existing exchange visitor - so we'll have a create and an update if we dont check
+                //the EV sevis id
+                else if (requestIds.Where(x => x.RequestActionType == RequestActionType.Create && x.IsParticipantId).Count() > 0)
+                {
+                    return SevisCommStatus.CreatedByBatch.Id;
+                }
+                else if (requestIds.Where(x => x.RequestActionType == RequestActionType.Create && x.IsPersonDependentId).Count() > 0)
+                {
+                    return SevisCommStatus.UpdatedByBatch.Id;
+                }
+                else if (requestIds.Where(x => x.RequestActionType == RequestActionType.Update).Count() > 0)
+                {
+                    return SevisCommStatus.UpdatedByBatch.Id;
+                }
+                else
+                {
+                    throw new NotSupportedException("The sevis comm status id could not be determined by the request ids.");
+                }
+            }
+            else
+            {
+                if (requestIds.Where(x => x.RequestIdType == RequestIdType.Validate).Count() > 0)
+                {
+                    return SevisCommStatus.NeedsValidationInfo.Id;
+                }
+                else
+                {
+                    return SevisCommStatus.InformationRequired.Id;
+                }
+            }
+        }
+
+        private void DoUpdateDependent(PersonDependent dependentToUpdate, Update update, string sevisId, bool isSevisDeleted)
+        {
+            dependentToUpdate.SevisId = sevisId;
+            dependentToUpdate.IsSevisDeleted = isSevisDeleted;
+            update.SetHistory(dependentToUpdate);
         }
 
         #endregion

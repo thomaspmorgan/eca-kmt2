@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 using System;
 using ECA.Business.Service.Admin;
 using ECA.Business.Validation.Sevis.Exceptions;
+using ECA.Business.Service.Persons;
 
 namespace ECA.Business.Validation.Sevis.Bio
 {
@@ -75,14 +76,22 @@ namespace ECA.Business.Validation.Sevis.Bio
         /// </summary>
         public const string PERSON_TYPE = "participant";
 
+        public const string G_PROGRAM_PREFIX = "G";
+
         /// <summary>
         /// Creates a new default instance.
+        /// <param name="isExchangeVisitorValidated">True, if the exchange visitor has been validated in the sevis api.</param>
+        /// <param name="sevisId">The sevis id of the exchange visitor.</param>
+        /// <param name="participantStartDate">The particiant/exchange visitor start date.</param>
+        /// <param name="sevisOrgId">The sevis org id.</param>
         /// </summary>
-        public PersonValidator(string sevisId, DateTime participantStartDate)
+        public PersonValidator(string sevisId, string sevisOrgId, bool isExchangeVisitorValidated, DateTime participantStartDate)
             : base()
         {
             this.SevisId = sevisId;
             this.ParticipantStartDate = participantStartDate;
+            this.IsValidated = isExchangeVisitorValidated;
+            this.SevisOrgId = sevisOrgId;
             Func<Person, object> homeAddressTypeDelelgate = (p) => AddressType.Home.Value;
             Func<Person, object> hostAddressTypeDelegate = (p) => AddressType.Host.Value;
 
@@ -108,17 +117,23 @@ namespace ECA.Business.Validation.Sevis.Bio
                 .WithState(x => new FieldOfStudyErrorPath())
                 .SetValidator(new SubjectFieldValidator());
 
-            When(x => !String.IsNullOrWhiteSpace(this.SevisId) && this.ParticipantStartDate > DateTime.UtcNow, () =>
+            When(x => !String.IsNullOrWhiteSpace(this.SevisId)
+            && !this.IsValidated
+            && this.ParticipantStartDate < ParticipantPersonsSevisService.GetEarliestNeedsValidationInfoParticipantDate(),
+            () =>
             {
-                RuleFor(x => x.EmailAddress)
+                When(x => !String.IsNullOrWhiteSpace(this.SevisOrgId) && !this.SevisOrgId.ToUpper().StartsWith(G_PROGRAM_PREFIX), () =>
+                {
+                    RuleFor(x => x.EmailAddress)
                     .NotNull()
                     .WithMessage(EMAIL_ADDRESS_REQUIRED_FORMAT_MESSAGE, EmailAddressType.Personal.Value)
                     .WithState(x => new EmailErrorPath());
 
-                RuleFor(x => x.PhoneNumber)
-                    .NotNull()
-                    .WithMessage(VISITING_PHONE_REQUIRED_ERROR_MESSAGE, (p) => Data.PhoneNumberType.Visiting.Value, GetPersonTypeDelegate(), GetNameDelegate())
-                    .WithState(x => new PhoneNumberErrorPath());
+                    RuleFor(x => x.PhoneNumber)
+                        .NotNull()
+                        .WithMessage(VISITING_PHONE_REQUIRED_ERROR_MESSAGE, (p) => Data.PhoneNumberType.Visiting.Value, GetPersonTypeDelegate(), GetNameDelegate())
+                        .WithState(x => new PhoneNumberErrorPath());
+                });
 
                 RuleFor(visitor => visitor.MailAddress)
                     .NotNull()
@@ -161,6 +176,16 @@ namespace ECA.Business.Validation.Sevis.Bio
         /// Gets the participant's start date.
         /// </summary>
         public DateTime ParticipantStartDate { get; private set; }
+
+        /// <summary>
+        /// Gets the sevis org id.
+        /// </summary>
+        public string SevisOrgId { get; private set; }
+
+        /// <summary>
+        /// Gets the is validated flag.
+        /// </summary>
+        public bool IsValidated { get; private set; }
 
         /// <summary>
         /// Returns a delegate that creates a full name string, or the empty string.

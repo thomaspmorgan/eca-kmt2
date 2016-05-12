@@ -32,7 +32,17 @@ namespace ECA.WebJobs.Sevis.Core
             }
             else
             {
-                this.zipArchiveDelegate = (s) => new ZipArchive(s);
+                this.zipArchiveDelegate = (s) =>
+                {
+#if DEBUG
+                    //using (var fileStream = File.Open(@"c:\dev\test.zip", FileMode.Create))
+                    //{
+                    //    s.CopyTo(fileStream);
+                    //    s.Seek(0, SeekOrigin.Begin);
+                    //}
+#endif
+                    return new ZipArchive(s);
+                };
             }
         }
         #region Handle Upload Response

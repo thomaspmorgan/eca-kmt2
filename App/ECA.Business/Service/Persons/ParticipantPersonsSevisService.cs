@@ -386,7 +386,11 @@ namespace ECA.Business.Service.Persons
                 .ToPagedQueryResultsAsync(queryOperator.Start, queryOperator.Limit);
         }
 
-        private DateTimeOffset GetEarliestNeedsValidationInfoParticipantDate()
+        /// <summary>
+        /// Returns the earliest date an exchange visitor can be validated from now.
+        /// </summary>
+        /// <returns>The earliest date and exchange visitor can be validated from now.</returns>
+        public static DateTimeOffset GetEarliestNeedsValidationInfoParticipantDate()
         {
             return DateTimeOffset.UtcNow.AddDays(NUMBER_OF_DAYS_BEFORE_START_DATE_A_PARTICIPANT_NEEDS_VALIDATION_INFO);
         }
