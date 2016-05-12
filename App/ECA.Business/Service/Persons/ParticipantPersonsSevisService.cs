@@ -1,4 +1,5 @@
-﻿using ECA.Business.Queries.Models.Persons;
+﻿using ECA.Business.Exceptions;
+using ECA.Business.Queries.Models.Persons;
 using ECA.Business.Queries.Models.Persons.ExchangeVisitor;
 using ECA.Business.Queries.Models.Sevis;
 using ECA.Business.Queries.Persons;
@@ -24,7 +25,7 @@ namespace ECA.Business.Service.Persons
     /// <summary>
     /// A ParticipantPersonService is capable of performing crud operations on participantPersons in the ECA system.
     /// </summary>
-    public class ParticipantPersonsSevisService : DbContextService<EcaContext>, IParticipantPersonsSevisService
+    public class ParticipantPersonsSevisService : EcaService, IParticipantPersonsSevisService
     {
         /// <summary>
         /// The number of days to add to now to find participants who can be set to needs validation info.
@@ -34,9 +35,8 @@ namespace ECA.Business.Service.Persons
         private readonly Logger logger = LogManager.GetCurrentClassLogger();
         private readonly Action<int, object, Type> throwIfModelDoesNotExist;
         private Action<int, int, Participant> throwSecurityViolationIfParticipantDoesNotBelongToProject;
-        private Action<Participant> throwValidationErrorIfParticipantSevisInfoIsLocked;
-        public readonly int[] LOCKED_SEVIS_COMM_STATUSES = { 5, 13, 14 };
-        
+        private Action<ParticipantPersonSevisDTO> throwValidationErrorIfParticipantSevisInfoIsLocked;
+
         /// <summary>
         /// Creates a new ParticipantPersonService with the given context to operate against.
         /// </summary>
@@ -65,37 +65,10 @@ namespace ECA.Business.Service.Persons
             };
             throwValidationErrorIfParticipantSevisInfoIsLocked = (participant) =>
             {
-                if (participant.ParticipantPerson != null)
-                {
-                    var sevisStatusId = participant.ParticipantPerson.ParticipantPersonSevisCommStatuses.OrderByDescending(x => x.AddedOn).Select(x => x.SevisCommStatusId).FirstOrDefault();
-
-                    if (participant != null && IndexOfInt(LOCKED_SEVIS_COMM_STATUSES, sevisStatusId) != -1)
-                    {
-                        var response = new HttpResponseMessage(HttpStatusCode.PreconditionFailed)
-                        {
-                            Content = new StringContent(String.Format("An update was attempted on participant with id [{0}] but should have failed validation.",
-                            participant.ParticipantId), System.Text.Encoding.UTF8, "text/plain"),
-                            StatusCode = HttpStatusCode.PreconditionFailed
-                        };
-
-                        throw new HttpResponseException(response);
-                    }
-                }
+                participant.ValidateSevisLock();
             };
         }
-
-        static int IndexOfInt(int[] arr, int value)
-        {
-            for (int i = 0; i < arr.Length; i++)
-            {
-                if (arr[i] == value)
-                {
-                    return i;
-                }
-            }
-            return -1;
-        }
-
+        
         #region Get
         /// <summary>
         /// Returns list of sevis participants
@@ -337,7 +310,11 @@ namespace ECA.Business.Service.Persons
         {
             var participantPerson = CreateGetParticipantPersonsByIdQuery(updatedParticipantPersonSevis.ParticipantId).FirstOrDefault();
             throwIfModelDoesNotExist(updatedParticipantPersonSevis.ParticipantId, participantPerson, typeof(ParticipantPerson));
-            throwValidationErrorIfParticipantSevisInfoIsLocked(participantPerson.Participant);
+            var participant = GetParticipantByPersonIdAsync((int)participantPerson.Participant.PersonId);
+            if (participant != null)
+            {
+                throwValidationErrorIfParticipantSevisInfoIsLocked(participant.Result);
+            }
 
             DoUpdate(participantPerson, updatedParticipantPersonSevis);
         }
@@ -351,7 +328,11 @@ namespace ECA.Business.Service.Persons
         {
             var participantPerson = await CreateGetParticipantPersonsByIdQuery(updatedParticipantPersonSevis.ParticipantId).FirstOrDefaultAsync();
             throwIfModelDoesNotExist(updatedParticipantPersonSevis.ParticipantId, participantPerson, typeof(ParticipantPerson));
-            throwValidationErrorIfParticipantSevisInfoIsLocked(participantPerson.Participant);
+            var participant = await GetParticipantByPersonIdAsync((int)participantPerson.Participant.PersonId);
+            if (participantPerson.Participant != null)
+            {
+                throwValidationErrorIfParticipantSevisInfoIsLocked(participant);
+            }
 
             DoUpdate(participantPerson, updatedParticipantPersonSevis);
         }

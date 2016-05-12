@@ -103,8 +103,8 @@ namespace ECA.Business.Test.Service.Persons
                 Assert.IsNull(firstPhoneNumber.PersonId);
             };
 
-            var serviceResults = service.GetContactById(contact.ContactId);
-            var serviceResultsAsync = await service.GetContactByIdAsync(contact.ContactId);
+            var serviceResults = service.GetContactDTOById(contact.ContactId);
+            var serviceResultsAsync = await service.GetContactDTOByIdAsync(contact.ContactId);
             tester(serviceResults);
             tester(serviceResultsAsync);
         }
@@ -118,8 +118,8 @@ namespace ECA.Business.Test.Service.Persons
                 Assert.IsNull(serviceResult);
             };
 
-            var serviceResults = service.GetContactById(1);
-            var serviceResultsAsync = await service.GetContactByIdAsync(1);
+            var serviceResults = service.GetContactDTOById(1);
+            var serviceResultsAsync = await service.GetContactDTOByIdAsync(1);
             tester(serviceResults);
             tester(serviceResultsAsync);
         }

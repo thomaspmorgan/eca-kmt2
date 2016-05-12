@@ -73,14 +73,14 @@ namespace ECA.WebApi.Test.Controllers.Persons
 
         #region Get
         [TestMethod]
-        public async Task TestGetThemesAsync()
+        public async Task TestGetContactsAsync()
         {
             var response = await controller.GetContactsAsync(new PagingQueryBindingModel<ContactDTO>());
             Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<PagedQueryResults<ContactDTO>>));
         }
 
         [TestMethod]
-        public async Task TestGetThemesAsync_InvalidModel()
+        public async Task TestGetContactsAsync_InvalidModel()
         {
             controller.ModelState.AddModelError("key", "error");
             var response = await controller.GetContactsAsync(new PagingQueryBindingModel<ContactDTO>());

@@ -46,6 +46,7 @@ namespace ECA.Business.Service.Persons
             string givenName,
             string familyName,
             string middleName,
+            string passportName,
             string patronym,
             string alias,
             int genderId,
@@ -69,6 +70,7 @@ namespace ECA.Business.Service.Persons
             this.GivenName = givenName;
             this.FamilyName = familyName;
             this.MiddleName = middleName;
+            this.PassportName = passportName;
             this.Patronym = patronym;
             this.Alias = alias;
             this.GenderId = genderId;
@@ -123,6 +125,12 @@ namespace ECA.Business.Service.Persons
         /// Gets or sets the middle name
         /// </summary>
         public string MiddleName { get; private set; }
+
+        /// <summary>
+        /// Gets or sets the passport name
+        /// </summary>
+        public string PassportName { get; private set; }
+
 
         /// <summary>
         /// Gets or sets the patronym

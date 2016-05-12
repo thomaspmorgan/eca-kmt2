@@ -146,6 +146,9 @@
       <HintPath>..\packages\Moq.4.2.1510.2205\lib\net40\Moq.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Moq.4.2.1510.2205.Fakes">
+      <HintPath>FakesAssemblies\Moq.4.2.1510.2205.Fakes.dll</HintPath>
+    </Reference>
     <Reference Include="mscorlib.4.0.0.0.Fakes">
       <HintPath>FakesAssemblies\mscorlib.4.0.0.0.Fakes.dll</HintPath>
     </Reference>
@@ -381,6 +384,7 @@
     <Compile Include="Service\Programs\ProgramServiceTest.cs" />
     <Compile Include="Service\Projects\ProjectServiceTest.cs" />
     <Compile Include="Service\Lookup\ThemeServiceTest.cs" />
+    <Fakes Include="Fakes\Moq.fakes" />
     <Fakes Include="Fakes\KellermanSoftware.Compare-NET-Objects.fakes" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

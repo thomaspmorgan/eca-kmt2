@@ -6,13 +6,7 @@ using ECA.Core.Query;
 using ECA.WebApi.Models.Person;
 using ECA.WebApi.Models.Query;
 using ECA.WebApi.Security;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Diagnostics.Contracts;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
@@ -22,6 +16,7 @@ namespace ECA.WebApi.Controllers.Persons
     /// <summary>
     /// The ContactsController is used for crud operations on points of contact in the eca system.
     /// </summary>
+    [RoutePrefix("api")]
     [Authorize]
     public class ContactsController : ApiController
     {
@@ -68,6 +63,7 @@ namespace ECA.WebApi.Controllers.Persons
         /// <summary>
         /// Adds a new contact to the system.
         /// </summary>
+        /// <param name="model"></param>
         /// <returns>The saved contact.</returns>
         public async Task<IHttpActionResult> PostCreateContactAsync(AdditionalPointOfContactBindingModel model)
         {
@@ -86,5 +82,30 @@ namespace ECA.WebApi.Controllers.Persons
                 return BadRequest(ModelState);
             }
         }
+
+        /// <summary>
+        /// Updates a contact in the system.
+        /// </summary>
+        /// <param name="model">The updated contact</param>
+        /// <returns></returns>
+        [ResponseType(typeof(ContactDTO))]
+        public async Task<IHttpActionResult> PutContactAsync(UpdatedPointOfContactBindingModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var currentUser = userProvider.GetCurrentUser();
+                var businessUser = userProvider.GetBusinessUser(currentUser);
+                var instance = model.ToUpdatePointOfContact(businessUser);
+                var contact = await service.UpdateContactAsync(instance);
+                await service.SaveChangesAsync();
+                var dto = await service.GetContactByIdAsync(contact.Id);
+                return Ok(dto);
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+        }
+        
     }
 }

@@ -26,10 +26,11 @@ namespace ECA.WebApi.Test.Models.Person
             model.MaritalStatusId = MaritalStatus.Divorced.Id;
             model.MedicalConditions = "medical";
             model.MiddleName = "middle";
+            model.PassportName = "passportName";
             model.NamePrefix = "prefix";
             model.NameSuffix = "suffix";
             model.Patronym = "patronym";
-            model.PersonId = 2;
+            model.PersonId = 5;
             model.IsDateOfBirthEstimated = true;
             model.IsDateOfBirthUnknown = true;
             model.IsPlaceOfBirthUnknown = true;
@@ -49,6 +50,7 @@ namespace ECA.WebApi.Test.Models.Person
             Assert.AreEqual(model.MaritalStatusId, instance.MaritalStatusId);
             Assert.AreEqual(model.MedicalConditions, instance.MedicalConditions);
             Assert.AreEqual(model.MiddleName, instance.MiddleName);
+            Assert.AreEqual(model.PassportName, instance.PassportName);
             Assert.AreEqual(model.NamePrefix, instance.NamePrefix);
             Assert.AreEqual(model.NameSuffix, instance.NameSuffix);
             Assert.AreEqual(model.Patronym, instance.Patronym);

@@ -1,27 +1,26 @@
-﻿(function () {
-    'use strict';
+﻿'use strict';
 
-    angular
-        .module('staticApp')
-        .factory('ContactsService', contactsService);
+/**
+ * @ngdoc service
+ * @name staticApp.contacts
+ * @description
+ * # contacts
+ * Factory in the staticApp.
+ */
+angular.module('staticApp')
+    .factory('ContactsService', function ($q, DragonBreath) {
 
-    contactsService.$inject = ['$q', 'DragonBreath'];
+      return {
 
-    function contactsService($q, DragonBreath) {
-        var service = {
-            create: create,
-            get: get,
-        };
-
-        return service;
-
-        function create(contact) {
+        create: function (contact) {
             return DragonBreath.create(contact, 'contacts');
-        };
-
-        function get(params) {
+        },
+        update: function (contact) {
+            return DragonBreath.save(contact, 'contacts');
+        },
+        get: function (params) {
             return DragonBreath.get(params, 'contacts');
-        };
+        }
 
-    }
-})();
+    };
+  });
