@@ -74,6 +74,7 @@
 	otherConstants["itineraryStopExpandedEventName"] = "itineraryStopExpanded";
 	otherConstants["removeNewDependentEventName"] = "removeNewDependent";
 	otherConstants["removeNewCitizenshipCountryEventName"] = "removeNewCitizenshipCountry";
+	otherConstants["removePointsOfContactEventName"] = "removePointsOfContact";
 
 	otherConstants["ascending"] = SortDirection.Ascending.Value;
 	otherConstants["descending"] = SortDirection.Descending.Value;

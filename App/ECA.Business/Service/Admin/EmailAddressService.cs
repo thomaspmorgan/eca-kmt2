@@ -39,7 +39,7 @@ namespace ECA.Business.Service.Admin
             {
                 if (emailAddressableEntity == null)
                 {
-                    throw new ModelNotFoundException(String.Format("The sociable entity with id [{0}] was not found.", id));
+                    throw new ModelNotFoundException(String.Format("The email addressable entity with id [{0}] was not found.", id));
                 }
             };
             throwIfEmailAddressNotFound = (emailAddress, id) =>

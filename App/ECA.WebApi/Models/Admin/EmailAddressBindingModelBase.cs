@@ -1,11 +1,7 @@
 ﻿using ECA.Business.Service;
 using ECA.Business.Service.Admin;
 using ECA.Data;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
 
 namespace ECA.WebApi.Models.Admin
 {
@@ -40,7 +36,7 @@ namespace ECA.WebApi.Models.Admin
         where T : class, IEmailAddressable
     {
         /// <summary>
-        /// The socialable entity id.
+        /// The emailAddressable entity id.
         /// </summary>
         public int EMailAddressableId { get; set; }
 

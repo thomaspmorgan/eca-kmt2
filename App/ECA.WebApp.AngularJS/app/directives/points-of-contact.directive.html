@@ -40,7 +40,7 @@
                         Are you sure you want to delete this point of contact?
                     </div>
                     <div ng-show="view.showConfirmDelete" style="margin-top:10px;" class="text-center">
-                        <button ng-click="view.onDeletePocClick(poc.id)" class="btn btn-danger">Delete</button>
+                        <button ng-click="view.onDeletePocClick(poc)" class="btn btn-danger">Delete</button>
                         <button ng-click="view.showConfirmDelete = !view.showConfirmDelete" class="btn btn-cancel">Cancel</button>
                     </div>
                     <div ng-show="!view.showConfirmDelete" collapse="view.collapsePoc">
@@ -91,12 +91,12 @@
                         <div class="row">
                             <i class="material-icons md-dark col-md-1">email</i>
                             <div class="col-md-3 title-label">Emails</div>
-                            <emailaddresses model="poc" modelid="poc.id" modeltype="'person'" editmode="true"></emailaddresses>
+                            <emailaddresses model="poc" modelid="poc.id" modeltype="'contact'" editmode="true"></emailaddresses>
                         </div>
                         <div class="row">
                             <i class="material-icons md-dark col-md-1">phone</i>
                             <div class="col-md-4 title-label">Phone Numbers</div>
-                            <phonenumbers model="poc" modelid="poc.id" modeltype="'person'" editmode="true"></phonenumbers>
+                            <phonenumbers model="poc" modelid="poc.id" modeltype="'contact'" editmode="true"></phonenumbers>
                         </div>
                     </div>
                 </div>

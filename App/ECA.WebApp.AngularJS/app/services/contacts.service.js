@@ -2,9 +2,9 @@
 
 /**
  * @ngdoc service
- * @name staticApp.contacts
+ * @name staticApp.ContactsService
  * @description
- * # contacts
+ * # ContactsService
  * Factory in the staticApp.
  */
 angular.module('staticApp')
@@ -20,7 +20,10 @@ angular.module('staticApp')
         },
         get: function (params) {
             return DragonBreath.get(params, 'contacts');
-        }
+        },
+        delete: function (contact) {
+            return DragonBreath.delete(contact, 'contacts/' + contact.id);
+        },
 
     };
   });

@@ -4,9 +4,9 @@ using System.Linq;
 namespace ECA.Business.Service.Admin
 {
     /// <summary>
-    /// Allows a business layer client to add an email address to a person.
+    /// Allows a business layer client to add an email address to a contact.
     /// </summary>
-    public class NewPersonEmailAddress : NewEmailAddress<Person>
+    public class NewContactEmailAddress : NewEmailAddress<Contact>
     {
         /// <summary>
         /// Creates a new email address with the user, type of email address, and address.
@@ -14,18 +14,18 @@ namespace ECA.Business.Service.Admin
         /// <param name="user">The user creating the social media presence.</param>
         /// <param name="emailAddressTypeId">The email address type by id.</param>
         /// <param name="address">The value.</param>
-        /// <param name="personId">The person id.</param>
+        /// <param name="contactId">The person id.</param>
         /// <param name="isPrimary">The is primary flag.</param>
-        public NewPersonEmailAddress(User user, int emailAddressTypeId, string address, bool isPrimary, int personId)
+        public NewContactEmailAddress(User user, int emailAddressTypeId, string address, bool isPrimary, int contactId)
             :base(user, emailAddressTypeId, address, isPrimary)
         {
-            this.PersonId = personId;
+            this.ContactId = contactId;
         }
 
         /// <summary>
         /// Gets the organization id.
         /// </summary>
-        public int PersonId { get; private set; }
+        public int ContactId { get; private set; }
 
         /// <summary>
         /// Returns a query to retrieve email addresses of the person.
@@ -34,7 +34,7 @@ namespace ECA.Business.Service.Admin
         /// <returns>The email address query.</returns>
         public override IQueryable<EmailAddress> CreateGetEmailAddressesQuery(EcaContext context)
         {
-            return context.EmailAddresses.Where(x => x.PersonId == this.PersonId);
+            return context.EmailAddresses.Where(x => x.ContactId == this.ContactId);
         }
 
         /// <summary>
@@ -43,7 +43,8 @@ namespace ECA.Business.Service.Admin
         /// <returns>The person id.</returns>
         public override int GetEmailAddressableEntityId()
         {
-            return this.PersonId;
+            return this.ContactId;
         }
+
     }
 }

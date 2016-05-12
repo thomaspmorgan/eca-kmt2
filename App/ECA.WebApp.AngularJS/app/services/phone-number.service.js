@@ -2,7 +2,7 @@
 
 /**
  * @ngdoc service
- * @name staticApp.phoneNumber
+ * @name staticApp.PhoneNumberService
  * @description
  * # PhoneNumberService
  * Factory for handling phone numbers.
@@ -12,8 +12,7 @@ angular.module('staticApp')
 
       var service = {
 
-          personPhoneNumberableType: 'person',
-          contactPhoneNumberableType: 'contact',
+          phoneNumberableTypes: ['person','contact'],
 
           update: function (phoneNumber, phoneNumberableType, phoneNumberableId) {
               if (!service.isValidPhoneNumberableType(phoneNumberableType)) {
@@ -30,25 +29,25 @@ angular.module('staticApp')
               return DragonBreath.delete(phoneNumber, resourceApiPrefix + '/' + phoneNumberableId + '/phonenumber/' + phoneNumber.id);
           },
 
-          add: function (emailAddress, phoneNumberableType, phoneNumberableId) {
+          add: function (phoneNumber, phoneNumberableType, phoneNumberableId) {
               if (!service.isValidPhoneNumberableType(phoneNumberableType)) {
                   throw Error('The phoneNumberable type [' + phoneNumberableType + '] is not supported.');
               }
               var resourceApiPrefix = service.getResourceApiPrefix(phoneNumberableType);
-              return DragonBreath.create(emailAddress, resourceApiPrefix + '/' + phoneNumberableId + '/phonenumber');
+              return DragonBreath.create(phoneNumber, resourceApiPrefix + '/' + phoneNumberableId + '/phonenumber');
           },
           getResourceApiPrefix: function (phoneNumberableType) {
               if (!service.isValidPhoneNumberableType(phoneNumberableType)) {
                   throw Error('The phoneNumberable type [' + phoneNumberableType + '] is not supported.');
               }
-              if (phoneNumberableType === service.personPhoneNumberableType) {
+              if (phoneNumberableType === service.phoneNumberableTypes[0]) {
                   return 'people';
-              } else if (phoneNumberableType === service.contactPhoneNumberableType) {
+              } else if (phoneNumberableType === service.phoneNumberableTypes[1]) {
                   return 'contact';
               }
           },
           isValidPhoneNumberableType: function (phoneNumberableType) {
-              var types = [service.personPhoneNumberableType];
+              var types = service.phoneNumberableTypes;
               return types.indexOf(phoneNumberableType) >= 0;
           }
       };
