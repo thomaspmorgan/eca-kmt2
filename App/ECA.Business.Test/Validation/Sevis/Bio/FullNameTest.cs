@@ -108,7 +108,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             Assert.AreEqual(fullName.Suffix, instance.Suffix);
         }
 
-        #region GetchangeDetail
+        #region GetChangeDetail
         [TestMethod]
         public void TestGetChangeDetail_SameInstance()
         {
@@ -121,11 +121,6 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
 
             var detail = fullName.GetChangeDetail(fullName);
             Assert.IsFalse(detail.HasChanges());
-            Assert.IsFalse(detail.FirstNameChanged);
-            Assert.IsFalse(detail.LastNameChanged);
-            Assert.IsFalse(detail.PassportNameChanged);
-            Assert.IsFalse(detail.PreferredNameChanged);
-            Assert.IsFalse(detail.SuffixChanged);
         }
 
         [TestMethod]
@@ -147,115 +142,6 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
 
             var detail = fullName.GetChangeDetail(otherFullName);
             Assert.IsTrue(detail.HasChanges());
-            Assert.IsTrue(detail.FirstNameChanged);
-            Assert.IsFalse(detail.LastNameChanged);
-            Assert.IsFalse(detail.PassportNameChanged);
-            Assert.IsFalse(detail.PreferredNameChanged);
-            Assert.IsFalse(detail.SuffixChanged);
-        }
-
-        [TestMethod]
-        public void TestGetChangeDetail_LastNameChanged()
-        {
-            var firstName = "first";
-            var lastName = "last";
-            var passport = "passport";
-            var preferred = "preferred";
-            var suffix = "Jr.";
-            var fullName = new FullName(firstName, lastName, passport, preferred, suffix);
-
-            var otherFirstName = "first";
-            var otherLastName = "other last";
-            var otherPassport = "passport";
-            var otherPreferred = "preferred";
-            var otherSuffix = "Jr.";
-            var otherFullName = new FullName(otherFirstName, otherLastName, otherPassport, otherPreferred, otherSuffix);
-
-            var detail = fullName.GetChangeDetail(otherFullName);
-            Assert.IsTrue(detail.HasChanges());
-            Assert.IsFalse(detail.FirstNameChanged);
-            Assert.IsTrue(detail.LastNameChanged);
-            Assert.IsFalse(detail.PassportNameChanged);
-            Assert.IsFalse(detail.PreferredNameChanged);
-            Assert.IsFalse(detail.SuffixChanged);
-        }
-
-        [TestMethod]
-        public void TestGetChangeDetail_PassportNameChanged()
-        {
-            var firstName = "first";
-            var lastName = "last";
-            var passport = "passport";
-            var preferred = "preferred";
-            var suffix = "Jr.";
-            var fullName = new FullName(firstName, lastName, passport, preferred, suffix);
-
-            var otherFirstName = "first";
-            var otherLastName = "last";
-            var otherPassport = "other passport";
-            var otherPreferred = "preferred";
-            var otherSuffix = "Jr.";
-            var otherFullName = new FullName(otherFirstName, otherLastName, otherPassport, otherPreferred, otherSuffix);
-
-            var detail = fullName.GetChangeDetail(otherFullName);
-            Assert.IsTrue(detail.HasChanges());
-            Assert.IsFalse(detail.FirstNameChanged);
-            Assert.IsFalse(detail.LastNameChanged);
-            Assert.IsTrue(detail.PassportNameChanged);
-            Assert.IsFalse(detail.PreferredNameChanged);
-            Assert.IsFalse(detail.SuffixChanged);
-        }
-
-        [TestMethod]
-        public void TestGetChangeDetail_PreferredNameChanged()
-        {
-            var firstName = "first";
-            var lastName = "last";
-            var passport = "passport";
-            var preferred = "preferred";
-            var suffix = "Jr.";
-            var fullName = new FullName(firstName, lastName, passport, preferred, suffix);
-
-            var otherFirstName = "first";
-            var otherLastName = "last";
-            var otherPassport = "passport";
-            var otherPreferred = "other preferred";
-            var otherSuffix = "Jr.";
-            var otherFullName = new FullName(otherFirstName, otherLastName, otherPassport, otherPreferred, otherSuffix);
-
-            var detail = fullName.GetChangeDetail(otherFullName);
-            Assert.IsTrue(detail.HasChanges());
-            Assert.IsFalse(detail.FirstNameChanged);
-            Assert.IsFalse(detail.LastNameChanged);
-            Assert.IsFalse(detail.PassportNameChanged);
-            Assert.IsTrue(detail.PreferredNameChanged);
-            Assert.IsFalse(detail.SuffixChanged);
-        }
-
-        [TestMethod]
-        public void TestGetChangeDetail_SuffixNameChanged()
-        {
-            var firstName = "first";
-            var lastName = "last";
-            var passport = "passport";
-            var preferred = "preferred";
-            var suffix = "Jr.";
-            var fullName = new FullName(firstName, lastName, passport, preferred, suffix);
-
-            var otherFirstName = "first";
-            var otherLastName = "last";
-            var otherPassport = "passport";
-            var otherPreferred = "preferred";
-            var otherSuffix = "other Jr.";
-            var otherFullName = new FullName(otherFirstName, otherLastName, otherPassport, otherPreferred, otherSuffix);
-
-            var detail = fullName.GetChangeDetail(otherFullName);
-            Assert.IsTrue(detail.HasChanges());
-            Assert.IsFalse(detail.FirstNameChanged);
-            Assert.IsFalse(detail.LastNameChanged);
-            Assert.IsFalse(detail.PassportNameChanged);
-            Assert.IsFalse(detail.PreferredNameChanged);
-            Assert.IsTrue(detail.SuffixChanged);
         }
         #endregion
     }

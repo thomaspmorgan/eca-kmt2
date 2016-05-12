@@ -382,6 +382,7 @@
     <Compile Include="Service\Projects\ProjectServiceTest.cs" />
     <Compile Include="Service\Lookup\ThemeServiceTest.cs" />
     <Fakes Include="Fakes\KellermanSoftware.Compare-NET-Objects.fakes" />
+    <Fakes Include="Fakes\EntityFramework.fakes" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -408,6 +409,9 @@
     <Compile Include="Validation\ErrorPaths\StartDateErrorPathTest.cs" />
     <Compile Include="Validation\ErrorPaths\ErrorPathTest.cs" />
     <Compile Include="Validation\ErrorPaths\SevisErrorPathTest.cs" />
+    <Compile Include="Validation\Sevis\Bio\FullNameChangeDetailTest.cs" />
+    <Compile Include="Validation\Sevis\Bio\PersonChangeDetailTest.cs" />
+    <Compile Include="Validation\Sevis\Bio\DependentChangeDetailTest.cs" />
     <Compile Include="Validation\Sevis\Bio\TestDependent.cs" />
     <Compile Include="Validation\Sevis\Bio\PersonValidatorTest.cs" />
     <Compile Include="Validation\Sevis\Bio\BiographicalValidatorTest.cs" />
@@ -429,10 +433,12 @@
     <Compile Include="Validation\Sevis\Finance\OtherFundsTest.cs" />
     <Compile Include="Validation\Sevis\Finance\FinancialInfoTest.cs" />
     <Compile Include="Validation\Sevis\Finance\OrganizationFundingTest.cs" />
+    <Compile Include="Validation\Sevis\Finance\FinancialInfoChangeDetailTest.cs" />
     <Compile Include="Validation\Sevis\Finance\USGovernmentFundingTest.cs" />
     <Compile Include="Validation\Sevis\ExchangeVisitorTest.cs" />
     <Compile Include="Validation\Sevis\SubjectFieldTest.cs" />
     <Compile Include="Validation\Sevis\ChangeDetailTest.cs" />
+    <Compile Include="Validation\Sevis\ExchangeVisitorChangeDetailTest.cs" />
     <Compile Include="Validation\Sevis\USAddressTest.cs" />
     <Compile Include="Validation\Sevis\SubjectFieldValidatorTest.cs" />
     <Compile Include="Validation\Sevis\Finance\USGovernmentFundingValidatorTest.cs" />
@@ -445,7 +451,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <Fakes Include="Fakes\EntityFramework.fakes" />
     <Fakes Include="Fakes\System.Core.fakes">
       <SubType>Designer</SubType>
     </Fakes>

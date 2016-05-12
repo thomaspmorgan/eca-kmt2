@@ -9,27 +9,18 @@ using System.Threading.Tasks;
 
 namespace ECA.Business.Validation.Sevis
 {
+    /// <summary>
+    /// Contains information on whether or not a full name has changed.
+    /// </summary>
     public class FullNameChangeDetail : ChangeDetail
     {
+        /// <summary>
+        /// Creates a new instance.
+        /// </summary>
+        /// <param name="result">The change reuslt.</param>
         public FullNameChangeDetail(ComparisonResult result) : base(result)
         {
-            Contract.Requires(result != null, "The result must not be null.");            
-            this.FirstNameChanged = HasPropertyChanged(nameof(FullName.FirstName), result);
-            this.LastNameChanged = HasPropertyChanged(nameof(FullName.LastName), result);
-            this.PassportNameChanged = HasPropertyChanged(nameof(FullName.PassportName), result);
-            this.PreferredNameChanged = HasPropertyChanged(nameof(FullName.PreferredName), result);
-            this.SuffixChanged = HasPropertyChanged(nameof(FullName.Suffix), result);
-        }
-
-
-        public bool FirstNameChanged { get; private set; }
-
-        public bool LastNameChanged { get; private set; }
-
-        public bool PassportNameChanged { get; private set; }
-
-        public bool PreferredNameChanged { get; private set; }
-
-        public bool SuffixChanged { get; private set; }
+            Contract.Requires(result != null, "The result must not be null."); 
+        }        
     }
 }

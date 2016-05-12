@@ -5277,8 +5277,6 @@ namespace ECA.Business.Test.Service.Sevis
         {
             using (ShimsContext.Create())
             {
-
-
                 var isSevisBatchResultModified = false;
                 var reason = "reason";
                 var sevisOrgId = "org Id";
