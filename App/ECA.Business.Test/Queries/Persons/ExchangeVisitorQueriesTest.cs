@@ -2271,6 +2271,7 @@ namespace ECA.Business.Test.Queries.Persons
                 LastName = "last name",
                 NameSuffix = "suffix",
                 MiddleName = "middle",
+                PassportName = "passport",
                 Gender = gender,
                 GenderId = gender.GenderId,
                 PlaceOfBirth = cityOfBirth,
@@ -2432,7 +2433,7 @@ namespace ECA.Business.Test.Queries.Persons
             Assert.AreEqual(person.LastName, biography.FullName.LastName);
             Assert.AreEqual(person.NameSuffix, biography.FullName.Suffix);
             Assert.AreEqual(person.MiddleName, biography.FullName.MiddleName);
-            Assert.IsNull(biography.FullName.PassportName);
+            Assert.AreEqual(person.PassportName, biography.FullName.PassportName);
             Assert.AreEqual(person.PersonId, biography.PersonId);
             Assert.AreEqual(residenceAddress.AddressId, biography.PermanentResidenceAddressId);
             Assert.AreEqual(email.EmailAddressId, biography.EmailAddressId);
@@ -2503,6 +2504,7 @@ namespace ECA.Business.Test.Queries.Persons
                 LastName = String.Empty,
                 NameSuffix = String.Empty,
                 MiddleName = String.Empty,
+                PassportName = String.Empty,
                 Gender = gender,
                 GenderId = gender.GenderId,
                 PlaceOfBirth = cityOfBirth,
@@ -2716,6 +2718,7 @@ namespace ECA.Business.Test.Queries.Persons
                 LastName = " ",
                 NameSuffix = " ",
                 MiddleName = " ",
+                PassportName = " ",
                 Gender = gender,
                 GenderId = gender.GenderId,
                 PlaceOfBirth = cityOfBirth,
@@ -2929,6 +2932,7 @@ namespace ECA.Business.Test.Queries.Persons
                 LastName = null,
                 NameSuffix = null,
                 MiddleName = null,
+                PassportName = null,
                 Gender = gender,
                 GenderId = gender.GenderId,
                 PlaceOfBirth = cityOfBirth,

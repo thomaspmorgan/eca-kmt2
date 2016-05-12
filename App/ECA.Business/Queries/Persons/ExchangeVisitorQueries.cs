@@ -110,6 +110,7 @@ namespace ECA.Business.Queries.Persons
                                 Suffix = person.NameSuffix != null && person.NameSuffix.Trim().Length > 0 ? person.NameSuffix.Trim() : null,
                                 MiddleName = person.MiddleName != null && person.MiddleName.Trim().Length > 0 ? person.MiddleName.Trim() : null,
                                 PreferredName = person.Alias != null && person.Alias.Trim().Length > 0 ? person.Alias.Trim() : null,
+                                PassportName = person.PassportName != null && person.PassportName.Trim().Length > 0 ? person.PassportName.Trim() : null,
                             },
                             BirthDate = person.DateOfBirth.HasValue
                                 && (!person.IsDateOfBirthEstimated.HasValue || !person.IsDateOfBirthEstimated.Value)
