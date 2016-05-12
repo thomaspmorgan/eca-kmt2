@@ -988,7 +988,6 @@ angular.module('staticApp')
       }
 
       function updateParticipantRow(updatedParticipant) {
-          debugger;
           var participantIds = $scope.gridOptions.data.map(function (p) { return p.participantId; });
           var index = participantIds.indexOf(parseInt(updatedParticipant.participantId, 10));
           if (index != -1) {
