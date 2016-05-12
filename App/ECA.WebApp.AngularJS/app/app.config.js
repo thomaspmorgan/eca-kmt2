@@ -36,6 +36,6 @@ angular.module('staticApp')
 
       IdleProvider.autoResume('notIdle');
 
-      $compileProvider.debugInfoEnabled(false);
+      //$compileProvider.debugInfoEnabled(false);
 
   });

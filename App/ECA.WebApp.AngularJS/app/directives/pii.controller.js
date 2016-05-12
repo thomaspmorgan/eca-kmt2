@@ -7,20 +7,18 @@
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('personPiiViewCtrl', function ($scope, $timeout, PersonService, LocationService, ConstantsService, $stateParams, $q, BrowserService) {
+  .controller('personPiiViewCtrl', function ($scope, $timeout, PersonService, LocationService, ConstantsService, $q, BrowserService) {
 
+      $scope.edit = {};
       $scope.edit.piiLoading = true;
 
       $scope.selectedCountriesOfCitizenship = [];
 
-      $scope.personIdDeferred = $q.defer();
-
-      PersonService.getPersonById($stateParams.personId)
+      PersonService.getPersonById($scope.personid)
         .then(function (data) {
             $scope.person = data;
             BrowserService.setDocumentTitleByPerson(data, 'Personal Information');
             loadPii(data.personId);
-            $scope.personIdDeferred.resolve(data.personId);
         });
 
       function loadPii(personId) {
@@ -51,6 +49,10 @@ angular.module('staticApp')
                  $scope.edit.piiLoading = false;
              });
       };
+
+      $scope.$watch('personid', function () {
+          loadPii($scope.personid);
+      });
 
       $scope.getCities = function (val) {
           return LocationService.get({

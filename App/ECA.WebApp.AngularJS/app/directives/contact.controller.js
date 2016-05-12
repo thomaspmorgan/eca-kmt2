@@ -9,12 +9,12 @@
 angular.module('staticApp')
   .controller('personContactCtrl', function ($scope, PersonService, $stateParams) {
 
+      $scope.edit = {};
       $scope.edit.contactsLoading = true;
 
-      $scope.personIdDeferred.promise
-        .then(function (personId) {
-            loadContactInfo(personId);
-      });
+      var personId = $scope.personid;
+
+      loadContactInfo(personId);
 
       function loadContactInfo(personId) {
           $scope.edit.contactsLoading = true;
@@ -24,4 +24,8 @@ angular.module('staticApp')
               $scope.edit.contactsLoading = false;
           });
       };
+
+      $scope.$watch('personid', function () {
+          loadContactInfo($scope.personid);
+      });
 }); 
