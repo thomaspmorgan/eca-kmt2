@@ -191,6 +191,9 @@
     <Content Include="app\directives\eca-required.directive.html" />
     <Content Include="app\directives\participant-person-info.directive.html" />
     <Content Include="app\directives\participant-person-info.directive.js" />
+    <Content Include="app\directives\point-of-contact.controller.js" />
+    <Content Include="app\directives\points-of-contact.controller.js" />
+    <Content Include="app\directives\points-of-contact.directive.js" />
     <Content Include="app\directives\pii.directive.js" />
     <Content Include="app\directives\programs.directive.html" />
     <Content Include="app\directives\programs.directive.js" />
@@ -218,6 +221,7 @@
     <Content Include="app\funding\funding.routes.js" />
     <Content Include="app\funding\overview.controller.js" />
     <Content Include="app\funding\overview.html" />
+    <Content Include="app\directives\points-of-contact.directive.html" />
     <Content Include="app\home\navigation.controller.js" />
     <Content Include="app\home\home.routes.js" />
     <Content Include="app\offices\edit.controller.js" />

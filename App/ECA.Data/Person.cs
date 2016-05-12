@@ -41,6 +41,11 @@ namespace ECA.Data
         public const int FAMILY_NAME_MAX_LENGTH = 50;
 
         /// <summary>
+        /// Gets the max length of the passport name.
+        /// </summary>
+        public const int PASSPORT_NAME_MAX_LENGTH = 39;
+
+        /// <summary>
         /// Gets the max length of the middle name.
         /// </summary>
         public const int MIDDLE_NAME_MAX_LENGTH = 50;
@@ -150,6 +155,12 @@ namespace ECA.Data
         /// </summary>
         [MaxLength(MIDDLE_NAME_MAX_LENGTH)]
         public string MiddleName { get; set; }
+
+        /// <summary>
+        /// Gets or sets the passport name.
+        /// </summary>
+        [MaxLength(PASSPORT_NAME_MAX_LENGTH)]
+        public string PassportName { get; set; }
 
         /// <summary>
         /// Gets or sets the patronym.

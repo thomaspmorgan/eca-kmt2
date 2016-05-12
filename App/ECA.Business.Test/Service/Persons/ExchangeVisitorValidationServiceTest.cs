@@ -99,7 +99,8 @@ namespace ECA.Business.Test.Service.Persons
                 programEndDate: DateTime.UtcNow,
                 programStartDate: DateTime.UtcNow,
                 siteOfActivity: new Business.Queries.Models.Admin.AddressDTO(),
-                dependents: null
+                dependents: null,
+                sevisOrgId: null
                 );
             exchangeVisitorService.Setup(x => x.GetExchangeVisitor(It.IsAny<int>(), It.IsAny<int>())).Returns(exchangeVisitor);
             exchangeVisitorService.Setup(x => x.GetExchangeVisitorAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(exchangeVisitor);
@@ -161,7 +162,8 @@ namespace ECA.Business.Test.Service.Persons
                 programEndDate: DateTime.UtcNow,
                 programStartDate: DateTime.UtcNow,
                 siteOfActivity: new Business.Queries.Models.Admin.AddressDTO(),
-                dependents: null
+                dependents: null,
+                sevisOrgId: null
                 );
             exchangeVisitorService.Setup(x => x.GetExchangeVisitor(It.IsAny<int>(), It.IsAny<int>())).Returns(exchangeVisitor);
             exchangeVisitorService.Setup(x => x.GetExchangeVisitorAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(exchangeVisitor);
@@ -223,7 +225,8 @@ namespace ECA.Business.Test.Service.Persons
                 programEndDate: DateTime.UtcNow,
                 programStartDate: DateTime.UtcNow,
                 siteOfActivity: new Business.Queries.Models.Admin.AddressDTO(),
-                dependents: null
+                dependents: null,
+                sevisOrgId: null
                 );
             exchangeVisitorService.Setup(x => x.GetExchangeVisitor(It.IsAny<int>(), It.IsAny<int>())).Returns(exchangeVisitor);
             exchangeVisitorService.Setup(x => x.GetExchangeVisitorAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(exchangeVisitor);
@@ -287,7 +290,8 @@ namespace ECA.Business.Test.Service.Persons
                 programEndDate: DateTime.UtcNow,
                 programStartDate: DateTime.UtcNow,
                 siteOfActivity: new Business.Queries.Models.Admin.AddressDTO(),
-                dependents: null
+                dependents: null,
+                sevisOrgId: null
                 );
             exchangeVisitorService.Setup(x => x.GetExchangeVisitor(It.IsAny<int>(), It.IsAny<int>())).Returns(exchangeVisitor);
             exchangeVisitorService.Setup(x => x.GetExchangeVisitorAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(exchangeVisitor);
@@ -360,7 +364,8 @@ namespace ECA.Business.Test.Service.Persons
                 programEndDate: DateTime.UtcNow,
                 programStartDate: DateTime.UtcNow,
                 siteOfActivity: new Business.Queries.Models.Admin.AddressDTO(),
-                dependents: null
+                dependents: null,
+                sevisOrgId: null
                 );
             exchangeVisitorService.Setup(x => x.GetExchangeVisitor(It.IsAny<int>(), It.IsAny<int>())).Returns(exchangeVisitor);
             exchangeVisitorService.Setup(x => x.GetExchangeVisitorAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(exchangeVisitor);
@@ -432,7 +437,8 @@ namespace ECA.Business.Test.Service.Persons
                 programEndDate: DateTime.UtcNow,
                 programStartDate: DateTime.UtcNow,
                 siteOfActivity: new Business.Queries.Models.Admin.AddressDTO(),
-                dependents: null
+                dependents: null,
+                sevisOrgId: null
                 );
             exchangeVisitorService.Setup(x => x.GetExchangeVisitor(It.IsAny<int>(), It.IsAny<int>())).Returns(exchangeVisitor);
             exchangeVisitorService.Setup(x => x.GetExchangeVisitorAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(exchangeVisitor);
@@ -504,7 +510,8 @@ namespace ECA.Business.Test.Service.Persons
                 programEndDate: DateTime.UtcNow,
                 programStartDate: DateTime.UtcNow,
                 siteOfActivity: new Business.Queries.Models.Admin.AddressDTO(),
-                dependents: null
+                dependents: null,
+                sevisOrgId: null
                 );
             exchangeVisitorService.Setup(x => x.GetExchangeVisitor(It.IsAny<int>(), It.IsAny<int>())).Returns(exchangeVisitor);
             exchangeVisitorService.Setup(x => x.GetExchangeVisitorAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(exchangeVisitor);
@@ -574,7 +581,8 @@ namespace ECA.Business.Test.Service.Persons
                 programEndDate: DateTime.UtcNow,
                 programStartDate: DateTime.UtcNow,
                 siteOfActivity: new Business.Queries.Models.Admin.AddressDTO(),
-                dependents: null
+                dependents: null,
+                sevisOrgId: null
                 );
             exchangeVisitorService.Setup(x => x.GetExchangeVisitor(It.IsAny<int>(), It.IsAny<int>())).Returns(exchangeVisitor);
             exchangeVisitorService.Setup(x => x.GetExchangeVisitorAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(exchangeVisitor);
@@ -646,7 +654,8 @@ namespace ECA.Business.Test.Service.Persons
                 programEndDate: DateTime.UtcNow,
                 programStartDate: DateTime.UtcNow,
                 siteOfActivity: new Business.Queries.Models.Admin.AddressDTO(),
-                dependents: null
+                dependents: null,
+                sevisOrgId: null
                 );
             exchangeVisitorService.Setup(x => x.GetExchangeVisitor(It.IsAny<int>(), It.IsAny<int>())).Returns(exchangeVisitor);
             exchangeVisitorService.Setup(x => x.GetExchangeVisitorAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(exchangeVisitor);
@@ -722,7 +731,8 @@ namespace ECA.Business.Test.Service.Persons
                 programEndDate: DateTime.UtcNow,
                 programStartDate: DateTime.UtcNow,
                 siteOfActivity: new Business.Queries.Models.Admin.AddressDTO(),
-                dependents: null
+                dependents: null,
+                sevisOrgId: null
                 );
             exchangeVisitorService.Setup(x => x.GetExchangeVisitor(It.IsAny<int>(), It.IsAny<int>())).Returns(exchangeVisitor);
             exchangeVisitorService.Setup(x => x.GetExchangeVisitorAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(exchangeVisitor);
@@ -801,7 +811,8 @@ namespace ECA.Business.Test.Service.Persons
                 programEndDate: DateTime.UtcNow,
                 programStartDate: DateTime.UtcNow,
                 siteOfActivity: new Business.Queries.Models.Admin.AddressDTO(),
-                dependents: null
+                dependents: null,
+                sevisOrgId: null
                 );
             exchangeVisitorService.Setup(x => x.GetExchangeVisitor(It.IsAny<int>(), It.IsAny<int>())).Returns(exchangeVisitor);
             exchangeVisitorService.Setup(x => x.GetExchangeVisitorAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(exchangeVisitor);
@@ -880,7 +891,8 @@ namespace ECA.Business.Test.Service.Persons
                 programEndDate: DateTime.UtcNow,
                 programStartDate: DateTime.UtcNow,
                 siteOfActivity: new Business.Queries.Models.Admin.AddressDTO(),
-                dependents: null
+                dependents: null,
+                sevisOrgId: null
                 );
             exchangeVisitorService.Setup(x => x.GetExchangeVisitor(It.IsAny<int>(), It.IsAny<int>())).Returns(exchangeVisitor);
             exchangeVisitorService.Setup(x => x.GetExchangeVisitorAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(exchangeVisitor);
@@ -962,7 +974,8 @@ namespace ECA.Business.Test.Service.Persons
                 programEndDate: DateTime.UtcNow,
                 programStartDate: DateTime.UtcNow,
                 siteOfActivity: new Business.Queries.Models.Admin.AddressDTO(),
-                dependents: null
+                dependents: null,
+                sevisOrgId: null
                 );
             exchangeVisitorService.Setup(x => x.GetExchangeVisitor(It.IsAny<int>(), It.IsAny<int>())).Returns(exchangeVisitor);
             exchangeVisitorService.Setup(x => x.GetExchangeVisitorAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(exchangeVisitor);

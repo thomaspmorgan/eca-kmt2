@@ -17,7 +17,11 @@ namespace ECA.Business.Service.Persons
         /// <param name="position">The position.</param>
         /// <param name="emailAddresses">The collection of email addresses.</param>
         /// <param name="phoneNumbers">The phone numbers.</param>
-        public AdditionalPointOfContact(User creator, string fullName, string position, IEnumerable<NewEmailAddress> emailAddresses, IEnumerable<NewPhoneNumber> phoneNumbers)
+        public AdditionalPointOfContact(User creator, 
+            string fullName, 
+            string position, 
+            IEnumerable<NewEmailAddress> emailAddresses, 
+            IEnumerable<NewPhoneNumber> phoneNumbers)
         {
             this.FullName = fullName;
             this.Position = position;

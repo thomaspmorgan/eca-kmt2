@@ -132,9 +132,11 @@ namespace ECA.Business.Test.Validation.Sevis
             var siteOfActivity = GetSOAAsAddressDTO();
             var dependents = new List<Dependent>();
             var sevisId = "sevis id";
+            var sevisOrgId = "abcde1234567890";
 
             var exchangeVisitor = new ExchangeVisitor(
                 sevisId,
+                sevisOrgId,
                 person,
                 financialInfo,
                 occupationCategoryCode,
@@ -164,9 +166,11 @@ namespace ECA.Business.Test.Validation.Sevis
             var siteOfActivity = GetSOAAsAddressDTO();
             var dependents = new List<Dependent>();
             var sevisId = "sevis id";
+            var sevisOrgId = "abcde12347890";
 
             var exchangeVisitor = new ExchangeVisitor(
                 sevisId,
+                sevisOrgId,
                 person,
                 financialInfo,
                 occupationCategoryCode,
@@ -204,9 +208,11 @@ namespace ECA.Business.Test.Validation.Sevis
             var dependents = new List<Dependent>();
             dependents.Add(addedDependent);
             var sevisId = "sevis id";
+            var sevisOrgId = "abcde12347890";
 
             var exchangeVisitor = new ExchangeVisitor(
                 sevisId,
+                sevisOrgId,
                 person,
                 financialInfo,
                 occupationCategoryCode,
@@ -240,9 +246,11 @@ namespace ECA.Business.Test.Validation.Sevis
             var dependents = new List<Dependent>();
             dependents.Add(updatedDependent);
             var sevisId = "sevis id";
+            var sevisOrgId = "abcde12347890";
 
             var exchangeVisitor = new ExchangeVisitor(
                 sevisId,
+                sevisOrgId,
                 person,
                 financialInfo,
                 occupationCategoryCode,
@@ -278,9 +286,11 @@ namespace ECA.Business.Test.Validation.Sevis
             dependents.Add(updatedDependent);
             dependents.Add(addedDependent);
             var sevisId = "sevis id";
+            var sevisOrgId = "abcde12347890";
 
             var exchangeVisitor = new ExchangeVisitor(
                 sevisId,
+                sevisOrgId,
                 person,
                 financialInfo,
                 occupationCategoryCode,
@@ -315,9 +325,11 @@ namespace ECA.Business.Test.Validation.Sevis
             var siteOfActivity = GetSOAAsAddressDTO();
             List<Dependent> dependents = null;
             var sevisId = "sevis id";
+            var sevisOrgId = "abcde12347890";
 
             var exchangeVisitor = new ExchangeVisitor(
                 sevisId: sevisId,
+                sevisOrgId: sevisOrgId,
                 person: person,
                 financialInfo: financialInfo,
                 occupationCategoryCode: occupationCategoryCode,
@@ -337,6 +349,7 @@ namespace ECA.Business.Test.Validation.Sevis
         {
             var sevisId = "sevis id";
             var sevisUserId = "sevisUserId";
+            var sevisOrgId = "abcde12347890";
             var person = GetPerson();
             var financialInfo = GetFinancialInfo();
             var occupationCategoryCode = "99";
@@ -347,6 +360,7 @@ namespace ECA.Business.Test.Validation.Sevis
 
             var exchangeVisitor = new ExchangeVisitor(
                 sevisId: sevisId,
+                sevisOrgId: sevisOrgId,
                 person: person,
                 financialInfo: financialInfo,
                 occupationCategoryCode: occupationCategoryCode,
@@ -386,6 +400,7 @@ namespace ECA.Business.Test.Validation.Sevis
         public void TestGetSEVISBatchTypeExchangeVisitor_OccupationCategoryCodeIsNull()
         {
             var sevisId = "sevis id";
+            var sevisOrgId = "abcde12347890";
             var sevisUserId = "sevisUserId";
             var person = GetPerson();
             var financialInfo = GetFinancialInfo();
@@ -397,6 +412,7 @@ namespace ECA.Business.Test.Validation.Sevis
 
             var exchangeVisitor = new ExchangeVisitor(
                 sevisId: sevisId,
+                sevisOrgId: sevisOrgId,
                 person: person,
                 financialInfo: financialInfo,
                 occupationCategoryCode: occupationCategoryCode,
@@ -413,6 +429,7 @@ namespace ECA.Business.Test.Validation.Sevis
         public void TestGetSEVISBatchTypeExchangeVisitor_MailAddressIsNull()
         {
             var sevisId = "sevis id";
+            var sevisOrgId = "abcde12347890";
             var sevisUserId = "sevisUserId";
             var person = GetPerson(false, true);
             var financialInfo = GetFinancialInfo();
@@ -424,6 +441,7 @@ namespace ECA.Business.Test.Validation.Sevis
 
             var exchangeVisitor = new ExchangeVisitor(
                 sevisId: sevisId,
+                sevisOrgId: sevisOrgId,
                 person: person,
                 financialInfo: financialInfo,
                 occupationCategoryCode: occupationCategoryCode,
@@ -442,6 +460,7 @@ namespace ECA.Business.Test.Validation.Sevis
         {
             var sevisId = "sevis id";
             var sevisUserId = "sevisUserId";
+            var sevisOrgId = "abcde12347890";
             var person = GetPerson(true, false);
             var financialInfo = GetFinancialInfo();
             var occupationCategoryCode = "99";
@@ -452,6 +471,7 @@ namespace ECA.Business.Test.Validation.Sevis
 
             var exchangeVisitor = new ExchangeVisitor(
                 sevisId: sevisId,
+                sevisOrgId: sevisOrgId,
                 person: person,
                 financialInfo: financialInfo,
                 occupationCategoryCode: occupationCategoryCode,
@@ -470,6 +490,7 @@ namespace ECA.Business.Test.Validation.Sevis
         {
             var sevisId = "sevis id";
             var sevisUserId = "sevisUserId";
+            var sevisOrgId = "abcde12347890";
             var person = GetPerson();
             var financialInfo = GetFinancialInfo();
             var occupationCategoryCode = "99";
@@ -480,6 +501,7 @@ namespace ECA.Business.Test.Validation.Sevis
 
             var exchangeVisitor = new ExchangeVisitor(
                 sevisId: sevisId,
+                sevisOrgId: sevisOrgId,
                 person: person,
                 financialInfo: financialInfo,
                 occupationCategoryCode: occupationCategoryCode,
@@ -542,6 +564,8 @@ namespace ECA.Business.Test.Validation.Sevis
             var relationship = DependentCodeType.Item01.ToString();
             var isTravelingWithParticipant = true;
             var isDeleted = false;
+            var sevisOrgId = "abcde12347890";
+
             var addedDependent = new AddedDependent(
                 fullName,
                 birthCity,
@@ -566,6 +590,7 @@ namespace ECA.Business.Test.Validation.Sevis
 
             var exchangeVisitor = new ExchangeVisitor(
                 sevisId: sevisId,
+                sevisOrgId: sevisOrgId,
                 person: person,
                 financialInfo: financialInfo,
                 occupationCategoryCode: occupationCategoryCode,
@@ -626,6 +651,8 @@ namespace ECA.Business.Test.Validation.Sevis
             var relationship = DependentCodeType.Item01.ToString();
             var isTravelingWithParticipant = true;
             var isDeleted = true;
+            var sevisOrgId = "abcde12347890";
+
             var addedDependent = new AddedDependent(
                 fullName,
                 birthCity,
@@ -650,6 +677,7 @@ namespace ECA.Business.Test.Validation.Sevis
 
             var exchangeVisitor = new ExchangeVisitor(
                 sevisId: sevisId,
+                sevisOrgId: sevisOrgId,
                 person: person,
                 financialInfo: financialInfo,
                 occupationCategoryCode: occupationCategoryCode,
@@ -675,9 +703,11 @@ namespace ECA.Business.Test.Validation.Sevis
             var startDate = DateTime.UtcNow.AddDays(-1.0);
             var siteOfActivity = GetSOAAsAddressDTO();
             var dependents = new List<Dependent>();
+            var sevisOrgId = "abcde12347890";
 
             var exchangeVisitor = new ExchangeVisitor(
                 sevisId: sevisId,
+                sevisOrgId: sevisOrgId,
                 person: person,
                 financialInfo: financialInfo,
                 occupationCategoryCode: occupationCategoryCode,
@@ -738,6 +768,7 @@ namespace ECA.Business.Test.Validation.Sevis
             var relationship = DependentCodeType.Item01.ToString();
             var isTravelingWithParticipant = true;
             var isDeleted = false;
+            var sevisOrgId = "abcde12347890";
 
             var updatedDependent = new UpdatedDependent(
                 fullName,
@@ -764,6 +795,7 @@ namespace ECA.Business.Test.Validation.Sevis
             dependents.Add(updatedDependent);
             var exchangeVisitor = new ExchangeVisitor(
                 sevisId: sevisId,
+                sevisOrgId: sevisOrgId,
                 person: person,
                 financialInfo: financialInfo,
                 occupationCategoryCode: occupationCategoryCode,
@@ -790,9 +822,11 @@ namespace ECA.Business.Test.Validation.Sevis
             var startDate = DateTime.UtcNow.AddDays(-1.0);
             var siteOfActivity = GetSOAAsAddressDTO();
             var dependents = new List<Dependent>();
+            var sevisOrgId = "abcde12347890";
 
             var exchangeVisitor = new ExchangeVisitor(
                 sevisId: sevisId,
+                sevisOrgId: sevisOrgId,
                 person: person,
                 financialInfo: financialInfo,
                 occupationCategoryCode: occupationCategoryCode,
@@ -825,9 +859,11 @@ namespace ECA.Business.Test.Validation.Sevis
             var startDate = DateTime.UtcNow.AddDays(-1.0);
             var siteOfActivity = GetSOAAsAddressDTO();
             var dependents = new List<Dependent>();
+            var sevisOrgId = "abcde12347890";
 
             var exchangeVisitor = new ExchangeVisitor(
                 sevisId: sevisId,
+                sevisOrgId: sevisOrgId,
                 person: person,
                 financialInfo: financialInfo,
                 occupationCategoryCode: occupationCategoryCode,
@@ -858,9 +894,11 @@ namespace ECA.Business.Test.Validation.Sevis
             var testDependent = new TestDependent();
             dependents.Add(testDependent);
             var sevisId = "sevis id";
+            var sevisOrgId = "abcde12347890";
 
             var exchangeVisitor = new ExchangeVisitor(
                 sevisId: sevisId,
+                sevisOrgId: sevisOrgId,
                 person: person,
                 financialInfo: financialInfo,
                 occupationCategoryCode: occupationCategoryCode,
@@ -934,10 +972,12 @@ namespace ECA.Business.Test.Validation.Sevis
             var startDate = DateTime.UtcNow.AddDays(-1.0);
             var siteOfActivity = GetSOAAsAddressDTO();
             var dependents = new List<Dependent>();
+            var sevisOrgId = "abcde12347890";
 
             var validator = new Mock<AbstractValidator<ExchangeVisitor>>();
             var exchangeVisitor = new ExchangeVisitor(
                 sevisId: sevisId,
+                sevisOrgId: sevisOrgId,
                 person: person,
                 financialInfo: financialInfo,
                 occupationCategoryCode: occupationCategoryCode,
@@ -964,9 +1004,11 @@ namespace ECA.Business.Test.Validation.Sevis
             List<Dependent> dependents = null;
             var sevisId = "sevis id";
             var username = "username";
+            var sevisOrgId = "abcde12347890";
 
             var exchangeVisitor = new ExchangeVisitor(
                 sevisId: sevisId,
+                sevisOrgId: sevisOrgId,
                 person: person,
                 financialInfo: financialInfo,
                 occupationCategoryCode: occupationCategoryCode,
@@ -1007,9 +1049,11 @@ namespace ECA.Business.Test.Validation.Sevis
             List<Dependent> dependents = null;
             var sevisId = "sevis id";
             var username = "username";
+            var sevisOrgId = "abcde12347890";
 
             var exchangeVisitor = new ExchangeVisitor(
                 sevisId: sevisId,
+                sevisOrgId: sevisOrgId,
                 person: person,
                 financialInfo: financialInfo,
                 occupationCategoryCode: occupationCategoryCode,
@@ -1044,9 +1088,11 @@ namespace ECA.Business.Test.Validation.Sevis
             var startDate = DateTime.UtcNow.AddDays(-1.0);
             var siteOfActivity = GetSOAAsAddressDTO();
             var dependents = new List<Dependent>();
+            var sevisOrgId = "abcde12347890";
 
             var exchangeVisitor = new ExchangeVisitor(
                 sevisId: sevisId,
+                sevisOrgId: sevisOrgId,
                 person: person,
                 financialInfo: financialInfo,
                 occupationCategoryCode: occupationCategoryCode,
@@ -1077,9 +1123,11 @@ namespace ECA.Business.Test.Validation.Sevis
             var startDate = DateTime.UtcNow.AddDays(-1.0);
             var siteOfActivity = GetSOAAsAddressDTO();
             var dependents = new List<Dependent>();
+            var sevisOrgId = "abcde12347890";
 
             var exchangeVisitor = new ExchangeVisitor(
                 sevisId: sevisId,
+                sevisOrgId: sevisOrgId,
                 person: person,
                 financialInfo: financialInfo,
                 occupationCategoryCode: occupationCategoryCode,

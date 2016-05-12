@@ -23,7 +23,7 @@ namespace ECA.Business.Test.Service.Persons
 {
     [TestClass]
     public class ExchangeVisitorServiceTest
-    {
+    { 
         private TestEcaContext context;
         private ExchangeVisitorService service;
         private AppSettings appSettings;
@@ -52,7 +52,7 @@ namespace ECA.Business.Test.Service.Persons
         [TestMethod]
         public async Task TestGetExchangeVisitor()
         {
-            var projectId = 10;
+            var projectId = 1805;
             var participantId = 100;
             var personId = 11;
             var person = new Data.Person
@@ -62,7 +62,8 @@ namespace ECA.Business.Test.Service.Persons
             var project = new Project
             {
                 ProjectId = projectId,
-                VisitorTypeId = VisitorType.ExchangeVisitor.Id
+                VisitorTypeId = VisitorType.ExchangeVisitor.Id,
+                SevisOrgId = "abcde1234567890",
             };
             var programCategory = new ProgramCategory
             {
@@ -92,7 +93,7 @@ namespace ECA.Business.Test.Service.Persons
                 ParticipantId = participant.ParticipantId,
                 StartDate = DateTime.UtcNow.AddDays(-1.0),
                 EndDate = DateTime.UtcNow.AddDays(1.0),
-                SevisId = "sevis Id"
+                SevisId = "sevis Id",
             };
             context.Participants.Add(participant);
             context.Projects.Add(project);
@@ -148,6 +149,8 @@ namespace ECA.Business.Test.Service.Persons
                     Assert.AreEqual(participantPerson.StartDate.Value.DateTime, exchangeVisitor.ProgramStartDate);
                     Assert.AreEqual(participantPerson.EndDate.Value.DateTime, exchangeVisitor.ProgramEndDate);
                     Assert.AreEqual(participantPerson.SevisId, exchangeVisitor.SevisId);
+
+                    Assert.IsNotNull(exchangeVisitor.SevisOrgId);
 
                     Assert.IsNotNull(exchangeVisitor.SiteOfActivity);
                     var cStreetAddress = service.GetStateDepartmentCStreetAddress();
@@ -392,13 +395,15 @@ namespace ECA.Business.Test.Service.Persons
             var occupationCategoryCode = "occupation category code";
             var dependents = new List<DependentBiographicalDTO>();
             var siteOfActivity = service.GetStateDepartmentCStreetAddress();
+            var sevisOrgId = "abcde1234567890";
             var instance = service.GetExchangeVisitor(
                 person: person,
                 financialInfo: financialInfo,
                 participantPerson: participantPerson,
                 occupationCategoryCode: occupationCategoryCode,
                 dependents: dependents,
-                siteOfActivity: siteOfActivity);
+                siteOfActivity: siteOfActivity,
+                sevisOrgId: sevisOrgId);
 
             Assert.AreEqual(occupationCategoryCode, instance.OccupationCategoryCode);
             Assert.IsTrue(Object.ReferenceEquals(person, instance.Person));
@@ -449,13 +454,15 @@ namespace ECA.Business.Test.Service.Persons
             dependents.Add(dependent);
 
             var siteOfActivity = service.GetStateDepartmentCStreetAddress();
+            var sevisOrgId = "abcde1234567890";
             var instance = service.GetExchangeVisitor(
                 person: person,
                 financialInfo: financialInfo,
                 participantPerson: participantPerson,
                 occupationCategoryCode: occupationCategoryCode,
                 dependents: dependents,
-                siteOfActivity: siteOfActivity);
+                siteOfActivity: siteOfActivity,
+                sevisOrgId: sevisOrgId);
 
             Assert.AreEqual(1, instance.Dependents.Count());
         }
@@ -492,13 +499,15 @@ namespace ECA.Business.Test.Service.Persons
             var occupationCategoryCode = "occupation category code";
             var dependents = new List<DependentBiographicalDTO>();
             var siteOfActivity = service.GetStateDepartmentCStreetAddress();
+            var sevisOrgId = "abcde1234567890";
             var instance = service.GetExchangeVisitor(
                 person: person,
                 financialInfo: financialInfo,
                 participantPerson: participantPerson,
                 occupationCategoryCode: occupationCategoryCode,
                 dependents: dependents,
-                siteOfActivity: siteOfActivity);
+                siteOfActivity: siteOfActivity,
+                sevisOrgId: sevisOrgId);
             Assert.AreEqual(default(DateTime), instance.ProgramStartDate);
             Assert.AreEqual(default(DateTime), instance.ProgramEndDate);
         }

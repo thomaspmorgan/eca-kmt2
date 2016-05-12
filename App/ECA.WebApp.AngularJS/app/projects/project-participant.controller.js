@@ -33,7 +33,8 @@ angular.module('staticApp')
         ParticipantService,
         ParticipantPersonsService,
         ParticipantPersonsSevisService,
-        ParticipantExchangeVisitorService
+        ParticipantExchangeVisitorService,
+        filterFilter
         ) {
 
       $scope.view = {};
@@ -60,6 +61,7 @@ angular.module('staticApp')
       $scope.view.tabExchangeVisitor = false;
       $scope.view.tabStudentVisitor = false;
       $scope.view.sevisCommStatuses = null;
+      $scope.view.filteredSevisUserAccounts = null;
 
       $scope.view.hasRealActualParticipants = false;
       $scope.view.editingEstParticipants = false;
@@ -754,8 +756,10 @@ angular.module('staticApp')
                       return sendParticipantsToSevis(selectedParticipants, sevisUserAccount.username, sevisUserAccount.orgId);
                   }
                   var sevisUserAccounts = userInfo.sevisUserAccounts;
-                  var sevisUserAccount = sevisUserAccounts[0];
-                  if (sevisUserAccounts.length > 1) {
+                  var filteredSevisUserAccounts = filterFilter(sevisUserAccounts, { orgId: $scope.$parent.project.sevisOrgId }, true);
+                  var sevisUserAccount = filteredSevisUserAccounts[0];                  
+                  if (filteredSevisUserAccounts.length > 1) {
+                      userInfo.sevisUserAccounts = filteredSevisUserAccounts;
                       promptUserForSevisUserAccount(userInfo, doSendParticipantsToSevis, function () { });
                   }
                   else {
@@ -791,6 +795,7 @@ angular.module('staticApp')
               backdrop: 'static',
               resolve: {
                   userInfo: function () {
+                      console.log("User Info", userInfo);
                       return userInfo;
                   }
               },

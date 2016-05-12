@@ -14,6 +14,7 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ECA.Business.Queries.Models.Admin;
 
 namespace ECA.Business.Service.Persons
 {
@@ -37,32 +38,35 @@ namespace ECA.Business.Service.Persons
         }
 
         #region Get
-
+        
         /// <summary>
-        /// Returns the sorted, filtered, and paged contacts in the eca system.
+        /// Returns the sorted, filtered, and paged contact DTOs in the eca system.
         /// </summary>
-        /// <param name="queryOperator">The query operator.</param>
-        /// <returns>The sorted, filtered, and paged contacts.</returns>
+        /// <param name="queryOperator"></param>
+        /// <returns></returns>
         public PagedQueryResults<ContactDTO> GetContacts(QueryableOperator<ContactDTO> queryOperator)
         {
-            var contacts = ContactQueries.CreateContactDTOQuery(this.Context, queryOperator).ToPagedQueryResults<ContactDTO>(queryOperator.Start, queryOperator.Limit);
+            var contacts = ContactQueries.CreateContactQuery(this.Context, queryOperator)
+                .ToPagedQueryResults<ContactDTO>(queryOperator.Start, queryOperator.Limit);
             this.logger.Trace("Retrieved contacts by query operator [{0}].", queryOperator);
-            
+
             return contacts;
         }
 
         /// <summary>
-        /// Returns the sorted, filtered, and paged contacts in the eca system.
+        /// Returns the sorted, filtered, and paged contact DTOs in the eca system.
         /// </summary>
-        /// <param name="queryOperator">The query operator.</param>
-        /// <returns>The sorted, filtered, and paged contacts.</returns>
+        /// <param name="queryOperator"></param>
+        /// <returns></returns>
         public async Task<PagedQueryResults<ContactDTO>> GetContactsAsync(QueryableOperator<ContactDTO> queryOperator)
         {
-            var contacts = await ContactQueries.CreateContactDTOQuery(this.Context, queryOperator).ToPagedQueryResultsAsync<ContactDTO>(queryOperator.Start, queryOperator.Limit);
+            var contacts = await ContactQueries.CreateContactQuery(this.Context, queryOperator)
+                .ToPagedQueryResultsAsync<ContactDTO>(queryOperator.Start, queryOperator.Limit);
             this.logger.Trace("Retrieved contacts by query operator [{0}].", queryOperator);
+
             return contacts;
         }
-
+        
         /// <summary>
         /// Returns the contact with the given id.
         /// </summary>
@@ -72,7 +76,7 @@ namespace ECA.Business.Service.Persons
         {
             return CreateGetContactByIdQuery(contactId).FirstOrDefault();
         }
-
+        
         /// <summary>
         /// Returns the contact with the given id.
         /// </summary>
@@ -85,8 +89,34 @@ namespace ECA.Business.Service.Persons
 
         private IQueryable<ContactDTO> CreateGetContactByIdQuery(int contactId)
         {
-            return ContactQueries.CreateContactDTOQuery(this.Context).Where(c => c.Id == contactId);
+            return ContactQueries.CreateContactQuery(this.Context).Where(c => c.Id == contactId);
         }
+
+        /// <summary>
+        /// Returns the contact DTO with the given id
+        /// </summary>
+        /// <param name="contactId">The id of the contact</param>
+        /// <returns>The contact, or null, if it does not exist</returns>
+        public ContactDTO GetContactDTOById(int contactId)
+        {
+            return CreateGetContactDTOByIdQuery(contactId).FirstOrDefault();
+        }
+
+        /// <summary>
+        /// Returns the contact DTO with the given id
+        /// </summary>
+        /// <param name="contactId">The id of the contact</param>
+        /// <returns>The contact, or null, if it does not exist</returns>
+        public Task<ContactDTO> GetContactDTOByIdAsync(int contactId)
+        {
+            return CreateGetContactDTOByIdQuery(contactId).FirstOrDefaultAsync();
+        }
+        
+        private IQueryable<ContactDTO> CreateGetContactDTOByIdQuery(int contactId)
+        {
+            return ContactQueries.CreateContactQuery(this.Context).Where(c => c.Id == contactId);
+        }
+
         #endregion
 
         #region Create
@@ -117,7 +147,7 @@ namespace ECA.Business.Service.Persons
         {
             return DoCreate(pointOfContact);
         }
-
+        
         private Contact DoCreate(AdditionalPointOfContact pointOfContact)
         {
             var validationEntity = GetAdditionalPointOfContactValidationEntity(pointOfContact);
@@ -161,6 +191,31 @@ namespace ECA.Business.Service.Persons
             return contact;
         }
 
+        /// <summary>
+        /// Updates a point of the contact in the datastore.
+        /// </summary>
+        /// <param name="updatedPointOfContact"></param>
+        /// <returns></returns>
+        public async Task<ContactDTO> UpdateContactAsync(UpdatedPointOfContact updatedPointOfContact)
+        {
+            var contactToUpdate = await GetContactByIdAsync(updatedPointOfContact.Id);
+            var emails = await Context.EmailAddresses.Where(x => x.ContactId == updatedPointOfContact.Id).ToListAsync();
+            var phones = await Context.PhoneNumbers.Where(x => x.ContactId == updatedPointOfContact.Id).ToListAsync();
+
+            DoPointOfContactUpdate(updatedPointOfContact, contactToUpdate, emails, phones);
+
+            return contactToUpdate;
+        }
+
+        public void DoPointOfContactUpdate(UpdatedPointOfContact updatedPointOfContact, ContactDTO contactToUpdate, 
+            List<EmailAddress> emails, List<PhoneNumber> phones)
+        {
+            contactToUpdate.FullName = updatedPointOfContact.FullName;
+            contactToUpdate.Position = updatedPointOfContact.Position;
+            contactToUpdate.EmailAddresses = emails.Select(x => new EmailAddressDTO { Id = x.EmailAddressId, Address = x.Address, ContactId = x.ContactId, EmailAddressTypeId = x.EmailAddressTypeId, IsPrimary = x.IsPrimary });
+            contactToUpdate.PhoneNumbers = phones.Select(x => new PhoneNumberDTO { Id = x.PhoneNumberId, Number = x.Number, ContactId = x.ContactId, IsPrimary = x.IsPrimary, PhoneNumberTypeId = x.PhoneNumberTypeId });
+        }
+        
         private AdditionalPointOfContactValidationEntity GetAdditionalPointOfContactValidationEntity(AdditionalPointOfContact pointOfContact)
         {
             var numberOfPrimaryEmailAddresses = pointOfContact.EmailAddresses.Where(x => x.IsPrimary).Count();

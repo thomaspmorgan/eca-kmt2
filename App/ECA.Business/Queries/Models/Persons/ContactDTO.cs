@@ -1,9 +1,5 @@
 ﻿using ECA.Business.Queries.Models.Admin;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ECA.Business.Queries.Models.Persons
 {
@@ -18,6 +14,7 @@ namespace ECA.Business.Queries.Models.Persons
             this.PhoneNumbers = new List<PhoneNumberDTO>();
             this.EmailAddressValues = new List<string>();
             this.PhoneNumberValues = new List<string>();
+            //this.Projects = new List<ProjectDTO>();
         }
 
         /// <summary>
@@ -54,5 +51,9 @@ namespace ECA.Business.Queries.Models.Persons
         /// Gets or sets the phone number values, useful for filtering.
         /// </summary>
         public IEnumerable<string> PhoneNumberValues { get; set; }
+
+
+        //public IEnumerable<ProjectDTO> Projects { get; set; }
+
     }
 }
