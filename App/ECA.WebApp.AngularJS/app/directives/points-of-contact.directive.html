@@ -4,7 +4,7 @@
             <i class="material-icons md-dark md-24 pull-right" ng-show="view.collapsePocs">expand_less</i>
             <i class="material-icons md-dark md-24 pull-right" ng-show="!view.collapsePocs">expand_more</i>
         </a>
-        <a ng-click="view.onAddPointOfContactClick(view.pointsOfContact)">
+        <a ng-click="view.onAddPointOfContactClick(model)">
             <i class="material-icons md-24 md-dark pull-right">add</i>
         </a>
         <div class="pull-right" style="margin-top: 3px;">({{model.length}})</div>
@@ -23,7 +23,7 @@
                 </a>
                 <div class="row" ng-show="!view.isSavingChanges">
                     <div ng-class="{true: '', false: 'row2'}[editMode]" ng-show="!view.showEditPoc">
-                        {{poc.value}}
+                        {{poc.fullName}} ({{poc.position}})
                         <div class="pull-right" ng-show="editMode">
                             <a ng-show="!view.isDeletingPoc" ng-click="view.showConfirmDelete = true">
                                 <i class="material-icons md-dark">delete</i>
@@ -31,7 +31,7 @@
                             <a ng-show="view.isDeletingPoc">
                                 <i class="material-icons md-dark material-icons-spin">refresh</i>
                             </a>
-                            <a ng-click="view.onEditPocClick(poc)">
+                            <a ng-click="view.onEditPocClick()">
                                 <i class="material-icons md-dark">edit</i>
                             </a>
                         </div>
@@ -87,16 +87,16 @@
                                     <button ng-click="view.cancelPointOfContactChanges($event)" class="btn btn-cancel">Cancel</button>
                                 </div>
                             </div>
-                        </form>                        
+                        </form>
                         <div class="row">
                             <i class="material-icons md-dark col-md-1">email</i>
                             <div class="col-md-3 title-label">Emails</div>
-                            <emailaddresses model="poc" modelid="poc.id" modeltype="'project'" editmode="true"></emailaddresses>
+                            <emailaddresses model="poc" modelid="poc.id" modeltype="'person'" editmode="true"></emailaddresses>
                         </div>
                         <div class="row">
                             <i class="material-icons md-dark col-md-1">phone</i>
                             <div class="col-md-4 title-label">Phone Numbers</div>
-                            <phonenumbers model="poc" modelid="poc.id" modeltype="'project'" editmode="true"></phonenumbers>
+                            <phonenumbers model="poc" modelid="poc.id" modeltype="'person'" editmode="true"></phonenumbers>
                         </div>
                     </div>
                 </div>

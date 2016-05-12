@@ -398,6 +398,12 @@ angular.module('staticApp')
           });
       }
 
+      function updatePointsOfContactIds() {
+          var propertyName = "pointsOfContactIds";
+          $scope.$parent.project[propertyName] = $scope.$parent.project[propertyName] || [];
+          updateRelationshipIds(propertyName, 'selectedPointsOfContact');
+      }
+
       function updateThemes() {
           var propertyName = "themeIds";
           $scope.$parent.project[propertyName] = $scope.$parent.project[propertyName] || [];
@@ -541,21 +547,9 @@ angular.module('staticApp')
       }
             
       function setSelectedPointsOfContact() {
-          var projectContacts = $scope.$parent.project.contacts;
-          var len1 = projectContacts.length;
-          var fullContacts = $scope.editView.pointsOfContact;
-          var len2 = fullContacts.length;
-
-          for (var i = 0; i < len1; i++) {
-              for (var j = 0; j < len2; j++) {
-                  if (fullContacts[j].id == projectContacts[i].id) {
-                      $scope.editView.selectedPointsOfContact.push(fullContacts[j]);
-                      break;
-                  }
-              }
-          }
+          setSelectedItems('contacts', 'selectedPointsOfContact');
       }
-      
+
       function setSelectedGoals() {
           setSelectedItems('goals', 'selectedGoals');
       }
