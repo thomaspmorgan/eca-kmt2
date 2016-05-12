@@ -56,6 +56,7 @@ angular.module('staticApp')
       $scope.view.totalParticipants = 0;
       $scope.view.tabSevis = false;
       $scope.view.tabInfo = true;
+      $scope.view.tabPii = false;
       $scope.view.tabExchangeVisitor = false;
       $scope.view.tabStudentVisitor = false;
       $scope.view.sevisCommStatuses = null;
@@ -63,8 +64,6 @@ angular.module('staticApp')
       $scope.view.hasRealActualParticipants = false;
       $scope.view.editingEstParticipants = false;
       $scope.view.editingActualParticipants = false;
-
-      $scope.view.piiEdit = false;
 
       $scope.sevisInfo = {};
       $scope.exchangeVisitorInfo = {};
@@ -602,6 +601,7 @@ angular.module('staticApp')
       $scope.onInfoTabSelected = function (participantId) {
           $scope.view.tabInfo = true;
           $scope.view.tabSevis = false;
+          $scope.view.tabPii = false;
           loadSevisInfo(participantId);
       }
 
@@ -652,9 +652,16 @@ angular.module('staticApp')
       $scope.onSevisTabSelected = function (participantId) {
           $scope.view.tabSevis = true;
           $scope.view.tabInfo = false;
+          $scope.view.tabPii = false;
           loadSevisInfo(participantId);
           loadExchangeVisitorInfo(participantId);
       };
+
+      $scope.onPiiTabSelected = function () {
+          $scope.view.tabSevis = false;
+          $scope.view.tabInfo = false;
+          $scope.view.tabPii = true;
+      }
 
       $scope.toggleParticipantInfo = function (participantId) {
           var defaultParticipantInfo = { show: false };
