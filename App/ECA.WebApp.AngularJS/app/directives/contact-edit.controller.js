@@ -9,12 +9,12 @@
 angular.module('staticApp')
   .controller('personContactEditCtrl', function ($scope, PersonService, ParticipantPersonsService, NotificationService, $stateParams, $log, $q) {
 
+      $scope.edit = {};
       $scope.edit.contactsLoading = true;
 
-      $scope.personIdDeferred.promise
-        .then(function (personId) {
-            loadContactInfo(personId);
-      });
+      var personId = $scope.personid;
+
+      loadContactInfo(personId);
 
       function loadContactInfo(personId) {
           $scope.edit.contactsLoading = true;
@@ -25,28 +25,20 @@ angular.module('staticApp')
           });
       };
 
-      $scope.cancelEditContact = function () {
-          $scope.edit.Contact = false;
-      };
+      $scope.$watch('personid', function () {
+          loadContactInfo($scope.personid);
+      });
 
-      function getParticipantPerson() {
-          ParticipantPersonsService.getParticipantPersonById($stateParams.personId)
-              .then(function (data) {
-                  $scope.sevisStatus.statusName = data.data.sevisStatus;
-                  $scope.sevisStatus.statusNameId = data.data.sevisStatusId;
-              }, function (error) {
-                  $log.error('Unable to load participant info for ' + $stateParams.personId + '.');
-                  NotificationService.showErrorMessage('Unable to load participant info for ' + $stateParams.personId + '.');
-              });
+      $scope.cancelEditContact = function () {
+          $scope.$parent.$parent.editMode = false;
       };
 
       $scope.saveEditContact = function () {
-          PersonService.updateContactInfo($scope.contactInfo, $stateParams.personId)
+          PersonService.updateContactInfo($scope.contactInfo, personId)
           .then(function () {
               NotificationService.showSuccessMessage("The edit was successful.");
-              loadContactInfo($stateParams.personId);
-              getParticipantPerson();
-              $scope.edit.Contact = false;
+              loadContactInfo(personId);
+              $scope.$parent.$parent.editMode = false;
           },
             function (error) {
                 if (error.status === 400) {

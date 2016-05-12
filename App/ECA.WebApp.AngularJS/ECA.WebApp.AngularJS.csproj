@@ -185,6 +185,7 @@
     <Content Include="app\directives\citizenship-countries.controller.js" />
     <Content Include="app\directives\citizenship-countries.directive.js" />
     <Content Include="app\directives\citizenship-country.controller.js" />
+    <Content Include="app\directives\contact.directive.js" />
     <Content Include="app\directives\dependents.controller.js" />
     <Content Include="app\directives\eca-required.directive..js" />
     <Content Include="app\directives\dependents.directive.js" />
@@ -323,8 +324,8 @@
     <Content Include="app\organizations\edit-details.controller.js" />
     <Content Include="app\organizations\organization.controller.js" />
     <Content Include="app\organizations\overview.controller.js" />
-    <Content Include="app\people\contact-edit.controller.js" />
-    <Content Include="app\people\contact.controller.js" />
+    <Content Include="app\directives\contact-edit.controller.js" />
+    <Content Include="app\directives\contact.controller.js" />
     <Content Include="app\people\general-edit.controller.js" />
     <Content Include="app\people\timeline.controller.js" />
     <Content Include="app\people\education-employment.controller.js" />
@@ -413,12 +414,11 @@
     <Content Include="app\toolbar\toolbar-icons.html" />
     <Content Include="app\people\all-people.html" />
     <Content Include="app\people\moneyflows.html" />
-    <Content Include="app\people\contact-edit.html" />
     <Content Include="app\people\education-employment-edit.html" />
     <Content Include="app\people\evaluation-notes.html" />
     <Content Include="app\people\education-employment.html" />
     <Content Include="app\people\general-edit.html" />
-    <Content Include="app\people\contact.html" />
+    <Content Include="app\directives\contact.directive.html" />
     <Content Include="app\people\general.html" />
     <Content Include="app\organizations\organization.html" />
     <Content Include="app\directives\pii.directive.html" />

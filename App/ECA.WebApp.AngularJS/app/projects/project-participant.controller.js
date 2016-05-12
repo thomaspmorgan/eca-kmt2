@@ -58,6 +58,7 @@ angular.module('staticApp')
       $scope.view.tabSevis = false;
       $scope.view.tabInfo = true;
       $scope.view.tabPii = false;
+      $scope.view.tabContact = false;
       $scope.view.tabExchangeVisitor = false;
       $scope.view.tabStudentVisitor = false;
       $scope.view.sevisCommStatuses = null;
@@ -604,6 +605,7 @@ angular.module('staticApp')
           $scope.view.tabInfo = true;
           $scope.view.tabSevis = false;
           $scope.view.tabPii = false;
+          $scope.view.tabContact = false;
           loadSevisInfo(participantId);
       }
 
@@ -655,6 +657,7 @@ angular.module('staticApp')
           $scope.view.tabSevis = true;
           $scope.view.tabInfo = false;
           $scope.view.tabPii = false;
+          $scope.view.tabContact = false;
           loadSevisInfo(participantId);
           loadExchangeVisitorInfo(participantId);
       };
@@ -663,6 +666,14 @@ angular.module('staticApp')
           $scope.view.tabSevis = false;
           $scope.view.tabInfo = false;
           $scope.view.tabPii = true;
+          $scope.view.tabContact = false;
+      }
+
+      $scope.onContactTabSelected = function () {
+          $scope.view.tabSevis = false;
+          $scope.view.tabInfo = false;
+          $scope.view.tabPii = false;
+          $scope.view.tabContact = true;
       }
 
       $scope.toggleParticipantInfo = function (participantId) {
