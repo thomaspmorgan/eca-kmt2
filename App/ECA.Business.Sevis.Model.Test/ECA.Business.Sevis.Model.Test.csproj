@@ -71,6 +71,8 @@
     <Compile Include="SEVISEVBatchTypeExchangeVisitorTest.cs" />
     <Compile Include="TransactionLogTypeBatchDetailProcessRecordTest.cs" />
     <Compile Include="BatchIdTest.cs" />
+    <Compile Include="TransactionLogTypeBatchDetailProcessTest.cs" />
+    <Compile Include="GroupedTransactionLogTypeBatchDetailProcessTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ECA.Business.Sevis.Model\ECA.Business.Sevis.Model.csproj">

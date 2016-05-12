@@ -20,17 +20,22 @@ angular.module('staticApp')
       $scope.showPii = true;
       $scope.sevisStatus = { statusName: "", statusNameId: 0 };
 
+      $scope.personId = $stateParams.personId;
+
       var notifyStatuses = ConstantsService.sevisStatusIds.split(',');
       
-      ParticipantPersonsService.getParticipantPersonById($stateParams.personId)
-          .then(function (data) {
-              $scope.sevisStatus.statusName = data.data.sevisStatus;
-              $scope.sevisStatus.statusNameId = data.data.sevisStatusId;
-              $scope.isDisabled();
-          }, function (error) {
-              $log.error('Unable to load participant info for ' + $stateParams.personId + '.');
-              NotificationService.showErrorMessage('Unable to load participant info for ' + $stateParams.personId + '.');
-          });
+      function getParticipantPersonById() {
+          return ParticipantPersonsService.getParticipantPersonById($stateParams.personId)
+              .then(function (data) {
+                  $scope.sevisStatus.statusName = data.data.sevisStatus;
+                  $scope.sevisStatus.statusNameId = data.data.sevisStatusId;
+                  $scope.isDisabled();
+              }, function (error) {
+                  $log.error('Unable to load participant info for ' + $stateParams.personId + '.');
+                  NotificationService.showErrorMessage('Unable to load participant info for ' + $stateParams.personId + '.');
+              });
+      }
+      getParticipantPersonById();
       
       $scope.editPii = function () {
           if (!$scope.edit.blockEdit) {
@@ -54,6 +59,11 @@ angular.module('staticApp')
           } else {
               $scope.edit.blockEdit = false;
           }
+      }
+
+      $scope.updatePiiCallback = function () {
+          getParticipantPersonById();
+          $scope.$parent.onPersonPiiUpdated();
       }
       
   });

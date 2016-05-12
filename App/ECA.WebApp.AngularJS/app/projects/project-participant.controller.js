@@ -57,6 +57,8 @@ angular.module('staticApp')
       $scope.view.totalParticipants = 0;
       $scope.view.tabSevis = false;
       $scope.view.tabInfo = true;
+      $scope.view.tabPii = false;
+      $scope.view.tabContact = false;
       $scope.view.tabExchangeVisitor = false;
       $scope.view.tabStudentVisitor = false;
       $scope.view.sevisCommStatuses = null;
@@ -602,6 +604,8 @@ angular.module('staticApp')
       $scope.onInfoTabSelected = function (participantId) {
           $scope.view.tabInfo = true;
           $scope.view.tabSevis = false;
+          $scope.view.tabPii = false;
+          $scope.view.tabContact = false;
           loadSevisInfo(participantId);
       }
 
@@ -652,9 +656,25 @@ angular.module('staticApp')
       $scope.onSevisTabSelected = function (participantId) {
           $scope.view.tabSevis = true;
           $scope.view.tabInfo = false;
+          $scope.view.tabPii = false;
+          $scope.view.tabContact = false;
           loadSevisInfo(participantId);
           loadExchangeVisitorInfo(participantId);
       };
+
+      $scope.onPiiTabSelected = function () {
+          $scope.view.tabSevis = false;
+          $scope.view.tabInfo = false;
+          $scope.view.tabPii = true;
+          $scope.view.tabContact = false;
+      }
+
+      $scope.onContactTabSelected = function () {
+          $scope.view.tabSevis = false;
+          $scope.view.tabInfo = false;
+          $scope.view.tabPii = false;
+          $scope.view.tabContact = true;
+      }
 
       $scope.toggleParticipantInfo = function (participantId) {
           var defaultParticipantInfo = { show: false };
@@ -949,6 +969,42 @@ angular.module('staticApp')
       }
 
       getPage();
+
+      $scope.updatePiiCallback = function () {
+          var participant = $scope.getSelectedParticipant();
+          var params = {
+              limit: 1,
+              filter: { property: 'personId', comparison: ConstantsService.equalComparisonType, value: participant.personId }
+          };
+          ParticipantService.getParticipantsByProject(projectId, params)
+            .then(function (response) {
+                var updatedParticipant = response.results[0];
+                updateParticipantRow(updatedParticipant);
+            })
+            .catch(function () {
+               $log.error('Unable to reload selected participant information.');
+               NotificationService.showErrorMessage('Unable to reload selected participant information.');
+            });
+      }
+
+      function updateParticipantRow(updatedParticipant) {
+          debugger;
+          var participantIds = $scope.gridOptions.data.map(function (p) { return p.participantId; });
+          var index = participantIds.indexOf(parseInt(updatedParticipant.participantId, 10));
+          if (index != -1) {
+              var participantToUpdate = $scope.gridOptions.data[index];
+              if (updatedParticipant.name) {
+                  if ($scope.selectedGridView === 'SEVIS') {
+                      participantToUpdate.fullName = updatedParticipant.name;
+                  } else {
+                      participantToUpdate.name = updatedParticipant.name;
+                  }
+              }
+              if (updatedParticipant.sevisStatus) {
+                  participantToUpdate.sevisStatus = updatedParticipant.sevisStatus;
+              }
+          }
+      }
   })
 
 

@@ -318,5 +318,94 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
             Assert.AreEqual(1.0m, financialInfo.GetTotalFunding());
         }
         #endregion
+
+        #region GetChangeDetail
+        [TestMethod]
+        public void TestGetChangeDetail_SameInstance()
+        {
+            OtherFunds otherFunds = new OtherFunds("1.0", null, null, null, null, null);
+            string programSponsorFunds = null;
+            var receivedUsGovtFunds = true;
+            var printForm = true;
+            var financialInfo = new FinancialInfo(
+                printForm: printForm,
+                receivedUSGovtFunds: receivedUsGovtFunds,
+                programSponsorFunds: programSponsorFunds,
+                otherFunds: otherFunds);
+
+            var changeDetail = financialInfo.GetChangeDetail(financialInfo);
+            Assert.IsFalse(changeDetail.HasChanges());
+        }
+
+        [TestMethod]
+        public void TestGetChangeDetail_ShouldIgnorePrintForm()
+        {
+            OtherFunds otherFunds = new OtherFunds("1.0", null, null, null, null, null);
+            string programSponsorFunds = null;
+            var receivedUsGovtFunds = true;
+            var printForm = true;
+            var financialInfo = new FinancialInfo(
+                printForm: printForm,
+                receivedUSGovtFunds: receivedUsGovtFunds,
+                programSponsorFunds: programSponsorFunds,
+                otherFunds: otherFunds);
+
+            var otherFinancialInfo = new FinancialInfo(
+                printForm: !printForm,
+                receivedUSGovtFunds: receivedUsGovtFunds,
+                programSponsorFunds: programSponsorFunds,
+                otherFunds: otherFunds);
+
+            var changeDetail = financialInfo.GetChangeDetail(otherFinancialInfo);
+            Assert.IsFalse(changeDetail.HasChanges());
+        }
+
+        [TestMethod]
+        public void TestGetChangeDetail_HasChange()
+        {
+            OtherFunds otherFunds = new OtherFunds("1.0", null, null, null, null, null);
+            string programSponsorFunds = null;
+            var receivedUsGovtFunds = true;
+            var printForm = true;
+            var financialInfo = new FinancialInfo(
+                printForm: printForm,
+                receivedUSGovtFunds: receivedUsGovtFunds,
+                programSponsorFunds: programSponsorFunds,
+                otherFunds: otherFunds);
+
+            var otherFinancialInfo = new FinancialInfo(
+                printForm: printForm,
+                receivedUSGovtFunds: !receivedUsGovtFunds,
+                programSponsorFunds: programSponsorFunds,
+                otherFunds: otherFunds);
+
+            var changeDetail = financialInfo.GetChangeDetail(otherFinancialInfo);
+            Assert.IsTrue(changeDetail.HasChanges());
+        }
+
+        [TestMethod]
+        public void TestGetChangeDetail_HasChangeInChild()
+        {
+            OtherFunds otherFunds = new OtherFunds("1.0", null, null, null, null, null);
+            string programSponsorFunds = null;
+            var receivedUsGovtFunds = true;
+            var printForm = true;
+            var financialInfo = new FinancialInfo(
+                printForm: printForm,
+                receivedUSGovtFunds: receivedUsGovtFunds,
+                programSponsorFunds: programSponsorFunds,
+                otherFunds: otherFunds);
+
+            OtherFunds someOtherFunds = new OtherFunds("2.0", null, null, null, null, null);
+            var otherFinancialInfo = new FinancialInfo(
+                printForm: printForm,
+                receivedUSGovtFunds: receivedUsGovtFunds,
+                programSponsorFunds: programSponsorFunds,
+                otherFunds: someOtherFunds);
+
+            var changeDetail = financialInfo.GetChangeDetail(otherFinancialInfo);
+            Assert.IsTrue(changeDetail.HasChanges());
+        }
+        #endregion
     }
 }

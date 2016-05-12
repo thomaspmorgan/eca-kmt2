@@ -1,0 +1,56 @@
+<TransactionLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <BatchHeader>
+    <BatchID>----kynEn47azQ</BatchID>
+    <OrgID>P-1-19833</OrgID>
+  </BatchHeader>
+  <BatchDetail status="true" system="PROD-ALPHA">
+    <Upload resultCode="S0000" dateTimeStamp="2016-05-04T17:15:00.894+00:00">
+      <FileName>batchfile3.xml</FileName>
+    </Upload>
+    <Process resultCode="S0000" dateTimeStamp="2016-05-04T17:15:06.519+00:00">
+      <RecordCount>
+        <Success>1</Success>
+        <Failure>0</Failure>
+        <Total>1</Total>
+      </RecordCount>
+      <Record sevisID="N0000158857" userID="esayya9302" requestID="1-1-59079">
+        <UserDefinedA>59079</UserDefinedA>
+        <UserDefinedB>B63280</UserDefinedB>
+        <ProcessDate>2016-05-04T17:15:03.503+00:00</ProcessDate>
+        <Result status="true" />
+        <SiteOfActivity>
+          <ProvidedAddress>
+            <Address1>2200 C STREET NW</Address1>
+            <Address2 />
+            <City>WASHINGTON</City>
+            <State>DC</State>
+            <PostalCode>20522</PostalCode>
+          </ProvidedAddress>
+          <CorrectedAddress>
+            <Address1>2200 C STREET NW</Address1>
+            <Address2 />
+            <City>WASHINGTON</City>
+            <State>DC</State>
+            <PostalCode>20522-0001</PostalCode>
+          </CorrectedAddress>
+          <AddressResult>S0000</AddressResult>
+          <SiteId>108087</SiteId>
+          <SiteName>US Department of State</SiteName>
+        </SiteOfActivity>
+        <Dependent dependentSevisID="N0000158274">
+          <UserDefinedA>59079</UserDefinedA>
+          <UserDefinedB>B6</UserDefinedB>
+        </Dependent>
+        <PhysicalProvidedAddress>
+          <Address1>2200 C STREET NW</Address1>
+          <Address2 />
+          <City>WASHINGTON</City>
+          <State>DC</State>
+          <PostalCode>20522</PostalCode>
+        </PhysicalProvidedAddress>
+        <PhysicalAddressMessage />
+      </Record>
+    </Process>
+    <Download resultCode="S0000" />
+  </BatchDetail>
+</TransactionLog>

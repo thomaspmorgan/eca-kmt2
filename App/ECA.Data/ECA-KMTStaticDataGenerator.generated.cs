@@ -1897,6 +1897,10 @@ namespace ECA.Data
 		/// Returns the Queued to Validate lookup with id 21.
 		/// </summary>
 		public static StaticLookup QueuedToValidate { get { return new StaticLookup("Queued to Validate", 21); } }
+		/// <summary>
+		/// Returns the Updated Prior To Validation lookup with id 22.
+		/// </summary>
+		public static StaticLookup UpdatedPriorToValidation { get { return new StaticLookup("Updated Prior To Validation", 22); } }
 		///<summary>
 		/// Returns the lookup value of this entity with the given id, or null if it does not exist.
 		///<param name="id">The lookup id.</param>
@@ -1925,6 +1929,7 @@ namespace ECA.Data
 			if (19 == id) return SevisCommStatus.NeedsValidationInfo;
 			if (20 == id) return SevisCommStatus.ReadyToValidate;
 			if (21 == id) return SevisCommStatus.QueuedToValidate;
+			if (22 == id) return SevisCommStatus.UpdatedPriorToValidation;
 			return null;
 		}
 		///<summary>
@@ -1955,6 +1960,7 @@ namespace ECA.Data
 			if ("Needs Validation Info".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return SevisCommStatus.NeedsValidationInfo;
 			if ("Ready to Validate".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return SevisCommStatus.ReadyToValidate;
 			if ("Queued to Validate".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return SevisCommStatus.QueuedToValidate;
+			if ("Updated Prior To Validation".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return SevisCommStatus.UpdatedPriorToValidation;
 			return null;
 		}
 

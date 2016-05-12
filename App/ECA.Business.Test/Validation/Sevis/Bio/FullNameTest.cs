@@ -107,5 +107,42 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             Assert.AreEqual(fullName.PreferredName, instance.PreferredName);
             Assert.AreEqual(fullName.Suffix, instance.Suffix);
         }
+
+        #region GetChangeDetail
+        [TestMethod]
+        public void TestGetChangeDetail_SameInstance()
+        {
+            var firstName = "first";
+            var lastName = "last";
+            var passport = "passport";
+            var preferred = "preferred";
+            var suffix = "Jr.";
+            var fullName = new FullName(firstName, lastName, passport, preferred, suffix);
+
+            var detail = fullName.GetChangeDetail(fullName);
+            Assert.IsFalse(detail.HasChanges());
+        }
+
+        [TestMethod]
+        public void TestGetChangeDetail_FirstNameChanged()
+        {
+            var firstName = "first";
+            var lastName = "last";
+            var passport = "passport";
+            var preferred = "preferred";
+            var suffix = "Jr.";
+            var fullName = new FullName(firstName, lastName, passport, preferred, suffix);
+
+            var otherFirstName = "other first";
+            var otherLastName = "last";
+            var otherPassport = "passport";
+            var otherPreferred = "preferred";
+            var otherSuffix = "Jr.";
+            var otherFullName = new FullName(otherFirstName, otherLastName, otherPassport, otherPreferred, otherSuffix);
+
+            var detail = fullName.GetChangeDetail(otherFullName);
+            Assert.IsTrue(detail.HasChanges());
+        }
+        #endregion
     }
 }

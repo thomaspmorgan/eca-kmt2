@@ -185,6 +185,7 @@
       <DependentUpon>ECA-KMTStaticDataGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="EmailAddressType.cs" />
+    <Compile Include="ExchangeVisitorHistory.cs" />
     <Compile Include="FieldOfStudy.cs" />
     <Compile Include="Focus.cs" />
     <Compile Include="Gender.cs" />

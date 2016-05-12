@@ -299,6 +299,7 @@
     <Build Include="dbo\Tables\PersonDependentCitizenCountry.sql" />
     <Build Include="Sevis\Tables\BirthCountryReason.sql" />
     <Build Include="dbo\Tables\CancelledSevisBatchProcessing.sql" />
+    <Build Include="dbo\Tables\ExchangeVisitorHistory.sql" />
     <Build Include="dbo\Stored Procedures\GetPrograms.sql" />
     <Build Include="dbo\Stored Procedures\GetProgramsWithOfficeDesc.sql" />
     <Build Include="dbo\Functions\NoDiacritics.sql" />
