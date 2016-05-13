@@ -69,10 +69,7 @@
                 $scope.edit.sevisCommStatuses = [];
                 $scope.edit.isStartDatePickerOpen = false;
                 $scope.edit.isEndDatePickerOpen = false;
-                $scope.view.Funding = false;
-                $scope.view.FundingEdit = false;
                 $scope.positionAndFieldElementId = 'positionAndField' + $scope.participantid;
-                $scope.fundingElementId = 'funding' + $scope.participantid;
                 $scope.pageTimeout = null;
 
                 $scope.highlightFilteredHeader = function (row, rowRenderIndex, col, colRenderIndex) {
@@ -299,11 +296,6 @@
                     }
                 };
 
-                $scope.saveFunding = function () {
-                    $scope.updateexchangevisitorinfo({ participantId: $scope.participantid });
-                    $scope.view.FundingEdit = false;
-                };
-
                 $scope.savePositionAndField = function () {
                     $scope.updateexchangevisitorinfo({ participantId: $scope.participantid });
                     $scope.view.PositionAndFieldEdit = false;
@@ -313,22 +305,9 @@
                     return loadFieldOfStudies(search);
                 };
 
-                $scope.edit.onFundingEditChange = function () {
-                    if (!$scope.sevisinfo.blockEdit) {
-                        $scope.view.FundingEdit = true;
-                        $scope.view.GovtAgency1Other = ($scope.exchangevisitorinfo.govtAgency1Id == ConstantsService.otherUSGovernmentAgencyId);
-                        $scope.view.GovtAgency2Other = ($scope.exchangevisitorinfo.govtAgency2Id == ConstantsService.otherUSGovernmentAgencyId);
-                        $scope.view.IntlOrg1Other = ($scope.exchangevisitorinfo.intlOrg1Id == ConstantsService.otherInternationalOrganizationId);
-                        $scope.view.IntlOrg2Other = ($scope.exchangevisitorinfo.intlOrg2Id == ConstantsService.otherInternationalOrganizationId);
-                    } else {
-                        return false;
-                    }
-                };
-
                 $scope.edit.onPositionAndFieldEditChange = function () {
                     if (!$scope.sevisinfo.blockEdit) {
                         $scope.view.PositionAndFieldEdit = true;
-                        loadFieldOfStudies($scope.exchangevisitorinfo.fieldOfStudy);
                     } else {
                         return false;
                     }
@@ -366,46 +345,6 @@
                     }
                 }
 
-                $scope.onGovtAgency1Select = function (item) {
-                    if (item.description != null)
-                        if (item.description == "OTHER")
-                            $scope.view.GovtAgency1Other = true;
-                        else {
-                            $scope.view.GovtAgency1Other = false;
-                            $scope.exchangevisitorinfo.govtAgency1OtherName = '';
-                        }
-                };
-
-                $scope.onGovtAgency2Select = function (item) {
-                    if (item.description != null)
-                        if (item.description == "OTHER")
-                            $scope.view.GovtAgency2Other = true;
-                        else {
-                            $scope.view.GovtAgency2Other = false;
-                            $scope.exchangevisitorinfo.govtAgency2OtherName = '';
-                        }
-                };
-
-                $scope.onIntlOrg1Select = function (item) {
-                    if (item.description != null)
-                        if (item.description == "OTHER")
-                            $scope.view.IntlOrg1Other = true;
-                        else {
-                            $scope.view.IntlOrg1Other = false;
-                            $scope.exchangevisitorinfo.intlOrg1OtherName = '';
-                        }
-                };
-
-                $scope.onIntlOrg2Select = function (item) {
-                    if (item.description != null)
-                        if (item.description == "OTHER")
-                            $scope.view.IntlOrg2Other = true;
-                        else {
-                            $scope.view.IntlOrg2Other = false;
-                            $scope.exchangevisitorinfo.intlOrg2OtherName = '';
-                        }
-                };
-
                 // IE and Edge do not support printing
                 $scope.browserSupportsMsSaveOrOpenBlob = function () {
                     var msSaveOrOpenBlob = false;
@@ -414,14 +353,6 @@
                     }
                     return msSaveOrOpenBlob;
                 };
-
-                function scrollToFunding() {
-                    $scope.view.Funding = true;
-                    scrollToSevisTabElement(
-                        $scope.fundingElementId,
-                        function () { },
-                        function () { });
-                }
 
                 function scrollToPositionAndField() {
                     $scope.view.PositionAndField = true;
@@ -503,86 +434,6 @@
                     });
                 }
 
-                function loadUSGovernmentAgencies() {
-                    var usGovernmentAgenciesFilter = FilterService.add('project-participant-editSevis-usGovernmentAgencies');
-                    usGovernmentAgenciesFilter = usGovernmentAgenciesFilter.skip(0).take(limit);
-                    return LookupService.getSevisUSGovernmentAgencies(usGovernmentAgenciesFilter.toParams())
-                    .then(function (response) {
-                        if (response.data.total > limit) {
-                            var message = "The number of USGovernmentAgencies loaded is less than the total number.  Some USGovernmentAgencies may not be shown."
-                            NotificationService.showErrorMessage(message);
-                            $log.error(message);
-                        }
-                        $scope.edit.usGovernmentAgencies = response.data.results;
-                        return $scope.edit.usGovernmentAgencies;
-                    })
-                    .catch(function (response) {
-                        var message = "Unable to load USGovernmentAgencies.";
-                        $log.error(message);
-                        NotificationService.showErrorMessage(message);
-                    });
-                }
-
-                function loadInternationalOrganizations() {
-                    var internationalOrganizationsFilter = FilterService.add('project-participant-editSevis-internationalOrganizations');
-                    internationalOrganizationsFilter = internationalOrganizationsFilter.skip(0).take(limit);
-                    return LookupService.getSevisInternationalOrganizations(internationalOrganizationsFilter.toParams())
-                    .then(function (response) {
-                        if (response.data.total > limit) {
-                            var message = "The number of InternationalOrganizations loaded is less than the total number.  Some InternationalOrganizations may not be shown."
-                            NotificationService.showErrorMessage(message);
-                            $log.error(message);
-                        }
-                        $scope.edit.internationalOrganizations = response.data.results;
-                        return $scope.edit.internationalOrganizations;
-                    })
-                    .catch(function (response) {
-                        var message = "Unable to load InternationalOrganizations.";
-                        $log.error(message);
-                        NotificationService.showErrorMessage(message);
-                    });
-                }
-
- /**
- * AngularJS default filter with the following expression:
- * "person in people | filter: {name: $select.search, age: $select.search}"
- * performs an AND between 'name: $select.search' and 'age: $select.search'.
- * We want to perform an OR.
- added by efren zamora
- */
-                function propsFilter()
-                {
-                    return function (items, props) {
-                        var out = [];
-
-                        if (angular.isArray(items)) {
-                            var keys = Object.keys(props);
-
-                            items.forEach(function (item) {
-                                var itemMatches = false;
-
-                                for (var i = 0; i < keys.length; i++) {
-                                    var prop = keys[i];
-                                    var text = props[prop].toLowerCase();
-                                    if (item[prop].toString().toLowerCase().indexOf(text) !== -1) {
-                                        itemMatches = true;
-                                        break;
-                                    }
-                                }
-
-                                if (itemMatches) {
-                                    out.push(item);
-                                }
-                            });
-                        } else {
-                            // Let the output be the input untouched
-                            out = items;
-                        }
-
-                        return out;
-                    };
-                }
-
                 function loadSevisCommStatuses() {
                     var commStatusFilter = FilterService.add('project-participant-editSevis-allseviscommstatuses');
                     commStatusFilter = commStatusFilter.skip(0).take(limit);
@@ -610,8 +461,6 @@
 
                 loadPositions();
                 loadProgramCategories();
-                loadUSGovernmentAgencies();
-                loadInternationalOrganizations();
                 loadSevisCommStatuses();
             }
         };
