@@ -62,7 +62,13 @@ namespace ECA.Business.Service.Persons
         /// <param name="contactId">The id of the contact.</param>
         /// <returns>The contact, or null, if it does not exist.</returns>
         Task<ContactDTO> GetContactByIdAsync(int contactId);
-                
+
+        /// <summary>
+        /// Deletes the contact with the given id.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        System.Threading.Tasks.Task DeletePointOfContactAsync(int id);        
     }
 
     /// <summary>
@@ -144,6 +150,16 @@ namespace ECA.Business.Service.Persons
         {
             Contract.Requires(queryOperator != null, "The query operator must not be null.");
             return Task.FromResult<PagedQueryResults<ContactDTO>>(null);
+        }
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public Task DeletePointOfContactAsync(int id)
+        {
+            return Task.FromResult<object>(null);
         }
         
         /// <summary>

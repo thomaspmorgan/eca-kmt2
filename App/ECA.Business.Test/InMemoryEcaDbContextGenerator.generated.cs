@@ -342,6 +342,21 @@ namespace ECA.Business.Test
 			return Task.FromResult<ECA.Data.EmailAddressType>(this.SingleOrDefault(x => x.EmailAddressTypeId.Equals(keyValues.First())));
 		}
 	}
+	public class ExchangeVisitorHistoryTestDbSet : ECA.Core.Data.TestDbSet<ECA.Data.ExchangeVisitorHistory>
+	{
+		public override ECA.Data.ExchangeVisitorHistory Find(params object[] keyValues)
+		{
+			if(keyValues.Length != 1) throw new System.NotSupportedException();
+			///ParticipantId
+			return this.SingleOrDefault(x => x.ParticipantId.Equals(keyValues.First()));
+		}
+		public override Task<ECA.Data.ExchangeVisitorHistory> FindAsync(params object[] keyValues)
+		{
+			if(keyValues.Length != 1) throw new System.NotSupportedException();
+			///ParticipantId
+			return Task.FromResult<ECA.Data.ExchangeVisitorHistory>(this.SingleOrDefault(x => x.ParticipantId.Equals(keyValues.First())));
+		}
+	}
 	public class ExternalIdTestDbSet : ECA.Core.Data.TestDbSet<ECA.Data.ExternalId>
 	{
 		public override ECA.Data.ExternalId Find(params object[] keyValues)
@@ -1319,6 +1334,7 @@ namespace ECA.Business.Test
 			this.EducationLevels = new EducationLevelTestDbSet();
 			this.EmailAddresses = new EmailAddressTestDbSet();
 			this.EmailAddressTypes = new EmailAddressTypeTestDbSet();
+			this.ExchangeVisitorHistories = new ExchangeVisitorHistoryTestDbSet();
 			this.ExternalIds = new ExternalIdTestDbSet();
 			this.FieldOfStudies = new FieldOfStudyTestDbSet();
 			this.Foci = new FocusTestDbSet();

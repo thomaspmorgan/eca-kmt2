@@ -193,7 +193,7 @@
                 <div class="col-md-4 title-label"><ng-pluralize count="project.contacts.length" when="{'1':'Point','other':'Points'}"></ng-pluralize> of Contact</div>
                 <div class="col-md-8 simple-list">
                     <ul>
-                        <li ng-repeat="contact in project.contacts | orderBy:'value'">{{contact.value}}</li>
+                        <li ng-repeat="contact in project.contacts | orderBy:'value'">{{contact.fullName}} ({{contact.position}})</li>
                     </ul>
                 </div>
             </div>

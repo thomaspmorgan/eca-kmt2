@@ -5,6 +5,7 @@ using ECA.Core.DynamicLinq;
 using ECA.Core.Query;
 using ECA.Data;
 using ECA.WebApi.Controllers.Persons;
+using ECA.WebApi.Models.Admin;
 using ECA.WebApi.Models.Person;
 using ECA.WebApi.Models.Query;
 using ECA.WebApi.Security;
@@ -21,6 +22,8 @@ namespace ECA.WebApi.Test.Controllers.Persons
     {
         private Mock<IContactService> serviceMock;
         private Mock<IUserProvider> userProvider;
+        private Mock<IEmailAddressHandler> emailAddressHandler;
+        private Mock<IPhoneNumberHandler> phoneNumberHandler;
         private ContactsController controller;
 
         [TestInitialize]
@@ -30,8 +33,10 @@ namespace ECA.WebApi.Test.Controllers.Persons
             serviceMock = new Mock<IContactService>();
             serviceMock.Setup(x => x.GetContactsAsync(It.IsAny<QueryableOperator<ContactDTO>>()))
                 .ReturnsAsync(new PagedQueryResults<ContactDTO>(1, new List<ContactDTO>()));
+            emailAddressHandler = new Mock<IEmailAddressHandler>();
+            phoneNumberHandler = new Mock<IPhoneNumberHandler>();
 
-            controller = new ContactsController(serviceMock.Object, userProvider.Object);
+            controller = new ContactsController(serviceMock.Object, userProvider.Object, phoneNumberHandler.Object, emailAddressHandler.Object);
         }
 
         #region Create
@@ -54,7 +59,6 @@ namespace ECA.WebApi.Test.Controllers.Persons
             serviceMock.Verify(x => x.CreateAsync(It.IsAny<AdditionalPointOfContact>()), Times.Once());
             serviceMock.Verify(x => x.SaveChangesAsync(), Times.Once());
             serviceMock.Verify(x => x.GetContactByIdAsync(It.IsAny<int>()), Times.Once());
-
         }
 
         [TestMethod]
@@ -87,5 +91,6 @@ namespace ECA.WebApi.Test.Controllers.Persons
             Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
         }
         #endregion
+        
     }
 }

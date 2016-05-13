@@ -8,34 +8,6 @@ namespace ECA.Business.Sevis.Model.Test
     public class TransactionLogTypeBatchDetailProcessRecordTest
     {
         [TestMethod]
-        public void TestSetRequestId()
-        {
-            var participantId = 10;
-            var instance = new TransactionLogTypeBatchDetailProcessRecord();
-            Assert.IsNull(instance.requestID);
-
-            instance.SetRequestId(participantId);
-            Assert.IsNotNull(instance.requestID);
-
-            var expectedRequestId = new RequestId(participantId, RequestIdType.Participant, RequestActionType.Create);
-            Assert.AreEqual(expectedRequestId.ToString(), instance.requestID);
-        }
-
-        [TestMethod]
-        public void TestGetRequestId_HasRequestId()
-        {
-            var participantId = 10;
-            var instance = new TransactionLogTypeBatchDetailProcessRecord();
-            Assert.IsNull(instance.requestID);
-
-            instance.SetRequestId(participantId);
-            Assert.IsNotNull(instance.requestID);
-
-            var expectedRequestId = new RequestId(participantId, RequestIdType.Participant, RequestActionType.Create);
-            Assert.AreEqual(expectedRequestId.ToString(), instance.GetRequestId().ToString());
-        }
-
-        [TestMethod]
         public void TestGetRequestId_RequestIdIsNull()
         {
             var instance = new TransactionLogTypeBatchDetailProcessRecord();

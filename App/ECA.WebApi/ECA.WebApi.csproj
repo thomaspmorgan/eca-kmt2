@@ -560,6 +560,8 @@
     <Compile Include="Custom\Storage\IFileStorageHandler.cs" />
     <Compile Include="Custom\Storage\FileStorageHandler.cs" />
     <Compile Include="Models\Admin\AppSettingsViewModel.cs" />
+    <Compile Include="Models\Admin\ContactEmailAddressBindingModel.cs" />
+    <Compile Include="Models\Admin\ContactPhoneNumberBindingModel.cs" />
     <Compile Include="Models\Admin\CreateOrganizationBindingModel.cs" />
     <Compile Include="Models\Admin\DataPointConfigurationBindingModel.cs" />
     <Compile Include="Models\Admin\ParticipantOrganizationBindingModel.cs" />

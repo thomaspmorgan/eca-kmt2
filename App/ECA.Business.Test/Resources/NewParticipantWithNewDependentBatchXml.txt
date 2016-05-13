@@ -1,0 +1,72 @@
+<SEVISBatchCreateUpdateEV xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:noNamespaceSchemaLocation="http://www.ice.gov/xmlschema/sevisbatch/alpha/Create-UpdateExchangeVisitor.xsd" xmlns:table="http://www.ice.gov/xmlschema/sevisbatch/alpha/SEVISTable.xsd" xmlns:common="http://www.ice.gov/xmlschema/sevisbatch/alpha/Common.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" userID="esayya9302">
+  <BatchHeader>
+    <BatchID>----kynEn47azQ</BatchID>
+    <OrgID>P-1-19833</OrgID>
+  </BatchHeader>
+  <CreateEV>
+    <ExchangeVisitor requestID="1-1-59079" userID="esayya9302" printForm="true">
+      <UserDefinedA>59079</UserDefinedA>
+      <UserDefinedB>B63280</UserDefinedB>
+      <Biographical>
+        <FullName>
+          <LastName>Dependent</LastName>
+          <FirstName>Ihave</FirstName>
+        </FullName>
+        <BirthDate>1962-02-01</BirthDate>
+        <Gender>M</Gender>
+        <BirthCity>Franica, Paris</BirthCity>
+        <BirthCountryCode>FR</BirthCountryCode>
+        <CitizenshipCountryCode>FR</CitizenshipCountryCode>
+        <PermanentResidenceCountryCode>FR</PermanentResidenceCountryCode>
+      </Biographical>
+      <PositionCode>341</PositionCode>
+      <PrgStartDate>2016-06-02</PrgStartDate>
+      <PrgEndDate>2016-07-01</PrgEndDate>
+      <CategoryCode>1B</CategoryCode>
+      <SubjectField>
+        <SubjectFieldCode>52.0301</SubjectFieldCode>
+        <Remarks>Accounting</Remarks>
+      </SubjectField>
+      <USAddress>
+        <Address1>2200 C STREET NW</Address1>
+        <Address2 xsi:nil="true" />
+        <City>WASHINGTON</City>
+        <State>DC</State>
+        <PostalCode>20522</PostalCode>
+      </USAddress>
+      <FinancialInfo>
+        <ReceivedUSGovtFunds>false</ReceivedUSGovtFunds>
+        <ProgramSponsorFunds>10</ProgramSponsorFunds>
+        <OtherFunds />
+      </FinancialInfo>
+      <CreateDependent>
+        <Dependent>
+          <FullName>
+            <LastName>Dependent</LastName>
+            <FirstName>IAmSpouse</FirstName>
+          </FullName>
+          <BirthDate>1963-02-24</BirthDate>
+          <Gender>F</Gender>
+          <BirthCity>Franica, Paris</BirthCity>
+          <BirthCountryCode>FR</BirthCountryCode>
+          <CitizenshipCountryCode>FR</CitizenshipCountryCode>
+          <PermanentResidenceCountryCode>FR</PermanentResidenceCountryCode>
+          <Relationship>01</Relationship>
+          <UserDefinedA>59079</UserDefinedA>
+          <UserDefinedB>B6</UserDefinedB>
+        </Dependent>
+      </CreateDependent>
+      <AddSiteOfActivity>
+        <SiteOfActivity xsi:type="SOA">
+          <Address1>2200 C STREET NW</Address1>
+          <Address2 xsi:nil="true" />
+          <City>WASHINGTON</City>
+          <State>DC</State>
+          <PostalCode>20522</PostalCode>
+          <SiteName>US Department of State</SiteName>
+          <PrimarySite>true</PrimarySite>
+        </SiteOfActivity>
+      </AddSiteOfActivity>
+    </ExchangeVisitor>
+  </CreateEV>
+</SEVISBatchCreateUpdateEV>

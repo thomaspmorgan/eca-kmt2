@@ -1,9 +1,4 @@
 ﻿using ECA.Business.Service.Admin;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics.Contracts;
-using System.Linq;
-using System.Web;
 
 namespace ECA.WebApi.Models.Admin
 {

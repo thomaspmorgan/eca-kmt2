@@ -25,6 +25,7 @@ angular.module('staticApp')
       $scope.view.isLoadingRequiredData = false;
       $scope.view.isSavingPointOfContact = false;
       $scope.view.isLoadingPointsOfContactByFullName = false;
+      $scope.view.isDeleting = false;
       
       $scope.view.maxNameLength = 100;
       $scope.view.searchLimit = 30;
@@ -120,7 +121,26 @@ angular.module('staticApp')
       function removePointsOfContactFromView(poc) {
           $scope.$emit(ConstantsService.removePointsOfContactEventName, poc);
       }
-
+      
+      $scope.view.onDeletePocClick = function (poc) {
+          $scope.view.isDeleting = true;
+          return ContactsService.delete(poc)
+          .then(function (response) {
+              $scope.view.isDeleting = false;
+              $scope.view.showEditPoc = false;
+              var index = $scope.view.selectedPointsOfContact.indexOf(poc);
+              $scope.view.selectedPointsOfContact.splice(index, 1);
+              NotificationService.showSuccessMessage('Successfully deleted the contact.');
+              removePointsOfContactFromView(poc);
+          })
+          .catch(function (response) {
+              $scope.view.isDeleting = false;
+              var message = 'Unable to remove the contact.';
+              $log.error(message);
+              NotificationService.showErrorMessage(message);
+          });
+      }
+      
       $scope.view.cancelPointOfContactChanges = function (event) {
           event.preventDefault();
           $scope.view.showEditPoc = false;
@@ -170,5 +190,18 @@ angular.module('staticApp')
       function isNewPoc(poc) {
           return poc.isNew;
       }
+
+      $scope.$on(ConstantsService.removePointsOfContactEventName, function (event, poc) {
+          console.assert($scope.view, 'The scope must exist.  It should be set by the directive.');
+          console.assert($scope.view.selectedPointsOfContact instanceof Array, 'The entity pocs is defined but must be an array.');
+
+          var pocs = $scope.view.selectedPointsOfContact;
+          var index = pocs.map(function (e) { return e.id }).indexOf(poc.id);
+          if (index !== -1) {
+              var removedItems = pocs.splice(index, 1);
+              $scope.view.selectedPointsOfContact = pocs;
+              $log.info('Removed poc at index ' + index);
+          }
+      });
 
   });

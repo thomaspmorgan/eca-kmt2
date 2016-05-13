@@ -118,5 +118,19 @@ namespace ECA.Business.Service.Persons
         /// <param name="queryOperator">The query operator.</param>
         /// <returns>The participants that have a sevis id and whose start date has passed </returns>
         Task<PagedQueryResults<ReadyToValidateParticipantDTO>> GetReadyToValidateParticipantsAsync(QueryableOperator<ReadyToValidateParticipantDTO> queryOperator);
+
+        /// <summary>
+        /// Returns true if the participant with the given id is ready to validate.
+        /// </summary>
+        /// <param name="participantId">The participant by id.</param>
+        /// <returns>True, if the participant is ready to be validated.</returns>
+        bool IsParticipantReadyToValidate(int participantId);
+
+        /// <summary>
+        /// Returns true if the participant with the given id is ready to validate.
+        /// </summary>
+        /// <param name="participantId">The participant by id.</param>
+        /// <returns>True, if the participant is ready to be validated.</returns>
+        Task<bool> IsParticipantReadyToValidateAsync(int participantId);
     }
 }

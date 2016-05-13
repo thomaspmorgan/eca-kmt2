@@ -42,6 +42,11 @@ namespace ECA.Data
         public DbSet<Accommodation> Accommodations { get; set; }
 
         /// <summary>
+        /// Gets or sets the exchange visitor histories.
+        /// </summary>
+        public DbSet<ExchangeVisitorHistory> ExchangeVisitorHistories { get; set; }
+
+        /// <summary>
         /// Gets or sets the actors.
         /// </summary>
         public DbSet<Actor> Actors { get; set; }

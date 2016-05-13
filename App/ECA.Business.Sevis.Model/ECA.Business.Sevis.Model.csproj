@@ -90,12 +90,14 @@
     <Compile Include="BatchId.cs" />
     <Compile Include="create-updateexchangevisitor.cs" />
     <Compile Include="DispositionCode.cs" />
+    <Compile Include="GroupedTransactionLogTypeBatchDetailProcess.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RequestId.cs" />
     <Compile Include="SEVISEVBatchType.cs" />
     <Compile Include="SEVISEVBatchTypeExchangeVisitor.cs" />
     <Compile Include="sevistranslog.cs" />
     <Compile Include="TransactionLogTypeBatchDetailDownload.cs" />
+    <Compile Include="TransactionLogTypeBatchDetailProcess.cs" />
     <Compile Include="TransactionLogTypeBatchDetailProcessRecord.cs" />
   </ItemGroup>
   <ItemGroup>

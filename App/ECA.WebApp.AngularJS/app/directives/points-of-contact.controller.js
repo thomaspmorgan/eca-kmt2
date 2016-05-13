@@ -34,8 +34,6 @@ angular.module('staticApp')
       $scope.view.collapsePocs = true;
       $scope.view.collapsePoc = true;
       $scope.view.showEditPoc = false;
-      $scope.view.pointsOfContact = [];
-      $scope.view.selectedPointsOfContact = [];
       $scope.view.newPointOfContact = createNewPointOfContact();
       $scope.view.likePointsOfContactByFullNameTotal = 0;
       $scope.view.showConfirmDelete = false;
@@ -60,5 +58,5 @@ angular.module('staticApp')
           };
           return newPointOfContact;
       }
-      
+            
   });

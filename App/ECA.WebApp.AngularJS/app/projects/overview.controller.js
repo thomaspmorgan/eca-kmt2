@@ -61,8 +61,7 @@ angular.module('staticApp')
               $scope.view.dataPointConfigurations[array[i].propertyId] = array[i].isRequired;
           }
       });
-
-
+      
       $scope.view.isLoading = true;
       $scope.$parent.data.loadProjectByIdPromise.promise.then(function (project) {
           BrowserService.setDocumentTitleByProject(project, 'Overview');
@@ -84,8 +83,7 @@ angular.module('staticApp')
       $scope.$parent.data.loadDefaultExchangeVisitorFundingPromise.promise.then(function (defaultVisitorExchangeFunding) {
           $scope.view.sevisFunding = defaultVisitorExchangeFunding;
       });
-
-
+      
       var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
       var labelIndex = 0;
       var markers = [];
