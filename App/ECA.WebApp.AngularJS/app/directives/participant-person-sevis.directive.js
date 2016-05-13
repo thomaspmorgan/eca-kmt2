@@ -327,8 +327,7 @@
 
                 $scope.edit.onPositionAndFieldEditChange = function () {
                     if (!$scope.sevisinfo.blockEdit) {
-                        $scope.view.PositionAndFieldEdit = true;
-                        loadFieldOfStudies($scope.exchangevisitorinfo.fieldOfStudy);
+                        $scope.view.PositionAndFieldEdit = true;                 
                     } else {
                         return false;
                     }
