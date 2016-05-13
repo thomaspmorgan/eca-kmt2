@@ -29,12 +29,8 @@ angular.module('staticApp')
       
       $scope.view.maxNameLength = 100;
       $scope.view.searchLimit = 30;
-      $scope.view.maxPoces = 10;
+      $scope.view.maxPocs = 10;
       $scope.view.maxPhoneNumbers = 10;
-      $scope.view.collapsePocs = true;
-      $scope.view.collapsePoc = true;
-      $scope.view.showEditPoc = false;
-      $scope.view.pointsOfContact = [];
       $scope.view.selectedPointsOfContact = [];
       $scope.view.likePointsOfContactByFullNameTotal = 0;
       $scope.view.showConfirmDelete = false;
@@ -49,12 +45,11 @@ angular.module('staticApp')
               return ContactsService.create($scope.poc)
                 .then(function (response) {
                     $scope.view.isSavingPointOfContact = false;
-                    $scope.view.showEditPoc = false;
+                    $scope.model.splice(0, 0, response.data);
                     return response.data;
                 })
                 .catch(function (response) {
                     $scope.view.isSavingPointOfContact = false;
-                    $scope.view.showEditPoc = false;
                     var message = "Unable to save new contact.";
                     NotificationService.showErrorMessage(message);
                     $log.error(message);
@@ -64,58 +59,58 @@ angular.module('staticApp')
               return ContactsService.update($scope.poc)
                   .then(function (response) {
                       $scope.view.isSavingPointOfContact = false;
-                      $scope.view.showEditPoc = false;
+                      var index = $scope.model.map(function (e) { return e.id }).indexOf($scope.poc.id);
+                      $scope.model[index] = response.data;
                     return response.data;
                   })
                   .catch(function (response) {
                       $scope.view.isSavingPointOfContact = false;
-                      $scope.view.showEditPoc = false;
                         var message = "Unable to update contact.";
                         NotificationService.showErrorMessage(message);
                         $log.error(message);
                   });
-          }          
+          }
       }
       
-      var likePointsOfContactByFullNameFilter = FilterService.add('points-of-contact-model-search-by-full-name-filter');
-      function loadPointsOfContactByFullName(fullName) {
-          if (fullName && fullName.length > 0) {
-              likePointsOfContactByFullNameFilter.reset();
-              likePointsOfContactByFullNameFilter = likePointsOfContactByFullNameFilter
-                  .skip(0)
-                  .take(1)
-                  .equal('fullName', fullName);
-              $scope.view.isLoadingPointsOfContactByFullName = true;
-              var params = likePointsOfContactByFullNameFilter.toParams();
-              return ContactsService.get(params)
+      $scope.view.getContacts = function ($viewValue) {
+          var params = {
+              start: 0,
+              limit: 25,
+              filter: [{
+                  property: 'fullName',
+                  comparison: ConstantsService.likeComparisonType,
+                  value: $viewValue
+              }]
+          };
+          return ContactsService.get(params)
               .then(function (response) {
-                  $scope.view.likePointsOfContactByFullName = response.data.results;
-                  $scope.view.isLoadingPointsOfContactByFullName = false;
-                  $scope.view.likePointsOfContactByFullNameTotal = response.data.total;
-                  return $scope.view.likePointsOfContactByFullName;
-              })
-              .catch(function (response) {
-                  $scope.view.isLoadingPointsOfContactByFullName = false;
-                  var mesage = "Unable to load like points of contact.";
-                  NotificationService.showErrorMessage(message);
-                  $log.error(message);
+                  return response.data.results;
+              }, function (error) {
+                  NotificationService.showErrorMessage('There was an error loading available contacts.');
               });
+      }
+
+      $scope.view.onSelectContact = function ($item) {
+          $scope.poc = $item;
+          $scope.poc.isNew = false;
+          $scope.poc.showEditPoc = true;
+          $scope.view.collapsePoc = false;
+          var pocs = $scope.model;
+          var index = pocs.map(function (e) { return e.isNew }).indexOf(true);
+          if (index !== -1) {
+              var removedItems = pocs.splice(index, 1);
+              pocs.push($scope.poc);
+              $scope.model = pocs;
           }
       }
 
-      $scope.view.onEditPocClick = function () {
-          $scope.view.showEditPoc = true;
+      $scope.view.onEditPocClick = function (poc) {
+          poc.showEditPoc = true;
           $scope.view.collapsePoc = false;
       };
       
-      $scope.view.onFullNameChange = function (fullName) {
-          if (fullName && fullName.length > 0) {
-              return loadPointsOfContactByFullName(fullName);
-          }
-      }
-      
       $scope.view.removePointsOfContact = function () {
-          $scope.$parent.project.pointsOfContactIds = [];
+          $scope.model.pointsOfContactIds = [];
       }
       
       function removePointsOfContactFromView(poc) {
@@ -128,8 +123,6 @@ angular.module('staticApp')
           .then(function (response) {
               $scope.view.isDeleting = false;
               $scope.view.showEditPoc = false;
-              var index = $scope.view.selectedPointsOfContact.indexOf(poc);
-              $scope.view.selectedPointsOfContact.splice(index, 1);
               NotificationService.showSuccessMessage('Successfully deleted the contact.');
               removePointsOfContactFromView(poc);
           })
@@ -141,34 +134,21 @@ angular.module('staticApp')
           });
       }
       
-      $scope.view.cancelPointOfContactChanges = function (event) {
+      $scope.view.cancelPointOfContactChanges = function (event, poc) {
           event.preventDefault();
-          $scope.view.showEditPoc = false;
+          $scope.view.collapsePocs = true;
+          $scope.view.collapsePoc = true;
+          poc.showEditPoc = false;
           if (isNewPoc($scope.poc)) {
               removePointsOfContactFromView($scope.poc);
           }
-          else {
-              $scope.poc = angular.copy(originalPointOfContact);
-          }
+          //else {
+          //    $scope.poc = angular.copy(originalPointOfContact);
+          //}
+          var index = $scope.model.map(function (e) { return e.id }).indexOf($scope.poc.id);
+          $scope.model[index] = poc;
       };
 
-      $scope.view.isUniquePointOfContact = function ($value, $index) {
-          var dfd = $q.defer();
-          loadPointsOfContactByEmail($value)
-          .then(function (likePointsOfContact) {
-              if (likePointsOfContact.length !== 0) {
-                  dfd.reject();
-              }
-              else {
-                  dfd.resolve();
-              }
-          })
-          .catch(function (response) {
-              dfd.reject();
-          });
-          return dfd.promise;
-      }
-      
       function getPocFormDivIdPrefix() {
           return 'pocForm';
       }
@@ -191,17 +171,5 @@ angular.module('staticApp')
           return poc.isNew;
       }
 
-      $scope.$on(ConstantsService.removePointsOfContactEventName, function (event, poc) {
-          console.assert($scope.view, 'The scope must exist.  It should be set by the directive.');
-          console.assert($scope.view.selectedPointsOfContact instanceof Array, 'The entity pocs is defined but must be an array.');
-
-          var pocs = $scope.view.selectedPointsOfContact;
-          var index = pocs.map(function (e) { return e.id }).indexOf(poc.id);
-          if (index !== -1) {
-              var removedItems = pocs.splice(index, 1);
-              $scope.view.selectedPointsOfContact = pocs;
-              $log.info('Removed poc at index ' + index);
-          }
-      });
 
   });

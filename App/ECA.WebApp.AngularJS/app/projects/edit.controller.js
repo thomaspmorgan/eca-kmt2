@@ -79,7 +79,6 @@ angular.module('staticApp')
       $scope.editView.maximumRequiredFoci = -1;
       $scope.editView.locationUiSelectId = 'selectLocations';
       $scope.editView.isLoadingOfficeSetting = false;
-
       $scope.editView.dataPointConfigurations = {};
 
       $scope.editView.validateMinimumObjectives = function ($value) {
@@ -445,6 +444,7 @@ angular.module('staticApp')
           $scope.editView.saveFailed = false;
           $scope.editView.validations = [];
 
+          updatePointsOfContactIds();
           updateThemes();
           updateGoals();
           updateCategories();
@@ -459,7 +459,9 @@ angular.module('staticApp')
                 showSaveSuccess();
                 NavigationService.updateBreadcrumbs();
                 if ($scope.$parent.project.visitorTypeId === ConstantsService.visitorType.exchangeVisitor.id) {
-                    $scope.editView.sevisFunding.fundingTotal = getSevisFundingTotal();
+                    if ($scope.editView.sevisFunding) {
+                        $scope.editView.sevisFunding.fundingTotal = getSevisFundingTotal();
+                    }
                     DefaultExchangeVisitorFundingService.updateDefaultExchangeVisitorFunding($stateParams.projectId, $scope.editView.sevisFunding)
                         .then(function () {
                 goToProjectOverview();
@@ -818,7 +820,7 @@ angular.module('staticApp')
               loadUSGovernmentAgencies();
               loadInternationalOrganizations();
           }
-          $q.all([loadPermissions(), loadThemes(null), loadPointsOfContact(null), loadObjectives(), loadCategories(), loadProjectStati(), loadVisitorTypes(), loadGoals(null), loadUSGovernmentAgencies(), loadInternationalOrganizations()])
+          $q.all([loadPermissions(), loadThemes(null), loadPointsOfContact(null), loadObjectives(null), loadCategories(null), loadProjectStati(), loadVisitorTypes(), loadGoals(null), loadUSGovernmentAgencies(), loadInternationalOrganizations()])
           .then(function (results) {
               //results is an array
               setSelectedPointsOfContact();
