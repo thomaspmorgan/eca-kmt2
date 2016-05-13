@@ -59,8 +59,7 @@ angular.module('staticApp')
       $scope.view.tabInfo = true;
       $scope.view.tabPii = false;
       $scope.view.tabContact = false;
-      $scope.view.tabExchangeVisitor = false;
-      $scope.view.tabStudentVisitor = false;
+      $scope.view.tabSevisFunding = false;
       $scope.view.sevisCommStatuses = null;
       $scope.view.filteredSevisUserAccounts = null;
 
@@ -606,6 +605,7 @@ angular.module('staticApp')
           $scope.view.tabSevis = false;
           $scope.view.tabPii = false;
           $scope.view.tabContact = false;
+          $scope.view.tabSevisFunding = false;
           loadSevisInfo(participantId);
       }
 
@@ -636,7 +636,6 @@ angular.module('staticApp')
 
       function saveExchangeVisitorById(participantId) {
           var exchangeVisitorInfo = $scope.exchangeVisitorInfo[participantId];
-          var sevisInfo = $scope.sevisInfo[participantId];
           return ParticipantExchangeVisitorService.updateParticipantExchangeVisitor(projectId, exchangeVisitorInfo)
           .then(function (data) {
               NotificationService.showSuccessMessage('Participant exchange visitor info saved successfully.');
@@ -658,6 +657,7 @@ angular.module('staticApp')
           $scope.view.tabInfo = false;
           $scope.view.tabPii = false;
           $scope.view.tabContact = false;
+          $scope.view.tabSevisFunding = false;
           loadSevisInfo(participantId);
           loadExchangeVisitorInfo(participantId);
       };
@@ -667,6 +667,7 @@ angular.module('staticApp')
           $scope.view.tabInfo = false;
           $scope.view.tabPii = true;
           $scope.view.tabContact = false;
+          $scope.view.tabSevisFunding = false;
       }
 
       $scope.onContactTabSelected = function () {
@@ -674,6 +675,16 @@ angular.module('staticApp')
           $scope.view.tabInfo = false;
           $scope.view.tabPii = false;
           $scope.view.tabContact = true;
+          $scope.view.tabSevisFunding = false;
+      }
+
+      $scope.onSevisFundingTabSelected = function (participantId) {
+          $scope.view.tabSevis = false;
+          $scope.view.tabInfo = false;
+          $scope.view.tabPii = false;
+          $scope.view.tabContact = false;
+          $scope.view.tabSevisFunding = true;
+          loadExchangeVisitorInfo(participantId);
       }
 
       $scope.toggleParticipantInfo = function (participantId) {
@@ -988,7 +999,6 @@ angular.module('staticApp')
       }
 
       function updateParticipantRow(updatedParticipant) {
-          debugger;
           var participantIds = $scope.gridOptions.data.map(function (p) { return p.participantId; });
           var index = participantIds.indexOf(parseInt(updatedParticipant.participantId, 10));
           if (index != -1) {

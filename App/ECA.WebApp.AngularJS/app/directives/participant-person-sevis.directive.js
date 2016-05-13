@@ -69,10 +69,10 @@
                 $scope.edit.sevisCommStatuses = [];
                 $scope.edit.isStartDatePickerOpen = false;
                 $scope.edit.isEndDatePickerOpen = false;
-                $scope.view.Funding = false;
-                $scope.view.FundingEdit = false;
+                //$scope.view.Funding = false;
+                //$scope.view.FundingEdit = false;
                 $scope.positionAndFieldElementId = 'positionAndField' + $scope.participantid;
-                $scope.fundingElementId = 'funding' + $scope.participantid;
+                //$scope.fundingElementId = 'funding' + $scope.participantid;
                 $scope.pageTimeout = null;
 
                 $scope.highlightFilteredHeader = function (row, rowRenderIndex, col, colRenderIndex) {
@@ -299,10 +299,12 @@
                     }
                 };
 
+                /**
                 $scope.saveFunding = function () {
                     $scope.updateexchangevisitorinfo({ participantId: $scope.participantid });
                     $scope.view.FundingEdit = false;
                 };
+                **/
 
                 $scope.savePositionAndField = function () {
                     $scope.updateexchangevisitorinfo({ participantId: $scope.participantid });
@@ -313,6 +315,7 @@
                     return loadFieldOfStudies(search);
                 };
 
+                /**
                 $scope.edit.onFundingEditChange = function () {
                     if (!$scope.sevisinfo.blockEdit) {
                         $scope.view.FundingEdit = true;
@@ -324,11 +327,12 @@
                         return false;
                     }
                 };
+                **/
 
                 $scope.edit.onPositionAndFieldEditChange = function () {
                     if (!$scope.sevisinfo.blockEdit) {
                         $scope.view.PositionAndFieldEdit = true;
-                        loadFieldOfStudies($scope.exchangevisitorinfo.fieldOfStudy);
+                        //loadFieldOfStudies($scope.exchangevisitorinfo.fieldOfStudy);
                     } else {
                         return false;
                     }
@@ -366,6 +370,7 @@
                     }
                 }
 
+                /**
                 $scope.onGovtAgency1Select = function (item) {
                     if (item.description != null)
                         if (item.description == "OTHER")
@@ -405,6 +410,7 @@
                             $scope.exchangevisitorinfo.intlOrg2OtherName = '';
                         }
                 };
+                **/
 
                 // IE and Edge do not support printing
                 $scope.browserSupportsMsSaveOrOpenBlob = function () {
@@ -415,6 +421,7 @@
                     return msSaveOrOpenBlob;
                 };
 
+                /**
                 function scrollToFunding() {
                     $scope.view.Funding = true;
                     scrollToSevisTabElement(
@@ -422,6 +429,7 @@
                         function () { },
                         function () { });
                 }
+                **/
 
                 function scrollToPositionAndField() {
                     $scope.view.PositionAndField = true;
@@ -503,6 +511,7 @@
                     });
                 }
 
+                /**
                 function loadUSGovernmentAgencies() {
                     var usGovernmentAgenciesFilter = FilterService.add('project-participant-editSevis-usGovernmentAgencies');
                     usGovernmentAgenciesFilter = usGovernmentAgenciesFilter.skip(0).take(limit);
@@ -542,14 +551,16 @@
                         NotificationService.showErrorMessage(message);
                     });
                 }
+                **/
 
- /**
- * AngularJS default filter with the following expression:
- * "person in people | filter: {name: $select.search, age: $select.search}"
- * performs an AND between 'name: $select.search' and 'age: $select.search'.
- * We want to perform an OR.
- added by efren zamora
- */
+                 /**
+                 * AngularJS default filter with the following expression:
+                 * "person in people | filter: {name: $select.search, age: $select.search}"
+                 * performs an AND between 'name: $select.search' and 'age: $select.search'.
+                 * We want to perform an OR.
+                 added by efren zamora
+                 */
+                /**
                 function propsFilter()
                 {
                     return function (items, props) {
@@ -575,13 +586,13 @@
                                 }
                             });
                         } else {
-                            // Let the output be the input untouched
                             out = items;
                         }
 
                         return out;
                     };
                 }
+                **/
 
                 function loadSevisCommStatuses() {
                     var commStatusFilter = FilterService.add('project-participant-editSevis-allseviscommstatuses');
@@ -610,8 +621,10 @@
 
                 loadPositions();
                 loadProgramCategories();
+                /**
                 loadUSGovernmentAgencies();
                 loadInternationalOrganizations();
+                **/
                 loadSevisCommStatuses();
             }
         };
