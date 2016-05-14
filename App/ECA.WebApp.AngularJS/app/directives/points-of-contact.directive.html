@@ -43,9 +43,9 @@
                         <button ng-click="view.onDeletePocClick(poc)" class="btn btn-danger">Delete</button>
                         <button ng-click="view.showConfirmDelete = !view.showConfirmDelete" class="btn btn-cancel">Cancel</button>
                     </div>
-                    <div ng-show="!view.showConfirmDelete" collapse="view.collapsePoc">
+                    <div ng-show="!view.showConfirmDelete">
                         <form name="form.pocForm" class="row form-horizontal">
-                            <div class="col-md-12" ng-show="poc.showEditPoc">
+                            <div class="col-md-12" ng-show="view.showEditPoc || poc.isNew">
                                 <div class="form-group">
                                     <label>
                                         Full Name <eca-required />

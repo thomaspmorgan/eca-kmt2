@@ -26,6 +26,7 @@ angular.module('staticApp')
       $scope.view.isSavingPointOfContact = false;
       $scope.view.isLoadingPointsOfContactByFullName = false;
       $scope.view.isDeleting = false;
+      $scope.view.showEditPoc = false;
       
       $scope.view.maxNameLength = 100;
       $scope.view.searchLimit = 30;
@@ -47,7 +48,7 @@ angular.module('staticApp')
                     $scope.view.isSavingPointOfContact = false;
                     $scope.view.collapsePocs = true;
                     $scope.view.collapsePoc = true;
-                    poc.showEditPoc = false;
+                    $scope.view.showEditPoc = false;
                     $scope.model.splice(0, 0, response.data);
                     return response.data;
                 })
@@ -64,7 +65,7 @@ angular.module('staticApp')
                       $scope.view.isSavingPointOfContact = false;
                       $scope.view.collapsePocs = true;
                       $scope.view.collapsePoc = true;
-                      poc.showEditPoc = false;
+                      $scope.view.showEditPoc = false;
                       var index = $scope.model.map(function (e) { return e.id }).indexOf($scope.poc.id);
                       $scope.model[index] = response.data;
                     return response.data;
@@ -99,7 +100,7 @@ angular.module('staticApp')
       $scope.view.onSelectContact = function ($item) {
           $scope.poc = $item;
           $scope.poc.isNew = false;
-          $scope.poc.showEditPoc = true;
+          $scope.view.showEditPoc = true;
           $scope.view.collapsePoc = false;
           var pocs = $scope.model;
           var index = pocs.map(function (e) { return e.isNew }).indexOf(true);
@@ -111,7 +112,7 @@ angular.module('staticApp')
       }
 
       $scope.view.onEditPocClick = function (poc) {
-          poc.showEditPoc = true;
+          $scope.view.showEditPoc = true;
           $scope.view.collapsePoc = false;
       };
       
@@ -144,7 +145,7 @@ angular.module('staticApp')
           event.preventDefault();
           $scope.view.collapsePocs = true;
           $scope.view.collapsePoc = true;
-          poc.showEditPoc = false;
+          $scope.view.showEditPoc = false;
           if (isNewPoc($scope.poc)) {
               removePointsOfContactFromView($scope.poc);
           }
@@ -176,6 +177,5 @@ angular.module('staticApp')
       function isNewPoc(poc) {
           return poc.isNew;
       }
-
-
+      
   });

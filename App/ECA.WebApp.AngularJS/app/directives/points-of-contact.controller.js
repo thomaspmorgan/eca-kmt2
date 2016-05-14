@@ -40,7 +40,6 @@ angular.module('staticApp')
           var newPointOfContact = {
               id: --tempId,
               isNew: true,
-              showEditPoc: true,
               emailAddresses: [],
               phoneNumbers: []
           };
