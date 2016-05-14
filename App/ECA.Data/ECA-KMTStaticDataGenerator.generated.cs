@@ -3,6 +3,24 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #region ActorType
 namespace ECA.Data
 {
@@ -1826,9 +1844,9 @@ namespace ECA.Data
 		/// </summary>
 		public static StaticLookup SentToDhs { get { return new StaticLookup("Sent To DHS", 3); } }
 		/// <summary>
-		/// Returns the Validated lookup with id 4.
+		/// Returns the Validated via RTI lookup with id 4.
 		/// </summary>
-		public static StaticLookup Validated { get { return new StaticLookup("Validated", 4); } }
+		public static StaticLookup ValidatedViaRti { get { return new StaticLookup("Validated via RTI", 4); } }
 		/// <summary>
 		/// Returns the Queued To Submit lookup with id 5.
 		/// </summary>
@@ -1907,7 +1925,7 @@ namespace ECA.Data
 			if (1 == id) return SevisCommStatus.InformationRequired;
 			if (2 == id) return SevisCommStatus.ReadyToSubmit;
 			if (3 == id) return SevisCommStatus.SentToDhs;
-			if (4 == id) return SevisCommStatus.Validated;
+			if (4 == id) return SevisCommStatus.ValidatedViaRti;
 			if (5 == id) return SevisCommStatus.QueuedToSubmit;
 			if (6 == id) return SevisCommStatus.SentToDhsViaRti;
 			if (7 == id) return SevisCommStatus.Cancelled;
@@ -1937,7 +1955,7 @@ namespace ECA.Data
 			if ("Information Required".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return SevisCommStatus.InformationRequired;
 			if ("Ready To Submit".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return SevisCommStatus.ReadyToSubmit;
 			if ("Sent To DHS".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return SevisCommStatus.SentToDhs;
-			if ("Validated".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return SevisCommStatus.Validated;
+			if ("Validated via RTI".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return SevisCommStatus.ValidatedViaRti;
 			if ("Queued To Submit".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return SevisCommStatus.QueuedToSubmit;
 			if ("Sent to DHS via RTI".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return SevisCommStatus.SentToDhsViaRti;
 			if ("Cancelled".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return SevisCommStatus.Cancelled;

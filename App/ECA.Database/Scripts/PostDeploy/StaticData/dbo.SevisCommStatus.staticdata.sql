@@ -41,7 +41,7 @@ DECLARE @tblTempTable TABLE (
 INSERT INTO @tblTempTable ([SevisCommStatusId], [SevisCommStatusName], [History_CreatedOn], [History_CreatedBy], [History_RevisedOn], [History_RevisedBy], [IsActive]) VALUES ('1', 'Information Required', '2/17/2015 12:00:00 AM -05:00', '0', '2/17/2015 12:00:00 AM -05:00', '0', 'True')
 INSERT INTO @tblTempTable ([SevisCommStatusId], [SevisCommStatusName], [History_CreatedOn], [History_CreatedBy], [History_RevisedOn], [History_RevisedBy], [IsActive]) VALUES ('2', 'Ready To Submit', '2/17/2015 12:00:00 AM -05:00', '0', '2/17/2015 12:00:00 AM -05:00', '0', 'True')
 INSERT INTO @tblTempTable ([SevisCommStatusId], [SevisCommStatusName], [History_CreatedOn], [History_CreatedBy], [History_RevisedOn], [History_RevisedBy], [IsActive]) VALUES ('3', 'Sent To DHS', '2/17/2015 12:00:00 AM -05:00', '0', '2/17/2015 12:00:00 AM -05:00', '0', 'True')
-INSERT INTO @tblTempTable ([SevisCommStatusId], [SevisCommStatusName], [History_CreatedOn], [History_CreatedBy], [History_RevisedOn], [History_RevisedBy], [IsActive]) VALUES ('4', 'Validated', '2/17/2015 12:00:00 AM -05:00', '0', '2/17/2015 12:00:00 AM -05:00', '0', 'True')
+INSERT INTO @tblTempTable ([SevisCommStatusId], [SevisCommStatusName], [History_CreatedOn], [History_CreatedBy], [History_RevisedOn], [History_RevisedBy], [IsActive]) VALUES ('4', 'Validated via RTI', '2/17/2015 12:00:00 AM -05:00', '0', '2/17/2015 12:00:00 AM -05:00', '0', 'True')
 INSERT INTO @tblTempTable ([SevisCommStatusId], [SevisCommStatusName], [History_CreatedOn], [History_CreatedBy], [History_RevisedOn], [History_RevisedBy], [IsActive]) VALUES ('5', 'Queued To Submit', '2/17/2015 12:00:00 AM -05:00', '0', '2/17/2015 12:00:00 AM -05:00', '0', 'True')
 INSERT INTO @tblTempTable ([SevisCommStatusId], [SevisCommStatusName], [History_CreatedOn], [History_CreatedBy], [History_RevisedOn], [History_RevisedBy], [IsActive]) VALUES ('6', 'Sent to DHS via RTI', '12/15/2015 10:46:07 PM +00:00', '0', '12/15/2015 10:46:07 PM +00:00', '0', 'True')
 INSERT INTO @tblTempTable ([SevisCommStatusId], [SevisCommStatusName], [History_CreatedOn], [History_CreatedBy], [History_RevisedOn], [History_RevisedBy], [IsActive]) VALUES ('7', 'Cancelled', '12/15/2015 10:46:07 PM +00:00', '0', '12/15/2015 10:46:07 PM +00:00', '0', 'True')
@@ -59,8 +59,6 @@ INSERT INTO @tblTempTable ([SevisCommStatusId], [SevisCommStatusName], [History_
 INSERT INTO @tblTempTable ([SevisCommStatusId], [SevisCommStatusName], [History_CreatedOn], [History_CreatedBy], [History_RevisedOn], [History_RevisedBy], [IsActive]) VALUES ('19', 'Needs Validation Info', '12/15/2015 10:46:07 PM +00:00', '0', '12/15/2015 10:46:07 PM +00:00', '0', 'True')
 INSERT INTO @tblTempTable ([SevisCommStatusId], [SevisCommStatusName], [History_CreatedOn], [History_CreatedBy], [History_RevisedOn], [History_RevisedBy], [IsActive]) VALUES ('20', 'Ready to Validate', '12/15/2015 10:46:07 PM +00:00', '0', '12/15/2015 10:46:07 PM +00:00', '0', 'True')
 INSERT INTO @tblTempTable ([SevisCommStatusId], [SevisCommStatusName], [History_CreatedOn], [History_CreatedBy], [History_RevisedOn], [History_RevisedBy], [IsActive]) VALUES ('21', 'Queued to Validate', '12/15/2015 10:46:07 PM +00:00', '0', '12/15/2015 10:46:07 PM +00:00', '0', 'True')
-
-
 
 -- 3: Insert any new items into the table from the table variable
 SET IDENTITY_INSERT [dbo].[SevisCommStatus] ON

@@ -336,6 +336,25 @@ namespace ECA.Business.Service.Persons
         {
             updatedParticipantPersonSevis.Audit.SetHistory(participantPerson);
 
+            if (!participantPerson.IsCancelled && updatedParticipantPersonSevis.IsCancelled)
+                // User manually clicked cancel, add event to ParticipantPersonSevisCommStatus
+                AddSevisCommStatus(SevisCommStatus.Cancelled.Id, participantPerson.ParticipantId, updatedParticipantPersonSevis.Audit.User.Id);
+            else if (!participantPerson.IsDS2019Printed && updatedParticipantPersonSevis.IsDS2019Printed)
+                // User printed DS-2019
+                AddSevisCommStatus(SevisCommStatus.Ds2019Printed.Id, participantPerson.ParticipantId, updatedParticipantPersonSevis.Audit.User.Id);
+            else if (!participantPerson.IsDS2019SentToTraveler && updatedParticipantPersonSevis.IsDS2019SentToTraveler)
+                // TODO:  Check if this is correct
+                AddSevisCommStatus(SevisCommStatus.Ds2019Signed.Id, participantPerson.ParticipantId, updatedParticipantPersonSevis.Audit.User.Id);
+            else if (!participantPerson.IsSentToSevisViaRTI && updatedParticipantPersonSevis.IsSentToSevisViaRTI)
+                // User manual clicked Sent to SEVIS via RTI
+                AddSevisCommStatus(SevisCommStatus.SentToDhsViaRti.Id, participantPerson.ParticipantId, updatedParticipantPersonSevis.Audit.User.Id);
+            else if (!participantPerson.IsSentToSevisViaRTI && updatedParticipantPersonSevis.IsSentToSevisViaRTI)
+                // User manual clicked Sent to SEVIS via RTI
+                AddSevisCommStatus(SevisCommStatus.SentToDhsViaRti.Id, participantPerson.ParticipantId, updatedParticipantPersonSevis.Audit.User.Id);
+            else if (!participantPerson.IsValidatedViaRTI && updatedParticipantPersonSevis.IsValidatedViaRTI)
+                // TODO:  Check if this is correct
+                AddSevisCommStatus(SevisCommStatus.ValidatedViaRti.Id, participantPerson.ParticipantId, updatedParticipantPersonSevis.Audit.User.Id);
+
             participantPerson.SevisId = updatedParticipantPersonSevis.SevisId;
             participantPerson.IsSentToSevisViaRTI = updatedParticipantPersonSevis.IsSentToSevisViaRTI;
             participantPerson.IsValidatedViaRTI = updatedParticipantPersonSevis.IsValidatedViaRTI;
@@ -344,6 +363,16 @@ namespace ECA.Business.Service.Persons
             participantPerson.IsDS2019SentToTraveler = updatedParticipantPersonSevis.IsDS2019SentToTraveler;
             participantPerson.StartDate = updatedParticipantPersonSevis.StartDate;
             participantPerson.EndDate = updatedParticipantPersonSevis.EndDate;
+        }
+
+        private void AddSevisCommStatus(int sevisCommStatusId, int participantId, int userId)
+        {
+            var status = new ParticipantPersonSevisCommStatus();
+            status.SevisCommStatusId = sevisCommStatusId;
+            status.ParticipantId = participantId;
+            status.PrincipalId = userId;
+            status.AddedOn = DateTimeOffset.Now;
+            Context.ParticipantPersonSevisCommStatuses.Add(status);
         }
 
         private UpdatedParticipantPersonSevisValidationEntity GetUpdatedParticipantPersonSevisValidationEntity(ParticipantPerson participantPerson, UpdatedParticipantPersonSevis participantPersonSevis)
