@@ -31,9 +31,6 @@ angular.module('staticApp')
       $scope.view.searchLimit = 30;
       $scope.view.maxEmailAddresses = 10;
       $scope.view.maxPhoneNumbers = 10;
-      //$scope.view.collapsePocs = true;
-      //$scope.view.collapsePoc = true;
-      //$scope.view.showEditPoc = false;
       $scope.view.likePointsOfContactByFullNameTotal = 0;
       $scope.view.showConfirmDelete = false;
       

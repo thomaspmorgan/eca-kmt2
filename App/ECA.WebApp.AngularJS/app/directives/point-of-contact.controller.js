@@ -45,6 +45,9 @@ angular.module('staticApp')
               return ContactsService.create($scope.poc)
                 .then(function (response) {
                     $scope.view.isSavingPointOfContact = false;
+                    $scope.view.collapsePocs = true;
+                    $scope.view.collapsePoc = true;
+                    poc.showEditPoc = false;
                     $scope.model.splice(0, 0, response.data);
                     return response.data;
                 })
@@ -59,6 +62,9 @@ angular.module('staticApp')
               return ContactsService.update($scope.poc)
                   .then(function (response) {
                       $scope.view.isSavingPointOfContact = false;
+                      $scope.view.collapsePocs = true;
+                      $scope.view.collapsePoc = true;
+                      poc.showEditPoc = false;
                       var index = $scope.model.map(function (e) { return e.id }).indexOf($scope.poc.id);
                       $scope.model[index] = response.data;
                     return response.data;
