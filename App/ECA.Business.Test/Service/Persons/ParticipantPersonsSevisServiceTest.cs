@@ -930,7 +930,7 @@ namespace ECA.Business.Test.Service.Persons
             context.ParticipantPersons.Add(participantPerson);
             context.ParticipantPersonSevisCommStatuses.Add(participantCommStatus);
             context.ParticipantStatuses.Add(status);
-            
+
             var start = 0;
             var limit = 1;
             var defaultSorter = new ExpressionSorter<ReadyToValidateParticipantDTO>(x => x.ParticipantId, SortDirection.Ascending);
@@ -987,7 +987,7 @@ namespace ECA.Business.Test.Service.Persons
             context.ParticipantPersonSevisCommStatuses.Add(participantCommStatus);
             context.ParticipantStatuses.Add(status);
 
-            
+
             Action<bool> tester = (results) =>
             {
                 Assert.IsTrue(results);
@@ -1206,7 +1206,114 @@ namespace ECA.Business.Test.Service.Persons
             Assert.AreEqual(isSentToSevisViaRTINew, participantPersonUpdated.IsSentToSevisViaRTI);
             Assert.AreEqual(isValidatedViaRTINew, participantPersonUpdated.IsValidatedViaRTI);
             Assert.AreEqual(isNeedsUpdateNew, true);
+
         }
-        #endregion Update
+
+        [TestMethod]
+        public void TestUpdate_DoSManualStatusesUpdate()
+        {
+            DateTimeOffset now = DateTime.UtcNow;
+            int participantId = 1;
+            bool isCancelled = false;
+            bool isDS2019Printed = false;
+            bool isDS2019SentToTraveler = false;
+            bool isSentToSevisViaRTI = false;
+            bool isValidatedViaRTI = false;
+            DateTimeOffset startDate = now.AddDays(-20);
+            DateTimeOffset endDate = now.AddDays(+20);
+            string sevisId = "N000234193";
+            int userId = 5;
+            int projectId = 2;
+            int personId = 3;
+
+            var participant = new Participant
+            {
+                ParticipantId = participantId,
+                ProjectId = projectId,
+                PersonId = personId,
+                ParticipantStatusId = 1,
+                ParticipantTypeId = 1,
+            };
+
+            var person = new Person
+            {
+                PersonId = personId,
+                FullName = "Jack Diddly"
+            };
+
+            context.People.Add(person);
+            participant.Person = person;
+
+            var participantPerson = new ParticipantPerson
+            {
+                ParticipantId = participantId,
+                IsCancelled = isCancelled,
+                IsDS2019Printed = isDS2019Printed,
+                IsDS2019SentToTraveler = isDS2019SentToTraveler,
+                IsSentToSevisViaRTI = isSentToSevisViaRTI,
+                IsValidatedViaRTI = isValidatedViaRTI,
+                StartDate = startDate,
+                EndDate = endDate,
+                SevisId = sevisId,
+            };
+
+            var user = new User(userId);
+
+            participantPerson.Participant = participant;
+            context.ParticipantPersons.Add(participantPerson);
+            participant.ParticipantPerson = participantPerson;
+            context.Participants.Add(participant);
+
+            context.SaveChanges();
+
+            bool isCancelledNew = true;
+            bool isDS2019PrintedNew = true;
+            bool isDS2019SentToTravelerNew = true;
+            bool isSentToSevisViaRTINew = true;
+            bool isValidatedViaRTINew = true;
+            bool isNeedsUpdateNew = true;
+            DateTimeOffset startDateNew = now.AddDays(-10);
+            DateTimeOffset endDateNew = now.AddDays(+10);
+            string sevisIdNew = "N000234194";
+
+            var updatedParticipantPersonSevis = new UpdatedParticipantPersonSevis(user, participantId, sevisIdNew, isSentToSevisViaRTI, isValidatedViaRTI, isCancelledNew, isDS2019Printed, false, isDS2019SentToTraveler, startDateNew, endDateNew);
+            sevisService.Update(updatedParticipantPersonSevis);
+            context.SaveChanges();
+
+            var participantPersonUpdated = sevisService.GetParticipantPersonsSevisById(projectId, participantId);
+            Assert.AreEqual(participantId, participantPersonUpdated.ParticipantId);
+            Assert.AreEqual(isCancelledNew, participantPersonUpdated.IsCancelled);
+            Assert.IsTrue(context.ParticipantPersonSevisCommStatuses.Count() == 1);
+            Assert.IsTrue(context.ParticipantPersonSevisCommStatuses.FirstOrDefault().SevisCommStatusId == SevisCommStatus.Cancelled.Id);
+
+            updatedParticipantPersonSevis = new UpdatedParticipantPersonSevis(user, participantId, sevisIdNew, isSentToSevisViaRTINew, isValidatedViaRTI, isCancelledNew, isDS2019Printed, false, isDS2019SentToTraveler, startDateNew, endDateNew);
+            sevisService.Update(updatedParticipantPersonSevis);
+            context.SaveChanges();
+            Assert.IsTrue(context.ParticipantPersonSevisCommStatuses.Count() == 2);
+            Assert.IsTrue(context.ParticipantPersonSevisCommStatuses.FirstOrDefault(x => x.SevisCommStatusId == SevisCommStatus.SentToDhsViaRti.Id).SevisCommStatusId == SevisCommStatus.SentToDhsViaRti.Id);
+
+
+            updatedParticipantPersonSevis = new UpdatedParticipantPersonSevis(user, participantId, sevisIdNew, isSentToSevisViaRTINew, isValidatedViaRTINew, isCancelledNew, isDS2019Printed, false, isDS2019SentToTraveler, startDateNew, endDateNew);
+            sevisService.Update(updatedParticipantPersonSevis);
+            context.SaveChanges();
+            Assert.IsTrue(context.ParticipantPersonSevisCommStatuses.Count() == 3);
+            Assert.IsTrue(context.ParticipantPersonSevisCommStatuses.FirstOrDefault(x => x.SevisCommStatusId == SevisCommStatus.ValidatedViaRti.Id).SevisCommStatusId == SevisCommStatus.ValidatedViaRti.Id);
+
+
+            updatedParticipantPersonSevis = new UpdatedParticipantPersonSevis(user, participantId, sevisIdNew, isSentToSevisViaRTINew, isValidatedViaRTINew, isCancelledNew, isDS2019PrintedNew, false, isDS2019SentToTraveler, startDateNew, endDateNew);
+            sevisService.Update(updatedParticipantPersonSevis);
+            context.SaveChanges();
+            Assert.IsTrue(context.ParticipantPersonSevisCommStatuses.Count() == 4);
+            Assert.IsTrue(context.ParticipantPersonSevisCommStatuses.FirstOrDefault(x => x.SevisCommStatusId == SevisCommStatus.Ds2019Printed.Id).SevisCommStatusId == SevisCommStatus.Ds2019Printed.Id);
+
+
+            updatedParticipantPersonSevis = new UpdatedParticipantPersonSevis(user, participantId, sevisIdNew, isSentToSevisViaRTINew, isValidatedViaRTINew, isCancelledNew, isDS2019PrintedNew, false, isDS2019SentToTravelerNew, startDateNew, endDateNew);
+            sevisService.Update(updatedParticipantPersonSevis);
+            context.SaveChanges();
+            Assert.IsTrue(context.ParticipantPersonSevisCommStatuses.Count() == 5);
+            Assert.IsTrue(context.ParticipantPersonSevisCommStatuses.FirstOrDefault(x => x.SevisCommStatusId == SevisCommStatus.Ds2019Signed.Id).SevisCommStatusId == SevisCommStatus.Ds2019Signed.Id);
+
+            #endregion Update
+        }
     }
 }
