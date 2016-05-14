@@ -14,6 +14,7 @@ using ECA.Core.Query;
 using ECA.Core.DynamicLinq.Filter;
 using ECA.Core.Exceptions;
 using ECA.Business.Queries.Models.Persons.ExchangeVisitor;
+using Microsoft.QualityTools.Testing.Fakes;
 
 namespace ECA.Business.Test.Service.Persons
 {
@@ -828,6 +829,20 @@ namespace ECA.Business.Test.Service.Persons
 
         #region Ready to Validate Participants
         [TestMethod]
+        public void TestGetEarliestNeedsValidationInfoParticipantDate()
+        {
+            using (ShimsContext.Create())
+            {
+                var now = new DateTime(2016, 1, 1, 1, 0, 0);
+                var nowOffset = new DateTimeOffset(now);
+                System.Fakes.ShimDateTimeOffset.UtcNowGet = () => nowOffset;
+
+                var expectedDate = nowOffset.AddDays(ParticipantPersonsSevisService.NUMBER_OF_DAYS_BEFORE_START_DATE_A_PARTICIPANT_NEEDS_VALIDATION_INFO);
+                Assert.AreEqual(expectedDate, ParticipantPersonsSevisService.GetEarliestNeedsValidationInfoParticipantDate());
+            }
+        }
+
+        [TestMethod]
         public async Task TestGetReadyToValidateParticipants_Paged()
         {
             var status = new ParticipantStatus
@@ -878,7 +893,204 @@ namespace ECA.Business.Test.Service.Persons
             var serviceResultsAsync = await sevisService.GetReadyToValidateParticipantsAsync(queryOperator);
             tester(serviceResults);
             tester(serviceResultsAsync);
+        }
 
+        [TestMethod]
+        public async Task TestGetReadyToValidateParticipants_CheckStartDateIsAfterMinimumStartDate()
+        {
+            var status = new ParticipantStatus
+            {
+                ParticipantStatusId = ParticipantStatus.Active.Id
+            };
+            var participant = new Participant
+            {
+                ParticipantId = 1,
+                ProjectId = 10,
+                Status = status,
+                ParticipantStatusId = status.ParticipantStatusId
+            };
+            var participantPerson = new ParticipantPerson
+            {
+                ParticipantId = participant.ParticipantId,
+                Participant = participant,
+                SevisId = "sevisId",
+                StartDate = DateTimeOffset.UtcNow.AddDays(ParticipantPersonsSevisService.NUMBER_OF_DAYS_BEFORE_START_DATE_A_PARTICIPANT_NEEDS_VALIDATION_INFO - 1.0)
+            };
+            participant.ParticipantPerson = participantPerson;
+            var participantCommStatus = new ParticipantPersonSevisCommStatus
+            {
+                Id = 1,
+                SevisCommStatusId = SevisCommStatus.CreatedByBatch.Id,
+                ParticipantId = participant.ParticipantId,
+                ParticipantPerson = participantPerson
+            };
+            participantPerson.ParticipantPersonSevisCommStatuses.Add(participantCommStatus);
+
+            context.Participants.Add(participant);
+            context.ParticipantPersons.Add(participantPerson);
+            context.ParticipantPersonSevisCommStatuses.Add(participantCommStatus);
+            context.ParticipantStatuses.Add(status);
+            
+            var start = 0;
+            var limit = 1;
+            var defaultSorter = new ExpressionSorter<ReadyToValidateParticipantDTO>(x => x.ParticipantId, SortDirection.Ascending);
+            var queryOperator = new QueryableOperator<ReadyToValidateParticipantDTO>(start, limit, defaultSorter);
+
+            Assert.AreEqual(1, sevisService.GetReadyToValidateParticipants(queryOperator).Total);
+            Assert.AreEqual(1, (await sevisService.GetReadyToValidateParticipantsAsync(queryOperator)).Total);
+
+            participantPerson.StartDate = DateTimeOffset.UtcNow.AddDays(ParticipantPersonsSevisService.NUMBER_OF_DAYS_BEFORE_START_DATE_A_PARTICIPANT_NEEDS_VALIDATION_INFO + 1.0);
+            Action<PagedQueryResults<ReadyToValidateParticipantDTO>> tester = (results) =>
+            {
+                Assert.AreEqual(0, results.Total);
+                Assert.AreEqual(0, results.Results.Count);
+            };
+            var serviceResults = sevisService.GetReadyToValidateParticipants(queryOperator);
+            var serviceResultsAsync = await sevisService.GetReadyToValidateParticipantsAsync(queryOperator);
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+        }
+
+        [TestMethod]
+        public async Task TestIsParticipantReadyToValidate()
+        {
+            var status = new ParticipantStatus
+            {
+                ParticipantStatusId = ParticipantStatus.Active.Id
+            };
+            var participant = new Participant
+            {
+                ParticipantId = 1,
+                ProjectId = 10,
+                Status = status,
+                ParticipantStatusId = status.ParticipantStatusId
+            };
+            var participantPerson = new ParticipantPerson
+            {
+                ParticipantId = participant.ParticipantId,
+                Participant = participant,
+                SevisId = "sevisId",
+                StartDate = DateTimeOffset.UtcNow.AddDays(-1.0)
+            };
+            participant.ParticipantPerson = participantPerson;
+            var participantCommStatus = new ParticipantPersonSevisCommStatus
+            {
+                Id = 1,
+                SevisCommStatusId = SevisCommStatus.CreatedByBatch.Id,
+                ParticipantId = participant.ParticipantId,
+                ParticipantPerson = participantPerson
+            };
+            participantPerson.ParticipantPersonSevisCommStatuses.Add(participantCommStatus);
+
+            context.Participants.Add(participant);
+            context.ParticipantPersons.Add(participantPerson);
+            context.ParticipantPersonSevisCommStatuses.Add(participantCommStatus);
+            context.ParticipantStatuses.Add(status);
+
+            
+            Action<bool> tester = (results) =>
+            {
+                Assert.IsTrue(results);
+            };
+            var serviceResults = sevisService.IsParticipantReadyToValidate(participant.ParticipantId);
+            var serviceResultsAsync = await sevisService.IsParticipantReadyToValidateAsync(participant.ParticipantId);
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+        }
+
+        [TestMethod]
+        public async Task TestIsParticipantReadyToValidate_HasBeenValidated()
+        {
+            var status = new ParticipantStatus
+            {
+                ParticipantStatusId = ParticipantStatus.Active.Id
+            };
+            var participant = new Participant
+            {
+                ParticipantId = 1,
+                ProjectId = 10,
+                Status = status,
+                ParticipantStatusId = status.ParticipantStatusId
+            };
+            var participantPerson = new ParticipantPerson
+            {
+                ParticipantId = participant.ParticipantId,
+                Participant = participant,
+                SevisId = "sevisId",
+                StartDate = DateTimeOffset.UtcNow.AddDays(-1.0)
+            };
+            participant.ParticipantPerson = participantPerson;
+            var participantCommStatus = new ParticipantPersonSevisCommStatus
+            {
+                Id = 1,
+                SevisCommStatusId = SevisCommStatus.ReadyToValidate.Id,
+                ParticipantId = participant.ParticipantId,
+                ParticipantPerson = participantPerson
+            };
+            participantPerson.ParticipantPersonSevisCommStatuses.Add(participantCommStatus);
+
+            context.Participants.Add(participant);
+            context.ParticipantPersons.Add(participantPerson);
+            context.ParticipantPersonSevisCommStatuses.Add(participantCommStatus);
+            context.ParticipantStatuses.Add(status);
+
+
+            Action<bool> tester = (results) =>
+            {
+                Assert.IsFalse(results);
+            };
+            var serviceResults = sevisService.IsParticipantReadyToValidate(participant.ParticipantId);
+            var serviceResultsAsync = await sevisService.IsParticipantReadyToValidateAsync(participant.ParticipantId);
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+        }
+
+        [TestMethod]
+        public async Task TestIsParticipantReadyToValidate_DifferentParticipant()
+        {
+            var status = new ParticipantStatus
+            {
+                ParticipantStatusId = ParticipantStatus.Active.Id
+            };
+            var participant = new Participant
+            {
+                ParticipantId = 1,
+                ProjectId = 10,
+                Status = status,
+                ParticipantStatusId = status.ParticipantStatusId
+            };
+            var participantPerson = new ParticipantPerson
+            {
+                ParticipantId = participant.ParticipantId,
+                Participant = participant,
+                SevisId = "sevisId",
+                StartDate = DateTimeOffset.UtcNow.AddDays(-1.0)
+            };
+            participant.ParticipantPerson = participantPerson;
+            var participantCommStatus = new ParticipantPersonSevisCommStatus
+            {
+                Id = 1,
+                SevisCommStatusId = SevisCommStatus.CreatedByBatch.Id,
+                ParticipantId = participant.ParticipantId,
+                ParticipantPerson = participantPerson
+            };
+            participantPerson.ParticipantPersonSevisCommStatuses.Add(participantCommStatus);
+
+            context.Participants.Add(participant);
+            context.ParticipantPersons.Add(participantPerson);
+            context.ParticipantPersonSevisCommStatuses.Add(participantCommStatus);
+            context.ParticipantStatuses.Add(status);
+
+            Assert.IsTrue(sevisService.IsParticipantReadyToValidate(participant.ParticipantId));
+
+            Action<bool> tester = (results) =>
+            {
+                Assert.IsFalse(results);
+            };
+            var serviceResults = sevisService.IsParticipantReadyToValidate(participant.ParticipantId + 1);
+            var serviceResultsAsync = await sevisService.IsParticipantReadyToValidateAsync(participant.ParticipantId + 1);
+            tester(serviceResults);
+            tester(serviceResultsAsync);
         }
         #endregion
 

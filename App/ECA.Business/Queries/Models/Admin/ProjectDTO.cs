@@ -1,10 +1,7 @@
-﻿using ECA.Business.Service.Lookup;
+﻿using ECA.Business.Queries.Models.Persons;
+using ECA.Business.Service.Lookup;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 
 namespace ECA.Business.Queries.Models.Admin
 {
@@ -21,7 +18,7 @@ namespace ECA.Business.Queries.Models.Admin
             this.Themes = new List<SimpleLookupDTO>();
             this.CountryIsosByLocations = new List<SimpleLookupDTO>();
             this.Goals = new List<SimpleLookupDTO>();
-            this.Contacts = new List<SimpleLookupDTO>();
+            this.Contacts = new List<ContactDTO>();
             this.Categories = new List<FocusCategoryDTO>();
             this.Objectives = new List<JustificationObjectiveDTO>();
             this.Locations = new List<LocationDTO>();
@@ -106,8 +103,7 @@ namespace ECA.Business.Queries.Models.Admin
         /// THe Visitor Type Name (exchange, student or null)
         /// </summary>
         public string VisitorTypeName { get; set; }
-
-
+        
         /// <summary>
         /// The number of US Participants, Esimated
         /// </summary>
@@ -146,7 +142,7 @@ namespace ECA.Business.Queries.Models.Admin
         /// <summary>
         /// Gets or sets the contacts.
         /// </summary>
-        public IEnumerable<SimpleLookupDTO> Contacts { get; set; }
+        public IEnumerable<ContactDTO> Contacts { get; set; }
 
         /// <summary>
         /// Gets or sets the categories.

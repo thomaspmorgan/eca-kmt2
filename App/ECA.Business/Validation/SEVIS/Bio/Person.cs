@@ -7,12 +7,35 @@ using System.Diagnostics.Contracts;
 using System.Xml.Serialization;
 using ECA.Business.Queries.Models.Admin;
 using PhoneNumbers;
+using KellermanSoftware.CompareNetObjects;
+using System.Collections.Generic;
 
 namespace ECA.Business.Validation.Sevis.Bio
 {
     [Validator(typeof(PersonValidator))]
-    public class Person : IBiographical, IFormPrintable, IRemarkable, IFluentValidatable
+    public class Person : IBiographical, IFormPrintable, IRemarkable, IFluentValidatable, IChangeComparable<Person, PersonChangeDetail>
     {
+        /// <summary>
+        /// Creates a new person instance.
+        /// </summary>
+        /// <param name="fullName">The full name of the person.</param>
+        /// <param name="birthCity">The birth city.</param>
+        /// <param name="birthCountryCode">The birth country code.</param>
+        /// <param name="birthDate">The birth date.</param>
+        /// <param name="citizenshipCountryCode">The citizenship country code.</param>
+        /// <param name="emailAddress">The email address.</param>
+        /// <param name="gender">The gender.</param>
+        /// <param name="permanentResidenceCountryCode">The permananent residence country code.</param>
+        /// <param name="phoneNumber">The phone number.</param>
+        /// <param name="remarks">The remarks.</param>
+        /// <param name="positionCode">The position code.</param>
+        /// <param name="programCategoryCode">The program category code.</param>
+        /// <param name="subjectField">The subject field.</param>
+        /// <param name="mailAddress">The mailing address.</param>
+        /// <param name="usAddress">The us address.</param>
+        /// <param name="printForm">The print form flag.</param>
+        /// <param name="personId">The person id.</param>
+        /// <param name="participantId">The participant id.</param>
         public Person(
             FullName fullName,
             string birthCity,
@@ -265,6 +288,23 @@ namespace ECA.Business.Validation.Sevis.Bio
         public bool ShouldValidate()
         {
             return true;
+        }
+
+        /// <summary>
+        /// Returns a PersonChangeDetail for this person.
+        /// </summary>
+        /// <param name="otherChangeComparable">The person to compare.</param>
+        /// <returns>The change detail.</returns>
+        public PersonChangeDetail GetChangeDetail(Person otherChangeComparable)
+        {
+            var compareConfig = new ComparisonConfig
+            {
+                CompareChildren = false,
+                MembersToIgnore = new List<string> { nameof(this.PrintForm) }
+            };
+            var compareLogic = new CompareLogic(compareConfig);
+            var result = compareLogic.Compare(this, otherChangeComparable);
+            return new PersonChangeDetail(result);
         }
     }
 }

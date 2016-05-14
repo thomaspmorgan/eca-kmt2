@@ -152,6 +152,11 @@
     </div>
 </div>
 <div class="modal-footer">
+    <div class="spinner" ng-show="view.isSavingChanges">
+        <div class="bounce1"></div>
+        <div class="bounce2"></div>
+        <div class="bounce3"></div>
+    </div>
     <div class="pull-right">
         <button ng-click="onSaveDependentClick()" class="btn btn-primary" ng-disabled="form.dependentForm.$invalid || isSavingDependent || isDependentLoading">
             Save

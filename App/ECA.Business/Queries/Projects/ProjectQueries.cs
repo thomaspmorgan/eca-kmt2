@@ -1,5 +1,7 @@
 ﻿using ECA.Business.Queries.Admin;
 using ECA.Business.Queries.Models.Admin;
+using ECA.Business.Queries.Models.Persons;
+using ECA.Business.Queries.Persons;
 using ECA.Business.Service.Lookup;
 using ECA.Core.DynamicLinq;
 using ECA.Core.DynamicLinq.Filter;
@@ -142,6 +144,7 @@ namespace ECA.Business.Queries.Projects
             var countryTypeId = LocationType.Country.Id;
             var regionTypeId = LocationType.Region.Id;
             var allLocations = LocationQueries.CreateGetLocationsQuery(context);
+            var allContacts = ContactQueries.CreateContactQuery(context);
 
             var query = from project in context.Projects
                         let program = project.ParentProgram
@@ -149,9 +152,13 @@ namespace ECA.Business.Queries.Projects
                         let status = project.Status
                         let themes = project.Themes
                         let goals = project.Goals
-                        let contacts = project.Contacts
                         let categories = project.Categories
                         let objectives = project.Objectives
+
+                        let contacts = from contact in allContacts
+                                       join projectContact in project.Contacts
+                                       on contact.Id equals projectContact.ContactId
+                                       select contact
 
                         let locations = from location in allLocations
                                         join projectLocation in project.Locations
@@ -166,7 +173,7 @@ namespace ECA.Business.Queries.Projects
                                                 && location.LocationTypeId != countryTypeId
                                                 select country
 
-                                                //get project locations that are themselves countries
+                                        //get project locations that are themselves countries
                         let countries = from location in project.Locations
                                         where location.LocationTypeId == countryTypeId
                                         select location
@@ -215,7 +222,7 @@ namespace ECA.Business.Queries.Projects
                             CountryIsosByLocations = allCountries.Select(x => new SimpleLookupDTO { Id = x.LocationId, Value = x.LocationIso }).Distinct(),
                             Locations = locations,
                             Goals = goals.Select(x => new SimpleLookupDTO { Id = x.GoalId, Value = x.GoalName }),
-                            Contacts = contacts.Select(x => new SimpleLookupDTO { Id = x.ContactId, Value = x.FullName + " (" + x.Position + ")" }),
+                            Contacts = contacts,
                             Objectives = objectives.Select(o => new JustificationObjectiveDTO { Id = o.ObjectiveId, Name = o.ObjectiveName, JustificationName = o.Justification.JustificationName }),
                             Categories = categories.Select(c => new FocusCategoryDTO { Id = c.CategoryId, Name = c.CategoryName, FocusName = c.Focus.FocusName }),
                             Regions = regions,
@@ -225,8 +232,7 @@ namespace ECA.Business.Queries.Projects
                             UsParticipantsEst = project.UsParticipantsEst ?? 0,
                             NonUsParticipantsEst = project.NonUsParticipantsEst ?? 0,
                             UsParticipantsActual = project.UsParticipantsActual ?? 0,
-                            NonUsParticipantsActual = project.NonUsParticipantsActual ?? 0,
-
+                            NonUsParticipantsActual = project.NonUsParticipantsActual ?? 0
                         };
             return query;
         }

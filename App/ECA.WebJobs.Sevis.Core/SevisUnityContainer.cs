@@ -65,6 +65,7 @@ namespace ECA.WebJobs.Sevis.Core
                 var service = new ExchangeVisitorValidationService(
                     context: c.Resolve<EcaContext>(),
                     exchangeVisitorService: c.Resolve<IExchangeVisitorService>(),
+                    participantPersonSevisService: c.Resolve<IParticipantPersonsSevisService>(),
                     exchangeVisitorValidator: null,
                     saveActions: null
                     );

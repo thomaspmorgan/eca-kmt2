@@ -31,12 +31,6 @@ angular.module('staticApp')
       $scope.view.searchLimit = 30;
       $scope.view.maxEmailAddresses = 10;
       $scope.view.maxPhoneNumbers = 10;
-      $scope.view.collapsePocs = true;
-      $scope.view.collapsePoc = true;
-      $scope.view.showEditPoc = false;
-      $scope.view.pointsOfContact = [];
-      $scope.view.selectedPointsOfContact = [];
-      $scope.view.newPointOfContact = createNewPointOfContact();
       $scope.view.likePointsOfContactByFullNameTotal = 0;
       $scope.view.showConfirmDelete = false;
       
@@ -50,15 +44,21 @@ angular.module('staticApp')
               phoneNumbers: []
           };
           pointsOfContact.splice(0, 0, newPointOfContact);
+          $scope.view.collapsePocs = false;
           $scope.view.collapsePoc = false;
       }
-            
-      function createNewPointOfContact() {
-          var newPointOfContact = {
-              emailAddresses: [],
-              phoneNumbers: []
-          };
-          return newPointOfContact;
-      }
       
+      $scope.$on(ConstantsService.removePointsOfContactEventName, function (event, poc) {
+          console.assert($scope.$parent.$parent.editView, 'The scope must exist.  It should be set by the directive.');
+          console.assert($scope.$parent.$parent.editView.selectedPointsOfContact instanceof Array, 'The entity pocs is defined but must be an array.');
+
+          var pocs = $scope.$parent.$parent.editView.selectedPointsOfContact;
+          var index = pocs.map(function (e) { return e.id }).indexOf(poc.id);
+          if (index !== -1) {
+              var removedItems = pocs.splice(index, 1);
+              $scope.$parent.$parent.editView.selectedPointsOfContact = pocs;
+              $log.info('Removed poc at index ' + index);
+          }
+      });
+            
   });

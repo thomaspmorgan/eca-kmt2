@@ -15,6 +15,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ECA.Business.Queries.Models.Admin;
+using ECA.Core.Exceptions;
 
 namespace ECA.Business.Service.Persons
 {
@@ -23,6 +24,11 @@ namespace ECA.Business.Service.Persons
     /// </summary>
     public class ContactService : DbContextService<EcaContext>, IContactService
     {
+        /// <summary>
+        /// Contact not found error
+        /// </summary>
+        public const string CONTACT_NOT_FOUND_ERROR = "The contact could not be found.";
+        
         private readonly Logger logger = LogManager.GetCurrentClassLogger();
         private readonly IBusinessValidator<AdditionalPointOfContactValidationEntity, object> pointOfContactValidator;
         /// <summary>
@@ -227,5 +233,28 @@ namespace ECA.Business.Service.Persons
                 numberOfPrimaryPhoneNumbers: numberOfPrimaryPhoneNumbers);
         }
         #endregion
+
+        #region delete
+        /// <summary>
+        /// Delete a point of contact from the datastore.
+        /// </summary>
+        /// <param name="id">contact id</param>
+        /// <returns></returns>
+        public async Task DeletePointOfContactAsync(int id)
+        {
+            var contact = await Context.Contacts.FindAsync(id);
+            if (contact != null)
+            {
+                Context.Contacts.Remove(contact);
+            }
+            else
+            {
+                throw new ModelNotFoundException(CONTACT_NOT_FOUND_ERROR);
+            }
+        }
+
+        #endregion
+
+
     }
 }

@@ -110,6 +110,7 @@ namespace ECA.Business.Queries.Persons
                                 Suffix = person.NameSuffix != null && person.NameSuffix.Trim().Length > 0 ? person.NameSuffix.Trim() : null,
                                 MiddleName = person.MiddleName != null && person.MiddleName.Trim().Length > 0 ? person.MiddleName.Trim() : null,
                                 PreferredName = person.Alias != null && person.Alias.Trim().Length > 0 ? person.Alias.Trim() : null,
+                                PassportName = person.PassportName != null && person.PassportName.Trim().Length > 0 ? person.PassportName.Trim() : null,
                             },
                             BirthDate = person.DateOfBirth.HasValue
                                 && (!person.IsDateOfBirthEstimated.HasValue || !person.IsDateOfBirthEstimated.Value)
@@ -351,9 +352,24 @@ namespace ECA.Business.Queries.Persons
         /// Returns a query that retrieves dtos detailing participants that have a sevis id, whos start date is before the given start date and have not yet been validated by batch.
         /// </summary>
         /// <param name="context">The context to query.</param>
-        /// <param name="startDate">The minimum start date for a participant.</param>
+        /// <param name="startDate">The maximum start date for a participant.</param>
+        /// <param name="queryOperator">The query operator.</param>
         /// <returns>The query of dtos who are ready to be validated.</returns>
         public static IQueryable<ReadyToValidateParticipantDTO> CreateGetReadyToValidateParticipantDTOsQuery(EcaContext context, DateTimeOffset startDate, QueryableOperator<ReadyToValidateParticipantDTO> queryOperator)
+        {
+            Contract.Requires(context != null, "The context must not be null.");            
+            var query = CreateGetReadyToValidateParticipantDTOsQuery(context, startDate);
+            query = query.Apply(queryOperator);
+            return query;
+        }
+
+        /// <summary>
+        /// Returns a query that retrieves dtos detailing participants that have a sevis id, whos start date is before the given start date and have not yet been validated by batch.
+        /// </summary>
+        /// <param name="context">The context to query.</param>
+        /// <param name="startDate">The maximum start date for a participant.</param>
+        /// <returns>The query of dtos who are ready to be validated.</returns>
+        public static IQueryable<ReadyToValidateParticipantDTO> CreateGetReadyToValidateParticipantDTOsQuery(EcaContext context, DateTimeOffset startDate)
         {
             Contract.Requires(context != null, "The context must not be null.");
             var statusIds = ParticipantStatus.EXCHANGE_VISITOR_VALIDATION_PARTICIPANT_STATUSES.Select(x => x.Id).ToList();
@@ -370,7 +386,7 @@ namespace ECA.Business.Queries.Persons
                         where participantPerson.SevisId != null
                         && participantPerson.SevisId.Length > 0
                         && participantPerson.StartDate.HasValue
-                        && participantPerson.StartDate.Value < startDate
+                        && participantPerson.StartDate.Value <= startDate
                         && !hasValidatedByBatchStatus
                         && participantStatus != null
                         && statusIds.Contains(participantStatus.ParticipantStatusId)
@@ -382,7 +398,6 @@ namespace ECA.Business.Queries.Persons
                             ProjectId = participant.ProjectId,
                             SevisId = participantPerson.SevisId
                         };
-            query = query.Apply(queryOperator);
             return query;
         }
     }

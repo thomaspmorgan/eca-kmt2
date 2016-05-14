@@ -79,7 +79,6 @@ angular.module('staticApp')
       $scope.editView.maximumRequiredFoci = -1;
       $scope.editView.locationUiSelectId = 'selectLocations';
       $scope.editView.isLoadingOfficeSetting = false;
-
       $scope.editView.dataPointConfigurations = {};
 
       $scope.editView.validateMinimumObjectives = function ($value) {
@@ -398,6 +397,12 @@ angular.module('staticApp')
           });
       }
 
+      function updatePointsOfContactIds() {
+          var propertyName = "pointsOfContactIds";
+          $scope.$parent.project[propertyName] = $scope.$parent.project[propertyName] || [];
+          updateRelationshipIds(propertyName, 'selectedPointsOfContact');
+      }
+
       function updateThemes() {
           var propertyName = "themeIds";
           $scope.$parent.project[propertyName] = $scope.$parent.project[propertyName] || [];
@@ -439,6 +444,7 @@ angular.module('staticApp')
           $scope.editView.saveFailed = false;
           $scope.editView.validations = [];
 
+          updatePointsOfContactIds();
           updateThemes();
           updateGoals();
           updateCategories();
@@ -453,7 +459,9 @@ angular.module('staticApp')
                 showSaveSuccess();
                 NavigationService.updateBreadcrumbs();
                 if ($scope.$parent.project.visitorTypeId === ConstantsService.visitorType.exchangeVisitor.id) {
-                    $scope.editView.sevisFunding.fundingTotal = getSevisFundingTotal();
+                    if ($scope.editView.sevisFunding) {
+                        $scope.editView.sevisFunding.fundingTotal = getSevisFundingTotal();
+                    }
                     DefaultExchangeVisitorFundingService.updateDefaultExchangeVisitorFunding($stateParams.projectId, $scope.editView.sevisFunding)
                         .then(function () {
                 goToProjectOverview();
@@ -541,21 +549,9 @@ angular.module('staticApp')
       }
             
       function setSelectedPointsOfContact() {
-          var projectContacts = $scope.$parent.project.contacts;
-          var len1 = projectContacts.length;
-          var fullContacts = $scope.editView.pointsOfContact;
-          var len2 = fullContacts.length;
-
-          for (var i = 0; i < len1; i++) {
-              for (var j = 0; j < len2; j++) {
-                  if (fullContacts[j].id == projectContacts[i].id) {
-                      $scope.editView.selectedPointsOfContact.push(fullContacts[j]);
-                      break;
-                  }
-              }
-          }
+          setSelectedItems('contacts', 'selectedPointsOfContact');
       }
-      
+
       function setSelectedGoals() {
           setSelectedItems('goals', 'selectedGoals');
       }
@@ -824,7 +820,7 @@ angular.module('staticApp')
               loadUSGovernmentAgencies();
               loadInternationalOrganizations();
           }
-          $q.all([loadPermissions(), loadThemes(null), loadPointsOfContact(null), loadObjectives(), loadCategories(), loadProjectStati(), loadVisitorTypes(), loadGoals(null), loadUSGovernmentAgencies(), loadInternationalOrganizations()])
+          $q.all([loadPermissions(), loadThemes(null), loadPointsOfContact(null), loadObjectives(null), loadCategories(null), loadProjectStati(), loadVisitorTypes(), loadGoals(null), loadUSGovernmentAgencies(), loadInternationalOrganizations()])
           .then(function (results) {
               //results is an array
               setSelectedPointsOfContact();

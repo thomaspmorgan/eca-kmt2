@@ -199,7 +199,13 @@ namespace ECA.WebApi.App_Start
             }));
             container.RegisterType<IExchangeVisitorValidationService>(new HierarchicalLifetimeManager(), new InjectionFactory((c) =>
             {
-                return new ExchangeVisitorValidationService(c.Resolve<EcaContext>(), c.Resolve<IExchangeVisitorService>(), null, null);
+                List<ISaveAction> nullSaveActions = new List<ISaveAction>();
+
+                ParameterOverrides parameterOverrides = new ParameterOverrides();
+                parameterOverrides.Add("context", c.Resolve<EcaContext>());
+                parameterOverrides.Add("saveActions", nullSaveActions);
+                var participantPersonSevisService = c.Resolve<IParticipantPersonsSevisService>(parameterOverrides);
+                return new ExchangeVisitorValidationService(c.Resolve<EcaContext>(), c.Resolve<IExchangeVisitorService>(), participantPersonSevisService, null, null);
             }));
             container.RegisterType<IDefaultExchangeVisitorFundingService, DefaultExchangeVisitorFundingService>(new HierarchicalLifetimeManager());
             container.RegisterType<IFileStorageHandler, FileStorageHandler>(new HierarchicalLifetimeManager());

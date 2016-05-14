@@ -140,8 +140,13 @@
                                              active="view.tabInfo"
                                              sevisinfo="sevisInfo[getSelectedParticipant().participantId]" />
                 </tab>
+                <tab heading="Personal Identifiable Information (PII)" class="tab" active="view.tabPii" select="onPiiTabSelected()">
+                    <pii personid="{{getSelectedParticipant().personId}}" updatepiicallback="updatePiiCallback()"></pii>
+                </tab>
+                <tab heading="Contact" class="tab" active="view.tabContact" select="onContactTabSelected()">
+                    <contact personid="{{getSelectedParticipant().personId}}"></contact>
+                </tab>
                 <tab heading="SEVIS Information" class="tab" ng-if="showSevisTab(getSelectedParticipant().participantTypeId) && permissions.hasEditSevisPermission" select="onSevisTabSelected(getSelectedParticipant().participantId)" active="view.tabSevis" deselect="view.tabSevis=false">
-                    <div>
                         <participant-person-sevis participantid="{{getSelectedParticipant().participantId}}"
                                                   personid="{{getSelectedParticipant().personId}}"
                                                   onparticipantupdated="onParticipantUpdated" 
@@ -150,10 +155,10 @@
                                                   exchangevisitorinfo="exchangeVisitorInfo[getSelectedParticipant().participantId]"
                                                   updatesevisinfo="saveSevisInfo(getSelectedParticipant().participantId)"
                                                   updateexchangevisitorinfo="saveExchangeVisitorInfo(getSelectedParticipant().participantId)" />
-                    </div>
                 </tab>
-                <tab heading="Personal Identifiable Information (PII)" class="tab" active="view.tabPii" select="onPiiTabSelected()">
-                    <pii personid="{{getSelectedParticipant().personId}}" updatepiicallback="updatePiiCallback()"></pii>
+                <tab heading="SEVIS Funding" class="tab" ng-if="showSevisTab(getSelectedParticipant().participantTypeId) && permissions.hasEditSevisPermission"
+                     active="view.tabSevisFunding" select="onSevisFundingTabSelected(getSelectedParticipant().participantId)">
+                    <sevis-funding exchangevisitorinfo="exchangeVisitorInfo[getSelectedParticipant().participantId]"></sevis-funding>
                 </tab>
             </tabset>
         </div>

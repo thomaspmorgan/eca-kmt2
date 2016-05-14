@@ -60,14 +60,14 @@ angular.module('staticApp')
 
       $scope.view.cancelSocialMediaChanges = function () {
           $scope.view.showEditSocialMedia = false;
-          $scope.form.socialMediaForm.$setPristine();
-          $scope.form.socialMediaForm.$setUntouched();
           if (isNewSocialMedia($scope.socialMedia)) {
               removeSocialMediaFromView($scope.socialMedia);
           }
           else {
               $scope.socialMedia = angular.copy(originalSocialMedia);
           }
+          $scope.form.socialMediaForm.$setPristine();
+          $scope.form.socialMediaForm.$setUntouched();
       };
 
       $scope.view.onDeleteSocialMediaClick = function () {

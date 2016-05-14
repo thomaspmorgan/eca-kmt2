@@ -149,6 +149,7 @@ namespace ECA.Business.Test.Service.Persons
                     Assert.AreEqual(participantPerson.StartDate.Value.DateTime, exchangeVisitor.ProgramStartDate);
                     Assert.AreEqual(participantPerson.EndDate.Value.DateTime, exchangeVisitor.ProgramEndDate);
                     Assert.AreEqual(participantPerson.SevisId, exchangeVisitor.SevisId);
+                    Assert.IsFalse(exchangeVisitor.IsValidated);
 
                     Assert.IsNotNull(exchangeVisitor.SevisOrgId);
 
@@ -156,6 +157,114 @@ namespace ECA.Business.Test.Service.Persons
                     var cStreetAddress = service.GetStateDepartmentCStreetAddress();
                     Assert.AreEqual(cStreetAddress.Street1, exchangeVisitor.SiteOfActivity.Street1);
                     Assert.AreEqual(cStreetAddress.LocationName, exchangeVisitor.SiteOfActivity.LocationName);
+                };
+                var result = service.GetExchangeVisitor(projectId, participantId);
+                var resultAsync = await service.GetExchangeVisitorAsync(projectId, participantId);
+                tester(result);
+                tester(resultAsync);
+            }
+        }
+
+        [TestMethod]
+        public async Task TestGetExchangeVisitor_CheckIsValidated_ValidatedByBatch()
+        {
+            var projectId = 1805;
+            var participantId = 100;
+            var personId = 11;
+            var person = new Data.Person
+            {
+                PersonId = personId
+            };
+            var project = new Project
+            {
+                ProjectId = projectId,
+                VisitorTypeId = VisitorType.ExchangeVisitor.Id,
+                SevisOrgId = "abcde1234567890",
+            };
+            var programCategory = new ProgramCategory
+            {
+                ProgramCategoryCode = "program category code",
+                ProgramCategoryId = 234
+            };
+            var participant = new Participant
+            {
+                ParticipantId = participantId,
+                Project = project,
+                ProjectId = project.ProjectId,
+                Person = person,
+                PersonId = person.PersonId
+            };
+            project.Participants.Add(participant);
+            var participantExchangeVisitor = new ParticipantExchangeVisitor
+            {
+                ParticipantId = participantId,
+                Participant = participant,
+                ProgramCategoryId = programCategory.ProgramCategoryId,
+                ProgramCategory = programCategory
+            };
+            participant.ParticipantExchangeVisitor = participantExchangeVisitor;
+            var participantPerson = new ParticipantPerson
+            {
+                Participant = participant,
+                ParticipantId = participant.ParticipantId,
+                StartDate = DateTime.UtcNow.AddDays(-1.0),
+                EndDate = DateTime.UtcNow.AddDays(1.0),
+                SevisId = "sevis Id",
+            };
+            var commStatus = new ParticipantPersonSevisCommStatus
+            {
+                ParticipantId = participantId,
+                SevisCommStatusId = SevisCommStatus.ValidatedByBatch.Id
+            };
+            context.Participants.Add(participant);
+            context.Projects.Add(project);
+            context.ParticipantExchangeVisitors.Add(participantExchangeVisitor);
+            context.ParticipantPersons.Add(participantPerson);
+            context.People.Add(person);
+            context.ProgramCategories.Add(programCategory);
+            context.ParticipantPersonSevisCommStatuses.Add(commStatus);
+            using (ShimsContext.Create())
+            {
+                var biographicalDTO = new BiographicalDTO
+                {
+
+                };
+                var dependentBiographicalDTO = new DependentBiographicalDTO
+                {
+
+                };
+                var subjectFieldDTO = new SubjectFieldDTO
+                {
+
+                };
+
+                ECA.Business.Queries.Persons.Fakes.ShimExchangeVisitorQueries.CreateGetBiographicalDataByParticipantIdQueryEcaContextInt32 = (ctx, pId) =>
+                {
+                    return new List<BiographicalDTO> { biographicalDTO }.AsQueryable();
+                };
+                ECA.Business.Queries.Persons.Fakes.ShimExchangeVisitorQueries.CreateGetParticipantDependentsBiographicalQueryEcaContextInt32 = (ctx, pId) =>
+                {
+                    return new List<DependentBiographicalDTO> { dependentBiographicalDTO }.AsQueryable();
+                };
+                ECA.Business.Queries.Persons.Fakes.ShimExchangeVisitorQueries.CreateGetSubjectFieldByParticipantIdQueryEcaContextInt32 = (ctx, pId) =>
+                {
+                    return new List<SubjectFieldDTO> { subjectFieldDTO }.AsQueryable();
+                };
+                System.Data.Entity.Fakes.ShimQueryableExtensions.ToListAsyncOf1IQueryableOfM0<DependentBiographicalDTO>((src) =>
+                {
+                    return Task<List<DependentBiographicalDTO>>.FromResult(src.ToList());
+                });
+                System.Data.Entity.Fakes.ShimQueryableExtensions.FirstOrDefaultAsyncOf1IQueryableOfM0<BiographicalDTO>((src) =>
+                {
+                    return Task<List<BiographicalDTO>>.FromResult(src.FirstOrDefault());
+                });
+                System.Data.Entity.Fakes.ShimQueryableExtensions.FirstOrDefaultAsyncOf1IQueryableOfM0<SubjectFieldDTO>((src) =>
+                {
+                    return Task<List<SubjectFieldDTO>>.FromResult(src.FirstOrDefault());
+                });
+                Action<ExchangeVisitor> tester = (exchangeVisitor) =>
+                {
+                    Assert.IsTrue(exchangeVisitor.IsValidated);
                 };
                 var result = service.GetExchangeVisitor(projectId, participantId);
                 var resultAsync = await service.GetExchangeVisitorAsync(projectId, participantId);
@@ -398,6 +507,7 @@ namespace ECA.Business.Test.Service.Persons
             var sevisOrgId = "abcde1234567890";
             var instance = service.GetExchangeVisitor(
                 person: person,
+                isValidated: true,
                 financialInfo: financialInfo,
                 participantPerson: participantPerson,
                 occupationCategoryCode: occupationCategoryCode,
@@ -413,6 +523,7 @@ namespace ECA.Business.Test.Service.Persons
             Assert.AreEqual(participantPerson.StartDate.Value.DateTime, instance.ProgramStartDate);
             Assert.AreEqual(participantPerson.EndDate.Value.DateTime, instance.ProgramEndDate);
             Assert.AreEqual(participantPerson.SevisId, instance.SevisId);
+            Assert.IsTrue(instance.IsValidated);
         }
 
         [TestMethod]
@@ -457,6 +568,7 @@ namespace ECA.Business.Test.Service.Persons
             var sevisOrgId = "abcde1234567890";
             var instance = service.GetExchangeVisitor(
                 person: person,
+                isValidated: true,
                 financialInfo: financialInfo,
                 participantPerson: participantPerson,
                 occupationCategoryCode: occupationCategoryCode,
@@ -502,6 +614,7 @@ namespace ECA.Business.Test.Service.Persons
             var sevisOrgId = "abcde1234567890";
             var instance = service.GetExchangeVisitor(
                 person: person,
+                isValidated: true,
                 financialInfo: financialInfo,
                 participantPerson: participantPerson,
                 occupationCategoryCode: occupationCategoryCode,
@@ -588,6 +701,7 @@ namespace ECA.Business.Test.Service.Persons
             Assert.AreEqual(participantExchangeVisitor.ProgramCategory.ProgramCategoryCode, person.ProgramCategoryCode);
             Assert.AreEqual(participantExchangeVisitor.Position.PositionCode, person.PositionCode);
             Assert.IsNull(person.Remarks);
+            Assert.IsTrue(person.PrintForm);
         }
 
         [TestMethod]
