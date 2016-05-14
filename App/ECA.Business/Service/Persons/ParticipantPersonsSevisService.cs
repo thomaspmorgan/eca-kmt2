@@ -341,24 +341,22 @@ namespace ECA.Business.Service.Persons
         {
             updatedParticipantPersonSevis.Audit.SetHistory(participantPerson);
 
+            /// typically only one of the below would be changed in the record at a time.  If more than one, this is the order to add them.
+            if (!participantPerson.IsSentToSevisViaRTI && updatedParticipantPersonSevis.IsSentToSevisViaRTI)
+                // User manual clicked Sent to SEVIS via RTI
+                AddSevisCommStatus(SevisCommStatus.SentToDhsViaRti.Id, participantPerson.ParticipantId, updatedParticipantPersonSevis.Audit.User.Id);
+            if (!participantPerson.IsDS2019Printed && updatedParticipantPersonSevis.IsDS2019Printed)
+                // User printed DS-2019
+                AddSevisCommStatus(SevisCommStatus.Ds2019Printed.Id, participantPerson.ParticipantId, updatedParticipantPersonSevis.Audit.User.Id);
+            if (!participantPerson.IsDS2019SentToTraveler && updatedParticipantPersonSevis.IsDS2019SentToTraveler)
+                // TODO:  Check if this is correct
+                AddSevisCommStatus(SevisCommStatus.Ds2019Signed.Id, participantPerson.ParticipantId, updatedParticipantPersonSevis.Audit.User.Id);
+            if (!participantPerson.IsValidatedViaRTI && updatedParticipantPersonSevis.IsValidatedViaRTI)
+                // User manually validated
+                AddSevisCommStatus(SevisCommStatus.ValidatedViaRti.Id, participantPerson.ParticipantId, updatedParticipantPersonSevis.Audit.User.Id);
             if (!participantPerson.IsCancelled && updatedParticipantPersonSevis.IsCancelled)
                 // User manually clicked cancel, add event to ParticipantPersonSevisCommStatus
                 AddSevisCommStatus(SevisCommStatus.Cancelled.Id, participantPerson.ParticipantId, updatedParticipantPersonSevis.Audit.User.Id);
-            else if (!participantPerson.IsDS2019Printed && updatedParticipantPersonSevis.IsDS2019Printed)
-                // User printed DS-2019
-                AddSevisCommStatus(SevisCommStatus.Ds2019Printed.Id, participantPerson.ParticipantId, updatedParticipantPersonSevis.Audit.User.Id);
-            else if (!participantPerson.IsDS2019SentToTraveler && updatedParticipantPersonSevis.IsDS2019SentToTraveler)
-                // TODO:  Check if this is correct
-                AddSevisCommStatus(SevisCommStatus.Ds2019Signed.Id, participantPerson.ParticipantId, updatedParticipantPersonSevis.Audit.User.Id);
-            else if (!participantPerson.IsSentToSevisViaRTI && updatedParticipantPersonSevis.IsSentToSevisViaRTI)
-                // User manual clicked Sent to SEVIS via RTI
-                AddSevisCommStatus(SevisCommStatus.SentToDhsViaRti.Id, participantPerson.ParticipantId, updatedParticipantPersonSevis.Audit.User.Id);
-            else if (!participantPerson.IsSentToSevisViaRTI && updatedParticipantPersonSevis.IsSentToSevisViaRTI)
-                // User manual clicked Sent to SEVIS via RTI
-                AddSevisCommStatus(SevisCommStatus.SentToDhsViaRti.Id, participantPerson.ParticipantId, updatedParticipantPersonSevis.Audit.User.Id);
-            else if (!participantPerson.IsValidatedViaRTI && updatedParticipantPersonSevis.IsValidatedViaRTI)
-                // TODO:  Check if this is correct
-                AddSevisCommStatus(SevisCommStatus.ValidatedViaRti.Id, participantPerson.ParticipantId, updatedParticipantPersonSevis.Audit.User.Id);
 
             participantPerson.SevisId = updatedParticipantPersonSevis.SevisId;
             participantPerson.IsSentToSevisViaRTI = updatedParticipantPersonSevis.IsSentToSevisViaRTI;
@@ -370,6 +368,12 @@ namespace ECA.Business.Service.Persons
             participantPerson.EndDate = updatedParticipantPersonSevis.EndDate;
         }
 
+        /// <summary>
+        /// Adds a SevisCommStatus for the ParticipantPerson
+        /// </summary>
+        /// <param name="sevisCommStatusId"></param>
+        /// <param name="participantId"></param>
+        /// <param name="userId"></param>
         private void AddSevisCommStatus(int sevisCommStatusId, int participantId, int userId)
         {
             var status = new ParticipantPersonSevisCommStatus();
