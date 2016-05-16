@@ -54,7 +54,7 @@ angular.module('staticApp')
       };
 
       function setupDependent() {
-          $scope.dependent.personId = $stateParams.personId;
+          $scope.dependent.personId = $scope.person.personId;
           if ($scope.dependent.dateOfBirth) {
               $scope.dependent.dateOfBirth.setUTCHours(0, 0, 0, 0);
           }
