@@ -22,8 +22,8 @@
                     <i class="material-icons md-dark md-24 pull-right" ng-show="!view.collapsePoc">expand_more</i>
                 </a>
                 <div class="row" ng-show="!view.isSavingChanges">
-                    <div ng-class="{true: '', false: 'row2'}[editMode]" ng-show="!view.showEditPoc">
-                        {{poc.fullName}} ({{poc.position}})
+                    <div ng-class="{true: '', false: 'row2'}[editMode]" ng-show="!poc.showEditPoc">
+                        {{poc.fullName}} {{poc.position.length ? '(' + poc.position + ')' : '' }}
                         <div class="pull-right" ng-show="editMode">
                             <a ng-show="!view.isDeletingPoc" ng-click="view.showConfirmDelete = true">
                                 <i class="material-icons md-dark">delete</i>
@@ -31,7 +31,7 @@
                             <a ng-show="view.isDeletingPoc">
                                 <i class="material-icons md-dark material-icons-spin">refresh</i>
                             </a>
-                            <a ng-click="view.onEditPocClick()">
+                            <a ng-click="view.onEditPocClick(poc)">
                                 <i class="material-icons md-dark">edit</i>
                             </a>
                         </div>
@@ -43,33 +43,19 @@
                         <button ng-click="view.onDeletePocClick(poc)" class="btn btn-danger">Delete</button>
                         <button ng-click="view.showConfirmDelete = !view.showConfirmDelete" class="btn btn-cancel">Cancel</button>
                     </div>
-                    <div ng-show="!view.showConfirmDelete" collapse="view.collapsePoc">
+                    <div ng-show="!view.showConfirmDelete">
                         <form name="form.pocForm" class="row form-horizontal">
-                            <div class="col-md-12" ng-show="view.showEditPoc">
+                            <div class="col-md-12" ng-show="view.showEditPoc || poc.isNew">
                                 <div class="form-group">
                                     <label>
                                         Full Name <eca-required />
                                     </label>
-                                    <input name="name"
-                                            maxlength="{{view.maxNameLength}}"
-                                            ng-model="poc.fullName"
-                                            ng-change="view.onFullNameChange(poc.fullName)"
-                                            ng-model-options="{debounce: 500}"
-                                            type="text"
-                                            class="form-control"
-                                            placeholder="Enter the full name of the point of contact..."
-                                            required />
+                                    <input type="text" placeholder="Select or Add Contact..." class="search-contextual"
+                                           ng-model="poc.fullName" typeahead="poc as poc.fullName for poc in view.getContacts($viewValue) | limitTo : 25"
+                                           typeahead-on-select="view.onSelectContact($item)" maxlength="{{view.maxNameLength}}" required>
                                 </div>
                                 <div ng-show="form.pocForm.name.$dirty">
                                     <div class="error" ng-show="form.pointOfContactForm.name.$error.required">Please enter the full name of the point of contact.</div>
-                                </div>
-                                <div class="warning" ng-show="view.likePointsOfContactByFullNameTotal > 0">
-                                    <div ng-if="view.likePointsOfContactByFullNameTotal == 1">
-                                        There is {{view.likePointsOfContactByFullNameTotal}} other point of contact with this name.
-                                    </div>
-                                    <div ng-if="view.likePointsOfContactByFullNameTotal > 1">
-                                        There are {{view.likePointsOfContactByFullNameTotal}} other points of contact with this name.
-                                    </div>
                                 </div>
                                 <div class="form-group">
                                     <label>
@@ -80,11 +66,12 @@
                                             ng-model="poc.position"
                                             type="text"
                                             class="form-control"
+                                            style="width:90%"
                                             placeholder="Enter the point of contact's position..." />
                                 </div>
-                                <div class="row right" ng-show="view.showEditPoc">
+                                <div class="row right">
                                     <button ng-click="view.savePointOfContact($event)" class="btn btn-success" ng-disabled="form.pointOfContactForm.$invalid">Save</button>
-                                    <button ng-click="view.cancelPointOfContactChanges($event)" class="btn btn-cancel">Cancel</button>
+                                    <button ng-click="view.cancelPointOfContactChanges($event, poc)" class="btn btn-cancel">Cancel</button>
                                 </div>
                             </div>
                         </form>
