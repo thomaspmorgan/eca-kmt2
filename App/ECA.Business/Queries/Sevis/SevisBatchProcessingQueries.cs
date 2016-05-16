@@ -168,7 +168,6 @@ namespace ECA.Business.Queries.Sevis
             var queuedToValidateStatusId = SevisCommStatus.QueuedToValidate.Id;
 
             var query = from participantPerson in context.ParticipantPersons
-                        let participant = participantPerson.Participant
                         let latestStatus = participantPerson.ParticipantPersonSevisCommStatuses
                                         .OrderByDescending(x => x.AddedOn)
                                         .FirstOrDefault()

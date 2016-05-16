@@ -354,6 +354,25 @@ namespace ECA.Business.Test.Service.Sevis
         }
 
         [TestMethod]
+        public void TestCanAccomodate_SevisIdHasValue_PreviouslySubmittedExchangeVisitorIsNull()
+        {
+            var sevisOrgId = "org id";
+            var batchId = BatchId.NewBatchId();
+            var sevisUsername = "sevisUserId";
+            var sevisId = "sevisId";
+            var instance = new StagedSevisBatch(batchId, sevisUsername, sevisOrgId);
+            var exchangeVisitor = GetExchangeVisitor(sevisId, 1, 2);
+            var participant = new SevisGroupedParticipantDTO
+            {
+                ParticipantId = exchangeVisitor.Person.ParticipantId,
+                SevisCommStatusId = SevisCommStatus.QueuedToSubmit.Id,
+            };
+            var expectedMessage = "The previously submitted exchange visitor must be supplied, since the exchange visitor has a sevis id.";
+            Action a = () => instance.CanAccomodate(participant, exchangeVisitor, sevisUsername, sevisOrgId, null);
+            a.ShouldThrow<NotSupportedException>().WithMessage(expectedMessage);
+        }
+
+        [TestMethod]
         public void TestCanAccomodate_UpdateEVArrayIsNotNull()
         {
             var sevisOrgId = "org id";
@@ -595,6 +614,27 @@ namespace ECA.Business.Test.Service.Sevis
 
             var message = "This StagedSevisBatch can not accomodate the given exchange visitor.";
             Action a = () => instance.AddExchangeVisitor(participant, exchangeVisitor, previouslySubmittedExchangeVisitor);
+            a.ShouldThrow<NotSupportedException>().WithMessage(message);
+        }
+
+        [TestMethod]
+        public void TestAddExchangeVisitor_SevisIdHasValue_PreviousSubmittedExchangeVisitorIsNull()
+        {
+            var sevisOrgId = "org id";
+            var batchId = BatchId.NewBatchId();
+            var sevisId = "sevisId";
+            var sevisUsername = "sevisUserId";
+            var instance = new StagedSevisBatch(batchId, sevisUsername, sevisOrgId, 1, 1);
+            var exchangeVisitor = GetExchangeVisitor(sevisId, 1, 2);
+            var participant = new SevisGroupedParticipantDTO
+            {
+                ParticipantId = exchangeVisitor.Person.ParticipantId,
+                SevisCommStatusId = SevisCommStatus.QueuedToSubmit.Id,
+            };
+            instance.SEVISBatchCreateUpdateEV.UpdateEV = new Business.Sevis.Model.SEVISEVBatchTypeExchangeVisitor1[2];
+
+            var message = "The previously submitted exchange visitor must be supplied, since the exchange visitor has a sevis id.";
+            Action a = () => instance.AddExchangeVisitor(participant, exchangeVisitor, null);
             a.ShouldThrow<NotSupportedException>().WithMessage(message);
         }
 

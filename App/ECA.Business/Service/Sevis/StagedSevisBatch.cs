@@ -278,7 +278,7 @@ namespace ECA.Business.Service.Sevis
             }
             else
             {
-                if(previouslySubmittedExchangeVisitor == null)
+                if (previouslySubmittedExchangeVisitor == null)
                 {
                     throw new NotSupportedException("The previously submitted exchange visitor must be supplied, since the exchange visitor has a sevis id.");
                 }
