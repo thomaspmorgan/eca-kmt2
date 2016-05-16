@@ -350,7 +350,7 @@ namespace ECA.Business.Service.Persons
                 AddSevisCommStatus(SevisCommStatus.Ds2019Printed.Id, participantPerson.ParticipantId, updatedParticipantPersonSevis.Audit.User.Id);
             if (!participantPerson.IsDS2019SentToTraveler && updatedParticipantPersonSevis.IsDS2019SentToTraveler)
                 // TODO:  Check if this is correct
-                AddSevisCommStatus(SevisCommStatus.Ds2019Signed.Id, participantPerson.ParticipantId, updatedParticipantPersonSevis.Audit.User.Id);
+                AddSevisCommStatus(SevisCommStatus.Ds2019SentToTraveler.Id, participantPerson.ParticipantId, updatedParticipantPersonSevis.Audit.User.Id);
             if (!participantPerson.IsValidatedViaRTI && updatedParticipantPersonSevis.IsValidatedViaRTI)
                 // User manually validated
                 AddSevisCommStatus(SevisCommStatus.ValidatedViaRti.Id, participantPerson.ParticipantId, updatedParticipantPersonSevis.Audit.User.Id);

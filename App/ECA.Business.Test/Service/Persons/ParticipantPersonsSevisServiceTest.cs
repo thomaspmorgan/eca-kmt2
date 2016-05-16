@@ -1311,7 +1311,7 @@ namespace ECA.Business.Test.Service.Persons
             sevisService.Update(updatedParticipantPersonSevis);
             context.SaveChanges();
             Assert.IsTrue(context.ParticipantPersonSevisCommStatuses.Count() == 5);
-            Assert.IsTrue(context.ParticipantPersonSevisCommStatuses.FirstOrDefault(x => x.SevisCommStatusId == SevisCommStatus.Ds2019Signed.Id).SevisCommStatusId == SevisCommStatus.Ds2019Signed.Id);
+            Assert.IsTrue(context.ParticipantPersonSevisCommStatuses.FirstOrDefault(x => x.SevisCommStatusId == SevisCommStatus.Ds2019SentToTraveler.Id).SevisCommStatusId == SevisCommStatus.Ds2019SentToTraveler.Id);
 
             #endregion Update
         }
