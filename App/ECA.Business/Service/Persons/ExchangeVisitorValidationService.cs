@@ -195,7 +195,7 @@ namespace ECA.Business.Service.Persons
                     return AddParticipantPersonSevisCommStatus(person.ParticipantId, SevisCommStatus.ReadyToValidate.Id);
                 }
                 {
-                    if (SevisCommStatus.DOS_SEVIS_COMM_STATUSES.Select(x => x.Id).Contains(latestCommStatus.SevisCommStatusId))
+                    if ((latestCommStatus != null) && (SevisCommStatus.DOS_SEVIS_COMM_STATUSES.Select(x => x.Id).Contains(latestCommStatus.SevisCommStatusId)))
                         return latestCommStatus;
                     else
                         return AddParticipantPersonSevisCommStatus(person.ParticipantId, SevisCommStatus.ReadyToSubmit.Id);
@@ -237,7 +237,7 @@ namespace ECA.Business.Service.Persons
                 {
                     return AddParticipantPersonSevisCommStatus(person.ParticipantId, SevisCommStatus.ReadyToValidate.Id);
                 }
-                if (SevisCommStatus.DOS_SEVIS_COMM_STATUSES.Select(x => x.Id).Contains(latestCommStatus.SevisCommStatusId))
+                if ((latestCommStatus != null) && (SevisCommStatus.DOS_SEVIS_COMM_STATUSES.Select(x => x.Id).Contains(latestCommStatus.SevisCommStatusId)))
                     return latestCommStatus;
                 else
                     return AddParticipantPersonSevisCommStatus(person.ParticipantId, SevisCommStatus.ReadyToSubmit.Id);
