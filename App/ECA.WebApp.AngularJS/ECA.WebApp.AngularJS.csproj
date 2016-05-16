@@ -186,6 +186,8 @@
     <Content Include="app\directives\citizenship-countries.directive.js" />
     <Content Include="app\directives\citizenship-country.controller.js" />
     <Content Include="app\directives\contact.directive.js" />
+    <Content Include="app\directives\copy-to-all-participants.directive.html" />
+    <Content Include="app\directives\copy-to-all-participants.directive.js" />
     <Content Include="app\directives\dependents.controller.js" />
     <Content Include="app\directives\eca-required.directive..js" />
     <Content Include="app\directives\dependents.directive.js" />

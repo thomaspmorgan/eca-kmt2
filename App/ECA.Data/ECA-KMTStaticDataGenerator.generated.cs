@@ -1860,9 +1860,9 @@ namespace ECA.Data
 		/// </summary>
 		public static StaticLookup Cancelled { get { return new StaticLookup("Cancelled", 7); } }
 		/// <summary>
-		/// Returns the DS-2019 Signed lookup with id 8.
+		/// Returns the DS-2019 Sent to Traveler lookup with id 8.
 		/// </summary>
-		public static StaticLookup Ds2019Signed { get { return new StaticLookup("DS-2019 Signed", 8); } }
+		public static StaticLookup Ds2019SentToTraveler { get { return new StaticLookup("DS-2019 Sent to Traveler", 8); } }
 		/// <summary>
 		/// Returns the DS-2019 Printed lookup with id 9.
 		/// </summary>
@@ -1933,7 +1933,7 @@ namespace ECA.Data
 			if (5 == id) return SevisCommStatus.QueuedToSubmit;
 			if (6 == id) return SevisCommStatus.SentToDhsViaRti;
 			if (7 == id) return SevisCommStatus.Cancelled;
-			if (8 == id) return SevisCommStatus.Ds2019Signed;
+			if (8 == id) return SevisCommStatus.Ds2019SentToTraveler;
 			if (9 == id) return SevisCommStatus.Ds2019Printed;
 			if (10 == id) return SevisCommStatus.RtiRequestSuccessful;
 			if (11 == id) return SevisCommStatus.RtiRequestUnsuccessful;
@@ -1964,7 +1964,7 @@ namespace ECA.Data
 			if ("Queued To Submit".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return SevisCommStatus.QueuedToSubmit;
 			if ("Sent to DHS via RTI".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return SevisCommStatus.SentToDhsViaRti;
 			if ("Cancelled".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return SevisCommStatus.Cancelled;
-			if ("DS-2019 Signed".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return SevisCommStatus.Ds2019Signed;
+			if ("DS-2019 Sent to Traveler".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return SevisCommStatus.Ds2019SentToTraveler;
 			if ("DS-2019 Printed".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return SevisCommStatus.Ds2019Printed;
 			if ("RTI Request Successful".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return SevisCommStatus.RtiRequestSuccessful;
 			if ("RTI Request Unsuccessful".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return SevisCommStatus.RtiRequestUnsuccessful;
