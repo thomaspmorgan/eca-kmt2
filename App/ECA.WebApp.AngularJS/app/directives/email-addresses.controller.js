@@ -38,12 +38,12 @@ angular.module('staticApp')
               emailAddressType: ConstantsService.emailAddressType.home.value,
               emailAddressTypeId: ConstantsService.emailAddressType.home.id,
               isNew: true,
+              showEditEmail: true,
               isPrimary: false,
               address: ""
           };
           entityEmailAddresses.splice(0, 0, newEmailAddress);
           $scope.view.collapseEmailAddresses = false;
-          $scope.view.showEditEmailAddress = true;
       };
 
       $scope.$on(ConstantsService.removeNewEmailAddressEventName, function (event, newEmailAddress) {

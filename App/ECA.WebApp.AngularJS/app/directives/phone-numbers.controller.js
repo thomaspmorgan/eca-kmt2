@@ -36,6 +36,7 @@ angular.module('staticApp')
               phoneNumberableType: phoneNumberableType,
               phoneNumberType: ConstantsService.phoneNumberType.home.value,
               phoneNumberTypeId: ConstantsService.phoneNumberType.home.id,
+              showEditPhoneNumber: true,
               isNew: true,
               number: ""
           };

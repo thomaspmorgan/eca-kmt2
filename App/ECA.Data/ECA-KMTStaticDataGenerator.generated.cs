@@ -3,24 +3,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 #region ActorType
 namespace ECA.Data
 {
@@ -246,7 +228,7 @@ namespace ECA.Data
 		/// </summary>
 		public StaticLookupConfig GetConfig()
 		{
-			return new StaticLookupConfig { Namespace = "ECA.Data", ClassName = "BirthCountryReason", TableName = "BirthCountryReason", IdColumnName = "BirthCountryReasonId", ValueColumnName = "Description" };
+			return new StaticLookupConfig { Namespace = "ECA.Data", ClassName = "BirthCountryReason", TableName = "sevis.BirthCountryReason", IdColumnName = "BirthCountryReasonId", ValueColumnName = "Description" };
 		}
 	}
 }
@@ -1526,9 +1508,9 @@ namespace ECA.Data
 		/// </summary>
 		public static StaticLookup Home { get { return new StaticLookup("Home", 1); } }
 		/// <summary>
-		/// Returns the Work lookup with id 2.
+		/// Returns the Business lookup with id 2.
 		/// </summary>
-		public static StaticLookup Work { get { return new StaticLookup("Work", 2); } }
+		public static StaticLookup Business { get { return new StaticLookup("Business", 2); } }
 		/// <summary>
 		/// Returns the Cell lookup with id 3.
 		/// </summary>
@@ -1549,7 +1531,7 @@ namespace ECA.Data
 		public static StaticLookup GetStaticLookup(int id)
 		{
 			if (1 == id) return PhoneNumberType.Home;
-			if (2 == id) return PhoneNumberType.Work;
+			if (2 == id) return PhoneNumberType.Business;
 			if (3 == id) return PhoneNumberType.Cell;
 			if (4 == id) return PhoneNumberType.Visiting;
 			if (5 == id) return PhoneNumberType.Undetermined;
@@ -1563,7 +1545,7 @@ namespace ECA.Data
 		public static StaticLookup GetStaticLookup(string value)
 		{
 			if ("Home".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return PhoneNumberType.Home;
-			if ("Work".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return PhoneNumberType.Work;
+			if ("Business".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return PhoneNumberType.Business;
 			if ("Cell".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return PhoneNumberType.Cell;
 			if ("Visiting".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return PhoneNumberType.Visiting;
 			if ("Undetermined".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return PhoneNumberType.Undetermined;

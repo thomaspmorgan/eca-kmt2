@@ -17,12 +17,12 @@
                     <div class="bounce2"></div>
                     <div class="bounce3"></div>
                 </div>
-                <a ng-click="view.collapsePoc = !view.collapsePoc">
-                    <i class="material-icons md-dark md-24 pull-right" ng-show="view.collapsePoc">expand_less</i>
-                    <i class="material-icons md-dark md-24 pull-right" ng-show="!view.collapsePoc">expand_more</i>
+                <a ng-click="poc.collapsePoc = !poc.collapsePoc">
+                    <i class="material-icons md-dark md-24 pull-right" ng-show="poc.collapsePoc">expand_less</i>
+                    <i class="material-icons md-dark md-24 pull-right" ng-show="!poc.collapsePoc">expand_more</i>
                 </a>
                 <div class="row" ng-show="!view.isSavingChanges">
-                    <div ng-class="{true: '', false: 'row2'}[editMode]">
+                    <div ng-class="{true: '', false: 'row2'}[editMode]" ng-show="!poc.showEditPoc">
                         {{poc.fullName}} {{poc.position.length ? '(' + poc.position + ')' : '' }}
                         <div class="pull-right" ng-show="editMode">
                             <a ng-show="!view.isDeletingPoc" ng-click="view.showConfirmDelete = true">
@@ -45,7 +45,7 @@
                     </div>
                     <div ng-show="!view.showConfirmDelete">
                         <form name="form.pocForm" class="row form-horizontal">
-                            <div class="col-md-12" ng-show="view.showEditPoc || poc.isNew">
+                            <div class="col-md-12" ng-show="poc.showEditPoc || poc.isNew">
                                 <div class="form-group">
                                     <label>
                                         Full Name <eca-required />

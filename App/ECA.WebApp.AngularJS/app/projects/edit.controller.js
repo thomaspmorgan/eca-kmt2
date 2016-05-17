@@ -541,7 +541,13 @@ angular.module('staticApp')
           console.assert($scope.editView.hasOwnProperty(editViewSelectedPropertyName), "The edit view " + editViewSelectedPropertyName + " property does not exist.");
           console.assert(Array.isArray($scope.editView[editViewSelectedPropertyName]), "The edit view " + editViewSelectedPropertyName + " property must be an array.");
 
-          var projectItems = $scope.$parent.project[projectPropertyName];
+          if (projectPropertyName === 'contacts') {
+              var projectItems = $scope.$parent.project[projectPropertyName].sort(function (a, b) {
+                  return a.fullName == b.fullName ? 0 : +(a.fullName > b.fullName) || -1;
+              });
+          } else {
+              var projectItems = $scope.$parent.project[projectPropertyName];
+          }          
           $scope.editView[editViewSelectedPropertyName] = $scope.editView[editViewSelectedPropertyName].splice(0, $scope.editView[editViewSelectedPropertyName].length);
           for (var i = 0; i < projectItems.length; i++) {
               var projectItem = projectItems[i];
@@ -611,7 +617,9 @@ angular.module('staticApp')
                       }
                       response.results[i].value = response.results[i].fullName + position;
                   }
-                  $scope.editView.pointsOfContact = response.results;
+                  $scope.editView.pointsOfContact = response.results.sort(function (a, b) {
+                      return a.fullName == b.fullName ? 0 : +(a.fullName > b.fullName) || -1;
+                  });
               });
       }
 
