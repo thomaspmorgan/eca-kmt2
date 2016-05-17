@@ -95,6 +95,11 @@ namespace ECA.Business.Validation.Sevis.Bio
             };
         }
 
+        /// <summary>
+        /// Returns the change detail for this full name.
+        /// </summary>
+        /// <param name="otherChangeComparable">The full name to compare.</param>
+        /// <returns>The change detail.</returns>
         public FullNameChangeDetail GetChangeDetail(FullName otherChangeComparable)
         {
             var config = new ComparisonConfig

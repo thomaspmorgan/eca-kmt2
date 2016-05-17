@@ -47,7 +47,7 @@ namespace ECA.Business.Service.Persons
         /// </summary>
         /// <param name="updatedPointOfContact"></param>
         /// <returns></returns>
-        System.Threading.Tasks.Task<ContactDTO> UpdateContactAsync(UpdatedPointOfContact updatedPointOfContact);
+        System.Threading.Tasks.Task<Contact> UpdateContactAsync(UpdatedPointOfContact updatedPointOfContact);
 
         /// <summary>
         /// Returns the contact with the given id.
@@ -104,10 +104,10 @@ namespace ECA.Business.Service.Persons
         /// </summary>
         /// <param name="pointOfContact"></param>
         /// <returns></returns>
-        public Task<ContactDTO> UpdateContactAsync(UpdatedPointOfContact updatedPointOfContact)
+        public Task<Contact> UpdateContactAsync(UpdatedPointOfContact updatedPointOfContact)
         {
             Contract.Requires(updatedPointOfContact != null, "The point of contact must not be null.");
-            return Task.FromResult<ContactDTO>(null);
+            return Task.FromResult<Contact>(null);
         }
 
         /// <summary>

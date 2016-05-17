@@ -1,4 +1,4 @@
-<div class="row row2">
+<div class="row row5">
     <div class="col-md-12" ng-show="sevisinfo">
         <div ng-show="sevisinfo.sevisValidationResult && !sevisinfo.sevisValidationResult.isValid">
             <div class="col-md-3">
@@ -54,43 +54,28 @@
         </div>
     </div>
 </div>
-<div class="row row2">
+<div class="row row5">
     <div class="col-md-2">
         <h5>DHS Status</h5>
     </div>
+    <div class="col-md-3">
+        <span class="title-label">Sevis Id: </span>{{(sevisinfo.sevisId == null) ? "none" : sevisinfo.sevisId}}
+        </div>
     <div class="col-md-5">
-        <span class="title-label"> Last Batch Date: </span>{{sevisinfo.lastBatchDate | date:'short'}}
+        <span class="title-label">Last Batch Date: </span>{{sevisinfo.lastBatchDate | date:'short'}}
     </div>
-    <div class="col-md-5">
+    <div class="col-md-2">
         <a ng-click="view.DHSStatus=!view.DHSStatus">
             <i class="material-icons md-dark md-36 pull-right" ng-show="view.DHSStatus">expand_more</i>
             <i class="material-icons md-dark md-36 pull-right" ng-show="!view.DHSStatus">expand_less</i>
         </a>
     </div>
 </div>
-<div class="row row2" ng-show="view.DHSStatus">
-    <div class="row4">
-        <div class="col-md-3">
-            &nbsp;
-        </div>
-        <div class="col-md-3 title-label">Sevis Id</div>
-        <div class="col-md-6">
-            {{sevisinfo.sevisId}}
-        </div>
-    </div>
-    <div ui-grid="view.gridOptions" ui-grid-pagination ui-grid-auto-resize style="margin-top:10px;"></div>
+<div class="row row6" collapse="!view.DHSStatus">
+    <div ui-grid="view.gridOptions" ui-grid-pagination ui-grid-auto-resize></div>
 </div>
-<div class="row row2">
-    <div class="col-md-5"><h5>DoS Status</h5></div>
-    <div class="col-md-7">
-        <a ng-click="view.DoSStatus=!view.DoSStatus">
-            <i class="material-icons md-dark md-36 pull-right" ng-show="view.DoSStatus">expand_more</i>
-            <i class="material-icons md-dark md-36 pull-right" ng-show="!view.DoSStatus">expand_less</i>
-        </a>
-    </div>
-</div>
-<div class="row row2" ng-show="view.DoSStatus" style="border:none; padding-bottom: 0px;">
-    <div class="col-md-3">&nbsp;</div>
+<div class="row row5">
+    <div class="col-md-2"><h5>DoS Status</h5></div>
     <div class="form-group col-md-3" style="margin-bottom:0">
         <span tooltip="{{sevisinfo.blockEdit ? 'The participant is currently in a SEVIS Status which does not allow edits' : ''}}">
             <input type="checkbox" ng-model="sevisinfo.isSentToSevisViaRTI" ng-disabled="sevisinfo.blockEdit" ng-click="edit.onDosStatusChange($event, 'isSentToSevisViaRTI', sevisinfo.isSentToSevisViaRTI)" /> Sent to DHS via RTI
@@ -101,35 +86,29 @@
             <input type="checkbox" ng-model="sevisinfo.isCancelled" ng-disabled="sevisinfo.blockEdit" ng-click="edit.onDosStatusChange($event, 'isCancelled', sevisinfo.isCancelled)" /> Cancelled
         </span>
     </div>
-    <div class="col-md-3">&nbsp;</div>
-</div>
-<div class="row row2" ng-show="view.DoSStatus" style="border:none; padding-bottom: 0px;">
-    <div class="col-md-3">&nbsp;</div>
-    <div class="form-group col-md-3" style="margin-bottom:0">
+    <div class="form-group col-md-4" style="margin-bottom:0">
         <span tooltip="{{sevisinfo.blockEdit ? 'The participant is currently in a SEVIS Status which does not allow edits' : ''}}">
             <input type="checkbox" ng-model="sevisinfo.isValidatedViaRTI" ng-disabled="sevisinfo.blockEdit" ng-click="edit.onDosStatusChange($event, 'isValidatedViaRTI', sevisinfo.isValidatedViaRTI)" /> Validated via RTI
         </span>
     </div>
+</div>
+<div class="row row6">
+    <div class="col-md-2">&nbsp;</div>
     <div class="form-group col-md-3" style="margin-bottom:0">
         <span tooltip="{{sevisinfo.blockEdit ? 'The participant is currently in a SEVIS Status which does not allow edits' : ''}}">
             <input type="checkbox" ng-model="sevisinfo.isDS2019SentToTraveler" ng-disabled="sevisinfo.blockEdit" ng-click="edit.onDosStatusChange($event, 'isDS2019SentToTraveler', sevisinfo.isDS2019SentToTraveler)" /> DS 2019 Sent to Traveler
         </span>
     </div>
-    <div class="col-md-3">&nbsp;</div>
-</div>
-<div class="row row2" ng-show="view.DoSStatus" style="border:none">
-    <div class="col-md-3">&nbsp;</div>
     <div class="form-group col-md-3" style="margin-bottom:0">
         <span tooltip="{{sevisinfo.blockEdit ? 'The participant is currently in a SEVIS Status which does not allow edits' : ''}}">
             <input type="checkbox" ng-model="sevisinfo.isDS2019Printed" ng-disabled="sevisinfo.blockEdit" ng-click="edit.onDosStatusChange($event, 'isDS2019Printed', sevisinfo.isDS2019Printed)" /> DS 2019 Printed
         </span>
     </div>
-    <div class="form-group col-md-3" style="margin-bottom:0">
+    <div class="form-group col-md-4" style="margin-bottom:0">
         <a ng-click="downloadDS2019()" ng-if="sevisinfo.hasDS2019"><i class="material-icons md-24" style="vertical-align: middle;">file_download</i><span> Download DS2019</span></a>
     </div>
-    <div class="col-md-3">&nbsp;</div>
 </div>
-<div class="form-group row row2">
+<div class="form-group row row5">
     <form name="form.startDate">
         <h5 class="col-md-2" id="{{getSevisStartDateDivId(participantid)}}">Start Date</h5>
         <div class="col-md-3" tooltip="{{sevisinfo.blockEdit ? 'The participant is currently in a SEVIS Status which does not allow edits' : ''}}">
@@ -147,7 +126,7 @@
                 <span class="input-group-btn">
                     <button type="button"
                             class="btn"
-                            style="height: 42px;"
+                            style="height: 39px;"
                             ng-disabled="sevisinfo.blockEdit"
                             ng-click="edit.openStartDatePicker($event)">
                         <i class="material-icons md-18{{sevisinfo.blockEdit ? ' md-dark' : ''}}">event</i>
@@ -173,7 +152,7 @@
                 <span class="input-group-btn">
                     <button type="button"
                             class="btn"
-                            style="height: 42px;"
+                            style="height: 39px;"
                             ng-disabled="sevisinfo.blockEdit"
                             ng-click="edit.openEndDatePicker($event)">
                         <i class="material-icons md-18 {{sevisinfo.blockEdit ? 'md-dark' : ''}}">event</i>
@@ -182,33 +161,28 @@
             </p>
         </div>
         <div class="col-md-2">
-            <i class="material-icons md-dark md-36 pull-right">group</i>
-            <i class="material-icons md-dark md-36 pull-right">add</i>
+            <copy-to-all-participants />
         </div>
     </form>
 </div>
-<div class="row row2">
+<div class="row row5">
     <div class="col-md-8" id="{{positionAndFieldElementId}}"><h5>Position and Field</h5></div>
     <div class="col-md-4">
-        <a ng-click="view.PositionAndField=!view.PositionAndField">
-            <i class="material-icons md-dark md-36 pull-right" ng-show="view.PositionAndField">expand_more</i>
-            <i class="material-icons md-dark md-36 pull-right" ng-show="!view.PositionAndField">expand_less</i>
-        </a>
         <div class="pull-right" style="min-width:40px">
-            <a ng-show="view.PositionAndField && !view.PositionAndFieldEdit" ng-disabled="sevisinfo.blockEdit" ng-click="edit.onPositionAndFieldEditChange()">
+            <a ng-show="!view.PositionAndFieldEdit" ng-disabled="sevisinfo.blockEdit" ng-click="edit.onPositionAndFieldEditChange()">
                 <span tooltip="{{sevisinfo.blockEdit ? 'The participant is currently in a SEVIS Status which does not allow edits' : ''}}">
                     <i class="material-icons md-dark md-24 pull-right" style="{{sevisinfo.blockEdit ? 'opacity: .5' : 'opacity: 1'}}">edit</i>
                 </span>
             </a>
         </div>
-        <div class="pull-right" ng-if="view.PositionAndFieldEdit" ng-show="view.PositionAndField">
+        <div class="pull-right" ng-if="view.PositionAndFieldEdit">
             <button ng-click="savePositionAndField()" class="btn btn-success" ng-disabled="formPositionAndFieldForm.$invalid || formPositionAndFieldForm.$pristine">Save</button>
             <button ng-click="view.PositionAndFieldEdit=false" class="btn btn-cancel">Cancel</button>
         </div>
     </div>
 </div>
 <div ng-if="!view.PositionAndFieldEdit">
-    <div class="row row2" ng-show="view.PositionAndField">
+    <div class="row row6">
         <div class="row4">
             <div class="col-md-3">
                 <label class="title-label">Position</label>
@@ -217,8 +191,7 @@
                 {{exchangevisitorinfo.position}}
             </div>
             <div class="col-md-3">
-                <i class="material-icons md-dark md-36 pull-right">group</i>
-                <i class="material-icons md-dark md-36 pull-right">add</i>
+                <copy-to-all-participants />
             </div>
         </div>
         <div class="row4">
@@ -229,8 +202,7 @@
                 {{exchangevisitorinfo.programCategory}}
             </div>
             <div class="col-md-3">
-                <i class="material-icons md-dark md-36 pull-right">group</i>
-                <i class="material-icons md-dark md-36 pull-right">add</i>
+                <copy-to-all-participants />
             </div>
         </div>
         <div class="row4">
@@ -241,15 +213,14 @@
                 {{exchangevisitorinfo.fieldOfStudy}}
             </div>
             <div class="col-md-3">
-                <i class="material-icons md-dark md-36 pull-right">group</i>
-                <i class="material-icons md-dark md-36 pull-right">add</i>
+                <copy-to-all-participants />
             </div>
         </div>
     </div>
 </div>
 <div ng-if="view.PositionAndFieldEdit">
-    <form name="formPositionAndFieldForm" ng-show="view.PositionAndField">
-        <div class="row row4">
+    <form name="formPositionAndFieldForm">
+        <div class="row row5">
             <div class="col-md-3">
                 <label class="title-label">Position <eca-required /></label>
             </div>
@@ -262,8 +233,7 @@
                 </ui-select>
             </div>
             <div class="col-md-3">
-                <i class="material-icons md-dark md-36 pull-right">group</i>
-                <i class="material-icons md-dark md-36 pull-right">add</i>
+                <copy-to-all-participants />
             </div>
         </div>
         <div class="row row4">
@@ -279,8 +249,7 @@
                 </ui-select>
             </div>
             <div class="col-md-3">
-                <i class="material-icons md-dark md-36 pull-right">group</i>
-                <i class="material-icons md-dark md-36 pull-right">add</i>
+                <copy-to-all-participants />
             </div>
         </div>
         <div class="row row4">
@@ -296,13 +265,8 @@
                 </ui-select>
             </div>
             <div class="col-md-3">
-                <i class="material-icons md-dark md-36 pull-right">group</i>
-                <i class="material-icons md-dark md-36 pull-right">add</i>
+                <copy-to-all-participants />
             </div>
-
-
-
-
         </div>
     </form>
 </div>

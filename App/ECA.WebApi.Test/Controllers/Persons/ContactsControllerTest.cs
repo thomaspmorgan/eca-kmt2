@@ -76,6 +76,7 @@ namespace ECA.WebApi.Test.Controllers.Persons
         #endregion
 
         #region Get
+
         [TestMethod]
         public async Task TestGetContactsAsync()
         {
@@ -90,6 +91,7 @@ namespace ECA.WebApi.Test.Controllers.Persons
             var response = await controller.GetContactsAsync(new PagingQueryBindingModel<ContactDTO>());
             Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
         }
+
         #endregion
         
     }

@@ -80,6 +80,7 @@ angular.module('staticApp')
           return PersonService.getPiiById(personId)
              .then(function (data) {
                  $scope.pii = data;
+                 $scope.pii.personId = personId;
                  if ($scope.pii.placeOfBirth) {
                      $scope.pii.cityOfBirthId = $scope.pii.placeOfBirth.id;
                  }

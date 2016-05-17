@@ -118,8 +118,8 @@ namespace ECA.Business.Test.Service.Persons
                 Assert.IsNull(serviceResult);
             };
 
-            var serviceResults = service.GetContactDTOById(1);
-            var serviceResultsAsync = await service.GetContactDTOByIdAsync(1);
+            var serviceResults = service.GetContactById(1);
+            var serviceResultsAsync = await service.GetContactByIdAsync(1);
             tester(serviceResults);
             tester(serviceResultsAsync);
         }

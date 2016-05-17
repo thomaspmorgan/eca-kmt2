@@ -40,7 +40,7 @@
                         <button ng-click="view.onDeletePhoneNumberClick()" class="btn btn-danger">Delete</button>
                         <button ng-click="view.showConfirmDelete = !view.showConfirmDelete" class="btn btn-cancel">Cancel</button>
                     </div>
-                    <div in-context-form ng-show="view.showEditPhoneNumber">
+                    <div in-context-form ng-show="view.showEditPhoneNumber || phoneNumber.isNew">
                         <form name="form.phoneNumberForm" class="row form-horizontal">
                             <div class="form-group">
                                 <label class="title-label col-md-3" for="type">Type <eca-required /></label>
@@ -64,7 +64,7 @@
                                            maxlength="100"
                                            ng-model="phoneNumber.number"
                                            form-element
-                                           guidance="This is the value  of the phone number."
+                                           guidance="This is the value of the phone number."
                                            type="text"
                                            class="form-control"
                                            placeholder="Enter phone number value."
@@ -87,7 +87,7 @@
                                 </div>
                             </div>
                         </form>
-                        <div class="row right" ng-show="view.showEditPhoneNumber">
+                        <div class="row right">
                             <button ng-click="view.savePhoneNumberChanges()" class="btn btn-success" ng-disabled="form.phoneNumberForm.$invalid">Save</button>
                             <button ng-click="view.cancelPhoneNumberChanges()" class="btn btn-cancel">Cancel</button>
                         </div>
