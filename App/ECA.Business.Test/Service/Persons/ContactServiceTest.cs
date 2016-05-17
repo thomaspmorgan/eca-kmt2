@@ -91,20 +91,20 @@ namespace ECA.Business.Test.Service.Persons
                 Assert.AreEqual(emailAddressType.EmailAddressTypeName, firstEmail.EmailAddressType);
                 Assert.AreEqual(contact.ContactId, firstEmail.ContactId);
                 Assert.IsNull(firstEmail.PersonId);
-                Assert.AreEqual(email.EmailAddressId, firstEmail.ContactId);
+                Assert.AreEqual(email.EmailAddressId, firstEmail.Id);
 
                 Assert.AreEqual(1, serviceResult.PhoneNumbers.Count());
                 var firstPhoneNumber = serviceResult.PhoneNumbers.First();
                 Assert.AreEqual(phoneNumberType.PhoneNumberTypeId, firstPhoneNumber.PhoneNumberTypeId);
                 Assert.AreEqual(phoneNumberType.PhoneNumberTypeName, firstPhoneNumber.PhoneNumberType);
-                Assert.AreEqual(phoneNumber.PhoneNumberId, firstPhoneNumber.ContactId);
+                Assert.AreEqual(phoneNumber.PhoneNumberId, firstPhoneNumber.Id);
                 Assert.AreEqual(phoneNumber.Number, firstPhoneNumber.Number);
                 Assert.AreEqual(contact.ContactId, firstPhoneNumber.ContactId);
                 Assert.IsNull(firstPhoneNumber.PersonId);
             };
 
-            var serviceResults = service.GetContactById(contact.ContactId);
-            var serviceResultsAsync = await service.GetContactByIdAsync(contact.ContactId);
+            var serviceResults = service.GetContactDTOById(contact.ContactId);
+            var serviceResultsAsync = await service.GetContactDTOByIdAsync(contact.ContactId);
             tester(serviceResults);
             tester(serviceResultsAsync);
         }
@@ -185,14 +185,14 @@ namespace ECA.Business.Test.Service.Persons
                 Assert.AreEqual(emailAddressType.EmailAddressTypeName, firstEmail.EmailAddressType);
                 Assert.AreEqual(contact.ContactId, firstEmail.ContactId);
                 Assert.IsNull(firstEmail.PersonId);
-                Assert.AreEqual(email.EmailAddressId, firstEmail.ContactId);
+                Assert.AreEqual(email.EmailAddressId, firstEmail.Id);
                 Assert.IsTrue(firstEmail.IsPrimary.Value);
 
                 Assert.AreEqual(1, firstResult.PhoneNumbers.Count());
                 var firstPhoneNumber = firstResult.PhoneNumbers.First();
                 Assert.AreEqual(phoneNumberType.PhoneNumberTypeId, firstPhoneNumber.PhoneNumberTypeId);
                 Assert.AreEqual(phoneNumberType.PhoneNumberTypeName, firstPhoneNumber.PhoneNumberType);
-                Assert.AreEqual(phoneNumber.PhoneNumberId, firstPhoneNumber.ContactId);
+                Assert.AreEqual(phoneNumber.PhoneNumberId, firstPhoneNumber.Id);
                 Assert.AreEqual(phoneNumber.Number, firstPhoneNumber.Number);
                 Assert.AreEqual(contact.ContactId, firstPhoneNumber.ContactId);
                 Assert.IsNull(firstPhoneNumber.PersonId);

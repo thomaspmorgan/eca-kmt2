@@ -53,7 +53,7 @@ namespace ECA.WebApi.Test.Controllers.Persons
             model.Position = "position";
 
             var response = await controller.PostCreateContactAsync(model);
-            Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<Contact>));
+            Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<ContactDTO>));
             userProvider.Verify(x => x.GetCurrentUser(), Times.Once());
             userProvider.Verify(x => x.GetBusinessUser(It.IsAny<IWebApiUser>()), Times.Once());
             serviceMock.Verify(x => x.CreateAsync(It.IsAny<AdditionalPointOfContact>()), Times.Once());
