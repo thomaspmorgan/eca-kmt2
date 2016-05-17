@@ -208,7 +208,6 @@ namespace ECA.Business.Service.Persons
             var latestCommStatus = CreateGetLatestParticipantPersonSevisCommStatusQuery(person.ParticipantId).FirstOrDefault();
             if (!result.IsValid)
             {
-
                 if (!String.IsNullOrWhiteSpace(person.SevisId))
                 {
                     var isParticipantReadyToValidate = this.participantPersonSevisService.IsParticipantReadyToValidate(person.ParticipantId);
