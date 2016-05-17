@@ -285,11 +285,12 @@ namespace ECA.Business.Validation.Sevis
                 };
             };
             PersonChangeDetail personChangeDetail = this.Person.GetChangeDetail(previouslySubmittedExchangeVisitor.Person);
+            FullNameChangeDetail fullNameChangeDetail = this.Person.FullName.GetChangeDetail(previouslySubmittedExchangeVisitor.Person.FullName);
             SubjectFieldChangeDetail subjectFieldChangeDetail = this.Person.SubjectField.GetChangeDetail(previouslySubmittedExchangeVisitor.Person.SubjectField);
             FinancialInfoChangeDetail financialInfoChangeDetail = this.FinancialInfo.GetChangeDetail(previouslySubmittedExchangeVisitor.FinancialInfo);
             ExchangeVisitorChangeDetail exchangeVisitorChangeDetail = this.GetChangeDetail(previouslySubmittedExchangeVisitor);
 
-            if (personChangeDetail.HasChanges())
+            if (personChangeDetail.HasChanges() || fullNameChangeDetail.HasChanges())
             {
                 visitors.Add(createUpdateExchangeVisitor(this.Person.GetSEVISEVBatchTypeExchangeVisitorBiographical(), new RequestId(this.Person.ParticipantId, RequestIdType.Participant, RequestActionType.Update)));
             }
@@ -302,7 +303,7 @@ namespace ECA.Business.Validation.Sevis
             if (financialInfoChangeDetail.HasChanges())
             {
                 visitors.Add(createUpdateExchangeVisitor(this.FinancialInfo.GetSEVISEVBatchTypeExchangeVisitorFinancialInfo(), new RequestId(this.Person.ParticipantId, RequestIdType.FinancialInfo, RequestActionType.Update)));
-            }            
+            }
             foreach (var dependent in this.Dependents)
             {
                 var previousDependent = previouslySubmittedExchangeVisitor.Dependents.Where(x => x.PersonId == dependent.PersonId).FirstOrDefault();
