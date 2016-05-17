@@ -863,7 +863,7 @@ namespace ECA.Business.Service.Sevis
                     foreach (var record in groupedDetailProcessBatch.Records)
                     {
                         var requestId = record.GetRequestId();
-                        Contract.Assert(requestId.IsPersonDependentId, "The request id should be for a dendent.");
+                        Contract.Assert(requestId.IsPersonDependentId, "The request id should be for a dependent.");
                         var dependentToUpdate = dependents.Where(x => x.DependentId == requestId.Id).FirstOrDefault();
                         DoUpdateDependent(dependentToUpdate, update, record.sevisID, createUpdateEVBatch.ContainsDeletedParticipantDependent(record.sevisID));
                     }

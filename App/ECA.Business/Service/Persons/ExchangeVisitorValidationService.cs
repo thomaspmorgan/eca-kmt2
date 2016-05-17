@@ -187,8 +187,7 @@ namespace ECA.Business.Service.Persons
             else
             {
                 var hasParticipantNeededValidationInfo = await CreateGetParticipantPersonSevisCommStatusBySevisCommStatusIdQuery(person.ParticipantId, SevisCommStatus.NeedsValidationInfo.Id).CountAsync() > 0;
-                var hasParticipantBeenValidated = await CreateGetParticipantPersonSevisCommStatusBySevisCommStatusIdQuery(person.ParticipantId, SevisCommStatus.ValidatedByBatch.Id).CountAsync() > 0
-                    || await CreateGetParticipantPersonSevisCommStatusBySevisCommStatusIdQuery(person.ParticipantId, SevisCommStatus.ValidatedViaRti.Id).CountAsync() > 0;
+                var hasParticipantBeenValidated = await CreateGetParticipantPersonSevisCommStatusBySevisCommStatusIdQuery(person.ParticipantId, new int[] { SevisCommStatus.ValidatedByBatch.Id, SevisCommStatus.ValidatedViaRti.Id }).CountAsync() > 0;
                 var isParticipantReadyToValidate = await this.participantPersonSevisService.IsParticipantReadyToValidateAsync(person.ParticipantId);
                 if ((hasParticipantNeededValidationInfo && !hasParticipantBeenValidated) || isParticipantReadyToValidate)
                 {
@@ -209,7 +208,6 @@ namespace ECA.Business.Service.Persons
             var latestCommStatus = CreateGetLatestParticipantPersonSevisCommStatusQuery(person.ParticipantId).FirstOrDefault();
             if (!result.IsValid)
             {
-
                 if (!String.IsNullOrWhiteSpace(person.SevisId))
                 {
                     var isParticipantReadyToValidate = this.participantPersonSevisService.IsParticipantReadyToValidate(person.ParticipantId);
@@ -230,8 +228,7 @@ namespace ECA.Business.Service.Persons
             else
             {
                 var hasParticipantNeededValidationInfo = CreateGetParticipantPersonSevisCommStatusBySevisCommStatusIdQuery(person.ParticipantId, SevisCommStatus.NeedsValidationInfo.Id).Count() > 0;
-                var hasParticipantBeenValidated = CreateGetParticipantPersonSevisCommStatusBySevisCommStatusIdQuery(person.ParticipantId, SevisCommStatus.ValidatedByBatch.Id).Count() > 0 
-                    || CreateGetParticipantPersonSevisCommStatusBySevisCommStatusIdQuery(person.ParticipantId, SevisCommStatus.ValidatedViaRti.Id).Count() > 0;
+                var hasParticipantBeenValidated = CreateGetParticipantPersonSevisCommStatusBySevisCommStatusIdQuery(person.ParticipantId, new int[] { SevisCommStatus.ValidatedByBatch.Id, SevisCommStatus.ValidatedViaRti.Id }).Count() > 0;
                 var isParticipantReadyToValidate = this.participantPersonSevisService.IsParticipantReadyToValidate(person.ParticipantId);
                 if ((hasParticipantNeededValidationInfo && !hasParticipantBeenValidated) || isParticipantReadyToValidate)
                 {
@@ -303,12 +300,12 @@ namespace ECA.Business.Service.Persons
 
         private IQueryable<ParticipantPersonSevisCommStatus> CreateGetParticipantPersonSevisCommStatusBySevisCommStatusIdQuery(int participantId, int sevisCommStatusId)
         {
-            return CreateGetParticipantPersonSevisCommStatusBySevisCommStatusIdQuery(participantId, new List<int> { sevisCommStatusId });
+            return CreateGetParticipantPersonSevisCommStatusBySevisCommStatusIdQuery(participantId, new int[] { sevisCommStatusId });
         }
 
         private IQueryable<ParticipantPersonSevisCommStatus> CreateGetParticipantPersonSevisCommStatusBySevisCommStatusIdQuery(int participantId, IEnumerable<int> sevisCommStatusIds)
         {
-            return Context.ParticipantPersonSevisCommStatuses.Where(x => x.ParticipantId == participantId && sevisCommStatusIds.Contains(x.SevisCommStatusId));
+            return Context.ParticipantPersonSevisCommStatuses.Where(x => x.ParticipantId == participantId && sevisCommStatusIds.ToList().Contains(x.SevisCommStatusId));
         }
 
         /// <summary>
