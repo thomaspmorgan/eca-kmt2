@@ -15,6 +15,7 @@ angular.module('staticApp')
         $log,
         filterFilter,
         ContactsService,
+        orderByFilter,
         LookupService,
         NotificationService,
         ConstantsService,
@@ -50,9 +51,7 @@ angular.module('staticApp')
                     $scope.poc.showEditPoc = false;
                     var index = $scope.model.selectedPointsOfContact.map(function (e) { return e.isNew }).indexOf($scope.poc.isNew);
                     $scope.model.selectedPointsOfContact[index] = response.data;
-                    $scope.model.selectedPointsOfContact = $scope.model.selectedPointsOfContact.sort(function (a, b) {
-                        return a.fullName == b.fullName ? 0 : +(a.fullName > b.fullName) || -1;
-                    });
+                    $scope.model.selectedPointsOfContact = orderByFilter($scope.model.selectedPointsOfContact, '+fullName');
                     $scope.poc.isNew = false;
                     return response.data;
                 })
@@ -72,9 +71,7 @@ angular.module('staticApp')
                       $scope.poc.showEditPoc = false;
                       var index = $scope.model.selectedPointsOfContact.map(function (e) { return e.id }).indexOf($scope.poc.id);
                       $scope.model.selectedPointsOfContact[index] = response.data;
-                      $scope.model.selectedPointsOfContact = $scope.model.selectedPointsOfContact.sort(function (a, b) {
-                          return a.fullName == b.fullName ? 0 : +(a.fullName > b.fullName) || -1;
-                      });
+                      $scope.model.selectedPointsOfContact = orderByFilter($scope.model.selectedPointsOfContact, '+fullName');
                     return response.data;
                   })
                   .catch(function (response) {
@@ -114,9 +111,7 @@ angular.module('staticApp')
           if (index !== -1) {
               var removedItems = pocs.splice(index, 1);
               pocs.push($scope.poc);
-              $scope.model.selectedPointsOfContact = pocs.sort(function (a, b) {
-                  return a.fullName == b.fullName ? 0 : +(a.fullName > b.fullName) || -1;
-              });
+              $scope.model.selectedPointsOfContact = orderByFilter(pocs, '+fullName');
           }
       }
 

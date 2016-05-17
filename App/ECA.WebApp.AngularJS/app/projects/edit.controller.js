@@ -22,6 +22,7 @@ angular.module('staticApp')
         ProjectService,
         ProgramService,
         TableService,
+        orderByFilter,
         LocationService,
         NavigationService,
         LookupService,
@@ -80,8 +81,7 @@ angular.module('staticApp')
       $scope.editView.locationUiSelectId = 'selectLocations';
       $scope.editView.isLoadingOfficeSetting = false;
       $scope.editView.dataPointConfigurations = {};
-
-
+      
       $scope.editView.validateMinimumObjectives = function ($value) {
           if (!$scope.editView.isObjectivesRequired) {
               return true;
@@ -542,9 +542,7 @@ angular.module('staticApp')
           console.assert(Array.isArray($scope.editView[editViewSelectedPropertyName]), "The edit view " + editViewSelectedPropertyName + " property must be an array.");
 
           if (projectPropertyName === 'contacts') {
-              var projectItems = $scope.$parent.project[projectPropertyName].sort(function (a, b) {
-                  return a.fullName == b.fullName ? 0 : +(a.fullName > b.fullName) || -1;
-              });
+              var projectItems = orderByFilter($scope.$parent.project[projectPropertyName],'+fullName');
           } else {
               var projectItems = $scope.$parent.project[projectPropertyName];
           }          
