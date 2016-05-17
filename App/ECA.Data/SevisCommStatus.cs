@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ECA.Core.Generation;
 
 namespace ECA.Data
 {
@@ -19,6 +20,19 @@ namespace ECA.Data
         {
             this.History = new History();
         }
+
+        /// <summary>
+        /// The list of DOS SEVIS COMM STATUSES
+        /// </summary>
+        public static readonly List<StaticLookup> DOS_SEVIS_COMM_STATUSES = new List<StaticLookup>
+            {
+                SevisCommStatus.Cancelled,
+                SevisCommStatus.Ds2019Printed,
+                SevisCommStatus.Ds2019SentToTraveler,
+                SevisCommStatus.SentToDhsViaRti,
+                SevisCommStatus.ValidatedViaRti
+            }.OrderBy(x => x.Value).ToList();
+
         /// <summary>
         /// the max length of the status name
         /// </summary>

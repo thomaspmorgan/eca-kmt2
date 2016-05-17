@@ -164,9 +164,9 @@ namespace ECA.Business.Service.Persons
         private async Task<ParticipantPersonSevisCommStatus> HandleValidationResultAsync(ParticipantPerson person, ValidationResult result)
         {
             person.SevisValidationResult = GetSevisValidationResultAsJson(result);
+            var latestCommStatus = await CreateGetLatestParticipantPersonSevisCommStatusQuery(person.ParticipantId).FirstOrDefaultAsync();
             if (!result.IsValid)
             {
-                var latestCommStatus = await CreateGetLatestParticipantPersonSevisCommStatusQuery(person.ParticipantId).FirstOrDefaultAsync();
                 if (!String.IsNullOrWhiteSpace(person.SevisId))
                 {
                     var isParticipantReadyToValidate = await this.participantPersonSevisService.IsParticipantReadyToValidateAsync(person.ParticipantId);
@@ -187,15 +187,18 @@ namespace ECA.Business.Service.Persons
             else
             {
                 var hasParticipantNeededValidationInfo = await CreateGetParticipantPersonSevisCommStatusBySevisCommStatusIdQuery(person.ParticipantId, SevisCommStatus.NeedsValidationInfo.Id).CountAsync() > 0;
-                var hasParticipantBeenValidated = await CreateGetParticipantPersonSevisCommStatusBySevisCommStatusIdQuery(person.ParticipantId, SevisCommStatus.ValidatedByBatch.Id).CountAsync() > 0;
+                var hasParticipantBeenValidated = await CreateGetParticipantPersonSevisCommStatusBySevisCommStatusIdQuery(person.ParticipantId, SevisCommStatus.ValidatedByBatch.Id).CountAsync() > 0
+                    || await CreateGetParticipantPersonSevisCommStatusBySevisCommStatusIdQuery(person.ParticipantId, SevisCommStatus.ValidatedViaRti.Id).CountAsync() > 0;
                 var isParticipantReadyToValidate = await this.participantPersonSevisService.IsParticipantReadyToValidateAsync(person.ParticipantId);
                 if ((hasParticipantNeededValidationInfo && !hasParticipantBeenValidated) || isParticipantReadyToValidate)
                 {
                     return AddParticipantPersonSevisCommStatus(person.ParticipantId, SevisCommStatus.ReadyToValidate.Id);
                 }
-                else
                 {
-                    return AddParticipantPersonSevisCommStatus(person.ParticipantId, SevisCommStatus.ReadyToSubmit.Id);
+                    if ((latestCommStatus != null) && (SevisCommStatus.DOS_SEVIS_COMM_STATUSES.Select(x => x.Id).Contains(latestCommStatus.SevisCommStatusId)))
+                        return latestCommStatus;
+                    else
+                        return AddParticipantPersonSevisCommStatus(person.ParticipantId, SevisCommStatus.ReadyToSubmit.Id);
                 }
             }
         }
@@ -203,9 +206,10 @@ namespace ECA.Business.Service.Persons
         private ParticipantPersonSevisCommStatus HandleValidationResult(ParticipantPerson person, ValidationResult result)
         {
             person.SevisValidationResult = GetSevisValidationResultAsJson(result);
+            var latestCommStatus = CreateGetLatestParticipantPersonSevisCommStatusQuery(person.ParticipantId).FirstOrDefault();
             if (!result.IsValid)
             {
-                var latestCommStatus = CreateGetLatestParticipantPersonSevisCommStatusQuery(person.ParticipantId).FirstOrDefault();
+
                 if (!String.IsNullOrWhiteSpace(person.SevisId))
                 {
                     var isParticipantReadyToValidate = this.participantPersonSevisService.IsParticipantReadyToValidate(person.ParticipantId);
@@ -226,16 +230,17 @@ namespace ECA.Business.Service.Persons
             else
             {
                 var hasParticipantNeededValidationInfo = CreateGetParticipantPersonSevisCommStatusBySevisCommStatusIdQuery(person.ParticipantId, SevisCommStatus.NeedsValidationInfo.Id).Count() > 0;
-                var hasParticipantBeenValidated = CreateGetParticipantPersonSevisCommStatusBySevisCommStatusIdQuery(person.ParticipantId, SevisCommStatus.ValidatedByBatch.Id).Count() > 0;
+                var hasParticipantBeenValidated = CreateGetParticipantPersonSevisCommStatusBySevisCommStatusIdQuery(person.ParticipantId, SevisCommStatus.ValidatedByBatch.Id).Count() > 0 
+                    || CreateGetParticipantPersonSevisCommStatusBySevisCommStatusIdQuery(person.ParticipantId, SevisCommStatus.ValidatedViaRti.Id).Count() > 0;
                 var isParticipantReadyToValidate = this.participantPersonSevisService.IsParticipantReadyToValidate(person.ParticipantId);
                 if ((hasParticipantNeededValidationInfo && !hasParticipantBeenValidated) || isParticipantReadyToValidate)
                 {
                     return AddParticipantPersonSevisCommStatus(person.ParticipantId, SevisCommStatus.ReadyToValidate.Id);
                 }
+                if ((latestCommStatus != null) && (SevisCommStatus.DOS_SEVIS_COMM_STATUSES.Select(x => x.Id).Contains(latestCommStatus.SevisCommStatusId)))
+                    return latestCommStatus;
                 else
-                {
                     return AddParticipantPersonSevisCommStatus(person.ParticipantId, SevisCommStatus.ReadyToSubmit.Id);
-                }
             }
         }
 
