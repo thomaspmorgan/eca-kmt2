@@ -53,7 +53,7 @@ namespace ECA.WebApi.Test.Controllers.Persons
             model.Position = "position";
 
             var response = await controller.PostCreateContactAsync(model);
-            Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<ContactDTO>));
+            Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<Contact>));
             userProvider.Verify(x => x.GetCurrentUser(), Times.Once());
             userProvider.Verify(x => x.GetBusinessUser(It.IsAny<IWebApiUser>()), Times.Once());
             serviceMock.Verify(x => x.CreateAsync(It.IsAny<AdditionalPointOfContact>()), Times.Once());
@@ -76,6 +76,7 @@ namespace ECA.WebApi.Test.Controllers.Persons
         #endregion
 
         #region Get
+
         [TestMethod]
         public async Task TestGetContactsAsync()
         {
@@ -90,6 +91,7 @@ namespace ECA.WebApi.Test.Controllers.Persons
             var response = await controller.GetContactsAsync(new PagingQueryBindingModel<ContactDTO>());
             Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
         }
+
         #endregion
         
     }

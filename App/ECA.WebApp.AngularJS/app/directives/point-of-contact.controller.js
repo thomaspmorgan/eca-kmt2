@@ -49,7 +49,12 @@ angular.module('staticApp')
                     $scope.view.collapsePocs = true;
                     $scope.view.collapsePoc = true;
                     $scope.view.showEditPoc = false;
-                    $scope.model.splice(0, 0, response.data);
+                    var index = $scope.model.selectedPointsOfContact.map(function (e) { return e.isNew }).indexOf($scope.poc.isNew);
+                    $scope.model.selectedPointsOfContact[index] = response.data;
+                    $scope.model.selectedPointsOfContact = $scope.model.selectedPointsOfContact.sort(function (a, b) {
+                        return a.fullName == b.fullName ? 0 : +(a.fullName > b.fullName) || -1;
+                    });
+                    $scope.poc.isNew = false;
                     return response.data;
                 })
                 .catch(function (response) {
@@ -66,8 +71,11 @@ angular.module('staticApp')
                       $scope.view.collapsePocs = true;
                       $scope.view.collapsePoc = true;
                       $scope.view.showEditPoc = false;
-                      var index = $scope.model.map(function (e) { return e.id }).indexOf($scope.poc.id);
-                      $scope.model[index] = response.data;
+                      var index = $scope.model.selectedPointsOfContact.map(function (e) { return e.id }).indexOf($scope.poc.id);
+                      $scope.model.selectedPointsOfContact[index] = response.data;
+                      $scope.model.selectedPointsOfContact = $scope.model.selectedPointsOfContact.sort(function (a, b) {
+                          return a.fullName == b.fullName ? 0 : +(a.fullName > b.fullName) || -1;
+                      });
                     return response.data;
                   })
                   .catch(function (response) {
@@ -102,12 +110,14 @@ angular.module('staticApp')
           $scope.poc.isNew = false;
           $scope.view.showEditPoc = true;
           $scope.view.collapsePoc = false;
-          var pocs = $scope.model;
+          var pocs = $scope.model.selectedPointsOfContact;
           var index = pocs.map(function (e) { return e.isNew }).indexOf(true);
           if (index !== -1) {
               var removedItems = pocs.splice(index, 1);
               pocs.push($scope.poc);
-              $scope.model = pocs;
+              $scope.model.selectedPointsOfContact = pocs.sort(function (a, b) {
+                  return a.fullName == b.fullName ? 0 : +(a.fullName > b.fullName) || -1;
+              });
           }
       }
 
@@ -149,11 +159,8 @@ angular.module('staticApp')
           if (isNewPoc($scope.poc)) {
               removePointsOfContactFromView($scope.poc);
           }
-          //else {
-          //    $scope.poc = angular.copy(originalPointOfContact);
-          //}
-          var index = $scope.model.map(function (e) { return e.id }).indexOf($scope.poc.id);
-          $scope.model[index] = poc;
+          var index = $scope.model.selectedPointsOfContact.map(function (e) { return e.id }).indexOf($scope.poc.id);
+          $scope.model.selectedPointsOfContact[index] = poc;
       };
 
       function getPocFormDivIdPrefix() {

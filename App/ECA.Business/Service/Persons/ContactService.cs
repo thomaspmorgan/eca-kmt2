@@ -1,5 +1,4 @@
-﻿using ECA.Business.Queries.Models.Persons;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using ECA.Business.Queries.Persons;
 using ECA.Business.Validation;
 using ECA.Core.DynamicLinq;
@@ -9,13 +8,11 @@ using ECA.Data;
 using NLog;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using ECA.Business.Queries.Models.Admin;
 using ECA.Core.Exceptions;
+using ECA.Business.Queries.Models.Persons;
 
 namespace ECA.Business.Service.Persons
 {
@@ -44,7 +41,7 @@ namespace ECA.Business.Service.Persons
         }
 
         #region Get
-        
+
         /// <summary>
         /// Returns the sorted, filtered, and paged contact DTOs in the eca system.
         /// </summary>
@@ -72,7 +69,7 @@ namespace ECA.Business.Service.Persons
 
             return contacts;
         }
-        
+
         /// <summary>
         /// Returns the contact with the given id.
         /// </summary>
@@ -82,7 +79,7 @@ namespace ECA.Business.Service.Persons
         {
             return CreateGetContactByIdQuery(contactId).FirstOrDefault();
         }
-        
+
         /// <summary>
         /// Returns the contact with the given id.
         /// </summary>
@@ -117,7 +114,7 @@ namespace ECA.Business.Service.Persons
         {
             return CreateGetContactDTOByIdQuery(contactId).FirstOrDefaultAsync();
         }
-        
+
         private IQueryable<ContactDTO> CreateGetContactDTOByIdQuery(int contactId)
         {
             return ContactQueries.CreateContactQuery(this.Context).Where(c => c.Id == contactId);
@@ -196,15 +193,18 @@ namespace ECA.Business.Service.Persons
             this.Context.Contacts.Add(contact);
             return contact;
         }
+        #endregion
+
+        #region update
 
         /// <summary>
         /// Updates a point of the contact in the datastore.
         /// </summary>
         /// <param name="updatedPointOfContact"></param>
         /// <returns></returns>
-        public async Task<ContactDTO> UpdateContactAsync(UpdatedPointOfContact updatedPointOfContact)
+        public async Task<Contact> UpdateContactAsync(UpdatedPointOfContact updatedPointOfContact)
         {
-            var contactToUpdate = await GetContactByIdAsync(updatedPointOfContact.Id);
+            var contactToUpdate = await Context.Contacts.FindAsync(updatedPointOfContact.Id);
             var emails = await Context.EmailAddresses.Where(x => x.ContactId == updatedPointOfContact.Id).ToListAsync();
             var phones = await Context.PhoneNumbers.Where(x => x.ContactId == updatedPointOfContact.Id).ToListAsync();
 
@@ -213,15 +213,16 @@ namespace ECA.Business.Service.Persons
             return contactToUpdate;
         }
 
-        public void DoPointOfContactUpdate(UpdatedPointOfContact updatedPointOfContact, ContactDTO contactToUpdate, 
+        public void DoPointOfContactUpdate(UpdatedPointOfContact updatedPointOfContact, Contact contactToUpdate,
             List<EmailAddress> emails, List<PhoneNumber> phones)
         {
             contactToUpdate.FullName = updatedPointOfContact.FullName;
             contactToUpdate.Position = updatedPointOfContact.Position;
-            contactToUpdate.EmailAddresses = emails.Select(x => new EmailAddressDTO { Id = x.EmailAddressId, Address = x.Address, ContactId = x.ContactId, EmailAddressTypeId = x.EmailAddressTypeId, IsPrimary = x.IsPrimary });
-            contactToUpdate.PhoneNumbers = phones.Select(x => new PhoneNumberDTO { Id = x.PhoneNumberId, Number = x.Number, ContactId = x.ContactId, IsPrimary = x.IsPrimary, PhoneNumberTypeId = x.PhoneNumberTypeId });
+            contactToUpdate.EmailAddresses = emails;
+            contactToUpdate.PhoneNumbers = phones;
+            updatedPointOfContact.Audit.SetHistory(contactToUpdate);
         }
-        
+
         private AdditionalPointOfContactValidationEntity GetAdditionalPointOfContactValidationEntity(AdditionalPointOfContact pointOfContact)
         {
             var numberOfPrimaryEmailAddresses = pointOfContact.EmailAddresses.Where(x => x.IsPrimary).Count();
@@ -232,6 +233,7 @@ namespace ECA.Business.Service.Persons
                 numberOfPrimaryEmailAddresses: numberOfPrimaryEmailAddresses,
                 numberOfPrimaryPhoneNumbers: numberOfPrimaryPhoneNumbers);
         }
+
         #endregion
 
         #region delete

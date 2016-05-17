@@ -81,6 +81,7 @@ angular.module('staticApp')
       $scope.editView.isLoadingOfficeSetting = false;
       $scope.editView.dataPointConfigurations = {};
 
+
       $scope.editView.validateMinimumObjectives = function ($value) {
           if (!$scope.editView.isObjectivesRequired) {
               return true;

@@ -61,7 +61,7 @@ namespace ECA.WebApi.Controllers.Persons
         /// </summary>
         /// <param name="queryModel">The paging, filtering, and sorting model.</param>
         /// <returns>The list of contacts.</returns>
-        [ResponseType(typeof(PagedQueryResults<ContactDTO>))]
+        [ResponseType(typeof(PagedQueryResults<Contact>))]
         public async Task<IHttpActionResult> GetContactsAsync([FromUri]PagingQueryBindingModel<ContactDTO> queryModel)
         {
             if (ModelState.IsValid)
@@ -103,17 +103,16 @@ namespace ECA.WebApi.Controllers.Persons
         /// </summary>
         /// <param name="model">The updated contact</param>
         /// <returns></returns>
-        [ResponseType(typeof(ContactDTO))]
+        [ResponseType(typeof(Contact))]
         public async Task<IHttpActionResult> PutContactAsync(UpdatedPointOfContactBindingModel model)
         {
             if (ModelState.IsValid)
             {
                 var currentUser = userProvider.GetCurrentUser();
                 var businessUser = userProvider.GetBusinessUser(currentUser);
-                var instance = model.ToUpdatePointOfContact(businessUser);
-                var contact = await service.UpdateContactAsync(instance);
+                var contact = await service.UpdateContactAsync(model.ToUpdatePointOfContact(businessUser));
                 await service.SaveChangesAsync();
-                var dto = await service.GetContactByIdAsync(contact.Id);
+                var dto = await service.GetContactByIdAsync(contact.ContactId);
                 return Ok(dto);
             }
             else

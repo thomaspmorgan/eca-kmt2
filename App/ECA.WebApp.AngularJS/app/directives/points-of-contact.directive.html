@@ -4,13 +4,13 @@
             <i class="material-icons md-dark md-24 pull-right" ng-show="view.collapsePocs">expand_less</i>
             <i class="material-icons md-dark md-24 pull-right" ng-show="!view.collapsePocs">expand_more</i>
         </a>
-        <a ng-click="view.onAddPointOfContactClick(model)">
+        <a ng-click="view.onAddPointOfContactClick(model.selectedPointsOfContact)">
             <i class="material-icons md-24 md-dark pull-right">add</i>
         </a>
-        <div class="pull-right" style="margin-top: 3px;">({{model.length}})</div>
+        <div class="pull-right" style="margin-top: 3px;">({{model.selectedPointsOfContact.length}})</div>
     </div>
     <div class="col-md-12" collapse="view.collapsePocs">
-        <div ng-repeat="poc in model | orderBy : 'value' track by poc.id">
+        <div ng-repeat="poc in model.selectedPointsOfContact track by poc.id">
             <div ng-controller="PointOfContactCtrl" class="expandIndent">
                 <div class="spinner" ng-show="view.isSavingChanges">
                     <div class="bounce1"></div>
@@ -22,7 +22,7 @@
                     <i class="material-icons md-dark md-24 pull-right" ng-show="!view.collapsePoc">expand_more</i>
                 </a>
                 <div class="row" ng-show="!view.isSavingChanges">
-                    <div ng-class="{true: '', false: 'row2'}[editMode]" ng-show="!poc.showEditPoc">
+                    <div ng-class="{true: '', false: 'row2'}[editMode]">
                         {{poc.fullName}} {{poc.position.length ? '(' + poc.position + ')' : '' }}
                         <div class="pull-right" ng-show="editMode">
                             <a ng-show="!view.isDeletingPoc" ng-click="view.showConfirmDelete = true">

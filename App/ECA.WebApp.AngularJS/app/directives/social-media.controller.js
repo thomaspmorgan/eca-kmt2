@@ -66,8 +66,8 @@ angular.module('staticApp')
           else {
               $scope.socialMedia = angular.copy(originalSocialMedia);
           }
-          $scope.form.socialMediaForm.$setPristine();
-          $scope.form.socialMediaForm.$setUntouched();
+          //$scope.form.socialMediaForm.$setPristine();
+          //$scope.form.socialMediaForm.$setUntouched();
       };
 
       $scope.view.onDeleteSocialMediaClick = function () {

@@ -6,10 +6,10 @@
 <div ng-show="!editView.isLoading && !editView.isSaving && !editView.isLoadingOfficeSetting" in-context-form>
     <div>
         <div class="pull-right">
-            <button ng-click="editView.onSaveClick($event)" class="btn btn-success">Save</button>
+            <button ng-click="editView.onSaveClick($event)" ng-disabled="form.projectForm.$invalid" class="btn btn-success">Save</button>
             <button ng-click="editView.onCancelClick($event)" class="btn btn-cancel">Cancel</button>
         </div>
-        <h2 class="project-color tab-header" ng-show="!editView.isLoading && !editView.isSaving">Overview</h2>
+        <!--<h2 class="project-color tab-header" ng-show="!editView.isLoading && !editView.isSaving">Overview</h2>-->
     </div>
     <form name="form.projectForm" class="form-horizontal">
         <div class="form-group">
@@ -398,7 +398,7 @@
                 <div class="form-group row">
                     <div class="col-md-3 title-label"><ng-pluralize count="project.contacts.length" when="{'1':'Point','other':'Points'}"></ng-pluralize> of Contact</div>
                     <div class="col-md-9">                        
-                        <pointsofcontact model="editView.selectedPointsOfContact" modelid="$stateParams.projectId" modeltype="'project'" editmode="true" />                        
+                        <pointsofcontact model="editView" editmode="true" />
                     </div>
                 </div>
                 <div class="form-group row" ng-show="project.locations && editView.dataPointConfigurations[constants.dataPointProperty.locations.id]">

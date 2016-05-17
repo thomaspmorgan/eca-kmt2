@@ -43,6 +43,7 @@ angular.module('staticApp')
           };
           entityEmailAddresses.splice(0, 0, newEmailAddress);
           $scope.view.collapseEmailAddresses = false;
+          $scope.view.showEditEmailAddress = true;
       };
 
       $scope.$on(ConstantsService.removeNewEmailAddressEventName, function (event, newEmailAddress) {

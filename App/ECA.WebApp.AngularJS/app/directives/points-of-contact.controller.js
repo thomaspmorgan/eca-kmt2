@@ -33,30 +33,30 @@ angular.module('staticApp')
       $scope.view.maxPhoneNumbers = 10;
       $scope.view.likePointsOfContactByFullNameTotal = 0;
       $scope.view.showConfirmDelete = false;
-      
+            
       $scope.view.onAddPointOfContactClick = function (pointsOfContact) {
           console.assert(pointsOfContact, 'The entity points of contact is not defined.');
           console.assert(pointsOfContact instanceof Array, 'The entity points of contact is defined but must be an array.');
           var newPointOfContact = {
               id: --tempId,
               isNew: true,
+              showEditPoc: true,
               emailAddresses: [],
               phoneNumbers: []
           };
           pointsOfContact.splice(0, 0, newPointOfContact);
           $scope.view.collapsePocs = false;
-          $scope.view.collapsePoc = false;
       }
       
       $scope.$on(ConstantsService.removePointsOfContactEventName, function (event, poc) {
-          console.assert($scope.$parent.$parent.editView, 'The scope must exist.  It should be set by the directive.');
-          console.assert($scope.$parent.$parent.editView.selectedPointsOfContact instanceof Array, 'The entity pocs is defined but must be an array.');
+          console.assert($scope.model, 'The scope must exist.  It should be set by the directive.');
+          console.assert($scope.model.selectedPointsOfContact instanceof Array, 'The entity pocs is defined but must be an array.');
 
-          var pocs = $scope.$parent.$parent.editView.selectedPointsOfContact;
+          var pocs = $scope.model.selectedPointsOfContact;
           var index = pocs.map(function (e) { return e.id }).indexOf(poc.id);
           if (index !== -1) {
               var removedItems = pocs.splice(index, 1);
-              $scope.$parent.$parent.editView.selectedPointsOfContact = pocs;
+              $scope.model.selectedPointsOfContact = pocs;
               $log.info('Removed poc at index ' + index);
           }
       });
