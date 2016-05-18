@@ -181,6 +181,7 @@ namespace ECA.Business.Service.Persons
                 var newPhoneNumber = new PhoneNumber
                 {
                     Number = phoneNumber.Number.Trim(),
+                    Extension = phoneNumber.Extension.Trim(),
                     PhoneNumberTypeId = phoneNumber.PhoneNumberTypeId,
                     IsPrimary = phoneNumber.IsPrimary
                 };

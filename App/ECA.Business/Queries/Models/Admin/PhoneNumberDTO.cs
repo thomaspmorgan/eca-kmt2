@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace ECA.Business.Queries.Models.Admin
 {
     /// <summary>
@@ -30,6 +25,11 @@ namespace ECA.Business.Queries.Models.Admin
         /// Gets or sets the social media value.
         /// </summary>
         public string Number { get; set; }
+
+        /// <summary>
+        /// Gets or sets the phone number extension.
+        /// </summary>
+        public string Extension { get; set; }
 
         /// <summary>
         /// Gets or sets the person id.

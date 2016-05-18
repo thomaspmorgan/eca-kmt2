@@ -38,7 +38,8 @@ angular.module('staticApp')
               phoneNumberTypeId: ConstantsService.phoneNumberType.home.id,
               showEditPhoneNumber: true,
               isNew: true,
-              number: ""
+              number: "",
+              extension: ""
           };
           entityPhoneNumbers.splice(0, 0, newPhoneNumber);
           $scope.view.collapsePhoneNumbers = false;

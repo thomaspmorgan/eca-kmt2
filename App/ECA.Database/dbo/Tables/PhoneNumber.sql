@@ -1,6 +1,7 @@
 ﻿CREATE TABLE [dbo].[PhoneNumber] (
     [PhoneNumberId]     INT            IDENTITY (1, 1) NOT NULL,
     [Number]            NVARCHAR (50) NOT NULL,
+    [Extension] NVARCHAR(10) NULL, 
     [PhoneNumberTypeId] INT            NOT NULL,
     [Contact_ContactId] INT            NULL,
     [Person_PersonId]   INT            NULL,

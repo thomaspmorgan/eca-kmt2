@@ -27,6 +27,7 @@ angular.module('staticApp')
         NavigationService,
         LookupService,
         ConstantsService,
+        MessageBox,
         AuthService,
         OfficeService,
         FilterService,
@@ -329,19 +330,18 @@ angular.module('staticApp')
 
       function cancelEdit() {
           if ($scope.form.projectForm.$dirty) {
-              var modalInstance = $modal.open({
-                  templateUrl: '/app/projects/unsaved-changes.html',
-                  controller: 'UnsavedChangesCtrl',
-                  windowClass: 'modal-center-small',
-                  backdrop: 'static',
-                  resolve: {},
-                  size: 'lg'
-              });
-              modalInstance.result.then(function () {
-                  $log.info('Cancelling changes...');
-                  goToProjectOverview();
-              }, function () {
-                  $log.info('Dismiss warning dialog and allow save changes...');
+              MessageBox.confirm({
+                  title: 'Unsaved Changes',
+                  message: 'You have changes that have not been saved.  Are you sure you want to cancel?',
+                  okText: 'Yes',
+                  cancelText: 'No',
+                  okCallback: function () {
+                      $log.info('Cancelling changes...');
+                      goToProjectOverview();
+                  },
+                  onCancelClick: function () {
+                      $log.info('Dismiss warning dialog and allow save changes...');
+                  }
               });
           }
           else {

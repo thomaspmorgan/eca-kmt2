@@ -1,11 +1,4 @@
-﻿using ECA.Core.Exceptions;
-using ECA.Data;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics.Contracts;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Diagnostics.Contracts;
 
 namespace ECA.Business.Service.Admin
 {
@@ -22,12 +15,13 @@ namespace ECA.Business.Service.Admin
         /// <param name="number">The value.</param>
         /// <param name="phoneNumberTypeId">The phone number type id</param>
         /// <param name="isPrimary">The is primary flag.</param>
-        public UpdatedPhoneNumber(User updator, int id, string number, int phoneNumberTypeId, bool isPrimary)
+        public UpdatedPhoneNumber(User updator, int id, string number, string extension, int phoneNumberTypeId, bool isPrimary)
         {
             Contract.Requires(updator != null, "The updator must not be null.");
             this.Audit = new Update(updator);
             this.Id = id;
             this.Number = number;
+            this.Extension = extension;
             this.PhoneNumberTypeId = phoneNumberTypeId;
             this.IsPrimary = isPrimary;
         }
@@ -51,6 +45,11 @@ namespace ECA.Business.Service.Admin
         /// Gets the value of the Number
         /// </summary>
         public string Number { get; private set; }
+
+        /// <summary>
+        /// Gets or sets the phone number extension.
+        /// </summary>
+        public string Extension { get; private set; }
 
         /// <summary>
         /// Gets the is primary flag.

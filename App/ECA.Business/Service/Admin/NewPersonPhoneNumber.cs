@@ -1,9 +1,5 @@
 ﻿using ECA.Data;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ECA.Business.Service.Admin
 {
@@ -20,8 +16,8 @@ namespace ECA.Business.Service.Admin
         /// <param name="number">The value.</param>
         /// <param name="personId">The person id.</param>
         /// <param name="isPrimary">The is primary phone number flag.</param>
-        public NewPersonPhoneNumber(User user, int phoneNumberTypeId, string number, int personId, bool isPrimary)
-            :base(user, phoneNumberTypeId, number, isPrimary)
+        public NewPersonPhoneNumber(User user, int phoneNumberTypeId, string number, string extension, int personId, bool isPrimary)
+            :base(user, phoneNumberTypeId, number, extension, isPrimary)
         {
             this.PersonId = personId;
         }

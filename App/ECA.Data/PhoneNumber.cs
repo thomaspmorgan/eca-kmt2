@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ECA.Data
@@ -36,6 +31,11 @@ namespace ECA.Data
         /// </summary>
         [Phone]
         public string Number { get; set; }
+
+        /// <summary>
+        /// Gets or sets the phone number extension.
+        /// </summary>
+        public string Extension { get; set; }
 
         /// <summary>
         /// Gets or sets the phone number type.
