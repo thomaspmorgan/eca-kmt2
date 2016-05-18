@@ -110,9 +110,31 @@ namespace ECA.Business.Service.Persons
             var changedParticipantEntities = from changedEntity in context.ChangeTracker.Entries().Where(x => x.State == state)
                                              let type = changedEntity.Entity.GetType()
                                              let baseType = type.BaseType
+                                             let isParticipantPersonType = type == typeof(ParticipantPerson) || (baseType != typeof(Object) && baseType == typeof(ParticipantPerson))
+                                             let participantEntityTypesContainsType = participantEntityTypes.Contains(type) || (baseType != typeof(Object) && participantEntityTypes.Contains(baseType))
 
-                                             where participantEntityTypes.Contains(type)
-                                             || (baseType != typeof(Object) && participantEntityTypes.Contains(baseType))
+                                             let participantHasImportantPropertiesChanged = state != EntityState.Modified
+                                             || (isParticipantPersonType ?
+                                                (
+                                                    from participantPersonEntity in context.ChangeTracker.Entries<ParticipantPerson>()
+                                                    let ds2019PropertyName = nameof(ParticipantPerson.IsDS2019Printed)
+                                                    let ignoredPropertiesByName = new string[] { ds2019PropertyName }
+
+                                                    let originalValues = participantPersonEntity.OriginalValues
+                                                    let currentValues = participantPersonEntity.CurrentValues
+
+                                                    let hasChanges = originalValues.PropertyNames
+                                                        .Where(x => !ignoredPropertiesByName.Contains(x))
+                                                        .Any(p => !originalValues[p].Equals(currentValues[p]))
+
+                                                    where Object.ReferenceEquals(participantPersonEntity.Entity, changedEntity.Entity)
+                                                    select hasChanges
+                                                    ).FirstOrDefault()
+                                                : false)
+
+
+                                             where (participantEntityTypesContainsType && !isParticipantPersonType)
+                                             || (isParticipantPersonType && participantHasImportantPropertiesChanged)
                                              select changedEntity.Entity;
 
             return changedParticipantEntities.ToList();
@@ -671,7 +693,7 @@ namespace ECA.Business.Service.Persons
 
         private IQueryable<Person> CreateGetPersonByPersonDependentCitizenCountryDependentIdQuery(PersonDependentCitizenCountry personDependentCitizenCountry)
         {
-            return Context.PersonDependentCitizenCountries                
+            return Context.PersonDependentCitizenCountries
                 .Where(x => x.Dependent != null)
                 .Where(x => x.Dependent.Person != null)
                 .Where(x => x.DependentId == personDependentCitizenCountry.DependentId)
@@ -699,8 +721,6 @@ namespace ECA.Business.Service.Persons
             }
             return participantId;
         }
-
-
 
         private async Task<int?> GetParticipantIdAsync(Location location)
         {
@@ -759,7 +779,7 @@ namespace ECA.Business.Service.Persons
             int? participantId = null;
             var personId = personDependent.PersonId;
             var person = Context.People.Find(personId);
-            if(person != null)
+            if (person != null)
             {
                 participantId = GetParticipantId(person);
             }
@@ -796,7 +816,7 @@ namespace ECA.Business.Service.Persons
         private int? GetParticipantId(Address address)
         {
             int? participantId = null;
-            var personId = address.PersonId;            
+            var personId = address.PersonId;
             if (personId.HasValue)
             {
                 var person = Context.People.Find(personId.Value);
@@ -824,7 +844,7 @@ namespace ECA.Business.Service.Persons
             if (dependentId.HasValue)
             {
                 var person = await Context.PersonDependents.FindAsync(dependentId.Value);
-                if(person != null)
+                if (person != null)
                 {
                     participantId = await GetParticipantIdAsync(person);
                 }

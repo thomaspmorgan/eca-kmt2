@@ -89,7 +89,7 @@ namespace ECA.Business.Service.Persons
             var participantPerson = Context.ParticipantPersons.Find(participantId);
             throwIfModelDoesNotExist(participantId, participantPerson, typeof(ParticipantPerson));
 
-            if (ShouldRunValidation(participant))
+            if (ShouldRunValidation(participant, participantPerson))
             {
                 var exchangeVisitor = this.exchangeVisitorService.GetExchangeVisitor(projectId, participantId);
                 ValidationResult validationResult = exchangeVisitor.Validate(this.ExchangeVisitorValidator);
@@ -119,7 +119,7 @@ namespace ECA.Business.Service.Persons
             var participantPerson = await Context.ParticipantPersons.FindAsync(participantId);
             throwIfModelDoesNotExist(participantId, participantPerson, typeof(ParticipantPerson));
 
-            if (ShouldRunValidation(participant))
+            if (ShouldRunValidation(participant, participantPerson))
             {
                 var exchangeVisitor = await this.exchangeVisitorService.GetExchangeVisitorAsync(projectId, participantId);
                 ValidationResult validationResult = exchangeVisitor.Validate(this.ExchangeVisitorValidator);
@@ -141,8 +141,9 @@ namespace ECA.Business.Service.Persons
         /// Returns true if all conditions are met stating sevis validation should run on a participant.
         /// </summary>
         /// <param name="participant">The participant.</param>
+        /// <param name="participantPerson">The participant person.</param>
         /// <returns>True, if sevis exchange visitor validation should run; otherwise, false.</returns>
-        public bool ShouldRunValidation(Participant participant)
+        public bool ShouldRunValidation(Participant participant, ParticipantPerson participantPerson)
         {
             if (participant.ParticipantTypeId != ParticipantType.ForeignTravelingParticipant.Id)
             {
@@ -153,6 +154,10 @@ namespace ECA.Business.Service.Persons
                 return false;
             }
             if (!ParticipantStatus.EXCHANGE_VISITOR_VALIDATION_PARTICIPANT_STATUSES.Select(x => x.Id).Contains(participant.ParticipantStatusId.Value))
+            {
+                return false;
+            }
+            if (participantPerson.IsCancelled || participantPerson.IsSentToSevisViaRTI || participantPerson.IsValidatedViaRTI)
             {
                 return false;
             }
@@ -193,11 +198,9 @@ namespace ECA.Business.Service.Persons
                 {
                     return AddParticipantPersonSevisCommStatus(person.ParticipantId, SevisCommStatus.ReadyToValidate.Id);
                 }
+                else
                 {
-                    if ((latestCommStatus != null) && (SevisCommStatus.DOS_SEVIS_COMM_STATUSES.Select(x => x.Id).Contains(latestCommStatus.SevisCommStatusId)))
-                        return latestCommStatus;
-                    else
-                        return AddParticipantPersonSevisCommStatus(person.ParticipantId, SevisCommStatus.ReadyToSubmit.Id);
+                    return AddParticipantPersonSevisCommStatus(person.ParticipantId, SevisCommStatus.ReadyToSubmit.Id);
                 }
             }
         }
@@ -234,10 +237,10 @@ namespace ECA.Business.Service.Persons
                 {
                     return AddParticipantPersonSevisCommStatus(person.ParticipantId, SevisCommStatus.ReadyToValidate.Id);
                 }
-                if ((latestCommStatus != null) && (SevisCommStatus.DOS_SEVIS_COMM_STATUSES.Select(x => x.Id).Contains(latestCommStatus.SevisCommStatusId)))
-                    return latestCommStatus;
                 else
+                {
                     return AddParticipantPersonSevisCommStatus(person.ParticipantId, SevisCommStatus.ReadyToSubmit.Id);
+                }
             }
         }
 

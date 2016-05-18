@@ -262,9 +262,9 @@ namespace ECA.Business.Test.Service.Persons
             tester(result);
             exchangeVisitorValidator.Verify(x => x.Validate(It.IsAny<ExchangeVisitor>()), Times.Never());
         }
-        
-        
-        
+
+
+
         [TestMethod]
         public async Task TestRunParticipantSevisValidation_ParticipantHasNullSevisId_ParticipantDoesNotHaveAnyStatuses_ValidationFails()
         {
@@ -661,7 +661,7 @@ namespace ECA.Business.Test.Service.Persons
             result = await service.RunParticipantSevisValidationAsync(project.ProjectId, participant.ParticipantId);
             tester(result);
             exchangeVisitorValidator.Verify(x => x.Validate(It.IsAny<ExchangeVisitor>()), Times.Exactly(2));
-        }        
+        }
 
         [TestMethod]
         public async Task TestRunParticipantSevisValidation_ParticipantDoesNotHaveAnyStatuses_ValidationSucceeds()
@@ -1359,6 +1359,9 @@ namespace ECA.Business.Test.Service.Persons
         {
             int? participantStatusId = ParticipantStatus.Active.Id;
             var participantTypeId = ParticipantType.ForeignTravelingParticipant.Id;
+            var isCancelled = false;
+            var sentViaRti = false;
+            var validatedViaRti = false;
             Func<Participant> getParticipant = () =>
             {
                 return new Participant
@@ -1367,10 +1370,19 @@ namespace ECA.Business.Test.Service.Persons
                     ParticipantTypeId = participantTypeId
                 };
             };
+            Func<ParticipantPerson> getParticipantPerson = () =>
+            {
+                return new ParticipantPerson
+                {
+                    IsCancelled = isCancelled,
+                    IsSentToSevisViaRTI = sentViaRti,
+                    IsValidatedViaRTI = validatedViaRti
+                };
+            };
 
-            Assert.IsTrue(service.ShouldRunValidation(getParticipant()));
+            Assert.IsTrue(service.ShouldRunValidation(getParticipant(), getParticipantPerson()));
             participantTypeId = ParticipantType.LanguageOfficer.Id;
-            Assert.IsFalse(service.ShouldRunValidation(getParticipant()));
+            Assert.IsFalse(service.ShouldRunValidation(getParticipant(), getParticipantPerson()));
         }
 
         [TestMethod]
@@ -1378,6 +1390,9 @@ namespace ECA.Business.Test.Service.Persons
         {
             int? participantStatusId = ParticipantStatus.Active.Id;
             var participantTypeId = ParticipantType.ForeignTravelingParticipant.Id;
+            var isCancelled = false;
+            var sentViaRti = false;
+            var validatedViaRti = false;
             Func<Participant> getParticipant = () =>
             {
                 return new Participant
@@ -1386,10 +1401,19 @@ namespace ECA.Business.Test.Service.Persons
                     ParticipantTypeId = participantTypeId
                 };
             };
+            Func<ParticipantPerson> getParticipantPerson = () =>
+            {
+                return new ParticipantPerson
+                {
+                    IsCancelled = isCancelled,
+                    IsSentToSevisViaRTI = sentViaRti,
+                    IsValidatedViaRTI = validatedViaRti
+                };
+            };
 
-            Assert.IsTrue(service.ShouldRunValidation(getParticipant()));
+            Assert.IsTrue(service.ShouldRunValidation(getParticipant(), getParticipantPerson()));
             participantStatusId = ParticipantStatus.Cancelled.Id;
-            Assert.IsFalse(service.ShouldRunValidation(getParticipant()));
+            Assert.IsFalse(service.ShouldRunValidation(getParticipant(), getParticipantPerson()));
         }
 
         [TestMethod]
@@ -1397,6 +1421,9 @@ namespace ECA.Business.Test.Service.Persons
         {
             int? participantStatusId = ParticipantStatus.Active.Id;
             var participantTypeId = ParticipantType.ForeignTravelingParticipant.Id;
+            var isCancelled = false;
+            var sentViaRti = false;
+            var validatedViaRti = false;
             Func<Participant> getParticipant = () =>
             {
                 return new Participant
@@ -1405,12 +1432,113 @@ namespace ECA.Business.Test.Service.Persons
                     ParticipantTypeId = participantTypeId
                 };
             };
+            Func<ParticipantPerson> getParticipantPerson = () =>
+            {
+                return new ParticipantPerson
+                {
+                    IsCancelled = isCancelled,
+                    IsSentToSevisViaRTI = sentViaRti,
+                    IsValidatedViaRTI = validatedViaRti
+                };
+            };
 
-            Assert.IsTrue(service.ShouldRunValidation(getParticipant()));
+            Assert.IsTrue(service.ShouldRunValidation(getParticipant(), getParticipantPerson()));
             participantStatusId = null;
-            Assert.IsFalse(service.ShouldRunValidation(getParticipant()));
+            Assert.IsFalse(service.ShouldRunValidation(getParticipant(), getParticipantPerson()));
         }
 
+        [TestMethod]
+        public void TestShouldRunValidation_ParticipantPersonIsCancelled()
+        {
+            int? participantStatusId = ParticipantStatus.Active.Id;
+            var participantTypeId = ParticipantType.ForeignTravelingParticipant.Id;
+            var isCancelled = false;
+            var sentViaRti = false;
+            var validatedViaRti = false;
+            Func<Participant> getParticipant = () =>
+            {
+                return new Participant
+                {
+                    ParticipantStatusId = participantStatusId,
+                    ParticipantTypeId = participantTypeId
+                };
+            };
+            Func<ParticipantPerson> getParticipantPerson = () =>
+            {
+                return new ParticipantPerson
+                {
+                    IsCancelled = isCancelled,
+                    IsSentToSevisViaRTI = sentViaRti,
+                    IsValidatedViaRTI = validatedViaRti
+                };
+            };
+
+            Assert.IsTrue(service.ShouldRunValidation(getParticipant(), getParticipantPerson()));
+            isCancelled = true;
+            Assert.IsFalse(service.ShouldRunValidation(getParticipant(), getParticipantPerson()));
+        }
+
+        [TestMethod]
+        public void TestShouldRunValidation_ParticipantPersonIsSentToSevisViaRTI()
+        {
+            int? participantStatusId = ParticipantStatus.Active.Id;
+            var participantTypeId = ParticipantType.ForeignTravelingParticipant.Id;
+            var isCancelled = false;
+            var sentViaRti = false;
+            var validatedViaRti = false;
+            Func<Participant> getParticipant = () =>
+            {
+                return new Participant
+                {
+                    ParticipantStatusId = participantStatusId,
+                    ParticipantTypeId = participantTypeId
+                };
+            };
+            Func<ParticipantPerson> getParticipantPerson = () =>
+            {
+                return new ParticipantPerson
+                {
+                    IsCancelled = isCancelled,
+                    IsSentToSevisViaRTI = sentViaRti,
+                    IsValidatedViaRTI = validatedViaRti
+                };
+            };
+
+            Assert.IsTrue(service.ShouldRunValidation(getParticipant(), getParticipantPerson()));
+            sentViaRti = true;
+            Assert.IsFalse(service.ShouldRunValidation(getParticipant(), getParticipantPerson()));
+        }
+
+        [TestMethod]
+        public void TestShouldRunValidation_ParticipantPersonIsValidatedViaRTI()
+        {
+            int? participantStatusId = ParticipantStatus.Active.Id;
+            var participantTypeId = ParticipantType.ForeignTravelingParticipant.Id;
+            var isCancelled = false;
+            var sentViaRti = false;
+            var validatedViaRti = false;
+            Func<Participant> getParticipant = () =>
+            {
+                return new Participant
+                {
+                    ParticipantStatusId = participantStatusId,
+                    ParticipantTypeId = participantTypeId
+                };
+            };
+            Func<ParticipantPerson> getParticipantPerson = () =>
+            {
+                return new ParticipantPerson
+                {
+                    IsCancelled = isCancelled,
+                    IsSentToSevisViaRTI = sentViaRti,
+                    IsValidatedViaRTI = validatedViaRti
+                };
+            };
+
+            Assert.IsTrue(service.ShouldRunValidation(getParticipant(), getParticipantPerson()));
+            validatedViaRti = true;
+            Assert.IsFalse(service.ShouldRunValidation(getParticipant(), getParticipantPerson()));
+        }
         #endregion
     }
 }
