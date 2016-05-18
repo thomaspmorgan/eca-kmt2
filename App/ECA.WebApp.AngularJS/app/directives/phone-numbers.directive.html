@@ -73,7 +73,7 @@
                                            international-phone-number
                                            required />
                                 </div>
-                                <div ng-show="form.phoneNumberForm.phoneNumberValue.$error.required">
+                                <div ng-show="form.phoneNumberForm{{phoneNumber.id}}.phoneNumberValue.$dirty || form.phoneNumberForm{{phoneNumber.id}}.phoneNumberValue.$error.required">
                                     <div class="error" ng-show="form.phoneNumberForm.phoneNumberValue.$error.required">Please enter a phone number value.</div>
                                 </div>
                             </div>
