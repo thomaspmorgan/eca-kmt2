@@ -158,6 +158,22 @@ namespace ECA.Business.Service.Persons
         }
 
         /// <summary>
+        /// Gets if the person is locked
+        /// </summary>
+        /// <param name="personId">The person id</param>
+        /// <returns>If the person </returns>
+        public async Task<bool> GetIsParticipantPersonLockedAsync(int personId)
+        {
+            var participant = await ParticipantPersonQueries.CreateGetParticipantPersonDTOByIdQuery(this.Context, personId).FirstOrDefaultAsync();
+            var isParticipantPersonLocked = false;
+            if (participant != null && Participant.LOCKED_SEVIS_COMM_STATUSES.Contains(participant.SevisStatusId.Value))
+            {
+                isParticipantPersonLocked = true;
+            }
+            return isParticipantPersonLocked;
+        }
+
+        /// <summary>
         /// Returns a participantPerson asyncronously
         /// </summary>
         /// <param name="participantId">The participantId to lookup</param>

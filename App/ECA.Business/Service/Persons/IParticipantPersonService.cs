@@ -61,6 +61,13 @@ namespace ECA.Business.Service.Persons
         Task<SimpleParticipantPersonDTO> GetParticipantPersonByIdAsync(int personId);
 
         /// <summary>
+        /// Returns if the person is locked
+        /// </summary>
+        /// <param name="personId">The person id</param>
+        /// <returns>If the person is locked</returns>
+        Task<bool> GetIsParticipantPersonLockedAsync(int personId);
+
+        /// <summary>
         /// Updates a participant person with given updated participant information.
         /// </summary>
         /// <param name="updatedPerson">The updated participant person.</param>
@@ -120,6 +127,11 @@ namespace ECA.Business.Service.Persons
         public Task<SimpleParticipantPersonDTO> GetParticipantPersonByIdAsync(int personId)
         {
             return null;
+        }
+
+        public Task<bool> GetIsParticipantPersonLockedAsync(int personId)
+        {
+            return Task.FromResult<bool>(false);
         }
 
         /// <summary>

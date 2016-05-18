@@ -85,7 +85,7 @@ angular.module('staticApp')
       $scope.permissions.hasSendToSevisPermission = false;
       var projectId = $stateParams.projectId;
 
-      var notifyStatuses = ConstantsService.sevisStatusIds.split(',');
+      //var notifyStatuses = ConstantsService.sevisStatusIds.split(',');
       var maxGridCellTextLength = ConstantsService.uiGridMaxCellTextLength;
 
       var origNonUsParticipantsEst;
@@ -562,7 +562,7 @@ angular.module('staticApp')
               $scope.onParticipantUpdated(data.data);
               $scope.sevisInfo[participantId] = data.data;
               $scope.sevisInfo[participantId].show = true;
-              $scope.isDisabled(participantId);
+              //$scope.isDisabled(participantId);
           })
           .catch(function (error) {
               if (error.status === 404) {
@@ -609,6 +609,7 @@ angular.module('staticApp')
           loadSevisInfo(participantId);
       }
 
+      /**
       $scope.isDisabled = function (participantId) {
           if (notifyStatuses.indexOf($scope.sevisInfo[participantId].sevisStatusId.toString()) !== -1) {
               $scope.sevisInfo[participantId].blockEdit = true;
@@ -616,6 +617,7 @@ angular.module('staticApp')
               $scope.sevisInfo[participantId].blockEdit = false;
           }
       }
+      **/
 
       function saveSevisInfoById(participantId) {
           var sevisInfo = $scope.sevisInfo[participantId];
