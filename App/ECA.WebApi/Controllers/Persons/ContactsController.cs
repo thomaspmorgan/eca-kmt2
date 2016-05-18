@@ -61,7 +61,7 @@ namespace ECA.WebApi.Controllers.Persons
         /// </summary>
         /// <param name="queryModel">The paging, filtering, and sorting model.</param>
         /// <returns>The list of contacts.</returns>
-        [ResponseType(typeof(PagedQueryResults<Contact>))]
+        [ResponseType(typeof(PagedQueryResults<ContactDTO>))]
         public async Task<IHttpActionResult> GetContactsAsync([FromUri]PagingQueryBindingModel<ContactDTO> queryModel)
         {
             if (ModelState.IsValid)
@@ -103,7 +103,7 @@ namespace ECA.WebApi.Controllers.Persons
         /// </summary>
         /// <param name="model">The updated contact</param>
         /// <returns></returns>
-        [ResponseType(typeof(Contact))]
+        [ResponseType(typeof(ContactDTO))]
         public async Task<IHttpActionResult> PutContactAsync(UpdatedPointOfContactBindingModel model)
         {
             if (ModelState.IsValid)
