@@ -109,29 +109,9 @@ namespace ECA.Business.Service.Persons
             var changedParticipantEntities = from changedEntity in context.ChangeTracker.Entries().Where(x => x.State == state)
                                              let type = changedEntity.Entity.GetType()
                                              let baseType = type.BaseType
-                                             let isParticipantPersonType = type == typeof(ParticipantPerson) || (baseType != typeof(Object) && baseType == typeof(ParticipantPerson))
                                              let participantEntityTypesContainsType = participantEntityTypes.Contains(type) || (baseType != typeof(Object) && participantEntityTypes.Contains(baseType))
-
-                                             let participantHasImportantPropertiesChanged = state != EntityState.Modified
-                                             || (isParticipantPersonType ?
-                                                (
-                                                    from participantPersonEntity in context.ChangeTracker.Entries<ParticipantPerson>()
-                                                    let ds2019PropertyName = nameof(ParticipantPerson.IsDS2019Printed)
-                                                    let historyPropertyName = nameof(ParticipantPerson.History)
-                                                    let ignoredPropertiesByName = new string[] { ds2019PropertyName, historyPropertyName }
-
-                                                    let hasChanges = changedEntity.CurrentValues.PropertyNames
-                                                        .Where(x => !ignoredPropertiesByName.Contains(x))
-                                                        .Any(x => changedEntity.Property(x).IsModified)
-
-                                                    where Object.ReferenceEquals(participantPersonEntity.Entity, changedEntity.Entity)
-                                                    select hasChanges
-                                                    ).FirstOrDefault()
-                                                : false)
-
-
-                                             where (participantEntityTypesContainsType && !isParticipantPersonType)
-                                             || (isParticipantPersonType && participantHasImportantPropertiesChanged)
+                                             
+                                             where participantEntityTypesContainsType
                                              select changedEntity.Entity;
 
             return changedParticipantEntities.ToList();
