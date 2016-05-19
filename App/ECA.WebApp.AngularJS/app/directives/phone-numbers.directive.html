@@ -19,7 +19,7 @@
                 </div>
                 <div class="row" ng-show="!view.isSavingChanges && !view.isLoadingRequiredData">
                     <div ng-class="{true: '', false: 'row2'}[editMode]" ng-show="!phoneNumber.showEditPhoneNumber">
-                        <a href="tel:{{phoneNumber.number}}">{{phoneNumber.number}} 
+                        <a ng-show="!view.showEditPhoneNumber" href="tel:{{phoneNumber.number}}">{{phoneNumber.number}} 
                             <span ng-show="phoneNumber.extension.length > 0">ext. </span>{{phoneNumber.extension}}</a>
                         <div class="pull-right" ng-show="!view.showEditPhoneNumber">
                             {{phoneNumber.phoneNumberType}}
@@ -88,7 +88,7 @@
                                            type="text"
                                            class="form-control"
                                            placeholder="Enter phone number extension value."
-                                           style="width:100px"
+                                           style="width:200px"
                                            id="phoneNumberExtension" />
                                 </div>
                             </div>
@@ -104,7 +104,7 @@
                             </div>
                         </form>
                         <div class="row right">
-                            <button ng-click="view.savePhoneNumberChanges()" class="btn btn-success" ng-disabled="form.phoneNumberForm.$invalid">Save</button>
+                            <button ng-click="view.savePhoneNumberChanges()" class="btn btn-success" ng-disabled="form.phoneNumberForm{{phoneNumber.id}}.$invalid">Save</button>
                             <button ng-click="view.cancelPhoneNumberChanges()" class="btn btn-cancel">Cancel</button>
                         </div>
                     </div>
