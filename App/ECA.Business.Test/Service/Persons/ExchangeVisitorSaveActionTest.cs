@@ -184,9 +184,14 @@ namespace ECA.Business.Test.Service.Persons
                 {
                     ParticipantId = 1,
                 };
-                var propertyNames = new List<string> { nameof(ParticipantPerson.IsDS2019Printed) };
+                var propertyNames = new List<string> { nameof(ParticipantPerson.IsDS2019Printed), nameof(ParticipantPerson.DS2019FileName) };
 
                 var typedEntry = new System.Data.Entity.Infrastructure.Fakes.ShimDbEntityEntry<ParticipantPerson>
+                {
+                    EntityGet = () => entity,
+                    StateGet = () => EntityState.Modified,
+                };
+                var entry = new System.Data.Entity.Infrastructure.Fakes.ShimDbEntityEntry
                 {
                     EntityGet = () => entity,
                     StateGet = () => EntityState.Modified,
@@ -199,14 +204,66 @@ namespace ECA.Business.Test.Service.Persons
                                 return propertyNames;
                             },
                         };
-                        values.ItemGetString = (propertyName) =>
-                        {
-                            Assert.AreEqual(propertyNames.First(), propertyName);
-                            return true;
-                        };
                         return values;
                     },
-                    OriginalValuesGet = () =>
+                    PropertyString = (pName) =>
+                    {
+                        if (pName == nameof(ParticipantPerson.IsDS2019Printed))
+                        {
+                            return new System.Data.Entity.Infrastructure.Fakes.ShimDbPropertyEntry
+                            {
+                                IsModifiedGet = () => true
+                            };
+                        }
+                        else
+                        {
+                            return new System.Data.Entity.Infrastructure.Fakes.ShimDbPropertyEntry
+                            {
+                                IsModifiedGet = () => false
+                            };
+                        }
+                    }
+                };
+
+                System.Data.Entity.Infrastructure.Fakes.ShimDbChangeTracker.AllInstances.Entries = (tracker) =>
+                {
+                    var entries = new List<DbEntityEntry>();
+                    entries.Add(entry);
+                    return entries;
+                };
+                System.Data.Entity.Infrastructure.Fakes.ShimDbChangeTracker.AllInstances.EntriesOf1<ParticipantPerson>((tracker) =>
+                {
+                    var entries = new List<DbEntityEntry<ParticipantPerson>>();
+                    entries.Add(typedEntry);
+                    return entries;
+                });
+                context.ParticipantPersons.Add(entity);
+                var entities = saveAction.GetModifiedEntities(context);
+                Assert.AreEqual(0, entities.Count);
+            }
+        }
+
+        [TestMethod]
+        public void TestGetModifiedParticipants_ParticipantPerson_HasOnlyHistoryChange()
+        {
+            using (ShimsContext.Create())
+            {
+                var entity = new ParticipantPerson
+                {
+                    ParticipantId = 1,
+                };
+                var propertyNames = new List<string> { nameof(ParticipantPerson.IsDS2019Printed), nameof(ParticipantPerson.History), nameof(ParticipantPerson.DS2019FileName) };
+
+                var typedEntry = new System.Data.Entity.Infrastructure.Fakes.ShimDbEntityEntry<ParticipantPerson>
+                {
+                    EntityGet = () => entity,
+                    StateGet = () => EntityState.Modified,
+                };
+                var entry = new System.Data.Entity.Infrastructure.Fakes.ShimDbEntityEntry
+                {
+                    EntityGet = () => entity,
+                    StateGet = () => EntityState.Modified,
+                    CurrentValuesGet = () =>
                     {
                         var values = new System.Data.Entity.Infrastructure.Fakes.ShimDbPropertyValues
                         {
@@ -215,18 +272,32 @@ namespace ECA.Business.Test.Service.Persons
                                 return propertyNames;
                             },
                         };
-                        values.ItemGetString = (propertyName) =>
-                        {
-                            Assert.AreEqual(propertyNames.First(), propertyName);
-                            return false;
-                        };
                         return values;
+                    },
+                    PropertyString = (pName) =>
+                    {
+                        if (pName == nameof(ParticipantPerson.IsDS2019Printed))
+                        {
+                            return new System.Data.Entity.Infrastructure.Fakes.ShimDbPropertyEntry
+                            {
+                                IsModifiedGet = () => false
+                            };
+                        }
+                        else if (pName == nameof(ParticipantPerson.History))
+                        {
+                            return new System.Data.Entity.Infrastructure.Fakes.ShimDbPropertyEntry
+                            {
+                                IsModifiedGet = () => true
+                            };
+                        }
+                        else
+                        {
+                            return new System.Data.Entity.Infrastructure.Fakes.ShimDbPropertyEntry
+                            {
+                                IsModifiedGet = () => false
+                            };
+                        }
                     }
-                };
-                var entry = new System.Data.Entity.Infrastructure.Fakes.ShimDbEntityEntry
-                {
-                    EntityGet = () => entity,
-                    StateGet = () => EntityState.Modified,
                 };
 
                 System.Data.Entity.Infrastructure.Fakes.ShimDbChangeTracker.AllInstances.Entries = (tracker) =>
@@ -262,6 +333,11 @@ namespace ECA.Business.Test.Service.Persons
                 {
                     EntityGet = () => entity,
                     StateGet = () => EntityState.Modified,
+                };
+                var entry = new System.Data.Entity.Infrastructure.Fakes.ShimDbEntityEntry
+                {
+                    EntityGet = () => entity,
+                    StateGet = () => EntityState.Modified,
                     CurrentValuesGet = () =>
                     {
                         var values = new System.Data.Entity.Infrastructure.Fakes.ShimDbPropertyValues
@@ -271,46 +347,15 @@ namespace ECA.Business.Test.Service.Persons
                                 return propertyNames;
                             },
                         };
-                        values.ItemGetString = (propertyName) =>
-                        {
-                            if(propertyName == nameof(ParticipantPerson.IsDS2019Printed))
-                            {
-                                return false;
-                            }
-                            else
-                            {
-                                return "new file name";
-                            }
-                        };
                         return values;
                     },
-                    OriginalValuesGet = () =>
+                    PropertyString = (pName) =>
                     {
-                        var values = new System.Data.Entity.Infrastructure.Fakes.ShimDbPropertyValues
+                        return new System.Data.Entity.Infrastructure.Fakes.ShimDbPropertyEntry
                         {
-                            PropertyNamesGet = () =>
-                            {
-                                return propertyNames;
-                            },
+                            IsModifiedGet = () => true
                         };
-                        values.ItemGetString = (propertyName) =>
-                        {
-                            if (propertyName == nameof(ParticipantPerson.IsDS2019Printed))
-                            {
-                                return true;
-                            }
-                            else
-                            {
-                                return "old file name";
-                            }
-                        };
-                        return values;
                     }
-                };
-                var entry = new System.Data.Entity.Infrastructure.Fakes.ShimDbEntityEntry
-                {
-                    EntityGet = () => entity,
-                    StateGet = () => EntityState.Modified,
                 };
 
                 System.Data.Entity.Infrastructure.Fakes.ShimDbChangeTracker.AllInstances.Entries = (tracker) =>

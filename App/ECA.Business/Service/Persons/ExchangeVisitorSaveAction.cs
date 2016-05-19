@@ -106,7 +106,6 @@ namespace ECA.Business.Service.Persons
         public IList<object> GetParticipantEntities(DbContext context, List<Type> participantEntityTypes, EntityState state)
         {
             Contract.Requires(context != null, "The context must not be null.");
-
             var changedParticipantEntities = from changedEntity in context.ChangeTracker.Entries().Where(x => x.State == state)
                                              let type = changedEntity.Entity.GetType()
                                              let baseType = type.BaseType
@@ -118,14 +117,12 @@ namespace ECA.Business.Service.Persons
                                                 (
                                                     from participantPersonEntity in context.ChangeTracker.Entries<ParticipantPerson>()
                                                     let ds2019PropertyName = nameof(ParticipantPerson.IsDS2019Printed)
-                                                    let ignoredPropertiesByName = new string[] { ds2019PropertyName }
+                                                    let historyPropertyName = nameof(ParticipantPerson.History)
+                                                    let ignoredPropertiesByName = new string[] { ds2019PropertyName, historyPropertyName }
 
-                                                    let originalValues = participantPersonEntity.OriginalValues
-                                                    let currentValues = participantPersonEntity.CurrentValues
-
-                                                    let hasChanges = originalValues.PropertyNames
+                                                    let hasChanges = changedEntity.CurrentValues.PropertyNames
                                                         .Where(x => !ignoredPropertiesByName.Contains(x))
-                                                        .Any(p => !originalValues[p].Equals(currentValues[p]))
+                                                        .Any(x => changedEntity.Property(x).IsModified)
 
                                                     where Object.ReferenceEquals(participantPersonEntity.Entity, changedEntity.Entity)
                                                     select hasChanges
