@@ -19,8 +19,12 @@
                 </div>
                 <div class="row" ng-show="!view.isSavingChanges && !view.isLoadingRequiredData">
                     <div ng-class="{true: '', false: 'row2'}[editMode]" ng-show="!phoneNumber.showEditPhoneNumber">
-                        <a ng-show="!view.showEditPhoneNumber" href="tel:{{phoneNumber.number}}">{{phoneNumber.number}} 
-                            <span ng-show="phoneNumber.extension.length > 0">ext. </span>{{phoneNumber.extension}}</a>
+                        <div ng-class="phoneNumber.flag" title="{{phoneNumber.flagtitle}}">
+                            <a ng-show="!view.showEditPhoneNumber" href="tel:{{phoneNumber.number}}" style="margin-left:25px">
+                                {{phoneNumber.number}}
+                                <span ng-show="phoneNumber.extension.length > 0">ext. </span>{{phoneNumber.extension}}
+                            </a>
+                        </div>
                         <div class="pull-right" ng-show="!view.showEditPhoneNumber">
                             {{phoneNumber.phoneNumberType}}
                             <a ng-show="!view.showEditPhoneNumber && !view.isDeletingPhoneNumber && editMode" ng-click="view.showConfirmDelete = true">
