@@ -47,20 +47,6 @@ namespace ECA.Business.Service.Persons
         System.Threading.Tasks.Task<ECA.Business.Queries.Models.Persons.SimpleParticipantPersonDTO> GetParticipantPersonByIdAsync(int projectId, int participantId);
 
         /// <summary>
-        /// Returns the participantPerson by id
-        /// </summary>
-        /// <param name="personId">The person id to lookup</param>
-        /// <returns>The participantPerson</returns>
-        SimpleParticipantPersonDTO GetParticipantPersonById(int personId);
-
-        /// <summary>
-        /// Returns a participantPerson asyncronously
-        /// </summary>
-        /// <param name="personId">The person id to lookup</param>
-        /// <returns>The participantPerson</returns>
-        Task<SimpleParticipantPersonDTO> GetParticipantPersonByIdAsync(int personId);
-
-        /// <summary>
         /// Returns if the person is locked
         /// </summary>
         /// <param name="personId">The person id</param>

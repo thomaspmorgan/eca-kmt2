@@ -97,6 +97,11 @@ namespace ECA.Business.Queries.Persons
                         };
             return query;
         }
+        
+        public static IQueryable<SimplePersonDTO> CreateGetSimplePersonDTOByIdQuery(EcaContext context, int personId)
+        {
+            return CreateGetSimplePersonDTOsQuery(context).Where(x => x.PersonId == personId);
+        }
 
         /// <summary>
         /// Returns a query capable of retrieving dependents from the given context.

@@ -64,7 +64,7 @@ angular.module('staticApp')
       **/
 
       $scope.updatePiiCallback = function () {
-          getParticipantPersonById();
+          //getParticipantPersonById();
           $scope.$parent.onPersonPiiUpdated();
       }
       

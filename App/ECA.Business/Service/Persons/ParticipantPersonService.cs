@@ -146,43 +146,25 @@ namespace ECA.Business.Service.Persons
         }
 
         /// <summary>
-        /// Returns a participantPerson
-        /// </summary>
-        /// <param name="participantId">The participantId to lookup</param>
-        /// <returns>The participantPerson</returns>
-        public SimpleParticipantPersonDTO GetParticipantPersonById(int personId)
-        {
-            var participant = ParticipantPersonQueries.CreateGetParticipantPersonDTOByIdQuery(this.Context, personId).FirstOrDefault();
-            this.logger.Trace("Retrieved participantPerson by id [{0}].", personId);
-            return participant;
-        }
-
-        /// <summary>
         /// Gets if the person is locked
         /// </summary>
         /// <param name="personId">The person id</param>
         /// <returns>If the person </returns>
         public async Task<bool> GetIsParticipantPersonLockedAsync(int personId)
         {
-            var participant = await ParticipantPersonQueries.CreateGetParticipantPersonDTOByIdQuery(this.Context, personId).FirstOrDefaultAsync();
+            var person = await PersonQueries.CreateGetSimplePersonDTOByIdQuery(this.Context, personId).FirstOrDefaultAsync();
             var isParticipantPersonLocked = false;
-            if (participant != null && Participant.LOCKED_SEVIS_COMM_STATUSES.Contains(participant.SevisStatusId.Value))
+            if (person != null && person.ProjectId.HasValue && person.ParticipantId.HasValue)
             {
-                isParticipantPersonLocked = true;
+                var participant = await GetParticipantPersonByIdAsync(person.ProjectId.Value, person.ParticipantId.Value);
+                if (participant != null && participant.SevisStatusId.HasValue && 
+                    Participant.LOCKED_SEVIS_COMM_STATUSES.Contains(participant.SevisStatusId.Value))
+                {
+                    isParticipantPersonLocked = true;
+                }
+
             }
             return isParticipantPersonLocked;
-        }
-
-        /// <summary>
-        /// Returns a participantPerson asyncronously
-        /// </summary>
-        /// <param name="participantId">The participantId to lookup</param>
-        /// <returns>The participantPerson</returns>
-        public Task<SimpleParticipantPersonDTO> GetParticipantPersonByIdAsync(int personId)
-        {
-            var participant = ParticipantPersonQueries.CreateGetParticipantPersonDTOByIdQuery(this.Context, personId).FirstOrDefaultAsync();
-            this.logger.Trace("Retrieved participantPerson by id [{0}].", personId);
-            return participant;
         }
 
         #endregion
