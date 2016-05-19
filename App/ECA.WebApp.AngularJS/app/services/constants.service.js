@@ -1,4 +1,23 @@
-﻿angular.module('staticApp').factory('ConstantsService', function() {
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+angular.module('staticApp').factory('ConstantsService', function() {
 	return {
 		dataPointCategory: {
 			office: {id: 1, value: "Office"},
@@ -108,7 +127,7 @@
 		},
 		phoneNumberType: {
 			home: {id: 1, value: "Home"},
-			work: {id: 2, value: "Work"},
+			business: {id: 2, value: "Business"},
 			cell: {id: 3, value: "Cell"},
 			visiting: {id: 4, value: "Visiting"},
 			undetermined: {id: 5, value: "Undetermined"}
@@ -146,11 +165,11 @@
 			informationRequired: {id: 1, value: "Information Required"},
 			readyToSubmit: {id: 2, value: "Ready To Submit"},
 			sentToDhs: {id: 3, value: "Sent To DHS"},
-			validated: {id: 4, value: "Validated"},
+			validatedViaRti: {id: 4, value: "Validated via RTI"},
 			queuedToSubmit: {id: 5, value: "Queued To Submit"},
 			sentToDhsViaRti: {id: 6, value: "Sent to DHS via RTI"},
 			cancelled: {id: 7, value: "Cancelled"},
-			ds2019Signed: {id: 8, value: "DS-2019 Signed"},
+			ds2019SentToTraveler: {id: 8, value: "DS-2019 Sent to Traveler"},
 			ds2019Printed: {id: 9, value: "DS-2019 Printed"},
 			rtiRequestSuccessful: {id: 10, value: "RTI Request Successful"},
 			rtiRequestUnsuccessful: {id: 11, value: "RTI Request Unsuccessful"},
@@ -163,7 +182,8 @@
 			updatedByBatch: {id: 18, value: "Updated By Batch"},
 			needsValidationInfo: {id: 19, value: "Needs Validation Info"},
 			readyToValidate: {id: 20, value: "Ready to Validate"},
-			queuedToValidate: {id: 21, value: "Queued to Validate"}
+			queuedToValidate: {id: 21, value: "Queued to Validate"},
+			updatedPriorToValidation: {id: 22, value: "Updated Prior To Validation"}
 		},
 		sevisErrorType: {
 			email: {id: 1, value: "Email"},
@@ -218,6 +238,7 @@
 		likeComparisonType: 'like',
 		logoutEventName: 'logout',
 		maxNumericValue: '2147483647',
+		monthNames: 'January,February,March,April,May,June,July,August,September,October,November,December',
 		notEqualComparisonType: 'not_eq',
 		notInComparisonType: 'notin',
 		officeCategorySettingName: 'Category',
@@ -255,4 +276,5 @@
 		updateBreadcrumbsEventName: 'updateBreadcrumbs'
 	};
 });
+
 
