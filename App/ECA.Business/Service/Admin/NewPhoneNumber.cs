@@ -1,11 +1,6 @@
-﻿using ECA.Core.Exceptions;
-using ECA.Data;
-using System;
-using System.Collections.Generic;
+﻿using ECA.Data;
 using System.Diagnostics.Contracts;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ECA.Business.Service.Admin
 {
@@ -17,12 +12,14 @@ namespace ECA.Business.Service.Admin
         /// <param name="user">The user creating the phone number.</param>
         /// <param name="phoneNumberTypeId">The phone number type of the phone number</param>
         /// <param name="number">The phone number value.</param>
+        /// <param name="extension">The phone number extension value.</param>
         /// <param name="isPrimary">The is primary phone number flag.</param>
-        public NewPhoneNumber(User user, int phoneNumberTypeId, string number, bool isPrimary)
+        public NewPhoneNumber(User user, int phoneNumberTypeId, string number, string extension, bool isPrimary)
         {
             Contract.Requires(user != null, "The user must not be null.");
             this.PhoneNumberTypeId = phoneNumberTypeId;
             this.Number = number;
+            this.Extension = extension;
             this.IsPrimary = isPrimary;
             this.Audit = new Create(user);
         }
@@ -31,6 +28,11 @@ namespace ECA.Business.Service.Admin
         /// Gets the phone number value.
         /// </summary>
         public string Number { get; private set; }
+
+        /// <summary>
+        /// Gets or sets the phone number extension.
+        /// </summary>
+        public string Extension { get; private set; }
 
         /// <summary>
         /// Gets the phone number value.
@@ -61,9 +63,10 @@ namespace ECA.Business.Service.Admin
         /// <param name="user">The user creating the phone number.</param>
         /// <param name="phoneNumberTypeId">The phone number type of the phone number</param>
         /// <param name="number">The phone number value.</param>
+        /// <param name="extension">The phone number extension value.</param>
         /// <param name="isPrimary">The is primary phone number flag.</param>
-        public NewPhoneNumber(User user, int phoneNumberTypeId, string number, bool isPrimary)
-            : base(user, phoneNumberTypeId, number, isPrimary)
+        public NewPhoneNumber(User user, int phoneNumberTypeId, string number, string extension, bool isPrimary)
+            : base(user, phoneNumberTypeId, number, extension, isPrimary)
         {
             Contract.Requires(user != null, "The user must not be null.");
         }
@@ -80,6 +83,7 @@ namespace ECA.Business.Service.Admin
             var phoneNumber = new PhoneNumber
             {
                 Number = this.Number,
+                Extension = this.Extension,
                 PhoneNumberTypeId = this.PhoneNumberTypeId,
                 IsPrimary = this.IsPrimary
             };

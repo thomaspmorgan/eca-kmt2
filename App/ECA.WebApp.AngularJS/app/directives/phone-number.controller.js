@@ -57,6 +57,21 @@ angular.module('staticApp')
           $scope.phoneNumberable.phoneNumbers[index] = phoneNumber;
       };
 
+      function getPhoneCountryFlags() {
+          var found = false;
+          angular.forEach($scope.phoneNumberable.phoneNumbers, function (phone, index) {
+              if (!found) {
+                  angular.forEach($scope.data.countries, function (country) {
+                      if (country.dialCode.indexOf(phone.number.slice(0, 2)) == 0 || country.dialCode.indexOf(phone.number.slice(0, 3)) == 0) {
+                          phone.flag = 'iti-flag ' + country.iso2;
+                          phone.flagtitle = country.name;
+                          found = true;
+                      }
+                  });
+              }
+          });
+      }
+      
       $scope.view.cancelPhoneNumberChanges = function () {
           $scope.view.showEditPhoneNumber = false;
           if (isNewPhoneNumber($scope.phoneNumber)) {
@@ -163,4 +178,7 @@ angular.module('staticApp')
           $scope.view.phoneNumberTypes = phoneNumberTypes;
           $scope.view.isLoadingRequiredData = false;
       });
+
+      $q.all(getPhoneCountryFlags());
+
   });
