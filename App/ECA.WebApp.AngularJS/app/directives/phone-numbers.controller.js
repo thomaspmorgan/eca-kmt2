@@ -27,6 +27,8 @@ angular.module('staticApp')
       $scope.data.loadPhoneNumberTypesPromise = $q.defer();
       $scope.data.phoneNumberTypes = [];
 
+      $scope.data.countries = $.fn.intlTelInput.getCountryData();
+      
       $scope.view.onAddPhoneNumberClick = function (phoneNumberableType, entityPhoneNumbers, phoneNumberableId) {
           console.assert(entityPhoneNumbers, 'The entity phone numbers is not defined.');
           console.assert(entityPhoneNumbers instanceof Array, 'The entity phone numbers is defined but must be an array.');
