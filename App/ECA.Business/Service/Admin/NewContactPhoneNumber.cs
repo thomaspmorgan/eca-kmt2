@@ -13,8 +13,8 @@ namespace ECA.Business.Service.Admin
         /// <param name="number">The value.</param>
         /// <param name="contactId">The person id.</param>
         /// <param name="isPrimary">The is primary phone number flag.</param>
-        public NewContactPhoneNumber(User user, int phoneNumberTypeId, string number, int contactId, bool isPrimary)
-            :base(user, phoneNumberTypeId, number, isPrimary)
+        public NewContactPhoneNumber(User user, int phoneNumberTypeId, string number, string extension, int contactId, bool isPrimary)
+            :base(user, phoneNumberTypeId, number, extension, isPrimary)
         {
             this.ContactId = contactId;
         }

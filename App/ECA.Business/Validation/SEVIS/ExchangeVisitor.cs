@@ -284,11 +284,11 @@ namespace ECA.Business.Validation.Sevis
                     userID = sevisUsername
                 };
             };
-            PersonChangeDetail personChangeDetail = this.Person.GetChangeDetail(previouslySubmittedExchangeVisitor.Person);
-            FullNameChangeDetail fullNameChangeDetail = this.Person.FullName.GetChangeDetail(previouslySubmittedExchangeVisitor.Person.FullName);
-            SubjectFieldChangeDetail subjectFieldChangeDetail = this.Person.SubjectField.GetChangeDetail(previouslySubmittedExchangeVisitor.Person.SubjectField);
-            FinancialInfoChangeDetail financialInfoChangeDetail = this.FinancialInfo.GetChangeDetail(previouslySubmittedExchangeVisitor.FinancialInfo);
-            ExchangeVisitorChangeDetail exchangeVisitorChangeDetail = this.GetChangeDetail(previouslySubmittedExchangeVisitor);
+            var personChangeDetail = this.Person.GetChangeDetail(previouslySubmittedExchangeVisitor.Person);
+            var fullNameChangeDetail = this.Person.FullName.GetChangeDetail(previouslySubmittedExchangeVisitor.Person.FullName);
+            var subjectFieldChangeDetail = this.Person.SubjectField.GetChangeDetail(previouslySubmittedExchangeVisitor.Person.SubjectField);
+            var financialInfoChangeDetail = this.FinancialInfo.GetChangeDetail(previouslySubmittedExchangeVisitor.FinancialInfo);
+            var exchangeVisitorChangeDetail = this.GetChangeDetail(previouslySubmittedExchangeVisitor);
 
             if (personChangeDetail.HasChanges() || fullNameChangeDetail.HasChanges())
             {
@@ -399,6 +399,37 @@ namespace ECA.Business.Validation.Sevis
             var compareLogic = new CompareLogic(compareConfig);
             var result = compareLogic.Compare(this, otherChangeComparable);
             return new ExchangeVisitorChangeDetail(result);
+        }
+
+        /// <summary>
+        /// Returns true if there are changes between this exchange visitor and the given exchange visitor.
+        /// </summary>
+        /// <param name="otherExchangeVisitor">The exchange visitor to compare.</param>
+        /// <returns>True, if there are changes between this exchange visitor and the given exchange visitor.</returns>
+        public bool HasChanges(ExchangeVisitor otherExchangeVisitor)
+        {
+            Contract.Requires(otherExchangeVisitor != null, "The other exchange visitor must not be null.");
+            var changeDetails = new List<ChangeDetail>();
+            foreach (var dependent in this.Dependents)
+            {
+                var previousDependent = otherExchangeVisitor.Dependents.Where(x => x.PersonId == dependent.PersonId).FirstOrDefault();
+                if (previousDependent == null)
+                {
+                    return true;
+                }
+                else
+                {
+                    var changeDetail = dependent.GetChangeDetail(previousDependent);
+                    changeDetails.Add(changeDetail);
+                }
+            }
+            changeDetails.Add(this.Person.GetChangeDetail(otherExchangeVisitor.Person));
+            changeDetails.Add(this.Person.FullName.GetChangeDetail(otherExchangeVisitor.Person.FullName));
+            changeDetails.Add(this.Person.SubjectField.GetChangeDetail(otherExchangeVisitor.Person.SubjectField));
+            changeDetails.Add(this.FinancialInfo.GetChangeDetail(otherExchangeVisitor.FinancialInfo));
+            changeDetails.Add(this.GetChangeDetail(otherExchangeVisitor));
+
+            return changeDetails.Any(x => x.HasChanges());
         }
     }
 }

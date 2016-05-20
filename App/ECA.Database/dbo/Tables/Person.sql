@@ -41,6 +41,7 @@
     [CE_PersonId] NVARCHAR(32) NULL, 
     [Fulbright_PersonId] NVARCHAR(32) NULL, 
     [PassportName] NVARCHAR(39) NULL, 
+    [IsSingleName] BIT NOT NULL DEFAULT 0, 
     CONSTRAINT [PK_dbo.Person] PRIMARY KEY CLUSTERED ([PersonId] ASC),
     CONSTRAINT [FK_dbo.Person_dbo.Location_Location_LocationId] FOREIGN KEY ([Location_LocationId]) REFERENCES [dbo].[Location] ([LocationId]), 
     CONSTRAINT [FK_Person_ToGender] FOREIGN KEY ([GenderId]) REFERENCES [Gender]([GenderId]), 

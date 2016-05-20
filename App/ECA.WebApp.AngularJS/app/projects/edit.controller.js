@@ -22,10 +22,12 @@ angular.module('staticApp')
         ProjectService,
         ProgramService,
         TableService,
+        orderByFilter,
         LocationService,
         NavigationService,
         LookupService,
         ConstantsService,
+        MessageBox,
         AuthService,
         OfficeService,
         FilterService,
@@ -80,8 +82,7 @@ angular.module('staticApp')
       $scope.editView.locationUiSelectId = 'selectLocations';
       $scope.editView.isLoadingOfficeSetting = false;
       $scope.editView.dataPointConfigurations = {};
-
-
+      
       $scope.editView.validateMinimumObjectives = function ($value) {
           if (!$scope.editView.isObjectivesRequired) {
               return true;
@@ -329,19 +330,18 @@ angular.module('staticApp')
 
       function cancelEdit() {
           if ($scope.form.projectForm.$dirty) {
-              var modalInstance = $modal.open({
-                  templateUrl: '/app/projects/unsaved-changes.html',
-                  controller: 'UnsavedChangesCtrl',
-                  windowClass: 'modal-center-small',
-                  backdrop: 'static',
-                  resolve: {},
-                  size: 'lg'
-              });
-              modalInstance.result.then(function () {
-                  $log.info('Cancelling changes...');
-                  goToProjectOverview();
-              }, function () {
-                  $log.info('Dismiss warning dialog and allow save changes...');
+              MessageBox.confirm({
+                  title: 'Unsaved Changes',
+                  message: 'You have changes that have not been saved.  Are you sure you want to cancel?',
+                  okText: 'Yes',
+                  cancelText: 'No',
+                  okCallback: function () {
+                      $log.info('Cancelling changes...');
+                      goToProjectOverview();
+                  },
+                  onCancelClick: function () {
+                      $log.info('Dismiss warning dialog and allow save changes...');
+                  }
               });
           }
           else {
@@ -542,9 +542,7 @@ angular.module('staticApp')
           console.assert(Array.isArray($scope.editView[editViewSelectedPropertyName]), "The edit view " + editViewSelectedPropertyName + " property must be an array.");
 
           if (projectPropertyName === 'contacts') {
-              var projectItems = $scope.$parent.project[projectPropertyName].sort(function (a, b) {
-                  return a.fullName == b.fullName ? 0 : +(a.fullName > b.fullName) || -1;
-              });
+              var projectItems = orderByFilter($scope.$parent.project[projectPropertyName],'+fullName');
           } else {
               var projectItems = $scope.$parent.project[projectPropertyName];
           }          

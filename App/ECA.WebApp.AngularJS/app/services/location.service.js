@@ -99,7 +99,7 @@ angular.module('staticApp')
                   $log.info('Unable to determine timezone by location.');
               })
           },
-          
+
           geocode: function (address, component) {
               var deferred = $q.defer();
               var geocoder = new google.maps.Geocoder();
@@ -131,7 +131,6 @@ angular.module('staticApp')
 
           getDivisionLocationParams: function (transformedLocation) {
               divisionsFilter.reset();
-
               divisionsFilter = divisionsFilter
                 .skip(0)
                 .take(300)
@@ -153,6 +152,20 @@ angular.module('staticApp')
                 .like('name', transformedLocation.cityShortName)
                 .sortBy('name')
                 .toParams();
+          },
+
+          getLocationSuggestions: function (search) {
+              var dfd = $q.defer();
+              var service = new google.maps.places.AutocompleteService();
+              service.getQueryPredictions({ input: search }, function (predictions, status) {
+                  if (status != google.maps.places.PlacesServiceStatus.OK) {
+                      dfd.reject('Unable to load predictions.');
+                  }
+                  else {
+                      dfd.resolve(predictions);
+                  }
+              });
+              return dfd.promise;
           },
 
           transformGeocodedLocation: function (result) {
@@ -201,31 +214,41 @@ angular.module('staticApp')
                       transformedLocation.regionId = regionId;
                       transformedLocation.region = region;
 
-                      return service.get(service.getDivisionLocationParams(transformedLocation))
-                      .then(function (resultDivisions) {
-                          if (resultDivisions.total === 1) {
-                              var divisionId = resultDivisions.results[0].id
-                              $log.info('Successfully located division id [' + divisionId + '] for geocoded division short name + [' + transformedLocation.divisionShortName + '].');
-                              transformedLocation.divisionId = divisionId;
+                      if (transformedLocation.divisionShortName) {
+                          return service.get(service.getDivisionLocationParams(transformedLocation))
+                            .then(function (resultDivisions) {
+                                if (resultDivisions.total === 1) {
+                                    var divisionId = resultDivisions.results[0].id
+                                    $log.info('Successfully located division id [' + divisionId + '] for geocoded division short name + [' + transformedLocation.divisionShortName + '].');
+                                    transformedLocation.divisionId = divisionId;
 
-                              return service.get(service.getCityLocationParams(transformedLocation))
-                              .then(function (resultCities) {
-                                  if (resultCities.total === 1) {
-                                      var cityId = resultCities.results[0].id;
-                                      transformedLocation.cityId = cityId;
-                                      $log.info('Successfully located city id [' + cityId + '] for geocoded city short name + [' + transformedLocation.cityShortName + '].');
-                                  }
-                                  return transformedLocation;
-                              })
-                              .catch(function () {
-                                  $log.error('Unable to load cities.');
-                              })
-                          }
+                                    if (transformedLocation.cityShortName) {
+                                        return service.get(service.getCityLocationParams(transformedLocation))
+                                            .then(function (resultCities) {
+                                                if (resultCities.total === 1) {
+                                                    var cityId = resultCities.results[0].id;
+                                                    transformedLocation.cityId = cityId;
+                                                    $log.info('Successfully located city id [' + cityId + '] for geocoded city short name + [' + transformedLocation.cityShortName + '].');
+                                                }
+                                                return transformedLocation;
+                                            })
+                                            .catch(function () {
+                                                $log.error('Unable to load cities.');
+                                            })
+                                    }
+                                    else {
+                                        return transformedLocation;
+                                    }
+                                }
+                                return transformedLocation;
+                            })
+                            .catch(function (response) {
+                                $log.error('Unable to load divisions.');
+                            });
+                      }
+                      else {
                           return transformedLocation;
-                      })
-                    .catch(function (response) {
-                        $log.error('Unable to load divisions.');
-                    });
+                      }
                   }
                   return transformedLocation;
               })
