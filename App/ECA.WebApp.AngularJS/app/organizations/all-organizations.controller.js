@@ -56,6 +56,8 @@ angular.module('staticApp')
               filter: TableService.getFilter()
           };
 
+          console.log("Filter", params)
+
           OrganizationService.getOrganizationsWoFundingSource(params)
             .then(function (data) {
                 $scope.organizations = data.data.results;

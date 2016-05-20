@@ -204,8 +204,11 @@ namespace ECA.Business.Service.Persons
 
             Organization host = null;
             Organization home = null;
+            Organization placement = null;
             Address hostAddress = null;
             Address homeAddress = null;
+            Address placementAddress = null;
+
             ParticipantStatus participantStatus = null;
             
             if (updatedPerson.HomeInstitutionId.HasValue)
@@ -228,6 +231,17 @@ namespace ECA.Business.Service.Persons
                 {
                     hostAddress = CreateGetAddressByIdQuery(updatedPerson.HostInstitutionAddressId.Value, host.OrganizationId).FirstOrDefault();
                     throwIfModelDoesNotExist(updatedPerson.HostInstitutionAddressId.Value, hostAddress, typeof(Address));
+                }
+            }
+            if (updatedPerson.PlacementOrganizationId.HasValue)
+            {
+                host = CreateGetInstitutionByIdQuery(updatedPerson.PlacementOrganizationId.Value).FirstOrDefault();
+                throwIfModelDoesNotExist(updatedPerson.PlacementOrganizationId.Value, host, typeof(Organization));
+
+                if (updatedPerson.PlacementOrganizationAddressId.HasValue)
+                {
+                    placementAddress = CreateGetAddressByIdQuery(updatedPerson.PlacementOrganizationAddressId.Value, host.OrganizationId).FirstOrDefault();
+                    throwIfModelDoesNotExist(updatedPerson.PlacementOrganizationAddressId.Value, placementAddress, typeof(Address));
                 }
             }
             ParticipantType participantType = Context.ParticipantTypes.Find(updatedPerson.ParticipantTypeId);
@@ -273,8 +287,10 @@ namespace ECA.Business.Service.Persons
 
             Organization host = null;
             Organization home = null;
+            Organization placement = null;
             Address hostAddress = null;
             Address homeAddress = null;
+            Address placementAddress = null;
             ParticipantStatus participantStatus = null;
 
             if (updatedPerson.HomeInstitutionId.HasValue)
@@ -299,6 +315,18 @@ namespace ECA.Business.Service.Persons
                     throwIfModelDoesNotExist(updatedPerson.HostInstitutionAddressId.Value, hostAddress, typeof(Address));
                 }
             }
+            if (updatedPerson.PlacementOrganizationId.HasValue)
+            {
+                host = CreateGetInstitutionByIdQuery(updatedPerson.PlacementOrganizationId.Value).FirstOrDefault();
+                throwIfModelDoesNotExist(updatedPerson.PlacementOrganizationId.Value, host, typeof(Organization));
+
+                if (updatedPerson.PlacementOrganizationAddressId.HasValue)
+                {
+                    placementAddress = CreateGetAddressByIdQuery(updatedPerson.PlacementOrganizationAddressId.Value, host.OrganizationId).FirstOrDefault();
+                    throwIfModelDoesNotExist(updatedPerson.PlacementOrganizationAddressId.Value, placementAddress, typeof(Address));
+                }
+            }
+
             ParticipantType participantType = await Context.ParticipantTypes.FindAsync(updatedPerson.ParticipantTypeId);
             throwIfModelDoesNotExist(updatedPerson.ParticipantTypeId, participantType, typeof(ParticipantType));
 
