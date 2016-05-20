@@ -74,7 +74,7 @@ namespace ECA.Business.Service.Persons
 
         private IQueryable<ParticipantPersonSevisCommStatus> CreateGetValidatedSevisCommStatusesByParticipantId(int participantId)
         {
-            var validatedSevisCommStatusIds = new List<int> { SevisCommStatus.ValidatedByBatch.Id };
+            var validatedSevisCommStatusIds = new List<int> { SevisCommStatus.ValidatedByBatch.Id, SevisCommStatus.ValidatedViaRti.Id };
             return Context.ParticipantPersonSevisCommStatuses.Where(x => validatedSevisCommStatusIds.Contains(x.SevisCommStatusId) && x.ParticipantId == participantId);
         }
 
