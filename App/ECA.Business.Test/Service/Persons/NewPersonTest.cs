@@ -16,7 +16,6 @@ namespace ECA.Business.Test.Service.Persons
         public void TestConstructor()
         {
             var user = new User(1);
-            var isSingleName = false;
             var firstName = "first";
             var lastName = "last";
             var projectId = 1;
@@ -32,8 +31,7 @@ namespace ECA.Business.Test.Service.Persons
             var instance = new NewPerson(
                 user, 
                 projectId, 
-                participantTypeId,
-                isSingleName,
+                participantTypeId, 
                 firstName, 
                 lastName,
                 gender, 
@@ -62,7 +60,6 @@ namespace ECA.Business.Test.Service.Persons
         public void TestConstructor_CheckIsDateOfBirthUnknown()
         {
             var user = new User(1);
-            var isSingleName = false;
             var firstName = "first";
             var lastName = "last";
             var projectId = 1;
@@ -78,7 +75,6 @@ namespace ECA.Business.Test.Service.Persons
             var instance = new NewPerson(user,
                 projectId,
                 participantTypeId,
-                isSingleName,
                 firstName,
                 lastName,
                 gender,
@@ -95,7 +91,6 @@ namespace ECA.Business.Test.Service.Persons
         public void TestConstructor_CheckIsDateOfBirthEstimated()
         {
             var user = new User(1);
-            var isSingleName = false;
             var firstName = "first";
             var lastName = "last";
             var projectId = 1;
@@ -111,7 +106,6 @@ namespace ECA.Business.Test.Service.Persons
             var instance = new NewPerson(user,
                 projectId,
                 participantTypeId,
-                isSingleName,
                 firstName,
                 lastName,
                 gender,
@@ -128,7 +122,6 @@ namespace ECA.Business.Test.Service.Persons
         public void TestConstructor_CheckIsPlaceOfBirthUnknown()
         {
             var user = new User(1);
-            var isSingleName = false;
             var firstName = "first";
             var lastName = "last";
             var projectId = 1;
@@ -144,7 +137,6 @@ namespace ECA.Business.Test.Service.Persons
             var instance = new NewPerson(user,
                 projectId,
                 participantTypeId,
-                isSingleName,
                 firstName,
                 lastName,
                 gender,

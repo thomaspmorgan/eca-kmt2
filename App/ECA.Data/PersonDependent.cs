@@ -208,11 +208,5 @@ namespace ECA.Data
         {
             return string.Format(DS2019_FILE_NAME_FORMAT_STRING, this.DependentId, this.SevisId);
         }
-
-        /// <summary>
-        /// Gets or sets Is Single Name
-        /// </summary>
-        public bool IsSingleName { get; set; }
-
     }
 }

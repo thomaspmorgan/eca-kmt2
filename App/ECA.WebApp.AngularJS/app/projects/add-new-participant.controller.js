@@ -89,7 +89,7 @@ angular.module('staticApp')
           }
       });
 
-     
+
 
       $scope.searchCountries = function (search) {
           loadCountries(search);
@@ -193,7 +193,7 @@ angular.module('staticApp')
               filter: [{ property: 'lastName', comparison: 'eq', value: $scope.newPerson.lastName }]
           };
           if (!$scope.newPerson.isSingleName) {
-              params.filter.push({ property: 'firstName', comparison: 'eq', value: $scope.newPerson.firstName  });
+              params.filter.push({ property: 'firstName', comparison: 'eq', value: $scope.newPerson.firstName });
           }
           if ($scope.newPerson.dateOfBirth) {
               params.filter.push({ property: 'dateOfBirth', comparison: 'eq', value: $scope.newPerson.dateOfBirth });

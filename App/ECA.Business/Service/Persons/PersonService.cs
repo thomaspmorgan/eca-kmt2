@@ -121,7 +121,6 @@ namespace ECA.Business.Service.Persons
                 isDateOfBirthEstimated: updatePii.IsDateOfBirthEstimated,
                 isPlaceOfBirthUnknown: updatePii.IsPlaceOfBirthUnknown
                 ));
-            person.IsSingleName = updatePii.IsSingleName;
             person.FirstName = updatePii.FirstName;
             person.LastName = updatePii.LastName;
             person.NamePrefix = updatePii.NamePrefix;
@@ -712,7 +711,7 @@ namespace ECA.Business.Service.Persons
         {
             var person = new Person
             {
-                FirstName = (newPerson.IsSingleName) ? null : newPerson.FirstName,
+                FirstName = newPerson.FirstName,
                 LastName = newPerson.LastName,
                 GenderId = newPerson.Gender,
                 DateOfBirth = newPerson.DateOfBirth,
@@ -720,8 +719,7 @@ namespace ECA.Business.Service.Persons
                 CountriesOfCitizenship = countriesOfCitizenship,
                 IsDateOfBirthEstimated = newPerson.IsDateOfBirthEstimated,
                 IsDateOfBirthUnknown = newPerson.IsDateOfBirthUnknown,
-                IsPlaceOfBirthUnknown = newPerson.IsPlaceOfBirthUnknown,
-                IsSingleName = newPerson.IsSingleName
+                IsPlaceOfBirthUnknown = newPerson.IsPlaceOfBirthUnknown
             };
 
             newPerson.Audit.SetHistory(person);

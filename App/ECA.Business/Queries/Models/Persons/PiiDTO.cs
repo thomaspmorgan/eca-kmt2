@@ -153,10 +153,5 @@ namespace ECA.Business.Queries.Models.Persons
         /// Gets or sets the participant's sevis id
         /// </summary>
         public string SevisId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the Is Single Name flag.
-        /// </summary>
-        public bool IsSingleName { get; set; }
     }
 }

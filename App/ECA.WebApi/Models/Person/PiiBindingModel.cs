@@ -22,6 +22,7 @@ namespace ECA.WebApi.Models.Person
         /// <summary>
         /// Gets or sets the first name
         /// </summary>
+        [Required]
         public string FirstName { get; set; }
 
         /// <summary>
@@ -125,11 +126,6 @@ namespace ECA.WebApi.Models.Person
         public int? MaritalStatusId { get; set; }
 
         /// <summary>
-        /// Gets or sets the is Single Name flag
-        /// </summary>
-        public bool IsSingleName { get; set; }
-
-        /// <summary>
         /// Convert binding model to business model 
         /// </summary>
         /// <param name="user">The user updating the pii</param>
@@ -139,7 +135,6 @@ namespace ECA.WebApi.Models.Person
             return new UpdatePii(
                 updatedBy: user,
                 personId: this.PersonId,
-                isSingleName: this.IsSingleName,
                 firstName: this.FirstName,
                 lastName: this.LastName,
                 namePrefix: this.NamePrefix,
