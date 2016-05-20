@@ -92,8 +92,30 @@ namespace ECA.Business.Service.Persons
             if (ShouldRunValidation(participant, participantPerson))
             {
                 var exchangeVisitor = this.exchangeVisitorService.GetExchangeVisitor(projectId, participantId);
-                ValidationResult validationResult = exchangeVisitor.Validate(this.ExchangeVisitorValidator);
-                return HandleValidationResult(participantPerson, validationResult);
+                var hasChanges = String.IsNullOrWhiteSpace(exchangeVisitor.SevisId);
+                if (!hasChanges)
+                {
+                    var history = Context.ExchangeVisitorHistories.Find(participantId);
+                    if (history != null && history.LastSuccessfulModel != null)
+                    {
+                        var previouslySubmittedExchangeVisitor = ExchangeVisitor.GetExchangeVisitor(history.LastSuccessfulModel);
+                        hasChanges = exchangeVisitor.HasChanges(previouslySubmittedExchangeVisitor);
+                    }
+                    else
+                    {
+                        hasChanges = true;
+                    }
+                }
+                if (hasChanges)
+                {
+                    ValidationResult validationResult = exchangeVisitor.Validate(this.ExchangeVisitorValidator);
+                    return HandleValidationResult(exchangeVisitor, participantPerson, validationResult);
+                }
+                else
+                {
+                    HandleNonValidatedParticipant(participantPerson);
+                    return null;
+                }
             }
             else
             {
@@ -122,8 +144,30 @@ namespace ECA.Business.Service.Persons
             if (ShouldRunValidation(participant, participantPerson))
             {
                 var exchangeVisitor = await this.exchangeVisitorService.GetExchangeVisitorAsync(projectId, participantId);
-                ValidationResult validationResult = exchangeVisitor.Validate(this.ExchangeVisitorValidator);
-                return await HandleValidationResultAsync(participantPerson, validationResult);
+                var hasChanges = String.IsNullOrWhiteSpace(exchangeVisitor.SevisId);
+                if (!hasChanges)
+                {
+                    var history = await Context.ExchangeVisitorHistories.FindAsync(participantId);
+                    if (history != null && history.LastSuccessfulModel != null)
+                    {
+                        var previouslySubmittedExchangeVisitor = ExchangeVisitor.GetExchangeVisitor(history.LastSuccessfulModel);
+                        hasChanges = exchangeVisitor.HasChanges(previouslySubmittedExchangeVisitor);
+                    }
+                    else
+                    {
+                        hasChanges = true;
+                    }
+                }
+                if (hasChanges)
+                {
+                    ValidationResult validationResult = exchangeVisitor.Validate(this.ExchangeVisitorValidator);
+                    return await HandleValidationResultAsync(exchangeVisitor, participantPerson, validationResult);
+                }
+                else
+                {
+                    HandleNonValidatedParticipant(participantPerson);
+                    return null;
+                }
             }
             else
             {
@@ -166,23 +210,28 @@ namespace ECA.Business.Service.Persons
 
         #region Handle Validation Result
 
-        private async Task<ParticipantPersonSevisCommStatus> HandleValidationResultAsync(ParticipantPerson person, ValidationResult result)
+        private async Task<ParticipantPersonSevisCommStatus> HandleValidationResultAsync(ExchangeVisitor exchangeVisitor, ParticipantPerson person, ValidationResult result)
         {
-            person.SevisValidationResult = GetSevisValidationResultAsJson(result);
+            //remember this method should be as performant as possible since lots of different entity edits can cause this method to run
             var latestCommStatus = await CreateGetLatestParticipantPersonSevisCommStatusQuery(person.ParticipantId).FirstOrDefaultAsync();
+            person.SevisValidationResult = GetSevisValidationResultAsJson(result);
             if (!result.IsValid)
             {
                 if (!String.IsNullOrWhiteSpace(person.SevisId))
                 {
                     var isParticipantReadyToValidate = await this.participantPersonSevisService.IsParticipantReadyToValidateAsync(person.ParticipantId);
-                    if (!isParticipantReadyToValidate)
-                    {
-                        return AddOrUpdateParticipantPersonSevisCommStatus(latestCommStatus, person.ParticipantId, SevisCommStatus.InformationRequired.Id);
-                    }
-                    else
+                    if (isParticipantReadyToValidate)
                     {
                         return AddOrUpdateParticipantPersonSevisCommStatus(latestCommStatus, person.ParticipantId, SevisCommStatus.NeedsValidationInfo.Id);
                     }
+
+                    var hasParticipantNeededValidationInfo = await CreateGetParticipantPersonSevisCommStatusBySevisCommStatusIdQuery(person.ParticipantId, SevisCommStatus.NeedsValidationInfo.Id).CountAsync() > 0;
+                    if (!exchangeVisitor.IsValidated && hasParticipantNeededValidationInfo)
+                    {
+                        return AddOrUpdateParticipantPersonSevisCommStatus(latestCommStatus, person.ParticipantId, SevisCommStatus.NeedsValidationInfo.Id);
+                    }
+
+                    return AddOrUpdateParticipantPersonSevisCommStatus(latestCommStatus, person.ParticipantId, SevisCommStatus.InformationRequired.Id);
                 }
                 else
                 {
@@ -192,9 +241,8 @@ namespace ECA.Business.Service.Persons
             else
             {
                 var hasParticipantNeededValidationInfo = await CreateGetParticipantPersonSevisCommStatusBySevisCommStatusIdQuery(person.ParticipantId, SevisCommStatus.NeedsValidationInfo.Id).CountAsync() > 0;
-                var hasParticipantBeenValidated = await CreateGetParticipantPersonSevisCommStatusBySevisCommStatusIdQuery(person.ParticipantId, new int[] { SevisCommStatus.ValidatedByBatch.Id, SevisCommStatus.ValidatedViaRti.Id }).CountAsync() > 0;
                 var isParticipantReadyToValidate = await this.participantPersonSevisService.IsParticipantReadyToValidateAsync(person.ParticipantId);
-                if ((hasParticipantNeededValidationInfo && !hasParticipantBeenValidated) || isParticipantReadyToValidate)
+                if ((hasParticipantNeededValidationInfo && !exchangeVisitor.IsValidated) || isParticipantReadyToValidate)
                 {
                     return AddParticipantPersonSevisCommStatus(person.ParticipantId, SevisCommStatus.ReadyToValidate.Id);
                 }
@@ -205,23 +253,28 @@ namespace ECA.Business.Service.Persons
             }
         }
 
-        private ParticipantPersonSevisCommStatus HandleValidationResult(ParticipantPerson person, ValidationResult result)
+        private ParticipantPersonSevisCommStatus HandleValidationResult(ExchangeVisitor exchangeVisitor, ParticipantPerson person, ValidationResult result)
         {
+            //remember this method should be as performant as possible since lots of different entity edits can cause this method to run
             person.SevisValidationResult = GetSevisValidationResultAsJson(result);
             var latestCommStatus = CreateGetLatestParticipantPersonSevisCommStatusQuery(person.ParticipantId).FirstOrDefault();
             if (!result.IsValid)
-            {
+            {   
                 if (!String.IsNullOrWhiteSpace(person.SevisId))
                 {
                     var isParticipantReadyToValidate = this.participantPersonSevisService.IsParticipantReadyToValidate(person.ParticipantId);
-                    if (!isParticipantReadyToValidate)
-                    {
-                        return AddOrUpdateParticipantPersonSevisCommStatus(latestCommStatus, person.ParticipantId, SevisCommStatus.InformationRequired.Id);
-                    }
-                    else
+                    if (isParticipantReadyToValidate)
                     {
                         return AddOrUpdateParticipantPersonSevisCommStatus(latestCommStatus, person.ParticipantId, SevisCommStatus.NeedsValidationInfo.Id);
                     }
+
+                    var hasParticipantNeededValidationInfo = CreateGetParticipantPersonSevisCommStatusBySevisCommStatusIdQuery(person.ParticipantId, SevisCommStatus.NeedsValidationInfo.Id).Count() > 0;
+                    if (!exchangeVisitor.IsValidated && hasParticipantNeededValidationInfo)
+                    {
+                        return AddOrUpdateParticipantPersonSevisCommStatus(latestCommStatus, person.ParticipantId, SevisCommStatus.NeedsValidationInfo.Id);
+                    }
+
+                    return AddOrUpdateParticipantPersonSevisCommStatus(latestCommStatus, person.ParticipantId, SevisCommStatus.InformationRequired.Id);
                 }
                 else
                 {
@@ -231,9 +284,8 @@ namespace ECA.Business.Service.Persons
             else
             {
                 var hasParticipantNeededValidationInfo = CreateGetParticipantPersonSevisCommStatusBySevisCommStatusIdQuery(person.ParticipantId, SevisCommStatus.NeedsValidationInfo.Id).Count() > 0;
-                var hasParticipantBeenValidated = CreateGetParticipantPersonSevisCommStatusBySevisCommStatusIdQuery(person.ParticipantId, new int[] { SevisCommStatus.ValidatedByBatch.Id, SevisCommStatus.ValidatedViaRti.Id }).Count() > 0;
                 var isParticipantReadyToValidate = this.participantPersonSevisService.IsParticipantReadyToValidate(person.ParticipantId);
-                if ((hasParticipantNeededValidationInfo && !hasParticipantBeenValidated) || isParticipantReadyToValidate)
+                if ((hasParticipantNeededValidationInfo && !exchangeVisitor.IsValidated) || isParticipantReadyToValidate)
                 {
                     return AddParticipantPersonSevisCommStatus(person.ParticipantId, SevisCommStatus.ReadyToValidate.Id);
                 }
