@@ -48,6 +48,8 @@ namespace ECA.WebApi.Controllers.Persons
         /// </summary>
         /// <param name="participantService">The participant person sevis service.</param>
         /// <param name="userProvider">The user provider</param>
+        /// <param name="appSettings">The application settings.</param>
+        /// <param name="storageHandler">The file storage handler.</param>
         public ParticipantPersonsSevisController(IParticipantPersonsSevisService participantService, IUserProvider userProvider, IFileStorageHandler storageHandler, AppSettings appSettings)
         {
             Contract.Requires(participantService != null, "The participantPersonSevis service must not be null.");

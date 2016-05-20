@@ -1096,33 +1096,121 @@ namespace ECA.Business.Test.Service.Persons
 
         #region GetDS2019FileName
         [TestMethod]
-        public async Task TestGetDS2019FileNameAsync()
+        public async Task TestGetDS2019FileName()
         {
-            var participantPerson = new ParticipantPerson
+            var user = new User(1);
+            var participant = new Participant
             {
                 ParticipantId = 1,
-                DS2019FileName = "test.pdf"
+                ProjectId = 2
             };
+            var participantPerson = new ParticipantPerson
+            {
+                ParticipantId = participant.ParticipantId,
+                DS2019FileName = "test.pdf",
+                Participant = participant
+            };
+            participant.ParticipantPerson = participantPerson;
 
+            Action<string> tester = (fileName) =>
+            {
+                Assert.AreEqual(participantPerson.DS2019FileName, fileName);
+            };
             context.ParticipantPersons.Add(participantPerson);
+            context.Participants.Add(participant);
 
-            var response = await sevisService.GetDS2019FileNameAsync(1, 1);
-
-            Assert.AreEqual(participantPerson.DS2019FileName, response);
+            var response = sevisService.GetDS2019FileName(user, participant.ProjectId, participant.ParticipantId);
+            var responseAsync = await sevisService.GetDS2019FileNameAsync(user, participant.ProjectId, participant.ParticipantId);
+            tester(response);
+            tester(responseAsync);
         }
 
         [TestMethod]
-        public async Task TestGetDS2019FileNameAsync_NullFileName()
+        public async Task TestGetDS2019FileName_FileNameIsNull()
         {
+            var user = new User(1);
+            var participant = new Participant
+            {
+                ParticipantId = 1,
+                ProjectId = 2
+            };
             var participantPerson = new ParticipantPerson
             {
-                ParticipantId = 1
+                ParticipantId = participant.ParticipantId,
+                Participant = participant
+            };
+            participant.ParticipantPerson = participantPerson;
+
+            Action<string> tester = (fileName) =>
+            {
+                Assert.IsNull(fileName);
+            };
+            context.ParticipantPersons.Add(participantPerson);
+            context.Participants.Add(participant);
+
+            var response = sevisService.GetDS2019FileName(user, participant.ProjectId, participant.ParticipantId);
+            var responseAsync = await sevisService.GetDS2019FileNameAsync(user, participant.ProjectId, participant.ParticipantId);
+            tester(response);
+            tester(responseAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetDS2019FileName_ParticipantPersonIsNull()
+        {
+            var user = new User(1);
+            var participant = new Participant
+            {
+                ParticipantId = 1,
+                ProjectId = 2
             };
 
-            var response = await sevisService.GetDS2019FileNameAsync(1, 1);
+            Action<string> tester = (fileName) =>
+            {
+                Assert.IsNull(fileName);
+            };
+            context.Participants.Add(participant);
 
-            Assert.IsNull(participantPerson.DS2019FileName);
+            var response = sevisService.GetDS2019FileName(user, participant.ProjectId, participant.ParticipantId);
+            var responseAsync = await sevisService.GetDS2019FileNameAsync(user, participant.ProjectId, participant.ParticipantId);
+            tester(response);
+            tester(responseAsync);
         }
+
+        [TestMethod]
+        public async Task TestGetDS2019FileName_ParticipantDoesNotBelongToProject()
+        {
+            var user = new User(1);
+            var participant = new Participant
+            {
+                ParticipantId = 1,
+                ProjectId = 2
+            };
+            context.Participants.Add(participant);
+            var message = String.Format("The user with id [{0}] attempted to validate a participant with id [{1}] and project id [{2}] but should have been denied access.",
+                        user.Id,
+                        participant.ParticipantId,
+                        participant.ProjectId + 1);
+            Action a = () => sevisService.GetDS2019FileName(user, participant.ProjectId + 1, participant.ParticipantId);
+            Func<Task> f = () => sevisService.GetDS2019FileNameAsync(user, participant.ProjectId + 1, participant.ParticipantId);
+
+            a.ShouldThrow<BusinessSecurityException>().WithMessage(message);
+            f.ShouldThrow<BusinessSecurityException>().WithMessage(message);
+        }
+
+        [TestMethod]
+        public async Task TestGetDS2019FileName_ParticipantDoesNotExist()
+        {
+            var user = new User(1);
+            var participantId = 1;
+            var projectId = 1;
+            var message = String.Format("The model of type [{0}] with id [{1}] was not found.", typeof(Participant).Name, participantId);
+            Action a = () => sevisService.GetDS2019FileName(user, projectId, participantId);
+            Func<Task> f = () => sevisService.GetDS2019FileNameAsync(user, projectId, participantId);
+
+            a.ShouldThrow<ModelNotFoundException>().WithMessage(message);
+            f.ShouldThrow<ModelNotFoundException>().WithMessage(message);
+        }
+
         #endregion
 
         #region Update
@@ -1314,6 +1402,7 @@ namespace ECA.Business.Test.Service.Persons
             Assert.IsTrue(context.ParticipantPersonSevisCommStatuses.FirstOrDefault(x => x.SevisCommStatusId == SevisCommStatus.Ds2019SentToTraveler.Id).SevisCommStatusId == SevisCommStatus.Ds2019SentToTraveler.Id);
 
             #endregion Update
+
         }
     }
 }
