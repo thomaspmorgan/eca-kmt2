@@ -25,10 +25,10 @@ angular.module('staticApp')
           },
           getParticipantPersonsById: function (projectId, id) {
               return DragonBreath.get('project/' + projectId, '/participantPersons', id);
-          }/**,
-          getParticipantPersonById: function (id) {
-              return DragonBreath.get('project/participantPersons', id);
+          },
+          getIsParticipantPersonLocked: function (personId) {
+              var path = 'participantPersons/' + personId + '/isParticipantPersonLocked';
+              return DragonBreath.get(path);
           }
-          **/
       };
   });

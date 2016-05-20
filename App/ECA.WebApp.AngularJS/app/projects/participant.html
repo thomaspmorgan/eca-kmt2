@@ -136,9 +136,8 @@
                 <tab heading="Participant Information" class="tab" select="onInfoTabSelected(getSelectedParticipants()[0].participantId)" active="view.tabInfo" deselect="view.tabInfo=false">
                     <participant-person-info 
                                              participantid="{{getSelectedParticipant().participantId}}"
-                                             onparticipantupdated="onParticipantUpdated" 
-                                             active="view.tabInfo"
-                                             sevisinfo="sevisInfo[getSelectedParticipant().participantId]" />
+                                             personid="{{getSelectedParticipant().personId}}"
+                                             onparticipantupdated="onParticipantUpdated" />
                 </tab>
                 <tab heading="Personal Identifiable Information (PII)" class="tab" active="view.tabPii" select="onPiiTabSelected()">
                     <pii personid="{{getSelectedParticipant().personId}}" updatepiicallback="updatePiiCallback()"></pii>

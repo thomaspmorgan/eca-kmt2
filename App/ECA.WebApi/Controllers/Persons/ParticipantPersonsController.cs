@@ -88,7 +88,7 @@ namespace ECA.WebApi.Controllers.Persons
         /// <param name="personId">The person id</param>
         /// <returns>If the person is locked</returns>
         [ResponseType(typeof(bool))]
-        [Route("Project/ParticipantPersons/{personId:int}/IsParticipantPersonLocked")]
+        [Route("ParticipantPersons/{personId:int}/IsParticipantPersonLocked")]
         public async Task<IHttpActionResult> GetIsParticipantPersonLockedAsync(int personId)
         {
             var isParticipantPersonLocked = await service.GetIsParticipantPersonLockedAsync(personId);

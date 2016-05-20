@@ -43,19 +43,6 @@ angular.module('staticApp')
         });
      };
 
-     /**
-     function getParticipantPerson() {
-         ParticipantPersonsService.getParticipantPersonById($stateParams.personId)
-             .then(function (data) {
-                 $scope.sevisStatus.statusName = data.data.sevisStatus;
-                 $scope.sevisStatus.statusNameId = data.data.sevisStatusId;
-             }, function (error) {
-                 $log.error('Unable to load participant info for ' + $stateParams.personId + '.');
-                 NotificationService.showErrorMessage('Unable to load participant info for ' + $stateParams.personId + '.');
-             });
-     };
-     **/
-
       $scope.cancelEditGeneral = function () {
           $scope.edit.General = false;
       };
@@ -66,7 +53,6 @@ angular.module('staticApp')
           .then(function () {
               NotificationService.showSuccessMessage("The edit was successful.");
               loadGeneral($scope.general.personId);
-              //getParticipantPerson();
               $scope.edit.General = false;
           }, 
             function (error) {
