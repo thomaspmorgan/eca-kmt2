@@ -30,8 +30,8 @@
     "ngSmoothScroll": "1.7.1",
     "angularjs-toaster": "0.4.12",
     "file-saver-saveas-js": "1.20150304.1",
-    "international-phone-number": "0.0.11",
-    "intl-tel-input": "5.1.7",
+    "international-phone-number": "0.0.16",
+    "intl-tel-input": "8.5.2",
     "angular-filter": "0.5.8",
     "angular-input-masks": "2.1.1",
     "angular-ui-calendar": "1.0.1",
@@ -46,6 +46,7 @@
   "appPath": "app",
   "resolutions": {
     "angular": "1.4.5",
-    "d3": "3.5.6"
+    "d3": "3.5.6",
+    "intl-tel-input": "8.5.2"
   }
 }
