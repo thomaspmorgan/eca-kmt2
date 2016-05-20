@@ -19,12 +19,16 @@
                 </div>
                 <div class="row" ng-show="!view.isSavingChanges && !view.isLoadingRequiredData">
                     <div ng-class="{true: '', false: 'row2'}[editMode]" ng-show="!phoneNumber.showEditPhoneNumber">
-                        <div ng-class="phoneNumber.flag" title="{{phoneNumber.flagtitle}}">
-                            <a ng-show="!view.showEditPhoneNumber" href="tel:{{phoneNumber.number}}" style="margin-left:25px">
-                                {{phoneNumber.number}}
-                                <span ng-show="phoneNumber.extension.length > 0">ext. </span>{{phoneNumber.extension}}
+                        <a href="tel:{{phoneNumber.number}}">
+                            {{phoneNumber.number}}
+                            <span ng-show="phoneNumber.extension.length > 0">ext. </span>{{phoneNumber.extension}}
+                        </a>
+                        <!--<div ng-class="phoneNumber.flag" title="{ {phoneNumber.flagtitle}}">
+                            <a ng-show="!view.showEditPhoneNumber" href="tel:{ {phoneNumber.number}}" style="margin-left:25px">
+                                { {phoneNumber.number}}
+                                <span ng-show="phoneNumber.extension.length > 0">ext. </span>{ {phoneNumber.extension}}
                             </a>
-                        </div>
+                        </div>-->
                         <div class="pull-right" ng-show="!view.showEditPhoneNumber">
                             {{phoneNumber.phoneNumberType}}
                             <a ng-show="!view.showEditPhoneNumber && !view.isDeletingPhoneNumber && editMode" ng-click="view.showConfirmDelete = true">
@@ -46,7 +50,7 @@
                         <button ng-click="view.showConfirmDelete = !view.showConfirmDelete" class="btn btn-cancel">Cancel</button>
                     </div>
                     <div in-context-form ng-show="view.showEditPhoneNumber || phoneNumber.isNew">
-                        <form name="form.phoneNumberForm" class="row form-horizontal">
+                        <form name="form.phoneNumberForm" class="row form-horizontal" novalidate>
                             <div class="form-group">
                                 <label class="title-label col-md-3" for="type">Type <eca-required /></label>
                                 <div class="col-md-9">
@@ -77,7 +81,7 @@
                                            international-phone-number
                                            required />
                                 </div>
-                                <div ng-show="form.phoneNumberForm{{phoneNumber.id}}.$dirty || form.phoneNumberForm{{phoneNumber.id}}.phoneNumberValue.$error.required">
+                                <div ng-show="form.phoneNumberForm.phoneNumberValue.$dirty || form.phoneNumberForm.phoneNumberValue.$error.required">
                                     <div class="error" ng-show="form.phoneNumberForm.phoneNumberValue.$error.required">Please enter a phone number value.</div>
                                 </div>
                             </div>
