@@ -211,7 +211,9 @@ namespace ECA.WebApi.Controllers.Persons
         [ResourceAuthorize(Permission.EDIT_SEVIS_VALUE, ResourceType.PROJECT_VALUE, "projectId")]
         public async Task<HttpResponseMessage> GetDS2019FileAsync(int projectId, int participantId)
         {
-            var fileName = await participantService.GetDS2019FileNameAsync(projectId, participantId);
+            var currentUser = userProvider.GetCurrentUser();
+            var businessUser = userProvider.GetBusinessUser(currentUser);
+            var fileName = await participantService.GetDS2019FileNameAsync(businessUser, projectId, participantId);
             if (fileName != null)
             {
                 var container = appSettings.DS2019FileStorageContainer;
