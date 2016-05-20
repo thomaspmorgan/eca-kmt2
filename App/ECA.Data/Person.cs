@@ -189,6 +189,12 @@ namespace ECA.Data
         public bool? IsPlaceOfBirthUnknown { get; set; }
 
         /// <summary>
+        /// Identifies if the participant has a only one name
+        /// </summary>
+        public bool IsSingleName { get; set; }
+
+
+        /// <summary>
         /// Gets or sets whether the date of birth is estimated.
         /// </summary>
         public bool? IsDateOfBirthEstimated { get; set; }

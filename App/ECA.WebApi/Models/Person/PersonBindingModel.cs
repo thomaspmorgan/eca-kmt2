@@ -24,9 +24,14 @@ namespace ECA.WebApi.Models.Person
         public int ParticipantTypeId { get; set; }
 
         /// <summary>
+        /// Gets or sets the is Single Name flag
+        /// </summary>
+        public bool IsSingleName { get; set; }
+
+        /// <summary>
         /// Gets or sets the first name
         /// </summary>
-        [Required]
+      
         public string FirstName { get; set; }
 
         /// <summary>
@@ -82,6 +87,7 @@ namespace ECA.WebApi.Models.Person
                 createdBy: user,
                 projectId: this.ProjectId,
                 participantTypeId: this.ParticipantTypeId,
+                isSingleName: this.IsSingleName,
                 firstName: this.FirstName,
                 lastName: this.LastName,
                 gender: this.Gender,

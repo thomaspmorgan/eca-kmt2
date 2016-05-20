@@ -136,6 +136,11 @@ namespace ECA.Business.Queries.Models.Persons
         /// <summary>
         /// Gets and sets the audit record
         /// </summary>
-        public Audit Audit { get; set; }        
+        public Audit Audit { get; set; }
+
+        /// <summary>
+        /// Gets and sets the Is Single Name flag
+        /// </summary>
+        public bool IsSingleName { get; set; }
     }
 }

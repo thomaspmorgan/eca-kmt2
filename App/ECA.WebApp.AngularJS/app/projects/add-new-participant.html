@@ -27,9 +27,9 @@
                             </ui-select>
                         </div>
                         <div class="col-md-6">
-                            <div class="form-group">
+                            <div class="form-group" ng-hide="newPerson.isSingleName">
                                 <label for="">FIRST / GIVEN NAME<span class="asterisk"> *</span></label>
-                                <input ng-model="newPerson.firstName" form-element guidance="First or given name of the participant." type="text" tabindex="2" class="form-control" required ng-disabled="newPerson.selectedDuplicate" ng-change="resetPersonDuplicates()">
+                                <input ng-model="newPerson.firstName" form-element guidance="First or given name of the participant." type="text" tabindex="2" class="form-control" ng-required="!newPerson.isSingleName" ng-disabled="newPerson.selectedDuplicate" ng-change="resetPersonDuplicates()" >
                             </div>
                             <div class="form-group">
                                 <label for="">GENDER<span class="asterisk"> *</span></label>
@@ -71,7 +71,16 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="">SURNAME / PRIMARY NAME<span class="asterisk"> *</span></label>
+                                
+                                <label>{{formLastName}}<span class="asterisk"> *
+                                        <label style="margin-top:-19px; padding-left:180px;">
+                                            <input type="checkbox" ng-model="newPerson.isSingleName" ng-change="onIsSingleNameChange()" ng-disabled="newPerson.selectedDuplicate"   />
+                                            Single Name
+                                        </label>
+                                    </span>                                
+                                </label>
+                                
+                                
                                 <input ng-model="newPerson.lastName" form-element guidance="Surname or primary name of the participant." tabindex="3" type="text" class="form-control" required ng-disabled="newPerson.selectedDuplicate" ng-change="resetPersonDuplicates()">
                             </div>
                             <div class="form-group">

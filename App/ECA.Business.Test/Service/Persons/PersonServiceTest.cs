@@ -1492,6 +1492,7 @@ namespace ECA.Business.Test.Service.Persons
         public async Task TestCreateAsync_CheckProperties()
         {
             var user = new User(1);
+            var isSingleName = false;
             var firstName = "first";
             var lastName = "last";
             var participantTypeId = ParticipantType.ForeignNonTravelingParticipant.Id;
@@ -1511,8 +1512,9 @@ namespace ECA.Business.Test.Service.Persons
 
             var newPerson = new NewPerson(
                 createdBy: user,
-                projectId: project.ProjectId,
+                projectId: project.ProjectId,                
                 participantTypeId: participantTypeId,
+                isSingleName: isSingleName,
                 firstName: firstName,
                 lastName: lastName,
                 gender: gender,
@@ -1529,6 +1531,7 @@ namespace ECA.Business.Test.Service.Persons
             });
             Action<Person> tester = (testPerson) =>
             {
+                Assert.AreEqual(newPerson.IsSingleName, testPerson.IsSingleName);
                 Assert.AreEqual(newPerson.FirstName, testPerson.FirstName);
                 Assert.AreEqual(newPerson.LastName, testPerson.LastName);
                 Assert.AreEqual(newPerson.Gender, testPerson.GenderId);
@@ -1563,6 +1566,7 @@ namespace ECA.Business.Test.Service.Persons
         public async Task TestCreateAsync_ExchangeVisitor()
         {
             var user = new User(1);
+            var isSingleName = false;
             var firstName = "first";
             var lastName = "last";
             var participantTypeId = ParticipantType.ForeignNonTravelingParticipant.Id;
@@ -1584,6 +1588,7 @@ namespace ECA.Business.Test.Service.Persons
                 createdBy: user,
                 projectId: project.ProjectId,
                 participantTypeId: participantTypeId,
+                isSingleName: isSingleName,
                 firstName: firstName,
                 lastName: lastName,
                 gender: gender,
@@ -1600,6 +1605,7 @@ namespace ECA.Business.Test.Service.Persons
             });
             Action<Person> tester = (testPerson) =>
             {
+                Assert.AreEqual(newPerson.IsSingleName, testPerson.IsSingleName);
                 Assert.AreEqual(newPerson.FirstName, testPerson.FirstName);
                 Assert.AreEqual(newPerson.LastName, testPerson.LastName);
                 Assert.AreEqual(newPerson.Gender, testPerson.GenderId);
@@ -1635,6 +1641,7 @@ namespace ECA.Business.Test.Service.Persons
         public async Task TestCreateAsync_ExchangeVisitorWithDefaults()
         {
             var user = new User(1);
+            var isSingleName = false;
             var firstName = "first";
             var lastName = "last";
             var participantTypeId = ParticipantType.ForeignNonTravelingParticipant.Id;
@@ -1681,6 +1688,7 @@ namespace ECA.Business.Test.Service.Persons
                 createdBy: user,
                 projectId: project.ProjectId,
                 participantTypeId: participantTypeId,
+                isSingleName: isSingleName,
                 firstName: firstName,
                 lastName: lastName,
                 gender: gender,
@@ -1698,6 +1706,7 @@ namespace ECA.Business.Test.Service.Persons
             });
             Action<Person> tester = (testPerson) =>
             {
+                Assert.AreEqual(newPerson.IsSingleName, testPerson.IsSingleName);
                 Assert.AreEqual(newPerson.FirstName, testPerson.FirstName);
                 Assert.AreEqual(newPerson.LastName, testPerson.LastName);
                 Assert.AreEqual(newPerson.Gender, testPerson.GenderId);
@@ -1753,6 +1762,7 @@ namespace ECA.Business.Test.Service.Persons
         public async Task TestCreateAsync_DateOfBirthEstimated()
         {
             var user = new User(1);
+            var isSingleName = false;
             var firstName = "first";
             var lastName = "last";
             var participantTypeId = ParticipantType.ForeignNonTravelingParticipant.Id;
@@ -1774,6 +1784,7 @@ namespace ECA.Business.Test.Service.Persons
                 createdBy: user,
                 projectId: project.ProjectId,
                 participantTypeId: participantTypeId,
+                isSingleName: isSingleName,
                 firstName: firstName,
                 lastName: lastName,
                 gender: gender,
@@ -1790,6 +1801,7 @@ namespace ECA.Business.Test.Service.Persons
             });
             Action<Person> tester = (testPerson) =>
             {
+                Assert.AreEqual(newPerson.IsSingleName, testPerson.IsSingleName);
                 Assert.AreEqual(newPerson.IsDateOfBirthEstimated, testPerson.IsDateOfBirthEstimated);
                 Assert.AreEqual(newPerson.IsDateOfBirthUnknown, testPerson.IsDateOfBirthUnknown);
                 Assert.AreEqual(newPerson.IsPlaceOfBirthUnknown, testPerson.IsPlaceOfBirthUnknown);
@@ -1803,6 +1815,7 @@ namespace ECA.Business.Test.Service.Persons
         public async Task TestCreateAsync_DateOfBirthUnknown()
         {
             var user = new User(1);
+            var isSingleName = false;
             var firstName = "first";
             var lastName = "last";
             var participantTypeId = ParticipantType.ForeignNonTravelingParticipant.Id;
@@ -1824,6 +1837,7 @@ namespace ECA.Business.Test.Service.Persons
                 createdBy: user,
                 projectId: project.ProjectId,
                 participantTypeId: participantTypeId,
+                 isSingleName: isSingleName,
                 firstName: firstName,
                 lastName: lastName,
                 gender: gender,
@@ -1840,6 +1854,7 @@ namespace ECA.Business.Test.Service.Persons
             });
             Action<Person> tester = (testPerson) =>
             {
+                Assert.AreEqual(newPerson.IsSingleName, testPerson.IsSingleName);
                 Assert.AreEqual(newPerson.IsDateOfBirthEstimated, testPerson.IsDateOfBirthEstimated);
                 Assert.AreEqual(newPerson.IsDateOfBirthUnknown, testPerson.IsDateOfBirthUnknown);
                 Assert.AreEqual(newPerson.IsPlaceOfBirthUnknown, testPerson.IsPlaceOfBirthUnknown);
@@ -1853,6 +1868,7 @@ namespace ECA.Business.Test.Service.Persons
         public async Task TestCreateAsync_PlaceOfBirthUnknown()
         {
             var user = new User(1);
+            var isSingleName = false;
             var firstName = "first";
             var lastName = "last";
             var participantTypeId = ParticipantType.ForeignNonTravelingParticipant.Id;
@@ -1874,6 +1890,7 @@ namespace ECA.Business.Test.Service.Persons
                 createdBy: user,
                 projectId: project.ProjectId,
                 participantTypeId: participantTypeId,
+                isSingleName: isSingleName,
                 firstName: firstName,
                 lastName: lastName,
                 gender: gender,
@@ -1890,6 +1907,7 @@ namespace ECA.Business.Test.Service.Persons
             });
             Action<Person> tester = (testPerson) =>
             {
+                Assert.AreEqual(newPerson.IsSingleName, testPerson.IsSingleName);
                 Assert.AreEqual(newPerson.IsDateOfBirthEstimated, testPerson.IsDateOfBirthEstimated);
                 Assert.AreEqual(newPerson.IsPlaceOfBirthUnknown, testPerson.IsPlaceOfBirthUnknown);
                 Assert.AreEqual(newPerson.IsDateOfBirthUnknown, testPerson.IsDateOfBirthUnknown);
@@ -1910,6 +1928,7 @@ namespace ECA.Business.Test.Service.Persons
             context.Locations.Add(city);
 
             var user = new User(1);
+            var isSingleName = false;
             var firstName = "first";
             var lastName = "last";
             var participantTypeId = ParticipantType.ForeignNonTravelingParticipant.Id;
@@ -1931,6 +1950,7 @@ namespace ECA.Business.Test.Service.Persons
                 createdBy: user,
                 projectId: project.ProjectId,
                 participantTypeId: participantTypeId,
+                 isSingleName: isSingleName,
                 firstName: firstName,
                 lastName: lastName,
                 gender: gender,
@@ -1963,6 +1983,7 @@ namespace ECA.Business.Test.Service.Persons
             };
 
             var user = new User(1);
+            var isSingleName = false;
             var firstName = "first";
             var lastName = "last";
             var participantTypeId = ParticipantType.ForeignNonTravelingParticipant.Id;
@@ -1984,6 +2005,7 @@ namespace ECA.Business.Test.Service.Persons
                 createdBy: user,
                 projectId: project.ProjectId,
                 participantTypeId: participantTypeId,
+                isSingleName: isSingleName,
                 firstName: firstName,
                 lastName: lastName,
                 gender: gender,
@@ -2018,6 +2040,7 @@ namespace ECA.Business.Test.Service.Persons
             context.Projects.Add(project);
 
             var user = new User(1);
+            var isSingleName = false;
             var firstName = "first";
             var lastName = "last";
             var projectId = project.ProjectId;
@@ -2034,6 +2057,7 @@ namespace ECA.Business.Test.Service.Persons
                 createdBy: user,
                 projectId: projectId,
                 participantTypeId: participantTypeId,
+                 isSingleName: isSingleName,
                 firstName: firstName,
                 lastName: lastName,
                 gender: gender,
@@ -2062,6 +2086,7 @@ namespace ECA.Business.Test.Service.Persons
         public async Task TestGetExistingPersonAsync_DoesNotExist()
         {
             var user = new User(1);
+            var isSingleName = false;
             var firstName = "first";
             var lastName = "last";
             var projectId = 1;
@@ -2078,6 +2103,7 @@ namespace ECA.Business.Test.Service.Persons
                 createdBy: user,
                 projectId: projectId,
                 participantTypeId: participantTypeId,
+                isSingleName: isSingleName,
                 firstName: firstName,
                 lastName: lastName,
                 gender: gender,
@@ -2108,6 +2134,7 @@ namespace ECA.Business.Test.Service.Persons
 
             var user = new User(1);
             var projectId = 1;
+            var isSingleName = false;
             var participantTypeId = ParticipantType.Individual.Id;
             var gender = Gender.Female.Id;
             var dateOfBirth = DateTime.Now;
@@ -2121,6 +2148,7 @@ namespace ECA.Business.Test.Service.Persons
                 createdBy: user,
                 projectId: projectId,
                 participantTypeId: participantTypeId,
+                isSingleName: isSingleName,
                 firstName: existingPerson.FirstName.ToUpper(),
                 lastName: existingPerson.LastName.ToLower(),
                 gender: gender,
@@ -2150,6 +2178,7 @@ namespace ECA.Business.Test.Service.Persons
             context.People.Add(existingPerson);
 
             var user = new User(1);
+            var isSingleName = false;
             var projectId = 1;
             var participantTypeId = ParticipantType.Individual.Id;
             var gender = Gender.Female.Id;
@@ -2164,6 +2193,7 @@ namespace ECA.Business.Test.Service.Persons
                 createdBy: user,
                 projectId: projectId,
                 participantTypeId: participantTypeId,
+                isSingleName: isSingleName,
                 firstName: existingPerson.FirstName.Trim(),
                 lastName: existingPerson.LastName.Trim(),
                 gender: gender,
@@ -2194,6 +2224,7 @@ namespace ECA.Business.Test.Service.Persons
             context.People.Add(existingPerson);
 
             var user = new User(1);
+            var isSingleName = false;
             var projectId = 1;
             var participantTypeId = ParticipantType.Individual.Id;
             var gender = Gender.Female.Id;
@@ -2208,6 +2239,7 @@ namespace ECA.Business.Test.Service.Persons
                 createdBy: user,
                 projectId: projectId,
                 participantTypeId: participantTypeId,
+                isSingleName: isSingleName,
                 firstName: existingPerson.FirstName.ToUpper(),
                 lastName: existingPerson.LastName.ToUpper(),
                 gender: gender,
@@ -2608,6 +2640,7 @@ namespace ECA.Business.Test.Service.Persons
 
             var pii = new UpdatePii(new User(updatorId),
                                     person.PersonId,
+                                    false,
                                     "firstName",
                                     "lastName",
                                     "namePrefix",
@@ -2629,6 +2662,7 @@ namespace ECA.Business.Test.Service.Persons
                                     "medicalConditions",
                                     default(int));
             var updatedPerson = await service.UpdatePiiAsync(pii);
+            Assert.AreEqual(pii.IsSingleName, updatedPerson.IsSingleName);
             Assert.AreEqual(pii.FirstName, updatedPerson.FirstName);
             Assert.AreEqual(pii.LastName, updatedPerson.LastName);
             Assert.AreEqual(pii.NamePrefix, updatedPerson.NamePrefix);
@@ -2666,6 +2700,7 @@ namespace ECA.Business.Test.Service.Persons
 
             var pii = new UpdatePii(new User(0),
                                     person.PersonId,
+                                    false,
                                     "firstName",
                                     "lastName",
                                     "namePrefix",
@@ -2707,6 +2742,7 @@ namespace ECA.Business.Test.Service.Persons
 
             var pii = new UpdatePii(new User(0),
                                     person.PersonId,
+                                    false,
                                     "firstName",
                                     "lastName",
                                     "namePrefix",
@@ -2747,6 +2783,7 @@ namespace ECA.Business.Test.Service.Persons
 
             var pii = new UpdatePii(new User(0),
                                     person.PersonId,
+                                    false,
                                     "firstName",
                                     "lastName",
                                     "namePrefix",
@@ -2794,6 +2831,7 @@ namespace ECA.Business.Test.Service.Persons
 
             var pii = new UpdatePii(new User(0),
                                     person.PersonId,
+                                    false,
                                     "firstName",
                                     "lastName",
                                     "namePrefix",
@@ -2839,6 +2877,7 @@ namespace ECA.Business.Test.Service.Persons
 
             var pii = new UpdatePii(new User(0),
                                     person.PersonId,
+                                    false,
                                     "firstName",
                                     "lastName",
                                     "namePrefix",
@@ -2887,6 +2926,7 @@ namespace ECA.Business.Test.Service.Persons
 
             var pii = new UpdatePii(new User(0),
                                     person.PersonId,
+                                    false,
                                     "firstName",
                                     "lastName",
                                     "namePrefix",
@@ -2928,6 +2968,7 @@ namespace ECA.Business.Test.Service.Persons
 
             var pii = new UpdatePii(new User(0),
                                     person.PersonId,
+                                    false,
                                     "firstName",
                                     "lastName",
                                     "namePrefix",
@@ -2978,6 +3019,7 @@ namespace ECA.Business.Test.Service.Persons
 
             var pii = new UpdatePii(new User(0),
                                     person.PersonId,
+                                    false,
                                     "firstName",
                                     "lastName",
                                     "namePrefix",
@@ -3023,7 +3065,8 @@ namespace ECA.Business.Test.Service.Persons
 
             var pii = new UpdatePii(new User(0),
                                     person.PersonId,
-                                     "firstName",
+                                    false,
+                                    "firstName",
                                     "lastName",
                                     "namePrefix",
                                     "nameSuffix",
@@ -3085,6 +3128,7 @@ namespace ECA.Business.Test.Service.Persons
 
             var pii = new UpdatePii(new User(0),
                                     2,
+                                    false,
                                     "firstName",
                                     "lastName",
                                     null,
@@ -3197,6 +3241,7 @@ namespace ECA.Business.Test.Service.Persons
 
             var pii = new UpdatePii(new User(0),
                                     person.PersonId,
+                                    false,
                                     person.FirstName,
                                     person.LastName,
                                     null,
