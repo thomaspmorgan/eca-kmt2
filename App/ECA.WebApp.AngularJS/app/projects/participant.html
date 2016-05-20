@@ -157,7 +157,7 @@
                 </tab>
                 <tab heading="SEVIS Funding" class="tab" ng-if="showSevisTab(getSelectedParticipant().participantTypeId) && permissions.hasEditSevisPermission"
                      active="view.tabSevisFunding" select="onSevisFundingTabSelected(getSelectedParticipant().participantId)">
-                    <sevis-funding exchangevisitorinfo="exchangeVisitorInfo[getSelectedParticipant().participantId]"></sevis-funding>
+                    <sevis-funding personid="{{getSelectedParticipant().personId}}" exchangevisitorinfo="exchangeVisitorInfo[getSelectedParticipant().participantId]"></sevis-funding>
                 </tab>
             </tabset>
         </div>

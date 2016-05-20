@@ -22,7 +22,8 @@
         '$state',
         '$timeout',
         'DownloadService',
-        'uiGridConstants'];
+        'uiGridConstants',
+        'ParticipantPersonsService'];
 
     function participantPersonSevis(
         $log,
@@ -41,7 +42,8 @@
         $state,
         $timeout,
         DownloadService,
-        uiGridConstants) {
+        uiGridConstants,
+        ParticipantPersonsService) {
         // Usage:
         //     <participant_person_sevis participantId={{id}} active=activevariable, update=updatefunction></participant_person_sevis>
         // Creates:
@@ -71,6 +73,7 @@
                 $scope.edit.isEndDatePickerOpen = false;
                 $scope.positionAndFieldElementId = 'positionAndField' + $scope.participantid;
                 $scope.pageTimeout = null;
+                $scope.editLocked = false;
 
                 $scope.highlightFilteredHeader = function (row, rowRenderIndex, col, colRenderIndex) {
                     if (col.filters[0].term) {
@@ -153,6 +156,10 @@
                         projectId = newValue.projectId;
                     } if (newValue != oldValue) {
                         getSevisCommStatusesPage();
+                        ParticipantPersonsService.getIsParticipantPersonLocked($scope.personid)
+                         .then(function (response) {
+                             $scope.editLocked = response.data;
+                         });
                     }
                 });
 
@@ -306,10 +313,8 @@
                 };
 
                 $scope.edit.onPositionAndFieldEditChange = function () {
-                    if (!$scope.sevisinfo.blockEdit) {
+                    if (!$scope.editLocked) {
                         $scope.view.PositionAndFieldEdit = true;
-                    } else {
-                        return false;
                     }
                 }
 
