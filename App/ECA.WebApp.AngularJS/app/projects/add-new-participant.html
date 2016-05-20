@@ -73,8 +73,8 @@
                             <div class="form-group">
                                 
                                 <label>{{formLastName}}<span class="asterisk"> *
-                                        <label style="margin-top:-19px; padding-left:180px;">
-                                            <input type="checkbox" ng-model="newPerson.isSingleName" ng-change="onIsSingleNameChange()" ng-disabled="newPerson.selectedDuplicate"   />
+                                        <label style="margin-top:-19px; padding-left:180px;" title="You only have one name.">
+                                            <input type="checkbox" ng-model="newPerson.isSingleName" ng-change="onIsSingleNameChange()" ng-disabled="newPerson.selectedDuplicate"  title="You only have one name."  />
                                             Single Name
                                         </label>
                                     </span>                                
