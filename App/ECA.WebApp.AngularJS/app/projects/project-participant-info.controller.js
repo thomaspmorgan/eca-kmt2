@@ -45,7 +45,7 @@ angular.module('staticApp')
       $scope.view.isSavingUpdate = false;
       $scope.view.participantPerson = null;
       $scope.view.isInfoTabInEditMode = false;
-      $scope.view.editLocked = false;
+      $scope.view.editLocked = true;
 
       var notifyStatuses = ConstantsService.sevisStatuChangeAlertIds.split(',');
 

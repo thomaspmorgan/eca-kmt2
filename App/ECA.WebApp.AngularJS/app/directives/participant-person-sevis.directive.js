@@ -73,7 +73,7 @@
                 $scope.edit.isEndDatePickerOpen = false;
                 $scope.positionAndFieldElementId = 'positionAndField' + $scope.participantid;
                 $scope.pageTimeout = null;
-                $scope.editLocked = false;
+                $scope.editLocked = true;
 
                 $scope.highlightFilteredHeader = function (row, rowRenderIndex, col, colRenderIndex) {
                     if (col.filters[0].term) {
