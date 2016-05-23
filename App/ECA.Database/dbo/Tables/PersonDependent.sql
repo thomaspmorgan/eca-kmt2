@@ -17,6 +17,7 @@
 	[IsDeleted] [bit] NOT NULL DEFAULT 0,
 	[IsSevisDeleted] [bit] NOT NULL DEFAULT 0,
     [IsDS2019Printed] BIT NOT NULL DEFAULT 0, 
+	[IsSingleName] BIT NOT NULL DEFAULT 0, 
     [DS2019FileName] NVARCHAR(255) NULL,  
 	[History_CreatedBy] [int] NOT NULL,
 	[History_CreatedOn] [datetimeoffset](7) NOT NULL,
