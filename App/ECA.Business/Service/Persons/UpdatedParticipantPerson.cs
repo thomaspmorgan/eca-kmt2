@@ -30,7 +30,9 @@ namespace ECA.Business.Service.Persons
             int? hostInstitutionAddressId,
             int? homeInstitutionAddressId,
             int participantTypeId,
-            int? participantStatusId)
+            int? participantStatusId,
+            int? placementOrganizationId,
+            int? placementOrganizationAddressId)
         {
             if(ParticipantType.GetStaticLookup(participantTypeId) == null)
             {
@@ -49,6 +51,8 @@ namespace ECA.Business.Service.Persons
             this.HomeInstitutionId = homeInstitutionId;
             this.ParticipantTypeId = participantTypeId;
             this.ParticipantStatusId = participantStatusId;
+            this.PlacementOrganizationId = placementOrganizationId;
+            this.PlacementOrganizationAddressId = placementOrganizationAddressId;
         }
 
         /// <summary>
@@ -95,5 +99,15 @@ namespace ECA.Business.Service.Persons
         /// Gets the update audit.
         /// </summary>
         public Audit Audit { get; private set; }
+
+        /// <summary>
+        /// Gets the placement institution id.
+        /// </summary>
+        public int? PlacementOrganizationId { get; private set; }
+
+        /// <summary>
+        /// Gets the placement institution address id.
+        /// </summary>
+        public int? PlacementOrganizationAddressId { get; private set; }
     }
 }
