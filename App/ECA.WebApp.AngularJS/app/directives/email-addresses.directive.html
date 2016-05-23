@@ -18,7 +18,7 @@
                     <div class="bounce3"></div>
                 </div>
                 <div class="row" ng-show="!view.isSavingChanges && !view.isLoadingRequiredData">
-                    <div ng-class="{true: '', false: 'row2'}[editMode]" ng-show="!view.showEditEmailAddress">
+                    <div ng-class="{true: '', false: 'row2'}[editMode]" ng-show="!emailAddress.showEditEmail">
                         <a ng-href="mailto:{{emailAddress.address}}">{{emailAddress.address}}</a>
                         <div class="pull-right" ng-show="!view.showEditEmailAddress">
                             {{emailAddress.emailAddressType}}
@@ -40,7 +40,7 @@
                         <button ng-click="view.onDeleteEmailAddressClick()" class="btn btn-danger">Delete</button>
                         <button ng-click="view.showConfirmDelete = !view.showConfirmDelete" class="btn btn-cancel">Cancel</button>
                     </div>
-                    <div in-context-form ng-show="view.showEditEmailAddress">
+                    <div in-context-form ng-show="view.showEditEmailAddress || emailAddress.isNew">
                         <form name="form.emailAddressForm" class="row form-horizontal">
                             <div class="form-group">
                                 <label class="title-label col-md-3" for="type">Type <eca-required /></label>
@@ -87,7 +87,7 @@
                                 </div>
                             </div>
                         </form>
-                        <div class="row right" ng-show="view.showEditEmailAddress">
+                        <div class="row right" ng-show="view.showEditEmailAddress || emailAddress.isNew">
                             <button ng-click="view.saveEmailAddressChanges()" class="btn btn-success" ng-disabled="form.emailAddressForm.$invalid">Save</button>
                             <button ng-click="view.cancelEmailAddressChanges()" class="btn btn-cancel">Cancel</button>
                         </div>

@@ -257,7 +257,7 @@ namespace ECA.Business.Test.Service.Admin
                 var newEmail = new NewPersonEmailAddress(user, emailAddressTypeId, email, isPrimary, personId);
 
                 context.Revert();
-                var message = String.Format("The sociable entity with id [{0}] was not found.", personId);
+                var message = String.Format("The email addressable entity with id [{0}] was not found.", personId);
                 Action a = () => service.Create(newEmail);
                 Func<Task> f = () => service.CreateAsync(newEmail);
                 a.ShouldThrow<ModelNotFoundException>().WithMessage(message);

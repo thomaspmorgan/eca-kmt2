@@ -2,12 +2,8 @@
 using ECA.Business.Queries.Models.Persons;
 using ECA.Core.DynamicLinq;
 using ECA.Data;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ECA.Business.Queries.Persons
 {
@@ -21,7 +17,7 @@ namespace ECA.Business.Queries.Persons
         /// </summary>
         /// <param name="context">The context to query.</param>
         /// <returns>The query to get contacts.</returns>
-        public static IQueryable<ContactDTO> CreateContactDTOQuery(EcaContext context)
+        public static IQueryable<ContactDTO> CreateContactQuery(EcaContext context)
         {
             Contract.Requires(context != null, "The context must not be null.");
             var emailAddressQuery = EmailAddressQueries.CreateGetEmailAddressDTOQuery(context);
@@ -49,13 +45,14 @@ namespace ECA.Business.Queries.Persons
         /// <param name="context">The context to query.</param>
         /// <param name="queryOperator">The query operator.</param>
         /// <returns>The query to retrieve filtered and sorted contacts.</returns>
-        public static IQueryable<ContactDTO> CreateContactDTOQuery(EcaContext context, QueryableOperator<ContactDTO> queryOperator)
+        public static IQueryable<ContactDTO> CreateContactQuery(EcaContext context, QueryableOperator<ContactDTO> queryOperator)
         {
             Contract.Requires(context != null, "The context must not be null.");
             Contract.Requires(queryOperator != null, "The query operator must not be null.");
-            var query = CreateContactDTOQuery(context);
+            var query = CreateContactQuery(context);
             query = query.Apply(queryOperator);
             return query;
         }
+
     }
 }

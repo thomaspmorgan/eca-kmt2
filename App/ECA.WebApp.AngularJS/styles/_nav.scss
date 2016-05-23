@@ -98,6 +98,7 @@
     line-height: 1.4285;
     margin-right: 0;
     border: 0;
+    padding-bottom: 15px;
 }
 
 .nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
@@ -105,20 +106,26 @@
     font-weight: bold;
     border: 0;
     color: #415358;
-    background-color: $lightgray
+    background-color: $lightgray;
+    padding-bottom: 10px;
+    border-bottom: 5px solid #415358;
 }
 
-.nav-tabs .tab a:hover {
+.nav-tabs > li.active > a:hover {
     border-bottom: 5px solid #297cb4;
     color: #297cb4;
+    padding-bottom:10px;
     text-decoration: none !important;
-    padding-bottom: 10px;
+}
+
+.nav-tabs > li > a:hover {
+    text-decoration: none !important;
 }
 
 .nav > li > a:hover, .nav > li > a:focus {
-    text-decoration: none;
-    padding-bottom: 10px;
+    text-decoration: none !important;
     outline: none;
+    padding-bottom: 10px;
 }
 
 .list2 .tabs button {

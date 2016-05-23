@@ -1,5 +1,4 @@
-﻿using ECA.Business.Queries.Models.Persons;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using ECA.Business.Queries.Persons;
 using ECA.Business.Validation;
 using ECA.Core.DynamicLinq;
@@ -9,11 +8,11 @@ using ECA.Data;
 using NLog;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using ECA.Core.Exceptions;
+using ECA.Business.Queries.Models.Persons;
 
 namespace ECA.Business.Service.Persons
 {
@@ -22,6 +21,11 @@ namespace ECA.Business.Service.Persons
     /// </summary>
     public class ContactService : DbContextService<EcaContext>, IContactService
     {
+        /// <summary>
+        /// Contact not found error
+        /// </summary>
+        public const string CONTACT_NOT_FOUND_ERROR = "The contact could not be found.";
+        
         private readonly Logger logger = LogManager.GetCurrentClassLogger();
         private readonly IBusinessValidator<AdditionalPointOfContactValidationEntity, object> pointOfContactValidator;
         /// <summary>
@@ -39,27 +43,30 @@ namespace ECA.Business.Service.Persons
         #region Get
 
         /// <summary>
-        /// Returns the sorted, filtered, and paged contacts in the eca system.
+        /// Returns the sorted, filtered, and paged contact DTOs in the eca system.
         /// </summary>
-        /// <param name="queryOperator">The query operator.</param>
-        /// <returns>The sorted, filtered, and paged contacts.</returns>
+        /// <param name="queryOperator"></param>
+        /// <returns></returns>
         public PagedQueryResults<ContactDTO> GetContacts(QueryableOperator<ContactDTO> queryOperator)
         {
-            var contacts = ContactQueries.CreateContactDTOQuery(this.Context, queryOperator).ToPagedQueryResults<ContactDTO>(queryOperator.Start, queryOperator.Limit);
+            var contacts = ContactQueries.CreateContactQuery(this.Context, queryOperator)
+                .ToPagedQueryResults<ContactDTO>(queryOperator.Start, queryOperator.Limit);
             this.logger.Trace("Retrieved contacts by query operator [{0}].", queryOperator);
-            
+
             return contacts;
         }
 
         /// <summary>
-        /// Returns the sorted, filtered, and paged contacts in the eca system.
+        /// Returns the sorted, filtered, and paged contact DTOs in the eca system.
         /// </summary>
-        /// <param name="queryOperator">The query operator.</param>
-        /// <returns>The sorted, filtered, and paged contacts.</returns>
+        /// <param name="queryOperator"></param>
+        /// <returns></returns>
         public async Task<PagedQueryResults<ContactDTO>> GetContactsAsync(QueryableOperator<ContactDTO> queryOperator)
         {
-            var contacts = await ContactQueries.CreateContactDTOQuery(this.Context, queryOperator).ToPagedQueryResultsAsync<ContactDTO>(queryOperator.Start, queryOperator.Limit);
+            var contacts = await ContactQueries.CreateContactQuery(this.Context, queryOperator)
+                .ToPagedQueryResultsAsync<ContactDTO>(queryOperator.Start, queryOperator.Limit);
             this.logger.Trace("Retrieved contacts by query operator [{0}].", queryOperator);
+
             return contacts;
         }
 
@@ -85,8 +92,34 @@ namespace ECA.Business.Service.Persons
 
         private IQueryable<ContactDTO> CreateGetContactByIdQuery(int contactId)
         {
-            return ContactQueries.CreateContactDTOQuery(this.Context).Where(c => c.Id == contactId);
+            return ContactQueries.CreateContactQuery(this.Context).Where(c => c.Id == contactId);
         }
+
+        /// <summary>
+        /// Returns the contact DTO with the given id
+        /// </summary>
+        /// <param name="contactId">The id of the contact</param>
+        /// <returns>The contact, or null, if it does not exist</returns>
+        public ContactDTO GetContactDTOById(int contactId)
+        {
+            return CreateGetContactDTOByIdQuery(contactId).FirstOrDefault();
+        }
+
+        /// <summary>
+        /// Returns the contact DTO with the given id
+        /// </summary>
+        /// <param name="contactId">The id of the contact</param>
+        /// <returns>The contact, or null, if it does not exist</returns>
+        public Task<ContactDTO> GetContactDTOByIdAsync(int contactId)
+        {
+            return CreateGetContactDTOByIdQuery(contactId).FirstOrDefaultAsync();
+        }
+
+        private IQueryable<ContactDTO> CreateGetContactDTOByIdQuery(int contactId)
+        {
+            return ContactQueries.CreateContactQuery(this.Context).Where(c => c.Id == contactId);
+        }
+
         #endregion
 
         #region Create
@@ -117,7 +150,7 @@ namespace ECA.Business.Service.Persons
         {
             return DoCreate(pointOfContact);
         }
-
+        
         private Contact DoCreate(AdditionalPointOfContact pointOfContact)
         {
             var validationEntity = GetAdditionalPointOfContactValidationEntity(pointOfContact);
@@ -148,6 +181,7 @@ namespace ECA.Business.Service.Persons
                 var newPhoneNumber = new PhoneNumber
                 {
                     Number = phoneNumber.Number.Trim(),
+                    Extension = phoneNumber.Extension.Trim(),
                     PhoneNumberTypeId = phoneNumber.PhoneNumberTypeId,
                     IsPrimary = phoneNumber.IsPrimary
                 };
@@ -160,6 +194,35 @@ namespace ECA.Business.Service.Persons
             this.Context.Contacts.Add(contact);
             return contact;
         }
+        #endregion
+
+        #region update
+
+        /// <summary>
+        /// Updates a point of the contact in the datastore.
+        /// </summary>
+        /// <param name="updatedPointOfContact"></param>
+        /// <returns></returns>
+        public async Task<Contact> UpdateContactAsync(UpdatedPointOfContact updatedPointOfContact)
+        {
+            var contactToUpdate = await Context.Contacts.FindAsync(updatedPointOfContact.Id);
+            var emails = await Context.EmailAddresses.Where(x => x.ContactId == updatedPointOfContact.Id).ToListAsync();
+            var phones = await Context.PhoneNumbers.Where(x => x.ContactId == updatedPointOfContact.Id).ToListAsync();
+
+            DoPointOfContactUpdate(updatedPointOfContact, contactToUpdate, emails, phones);
+
+            return contactToUpdate;
+        }
+
+        public void DoPointOfContactUpdate(UpdatedPointOfContact updatedPointOfContact, Contact contactToUpdate,
+            List<EmailAddress> emails, List<PhoneNumber> phones)
+        {
+            contactToUpdate.FullName = updatedPointOfContact.FullName;
+            contactToUpdate.Position = updatedPointOfContact.Position;
+            contactToUpdate.EmailAddresses = emails;
+            contactToUpdate.PhoneNumbers = phones;
+            updatedPointOfContact.Audit.SetHistory(contactToUpdate);
+        }
 
         private AdditionalPointOfContactValidationEntity GetAdditionalPointOfContactValidationEntity(AdditionalPointOfContact pointOfContact)
         {
@@ -171,6 +234,30 @@ namespace ECA.Business.Service.Persons
                 numberOfPrimaryEmailAddresses: numberOfPrimaryEmailAddresses,
                 numberOfPrimaryPhoneNumbers: numberOfPrimaryPhoneNumbers);
         }
+
         #endregion
+
+        #region delete
+        /// <summary>
+        /// Delete a point of contact from the datastore.
+        /// </summary>
+        /// <param name="id">contact id</param>
+        /// <returns></returns>
+        public async Task DeletePointOfContactAsync(int id)
+        {
+            var contact = await Context.Contacts.FindAsync(id);
+            if (contact != null)
+            {
+                Context.Contacts.Remove(contact);
+            }
+            else
+            {
+                throw new ModelNotFoundException(CONTACT_NOT_FOUND_ERROR);
+            }
+        }
+
+        #endregion
+
+
     }
 }

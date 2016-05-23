@@ -22,10 +22,12 @@ angular.module('staticApp')
         ProjectService,
         ProgramService,
         TableService,
+        orderByFilter,
         LocationService,
         NavigationService,
         LookupService,
         ConstantsService,
+        MessageBox,
         AuthService,
         OfficeService,
         FilterService,
@@ -37,8 +39,7 @@ angular.module('staticApp')
       $scope.$parent.isInEditViewState = true;
       console.assert($scope.$parent.showProjectEditCancelButton, 'The $scope.$parent.showProjectEditCancelButton function must be defined.');
       console.assert($scope.$parent.hideProjectEditCancelButton, 'The $scope.$parent.hideProjectEditCancelButton function must be defined.');
-
-
+      
       $scope.editView = {};
       $scope.editView.maxNameLength = 500;
       $scope.editView.maxDescriptionLength = 3000;
@@ -56,7 +57,6 @@ angular.module('staticApp')
 
       $scope.editView.foci = [];
       $scope.editView.projectStati = [];
-      $scope.editView.pointsOfContact = [];
       $scope.editView.themes = [];
       $scope.editView.goals = [];
       $scope.editView.categories = [];
@@ -64,8 +64,9 @@ angular.module('staticApp')
       $scope.editView.locations = [];
       $scope.editView.regions = [];
       $scope.editView.visitorTypes = [];
-
+      $scope.editView.pointsOfContact = [];
       $scope.editView.selectedPointsOfContact = [];
+
       $scope.editView.selectedGoals = [];
       $scope.editView.selectedThemes = [];
       $scope.editView.selectedCategories = [];
@@ -80,9 +81,8 @@ angular.module('staticApp')
       $scope.editView.maximumRequiredFoci = -1;
       $scope.editView.locationUiSelectId = 'selectLocations';
       $scope.editView.isLoadingOfficeSetting = false;
-
       $scope.editView.dataPointConfigurations = {};
-
+      
       $scope.editView.validateMinimumObjectives = function ($value) {
           if (!$scope.editView.isObjectivesRequired) {
               return true;
@@ -123,14 +123,6 @@ angular.module('staticApp')
 
       $scope.editView.loadProjectStati = function () {
           loadProjectStati();
-      }
-
-      $scope.editView.removePointsOfContact = function () {
-          $scope.$parent.project.pointsOfContactIds = [];
-      }
-
-      $scope.editView.searchPointsOfContact = function (data) {
-          loadPointsOfContact(data);
       }
 
       $scope.editView.searchThemes = function (data) {
@@ -255,28 +247,6 @@ angular.module('staticApp')
           $scope.editView.sevisFunding = defaultVisitorExchangeFunding;
       });
 
-      $scope.editView.onAddPointsOfContactClick = function () {
-          var modalInstance = $modal.open({
-              animation: true,
-              backdrop: 'static',
-              templateUrl: 'app/points-of-contact/points-of-contact-modal.html',
-              controller: 'PointsOfContactModalCtrl',
-              windowClass: 'full-screen-modal',
-              resolve: {}
-          });
-
-          modalInstance.result.then(function (pointOfContact) {
-              pointOfContact.value = pointOfContact.fullName;
-              if (pointOfContact.position) {
-                  pointOfContact.value += ' (' + pointOfContact.position + ')';
-              }
-              $scope.$parent.project.contacts.push(pointOfContact);
-              $scope.editView.selectedPointsOfContact.push(pointOfContact);
-          }, function () {
-              $log.info('Modal dismissed at: ' + new Date());
-          });
-      }
-
       $scope.editView.onAdvancedSearchClick = function () {
           var modalInstance = $modal.open({
               animation: true,
@@ -360,19 +330,18 @@ angular.module('staticApp')
 
       function cancelEdit() {
           if ($scope.form.projectForm.$dirty) {
-              var modalInstance = $modal.open({
-                  templateUrl: '/app/projects/unsaved-changes.html',
-                  controller: 'UnsavedChangesCtrl',
-                  windowClass: 'modal-center-small',
-                  backdrop: 'static',
-                  resolve: {},
-                  size: 'lg'
-              });
-              modalInstance.result.then(function () {
-                  $log.info('Cancelling changes...');
-                  goToProjectOverview();
-              }, function () {
-                  $log.info('Dismiss warning dialog and allow save changes...');
+              MessageBox.confirm({
+                  title: 'Unsaved Changes',
+                  message: "There are unsaved changes to this program.  Are you sure you wish to cancel?",
+                  okText: 'Yes, Cancel Changes',
+                  cancelText: 'No',
+                  okCallback: function () {
+                      $log.info('Cancelling changes...');
+                      goToProjectOverview();
+                  },
+                  onCancelClick: function () {
+                      $log.info('Dismiss warning dialog and allow save changes...');
+                  }
               });
           }
           else {
@@ -491,7 +460,9 @@ angular.module('staticApp')
                 showSaveSuccess();
                 NavigationService.updateBreadcrumbs();
                 if ($scope.$parent.project.visitorTypeId === ConstantsService.visitorType.exchangeVisitor.id) {
-                    $scope.editView.sevisFunding.fundingTotal = getSevisFundingTotal();
+                    if ($scope.editView.sevisFunding) {
+                        $scope.editView.sevisFunding.fundingTotal = getSevisFundingTotal();
+                    }
                     DefaultExchangeVisitorFundingService.updateDefaultExchangeVisitorFunding($stateParams.projectId, $scope.editView.sevisFunding)
                         .then(function () {
                 goToProjectOverview();
@@ -570,14 +541,18 @@ angular.module('staticApp')
           console.assert($scope.editView.hasOwnProperty(editViewSelectedPropertyName), "The edit view " + editViewSelectedPropertyName + " property does not exist.");
           console.assert(Array.isArray($scope.editView[editViewSelectedPropertyName]), "The edit view " + editViewSelectedPropertyName + " property must be an array.");
 
-          var projectItems = $scope.$parent.project[projectPropertyName];
+          if (projectPropertyName === 'contacts') {
+              var projectItems = orderByFilter($scope.$parent.project[projectPropertyName],'+fullName');
+          } else {
+              var projectItems = $scope.$parent.project[projectPropertyName];
+          }          
           $scope.editView[editViewSelectedPropertyName] = $scope.editView[editViewSelectedPropertyName].splice(0, $scope.editView[editViewSelectedPropertyName].length);
           for (var i = 0; i < projectItems.length; i++) {
               var projectItem = projectItems[i];
               $scope.editView[editViewSelectedPropertyName].push(projectItem);
           }
       }
-
+            
       function setSelectedPointsOfContact() {
           setSelectedItems('contacts', 'selectedPointsOfContact');
       }
@@ -620,7 +595,7 @@ angular.module('staticApp')
               lookups[i].value = lookups[i].name;
           }
       }
-
+      
       var pocFilter = FilterService.add('projectedit_pocfilter');
       function loadPointsOfContact(search) {
           pocFilter.reset();
@@ -640,7 +615,9 @@ angular.module('staticApp')
                       }
                       response.results[i].value = response.results[i].fullName + position;
                   }
-                  $scope.editView.pointsOfContact = response.results;
+                  $scope.editView.pointsOfContact = response.results.sort(function (a, b) {
+                      return a.fullName == b.fullName ? 0 : +(a.fullName > b.fullName) || -1;
+                  });
               });
       }
 
@@ -850,7 +827,7 @@ angular.module('staticApp')
               loadUSGovernmentAgencies();
               loadInternationalOrganizations();
           }
-          $q.all([loadPermissions(), loadThemes(null), loadPointsOfContact(null), loadObjectives(), loadCategories(), loadProjectStati(), loadVisitorTypes(), loadGoals(null), loadUSGovernmentAgencies(), loadInternationalOrganizations()])
+          $q.all([loadPermissions(), loadThemes(null), loadPointsOfContact(null), loadObjectives(null), loadCategories(null), loadProjectStati(), loadVisitorTypes(), loadGoals(null), loadUSGovernmentAgencies(), loadInternationalOrganizations()])
           .then(function (results) {
               //results is an array
               setSelectedPointsOfContact();
@@ -868,7 +845,7 @@ angular.module('staticApp')
               $scope.editView.isLoading = false;
           })
           .catch(function () {
-              $log.error('Unable to project edit data.');
+              $log.error('Unable to load project edit data.');
               $scope.editView.isLoading = false;
           });
       })

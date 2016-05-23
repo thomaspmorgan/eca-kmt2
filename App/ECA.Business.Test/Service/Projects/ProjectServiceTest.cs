@@ -2578,7 +2578,7 @@ namespace ECA.Business.Test.Service.Projects
             Action<ProjectDTO> tester = (serviceResult) =>
             {
                 CollectionAssert.AreEqual(context.Contacts.Select(x => x.ContactId).ToList(), serviceResult.Contacts.Select(x => x.Id).ToList());
-                CollectionAssert.AreEqual(context.Contacts.Select(x => x.FullName + " (" + x.Position + ")").ToList(), serviceResult.Contacts.Select(x => x.Value).ToList());
+                CollectionAssert.AreEqual(context.Contacts.Select(x => x.FullName + " (" + x.Position + ")").ToList(), serviceResult.Contacts.Select(x => x.FullName + " (" + x.Position + ")").ToList());
             };
 
             var result = service.GetProjectById(project.ProjectId);

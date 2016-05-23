@@ -40,7 +40,7 @@
                         <button ng-click="view.onDeleteSocialMediaClick()" class="btn btn-danger">Delete</button>
                         <button ng-click="view.showConfirmDelete = !view.showConfirmDelete" class="btn btn-cancel">Cancel</button>
                     </div>
-                    <div in-context-form ng-show="view.showEditSocialMedia">
+                    <div in-context-form ng-show="view.showEditSocialMedia || socialMedia.isNew">
                         <form name="form.socialMediaForm" class="row form-horizontal">
                             <div class="form-group">
                                 <label class="title-label col-md-3" for="type">Type <eca-required /></label>
@@ -77,7 +77,7 @@
                             </div>
 
                         </form>
-                        <div class="row right" ng-show="view.showEditSocialMedia">
+                        <div class="row right">
                             <button ng-click="view.saveSocialMediaChanges()" class="btn btn-success" ng-disabled="form.socialMediaForm.$invalid">Save</button>
                             <button ng-click="view.cancelSocialMediaChanges()" class="btn btn-cancel">Cancel</button>
                         </div>

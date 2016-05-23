@@ -1,4 +1,5 @@
-﻿using ECA.Business.Queries.Models.Persons;
+﻿using ECA.Business.Exceptions;
+using ECA.Business.Queries.Models.Persons;
 using ECA.Business.Queries.Models.Persons.ExchangeVisitor;
 using ECA.Business.Queries.Models.Sevis;
 using ECA.Business.Queries.Persons;
@@ -24,13 +25,17 @@ namespace ECA.Business.Service.Persons
     /// <summary>
     /// A ParticipantPersonService is capable of performing crud operations on participantPersons in the ECA system.
     /// </summary>
-    public class ParticipantPersonsSevisService : DbContextService<EcaContext>, IParticipantPersonsSevisService
+    public class ParticipantPersonsSevisService : EcaService, IParticipantPersonsSevisService
     {
+        /// <summary>
+        /// The number of days to add to now to find participants who can be set to needs validation info.
+        /// </summary>
+        public const double NUMBER_OF_DAYS_BEFORE_START_DATE_A_PARTICIPANT_NEEDS_VALIDATION_INFO = 30.0;
+
         private readonly Logger logger = LogManager.GetCurrentClassLogger();
         private readonly Action<int, object, Type> throwIfModelDoesNotExist;
         private Action<int, int, Participant> throwSecurityViolationIfParticipantDoesNotBelongToProject;
-        private Action<Participant> throwValidationErrorIfParticipantSevisInfoIsLocked;
-        public readonly int[] LOCKED_SEVIS_COMM_STATUSES = { 5, 13, 14 };
+        private Action<ParticipantPersonSevisDTO> throwValidationErrorIfParticipantSevisInfoIsLocked;
 
         /// <summary>
         /// Creates a new ParticipantPersonService with the given context to operate against.
@@ -60,37 +65,10 @@ namespace ECA.Business.Service.Persons
             };
             throwValidationErrorIfParticipantSevisInfoIsLocked = (participant) =>
             {
-                if (participant.ParticipantPerson != null)
-                {
-                    var sevisStatusId = participant.ParticipantPerson.ParticipantPersonSevisCommStatuses.OrderByDescending(x => x.AddedOn).Select(x => x.SevisCommStatusId).FirstOrDefault();
-
-                    if (participant != null && IndexOfInt(LOCKED_SEVIS_COMM_STATUSES, sevisStatusId) != -1)
-                    {
-                        var response = new HttpResponseMessage(HttpStatusCode.PreconditionFailed)
-                        {
-                            Content = new StringContent(String.Format("An update was attempted on participant with id [{0}] but should have failed validation.",
-                            participant.ParticipantId), System.Text.Encoding.UTF8, "text/plain"),
-                            StatusCode = HttpStatusCode.PreconditionFailed
-                        };
-
-                        throw new HttpResponseException(response);
-                    }
-                }
+                participant.ValidateSevisLock();
             };
         }
-
-        static int IndexOfInt(int[] arr, int value)
-        {
-            for (int i = 0; i < arr.Length; i++)
-            {
-                if (arr[i] == value)
-                {
-                    return i;
-                }
-            }
-            return -1;
-        }
-
+        
         #region Get
         /// <summary>
         /// Returns list of sevis participants
@@ -212,13 +190,40 @@ namespace ECA.Business.Service.Persons
         /// <summary>
         /// Gets DS2019 file name
         /// </summary>
+        /// <param name="user">The user.</param>
         /// <param name="projectId">The project id</param>
         /// <param name="participantId">The participant id</param>
         /// <returns>The DS2019 file name</returns>
-        public async Task<string> GetDS2019FileNameAsync(int projectId, int participantId)
+        public async Task<string> GetDS2019FileNameAsync(User user, int projectId, int participantId)
         {
             String fileName = null;
+            var participant = await Context.Participants.FindAsync(participantId);
+            throwIfModelDoesNotExist(participantId, participant, typeof(Participant));
+            throwSecurityViolationIfParticipantDoesNotBelongToProject(user.Id, projectId, participant);
+
             var participantPerson = await Context.ParticipantPersons.FindAsync(participantId);
+            if (participantPerson != null)
+            {   
+                fileName = participantPerson.DS2019FileName;
+            }
+            return fileName;
+        }
+
+        /// <summary>
+        /// Gets DS2019 file name
+        /// </summary>
+        /// <param name="user">The user.</param>
+        /// <param name="projectId">The project id</param>
+        /// <param name="participantId">The participant id</param>
+        /// <returns>The DS2019 file name</returns>
+        public string GetDS2019FileName(User user, int projectId, int participantId)
+        {
+            String fileName = null;
+            var participant = Context.Participants.Find(participantId);
+            throwIfModelDoesNotExist(participantId, participant, typeof(Participant));
+            throwSecurityViolationIfParticipantDoesNotBelongToProject(user.Id, projectId, participant);
+
+            var participantPerson = Context.ParticipantPersons.Find(participantId);
             if (participantPerson != null)
             {
                 fileName = participantPerson.DS2019FileName;
@@ -332,7 +337,11 @@ namespace ECA.Business.Service.Persons
         {
             var participantPerson = CreateGetParticipantPersonsByIdQuery(updatedParticipantPersonSevis.ParticipantId).FirstOrDefault();
             throwIfModelDoesNotExist(updatedParticipantPersonSevis.ParticipantId, participantPerson, typeof(ParticipantPerson));
-            throwValidationErrorIfParticipantSevisInfoIsLocked(participantPerson.Participant);
+            var participant = GetParticipantByPersonIdAsync((int)participantPerson.Participant.PersonId);
+            if (participant != null)
+            {
+                throwValidationErrorIfParticipantSevisInfoIsLocked(participant.Result);
+            }
 
             DoUpdate(participantPerson, updatedParticipantPersonSevis);
         }
@@ -346,7 +355,11 @@ namespace ECA.Business.Service.Persons
         {
             var participantPerson = await CreateGetParticipantPersonsByIdQuery(updatedParticipantPersonSevis.ParticipantId).FirstOrDefaultAsync();
             throwIfModelDoesNotExist(updatedParticipantPersonSevis.ParticipantId, participantPerson, typeof(ParticipantPerson));
-            throwValidationErrorIfParticipantSevisInfoIsLocked(participantPerson.Participant);
+            var participant = await GetParticipantByPersonIdAsync((int)participantPerson.Participant.PersonId);
+            if (participantPerson.Participant != null)
+            {
+                throwValidationErrorIfParticipantSevisInfoIsLocked(participant);
+            }
 
             DoUpdate(participantPerson, updatedParticipantPersonSevis);
         }
@@ -354,6 +367,23 @@ namespace ECA.Business.Service.Persons
         private void DoUpdate(ParticipantPerson participantPerson, UpdatedParticipantPersonSevis updatedParticipantPersonSevis)
         {
             updatedParticipantPersonSevis.Audit.SetHistory(participantPerson);
+
+            /// typically only one of the below would be changed in the record at a time.  If more than one, this is the order to add them.
+            if (!participantPerson.IsSentToSevisViaRTI && updatedParticipantPersonSevis.IsSentToSevisViaRTI)
+                // User manual clicked Sent to SEVIS via RTI
+                AddSevisCommStatus(SevisCommStatus.SentToDhsViaRti.Id, participantPerson.ParticipantId, updatedParticipantPersonSevis.Audit.User.Id);
+            if (!participantPerson.IsDS2019Printed && updatedParticipantPersonSevis.IsDS2019Printed)
+                // User printed DS-2019
+                AddSevisCommStatus(SevisCommStatus.Ds2019Printed.Id, participantPerson.ParticipantId, updatedParticipantPersonSevis.Audit.User.Id);
+            if (!participantPerson.IsDS2019SentToTraveler && updatedParticipantPersonSevis.IsDS2019SentToTraveler)
+                // TODO:  Check if this is correct
+                AddSevisCommStatus(SevisCommStatus.Ds2019SentToTraveler.Id, participantPerson.ParticipantId, updatedParticipantPersonSevis.Audit.User.Id);
+            if (!participantPerson.IsValidatedViaRTI && updatedParticipantPersonSevis.IsValidatedViaRTI)
+                // User manually validated
+                AddSevisCommStatus(SevisCommStatus.ValidatedViaRti.Id, participantPerson.ParticipantId, updatedParticipantPersonSevis.Audit.User.Id);
+            if (!participantPerson.IsCancelled && updatedParticipantPersonSevis.IsCancelled)
+                // User manually clicked cancel, add event to ParticipantPersonSevisCommStatus
+                AddSevisCommStatus(SevisCommStatus.Cancelled.Id, participantPerson.ParticipantId, updatedParticipantPersonSevis.Audit.User.Id);
 
             participantPerson.SevisId = updatedParticipantPersonSevis.SevisId;
             participantPerson.IsSentToSevisViaRTI = updatedParticipantPersonSevis.IsSentToSevisViaRTI;
@@ -363,6 +393,22 @@ namespace ECA.Business.Service.Persons
             participantPerson.IsDS2019SentToTraveler = updatedParticipantPersonSevis.IsDS2019SentToTraveler;
             participantPerson.StartDate = updatedParticipantPersonSevis.StartDate;
             participantPerson.EndDate = updatedParticipantPersonSevis.EndDate;
+        }
+
+        /// <summary>
+        /// Adds a SevisCommStatus for the ParticipantPerson
+        /// </summary>
+        /// <param name="sevisCommStatusId"></param>
+        /// <param name="participantId"></param>
+        /// <param name="userId"></param>
+        private void AddSevisCommStatus(int sevisCommStatusId, int participantId, int userId)
+        {
+            var status = new ParticipantPersonSevisCommStatus();
+            status.SevisCommStatusId = sevisCommStatusId;
+            status.ParticipantId = participantId;
+            status.PrincipalId = userId;
+            status.AddedOn = DateTimeOffset.Now;
+            Context.ParticipantPersonSevisCommStatuses.Add(status);
         }
 
         private UpdatedParticipantPersonSevisValidationEntity GetUpdatedParticipantPersonSevisValidationEntity(ParticipantPerson participantPerson, UpdatedParticipantPersonSevis participantPersonSevis)
@@ -379,23 +425,59 @@ namespace ECA.Business.Service.Persons
         #region Ready to Validate Participants
 
         /// <summary>
-        /// Returns a paged, filtered, sorterd collection of participants that have a sevis id and whose start date has passed and are ready to start the sevis validation process.
+        /// Returns a paged, filtered, sorterd collection of participants that have a sevis id and whose start date is at least 30 days away and are ready to start the sevis validation process.
         /// </summary>
         /// <param name="queryOperator">The query operator.</param>
         /// <returns>The participants that have a sevis id and whose start date has passed </returns>
         public PagedQueryResults<ReadyToValidateParticipantDTO> GetReadyToValidateParticipants(QueryableOperator<ReadyToValidateParticipantDTO> queryOperator)
         {
-            return ExchangeVisitorQueries.CreateGetReadyToValidateParticipantDTOsQuery(this.Context, DateTimeOffset.UtcNow, queryOperator).ToPagedQueryResults(queryOperator.Start, queryOperator.Limit);
+            return ExchangeVisitorQueries.CreateGetReadyToValidateParticipantDTOsQuery(this.Context, GetEarliestNeedsValidationInfoParticipantDate(), queryOperator)
+                .ToPagedQueryResults(queryOperator.Start, queryOperator.Limit);
         }
 
         /// <summary>
-        /// Returns a paged, filtered, sorterd collection of participants that have a sevis id and whose start date has passed and are ready to start the sevis validation process.
+        /// Returns a paged, filtered, sorterd collection of participants that have a sevis id and whose start date is at least 30 days away and are ready to start the sevis validation process.
         /// </summary>
         /// <param name="queryOperator">The query operator.</param>
         /// <returns>The participants that have a sevis id and whose start date has passed </returns>
         public Task<PagedQueryResults<ReadyToValidateParticipantDTO>> GetReadyToValidateParticipantsAsync(QueryableOperator<ReadyToValidateParticipantDTO> queryOperator)
         {
-            return ExchangeVisitorQueries.CreateGetReadyToValidateParticipantDTOsQuery(this.Context, DateTimeOffset.UtcNow, queryOperator).ToPagedQueryResultsAsync(queryOperator.Start, queryOperator.Limit);
+            return ExchangeVisitorQueries.CreateGetReadyToValidateParticipantDTOsQuery(this.Context, GetEarliestNeedsValidationInfoParticipantDate(), queryOperator)
+                .ToPagedQueryResultsAsync(queryOperator.Start, queryOperator.Limit);
+        }
+
+        /// <summary>
+        /// Returns the earliest date an exchange visitor can be validated from now.
+        /// </summary>
+        /// <returns>The earliest date and exchange visitor can be validated from now.</returns>
+        public static DateTimeOffset GetEarliestNeedsValidationInfoParticipantDate()
+        {
+            return DateTimeOffset.UtcNow.AddDays(NUMBER_OF_DAYS_BEFORE_START_DATE_A_PARTICIPANT_NEEDS_VALIDATION_INFO);
+        }
+
+        /// <summary>
+        /// Returns true if the participant with the given id is ready to validate.
+        /// </summary>
+        /// <param name="participantId">The participant by id.</param>
+        /// <returns>True, if the participant is ready to be validated.</returns>
+        public bool IsParticipantReadyToValidate(int participantId)
+        {
+            return CreateGetReadyToValidationParticipantDTOByParticipantIdQuery(participantId).Count() > 0;
+        }
+
+        /// <summary>
+        /// Returns true if the participant with the given id is ready to validate.
+        /// </summary>
+        /// <param name="participantId">The participant by id.</param>
+        /// <returns>True, if the participant is ready to be validated.</returns>
+        public async Task<bool> IsParticipantReadyToValidateAsync(int participantId)
+        {
+            return await CreateGetReadyToValidationParticipantDTOByParticipantIdQuery(participantId).CountAsync() > 0;
+        }
+
+        private IQueryable<ReadyToValidateParticipantDTO> CreateGetReadyToValidationParticipantDTOByParticipantIdQuery(int participantId)
+        {
+            return ExchangeVisitorQueries.CreateGetReadyToValidateParticipantDTOsQuery(this.Context, GetEarliestNeedsValidationInfoParticipantDate()).Where(x => x.ParticipantId == participantId);
         }
         #endregion
     }

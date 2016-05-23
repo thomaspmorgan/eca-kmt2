@@ -1,14 +1,10 @@
 ﻿using ECA.Data;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ECA.Business.Service.Admin
 {
     /// <summary>
-    /// Allows a business layer client to add a social media presence to a person.
+    /// Allows a business layer client to add an email address to a person.
     /// </summary>
     public class NewPersonEmailAddress : NewEmailAddress<Person>
     {

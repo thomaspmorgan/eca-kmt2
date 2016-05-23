@@ -24,11 +24,13 @@ angular.module('staticApp')
 
       $scope.pii = {};
       $scope.selectedCountriesOfCitizenship = [];
+      $scope.edit = {};
       $scope.edit.piiLoading = true;
       $scope.datePickerOpen = false;
       $scope.maxDateOfBirth = new Date();
       $scope.unknownCountryId = 0;
-      $scope.personIdDeferred = $q.defer();
+
+      var personId = $scope.personid;
 
       $scope.updateGender = function () {
           $scope.pii.gender = $scope.getObjectById($scope.pii.genderId, $scope.genders).value;
@@ -71,12 +73,14 @@ angular.module('staticApp')
           }
       }
 
-      loadPii($stateParams.personId);
+
+      loadPii(personId);
       function loadPii(personId) {
           $scope.edit.piiLoading = true;
           return PersonService.getPiiById(personId)
              .then(function (data) {
                  $scope.pii = data;
+                 $scope.pii.personId = personId;
                  if ($scope.pii.placeOfBirth) {
                      $scope.pii.cityOfBirthId = $scope.pii.placeOfBirth.id;
                  }
@@ -99,6 +103,10 @@ angular.module('staticApp')
                  });
              });
       };
+
+      $scope.$watch('personid', function () {
+          loadPii($scope.personid);
+      });
 
       $scope.isCityOfBirthValid = function ($value) {
           if (!$scope.pii.hasOwnProperty('isPlaceOfBirthUnknown') && !$scope.pii.hasOwnProperty('placeOfBirth')) {
@@ -167,17 +175,6 @@ angular.module('staticApp')
             });
       }
 
-      function getParticipantPerson() {
-          ParticipantPersonsService.getParticipantPersonById($stateParams.personId)
-              .then(function (data) {
-                  $scope.sevisStatus.statusName = data.data.sevisStatus;
-                  $scope.sevisStatus.statusNameId = data.data.sevisStatusId;
-              }, function (error) {
-                  $log.error('Unable to load participant info for ' + $stateParams.personId + '.');
-                  NotificationService.showErrorMessage('Unable to load participant info for ' + $stateParams.personId + '.');
-              });
-      };
-
       LookupService.getAllGenders({ limit: 300 })
          .then(function (data) {
              $scope.genders = data.results;
@@ -189,20 +186,18 @@ angular.module('staticApp')
         });
 
       $scope.cancelEditPii = function () {
-          this.edit.Pii = false;
-          loadPii($scope.person.personId);
+          $scope.$parent.$parent.editMode = false;
+          loadPii(personId);
       };
 
       $scope.saveEditPii = function () {
           setupPii();
 
-          PersonService.updatePii($scope.pii, $scope.person.personId)
+          PersonService.updatePii($scope.pii, personId)
               .then(function (response) {
                   NotificationService.showSuccessMessage("The edit was successful.");
-                  loadPii($scope.person.personId);
-                  getParticipantPerson();
-                  $scope.$parent.onPersonPiiUpdated();
-                  $scope.edit.Pii = false;
+                  loadPii(personId);
+                  $scope.onUpdatePii();
               },
               function (error) {
                   if (error.status == 400) {
@@ -227,7 +222,7 @@ angular.module('staticApp')
       };
       
       function setupPii() {
-          $scope.pii.personId = $scope.person.personId;
+          $scope.pii.personId = personId;
           $scope.pii.countriesOfCitizenship = $scope.selectedCountriesOfCitizenship.map(function (obj) {
               return obj.id;
           });

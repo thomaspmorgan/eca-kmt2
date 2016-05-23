@@ -73,6 +73,9 @@ namespace ECA.Business.Test.Validation.Sevis
             List<Dependent> dependents = new List<Dependent>();
             Business.Validation.Sevis.Bio.Person person = null;
 
+            var sevisOrgId = "abcde12347890";
+            var isValidated = false;
+
             Func<ExchangeVisitor> createEntity = () =>
             {
                 person = new Business.Validation.Sevis.Bio.Person(
@@ -96,6 +99,8 @@ namespace ECA.Business.Test.Validation.Sevis
                 participantId);
                 return new ExchangeVisitor(
                     sevisId: exchangeVisitorSevisId,
+                    sevisOrgId: sevisOrgId,
+                    isValidated: isValidated,
                     person: person,
                     financialInfo: financialInfo,
                     occupationCategoryCode: occupationCategoryCode,
@@ -110,6 +115,8 @@ namespace ECA.Business.Test.Validation.Sevis
             {
                 return new ExchangeVisitor(
                     sevisId: exchangeVisitorSevisId,
+                    sevisOrgId: sevisOrgId,
+                    isValidated: isValidated,
                     person: null,
                     financialInfo: financialInfo,
                     occupationCategoryCode: occupationCategoryCode,
@@ -182,6 +189,9 @@ namespace ECA.Business.Test.Validation.Sevis
             List<Dependent> dependents = new List<Dependent>();
             Business.Validation.Sevis.Bio.Person person = null;
 
+            var sevisOrgId = "abcde12347890";
+            var isValidated = false;
+
             Func<ExchangeVisitor> createEntity = () =>
             {
                 person = new Business.Validation.Sevis.Bio.Person(
@@ -205,6 +215,8 @@ namespace ECA.Business.Test.Validation.Sevis
                     participantId);
                 return new ExchangeVisitor(
                     sevisId: exchangeVisitorSevisId,
+                    sevisOrgId: sevisOrgId,
+                    isValidated: isValidated,
                     person: person,
                     financialInfo: financialInfo,
                     occupationCategoryCode: occupationCategoryCode,
@@ -275,6 +287,9 @@ namespace ECA.Business.Test.Validation.Sevis
             List<Dependent> dependents = new List<Dependent>();
             Business.Validation.Sevis.Bio.Person person = null;
 
+            var sevisOrgId = "abcde12347890";
+            var isValidated = false;
+
             Func<ExchangeVisitor> createEntity = () =>
             {
                 person = new Business.Validation.Sevis.Bio.Person(
@@ -298,6 +313,8 @@ namespace ECA.Business.Test.Validation.Sevis
                     participantId);
                 return new ExchangeVisitor(
                     sevisId: exchangeVisitorSevisId,
+                    sevisOrgId: sevisOrgId,
+                    isValidated: isValidated,
                     person: person,
                     financialInfo: financialInfo,
                     occupationCategoryCode: occupationCategoryCode,
@@ -370,6 +387,9 @@ namespace ECA.Business.Test.Validation.Sevis
             List<Dependent> dependents = new List<Dependent>();
             Business.Validation.Sevis.Bio.Person person = null;
 
+            var sevisOrgId = "abcde12347890";
+            var isValidated = false;
+
             Func<ExchangeVisitor> createEntity = () =>
             {
                 person = new Business.Validation.Sevis.Bio.Person(
@@ -393,6 +413,8 @@ namespace ECA.Business.Test.Validation.Sevis
                     participantId);
                 return new ExchangeVisitor(
                     sevisId: exchangeVisitorSevisId,
+                    sevisOrgId: sevisOrgId,
+                    isValidated: isValidated,
                     person: person,
                     financialInfo: financialInfo,
                     occupationCategoryCode: occupationCategoryCode,
@@ -466,6 +488,9 @@ namespace ECA.Business.Test.Validation.Sevis
             List<Dependent> dependents = new List<Dependent>();
             Business.Validation.Sevis.Bio.Person person = null;
 
+            var sevisOrgId = "abcde12347890";
+            var isValidated = false;
+
             Func<ExchangeVisitor> createEntity = () =>
             {
                 person = new Business.Validation.Sevis.Bio.Person(
@@ -489,6 +514,8 @@ namespace ECA.Business.Test.Validation.Sevis
                     participantId);
                 return new ExchangeVisitor(
                     sevisId: exchangeVisitorSevisId,
+                    sevisOrgId: sevisOrgId,
+                    isValidated: isValidated,
                     person: person,
                     financialInfo: financialInfo,
                     occupationCategoryCode: occupationCategoryCode,
@@ -562,6 +589,9 @@ namespace ECA.Business.Test.Validation.Sevis
             List<Dependent> dependents = new List<Dependent>();
             Business.Validation.Sevis.Bio.Person person = null;
 
+            var sevisOrgId = "abcde12347890";
+            var isValidated = false;
+
             Func<ExchangeVisitor> createEntity = () =>
             {
                 person = new Business.Validation.Sevis.Bio.Person(
@@ -585,6 +615,8 @@ namespace ECA.Business.Test.Validation.Sevis
                     participantId);
                 return new ExchangeVisitor(
                     sevisId: exchangeVisitorSevisId,
+                    sevisOrgId: sevisOrgId,
+                    isValidated: isValidated,
                     person: person,
                     financialInfo: financialInfo,
                     occupationCategoryCode: occupationCategoryCode,
@@ -658,6 +690,9 @@ namespace ECA.Business.Test.Validation.Sevis
             List<Dependent> dependents = new List<Dependent>();
             Business.Validation.Sevis.Bio.Person person = null;
 
+            var sevisOrgId = "abcde12347890";
+            var isValidated = false;
+
             Func<ExchangeVisitor> createEntity = () =>
             {
                 person = new Business.Validation.Sevis.Bio.Person(
@@ -681,6 +716,8 @@ namespace ECA.Business.Test.Validation.Sevis
                     participantId);
                 return new ExchangeVisitor(
                     sevisId: exchangeVisitorSevisId,
+                    sevisOrgId: sevisOrgId,
+                    isValidated: isValidated,
                     person: person,
                     financialInfo: financialInfo,
                     occupationCategoryCode: occupationCategoryCode,
@@ -755,6 +792,9 @@ namespace ECA.Business.Test.Validation.Sevis
             List<Dependent> dependents = new List<Dependent>();
             Business.Validation.Sevis.Bio.Person person = null;
 
+            var sevisOrgId = "abcde12347890";
+            var isValidated = false;
+
             Func<ExchangeVisitor> createEntity = () =>
             {
                 person = new Business.Validation.Sevis.Bio.Person(
@@ -778,6 +818,8 @@ namespace ECA.Business.Test.Validation.Sevis
                     participantId);
                 return new ExchangeVisitor(
                     sevisId: exchangeVisitorSevisId,
+                    sevisOrgId: sevisOrgId,
+                    isValidated: isValidated,
                     person: person,
                     financialInfo: financialInfo,
                     occupationCategoryCode: occupationCategoryCode,
@@ -852,6 +894,9 @@ namespace ECA.Business.Test.Validation.Sevis
             List<Dependent> dependents = new List<Dependent>();
             Business.Validation.Sevis.Bio.Person person = null;
 
+            var sevisOrgId = "abcde12347890";
+            var isValidated = false;
+
             Func<ExchangeVisitor> createEntity = () =>
             {
                 person = new Business.Validation.Sevis.Bio.Person(
@@ -875,6 +920,8 @@ namespace ECA.Business.Test.Validation.Sevis
                     participantId);
                 return new ExchangeVisitor(
                     sevisId: exchangeVisitorSevisId,
+                    sevisOrgId: sevisOrgId,
+                    isValidated: isValidated,
                     person: person,
                     financialInfo: financialInfo,
                     occupationCategoryCode: occupationCategoryCode,
@@ -948,6 +995,9 @@ namespace ECA.Business.Test.Validation.Sevis
             List<Dependent> dependents = new List<Dependent>();
             Business.Validation.Sevis.Bio.Person person = null;
 
+            var sevisOrgId = "abcde12347890";
+            var isValidated = false;
+
             Func<ExchangeVisitor> createEntity = () =>
             {
                 person = new Business.Validation.Sevis.Bio.Person(
@@ -971,6 +1021,8 @@ namespace ECA.Business.Test.Validation.Sevis
                     participantId);
                 return new ExchangeVisitor(
                     sevisId: exchangeVisitorSevisId,
+                    sevisOrgId: sevisOrgId,
+                    isValidated: isValidated,
                     person: person,
                     financialInfo: financialInfo,
                     occupationCategoryCode: occupationCategoryCode,
@@ -1044,6 +1096,9 @@ namespace ECA.Business.Test.Validation.Sevis
             List<Dependent> dependents = new List<Dependent>();
             Business.Validation.Sevis.Bio.Person person = null;
 
+            var sevisOrgId = "abcde12347890";
+            var isValidated = false;
+
             Func<ExchangeVisitor> createEntity = () =>
             {
                 person = new Business.Validation.Sevis.Bio.Person(
@@ -1067,6 +1122,8 @@ namespace ECA.Business.Test.Validation.Sevis
                     participantId);
                 return new ExchangeVisitor(
                     sevisId: exchangeVisitorSevisId,
+                    sevisOrgId: sevisOrgId,
+                    isValidated: isValidated,
                     person: person,
                     financialInfo: financialInfo,
                     occupationCategoryCode: occupationCategoryCode,
@@ -1136,6 +1193,9 @@ namespace ECA.Business.Test.Validation.Sevis
             List<Dependent> dependents = new List<Dependent>();
             Business.Validation.Sevis.Bio.Person person = null;
 
+            var sevisOrgId = "abcde12347890";
+            var isValidated = false;
+
             Func<ExchangeVisitor> createEntity = () =>
             {
                 person = new Business.Validation.Sevis.Bio.Person(
@@ -1159,6 +1219,8 @@ namespace ECA.Business.Test.Validation.Sevis
                     participantId);
                 return new ExchangeVisitor(
                     sevisId: exchangeVisitorSevisId,
+                    sevisOrgId: sevisOrgId,
+                    isValidated: isValidated,
                     person: person,
                     financialInfo: financialInfo,
                     occupationCategoryCode: occupationCategoryCode,
@@ -1230,6 +1292,9 @@ namespace ECA.Business.Test.Validation.Sevis
             List<Dependent> dependents = new List<Dependent>();
             Business.Validation.Sevis.Bio.Person person = null;
 
+            var sevisOrgId = "abcde12347890";
+            var isValidated = false;
+
             Func<ExchangeVisitor> createEntity = () =>
             {
                 person = new Business.Validation.Sevis.Bio.Person(
@@ -1253,6 +1318,8 @@ namespace ECA.Business.Test.Validation.Sevis
                     participantId);
                 return new ExchangeVisitor(
                     sevisId: exchangeVisitorSevisId,
+                    sevisOrgId: sevisOrgId,
+                    isValidated: isValidated,
                     person: person,
                     financialInfo: financialInfo,
                     occupationCategoryCode: occupationCategoryCode,
@@ -1323,6 +1390,9 @@ namespace ECA.Business.Test.Validation.Sevis
             List<Dependent> dependents = new List<Dependent>();
             Business.Validation.Sevis.Bio.Person person = null;
 
+            var sevisOrgId = "abcde12347890";
+            var isValidated = false;
+
             Func<ExchangeVisitor> createEntity = () =>
             {
                 person = new Business.Validation.Sevis.Bio.Person(
@@ -1346,6 +1416,8 @@ namespace ECA.Business.Test.Validation.Sevis
                     participantId);
                 return new ExchangeVisitor(
                     sevisId: exchangeVisitorSevisId,
+                    sevisOrgId: sevisOrgId,
+                    isValidated: isValidated,
                     person: person,
                     financialInfo: financialInfo,
                     occupationCategoryCode: occupationCategoryCode,
@@ -1416,6 +1488,9 @@ namespace ECA.Business.Test.Validation.Sevis
             List<Dependent> dependents = new List<Dependent>();
             Business.Validation.Sevis.Bio.Person person = null;
 
+            var sevisOrgId = "abcde12347890";
+            var isValidated = false;
+
             Func<ExchangeVisitor> createEntity = () =>
             {
                 person = new Business.Validation.Sevis.Bio.Person(
@@ -1439,6 +1514,8 @@ namespace ECA.Business.Test.Validation.Sevis
                     participantId);
                 return new ExchangeVisitor(
                     sevisId: exchangeVisitorSevisId,
+                    sevisOrgId: sevisOrgId,
+                    isValidated: isValidated,
                     person: person,
                     financialInfo: financialInfo,
                     occupationCategoryCode: occupationCategoryCode,
@@ -1511,6 +1588,9 @@ namespace ECA.Business.Test.Validation.Sevis
             List<Dependent> dependents = new List<Dependent>();
             Business.Validation.Sevis.Bio.Person person = null;
 
+            var sevisOrgId = "abcde12347890";
+            var isValidated = false;
+
             Func<ExchangeVisitor> createEntity = () =>
             {
                 person = new Business.Validation.Sevis.Bio.Person(
@@ -1534,6 +1614,8 @@ namespace ECA.Business.Test.Validation.Sevis
                     participantId);
                 return new ExchangeVisitor(
                     sevisId: exchangeVisitorSevisId,
+                    sevisOrgId: sevisOrgId,
+                    isValidated: isValidated,
                     person: person,
                     financialInfo: financialInfo,
                     occupationCategoryCode: occupationCategoryCode,
@@ -1609,6 +1691,10 @@ namespace ECA.Business.Test.Validation.Sevis
 
             var isTravelingWithParticipant = true;
             var isDeletedDependent = false;
+
+            var sevisOrgId = "abcde12347890";
+            var isValidated = false;
+
             Func<ExchangeVisitor> createEntity = () =>
             {
                 person = new Business.Validation.Sevis.Bio.Person(
@@ -1632,6 +1718,8 @@ namespace ECA.Business.Test.Validation.Sevis
                     participantId);
                 return new ExchangeVisitor(
                     sevisId: exchangeVisitorSevisId,
+                    sevisOrgId: sevisOrgId,
+                    isValidated: isValidated,
                     person: person,
                     financialInfo: financialInfo,
                     occupationCategoryCode: occupationCategoryCode,
@@ -1730,6 +1818,10 @@ namespace ECA.Business.Test.Validation.Sevis
 
             var isTravelingWithParticipant = true;
             var isDeletedDependent = false;
+
+            var sevisOrgId = "abcde12347890";
+            var isValidated = false;
+
             Func<ExchangeVisitor> createEntity = () =>
             {
                 person = new Business.Validation.Sevis.Bio.Person(
@@ -1753,6 +1845,8 @@ namespace ECA.Business.Test.Validation.Sevis
                     participantId);
                 return new ExchangeVisitor(
                     sevisId: exchangeVisitorSevisId,
+                    sevisOrgId: sevisOrgId,
+                    isValidated: isValidated,
                     person: person,
                     financialInfo: financialInfo,
                     occupationCategoryCode: occupationCategoryCode,

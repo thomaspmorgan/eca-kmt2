@@ -1,5 +1,4 @@
-﻿using ECA.Business.Exceptions;
-using ECA.Business.Queries.Admin;
+﻿using ECA.Business.Queries.Admin;
 using ECA.Business.Queries.Models.Admin;
 using ECA.Business.Queries.Models.Persons;
 using ECA.Core.Exceptions;
@@ -51,31 +50,10 @@ namespace ECA.Business.Service.Admin
             };
             throwValidationErrorIfParticipantSevisInfoIsLocked = (participant) =>
             {
-                if (participant != null && participant.SevisStatusId.HasValue)
-                {
-                    if (participant != null && IndexOfInt(participant.LOCKED_SEVIS_COMM_STATUSES, (int)participant.SevisStatusId) != -1)
-                    {
-                        var msg = String.Format("An update was attempted on participant with id [{0}] but should have failed validation.",
-                                participant.ParticipantId);
-
-                        throw new EcaBusinessException(msg);
-                    }
-                }
+                participant.ValidateSevisLock();
             };
         }
-
-        static int IndexOfInt(int[] arr, int value)
-        {
-            for (int i = 0; i < arr.Length; i++)
-            {
-                if (arr[i] == value)
-                {
-                    return i;
-                }
-            }
-            return -1;
-        }
-
+        
         #region Get
         /// <summary>
         /// Retrieves the phone number dto with the given id.
@@ -201,6 +179,7 @@ namespace ECA.Business.Service.Admin
             }
             modelToUpdate.PhoneNumberTypeId = updatedPhoneNumber.PhoneNumberTypeId;
             modelToUpdate.Number = updatedPhoneNumber.Number;
+            modelToUpdate.Extension = updatedPhoneNumber.Extension;
             modelToUpdate.IsPrimary = updatedPhoneNumber.IsPrimary;
             updatedPhoneNumber.Audit.SetHistory(modelToUpdate);
             if (updatedPhoneNumber.IsPrimary)

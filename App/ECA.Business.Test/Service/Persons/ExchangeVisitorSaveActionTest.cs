@@ -166,32 +166,6 @@ namespace ECA.Business.Test.Service.Persons
         }
 
         [TestMethod]
-        public void TestGetModifiedParticipants_ParticipantPerson()
-        {
-            using (ShimsContext.Create())
-            {
-                var entity = new ParticipantPersonProxyClass
-                {
-                    ParticipantId = 1,
-                };
-                System.Data.Entity.Infrastructure.Fakes.ShimDbChangeTracker.AllInstances.Entries = (tracker) =>
-                {
-                    var entries = new List<DbEntityEntry>();
-                    entries.Add(new System.Data.Entity.Infrastructure.Fakes.ShimDbEntityEntry
-                    {
-                        EntityGet = () => entity,
-                        StateGet = () => EntityState.Modified
-                    });
-                    return entries;
-                };
-                context.ParticipantPersons.Add(entity);
-                var entities = saveAction.GetModifiedEntities(context);
-                Assert.AreEqual(1, entities.Count);
-                Assert.IsTrue(Object.ReferenceEquals(entity, entities.First()));
-            }
-        }
-
-        [TestMethod]
         public void TestGetModifiedParticipants_ParticipantPersonExchangeVisitor()
         {
             using (ShimsContext.Create())
@@ -314,6 +288,7 @@ namespace ECA.Business.Test.Service.Persons
                     });
                     return entries;
                 };
+
                 context.PhoneNumbers.Add(entity);
                 var entities = saveAction.GetModifiedEntities(context);
                 Assert.AreEqual(1, entities.Count);
@@ -575,6 +550,7 @@ namespace ECA.Business.Test.Service.Persons
                     });
                     return entries;
                 };
+
                 context.ParticipantPersons.Add(entity);
                 var entities = saveAction.GetCreatedEntities(context);
                 Assert.AreEqual(1, entities.Count);
@@ -1194,7 +1170,7 @@ namespace ECA.Business.Test.Service.Persons
                 var participantId = 2;
 
                 var list = new List<object>();
-                
+
                 var person = new PersonProxyClass
                 {
                     PersonId = 1,
@@ -1734,7 +1710,7 @@ namespace ECA.Business.Test.Service.Persons
                 tester(participantIdsAsync);
             }
         }
-        
+
 
         [TestMethod]
         public async Task TestGetParticipantIds_TheObjectTypeIsNotSupported()
@@ -2104,6 +2080,11 @@ namespace ECA.Business.Test.Service.Persons
                 {
                     AddressId = 3,
                 };
+                System.Data.Entity.Infrastructure.Fakes.ShimDbChangeTracker.AllInstances.EntriesOf1<ParticipantPerson>((tracker) =>
+                {
+                    var entries = new List<DbEntityEntry<ParticipantPerson>>();
+                    return entries;
+                });
                 ECA.Business.Queries.Persons.Fakes.ShimPersonQueries.CreateGetSimplePersonDTOsQueryEcaContext = (ctx) =>
                 {
                     var peopleDtos = new List<SimplePersonDTO>();
@@ -2394,7 +2375,7 @@ namespace ECA.Business.Test.Service.Persons
                 context.People.Add(person);
                 context.PersonDependents.Add(dependent);
                 context.EmailAddresses.Add(email);
-                saveAction.Context = context;               
+                saveAction.Context = context;
 
                 Action<int?> tester = (personId) =>
                 {
@@ -2642,7 +2623,7 @@ namespace ECA.Business.Test.Service.Persons
                     PersonId = 2
                 };
                 context.GetLocalDelegate = () => dependent;
-                context.PersonDependents.Add(dependent);                
+                context.PersonDependents.Add(dependent);
 
                 Action<int?> tester = (personId) =>
                 {

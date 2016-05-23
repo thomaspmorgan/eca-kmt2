@@ -17,6 +17,8 @@ angular.module('staticApp')
         $filter,
         orderByFilter,
         BrowserService,
+        FilterService,
+        LookupService,
         ProjectService,
         ConstantsService,
         NotificationService) {
@@ -33,6 +35,7 @@ angular.module('staticApp')
       $scope.objectiveLabel = "...";
       $scope.sortedCategories = [];
       $scope.sortedObjectives = [];
+      $scope.view.selectedPointsOfContact = [];
 
       $scope.view.isLoadingOfficeSetting = true;
       $scope.$parent.data.loadOfficeSettingsPromise.promise
@@ -61,8 +64,7 @@ angular.module('staticApp')
               $scope.view.dataPointConfigurations[array[i].propertyId] = array[i].isRequired;
           }
       });
-
-
+      
       $scope.view.isLoading = true;
       $scope.$parent.data.loadProjectByIdPromise.promise.then(function (project) {
           BrowserService.setDocumentTitleByProject(project, 'Overview');
@@ -78,14 +80,14 @@ angular.module('staticApp')
           }
           $scope.sortedCategories = orderByFilter($scope.$parent.project.categories, '+focusName');
           $scope.sortedObjectives = orderByFilter($scope.$parent.project.objectives, '+justificationName');
+          $scope.view.selectedPointsOfContact = orderByFilter($scope.$parent.project.contacts, '+fullName');
           $scope.view.isLoading = false;
-
       });
+
       $scope.$parent.data.loadDefaultExchangeVisitorFundingPromise.promise.then(function (defaultVisitorExchangeFunding) {
           $scope.view.sevisFunding = defaultVisitorExchangeFunding;
       });
-
-
+            
       var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
       var labelIndex = 0;
       var markers = [];
@@ -174,4 +176,6 @@ angular.module('staticApp')
       function getLocationMap() {
           return $scope.view.locationMap;
       }
+
+      //$q.all([setSelectedPointsOfContact()]);
   });

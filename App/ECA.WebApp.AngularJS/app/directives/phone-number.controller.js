@@ -19,7 +19,7 @@ angular.module('staticApp')
         ConstantsService,
         PersonService,
         NotificationService) {
-
+      
       $scope.view = {};
       $scope.view.params = $stateParams;
       $scope.view.phoneNumberTypes = [];
@@ -34,7 +34,7 @@ angular.module('staticApp')
           console.assert($scope.modelId, 'The entity model id must be defined.');
           var phoneNumberableType = $scope.modelType;
           var modelId = $scope.modelId;
-
+          
           if (isNewPhoneNumber($scope.phoneNumber)) {
               var tempId = angular.copy($scope.phoneNumber.id);
               return PhoneNumberService.add($scope.phoneNumber, phoneNumberableType, modelId)
@@ -163,4 +163,21 @@ angular.module('staticApp')
           $scope.view.phoneNumberTypes = phoneNumberTypes;
           $scope.view.isLoadingRequiredData = false;
       });
+
+      //function getPhoneCountryFlags() {
+      //    var found = false;
+      //    angular.forEach($scope.phoneNumberable.phoneNumbers, function (phone, index) {
+      //        if (!found) {
+      //            angular.forEach($scope.data.countries, function (country) {
+      //                if (country.dialCode.indexOf(phone.number.slice(0, 2)) == 0 || country.dialCode.indexOf(phone.number.slice(0, 3)) == 0) {
+      //                    phone.flag = 'iti-flag ' + country.iso2;
+      //                    phone.flagtitle = country.name;
+      //                    found = true;
+      //                }
+      //            });
+      //        }
+      //    });
+      //}
+
+      //getPhoneCountryFlags()
   });

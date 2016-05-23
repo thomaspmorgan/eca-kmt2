@@ -74,6 +74,7 @@
 	otherConstants["itineraryStopExpandedEventName"] = "itineraryStopExpanded";
 	otherConstants["removeNewDependentEventName"] = "removeNewDependent";
 	otherConstants["removeNewCitizenshipCountryEventName"] = "removeNewCitizenshipCountry";
+	otherConstants["removePointsOfContactEventName"] = "removePointsOfContact";
 
 	otherConstants["ascending"] = SortDirection.Ascending.Value;
 	otherConstants["descending"] = SortDirection.Descending.Value;
@@ -94,6 +95,7 @@
 	otherConstants["officeCategorySettingName"] = OfficeSetting.CATEGORY_SETTING_KEY;
 	otherConstants["officeObjectiveSettingName"] = OfficeSetting.OBJECTIVE_SETTING_KEY;
 
+	otherConstants["monthNames"] = "January,February,March,April,May,June,July,August,September,October,November,December";
 	otherConstants["emailRegex"] = @"^[_a-zA-Z0-9]+(\.[_a-zA-Z0-9]+)*@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*(\.[a-zA-Z]{2,4})$";
 	otherConstants["updateBreadcrumbsEventName"] = "updateBreadcrumbs";
 

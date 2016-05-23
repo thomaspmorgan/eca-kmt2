@@ -39,7 +39,7 @@ namespace ECA.Business.Service.Admin
             {
                 if (emailAddressableEntity == null)
                 {
-                    throw new ModelNotFoundException(String.Format("The sociable entity with id [{0}] was not found.", id));
+                    throw new ModelNotFoundException(String.Format("The email addressable entity with id [{0}] was not found.", id));
                 }
             };
             throwIfEmailAddressNotFound = (emailAddress, id) =>
@@ -51,31 +51,10 @@ namespace ECA.Business.Service.Admin
             };
             throwValidationErrorIfParticipantSevisInfoIsLocked = (participant) =>
             {
-                if (participant != null && participant.SevisStatusId.HasValue)
-                {
-                    if (participant != null && IndexOfInt(participant.LOCKED_SEVIS_COMM_STATUSES, (int)participant.SevisStatusId) != -1)
-                    {
-                        var msg = String.Format("An update was attempted on participant with id [{0}] but should have failed validation.",
-                                participant.ParticipantId);
-
-                        throw new EcaBusinessException(msg);
-                    }
-                }
+                participant.ValidateSevisLock();
             };
         }
-
-        static int IndexOfInt(int[] arr, int value)
-        {
-            for (int i = 0; i < arr.Length; i++)
-            {
-                if (arr[i] == value)
-                {
-                    return i;
-                }
-            }
-            return -1;
-        }
-
+        
         #region Get
         /// <summary>
         /// Retrieves the email address dto with the given id.

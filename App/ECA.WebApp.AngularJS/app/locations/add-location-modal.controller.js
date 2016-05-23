@@ -54,6 +54,7 @@ angular.module('staticApp')
       $scope.view.countryIso = [];
       $scope.view.googledLocation = {};
       $scope.view.isGeocoding = false;
+      $scope.view.isLoadingPredictions = false;
       $scope.view.isLoadingRequiredData = false;
       $scope.view.isLoadingCities = false;
       $scope.view.isLoadingDivisions = false;
@@ -123,6 +124,16 @@ angular.module('staticApp')
           } else {
               clearDivision();
           }
+      }
+
+      $scope.view.onGetGooglePredictions = function (search) {
+          return LocationService.getLocationSuggestions(search)
+          .then(function (predictions) {
+              return predictions;
+          })
+          .catch(function (response) {
+              $log.error(response);
+          });
       }
 
       $scope.view.onDivisionChange = function () {
@@ -200,6 +211,11 @@ angular.module('staticApp')
           $scope.view.newLocation.longitude = center.lng();
       }
 
+      $scope.view.onGooglePredictionSelect = function ($item, $model, $label) {
+          var map = getNewLocationMap();
+          return getPlaceById($item.place_id, map);
+      }
+
       var markers = [];
       function doGeocode(address) {
           clearMapMarkers();
@@ -218,7 +234,7 @@ angular.module('staticApp')
                               animation: google.maps.Animation.DROP,
                           });
                           marker.addListener('click', function () {
-                              onMapMarkerClick(marker, result)
+                              onMapMarkerClick(marker, result);
                           });
                           markers.push(marker);
                       }, index * 100);
@@ -235,6 +251,33 @@ angular.module('staticApp')
               $log.error('Unable to perform search.');
               NotificationService.showErrorMessage("Unable to perform search.");
           });
+      }
+
+      function getPlaceById(googlePlaceId, map) {
+          var dfd = $q.defer();
+          var service = new google.maps.places.PlacesService(map);          
+          service.getDetails({ placeId: googlePlaceId }, function (place, status) {
+              if (status == google.maps.places.PlacesServiceStatus.OK) {
+                  var bounds = new google.maps.LatLngBounds();
+                  bounds.extend(place.geometry.location);
+                  var marker = new google.maps.Marker({
+                      position: place.geometry.location,
+                      map: map,
+                      animation: google.maps.Animation.DROP,
+                      title: place.name
+                  });
+                  marker.addListener('click', function () {
+                      onMapMarkerClick(marker, place);
+                  });
+                  map.fitBounds(bounds);
+                  markers.push(marker);
+                  dfd.resolve(marker);
+              }
+              else {
+                  dfd.reject('Unable to load google place by id.');
+              }
+          });
+          return dfd.promise;
       }
 
       function clearLatAndLong() {
@@ -281,8 +324,15 @@ angular.module('staticApp')
               if (transformedLocation.cityId && transformedLocation.locationTypeId !== ConstantsService.locationType.city.id) {
                   transformedLocation.city = transformedLocation.cityShortName;
               }
+              if (!transformedLocation.name && transformedLocation.locationTypeId !== ConstantsService.locationType.city.id) {
+                  transformedLocation.name = geocodeResult.name;
+              }
               $scope.view.newLocation = transformedLocation;
-              return $q.all(loadCountries(), loadDivisions(), checkNewLocationExistence())
+              var locationLoadPromises = [loadCountries(), loadDivisions(), checkNewLocationExistence()];
+              if (transformedLocation.locationTypeId !== ConstantsService.locationType.city.id) {
+                  locationLoadPromises.push(loadCities(transformedLocation.cityShortName));
+              }
+              return $q.all(locationLoadPromises)
               .then(function () {
                   $scope.view.isTransformingLocation = false;
               })
@@ -451,7 +501,7 @@ angular.module('staticApp')
               $scope.view.isSavingNewLocation = false;
           });
       }
-      
+
       var existenceFilter = FilterService.add('addlocation_existencefilter');
       function checkNewLocationExistence() {
           $scope.view.locationExists = false;

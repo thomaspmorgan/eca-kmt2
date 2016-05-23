@@ -1,9 +1,4 @@
 ﻿using ECA.Business.Service.Admin;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics.Contracts;
-using System.Linq;
-using System.Web;
 
 namespace ECA.WebApi.Models.Admin
 {
@@ -19,7 +14,7 @@ namespace ECA.WebApi.Models.Admin
         /// <returns>The phone numbers.</returns>
         public override NewPhoneNumber<ECA.Data.Person> ToPhoneNumber(Business.Service.User user)
         {
-            return new NewPersonPhoneNumber(user, this.PhoneNumberTypeId, this.Number, this.PhoneNumberableId, this.IsPrimary);
+            return new NewPersonPhoneNumber(user, this.PhoneNumberTypeId, this.Number, this.Extension, this.PhoneNumberableId, this.IsPrimary);
         }
     }
 }

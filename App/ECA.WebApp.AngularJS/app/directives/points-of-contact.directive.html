@@ -1,0 +1,93 @@
+﻿<div ng-controller="PointsOfContactCtrl">
+    <div>
+        <a ng-click="view.collapsePocs = !view.collapsePocs">
+            <i class="material-icons md-dark md-24 pull-right" ng-show="view.collapsePocs">expand_less</i>
+            <i class="material-icons md-dark md-24 pull-right" ng-show="!view.collapsePocs">expand_more</i>
+        </a>
+        <a ng-click="view.onAddPointOfContactClick(model.selectedPointsOfContact)" ng-show="editMode">
+            <i class="material-icons md-24 md-dark pull-right">add</i>
+        </a>
+        <div class="pull-right" style="margin-top: 3px;">({{model.selectedPointsOfContact.length}})</div>
+    </div>
+    <div class="col-md-12" collapse="view.collapsePocs">
+        <div ng-repeat="poc in model.selectedPointsOfContact track by poc.id">
+            <div ng-controller="PointOfContactCtrl" class="expandIndent">
+                <div class="spinner" ng-show="view.isSavingChanges">
+                    <div class="bounce1"></div>
+                    <div class="bounce2"></div>
+                    <div class="bounce3"></div>
+                </div>
+                <a ng-click="poc.collapsePoc = !poc.collapsePoc">
+                    <i class="material-icons md-dark md-24 pull-right" ng-show="poc.collapsePoc">expand_less</i>
+                    <i class="material-icons md-dark md-24 pull-right" ng-show="!poc.collapsePoc">expand_more</i>
+                </a>
+                <div class="row" ng-show="!view.isSavingChanges">
+                    <div ng-class="{true: '', false: 'row2'}[editMode]" ng-show="!poc.showEditPoc || editMode">
+                        {{poc.fullName}} {{poc.position.length ? '(' + poc.position + ')' : '' }}
+                        <div class="pull-right" ng-show="editMode">
+                            <a ng-show="!view.isDeletingPoc" ng-click="view.showConfirmDelete = true">
+                                <i class="material-icons md-dark">delete</i>
+                            </a>
+                            <a ng-show="view.isDeletingPoc">
+                                <i class="material-icons md-dark material-icons-spin">refresh</i>
+                            </a>
+                            <a ng-click="view.onEditPocClick(poc)">
+                                <i class="material-icons md-dark">edit</i>
+                            </a>
+                        </div>
+                    </div>
+                    <div ng-show="view.showConfirmDelete" class="text-center">
+                        Are you sure you want to delete this point of contact?
+                    </div>
+                    <div ng-show="view.showConfirmDelete" style="margin-top:10px;" class="text-center">
+                        <button ng-click="view.onDeletePocClick(poc)" class="btn btn-danger">Delete</button>
+                        <button ng-click="view.showConfirmDelete = !view.showConfirmDelete" class="btn btn-cancel">Cancel</button>
+                    </div>
+                    <div ng-show="!view.showConfirmDelete">
+                        <form name="form.pocForm" class="row form-horizontal">
+                            <div class="col-md-12" ng-show="poc.showEditPoc || poc.isNew">
+                                <div class="form-group">
+                                    <label>
+                                        Full Name <eca-required />
+                                    </label>
+                                    <input type="text" placeholder="Select or Add Contact..." class="search-contextual"
+                                           ng-model="poc.fullName" typeahead="poc as poc.fullName for poc in view.getContacts($viewValue) | limitTo : 25"
+                                           typeahead-on-select="view.onSelectContact($item)" maxlength="{{view.maxNameLength}}" required>
+                                </div>
+                                <div ng-show="form.pocForm.name.$dirty">
+                                    <div class="error" ng-show="form.pointOfContactForm.name.$error.required">Please enter the full name of the point of contact.</div>
+                                </div>
+                                <div class="form-group">
+                                    <label>
+                                        Position
+                                    </label>
+                                    <input name="position"
+                                            maxlength="{{view.maxNameLength}}"
+                                            ng-model="poc.position"
+                                            type="text"
+                                            class="form-control"
+                                            style="width:90%"
+                                            placeholder="Enter the point of contact's position..." />
+                                </div>
+                                <div class="row right">
+                                    <button ng-click="view.savePointOfContact($event)" class="btn btn-success" ng-disabled="form.pointOfContactForm.$invalid">Save</button>
+                                    <button ng-click="view.cancelPointOfContactChanges($event, poc)" class="btn btn-cancel">Cancel</button>
+                                </div>
+                            </div>
+                        </form>
+                        <div class="row">
+                            <i class="material-icons md-dark col-md-1">email</i>
+                            <div class="col-md-3 title-label">Emails</div>
+                            <emailaddresses model="poc" modelid="poc.id" modeltype="'contact'" editmode="editMode"></emailaddresses>
+                        </div>
+                        <div class="row">
+                            <i class="material-icons md-dark col-md-1">phone</i>
+                            <div class="col-md-4 title-label">Phone Numbers</div>
+                            <phonenumbers model="poc" modelid="poc.id" modeltype="'contact'" editmode="editMode"></phonenumbers>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

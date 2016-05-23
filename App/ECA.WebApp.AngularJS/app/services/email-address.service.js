@@ -12,7 +12,7 @@ angular.module('staticApp')
 
       var service = {
 
-          personEmailAddressableType: 'person',
+          emailAddressableTypes: ['person', 'contact'],
 
           update: function (emailAddress, emailAddressableType, emailAddressableId) {
               if (!service.isValidEmailAddressableType(emailAddressableType)) {
@@ -40,12 +40,14 @@ angular.module('staticApp')
               if (!service.isValidEmailAddressableType(emailAddressableType)) {
                   throw Error('The email addressable type [' + emailAddressableType + '] is not supported.');
               }
-              if (emailAddressableType === service.personEmailAddressableType) {
+              if (emailAddressableType === service.emailAddressableTypes[0]) {
                   return 'people';
+              } else if (emailAddressableType === service.emailAddressableTypes[1]) {
+                  return 'contact';
               }
           },
           isValidEmailAddressableType: function (emailAddressableType) {
-              var types = [service.personEmailAddressableType];
+              var types = service.emailAddressableTypes;
               return types.indexOf(emailAddressableType) >= 0;
           }
       };

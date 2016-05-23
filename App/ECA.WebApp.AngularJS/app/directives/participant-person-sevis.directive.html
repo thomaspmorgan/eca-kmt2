@@ -1,4 +1,4 @@
-<div class="row row2">
+<div class="row row5">
     <div class="col-md-12" ng-show="sevisinfo">
         <div ng-show="sevisinfo.sevisValidationResult && !sevisinfo.sevisValidationResult.isValid">
             <div class="col-md-3">
@@ -54,85 +54,64 @@
         </div>
     </div>
 </div>
-<div class="row row2">
+<div class="row row5">
     <div class="col-md-2">
         <h5>DHS Status</h5>
     </div>
+    <div class="col-md-3">
+        <span class="title-label">Sevis Id: </span>{{(sevisinfo.sevisId == null) ? "none" : sevisinfo.sevisId}}
+        </div>
     <div class="col-md-5">
-        <span class="title-label"> Last Batch Date: </span>{{sevisinfo.lastBatchDate | date:'short'}}
+        <span class="title-label">Last Batch Date: </span>{{sevisinfo.lastBatchDate | date:'short'}}
     </div>
-    <div class="col-md-5">
+    <div class="col-md-2">
         <a ng-click="view.DHSStatus=!view.DHSStatus">
             <i class="material-icons md-dark md-36 pull-right" ng-show="view.DHSStatus">expand_more</i>
             <i class="material-icons md-dark md-36 pull-right" ng-show="!view.DHSStatus">expand_less</i>
         </a>
     </div>
 </div>
-<div class="row row2" ng-show="view.DHSStatus">
-    <div class="row4">
-        <div class="col-md-3">
-            &nbsp;
-        </div>
-        <div class="col-md-3 title-label">Sevis Id</div>
-        <div class="col-md-6">
-            {{sevisinfo.sevisId}}
-        </div>
-    </div>
-    <div ui-grid="view.gridOptions" ui-grid-pagination ui-grid-auto-resize style="margin-top:10px;"></div>
+<div class="row row6" collapse="!view.DHSStatus">
+    <div ui-grid="view.gridOptions" ui-grid-pagination ui-grid-auto-resize></div>
 </div>
-<div class="row row2">
-    <div class="col-md-5"><h5>DoS Status</h5></div>
-    <div class="col-md-7">
-        <a ng-click="view.DoSStatus=!view.DoSStatus">
-            <i class="material-icons md-dark md-36 pull-right" ng-show="view.DoSStatus">expand_more</i>
-            <i class="material-icons md-dark md-36 pull-right" ng-show="!view.DoSStatus">expand_less</i>
-        </a>
+<div class="row row5">
+    <div class="col-md-2"><h5>DoS Status</h5></div>
+    <div class="form-group col-md-3" style="margin-bottom:0">
+        <span tooltip="{{editLocked ? 'The participant is currently in a SEVIS Status which does not allow edits' : ''}}">
+            <input type="checkbox" ng-model="sevisinfo.isSentToSevisViaRTI" ng-disabled="editLocked" ng-click="edit.onDosStatusChange($event, 'isSentToSevisViaRTI', sevisinfo.isSentToSevisViaRTI)" /> Sent to DHS via RTI
+        </span>
+    </div>
+    <div class="form-group col-md-3" style="margin-bottom:0">
+        <span tooltip="{{editLocked ? 'The participant is currently in a SEVIS Status which does not allow edits' : ''}}">
+            <input type="checkbox" ng-model="sevisinfo.isCancelled" ng-disabled="editLocked" ng-click="edit.onDosStatusChange($event, 'isCancelled', sevisinfo.isCancelled)" /> Cancelled
+        </span>
+    </div>
+    <div class="form-group col-md-4" style="margin-bottom:0">
+        <span tooltip="{{editLocked ? 'The participant is currently in a SEVIS Status which does not allow edits' : ''}}">
+            <input type="checkbox" ng-model="sevisinfo.isValidatedViaRTI" ng-disabled="editLocked" ng-click="edit.onDosStatusChange($event, 'isValidatedViaRTI', sevisinfo.isValidatedViaRTI)" /> Validated via RTI
+        </span>
     </div>
 </div>
-<div class="row row2" ng-show="view.DoSStatus" style="border:none; padding-bottom: 0px;">
-    <div class="col-md-3">&nbsp;</div>
+<div class="row row6">
+    <div class="col-md-2">&nbsp;</div>
     <div class="form-group col-md-3" style="margin-bottom:0">
-        <span tooltip="{{sevisinfo.blockEdit ? 'The participant is currently in a SEVIS Status which does not allow edits' : ''}}">
-            <input type="checkbox" ng-model="sevisinfo.isSentToSevisViaRTI" ng-disabled="sevisinfo.blockEdit" ng-click="edit.onDosStatusChange($event, 'isSentToSevisViaRTI', sevisinfo.isSentToSevisViaRTI)" /> Sent to DHS via RTI
+        <span tooltip="{{editLocked ? 'The participant is currently in a SEVIS Status which does not allow edits' : ''}}">
+            <input type="checkbox" ng-model="sevisinfo.isDS2019SentToTraveler" ng-disabled="editLocked" ng-click="edit.onDosStatusChange($event, 'isDS2019SentToTraveler', sevisinfo.isDS2019SentToTraveler)" /> DS 2019 Sent to Traveler
         </span>
     </div>
     <div class="form-group col-md-3" style="margin-bottom:0">
-        <span tooltip="{{sevisinfo.blockEdit ? 'The participant is currently in a SEVIS Status which does not allow edits' : ''}}">
-            <input type="checkbox" ng-model="sevisinfo.isCancelled" ng-disabled="sevisinfo.blockEdit" ng-click="edit.onDosStatusChange($event, 'isCancelled', sevisinfo.isCancelled)" /> Cancelled
+        <span tooltip="{{editLocked ? 'The participant is currently in a SEVIS Status which does not allow edits' : ''}}">
+            <input type="checkbox" ng-model="sevisinfo.isDS2019Printed" ng-disabled="editLocked" ng-click="edit.onDosStatusChange($event, 'isDS2019Printed', sevisinfo.isDS2019Printed)" /> DS 2019 Printed
         </span>
     </div>
-    <div class="col-md-3">&nbsp;</div>
-</div>
-<div class="row row2" ng-show="view.DoSStatus" style="border:none; padding-bottom: 0px;">
-    <div class="col-md-3">&nbsp;</div>
-    <div class="form-group col-md-3" style="margin-bottom:0">
-        <span tooltip="{{sevisinfo.blockEdit ? 'The participant is currently in a SEVIS Status which does not allow edits' : ''}}">
-            <input type="checkbox" ng-model="sevisinfo.isValidatedViaRTI" ng-disabled="sevisinfo.blockEdit" ng-click="edit.onDosStatusChange($event, 'isValidatedViaRTI', sevisinfo.isValidatedViaRTI)" /> Validated via RTI
-        </span>
-    </div>
-    <div class="form-group col-md-3" style="margin-bottom:0">
-        <span tooltip="{{sevisinfo.blockEdit ? 'The participant is currently in a SEVIS Status which does not allow edits' : ''}}">
-            <input type="checkbox" ng-model="sevisinfo.isDS2019SentToTraveler" ng-disabled="sevisinfo.blockEdit" ng-click="edit.onDosStatusChange($event, 'isDS2019SentToTraveler', sevisinfo.isDS2019SentToTraveler)" /> DS 2019 Sent to Traveler
-        </span>
-    </div>
-    <div class="col-md-3">&nbsp;</div>
-</div>
-<div class="row row2" ng-show="view.DoSStatus" style="border:none">
-    <div class="col-md-3">&nbsp;</div>
-    <div class="form-group col-md-3" style="margin-bottom:0">
-        <span tooltip="{{sevisinfo.blockEdit ? 'The participant is currently in a SEVIS Status which does not allow edits' : ''}}">
-            <input type="checkbox" ng-model="sevisinfo.isDS2019Printed" ng-disabled="sevisinfo.blockEdit" ng-click="edit.onDosStatusChange($event, 'isDS2019Printed', sevisinfo.isDS2019Printed)" /> DS 2019 Printed
-        </span>
-    </div>
-    <div class="form-group col-md-3" style="margin-bottom:0">
+    <div class="form-group col-md-4" style="margin-bottom:0">
         <a ng-click="downloadDS2019()" ng-if="sevisinfo.hasDS2019"><i class="material-icons md-24" style="vertical-align: middle;">file_download</i><span> Download DS2019</span></a>
     </div>
-    <div class="col-md-3">&nbsp;</div>
 </div>
-<div class="form-group row row2">
+<div class="form-group row row5">
     <form name="form.startDate">
         <h5 class="col-md-2" id="{{getSevisStartDateDivId(participantid)}}">Start Date</h5>
-        <div class="col-md-3" tooltip="{{sevisinfo.blockEdit ? 'The participant is currently in a SEVIS Status which does not allow edits' : ''}}">
+        <div class="col-md-3" tooltip="{{editLocked ? 'The participant is currently in a SEVIS Status which does not allow edits' : ''}}">
             <p class="input-group">
                 <input type="text"
                        id="startDate"
@@ -141,16 +120,16 @@
                        ng-model="sevisinfo.startDate"
                        is-open="edit.isStartDatePickerOpen"
                        ng-required="true"
-                       ng-disabled="sevisinfo.blockEdit"
+                       ng-disabled="editLocked"
                        ng-change="edit.onStartDateChange()"
                        close-text="Close" />
                 <span class="input-group-btn">
                     <button type="button"
                             class="btn"
-                            style="height: 42px;"
-                            ng-disabled="sevisinfo.blockEdit"
+                            style="height: 39px;"
+                            ng-disabled="editLocked"
                             ng-click="edit.openStartDatePicker($event)">
-                        <i class="material-icons md-18{{sevisinfo.blockEdit ? ' md-dark' : ''}}">event</i>
+                        <i class="material-icons md-18{{editLocked ? ' md-dark' : ''}}">event</i>
                     </button>
                 </span>
             </p>
@@ -158,7 +137,7 @@
     </form>
     <form name="form.endDate">
         <h5 class="col-md-2">End Date</h5>
-        <div class="col-md-3" tooltip="{{sevisinfo.blockEdit ? 'The participant is currently in a SEVIS Status which does not allow edits' : ''}}">
+        <div class="col-md-3" tooltip="{{editLocked ? 'The participant is currently in a SEVIS Status which does not allow edits' : ''}}">
             <p class="input-group">
                 <input type="text"
                        id="endDate"
@@ -167,48 +146,40 @@
                        ng-model="sevisinfo.endDate"
                        is-open="edit.isEndDatePickerOpen"
                        ng-required="true"
-                       ng-disabled="sevisinfo.blockEdit"
+                       ng-disabled="editLocked"
                        close-text="Close"
                        ng-change="edit.onEndDateChange()" />
                 <span class="input-group-btn">
                     <button type="button"
                             class="btn"
-                            style="height: 42px;"
-                            ng-disabled="sevisinfo.blockEdit"
+                            style="height: 39px;"
+                            ng-disabled="editLocked"
                             ng-click="edit.openEndDatePicker($event)">
-                        <i class="material-icons md-18 {{sevisinfo.blockEdit ? 'md-dark' : ''}}">event</i>
+                        <i class="material-icons md-18 {{editLocked ? 'md-dark' : ''}}">event</i>
                     </button>
                 </span>
             </p>
         </div>
         <div class="col-md-2">
-            <i class="material-icons md-dark md-36 pull-right">group</i>
-            <i class="material-icons md-dark md-36 pull-right">add</i>
+            <copy-to-all-participants />
         </div>
     </form>
 </div>
-<div class="row row2">
+<div class="row row5">
     <div class="col-md-8" id="{{positionAndFieldElementId}}"><h5>Position and Field</h5></div>
     <div class="col-md-4">
-        <a ng-click="view.PositionAndField=!view.PositionAndField">
-            <i class="material-icons md-dark md-36 pull-right" ng-show="view.PositionAndField">expand_more</i>
-            <i class="material-icons md-dark md-36 pull-right" ng-show="!view.PositionAndField">expand_less</i>
-        </a>
         <div class="pull-right" style="min-width:40px">
-            <a ng-show="view.PositionAndField && !view.PositionAndFieldEdit" ng-disabled="sevisinfo.blockEdit" ng-click="edit.onPositionAndFieldEditChange()">
-                <span tooltip="{{sevisinfo.blockEdit ? 'The participant is currently in a SEVIS Status which does not allow edits' : ''}}">
-                    <i class="material-icons md-dark md-24 pull-right" style="{{sevisinfo.blockEdit ? 'opacity: .5' : 'opacity: 1'}}">edit</i>
-                </span>
-            </a>
+            <sevis-edit ng-show="!view.PositionAndFieldEdit" ng-disabled="editLocked" ng-click="edit.onPositionAndFieldEditChange()">
+            </sevis-edit>
         </div>
-        <div class="pull-right" ng-if="view.PositionAndFieldEdit" ng-show="view.PositionAndField">
+        <div class="pull-right" ng-if="view.PositionAndFieldEdit">
             <button ng-click="savePositionAndField()" class="btn btn-success" ng-disabled="formPositionAndFieldForm.$invalid || formPositionAndFieldForm.$pristine">Save</button>
             <button ng-click="view.PositionAndFieldEdit=false" class="btn btn-cancel">Cancel</button>
         </div>
     </div>
 </div>
 <div ng-if="!view.PositionAndFieldEdit">
-    <div class="row row2" ng-show="view.PositionAndField">
+    <div class="row row6">
         <div class="row4">
             <div class="col-md-3">
                 <label class="title-label">Position</label>
@@ -217,8 +188,7 @@
                 {{exchangevisitorinfo.position}}
             </div>
             <div class="col-md-3">
-                <i class="material-icons md-dark md-36 pull-right">group</i>
-                <i class="material-icons md-dark md-36 pull-right">add</i>
+                <copy-to-all-participants />
             </div>
         </div>
         <div class="row4">
@@ -229,8 +199,7 @@
                 {{exchangevisitorinfo.programCategory}}
             </div>
             <div class="col-md-3">
-                <i class="material-icons md-dark md-36 pull-right">group</i>
-                <i class="material-icons md-dark md-36 pull-right">add</i>
+                <copy-to-all-participants />
             </div>
         </div>
         <div class="row4">
@@ -241,20 +210,19 @@
                 {{exchangevisitorinfo.fieldOfStudy}}
             </div>
             <div class="col-md-3">
-                <i class="material-icons md-dark md-36 pull-right">group</i>
-                <i class="material-icons md-dark md-36 pull-right">add</i>
+                <copy-to-all-participants />
             </div>
         </div>
     </div>
 </div>
 <div ng-if="view.PositionAndFieldEdit">
-    <form name="formPositionAndFieldForm" ng-show="view.PositionAndField">
-        <div class="row row4">
+    <form name="formPositionAndFieldForm">
+        <div class="row row5">
             <div class="col-md-3">
                 <label class="title-label">Position <eca-required /></label>
             </div>
             <div class="col-md-6">
-                <ui-select ng-model="exchangevisitorinfo.positionId" theme="select2" tabindex="1" ng-required="true">
+                <ui-select ng-model="exchangevisitorinfo.positionId" theme="select2" tabindex="1" ng-required="true" append-to-body="true">
                     <ui-select-match placeholder="Select a position...">{{$select.selected.description}}</ui-select-match>
                     <ui-select-choices repeat="position.id as position in edit.positions | propsFilter: {code: $select.search, description: $select.search} track by position.id">
                         <div ng-bind-html="position.code + ' - ' + position.description | highlight: $select.search"></div>
@@ -262,8 +230,7 @@
                 </ui-select>
             </div>
             <div class="col-md-3">
-                <i class="material-icons md-dark md-36 pull-right">group</i>
-                <i class="material-icons md-dark md-36 pull-right">add</i>
+                <copy-to-all-participants />
             </div>
         </div>
         <div class="row row4">
@@ -271,7 +238,7 @@
                 <label class="title-label">Program Category <eca-required /></label>
             </div>
             <div class="col-md-6">
-                <ui-select ng-model="exchangevisitorinfo.programCategoryId" theme="select2" tabindex="1" ng-required="true">
+                <ui-select ng-model="exchangevisitorinfo.programCategoryId" theme="select2" tabindex="1" ng-required="true" append-to-body="true">
                     <ui-select-match placeholder="Select a program category...">{{$select.selected.description}}</ui-select-match>
                     <ui-select-choices repeat="programCategory.id as programCategory in edit.programCategories | propsFilter: {code: $select.search, description: $select.search} track by programCategory.id">
                         <div ng-bind-html="programCategory.code + ' - ' + programCategory.description | highlight: $select.search"></div>
@@ -279,8 +246,7 @@
                 </ui-select>
             </div>
             <div class="col-md-3">
-                <i class="material-icons md-dark md-36 pull-right">group</i>
-                <i class="material-icons md-dark md-36 pull-right">add</i>
+                <copy-to-all-participants />
             </div>
         </div>
         <div class="row row4">
@@ -288,7 +254,7 @@
                 <label class="title-label">Field Of Study <eca-required /></label>
             </div>
             <div class="col-md-6">
-                <ui-select ng-model="exchangevisitorinfo.fieldOfStudyId" theme="select2" tabindex="1" ng-required="true">
+                <ui-select ng-model="exchangevisitorinfo.fieldOfStudyId" theme="select2" tabindex="1" ng-required="true" append-to-body="true">
                     <ui-select-match placeholder="Select a field of study...">{{$select.selected.description}}</ui-select-match>
                     <ui-select-choices refresh="edit.searchFieldOfStudies($select.search)" refresh-delay="250" repeat="fieldOfStudy.id as fieldOfStudy in edit.fieldOfStudies">
                         <div ng-bind-html="fieldOfStudy.code + ' - ' + fieldOfStudy.description | highlight: $select.search"></div>
@@ -296,356 +262,8 @@
                 </ui-select>
             </div>
             <div class="col-md-3">
-                <i class="material-icons md-dark md-36 pull-right">group</i>
-                <i class="material-icons md-dark md-36 pull-right">add</i>
-            </div>
-
-
-
-
-        </div>
-    </form>
-</div>
-<div class="row row2">
-    <div class="col-md-8" id="{{fundingElementId}}"><h5>Funding</h5></div>
-    <div class="col-md-4">
-        <a ng-click="view.Funding=!view.Funding">
-            <i class="material-icons md-dark md-36 pull-right" ng-show="view.Funding">expand_more</i>
-            <i class="material-icons md-dark md-36 pull-right" ng-show="!view.Funding">expand_less</i>
-        </a>
-        <div class="pull-right" style="min-width:40px">
-            <a ng-show="view.Funding && !view.FundingEdit" ng-disabled="sevisinfo.blockEdit" ng-click="edit.onFundingEditChange()">
-                <span tooltip="{{sevisinfo.blockEdit ? 'The participant is currently in a SEVIS Status which does not allow edits' : ''}}">
-                    <i class="material-icons md-dark md-24 pull-right" style="{{sevisinfo.blockEdit ? 'opacity: .5' : 'opacity: 1'}}">edit</i>
-                </span>
-            </a>
-        </div>
-        <div class="pull-right" ng-if="view.FundingEdit" ng-show="view.Funding">
-            <button ng-click="saveFunding()" class="btn btn-success" ng-disabled="fundingEditForm.$invalid || fundingEditForm.$pristine">Save</button>
-            <button ng-click="view.FundingEdit=false" class="btn btn-cancel">Cancel</button>
-        </div>
-    </div>
-</div>
-<div ng-if="!view.FundingEdit">
-    <div ng-show="view.Funding" class="row row2">
-        <div class="row row4">
-            <div class="col-md-3">
-                <label class="title-label">Sponsor</label>
-            </div>
-            <div class="col-md-6 text-right">
-                $
-            </div>
-            <div class="col-md-1 text-right">
-                {{exchangevisitorinfo.fundingSponsor | number:0}}
-            </div>
-        </div>
-        <div class="row row4">
-            <div class="col-md-3">
-                <label class="title-label">Personal</label>
-            </div>
-            <div class="col-md-6 text-right">
-                $
-            </div>
-            <div class="col-md-1 text-right">
-                {{exchangevisitorinfo.fundingPersonal | number:0}}
-            </div>
-        </div>
-        <div class="row row4">
-            <div class="col-md-3">
-                <label class="title-label">Vis. Gov't</label>
-            </div>
-            <div class="col-md-6 text-right">
-                $
-            </div>
-            <div class="col-md-1 text-right">
-                {{exchangevisitorinfo.fundingVisGovt | number:0}}
-            </div>
-        </div>
-        <div class="row row4">
-            <div class="col-md-3">
-                <label class="title-label">Vis.BNC</label>
-            </div>
-            <div class="col-md-6 text-right">
-                $
-            </div>
-            <div class="col-md-1 text-right">
-                {{exchangevisitorinfo.fundingVisBNC | number:0}}
-            </div>
-        </div>
-        <div class="row row4">
-            <div class="col-md-3">
-                &nbsp;
-            </div>
-            <div class="col-md-3">
-                <span class="title-label">Name</span>
-            </div>
-            <div class="col-md-3">
-                <span class="title-label">Other Name</span>
-            </div>
-            <div class="col-md-1">
-                &nbsp;
-            </div>
-        </div>
-        <div class="row row4">
-            <div class="col-md-3">
-                <label class="title-label">Gov't Agency 1</label>
-            </div>
-            <div class="col-md-3">
-                {{exchangevisitorinfo.govtAgency1Name}}
-            </div>
-            <div class="col-md-2">
-                {{exchangevisitorinfo.govtAgency1OtherName}}
-            </div>
-            <div class="col-md-1 text-right">
-                $
-            </div>
-            <div class="col-md-1 text-right">
-                {{exchangevisitorinfo.fundingGovtAgency1 | number:0}}
-            </div>
-        </div>
-        <div class="row row4">
-            <div class="col-md-3">
-                <label class="title-label">Gov't Agency 2</label>
-            </div>
-            <div class="col-md-3">
-                {{exchangevisitorinfo.govtAgency2Name}}
-            </div>
-            <div class="col-md-2">
-                {{exchangevisitorinfo.govtAgency2OtherName}}
-            </div>
-            <div class="col-md-1 text-right">
-                $
-            </div>
-            <div class="col-md-1 text-right">
-                {{exchangevisitorinfo.fundingGovtAgency2 | number:0}}
-            </div>
-        </div>
-        <div class="row row4">
-            <div class="col-md-3">
-                <label class="title-label">Int'l Org 1</label>
-            </div>
-            <div class="col-md-3">
-                {{exchangevisitorinfo.intlOrg1Name}}
-            </div>
-            <div class="col-md-2">
-                {{exchangevisitorinfo.intlOrg1OtherName}}
-            </div>
-            <div class="col-md-1 text-right">
-                $
-            </div>
-            <div class="col-md-1 text-right">
-                {{exchangevisitorinfo.fundingIntlOrg1 | number:0}}
-            </div>
-        </div>
-        <div class="row row4">
-            <div class="col-md-3">
-                <label class="title-label">Int'l Org 2</label>
-            </div>
-            <div class="col-md-3">
-                {{exchangevisitorinfo.intlOrg2Name}}
-            </div>
-            <div class="col-md-2">
-                {{exchangevisitorinfo.intlOrg2OtherName}}
-            </div>
-            <div class="col-md-1 text-right">
-                $
-            </div>
-            <div class="col-md-1 text-right">
-                {{exchangevisitorinfo.fundingIntlOrg2 | number:0}}
-            </div>
-        </div>
-        <div class="row row4">
-            <div class="col-md-3">
-                <label class="title-label">Other Org.</label>
-            </div>
-            <div class="col-md-3">
-                &nbsp;
-            </div>
-            <div class="col-md-2">
-                {{exchangevisitorinfo.otherName}}
-            </div>
-            <div class="col-md-1 text-right">
-                $
-            </div>
-            <div class="col-md-1 text-right">
-                {{exchangevisitorinfo.fundingOther | number:0}}
-            </div>
-        </div>
-        <div class="row row4">
-            <div class="col-md-3">
-                <label class="title-label">Total</label>
-            </div>
-            <div class="col-md-6 text-right">
-                $
-            </div>
-            <div class="col-md-1 text-right">
-                {{exchangevisitorinfo.fundingSponsor + exchangevisitorinfo.fundingPersonal + exchangevisitorinfo.fundingVisGovt + exchangevisitorinfo.fundingVisBNC + exchangevisitorinfo.fundingGovtAgency1 + exchangevisitorinfo.fundingGovtAgency2 + exchangevisitorinfo.fundingIntlOrg1 + exchangevisitorinfo.fundingIntlOrg2 + exchangevisitorinfo.fundingOther  | number:0}}
-            </div>
-        </div>
-    </div>
-</div>
-<div ng-if="view.FundingEdit">
-    <form name="fundingEditForm" class="row row2" ng-show="view.Funding">
-        <div class="row row4">
-            <div class="col-md-2">
-                <label class="title-label">Sponsor</label>
-            </div>
-            <div class="col-md-7 text-right">
-                $
-            </div>
-            <div class="col-md-2 text-right">
-                <input type="number" min="0" ng-model="exchangevisitorinfo.fundingSponsor" />
-            </div>
-        </div>
-        <div class="row row4">
-            <div class="col-md-2">
-                <label class="title-label">Personal</label>
-            </div>
-            <div class="col-md-7 text-right">
-                $
-            </div>
-            <div class="col-md-2 text-right">
-                <input type="number" min="0" ng-model="exchangevisitorinfo.fundingPersonal" />
-            </div>
-        </div>
-        <div class="row row4">
-            <div class="col-md-2">
-                <label class="title-label">Vis. Gov't</label>
-            </div>
-            <div class="col-md-7 text-right">
-                $
-            </div>
-            <div class="col-md-2 text-right">
-                <input type="number" min="0" ng-model="exchangevisitorinfo.fundingVisGovt" />
-            </div>
-        </div>
-        <div class="row row4">
-            <div class="col-md-2">
-                <label class="title-label">Vis.BNC</label>
-            </div>
-            <div class="col-md-7 text-right">
-                $
-            </div>
-            <div class="col-md-2 text-right">
-                <input type="number" min="0" ng-model="exchangevisitorinfo.fundingVisBNC" />
-            </div>
-        </div>
-        <div class="row row4">
-            <div class="col-md-2">
-                <label class="title-label">Gov't Agency 1</label>
-            </div>
-            <div class="col-md-3">
-                <ui-select ng-model="exchangevisitorinfo.govtAgency1Id" theme="select2" tabindex="1" ng-required="true" on-select="onGovtAgency1Select($item)">
-                    <ui-select-match placeholder="Select a US Government Agency...">{{$select.selected.description}}</ui-select-match>
-                    <ui-select-choices repeat="usGovernmentAgency.id as usGovernmentAgency in edit.usGovernmentAgencies | filter: {description: $select.search} track by usGovernmentAgency.id">
-                        <div ng-bind-html="usGovernmentAgency.description | highlight: $select.search"></div>
-                    </ui-select-choices>
-                </ui-select>
-            </div>
-            <div class="col-md-3">
-                <input type="text" maxlength="60" ng-model="exchangevisitorinfo.govtAgency1OtherName" ng-show="view.GovtAgency1Other" />
-            </div>
-            <div class="col-md-1 text-right">
-                $
-            </div>
-            <div class="col-md-2 text-right">
-                <input type="number" min="0" ng-model="exchangevisitorinfo.fundingGovtAgency1" />
-            </div>
-        </div>
-        <div class="row row4">
-            <div class="col-md-2">
-                <label class="title-label">Gov't Agency 2</label>
-            </div>
-            <div class="col-md-3">
-                <ui-select ng-model="exchangevisitorinfo.govtAgency2Id" theme="select2" tabindex="1" ng-required="true" on-select="onGovtAgency2Select($item)">
-                    <ui-select-match placeholder="Select a US Government Agency...">{{$select.selected.description}}</ui-select-match>
-                    <ui-select-choices repeat="usGovernmentAgency.id as usGovernmentAgency in edit.usGovernmentAgencies | filter: {description: $select.search} track by usGovernmentAgency.id">
-                        <div ng-bind-html="usGovernmentAgency.description | highlight: $select.search"></div>
-                    </ui-select-choices>
-                </ui-select>
-            </div>
-            <div class="col-md-3">
-                <input type="text" maxlength="60" ng-model="exchangevisitorinfo.govtAgency2OtherName" ng-show="view.GovtAgency2Other" />
-            </div>
-            <div class="col-md-1 text-right">
-                $
-            </div>
-            <div class="col-md-2 text-right">
-                <input type="number" min="0" ng-model="exchangevisitorinfo.fundingGovtAgency2" />
-            </div>
-        </div>
-        <div class="row row4">
-            <div class="col-md-2">
-                <label class="title-label">Int'l Org 1</label>
-            </div>
-            <div class="col-md-3">
-                <ui-select ng-model="exchangevisitorinfo.intlOrg1Id" theme="select2" tabindex="1" ng-required="true" on-select="onIntlOrg1Select($item)">
-                    <ui-select-match placeholder="Select an International Organization...">{{$select.selected.description}}</ui-select-match>
-                    <ui-select-choices repeat="internationalOrganization.id as internationalOrganization in edit.internationalOrganizations | filter: {description: $select.search} track by internationalOrganization.id">
-                        <div ng-bind-html="internationalOrganization.description | highlight: $select.search"></div>
-                    </ui-select-choices>
-                </ui-select>
-            </div>
-            <div class="col-md-3">
-                <input type="text" maxlength="60" ng-model="exchangevisitorinfo.intlOrg1OtherName" ng-show="view.IntlOrg1Other" />
-            </div>
-            <div class="col-md-1 text-right">
-                $
-            </div>
-            <div class="col-md-2 text-right">
-                <input type="number" min="0" ng-model="exchangevisitorinfo.fundingIntlOrg1" />
-            </div>
-        </div>
-        <div class="row row4">
-            <div class="col-md-2">
-                <label class="title-label">Int'l Org 2</label>
-            </div>
-            <div class="col-md-3">
-                <ui-select ng-model="exchangevisitorinfo.intlOrg2Id" theme="select2" tabindex="1" ng-required="true" on-select="onIntlOrg2Select($item)">
-                    <ui-select-match placeholder="Select an International Organization...">{{$select.selected.description}}</ui-select-match>
-                    <ui-select-choices repeat="internationalOrganization.id as internationalOrganization in edit.internationalOrganizations | filter: {description: $select.search} track by internationalOrganization.id">
-                        <div ng-bind-html="internationalOrganization.description | highlight: $select.search"></div>
-                    </ui-select-choices>
-                </ui-select>
-            </div>
-            <div class="col-md-3">
-                <input type="text" maxlength="60" ng-model="exchangevisitorinfo.intlOrg2OtherName" ng-show="view.IntlOrg2Other" />
-            </div>
-            <div class="col-md-1 text-right">
-                $
-            </div>
-            <div class="col-md-2 text-right">
-                <input type="number" min="0" ng-model="exchangevisitorinfo.fundingIntlOrg2" />
-            </div>
-        </div>
-        <div class="row row4">
-            <div class="col-md-2">
-                <label class="title-label">Other Org.</label>
-            </div>
-            <div class="col-md-3">
-                <input type="text" maxlength="60" ng-model="exchangevisitorinfo.otherName" style="width:230px" /> <!--required-->
-            </div>
-            <div class="col-md-3">
-
-            </div>
-            <div class="col-md-1 text-right">
-                $
-            </div>
-            <div class="col-md-2 text-right">
-                <input type="number" min="0" ng-model="exchangevisitorinfo.fundingOther" /> <!--required-->
-            </div>
-        </div>
-        <div class="row row4">
-            <div class="col-md-2">
-                <label class="title-label">Total</label>
-            </div>
-            <div class="col-md-7 text-right">
-                $
-            </div>
-            <div class="col-md-2 text-right">
-                {{exchangevisitorinfo.fundingSponsor + exchangevisitorinfo.fundingPersonal + exchangevisitorinfo.fundingVisGovt + exchangevisitorinfo.fundingVisBNC + exchangevisitorinfo.fundingGovtAgency1 + exchangevisitorinfo.fundingGovtAgency2 + exchangevisitorinfo.fundingIntlOrg1 + exchangevisitorinfo.fundingIntlOrg2 + exchangevisitorinfo.fundingOther  | number:0}}
+                <copy-to-all-participants />
             </div>
         </div>
     </form>
-
 </div>

@@ -40,13 +40,14 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-md-2 title-label">Description <eca-required /></label>
+            <label class="col-md-2 title-label">Description<eca-required /></label>
             <div class="col-md-10">
                 <textarea name="description"
                           class="form-control" 
                           ng-model="view.office.description"
                           placeholder="Enter office description..."
                           maxlength="3000"
+                          rows="7"
                           required>
                 </textarea>
                 <div ng-show="form.officeForm.description.$dirty">

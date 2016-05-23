@@ -12,7 +12,6 @@ angular.module('staticApp')
           templateUrl: 'app/directives/dependents.directive.html',
           scope: {
               model: '=model',
-              modelId: '=dependentid',
               editMode: '=editmode'
           }
       };

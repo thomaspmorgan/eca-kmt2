@@ -72,6 +72,12 @@ namespace ECA.Business.Service.Persons
 
         #region Get Exchange Visitor
 
+        private IQueryable<ParticipantPersonSevisCommStatus> CreateGetValidatedSevisCommStatusesByParticipantId(int participantId)
+        {
+            var validatedSevisCommStatusIds = new List<int> { SevisCommStatus.ValidatedByBatch.Id, SevisCommStatus.ValidatedViaRti.Id };
+            return Context.ParticipantPersonSevisCommStatuses.Where(x => validatedSevisCommStatusIds.Contains(x.SevisCommStatusId) && x.ParticipantId == participantId);
+        }
+
         /// <summary>
         /// Returns the exchange visitor for the participant with the given id.
         /// </summary>
@@ -102,14 +108,17 @@ namespace ECA.Business.Service.Persons
             var person = GetPerson(biography: biographyDto, participantExchangeVisitor: participantExchangeVisitor, subjectFieldDTO: subjectField, siteOfActivityAddress: siteOfActivityAddress);
             var financialInfo = GetFinancialInfo(participantExchangeVisitor);
             var dependents = ExchangeVisitorQueries.CreateGetParticipantDependentsBiographicalQuery(this.Context, participantId).ToList();
+            var isExchangeVisitorValidated = CreateGetValidatedSevisCommStatusesByParticipantId(participantId).Count() > 0;
 
             return GetExchangeVisitor(
+                isValidated: isExchangeVisitorValidated,
                 person: person,
                 financialInfo: financialInfo,
                 participantPerson: participantPerson,
                 occupationCategoryCode: null,
                 dependents: dependents,
-                siteOfActivity: siteOfActivityAddress);
+                siteOfActivity: siteOfActivityAddress,
+                sevisOrgId: project.SevisOrgId);
         }
 
         /// <summary>
@@ -142,14 +151,17 @@ namespace ECA.Business.Service.Persons
             var person = GetPerson(biography: biographyDto, participantExchangeVisitor: participantExchangeVisitor, subjectFieldDTO: subjectField, siteOfActivityAddress: siteOfActivityAddress);
             var financialInfo = await GetFinancialInfoAsync(participantExchangeVisitor);
             var dependents = await ExchangeVisitorQueries.CreateGetParticipantDependentsBiographicalQuery(this.Context, participantId).ToListAsync();
+            var isExchangeVisitorValidated = await CreateGetValidatedSevisCommStatusesByParticipantId(participantId).CountAsync() > 0;
 
             return GetExchangeVisitor(
+                isValidated: isExchangeVisitorValidated,
                 person: person,
                 financialInfo: financialInfo,
                 participantPerson: participantPerson,
                 occupationCategoryCode: null,
                 dependents: dependents,
-                siteOfActivity: siteOfActivityAddress);
+                siteOfActivity: siteOfActivityAddress,
+                sevisOrgId: project.SevisOrgId);
         }
 
         /// <summary>
@@ -206,6 +218,7 @@ namespace ECA.Business.Service.Persons
         /// Returns the exchange visitor model given the required exchange vistor information.
         /// </summary>
         /// <param name="user">The user requesting the exchange visitor.</param>
+        /// <param name="isValidated">True, if the exchange visitor has been validated in sevis.</param>
         /// <param name="person">The exchange visitor person model.</param>
         /// <param name="financialInfo">The financial information.</param>
         /// <param name="participantPerson">The participant person record for the participant.</param>
@@ -214,12 +227,14 @@ namespace ECA.Business.Service.Persons
         /// <param name="siteOfActivity">The site of activity, i.e. C Street state dept.</param>
         /// <returns>The exchange visitor.</returns>
         public ExchangeVisitor GetExchangeVisitor(
+            bool isValidated,
             Validation.Sevis.Bio.Person person, 
             FinancialInfo financialInfo, 
             ParticipantPerson participantPerson, 
             string occupationCategoryCode, 
             IEnumerable<DependentBiographicalDTO> dependents, 
-            AddressDTO siteOfActivity)
+            AddressDTO siteOfActivity,
+            string sevisOrgId)
         {
             Contract.Requires(person != null, "The person must not be null.");
             Contract.Requires(financialInfo != null, "The financial info must not be null.");
@@ -237,6 +252,8 @@ namespace ECA.Business.Service.Persons
 
             return new ExchangeVisitor(
                 sevisId: participantPerson.SevisId,
+                isValidated: isValidated,
+                sevisOrgId: sevisOrgId,
                 person: person,
                 financialInfo: financialInfo,
                 occupationCategoryCode: occupationCategoryCode,

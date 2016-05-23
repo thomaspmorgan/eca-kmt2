@@ -33,7 +33,8 @@ angular.module('staticApp')
         ParticipantService,
         ParticipantPersonsService,
         ParticipantPersonsSevisService,
-        ParticipantExchangeVisitorService
+        ParticipantExchangeVisitorService,
+        filterFilter
         ) {
 
       $scope.view = {};
@@ -56,9 +57,11 @@ angular.module('staticApp')
       $scope.view.totalParticipants = 0;
       $scope.view.tabSevis = false;
       $scope.view.tabInfo = true;
-      $scope.view.tabExchangeVisitor = false;
-      $scope.view.tabStudentVisitor = false;
+      $scope.view.tabPii = false;
+      $scope.view.tabContact = false;
+      $scope.view.tabSevisFunding = false;
       $scope.view.sevisCommStatuses = null;
+      $scope.view.filteredSevisUserAccounts = null;
 
       $scope.view.hasRealActualParticipants = false;
       $scope.view.editingEstParticipants = false;
@@ -82,7 +85,6 @@ angular.module('staticApp')
       $scope.permissions.hasSendToSevisPermission = false;
       var projectId = $stateParams.projectId;
 
-      var notifyStatuses = ConstantsService.sevisStatusIds.split(',');
       var maxGridCellTextLength = ConstantsService.uiGridMaxCellTextLength;
 
       var origNonUsParticipantsEst;
@@ -559,7 +561,6 @@ angular.module('staticApp')
               $scope.onParticipantUpdated(data.data);
               $scope.sevisInfo[participantId] = data.data;
               $scope.sevisInfo[participantId].show = true;
-              $scope.isDisabled(participantId);
           })
           .catch(function (error) {
               if (error.status === 404) {
@@ -600,15 +601,10 @@ angular.module('staticApp')
       $scope.onInfoTabSelected = function (participantId) {
           $scope.view.tabInfo = true;
           $scope.view.tabSevis = false;
+          $scope.view.tabPii = false;
+          $scope.view.tabContact = false;
+          $scope.view.tabSevisFunding = false;
           loadSevisInfo(participantId);
-      }
-
-      $scope.isDisabled = function (participantId) {
-          if (notifyStatuses.indexOf($scope.sevisInfo[participantId].sevisStatusId.toString()) !== -1) {
-              $scope.sevisInfo[participantId].blockEdit = true;
-          } else {
-              $scope.sevisInfo[participantId].blockEdit = false;
-          }
       }
 
       function saveSevisInfoById(participantId) {
@@ -630,7 +626,6 @@ angular.module('staticApp')
 
       function saveExchangeVisitorById(participantId) {
           var exchangeVisitorInfo = $scope.exchangeVisitorInfo[participantId];
-          var sevisInfo = $scope.sevisInfo[participantId];
           return ParticipantExchangeVisitorService.updateParticipantExchangeVisitor(projectId, exchangeVisitorInfo)
           .then(function (data) {
               NotificationService.showSuccessMessage('Participant exchange visitor info saved successfully.');
@@ -650,9 +645,37 @@ angular.module('staticApp')
       $scope.onSevisTabSelected = function (participantId) {
           $scope.view.tabSevis = true;
           $scope.view.tabInfo = false;
+          $scope.view.tabPii = false;
+          $scope.view.tabContact = false;
+          $scope.view.tabSevisFunding = false;
           loadSevisInfo(participantId);
           loadExchangeVisitorInfo(participantId);
       };
+
+      $scope.onPiiTabSelected = function () {
+          $scope.view.tabSevis = false;
+          $scope.view.tabInfo = false;
+          $scope.view.tabPii = true;
+          $scope.view.tabContact = false;
+          $scope.view.tabSevisFunding = false;
+      }
+
+      $scope.onContactTabSelected = function () {
+          $scope.view.tabSevis = false;
+          $scope.view.tabInfo = false;
+          $scope.view.tabPii = false;
+          $scope.view.tabContact = true;
+          $scope.view.tabSevisFunding = false;
+      }
+
+      $scope.onSevisFundingTabSelected = function (participantId) {
+          $scope.view.tabSevis = false;
+          $scope.view.tabInfo = false;
+          $scope.view.tabPii = false;
+          $scope.view.tabContact = false;
+          $scope.view.tabSevisFunding = true;
+          loadExchangeVisitorInfo(participantId);
+      }
 
       $scope.toggleParticipantInfo = function (participantId) {
           var defaultParticipantInfo = { show: false };
@@ -745,8 +768,10 @@ angular.module('staticApp')
                       return sendParticipantsToSevis(selectedParticipants, sevisUserAccount.username, sevisUserAccount.orgId);
                   }
                   var sevisUserAccounts = userInfo.sevisUserAccounts;
-                  var sevisUserAccount = sevisUserAccounts[0];
-                  if (sevisUserAccounts.length > 1) {
+                  var filteredSevisUserAccounts = filterFilter(sevisUserAccounts, { orgId: $scope.$parent.project.sevisOrgId }, true);
+                  var sevisUserAccount = filteredSevisUserAccounts[0];                  
+                  if (filteredSevisUserAccounts.length > 1) {
+                      userInfo.sevisUserAccounts = filteredSevisUserAccounts;
                       promptUserForSevisUserAccount(userInfo, doSendParticipantsToSevis, function () { });
                   }
                   else {
@@ -782,6 +807,7 @@ angular.module('staticApp')
               backdrop: 'static',
               resolve: {
                   userInfo: function () {
+                      console.log("User Info", userInfo);
                       return userInfo;
                   }
               },
@@ -944,6 +970,41 @@ angular.module('staticApp')
       }
 
       getPage();
+
+      $scope.updatePiiCallback = function () {
+          var participant = $scope.getSelectedParticipant();
+          var params = {
+              limit: 1,
+              filter: { property: 'personId', comparison: ConstantsService.equalComparisonType, value: participant.personId }
+          };
+          ParticipantService.getParticipantsByProject(projectId, params)
+            .then(function (response) {
+                var updatedParticipant = response.results[0];
+                updateParticipantRow(updatedParticipant);
+            })
+            .catch(function () {
+               $log.error('Unable to reload selected participant information.');
+               NotificationService.showErrorMessage('Unable to reload selected participant information.');
+            });
+      }
+
+      function updateParticipantRow(updatedParticipant) {
+          var participantIds = $scope.gridOptions.data.map(function (p) { return p.participantId; });
+          var index = participantIds.indexOf(parseInt(updatedParticipant.participantId, 10));
+          if (index != -1) {
+              var participantToUpdate = $scope.gridOptions.data[index];
+              if (updatedParticipant.name) {
+                  if ($scope.selectedGridView === 'SEVIS') {
+                      participantToUpdate.fullName = updatedParticipant.name;
+                  } else {
+                      participantToUpdate.name = updatedParticipant.name;
+                  }
+              }
+              if (updatedParticipant.sevisStatus) {
+                  participantToUpdate.sevisStatus = updatedParticipant.sevisStatus;
+              }
+          }
+      }
   })
 
 

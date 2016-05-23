@@ -13,7 +13,7 @@ namespace ECA.Business.Queries.Models.Persons
         /// <summary>
         /// Constructor
         /// </summary>
-        public PiiDTO ()
+        public PiiDTO()
         {
             CountriesOfCitizenship = new List<SimpleLookupDTO>();
             Addresses = new List<AddressDTO>();
@@ -48,7 +48,7 @@ namespace ECA.Business.Queries.Models.Persons
         /// <summary>
         /// Gets and sets countries of citizenship
         /// </summary>
-        public IEnumerable<SimpleLookupDTO> CountriesOfCitizenship {get; set;}
+        public IEnumerable<SimpleLookupDTO> CountriesOfCitizenship { get; set; }
 
         /// <summary>
         /// Gets and sets dependants
@@ -84,6 +84,11 @@ namespace ECA.Business.Queries.Models.Persons
         /// Gets and sets family name
         /// </summary>
         public string FamilyName { get; set; }
+
+        /// <summary>
+        /// Gets and sets passport name
+        /// </summary>
+        public string PassportName { get; set; }
 
         /// <summary>
         /// Gets and sets middle name
@@ -124,12 +129,12 @@ namespace ECA.Business.Queries.Models.Persons
         /// Gets and sets addresses.
         /// </summary>
         public IEnumerable<AddressDTO> Addresses { get; set; }
-        
+
         /// <summary>
         /// Gets or sets the place of birth unknown flag.
         /// </summary>
         public bool? IsPlaceOfBirthUnknown { get; set; }
-        
+
         /// Gets or sets the city of birth location.
         /// </summary>
         public LocationDTO PlaceOfBirth { get; set; }
@@ -148,5 +153,10 @@ namespace ECA.Business.Queries.Models.Persons
         /// Gets or sets the participant's sevis id
         /// </summary>
         public string SevisId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Is Single Name flag.
+        /// </summary>
+        public bool IsSingleName { get; set; }
     }
 }

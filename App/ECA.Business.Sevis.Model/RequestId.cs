@@ -32,7 +32,12 @@ namespace ECA.Business.Sevis.Model
         /// <summary>
         /// The validate request type.  This is used when validating a participant in the sevis batch api.
         /// </summary>
-        Validate
+        Validate,
+        
+        /// <summary>
+        /// Used when requesting a reprint of the ds 2019.
+        /// </summary>
+        Reprint
     }
 
     public enum RequestActionType

@@ -1,11 +1,7 @@
 ﻿using ECA.Business.Service;
 using ECA.Business.Service.Admin;
 using ECA.Data;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
 
 namespace ECA.WebApi.Models.Admin
 {
@@ -24,6 +20,11 @@ namespace ECA.WebApi.Models.Admin
         /// </summary>
         [Required]
         public string Number { get; set; }
+
+        /// <summary>
+        /// Gets or sets the phone number extension.
+        /// </summary>
+        public string Extension { get; set; }
 
         /// <summary>
         /// If true, this phone number is the primary phone number.
@@ -68,6 +69,7 @@ namespace ECA.WebApi.Models.Admin
                 user: user,
                 phoneNumberTypeId: this.PhoneNumberTypeId,
                 number: this.Number,
+                extension: this.Extension,
                 isPrimary: this.IsPrimary
                 );
         }

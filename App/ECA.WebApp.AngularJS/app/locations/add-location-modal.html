@@ -148,8 +148,13 @@
                                 <p class="input-group">
                                     <input name="search"
                                            ng-model="view.search"
-                                           type="text"
+                                           type="search"
                                            class="form-control"
+                                           typeahead-wait-ms="500"
+                                           typeahead="prediction as prediction.description for prediction in view.onGetGooglePredictions($viewValue)"
+                                           typeahead-loading="view.isLoadingPredictions"
+                                           typeahead-template-url="predictionTemplate.html"
+                                           typeahead-on-select="view.onGooglePredictionSelect($item, $model, $label)"
                                            ng-disabled="view.isSavingNewLocation || !view.isMapIdle || view.isTransformingLocation"
                                            placeholder="Search google for a location."
                                            id="search" />
@@ -204,5 +209,12 @@
             <span bind-html-unsafe="match.model.country"></span>
         </div>
     </a>
+</script>
+<script type="text/ng-template" id="predictionTemplate.html">
+    <div style="width:450px;padding:10px;">
+        <a>
+            <span ng-bind-html="match.model.description"></span>
+        </a>
+    </div>
 </script>
 

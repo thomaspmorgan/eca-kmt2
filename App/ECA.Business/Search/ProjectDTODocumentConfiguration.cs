@@ -34,7 +34,7 @@ namespace ECA.Business.Search
             HasStatus(x => x.Status);
             HasLocations(x => x.Locations.Where(l => !String.IsNullOrWhiteSpace(l.Name)).Select(l => l.Name).Distinct().ToList());
             HasOfficeSymbol(x => x.OwnerOfficeSymbol);
-            HasPointsOfContact(x => x.Contacts.Select(c => c.Value).ToList());
+            HasPointsOfContact(x => x.Contacts.Select(c => c.FullName).ToList());
             HasFoci(x => x.Categories.Select(c => c.Name).ToList());
             HasGoals(x => x.Goals.Select(c => c.Value).ToList());
             HasObjectives(x => x.Objectives.Select(y => y.Name).ToList());

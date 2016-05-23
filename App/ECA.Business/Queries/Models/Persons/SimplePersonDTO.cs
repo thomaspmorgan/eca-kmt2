@@ -53,6 +53,12 @@ namespace ECA.Business.Queries.Models.Persons
         /// </summary>
         public string MiddleName { get; set; }
 
+
+        /// <summary>
+        /// Gets or sets the Passport Name.
+        /// </summary>
+        public string PassportName { get; set; }
+
         /// <summary>
         /// Gets or sets the patronym.
         /// </summary>
@@ -132,5 +138,10 @@ namespace ECA.Business.Queries.Models.Persons
         /// Gets or sets the participant id of this person, i.e. the latest project they are participating on, or null if they are not currently participating.
         /// </summary>
         public int? ParticipantId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Is Single Name flag.
+        /// </summary>
+        public bool IsSingleName { get; set; }
     }
 }

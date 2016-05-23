@@ -1,5 +1,6 @@
 ﻿using ECA.Business.Sevis.Model;
 using FluentValidation.Attributes;
+using KellermanSoftware.CompareNetObjects;
 using System;
 using System.ComponentModel.DataAnnotations;
 
@@ -9,7 +10,7 @@ namespace ECA.Business.Validation.Sevis.Bio
     /// A FullName is used to represent a sevis exchange visitor full name.
     /// </summary>
     [Validator(typeof(FullNameValidator))]
-    public class FullName
+    public class FullName : IChangeComparable<FullName, FullNameChangeDetail>
     {
         /// <summary>
         /// Creates a new full name instance with the given name parts.
@@ -92,6 +93,22 @@ namespace ECA.Business.Validation.Sevis.Bio
                 PreferredName = this.PreferredName,
                 Suffix = this.Suffix
             };
+        }
+
+        /// <summary>
+        /// Returns the change detail for this full name.
+        /// </summary>
+        /// <param name="otherChangeComparable">The full name to compare.</param>
+        /// <returns>The change detail.</returns>
+        public FullNameChangeDetail GetChangeDetail(FullName otherChangeComparable)
+        {
+            var config = new ComparisonConfig
+            {
+                CompareChildren = false
+            };
+            var compareLogic = new CompareLogic(config);
+            var result = compareLogic.Compare(this, otherChangeComparable);
+            return new FullNameChangeDetail(result);
         }
     }
 }

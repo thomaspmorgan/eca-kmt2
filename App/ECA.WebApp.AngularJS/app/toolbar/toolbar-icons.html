@@ -1,18 +1,18 @@
 ﻿<div class="right" ng-controller="ToolbarIconsCtrl">
 
-    <a ng-click="toggleBookmark()" ng-disabled="togglingBookmark">
+    <a ng-click="toggleBookmark()" ng-disabled="togglingBookmark" tooltip="Bookmark" tooltip-placement="bottom">
         <i class="icon star material-icons md-24" ng-class="{starred: isBookmarked}">star</i>
     </a>
-    <a>
+    <a tooltip="File Upload" tooltip-placement="bottom">
         <i class="icon material-icons md-24">file_upload</i>
     </a>
-    <a ng-click="openDataPointsModal()" ng-show="isOwner">
+    <a ng-click="openDataPointsModal()" ng-show="isOwner" tooltip="Data Tracking Points" tooltip-placement="bottom">
         <i class="icon material-icons md-24">assignment</i>
     </a>
-    <a ng-click="openCollaboratorModal()" ng-show="isOwner">
+    <a ng-click="openCollaboratorModal()" ng-show="isOwner" tooltip="Collaborators" tooltip-placement="bottom" >
         <i class="icon wide material-icons md-24">group</i>
     </a>
-    <a>
+    <a tooltip="Comments" tooltip-placement="bottom" >
         <i class="icon material-icons md-24">comment</i>
     </a>
 </div>

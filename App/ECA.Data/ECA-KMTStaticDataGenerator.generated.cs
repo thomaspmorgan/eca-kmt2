@@ -228,7 +228,7 @@ namespace ECA.Data
 		/// </summary>
 		public StaticLookupConfig GetConfig()
 		{
-			return new StaticLookupConfig { Namespace = "ECA.Data", ClassName = "BirthCountryReason", TableName = "BirthCountryReason", IdColumnName = "BirthCountryReasonId", ValueColumnName = "Description" };
+			return new StaticLookupConfig { Namespace = "ECA.Data", ClassName = "BirthCountryReason", TableName = "sevis.BirthCountryReason", IdColumnName = "BirthCountryReasonId", ValueColumnName = "Description" };
 		}
 	}
 }
@@ -1508,9 +1508,9 @@ namespace ECA.Data
 		/// </summary>
 		public static StaticLookup Home { get { return new StaticLookup("Home", 1); } }
 		/// <summary>
-		/// Returns the Work lookup with id 2.
+		/// Returns the Business lookup with id 2.
 		/// </summary>
-		public static StaticLookup Work { get { return new StaticLookup("Work", 2); } }
+		public static StaticLookup Business { get { return new StaticLookup("Business", 2); } }
 		/// <summary>
 		/// Returns the Cell lookup with id 3.
 		/// </summary>
@@ -1531,7 +1531,7 @@ namespace ECA.Data
 		public static StaticLookup GetStaticLookup(int id)
 		{
 			if (1 == id) return PhoneNumberType.Home;
-			if (2 == id) return PhoneNumberType.Work;
+			if (2 == id) return PhoneNumberType.Business;
 			if (3 == id) return PhoneNumberType.Cell;
 			if (4 == id) return PhoneNumberType.Visiting;
 			if (5 == id) return PhoneNumberType.Undetermined;
@@ -1545,7 +1545,7 @@ namespace ECA.Data
 		public static StaticLookup GetStaticLookup(string value)
 		{
 			if ("Home".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return PhoneNumberType.Home;
-			if ("Work".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return PhoneNumberType.Work;
+			if ("Business".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return PhoneNumberType.Business;
 			if ("Cell".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return PhoneNumberType.Cell;
 			if ("Visiting".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return PhoneNumberType.Visiting;
 			if ("Undetermined".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return PhoneNumberType.Undetermined;
@@ -1826,9 +1826,9 @@ namespace ECA.Data
 		/// </summary>
 		public static StaticLookup SentToDhs { get { return new StaticLookup("Sent To DHS", 3); } }
 		/// <summary>
-		/// Returns the Validated lookup with id 4.
+		/// Returns the Validated via RTI lookup with id 4.
 		/// </summary>
-		public static StaticLookup Validated { get { return new StaticLookup("Validated", 4); } }
+		public static StaticLookup ValidatedViaRti { get { return new StaticLookup("Validated via RTI", 4); } }
 		/// <summary>
 		/// Returns the Queued To Submit lookup with id 5.
 		/// </summary>
@@ -1842,9 +1842,9 @@ namespace ECA.Data
 		/// </summary>
 		public static StaticLookup Cancelled { get { return new StaticLookup("Cancelled", 7); } }
 		/// <summary>
-		/// Returns the DS-2019 Signed lookup with id 8.
+		/// Returns the DS-2019 Sent to Traveler lookup with id 8.
 		/// </summary>
-		public static StaticLookup Ds2019Signed { get { return new StaticLookup("DS-2019 Signed", 8); } }
+		public static StaticLookup Ds2019SentToTraveler { get { return new StaticLookup("DS-2019 Sent to Traveler", 8); } }
 		/// <summary>
 		/// Returns the DS-2019 Printed lookup with id 9.
 		/// </summary>
@@ -1897,6 +1897,10 @@ namespace ECA.Data
 		/// Returns the Queued to Validate lookup with id 21.
 		/// </summary>
 		public static StaticLookup QueuedToValidate { get { return new StaticLookup("Queued to Validate", 21); } }
+		/// <summary>
+		/// Returns the Updated Prior To Validation lookup with id 22.
+		/// </summary>
+		public static StaticLookup UpdatedPriorToValidation { get { return new StaticLookup("Updated Prior To Validation", 22); } }
 		///<summary>
 		/// Returns the lookup value of this entity with the given id, or null if it does not exist.
 		///<param name="id">The lookup id.</param>
@@ -1907,11 +1911,11 @@ namespace ECA.Data
 			if (1 == id) return SevisCommStatus.InformationRequired;
 			if (2 == id) return SevisCommStatus.ReadyToSubmit;
 			if (3 == id) return SevisCommStatus.SentToDhs;
-			if (4 == id) return SevisCommStatus.Validated;
+			if (4 == id) return SevisCommStatus.ValidatedViaRti;
 			if (5 == id) return SevisCommStatus.QueuedToSubmit;
 			if (6 == id) return SevisCommStatus.SentToDhsViaRti;
 			if (7 == id) return SevisCommStatus.Cancelled;
-			if (8 == id) return SevisCommStatus.Ds2019Signed;
+			if (8 == id) return SevisCommStatus.Ds2019SentToTraveler;
 			if (9 == id) return SevisCommStatus.Ds2019Printed;
 			if (10 == id) return SevisCommStatus.RtiRequestSuccessful;
 			if (11 == id) return SevisCommStatus.RtiRequestUnsuccessful;
@@ -1925,6 +1929,7 @@ namespace ECA.Data
 			if (19 == id) return SevisCommStatus.NeedsValidationInfo;
 			if (20 == id) return SevisCommStatus.ReadyToValidate;
 			if (21 == id) return SevisCommStatus.QueuedToValidate;
+			if (22 == id) return SevisCommStatus.UpdatedPriorToValidation;
 			return null;
 		}
 		///<summary>
@@ -1937,11 +1942,11 @@ namespace ECA.Data
 			if ("Information Required".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return SevisCommStatus.InformationRequired;
 			if ("Ready To Submit".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return SevisCommStatus.ReadyToSubmit;
 			if ("Sent To DHS".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return SevisCommStatus.SentToDhs;
-			if ("Validated".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return SevisCommStatus.Validated;
+			if ("Validated via RTI".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return SevisCommStatus.ValidatedViaRti;
 			if ("Queued To Submit".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return SevisCommStatus.QueuedToSubmit;
 			if ("Sent to DHS via RTI".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return SevisCommStatus.SentToDhsViaRti;
 			if ("Cancelled".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return SevisCommStatus.Cancelled;
-			if ("DS-2019 Signed".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return SevisCommStatus.Ds2019Signed;
+			if ("DS-2019 Sent to Traveler".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return SevisCommStatus.Ds2019SentToTraveler;
 			if ("DS-2019 Printed".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return SevisCommStatus.Ds2019Printed;
 			if ("RTI Request Successful".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return SevisCommStatus.RtiRequestSuccessful;
 			if ("RTI Request Unsuccessful".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return SevisCommStatus.RtiRequestUnsuccessful;
@@ -1955,6 +1960,7 @@ namespace ECA.Data
 			if ("Needs Validation Info".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return SevisCommStatus.NeedsValidationInfo;
 			if ("Ready to Validate".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return SevisCommStatus.ReadyToValidate;
 			if ("Queued to Validate".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return SevisCommStatus.QueuedToValidate;
+			if ("Updated Prior To Validation".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return SevisCommStatus.UpdatedPriorToValidation;
 			return null;
 		}
 

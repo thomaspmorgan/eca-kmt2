@@ -560,6 +560,8 @@
     <Compile Include="Custom\Storage\IFileStorageHandler.cs" />
     <Compile Include="Custom\Storage\FileStorageHandler.cs" />
     <Compile Include="Models\Admin\AppSettingsViewModel.cs" />
+    <Compile Include="Models\Admin\ContactEmailAddressBindingModel.cs" />
+    <Compile Include="Models\Admin\ContactPhoneNumberBindingModel.cs" />
     <Compile Include="Models\Admin\CreateOrganizationBindingModel.cs" />
     <Compile Include="Models\Admin\DataPointConfigurationBindingModel.cs" />
     <Compile Include="Models\Admin\ParticipantOrganizationBindingModel.cs" />
@@ -577,6 +579,7 @@
     <Compile Include="Models\Person\UpdatedParticipantExchangeVisitorBindingModel.cs" />
     <Compile Include="Models\Person\UpdatedParticipantPersonSevisBindingModel.cs" />
     <Compile Include="Models\Person\UpdatedPersonDependentBindingModel.cs" />
+    <Compile Include="Models\Person\UpdatedPointOfContactBindingModel.cs" />
     <Compile Include="Models\Projects\UpdatedDefaultExchangeVisitorFundingBindingModel.cs" />
     <Compile Include="Models\Search\DeleteIndexBindingModel.cs" />
     <Compile Include="Models\Search\DocumentSuggestResponseViewModel.cs" />

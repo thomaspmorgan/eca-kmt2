@@ -1,7 +1,8 @@
 ﻿'use strict';
 
 angular.module('staticApp')
-  .controller('OfficeEditCtrl', function ($scope, $state, $stateParams, $q, $log, $modal, FilterService, NavigationService, LookupService, OfficeService, StateService, NotificationService) {
+  .controller('OfficeEditCtrl', function ($scope, $state, $stateParams, $q, $log, $modal,
+      FilterService, NavigationService, LookupService, OfficeService, StateService, NotificationService, MessageBox) {
 
       $scope.view = {};
       $scope.view.selectedThemes = [];
@@ -54,19 +55,18 @@ angular.module('staticApp')
       var overviewStateName = StateService.stateNames.overview.office;
       $scope.view.cancelSaveOffice = function () {
           if ($scope.form.officeForm.$dirty) {
-              var modalInstance = $modal.open({
-                  templateUrl: '/app/projects/unsaved-changes.html',
-                  controller: 'UnsavedChangesCtrl',
-                  windowClass: 'modal-center-small',
-                  backdrop: 'static',
-                  resolve: {},
-                  size: 'lg'
-              });
-              modalInstance.result.then(function () {
-                  $log.info('Cancelling changes...');
-                  goToOfficeOverview();
-              }, function () {
-                  $log.info('Dismiss warning dialog and allow save changes...');
+              MessageBox.confirm({
+                  title: 'Unsaved Changes',
+                  message: "There are unsaved changes to this program.  Are you sure you wish to cancel?",
+                  okText: 'Yes, Cancel Changes',
+                  cancelText: 'No',
+                  okCallback: function () {
+                      $log.info('Cancelling changes...');
+                      goToOfficeOverview();
+                  },
+                  onCancelClick: function () {
+                      $log.info('Dismiss warning dialog and allow save changes...');
+                  }
               });
           }
           else {

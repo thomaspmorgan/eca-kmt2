@@ -22,6 +22,7 @@ namespace ECA.Business.Queries.Admin
             {
                 Id = x.PhoneNumberId,
                 Number = x.Number,
+                Extension = x.Extension,
                 PhoneNumberType = x.PhoneNumberType.PhoneNumberTypeName,
                 PhoneNumberTypeId = x.PhoneNumberTypeId,
                 PersonId = x.PersonId,

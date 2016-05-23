@@ -1915,7 +1915,7 @@ namespace ECA.Business.Test.Service.Programs
                 Assert.AreEqual(creatorId, address.History.CreatedBy);
                 Assert.AreEqual(yesterday, address.History.CreatedOn);
                 Assert.AreEqual(updatorId, address.History.RevisedBy);
-                DateTimeOffset.Now.Should().BeCloseTo(address.History.RevisedOn, 2000);
+                DateTimeOffset.Now.Should().BeCloseTo(address.History.RevisedOn, 20000);
 
                 Assert.AreEqual(street1, addressLocation.Street1);
                 Assert.AreEqual(street2, addressLocation.Street2);
@@ -1927,7 +1927,7 @@ namespace ECA.Business.Test.Service.Programs
                 Assert.AreEqual(creatorId, addressLocation.History.CreatedBy);
                 Assert.AreEqual(yesterday, addressLocation.History.CreatedOn);
                 Assert.AreEqual(updatorId, addressLocation.History.RevisedBy);
-                DateTimeOffset.Now.Should().BeCloseTo(addressLocation.History.RevisedOn, 2000);
+                DateTimeOffset.Now.Should().BeCloseTo(addressLocation.History.RevisedOn, 20000);
             };
             context.SetupActions.Add(() =>
             {

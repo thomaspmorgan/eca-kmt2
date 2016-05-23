@@ -114,7 +114,7 @@ angular.module('staticApp')
       }
 
       function removeCountryFromView(country) {
-          $scope.$emit(ConstantsService.removeNewCountryEventName, country);
+          $scope.$emit(ConstantsService.removeNewCitizenshipCountryEventName, country);
       }
 
       function getCountryFormDivIdPrefix() {
@@ -154,6 +154,31 @@ angular.module('staticApp')
           return country.isNew;
       }
       
+      $scope.$on(ConstantsService.removeNewCitizenshipCountryEventName, function (event, country) {
+          console.assert($scope.view, 'The scope must exist.  It should be set by the directive.');
+          console.assert($scope.$parent.$parent.model.countriesOfCitizenship instanceof Array, 'The entity citizenship countries is defined but must be an array.');
+
+          var countries = $scope.$parent.$parent.model.countriesOfCitizenship;
+          var index = countries.map(function (e) { return e.id }).indexOf(country.id);
+          if (index !== -1) {
+              var removedItems = countries.splice(index, 1);
+              $scope.$parent.$parent.model.countriesOfCitizenship = countries;
+              $log.info('Removed country at index ' + index);
+          }
+      });
+
+      $scope.$on(ConstantsService.primaryCitizenshipCountryChangedEventName, function (event, primaryCountry) {
+          console.assert($scope.$parent.$parent.model.countriesOfCitizenship instanceof Array, 'The entity countries is defined but must be an array.');
+
+          var countries = $scope.$parent.$parent.model.countriesOfCitizenship;
+          var primaryCountryIndex = countries.indexOf(primaryCountry);
+          angular.forEach(countries, function (country, index) {
+              if (primaryCountryIndex !== index) {
+                  country.isPrimary = false;
+              }
+          });
+      });
+
       $scope.view.isLoadingCountries = true;
       $q.all([loadCountries()])
           .then(function () {

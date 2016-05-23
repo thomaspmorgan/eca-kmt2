@@ -247,7 +247,149 @@ namespace ECA.Business.Test.Service.Persons
             afterTester(serviceResults);
             afterTester(serviceResultsAsync);
         }
+        
+        [TestMethod]
+        public async Task TestGetIsParticipantPersonLockedAsync_ParticipantDoesNotExist()
+        {
+            var serviceResults = service.GetIsParticipantPersonLockedAsync(1);
+            Assert.AreEqual(false, serviceResults.Result);
+        }
 
+        [TestMethod]
+        public async Task TestGetIsParticipantPersonLockedAsync_LockedSevisStatus()
+        {
+            var gender = new Gender
+            {
+                GenderId = Gender.Female.Id,
+                GenderName = Gender.Female.Value
+            };
+
+            var person = new Person
+            {
+                PersonId = 1,
+                Gender = gender,
+                GenderId = gender.GenderId
+            };
+
+            var status = new ParticipantStatus
+            {
+                ParticipantStatusId = ParticipantStatus.Active.Id,
+                Status = ParticipantStatus.Active.Value
+            };
+
+            var participant = new Participant
+            {
+                ParticipantId = 1,
+                Person = person,
+                ProjectId = 1,
+                ParticipantStatusId = status.ParticipantStatusId,
+                Status = status
+            };
+
+            var participantPerson = new ParticipantPerson
+            {
+                ParticipantId = 1,
+                Participant = participant
+            };
+
+            var sevisCommStatus = new SevisCommStatus
+            {
+                SevisCommStatusId = SevisCommStatus.SentByBatch.Id,
+                SevisCommStatusName = SevisCommStatus.SentByBatch.Value
+            };
+
+            var participantPersonSevisCommStatus = new ParticipantPersonSevisCommStatus
+            {
+                Id = 1,
+                ParticipantId = participant.ParticipantId,
+                ParticipantPerson = participantPerson,
+                SevisCommStatus = sevisCommStatus,
+                AddedOn = DateTime.UtcNow
+            };
+
+            participant.ParticipantPerson = participantPerson;
+
+            person.Participations.Add(participant);
+            participantPerson.ParticipantPersonSevisCommStatuses.Add(participantPersonSevisCommStatus);
+
+            context.Genders.Add(gender);
+            context.Participants.Add(participant);
+            context.ParticipantPersons.Add(participantPerson);
+            context.ParticipantPersonSevisCommStatuses.Add(participantPersonSevisCommStatus);
+            context.People.Add(person);
+            context.SevisCommStatuses.Add(sevisCommStatus);
+
+            var serviceResults = service.GetIsParticipantPersonLockedAsync(1);
+            Assert.AreEqual(true, serviceResults.Result);
+        }
+
+        [TestMethod]
+        public async Task TestGetIsParticipantPersonLockedAsync_NotLockedSevisStatus()
+        {
+            var gender = new Gender
+            {
+                GenderId = Gender.Female.Id,
+                GenderName = Gender.Female.Value
+            };
+
+            var person = new Person
+            {
+                PersonId = 1,
+                Gender = gender,
+                GenderId = gender.GenderId
+            };
+
+            var status = new ParticipantStatus
+            {
+                ParticipantStatusId = ParticipantStatus.Active.Id,
+                Status = ParticipantStatus.Active.Value
+            };
+
+            var participant = new Participant
+            {
+                ParticipantId = 1,
+                Person = person,
+                ProjectId = 1,
+                ParticipantStatusId = status.ParticipantStatusId,
+                Status = status
+            };
+
+            var participantPerson = new ParticipantPerson
+            {
+                ParticipantId = 1,
+                Participant = participant
+            };
+
+            var sevisCommStatus = new SevisCommStatus
+            {
+                SevisCommStatusId = SevisCommStatus.CreatedByBatch.Id,
+                SevisCommStatusName = SevisCommStatus.CreatedByBatch.Value
+            };
+
+            var participantPersonSevisCommStatus = new ParticipantPersonSevisCommStatus
+            {
+                Id = 1,
+                ParticipantId = participant.ParticipantId,
+                ParticipantPerson = participantPerson,
+                SevisCommStatus = sevisCommStatus,
+                AddedOn = DateTime.UtcNow
+            };
+
+            participant.ParticipantPerson = participantPerson;
+
+            person.Participations.Add(participant);
+            participantPerson.ParticipantPersonSevisCommStatuses.Add(participantPersonSevisCommStatus);
+
+            context.Genders.Add(gender);
+            context.Participants.Add(participant);
+            context.ParticipantPersons.Add(participantPerson);
+            context.ParticipantPersonSevisCommStatuses.Add(participantPersonSevisCommStatus);
+            context.People.Add(person);
+            context.SevisCommStatuses.Add(sevisCommStatus);
+
+            var serviceResults = service.GetIsParticipantPersonLockedAsync(1);
+            Assert.AreEqual(false, serviceResults.Result);
+        }
         #endregion
 
 

@@ -1,5 +1,6 @@
 ﻿using ECA.Business.Queries.Models.Admin;
 using ECA.Business.Sevis.Model;
+using KellermanSoftware.CompareNetObjects;
 using System;
 
 namespace ECA.Business.Validation.Sevis.Bio
@@ -8,7 +9,7 @@ namespace ECA.Business.Validation.Sevis.Bio
     /// A Dependent instance is used to specify what action will be taken on a sevis registered exchange visitor dependent, such as
     /// adding a new dependenting, deleting a sevis registered dependent, or editing a sevis registered dependent.
     /// </summary>
-    public abstract class Dependent : IBiographical, IFormPrintable, IFluentValidatable
+    public abstract class Dependent : IBiographical, IFormPrintable, IFluentValidatable, IChangeComparable<Dependent, DependentChangeDetail>
     {
         public Dependent(
             FullName fullName,
@@ -212,5 +213,22 @@ namespace ECA.Business.Validation.Sevis.Bio
         /// </summary>
         /// <returns>The request id.</returns>
         public abstract RequestId GetRequestId();
+        
+
+        /// <summary>
+        /// Returns the dependent change detail.
+        /// </summary>
+        /// <param name="otherChangeComparable">The dependent to compare.</param>
+        /// <returns>The change detail.</returns>
+        public DependentChangeDetail GetChangeDetail(Dependent otherChangeComparable)
+        {
+            var compareConfig = new ComparisonConfig
+            {
+                CompareChildren = true,
+            };
+            var compareLogic = new CompareLogic(compareConfig);
+            var result = compareLogic.Compare(this, otherChangeComparable);
+            return new DependentChangeDetail(result);
+        }
     }
 }

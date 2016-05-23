@@ -18,7 +18,7 @@ namespace ECA.WebApi.Test.Models.Person
             var email = "someone@isp.com";
             var emailTypeId = EmailAddressType.Business.Id;
             var phoneNumber = "555";
-            var phoneNumberTypeId = PhoneNumberType.Work.Id;
+            var phoneNumberTypeId = PhoneNumberType.Business.Id;
 
             var newEmailAddress = new AdditionalEmailAddressBindingModel
             {

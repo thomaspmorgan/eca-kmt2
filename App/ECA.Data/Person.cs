@@ -41,6 +41,11 @@ namespace ECA.Data
         public const int FAMILY_NAME_MAX_LENGTH = 50;
 
         /// <summary>
+        /// Gets the max length of the passport name.
+        /// </summary>
+        public const int PASSPORT_NAME_MAX_LENGTH = 39;
+
+        /// <summary>
         /// Gets the max length of the middle name.
         /// </summary>
         public const int MIDDLE_NAME_MAX_LENGTH = 50;
@@ -87,7 +92,7 @@ namespace ECA.Data
         /// </summary>
         [Key]
         public int PersonId { get; set; }
-        
+
         /// <summary>
         /// Gets or sets the gender.
         /// </summary>
@@ -152,6 +157,12 @@ namespace ECA.Data
         public string MiddleName { get; set; }
 
         /// <summary>
+        /// Gets or sets the passport name.
+        /// </summary>
+        [MaxLength(PASSPORT_NAME_MAX_LENGTH)]
+        public string PassportName { get; set; }
+
+        /// <summary>
         /// Gets or sets the patronym.
         /// </summary>
         [MaxLength(PATRONYM_NAME_MAX_LENGTH)]
@@ -178,6 +189,12 @@ namespace ECA.Data
         public bool? IsPlaceOfBirthUnknown { get; set; }
 
         /// <summary>
+        /// Identifies if the participant has a only one name
+        /// </summary>
+        public bool IsSingleName { get; set; }
+
+
+        /// <summary>
         /// Gets or sets whether the date of birth is estimated.
         /// </summary>
         public bool? IsDateOfBirthEstimated { get; set; }
@@ -188,7 +205,7 @@ namespace ECA.Data
         /// Can the participant be contacted? (agreement to contact is in place)
         /// </summary>
         public bool HasContactAgreement { get; set; }
-        
+
         [InverseProperty("CitizensOfCountry")]
         public ICollection<Location> CountriesOfCitizenship { get; set; }
         public string Ethnicity { get; set; }
