@@ -137,5 +137,11 @@ namespace ECA.Business.Queries.Models.Persons
         /// Gets or sets whether the dependent has a ds 2019.
         /// </summary>
         public bool HasDS2019 { get; set; }
+        public Audit Audit { get; set; }
+
+        /// <summary>
+        /// Gets and sets the Is Single Name flag
+        /// </summary>
+        public bool IsSingleName { get; set; }
     }
 }

@@ -92,7 +92,7 @@ namespace ECA.Data
         /// </summary>
         [Key]
         public int PersonId { get; set; }
-        
+
         /// <summary>
         /// Gets or sets the gender.
         /// </summary>
@@ -189,6 +189,12 @@ namespace ECA.Data
         public bool? IsPlaceOfBirthUnknown { get; set; }
 
         /// <summary>
+        /// Identifies if the participant has a only one name
+        /// </summary>
+        public bool IsSingleName { get; set; }
+
+
+        /// <summary>
         /// Gets or sets whether the date of birth is estimated.
         /// </summary>
         public bool? IsDateOfBirthEstimated { get; set; }
@@ -199,7 +205,7 @@ namespace ECA.Data
         /// Can the participant be contacted? (agreement to contact is in place)
         /// </summary>
         public bool HasContactAgreement { get; set; }
-        
+
         [InverseProperty("CitizensOfCountry")]
         public ICollection<Location> CountriesOfCitizenship { get; set; }
         public string Ethnicity { get; set; }

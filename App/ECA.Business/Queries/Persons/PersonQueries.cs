@@ -29,7 +29,7 @@ namespace ECA.Business.Queries.Persons
         public static IQueryable<SimplePersonDTO> CreateGetRelatedPersonByDependentFamilyMemberQuery(EcaContext context, int dependentId)
         {
             Contract.Requires(context != null, "The context must not be null.");
-            
+
             var personDTOQuery = CreateGetSimplePersonDTOsQuery(context);
 
             var query = from dependent in context.PersonDependents
@@ -65,7 +65,7 @@ namespace ECA.Business.Queries.Persons
 
                         let hasDivisionOfBirth = hasPlaceOfBirth && cityOfBirth.Division != null
                         let divisionOfBirthName = hasDivisionOfBirth ? cityOfBirth.Division.LocationName : null
-                        
+
                         select new SimplePersonDTO
                         {
                             Alias = person.Alias,
@@ -73,6 +73,7 @@ namespace ECA.Business.Queries.Persons
                             IsDateOfBirthEstimated = person.IsDateOfBirthEstimated,
                             IsDateOfBirthUnknown = person.IsDateOfBirthUnknown,
                             IsPlaceOfBirthUnknown = person.IsPlaceOfBirthUnknown,
+                            IsSingleName = person.IsSingleName,
                             FamilyName = person.FamilyName,
                             FirstName = person.FirstName,
                             Gender = gender.GenderName,
@@ -116,40 +117,40 @@ namespace ECA.Business.Queries.Persons
             var birthCountryReasonQuery = CreateGetBirthCountryReasonsQuery(context);
 
             var query = from dependent in context.PersonDependents
-                        
+
                         let locationOfBirth = locationsQuery.Where(x => x.Id == dependent.PlaceOfBirthId).FirstOrDefault()
                         let dependentType = dependentTypesQuery.Where(x => x.Id == dependent.DependentTypeId).FirstOrDefault()
                         let birthCountryReason = birthCountryReasonQuery.Where(x => x.Id == dependent.BirthCountryReasonId).FirstOrDefault()
                         let permanentResidence = locationsQuery.Where(x => x.Id == dependent.PlaceOfResidenceId).FirstOrDefault()
-                        
+
                         let PermanentResidence = (from address in context.Addresses
-                                                         let addressType = address.AddressType
-                                                         let location = address.Location
-                                                         let hasCity = location.City != null
-                                                         let city = location.City
-                                                         let hasCountry = location.Country != null
-                                                         let country = location.Country
-                                                         let hasDivision = location.Division != null
-                                                         let division = location.Division
+                                                  let addressType = address.AddressType
+                                                  let location = address.Location
+                                                  let hasCity = location.City != null
+                                                  let city = location.City
+                                                  let hasCountry = location.Country != null
+                                                  let country = location.Country
+                                                  let hasDivision = location.Division != null
+                                                  let division = location.Division
                                                   where address.LocationId == dependent.PlaceOfResidenceId
-                                                         select new AddressDTO
-                                                         {
-                                                             AddressId = address.AddressId,
-                                                             AddressType = addressType.AddressName,
-                                                             AddressTypeId = addressType.AddressTypeId,
-                                                             City = hasCity ? city.LocationName : null,
-                                                             CityId = location.CityId,
-                                                             Country = hasCountry ? country.LocationName : null,
-                                                             CountryId = location.CountryId,
-                                                             CountryIso2 = location.LocationIso2,
-                                                             Division = hasDivision ? division.LocationName : null,
-                                                             DivisionId = location.DivisionId,
-                                                             IsPrimary = address.IsPrimary,
-                                                             LocationId = location.LocationId,
-                                                             LocationName = location.LocationName,
-                                                             OrganizationId = address.OrganizationId,
-                                                             PersonId = address.PersonId,
-                                                         }).FirstOrDefault()
+                                                  select new AddressDTO
+                                                  {
+                                                      AddressId = address.AddressId,
+                                                      AddressType = addressType.AddressName,
+                                                      AddressTypeId = addressType.AddressTypeId,
+                                                      City = hasCity ? city.LocationName : null,
+                                                      CityId = location.CityId,
+                                                      Country = hasCountry ? country.LocationName : null,
+                                                      CountryId = location.CountryId,
+                                                      CountryIso2 = location.LocationIso2,
+                                                      Division = hasDivision ? division.LocationName : null,
+                                                      DivisionId = location.DivisionId,
+                                                      IsPrimary = address.IsPrimary,
+                                                      LocationId = location.LocationId,
+                                                      LocationName = location.LocationName,
+                                                      OrganizationId = address.OrganizationId,
+                                                      PersonId = address.PersonId,
+                                                  }).FirstOrDefault()
                         where dependent.IsDeleted == false
                         select new SimplePersonDependentDTO
                         {
@@ -158,6 +159,7 @@ namespace ECA.Business.Queries.Persons
                             SevisId = dependent.SevisId,
                             DependentTypeId = dependent.DependentTypeId,
                             DependentType = dependent.DependentType.Name,
+                            IsSingleName = dependent.IsSingleName,
                             FirstName = dependent.FirstName,
                             LastName = dependent.LastName,
                             NameSuffix = dependent.NameSuffix,
@@ -225,6 +227,7 @@ namespace ECA.Business.Queries.Persons
                             IsDateOfBirthEstimated = person.IsDateOfBirthEstimated,
                             CountriesOfCitizenship = person.CountriesOfCitizenship.Select(x => new SimpleLookupDTO { Id = x.LocationId, Value = x.LocationName }).OrderBy(l => l.Value),
                             Dependents = person.Family.Where(x => x.IsDeleted == false).Select(x => new SimpleLookupDTO { Id = x.DependentId, Value = x.LastName + ", " + x.FirstName + " (" + x.DependentType.Name + ")" }),
+                            IsSingleName = person.IsSingleName,
                             FirstName = person.FirstName,
                             LastName = person.LastName,
                             NamePrefix = person.NamePrefix,
