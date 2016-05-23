@@ -103,7 +103,23 @@ namespace ECA.Business.Service.Persons
         /// <returns>The info dto or null of it does not exist.</returns>
         Task<SevisBatchInfoDTO> GetBatchInfoByBatchIdAsync(int userId, int projectId, int participantId, string batchId);
 
-        Task<string> GetDS2019FileNameAsync(int projectId, int participantId);
+        /// <summary>
+        /// Gets DS2019 file name
+        /// </summary>
+        /// <param name="user">The user.</param>
+        /// <param name="projectId">The project id</param>
+        /// <param name="participantId">The participant id</param>
+        /// <returns>The DS2019 file name</returns>
+        Task<string> GetDS2019FileNameAsync(User user, int projectId, int participantId);
+
+        /// <summary>
+        /// Gets DS2019 file name
+        /// </summary>
+        /// <param name="user">The user.</param>
+        /// <param name="projectId">The project id</param>
+        /// <param name="participantId">The participant id</param>
+        /// <returns>The DS2019 file name</returns>
+        string GetDS2019FileName(User user, int projectId, int participantId);
 
         /// <summary>
         /// Returns a paged, filtered, sorterd collection of participants that have a sevis id and whose start date has passed and are ready to start the sevis validation process.
