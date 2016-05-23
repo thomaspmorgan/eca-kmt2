@@ -160,6 +160,7 @@
                          .then(function (response) {
                              $scope.editLocked = response.data;
                          });
+                        $scope.view.PositionAndFieldEdit = false;
                     }
                 });
 

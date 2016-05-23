@@ -17,6 +17,7 @@ angular.module('staticApp')
                   .then(function (response) {
                       $scope.editLocked = response.data;
                   });
+                  $scope.editMode = false;
               });
 
               $scope.editContact = function () {

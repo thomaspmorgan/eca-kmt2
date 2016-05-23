@@ -117,6 +117,7 @@ angular.module('staticApp')
           .then(function (response) {
               $scope.view.editLocked = response.data;
           });
+          $scope.view.isInfoTabInEditMode = false;
       });
 
       $scope.editGeneral = function () {
