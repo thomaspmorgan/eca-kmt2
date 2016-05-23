@@ -16,7 +16,9 @@ angular.module('staticApp')
       $scope.countriesResidence = [];
       $scope.cities = [];
       $scope.datePickerOpen = false;
+      $scope.minDateOfBirth = new Date();
       $scope.maxDateOfBirth = new Date();
+      
       $scope.isDependentLoading = true;
       $scope.isSavingDependent = false;
 
@@ -25,6 +27,7 @@ angular.module('staticApp')
           return DependentService.getDependentById(dependentId)
              .then(function (data) {
                  $scope.dependent = data;
+                 $scope.setMaxBirthDate($scope.dependent.dependentTypeId);
                  if ($scope.dependent.countriesOfCitizenship) {
                      $scope.countriesOfCitizenship = $scope.dependent.countriesOfCitizenship.map(function (obj) {
                          var location = {};
@@ -104,6 +107,16 @@ angular.module('staticApp')
 
       $scope.searchDependentCountries = function (search) {
           return loadDependentCitizenshipCountries(search);
+      };
+
+      $scope.setMaxBirthDate = function (id) {
+          var minDate = new moment();
+          if (id.toString() === ConstantsService.dependentChildTypeId) {
+              minDate.subtract(21, 'y');
+          } else if (id.toString() === ConstantsService.dependentSpouseTypeId) {
+              minDate.subtract(100, 'y');
+          }
+          $scope.minDateOfBirth = minDate;
       };
 
       $scope.setBirthCountryReasonState = function ($item, $model) {
