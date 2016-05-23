@@ -11,7 +11,7 @@ angular.module('staticApp')
           },
           controller: function ($scope) {
               $scope.editMode = false;
-              $scope.editLocked = false;
+              $scope.editLocked = true;
 
               $scope.onUpdatePii = function () {
                   $scope.updatepiicallback();

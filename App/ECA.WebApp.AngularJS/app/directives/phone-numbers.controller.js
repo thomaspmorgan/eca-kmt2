@@ -93,5 +93,6 @@ angular.module('staticApp')
               $log.error(message);
           });
       }
-      getPhoneNumberTypes();
+            
+      $q.all(getPhoneNumberTypes());
   });

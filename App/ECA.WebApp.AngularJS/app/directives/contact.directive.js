@@ -10,7 +10,7 @@ angular.module('staticApp')
           },
           controller: function ($scope) {
               $scope.editMode = false;
-              $scope.editLocked = false;
+              $scope.editLocked = true;
 
               $scope.$watch("personid", function (personId) {
                   ParticipantPersonsService.getIsParticipantPersonLocked(personId)
