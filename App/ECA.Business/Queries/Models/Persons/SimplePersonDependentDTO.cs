@@ -9,7 +9,7 @@ namespace ECA.Business.Queries.Models.Persons
     /// <summary>
     /// The SimplePersonDependentDTO is used to represent dependents in the ECA system.
     /// </summary>
-    public class SimplePersonDependentDTO : IAuditable
+    public class SimplePersonDependentDTO
     {
         public SimplePersonDependentDTO()
         {
@@ -134,8 +134,8 @@ namespace ECA.Business.Queries.Models.Persons
         public bool IsSevisDeleted { get; set; }
 
         /// <summary>
-        /// Gets and sets the audit record
+        /// Gets or sets whether the dependent has a ds 2019.
         /// </summary>
-        public Audit Audit { get; set; }        
+        public bool HasDS2019 { get; set; }
     }
 }

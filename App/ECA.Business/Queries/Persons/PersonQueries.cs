@@ -176,7 +176,8 @@ namespace ECA.Business.Queries.Persons
                             BirthCountryReason = birthCountryReason,
                             IsTravellingWithParticipant = dependent.IsTravellingWithParticipant,
                             IsDeleted = dependent.IsDeleted,
-                            IsSevisDeleted = dependent.IsSevisDeleted
+                            IsSevisDeleted = dependent.IsSevisDeleted,
+                            HasDS2019 = dependent.DS2019FileName != null
                         };
             return query;
         }

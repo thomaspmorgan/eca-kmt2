@@ -172,5 +172,21 @@ namespace ECA.Business.Service.Persons
         /// <param name="updatedDependent">The dependent to delete/update</param>
         /// <returns></returns>
         Task DeleteDependentAsync(UpdatedPersonDependent updatedDependent);
+
+        /// <summary>
+        /// Gets DS2019 file name for the dependent.
+        /// </summary>
+        /// <param name="user">The user.</param>
+        /// <param name="dependentId">The dependent id.</param>
+        /// <returns>The DS2019 file name</returns>
+        Task<string> GetDS2019FileNameAsync(User user, int dependentId);
+
+        /// <summary>
+        /// Gets DS2019 file name for the dependent.
+        /// </summary>
+        /// <param name="user">The user.</param>
+        /// <param name="dependentId">The dependent id.</param>
+        /// <returns>The DS2019 file name</returns>
+        string GetDS2019FileName(User user, int dependentId);
     }
 }

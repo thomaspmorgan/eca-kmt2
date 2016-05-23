@@ -27,6 +27,7 @@ namespace ECA.Business.Service.Persons
         private readonly IBusinessValidator<PersonServiceValidationEntity, PersonServiceValidationEntity> validator;
         private Action<Location, int> throwIfLocationNotFound;
         private Action<ParticipantPersonSevisDTO> throwValidationErrorIfParticipantSevisInfoIsLocked;
+        private readonly Action<int, object, Type> throwIfModelDoesNotExist;
 
         /// <summary>
         /// Constructor
@@ -50,6 +51,13 @@ namespace ECA.Business.Service.Persons
             throwValidationErrorIfParticipantSevisInfoIsLocked = (participant) =>
             {
                 participant.ValidateSevisLock();
+            };
+            throwIfModelDoesNotExist = (id, instance, type) =>
+            {
+                if (instance == null)
+                {
+                    throw new ModelNotFoundException(String.Format("The model of type [{0}] with id [{1}] was not found.", type.Name, id));
+                }
             };
         }
         
@@ -209,7 +217,43 @@ namespace ECA.Business.Service.Persons
         #endregion
 
         #region Dependent
-        
+
+        /// <summary>
+        /// Gets DS2019 file name for the dependent.
+        /// </summary>
+        /// <param name="user">The user.</param>
+        /// <param name="dependentId">The dependent id.</param>
+        /// <returns>The DS2019 file name</returns>
+        public async Task<string> GetDS2019FileNameAsync(User user, int dependentId)
+        {
+            String fileName = null;
+            var dependent = await Context.PersonDependents.FindAsync(dependentId);
+            throwIfModelDoesNotExist(dependentId, dependent, typeof(PersonDependent));
+            if (dependent != null)
+            {
+                fileName = dependent.DS2019FileName;
+            }
+            return fileName;
+        }
+
+        /// <summary>
+        /// Gets DS2019 file name for the dependent.
+        /// </summary>
+        /// <param name="user">The user.</param>
+        /// <param name="dependentId">The dependent id.</param>
+        /// <returns>The DS2019 file name</returns>
+        public string GetDS2019FileName(User user, int dependentId)
+        {
+            String fileName = null;
+            var dependent = Context.PersonDependents.Find(dependentId);
+            throwIfModelDoesNotExist(dependentId, dependent, typeof(PersonDependent));
+            if (dependent != null)
+            {
+                fileName = dependent.DS2019FileName;
+            }
+            return fileName;
+        }
+
         /// <summary>
         /// Get a person dependent
         /// </summary>
