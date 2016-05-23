@@ -60,8 +60,8 @@ angular.module('staticApp')
           return loadHostInstitutions($search);
       }
 
-      $scope.view.loadPlacementInstitutions = function ($search) {
-          return loadPlacementInstitutions($search);
+      $scope.view.loadPlacementOrganizations = function ($search) {
+          return loadPlacementOrganizations($search);
       }
 
       $scope.view.onSelectHostInstitution = function ($item, $model) {
@@ -305,19 +305,19 @@ angular.module('staticApp')
           }
       }
 
-      var placementInstitutionFilter = FilterService.add('project-participant-editinfo-placementinstitutionfilter');
-      function loadPlacementInstitutions(search) {
-          placementInstitutionFilter.reset();
-          placementInstitutionFilter = placementInstitutionFilter
+      var placementOrganizationFilter = FilterService.add('project-participant-editinfo-placementorganizationfilter');
+      function loadPlacementOrganizations(search) {
+          placementOrganizationFilter.reset();
+          placementOrganizationFilter = placementOrganizationFilter
                   .skip(0)
 
           if (search && search.length > 0) {
-              placementInstitutionFilter = placementInstitutionFilter.like('name', search);
-              return loadOrganizations(placementInstitutionFilter)
+              placementOrganizationFilter = placementOrganizationFilter.like('name', search);
+              return loadOrganizations(placementOrganizationFilter)
               .then(function (data) {
-                  $scope.view.placementInstitutions = data.results;
+                  $scope.view.placementOrganizations = data.results;
                   console.log('Placement Organizations', data.resuls);
-                  return $scope.view.placementInstitutions;
+                  return $scope.view.placementOrganizations;
               });
           }
       }
@@ -399,7 +399,7 @@ angular.module('staticApp')
 
       function initializePlacementOrganization(organization) {
           $scope.view.placementOrganizations = [];
-          $scope.view.PlacementOrganizationAddresses = [];
+          $scope.view.placementOrganizationAddresses = [];
           $scope.view.selectedPlacementOrganizationAddresses = [];
 
           var placementOrganization = $scope.view.participantPerson.placementOrganization;
