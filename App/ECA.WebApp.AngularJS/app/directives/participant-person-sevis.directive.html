@@ -77,31 +77,31 @@
 <div class="row row5">
     <div class="col-md-2"><h5>DoS Status</h5></div>
     <div class="form-group col-md-3" style="margin-bottom:0">
-        <span tooltip="{{sevisinfo.blockEdit ? 'The participant is currently in a SEVIS Status which does not allow edits' : ''}}">
-            <input type="checkbox" ng-model="sevisinfo.isSentToSevisViaRTI" ng-disabled="sevisinfo.blockEdit" ng-click="edit.onDosStatusChange($event, 'isSentToSevisViaRTI', sevisinfo.isSentToSevisViaRTI)" /> Sent to DHS via RTI
+        <span tooltip="{{editLocked ? 'The participant is currently in a SEVIS Status which does not allow edits' : ''}}">
+            <input type="checkbox" ng-model="sevisinfo.isSentToSevisViaRTI" ng-disabled="editLocked" ng-click="edit.onDosStatusChange($event, 'isSentToSevisViaRTI', sevisinfo.isSentToSevisViaRTI)" /> Sent to DHS via RTI
         </span>
     </div>
     <div class="form-group col-md-3" style="margin-bottom:0">
-        <span tooltip="{{sevisinfo.blockEdit ? 'The participant is currently in a SEVIS Status which does not allow edits' : ''}}">
-            <input type="checkbox" ng-model="sevisinfo.isCancelled" ng-disabled="sevisinfo.blockEdit" ng-click="edit.onDosStatusChange($event, 'isCancelled', sevisinfo.isCancelled)" /> Cancelled
+        <span tooltip="{{editLocked ? 'The participant is currently in a SEVIS Status which does not allow edits' : ''}}">
+            <input type="checkbox" ng-model="sevisinfo.isCancelled" ng-disabled="editLocked" ng-click="edit.onDosStatusChange($event, 'isCancelled', sevisinfo.isCancelled)" /> Cancelled
         </span>
     </div>
     <div class="form-group col-md-4" style="margin-bottom:0">
-        <span tooltip="{{sevisinfo.blockEdit ? 'The participant is currently in a SEVIS Status which does not allow edits' : ''}}">
-            <input type="checkbox" ng-model="sevisinfo.isValidatedViaRTI" ng-disabled="sevisinfo.blockEdit" ng-click="edit.onDosStatusChange($event, 'isValidatedViaRTI', sevisinfo.isValidatedViaRTI)" /> Validated via RTI
+        <span tooltip="{{editLocked ? 'The participant is currently in a SEVIS Status which does not allow edits' : ''}}">
+            <input type="checkbox" ng-model="sevisinfo.isValidatedViaRTI" ng-disabled="editLocked" ng-click="edit.onDosStatusChange($event, 'isValidatedViaRTI', sevisinfo.isValidatedViaRTI)" /> Validated via RTI
         </span>
     </div>
 </div>
 <div class="row row6">
     <div class="col-md-2">&nbsp;</div>
     <div class="form-group col-md-3" style="margin-bottom:0">
-        <span tooltip="{{sevisinfo.blockEdit ? 'The participant is currently in a SEVIS Status which does not allow edits' : ''}}">
-            <input type="checkbox" ng-model="sevisinfo.isDS2019SentToTraveler" ng-disabled="sevisinfo.blockEdit" ng-click="edit.onDosStatusChange($event, 'isDS2019SentToTraveler', sevisinfo.isDS2019SentToTraveler)" /> DS 2019 Sent to Traveler
+        <span tooltip="{{editLocked ? 'The participant is currently in a SEVIS Status which does not allow edits' : ''}}">
+            <input type="checkbox" ng-model="sevisinfo.isDS2019SentToTraveler" ng-disabled="editLocked" ng-click="edit.onDosStatusChange($event, 'isDS2019SentToTraveler', sevisinfo.isDS2019SentToTraveler)" /> DS 2019 Sent to Traveler
         </span>
     </div>
     <div class="form-group col-md-3" style="margin-bottom:0">
-        <span tooltip="{{sevisinfo.blockEdit ? 'The participant is currently in a SEVIS Status which does not allow edits' : ''}}">
-            <input type="checkbox" ng-model="sevisinfo.isDS2019Printed" ng-disabled="sevisinfo.blockEdit" ng-click="edit.onDosStatusChange($event, 'isDS2019Printed', sevisinfo.isDS2019Printed)" /> DS 2019 Printed
+        <span tooltip="{{editLocked ? 'The participant is currently in a SEVIS Status which does not allow edits' : ''}}">
+            <input type="checkbox" ng-model="sevisinfo.isDS2019Printed" ng-disabled="editLocked" ng-click="edit.onDosStatusChange($event, 'isDS2019Printed', sevisinfo.isDS2019Printed)" /> DS 2019 Printed
         </span>
     </div>
     <div class="form-group col-md-4" style="margin-bottom:0">
@@ -111,7 +111,7 @@
 <div class="form-group row row5">
     <form name="form.startDate">
         <h5 class="col-md-2" id="{{getSevisStartDateDivId(participantid)}}">Start Date</h5>
-        <div class="col-md-3" tooltip="{{sevisinfo.blockEdit ? 'The participant is currently in a SEVIS Status which does not allow edits' : ''}}">
+        <div class="col-md-3" tooltip="{{editLocked ? 'The participant is currently in a SEVIS Status which does not allow edits' : ''}}">
             <p class="input-group">
                 <input type="text"
                        id="startDate"
@@ -120,16 +120,16 @@
                        ng-model="sevisinfo.startDate"
                        is-open="edit.isStartDatePickerOpen"
                        ng-required="true"
-                       ng-disabled="sevisinfo.blockEdit"
+                       ng-disabled="editLocked"
                        ng-change="edit.onStartDateChange()"
                        close-text="Close" />
                 <span class="input-group-btn">
                     <button type="button"
                             class="btn"
                             style="height: 39px;"
-                            ng-disabled="sevisinfo.blockEdit"
+                            ng-disabled="editLocked"
                             ng-click="edit.openStartDatePicker($event)">
-                        <i class="material-icons md-18{{sevisinfo.blockEdit ? ' md-dark' : ''}}">event</i>
+                        <i class="material-icons md-18{{editLocked ? ' md-dark' : ''}}">event</i>
                     </button>
                 </span>
             </p>
@@ -137,7 +137,7 @@
     </form>
     <form name="form.endDate">
         <h5 class="col-md-2">End Date</h5>
-        <div class="col-md-3" tooltip="{{sevisinfo.blockEdit ? 'The participant is currently in a SEVIS Status which does not allow edits' : ''}}">
+        <div class="col-md-3" tooltip="{{editLocked ? 'The participant is currently in a SEVIS Status which does not allow edits' : ''}}">
             <p class="input-group">
                 <input type="text"
                        id="endDate"
@@ -146,16 +146,16 @@
                        ng-model="sevisinfo.endDate"
                        is-open="edit.isEndDatePickerOpen"
                        ng-required="true"
-                       ng-disabled="sevisinfo.blockEdit"
+                       ng-disabled="editLocked"
                        close-text="Close"
                        ng-change="edit.onEndDateChange()" />
                 <span class="input-group-btn">
                     <button type="button"
                             class="btn"
                             style="height: 39px;"
-                            ng-disabled="sevisinfo.blockEdit"
+                            ng-disabled="editLocked"
                             ng-click="edit.openEndDatePicker($event)">
-                        <i class="material-icons md-18 {{sevisinfo.blockEdit ? 'md-dark' : ''}}">event</i>
+                        <i class="material-icons md-18 {{editLocked ? 'md-dark' : ''}}">event</i>
                     </button>
                 </span>
             </p>
@@ -169,11 +169,8 @@
     <div class="col-md-8" id="{{positionAndFieldElementId}}"><h5>Position and Field</h5></div>
     <div class="col-md-4">
         <div class="pull-right" style="min-width:40px">
-            <a ng-show="!view.PositionAndFieldEdit" ng-disabled="sevisinfo.blockEdit" ng-click="edit.onPositionAndFieldEditChange()">
-                <span tooltip="{{sevisinfo.blockEdit ? 'The participant is currently in a SEVIS Status which does not allow edits' : ''}}">
-                    <i class="material-icons md-dark md-24 pull-right" style="{{sevisinfo.blockEdit ? 'opacity: .5' : 'opacity: 1'}}">edit</i>
-                </span>
-            </a>
+            <sevis-edit ng-show="!view.PositionAndFieldEdit" ng-disabled="editLocked" ng-click="edit.onPositionAndFieldEditChange()">
+            </sevis-edit>
         </div>
         <div class="pull-right" ng-if="view.PositionAndFieldEdit">
             <button ng-click="savePositionAndField()" class="btn btn-success" ng-disabled="formPositionAndFieldForm.$invalid || formPositionAndFieldForm.$pristine">Save</button>
@@ -225,7 +222,7 @@
                 <label class="title-label">Position <eca-required /></label>
             </div>
             <div class="col-md-6">
-                <ui-select ng-model="exchangevisitorinfo.positionId" theme="select2" tabindex="1" ng-required="true">
+                <ui-select ng-model="exchangevisitorinfo.positionId" theme="select2" tabindex="1" ng-required="true" append-to-body="true">
                     <ui-select-match placeholder="Select a position...">{{$select.selected.description}}</ui-select-match>
                     <ui-select-choices repeat="position.id as position in edit.positions | propsFilter: {code: $select.search, description: $select.search} track by position.id">
                         <div ng-bind-html="position.code + ' - ' + position.description | highlight: $select.search"></div>
@@ -241,7 +238,7 @@
                 <label class="title-label">Program Category <eca-required /></label>
             </div>
             <div class="col-md-6">
-                <ui-select ng-model="exchangevisitorinfo.programCategoryId" theme="select2" tabindex="1" ng-required="true">
+                <ui-select ng-model="exchangevisitorinfo.programCategoryId" theme="select2" tabindex="1" ng-required="true" append-to-body="true">
                     <ui-select-match placeholder="Select a program category...">{{$select.selected.description}}</ui-select-match>
                     <ui-select-choices repeat="programCategory.id as programCategory in edit.programCategories | propsFilter: {code: $select.search, description: $select.search} track by programCategory.id">
                         <div ng-bind-html="programCategory.code + ' - ' + programCategory.description | highlight: $select.search"></div>
@@ -257,7 +254,7 @@
                 <label class="title-label">Field Of Study <eca-required /></label>
             </div>
             <div class="col-md-6">
-                <ui-select ng-model="exchangevisitorinfo.fieldOfStudyId" theme="select2" tabindex="1" ng-required="true">
+                <ui-select ng-model="exchangevisitorinfo.fieldOfStudyId" theme="select2" tabindex="1" ng-required="true" append-to-body="true">
                     <ui-select-match placeholder="Select a field of study...">{{$select.selected.description}}</ui-select-match>
                     <ui-select-choices refresh="edit.searchFieldOfStudies($select.search)" refresh-delay="250" repeat="fieldOfStudy.id as fieldOfStudy in edit.fieldOfStudies">
                         <div ng-bind-html="fieldOfStudy.code + ' - ' + fieldOfStudy.description | highlight: $select.search"></div>

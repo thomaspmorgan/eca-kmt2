@@ -200,11 +200,7 @@
             </div>
             <div class="col-md-4">
                 <div class="pull-right" style="min-width:100px">
-                    <a ng-show="!view.isInfoTabInEditMode" ng-disabled="sevisinfo.blockEdit" ng-click="editGeneral()">
-                        <span tooltip="{{sevisinfo.blockEdit ? 'The participant is currently in a SEVIS Status which does not allow edits' : ''}}">
-                            <i class="material-icons md-dark md-24" style="{{sevisinfo.blockEdit ? 'opacity: .5' : 'opacity: 1'}}; margin-left:30px">edit</i>
-                        </span>
-                    </a>
+                    <sevis-edit ng-show="!view.isInfoTabInEditMode" ng-disabled="view.editLocked" ng-click="editGeneral()"></sevis-edit>
                 </div>
             </div>
         </div>

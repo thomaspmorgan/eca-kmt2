@@ -50,7 +50,7 @@ namespace ECA.Data
         /// Gets the max length of the family name.
         /// </summary>
         public const int PREFERRED_NAME_MAX_LENGTH = 100;
-        
+
         #endregion
 
         /// <summary>
@@ -126,7 +126,7 @@ namespace ECA.Data
         /// Gets or sets the gender.
         /// </summary>
         public virtual Gender Gender { get; set; }
-        
+
         /// <summary>
         /// Gets or sets the date of birth.
         /// </summary>
@@ -179,7 +179,7 @@ namespace ECA.Data
         /// Gets or sets depended was delete in SEVIS
         /// </summary>
         public bool IsSevisDeleted { get; set; }
-        
+
         /// <summary>
         /// Gets and sets the countries of citizenship
         /// </summary>
@@ -189,7 +189,7 @@ namespace ECA.Data
         /// Gets and sets the email addresses
         /// </summary>
         public ICollection<EmailAddress> EmailAddresses { get; set; }
-        
+
         /// <summary>
         /// create/update time and user
         /// </summary>
@@ -208,5 +208,11 @@ namespace ECA.Data
         {
             return string.Format(DS2019_FILE_NAME_FORMAT_STRING, this.DependentId, this.SevisId);
         }
+
+        /// <summary>
+        /// Gets or sets Is Single Name
+        /// </summary>
+        public bool IsSingleName { get; set; }
+
     }
 }

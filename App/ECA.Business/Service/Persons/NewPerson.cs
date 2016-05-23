@@ -28,6 +28,7 @@ namespace ECA.Business.Service.Persons
             User createdBy,
             int projectId,
             int participantTypeId,
+            bool isSingleName,
             string firstName,
             string lastName,
             int gender,
@@ -41,6 +42,7 @@ namespace ECA.Business.Service.Persons
             Contract.Requires(createdBy != null, "The created by user must not be null.");
             this.ProjectId = projectId;
             this.ParticipantTypeId = participantTypeId;
+            this.IsSingleName = isSingleName;
             this.FirstName = firstName;
             this.LastName = lastName;
             this.Gender = gender;
@@ -52,7 +54,7 @@ namespace ECA.Business.Service.Persons
             this.IsPlaceOfBirthUnknown = isPlaceOfBirthUnknown;
             this.Audit = new Create(createdBy);
         }
-        
+
         /// <summary>
         /// Gets and sets the project id
         /// </summary>
@@ -62,6 +64,11 @@ namespace ECA.Business.Service.Persons
         /// Gets and sets the participant type id
         /// </summary>
         public int ParticipantTypeId { get; private set; }
+
+        /// <summary>
+        /// Denotes if participant has one name only
+        /// </summary>
+        public bool IsSingleName { get; private set; }
 
         /// <summary>
         /// Gets and sets the first name
@@ -87,7 +94,7 @@ namespace ECA.Business.Service.Persons
         /// Denotes if date of birth is unknown
         /// </summary>
         public bool? IsDateOfBirthUnknown { get; private set; }
-        
+
         /// <summary>
         /// Denotes if date of birth is estimated.
         /// </summary>

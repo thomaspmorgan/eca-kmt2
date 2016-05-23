@@ -1,16 +1,32 @@
 ﻿'use strict';
 
 angular.module('staticApp')
-  .directive('sevisFunding', function ($log, FilterService, LookupService, NotificationService, ParticipantExchangeVisitorService) {
+  .directive('sevisFunding', function ($log, FilterService, LookupService, NotificationService, ParticipantExchangeVisitorService, ParticipantPersonsService) {
       var directive = {
           restrict: 'E',
           templateUrl: 'app/directives/sevis-funding.directive.html',
           scope: {
+              personid: '@',
               exchangevisitorinfo: '=',
           },
           controller: function ($scope) {
               $scope.editMode = false;
               $scope.edit = {};
+              $scope.editLocked = true;
+
+              $scope.$watch("personid", function (personId) {
+                  ParticipantPersonsService.getIsParticipantPersonLocked(personId)
+                  .then(function (response) {
+                      $scope.editLocked = response.data;
+                  });
+                  $scope.editMode = false;
+              });
+
+              $scope.editSevisFunding = function () {
+                  if (!$scope.editLocked) {
+                      $scope.editMode = true;
+                  }
+              }
 
               $scope.cancelEditFunding = function () {
                   loadExchangeVisitorInfo();
