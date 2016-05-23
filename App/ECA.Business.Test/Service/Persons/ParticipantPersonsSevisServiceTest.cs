@@ -1210,7 +1210,6 @@ namespace ECA.Business.Test.Service.Persons
             a.ShouldThrow<ModelNotFoundException>().WithMessage(message);
             f.ShouldThrow<ModelNotFoundException>().WithMessage(message);
         }
-
         #endregion
 
         #region Update
