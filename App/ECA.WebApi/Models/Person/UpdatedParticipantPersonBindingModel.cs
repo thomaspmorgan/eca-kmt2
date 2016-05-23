@@ -44,6 +44,16 @@ namespace ECA.WebApi.Models.Person
         public int? ParticipantStatusId { get; set; }
 
         /// <summary>
+        /// The placement organization by id.
+        /// </summary>
+        public int? PlacementOrganizationId { get; set; }
+
+        /// <summary>
+        /// The placement organization address by id.
+        /// </summary>
+        public int? PlacementOrganizationAddressId { get; set; }
+
+        /// <summary>
         /// Returns a business layer UpdatedParticipantPerson instance.
         /// </summary>
         /// <param name="user">The user performing the update.</param>
@@ -60,7 +70,9 @@ namespace ECA.WebApi.Models.Person
                 hostInstitutionAddressId: this.HostInstitutionAddressId,
                 homeInstitutionAddressId: this.HomeInstitutionAddressId,
                 participantTypeId: this.ParticipantTypeId,
-                participantStatusId: this.ParticipantStatusId
+                participantStatusId: this.ParticipantStatusId,
+                placementOrganizationId: this.PlacementOrganizationId,
+                placementOrganizationAddressId: this.PlacementOrganizationAddressId
                 );
             return model;
         }

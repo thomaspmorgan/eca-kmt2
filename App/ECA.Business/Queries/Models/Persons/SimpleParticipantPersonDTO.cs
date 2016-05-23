@@ -102,5 +102,15 @@ namespace ECA.Business.Queries.Models.Persons
         /// Gets or sets the participant Sevis Status
         /// </summary>
         public string SevisStatus { get; set; }
+
+        /// <summary>
+        /// Gets or sets the participant Placement Organization
+        /// </summary>
+        public OrganizationDTO PlacementOrganization { get; set; }
+
+        /// <summary>
+        /// Gets or sets the participant Placement Organization Address Id
+        /// </summary>
+        public int? PlacementOrganizationAddressId { get; set; }
     }
 }

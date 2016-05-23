@@ -807,7 +807,6 @@ angular.module('staticApp')
               backdrop: 'static',
               resolve: {
                   userInfo: function () {
-                      console.log("User Info", userInfo);
                       return userInfo;
                   }
               },

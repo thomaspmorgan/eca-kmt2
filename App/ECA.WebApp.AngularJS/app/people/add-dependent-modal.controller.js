@@ -17,9 +17,9 @@ angular.module('staticApp')
       $scope.countriesResidence = [];
       $scope.cities = [];
       $scope.datePickerOpen = false;
-      $scope.maxDateOfBirth = new Date();
       $scope.isDependentLoading = true;
       $scope.isSavingDependent = false;
+      $scope.minDateOfBirth = new Date();
       
       function saveNewDependent() {
           $scope.isSavingDependent = true;
@@ -100,6 +100,16 @@ angular.module('staticApp')
               $scope.dependent.birthCountryReasonId = null;
           }
       }
+
+      $scope.setMaxBirthDate = function (id) {
+          var minDate = new moment();
+          if (id.toString() === ConstantsService.dependentChildTypeId) {
+              minDate.subtract(21, 'y');
+          } else if (id.toString() === ConstantsService.dependentSpouseTypeId) {
+              minDate.subtract(100, 'y');
+          }
+          $scope.minDateOfBirth = minDate;
+      };
 
       function loadDependentCities(search) {
           if (search) {

@@ -127,6 +127,7 @@ namespace ECA.WebApi.Controllers.Persons
                 ParticipantStatusId = participant.StatusId,
                 ParticipantId = participant.ParticipantId,
                 ParticipantTypeId = participant.ParticipantTypeId,
+
             };
             return DoCreateOrUpdateParticipantPersonAsync(projectId, model);
         }
