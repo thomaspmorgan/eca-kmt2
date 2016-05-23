@@ -48,6 +48,8 @@ namespace ECA.WebApi.Controllers.Persons
         /// </summary>
         /// <param name="participantService">The participant person sevis service.</param>
         /// <param name="userProvider">The user provider</param>
+        /// <param name="appSettings">The application settings.</param>
+        /// <param name="storageHandler">The file storage handler.</param>
         public ParticipantPersonsSevisController(IParticipantPersonsSevisService participantService, IUserProvider userProvider, IFileStorageHandler storageHandler, AppSettings appSettings)
         {
             Contract.Requires(participantService != null, "The participantPersonSevis service must not be null.");
@@ -209,7 +211,9 @@ namespace ECA.WebApi.Controllers.Persons
         [ResourceAuthorize(Permission.EDIT_SEVIS_VALUE, ResourceType.PROJECT_VALUE, "projectId")]
         public async Task<HttpResponseMessage> GetDS2019FileAsync(int projectId, int participantId)
         {
-            var fileName = await participantService.GetDS2019FileNameAsync(projectId, participantId);
+            var currentUser = userProvider.GetCurrentUser();
+            var businessUser = userProvider.GetBusinessUser(currentUser);
+            var fileName = await participantService.GetDS2019FileNameAsync(businessUser, projectId, participantId);
             if (fileName != null)
             {
                 var container = appSettings.DS2019FileStorageContainer;

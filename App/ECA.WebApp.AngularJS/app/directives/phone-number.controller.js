@@ -20,6 +20,11 @@ angular.module('staticApp')
         PersonService,
         NotificationService) {
 
+      //angular.element('#phoneNumberValue').intlTelInput({
+      //    utilsScript: "bower_components/intl-tel-input/lib/libphonenumber/build/utils.js",
+      //    validationScript: "bower_components/international-phone-number/releases/international-phone-number.min.js"
+      //});
+
       $scope.view = {};
       $scope.view.params = $stateParams;
       $scope.view.phoneNumberTypes = [];
@@ -34,7 +39,7 @@ angular.module('staticApp')
           console.assert($scope.modelId, 'The entity model id must be defined.');
           var phoneNumberableType = $scope.modelType;
           var modelId = $scope.modelId;
-
+          
           if (isNewPhoneNumber($scope.phoneNumber)) {
               var tempId = angular.copy($scope.phoneNumber.id);
               return PhoneNumberService.add($scope.phoneNumber, phoneNumberableType, modelId)
@@ -57,20 +62,20 @@ angular.module('staticApp')
           $scope.phoneNumberable.phoneNumbers[index] = phoneNumber;
       };
 
-      function getPhoneCountryFlags() {
-          var found = false;
-          angular.forEach($scope.phoneNumberable.phoneNumbers, function (phone, index) {
-              if (!found) {
-                  angular.forEach($scope.data.countries, function (country) {
-                      if (country.dialCode.indexOf(phone.number.slice(0, 2)) == 0 || country.dialCode.indexOf(phone.number.slice(0, 3)) == 0) {
-                          phone.flag = 'iti-flag ' + country.iso2;
-                          phone.flagtitle = country.name;
-                          found = true;
-                      }
-                  });
-              }
-          });
-      }
+      //function getPhoneCountryFlags() {
+      //    var found = false;
+      //    angular.forEach($scope.phoneNumberable.phoneNumbers, function (phone, index) {
+      //        if (!found) {
+      //            angular.forEach($scope.data.countries, function (country) {
+      //                if (country.dialCode.indexOf(phone.number.slice(0, 2)) == 0 || country.dialCode.indexOf(phone.number.slice(0, 3)) == 0) {
+      //                    phone.flag = 'iti-flag ' + country.iso2;
+      //                    phone.flagtitle = country.name;
+      //                    found = true;
+      //                }
+      //            });
+      //        }
+      //    });
+      //}
       
       $scope.view.cancelPhoneNumberChanges = function () {
           $scope.view.showEditPhoneNumber = false;
@@ -179,6 +184,6 @@ angular.module('staticApp')
           $scope.view.isLoadingRequiredData = false;
       });
 
-      $q.all(getPhoneCountryFlags());
+      //$q.all(getPhoneCountryFlags());
 
   });

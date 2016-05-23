@@ -3400,5 +3400,63 @@ namespace ECA.Business.Test.Service.Persons
         }
 
         #endregion
+
+        #region DS2019
+        [TestMethod]
+        public async Task TestGetDS2019FileName_PersonDependent()
+        {
+            var user = new User(1);
+            var dependent = new PersonDependent
+            {
+                DependentId = 1,
+                DS2019FileName = "file.name"
+            };
+
+            Action<string> tester = (fileName) =>
+            {
+                Assert.AreEqual(dependent.DS2019FileName, fileName);
+            };
+            context.PersonDependents.Add(dependent);
+
+            var response = service.GetDS2019FileName(user, dependent.DependentId);
+            var responseAsync = await service.GetDS2019FileNameAsync(user, dependent.DependentId);
+            tester(response);
+            tester(responseAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetDS2019FileName_PersonDependent_FileNameIsNull()
+        {
+            var user = new User(1);
+            var dependent = new PersonDependent
+            {
+                DependentId = 1,
+                DS2019FileName = null
+            };
+
+            Action<string> tester = (fileName) =>
+            {
+                Assert.IsNull(fileName);
+            };
+            context.PersonDependents.Add(dependent);
+
+            var response = service.GetDS2019FileName(user, dependent.DependentId);
+            var responseAsync = await service.GetDS2019FileNameAsync(user, dependent.DependentId);
+            tester(response);
+            tester(responseAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetDS2019FileName_PersonDependentDoesNotExist()
+        {
+            var user = new User(1);
+            var message = String.Format("The model of type [{0}] with id [{1}] was not found.", typeof(PersonDependent).Name, 1);
+            Action a = () => service.GetDS2019FileName(user, 1);
+            Func<Task> f = () => service.GetDS2019FileNameAsync(user, 1);
+
+            a.ShouldThrow<ModelNotFoundException>().WithMessage(message);
+            f.ShouldThrow<ModelNotFoundException>().WithMessage(message);
+        }
+        #endregion
     }
 }

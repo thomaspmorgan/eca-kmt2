@@ -157,7 +157,9 @@ namespace ECA.WebApi.Test.Controllers.Persons
         [TestMethod]
         public async Task GetDS2019FileAsync()
         {
-            participantPersonSevisService.Setup(x => x.GetDS2019FileNameAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync("fileName.pdf");
+            userProvider.Setup(x => x.GetCurrentUser()).Returns(new DebugWebApiUser());
+            userProvider.Setup(x => x.GetBusinessUser(It.IsAny<IWebApiUser>())).Returns(new User(20));
+            participantPersonSevisService.Setup(x => x.GetDS2019FileNameAsync(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync("fileName.pdf");
             storageHandler.Setup(x => x.GetFileAsync(It.IsAny<string>(), It.IsAny<string>())).ReturnsAsync(new HttpResponseMessage(HttpStatusCode.OK));
             var response = await controller.GetDS2019FileAsync(1, 1);
             storageHandler.Verify(x => x.GetFileAsync(It.IsAny<string>(), It.IsAny<string>()), Times.Once());
@@ -168,7 +170,9 @@ namespace ECA.WebApi.Test.Controllers.Persons
         [TestMethod]
         public async Task GetDS2019FileAsync_NullFileName()
         {
-            participantPersonSevisService.Setup(x => x.GetDS2019FileNameAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(null);
+            userProvider.Setup(x => x.GetCurrentUser()).Returns(new DebugWebApiUser());
+            userProvider.Setup(x => x.GetBusinessUser(It.IsAny<IWebApiUser>())).Returns(new User(20));
+            participantPersonSevisService.Setup(x => x.GetDS2019FileNameAsync(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(null);
             controller.Request = new HttpRequestMessage();
             var response = await controller.GetDS2019FileAsync(1, 1);
             Assert.IsInstanceOfType(response, typeof(HttpResponseMessage));
@@ -178,7 +182,9 @@ namespace ECA.WebApi.Test.Controllers.Persons
         [TestMethod]
         public async Task GetDS2019FileAsync_NullMessage()
         {
-            participantPersonSevisService.Setup(x => x.GetDS2019FileNameAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync("fileName.pdf");
+            userProvider.Setup(x => x.GetCurrentUser()).Returns(new DebugWebApiUser());
+            userProvider.Setup(x => x.GetBusinessUser(It.IsAny<IWebApiUser>())).Returns(new User(20));
+            participantPersonSevisService.Setup(x => x.GetDS2019FileNameAsync(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync("fileName.pdf");
             controller.Request = new HttpRequestMessage();
             storageHandler.Setup(x => x.GetFileAsync(It.IsAny<string>(), It.IsAny<string>())).ReturnsAsync(null);
             var response = await controller.GetDS2019FileAsync(1, 1);
