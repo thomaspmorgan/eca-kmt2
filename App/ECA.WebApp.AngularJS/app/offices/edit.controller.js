@@ -57,8 +57,8 @@ angular.module('staticApp')
           if ($scope.form.officeForm.$dirty) {
               MessageBox.confirm({
                   title: 'Unsaved Changes',
-                  message: 'You have changes that have not been saved.  Are you sure you want to cancel?',
-                  okText: 'Yes',
+                  message: "There are unsaved changes to this program.  Are you sure you wish to cancel?",
+                  okText: 'Yes, Cancel Changes',
                   cancelText: 'No',
                   okCallback: function () {
                       $log.info('Cancelling changes...');
