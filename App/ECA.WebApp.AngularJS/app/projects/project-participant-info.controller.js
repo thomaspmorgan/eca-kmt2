@@ -45,6 +45,7 @@ angular.module('staticApp')
       $scope.view.isSavingUpdate = false;
       $scope.view.participantPerson = null;
       $scope.view.isInfoTabInEditMode = false;
+      $scope.view.editLocked = false;
 
       var notifyStatuses = ConstantsService.sevisStatuChangeAlertIds.split(',');
 
@@ -111,13 +112,19 @@ angular.module('staticApp')
               });
       }
 
+      $scope.$watch("personid", function (personId) {
+          ParticipantPersonsService.getIsParticipantPersonLocked(personId)
+          .then(function (response) {
+              $scope.view.editLocked = response.data;
+          });
+          $scope.view.isInfoTabInEditMode = false;
+      });
+
       $scope.editGeneral = function () {
-          if (!$scope.sevisinfo.blockEdit) {
+          if (!$scope.view.editLocked) {
               $scope.view.isInfoTabInEditMode = true;
-          } else {
-              return false;
           }
-      };
+      }
 
       $scope.view.onSaveButtonClick = function () {
           $scope.view.isSavingUpdate = true;

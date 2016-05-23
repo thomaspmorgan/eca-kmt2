@@ -136,9 +136,8 @@
                 <tab heading="Participant Information" class="tab" select="onInfoTabSelected(getSelectedParticipants()[0].participantId)" active="view.tabInfo" deselect="view.tabInfo=false">
                     <participant-person-info 
                                              participantid="{{getSelectedParticipant().participantId}}"
-                                             onparticipantupdated="onParticipantUpdated" 
-                                             active="view.tabInfo"
-                                             sevisinfo="sevisInfo[getSelectedParticipant().participantId]" />
+                                             personid="{{getSelectedParticipant().personId}}"
+                                             onparticipantupdated="onParticipantUpdated" />
                 </tab>
                 <tab heading="Personal Identifiable Information (PII)" class="tab" active="view.tabPii" select="onPiiTabSelected()">
                     <pii personid="{{getSelectedParticipant().personId}}" updatepiicallback="updatePiiCallback()"></pii>
@@ -158,7 +157,7 @@
                 </tab>
                 <tab heading="SEVIS Funding" class="tab" ng-if="showSevisTab(getSelectedParticipant().participantTypeId) && permissions.hasEditSevisPermission"
                      active="view.tabSevisFunding" select="onSevisFundingTabSelected(getSelectedParticipant().participantId)">
-                    <sevis-funding exchangevisitorinfo="exchangeVisitorInfo[getSelectedParticipant().participantId]"></sevis-funding>
+                    <sevis-funding personid="{{getSelectedParticipant().personId}}" exchangevisitorinfo="exchangeVisitorInfo[getSelectedParticipant().participantId]"></sevis-funding>
                 </tab>
             </tabset>
         </div>

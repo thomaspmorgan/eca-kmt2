@@ -200,6 +200,8 @@
     <Content Include="app\directives\pii.directive.js" />
     <Content Include="app\directives\programs.directive.html" />
     <Content Include="app\directives\programs.directive.js" />
+    <Content Include="app\directives\sevis-edit.directive.html" />
+    <Content Include="app\directives\sevis-edit.directive.js" />
     <Content Include="app\directives\sevis-funding.directive.html" />
     <Content Include="app\directives\sevis-funding.directive.js" />
     <Content Include="app\directives\snapshots-graphs.controller.js" />
