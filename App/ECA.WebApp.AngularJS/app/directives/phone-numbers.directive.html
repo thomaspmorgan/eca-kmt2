@@ -50,7 +50,7 @@
                         <button ng-click="view.showConfirmDelete = !view.showConfirmDelete" class="btn btn-cancel">Cancel</button>
                     </div>
                     <div in-context-form ng-show="view.showEditPhoneNumber || phoneNumber.isNew">
-                        <form name="form.phoneNumberForm" class="row form-horizontal" novalidate>
+                        <form name="form.phoneNumberForm" class="row form-horizontal">
                             <div class="form-group">
                                 <label class="title-label col-md-3" for="type">Type <eca-required /></label>
                                 <div class="col-md-9">
@@ -78,10 +78,9 @@
                                            class="form-control"
                                            placeholder="Enter phone number value."
                                            id="phoneNumberValue"
-                                           international-phone-number
-                                           required />
+                                           international-phone-number />
                                 </div>
-                                <div ng-show="form.phoneNumberForm.phoneNumberValue.$dirty || form.phoneNumberForm.phoneNumberValue.$error.required">
+                                <div ng-show="form.phoneNumberForm.phoneNumberValue.$dirty && form.phoneNumberForm.phoneNumberValue.$error.required">
                                     <div class="error" ng-show="form.phoneNumberForm.phoneNumberValue.$error.required">Please enter a phone number value.</div>
                                 </div>
                             </div>
