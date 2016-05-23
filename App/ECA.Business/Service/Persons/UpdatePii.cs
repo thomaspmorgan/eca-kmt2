@@ -39,6 +39,7 @@ namespace ECA.Business.Service.Persons
         public UpdatePii(
             User updatedBy,
             int personId,
+            bool isSingleName,
             string firstName,
             string lastName,
             string namePrefix,
@@ -63,6 +64,7 @@ namespace ECA.Business.Service.Persons
         {
             Contract.Requires(updatedBy != null, "The updated by user must not be null.");
             this.PersonId = personId;
+            this.IsSingleName = isSingleName;
             this.FirstName = firstName;
             this.LastName = lastName;
             this.NamePrefix = namePrefix;
@@ -196,5 +198,10 @@ namespace ECA.Business.Service.Persons
         /// Gets or sets the audit record
         /// </summary>
         public Audit Audit { get; private set; }
+
+        /// <summary>
+        /// Gets or sets the is single name flag
+        /// </summary>
+        public bool IsSingleName { get; private set; }
     }
 }

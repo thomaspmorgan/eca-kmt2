@@ -52,7 +52,7 @@ namespace ECA.Business.Service.Persons
                 participant.ValidateSevisLock();
             };
         }
-        
+
         #region Pii
 
         /// <summary>
@@ -97,7 +97,7 @@ namespace ECA.Business.Service.Persons
             if (participant != null)
             {
                 throwValidationErrorIfParticipantSevisInfoIsLocked(participant);
-            }            
+            }
             Location cityOfBirth = null;
             if (pii.CityOfBirthId.HasValue)
             {
@@ -121,6 +121,7 @@ namespace ECA.Business.Service.Persons
                 isDateOfBirthEstimated: updatePii.IsDateOfBirthEstimated,
                 isPlaceOfBirthUnknown: updatePii.IsPlaceOfBirthUnknown
                 ));
+            person.IsSingleName = updatePii.IsSingleName;
             person.FirstName = updatePii.FirstName;
             person.LastName = updatePii.LastName;
             person.NamePrefix = updatePii.NamePrefix;
@@ -180,7 +181,7 @@ namespace ECA.Business.Service.Persons
                 Context.People.Remove(personToDelete);
             }
         }
-        
+
         /// <summary>
         /// Update general
         /// </summary>
@@ -209,7 +210,7 @@ namespace ECA.Business.Service.Persons
         #endregion
 
         #region Dependent
-        
+
         /// <summary>
         /// Get a person dependent
         /// </summary>
@@ -226,7 +227,7 @@ namespace ECA.Business.Service.Persons
             var query = PersonQueries.CreateGetSimplePersonDependentDTOsQuery(this.Context);
             return query.Where(p => p.DependentId == dependentId);
         }
-        
+
         /// <summary>
         /// Create a person dependent
         /// </summary>
@@ -234,7 +235,7 @@ namespace ECA.Business.Service.Persons
         /// <returns>The person create</returns>
         public async Task<PersonDependent> CreateDependentAsync(NewPersonDependent newDependent)
         {
-            Contract.Requires(newDependent != null, "The dependent must not be null.");       
+            Contract.Requires(newDependent != null, "The dependent must not be null.");
             var emails = new List<EmailAddress>();
             if (!string.IsNullOrEmpty(newDependent.EmailAddress))
             {
@@ -357,7 +358,7 @@ namespace ECA.Business.Service.Persons
                 DoDelete(dependent);
             }
         }
-        
+
         private void DoDelete(PersonDependent dependentToDelete)
         {
             if (dependentToDelete != null)
@@ -370,7 +371,7 @@ namespace ECA.Business.Service.Persons
                 Context.PersonDependents.Remove(dependentToDelete);
             }
         }
-        
+
         #endregion
 
         #region Contact
@@ -602,7 +603,7 @@ namespace ECA.Business.Service.Persons
             this.logger.Trace("Retrieving dependent {0}.", newDependent);
             return await CreateGetDependent(newDependent.FirstName, newDependent.LastName, newDependent.GenderId, newDependent.DateOfBirth, newDependent.PlaceOfBirthId).FirstOrDefaultAsync();
         }
-        
+
         /// <summary>
         /// Get existing person 
         /// </summary>
@@ -615,21 +616,21 @@ namespace ECA.Business.Service.Persons
         }
 
         private PersonServiceValidationEntity GetPersonServiceValidationEntity(
-            Person person, 
+            Person person,
             DateTime? dateOfBirth,
-            int genderId, 
-            List<Location> countriesOfCitizenship, 
-            int? placeOfBirthId, 
+            int genderId,
+            List<Location> countriesOfCitizenship,
+            int? placeOfBirthId,
             bool? isDateOfBirthUnknown,
             bool? isDateOfBirthEstimated,
             bool? isPlaceOfBirthUnknown)
         {
             return new PersonServiceValidationEntity(
-                person: person, 
+                person: person,
                 dateOfBirth: dateOfBirth,
-                genderId: genderId, 
-                countriesOfCitizenship: countriesOfCitizenship, 
-                placeOfBirthId: placeOfBirthId, 
+                genderId: genderId,
+                countriesOfCitizenship: countriesOfCitizenship,
+                placeOfBirthId: placeOfBirthId,
                 isDateOfBirthUnknown: isDateOfBirthUnknown,
                 isDateOfBirthEstimated: isDateOfBirthEstimated,
                 isPlaceOfBirthUnknown: isPlaceOfBirthUnknown);
@@ -679,7 +680,7 @@ namespace ECA.Business.Service.Persons
                          x.PlaceOfBirthId == cityOfBirthId
                     );
         }
-        
+
         /// <summary>
         /// Gets the project by id asyncronously
         /// </summary>
@@ -711,7 +712,7 @@ namespace ECA.Business.Service.Persons
         {
             var person = new Person
             {
-                FirstName = newPerson.FirstName,
+                FirstName = (newPerson.IsSingleName) ? null : newPerson.FirstName,
                 LastName = newPerson.LastName,
                 GenderId = newPerson.Gender,
                 DateOfBirth = newPerson.DateOfBirth,
@@ -719,7 +720,8 @@ namespace ECA.Business.Service.Persons
                 CountriesOfCitizenship = countriesOfCitizenship,
                 IsDateOfBirthEstimated = newPerson.IsDateOfBirthEstimated,
                 IsDateOfBirthUnknown = newPerson.IsDateOfBirthUnknown,
-                IsPlaceOfBirthUnknown = newPerson.IsPlaceOfBirthUnknown
+                IsPlaceOfBirthUnknown = newPerson.IsPlaceOfBirthUnknown,
+                IsSingleName = newPerson.IsSingleName
             };
 
             newPerson.Audit.SetHistory(person);
@@ -829,7 +831,7 @@ namespace ECA.Business.Service.Persons
         {
             return await Context.PersonDependents.Where(x => x.DependentId == dependentId).Include(x => x.CountriesOfCitizenship).FirstOrDefaultAsync();
         }
-        
+
         /// <summary>
         /// Get the person by id 
         /// </summary>
@@ -846,7 +848,7 @@ namespace ECA.Business.Service.Persons
             var query = PersonQueries.CreateGetSimplePersonDTOsQuery(this.Context);
             return query.Where(p => p.PersonId == personId);
         }
-        
+
         private void SetDependentCountriesOfCitizenship(List<CitizenCountryDTO> countriesOfCitizenship, PersonDependent dependent)
         {
             Contract.Requires(dependent != null, "The dependent entity must not be null.");
@@ -857,7 +859,7 @@ namespace ECA.Business.Service.Persons
                 {
                     dependent.CountriesOfCitizenship.Add(new PersonDependentCitizenCountry { DependentId = dependent.DependentId, LocationId = x.LocationId, IsPrimary = x.IsPrimary });
                 });
-            }            
+            }
         }
 
         private void SetDependentEmails(List<EmailAddress> emails, PersonDependent dependent)

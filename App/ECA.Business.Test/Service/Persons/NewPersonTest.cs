@@ -16,6 +16,7 @@ namespace ECA.Business.Test.Service.Persons
         public void TestConstructor()
         {
             var user = new User(1);
+            var isSingleName = false;
             var firstName = "first";
             var lastName = "last";
             var projectId = 1;
@@ -29,16 +30,17 @@ namespace ECA.Business.Test.Service.Persons
             var countriesOfCitizenship = new List<int> { 1 };
 
             var instance = new NewPerson(
-                user, 
-                projectId, 
-                participantTypeId, 
-                firstName, 
+                user,
+                projectId,
+                participantTypeId,
+                isSingleName,
+                firstName,
                 lastName,
-                gender, 
-                dateOfBirth, 
-                isDateOfBirthUnknown, 
-                isDateOfBirthEstimated, 
-                isPlaceOfBirthUnknown, 
+                gender,
+                dateOfBirth,
+                isDateOfBirthUnknown,
+                isDateOfBirthEstimated,
+                isPlaceOfBirthUnknown,
                 cityOfBirth,
                 countriesOfCitizenship);
             Assert.IsTrue(Object.ReferenceEquals(countriesOfCitizenship, instance.CountriesOfCitizenship));
@@ -53,13 +55,14 @@ namespace ECA.Business.Test.Service.Persons
             Assert.AreEqual(isDateOfBirthEstimated, instance.IsDateOfBirthEstimated);
             Assert.AreEqual(isDateOfBirthUnknown, instance.IsDateOfBirthUnknown);
             Assert.AreEqual(isPlaceOfBirthUnknown, instance.IsPlaceOfBirthUnknown);
-            Assert.AreEqual(cityOfBirth, instance.CityOfBirth);            
+            Assert.AreEqual(cityOfBirth, instance.CityOfBirth);
         }
 
         [TestMethod]
         public void TestConstructor_CheckIsDateOfBirthUnknown()
         {
             var user = new User(1);
+            var isSingleName = false;
             var firstName = "first";
             var lastName = "last";
             var projectId = 1;
@@ -75,6 +78,7 @@ namespace ECA.Business.Test.Service.Persons
             var instance = new NewPerson(user,
                 projectId,
                 participantTypeId,
+                isSingleName,
                 firstName,
                 lastName,
                 gender,
@@ -91,6 +95,7 @@ namespace ECA.Business.Test.Service.Persons
         public void TestConstructor_CheckIsDateOfBirthEstimated()
         {
             var user = new User(1);
+            var isSingleName = false;
             var firstName = "first";
             var lastName = "last";
             var projectId = 1;
@@ -106,6 +111,7 @@ namespace ECA.Business.Test.Service.Persons
             var instance = new NewPerson(user,
                 projectId,
                 participantTypeId,
+                isSingleName,
                 firstName,
                 lastName,
                 gender,
@@ -122,6 +128,7 @@ namespace ECA.Business.Test.Service.Persons
         public void TestConstructor_CheckIsPlaceOfBirthUnknown()
         {
             var user = new User(1);
+            var isSingleName = false;
             var firstName = "first";
             var lastName = "last";
             var projectId = 1;
@@ -137,6 +144,7 @@ namespace ECA.Business.Test.Service.Persons
             var instance = new NewPerson(user,
                 projectId,
                 participantTypeId,
+                isSingleName,
                 firstName,
                 lastName,
                 gender,
@@ -148,6 +156,6 @@ namespace ECA.Business.Test.Service.Persons
                 countriesOfCitizenship);
             Assert.AreEqual(isPlaceOfBirthUnknown, instance.IsPlaceOfBirthUnknown);
         }
-        
+
     }
 }
