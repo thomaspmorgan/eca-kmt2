@@ -56,6 +56,8 @@
 	otherConstants["fundingSourceType"] = "11";
 	otherConstants["uiGridMaxCellTextLength"] = "35";
 	otherConstants["sevisStatuChangeAlertIds"] = "6,7,11";
+	otherConstants["dependentSpouseTypeId"] = "2";
+	otherConstants["dependentChildTypeId"] = "3";
 
 	otherConstants["removeNewAddressEventName"] = "removeNewAddress";
 	otherConstants["primaryAddressChangedEventName"] = "primaryAddressChanged";

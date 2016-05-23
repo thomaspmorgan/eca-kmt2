@@ -223,6 +223,8 @@ angular.module('staticApp').factory('ConstantsService', function() {
 		cancelProgramChangesEventName: 'cancelProgramEdit',
 		cancelProjectEventName: 'cancelProjectEdit',
 		containsAnyComparisonType: 'containsany',
+		dependentChildTypeId: '3',
+		dependentSpouseTypeId: '2',
 		descending: 'DESC',
 		emailRegex: '^[_a-zA-Z0-9]+(\.[_a-zA-Z0-9]+)*@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*(\.[a-zA-Z]{2,4})$',
 		emptyGuid: '00000000-0000-0000-0000-000000000000',
