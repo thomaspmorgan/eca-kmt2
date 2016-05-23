@@ -470,6 +470,11 @@ angular.module('staticApp')
                   response.data.hostInstitution.href = StateService.getOrganizationState(response.data.hostInstitution.organizationId);
                   response.data.hostInstitutionAddress = getPreferredAddress(response.data.hostInstitution, response.data.hostInstitutionAddressId);
               }
+              if (response.data.placementOrganization) {
+                  response.data.placementOrganizationId = response.data.placementOrganization.organizationId;
+                  response.data.placementOrganization.href = StateService.getOrganizationState(response.data.placementOrganization.organizationId);
+                  response.data.placementOrganizationAddress = getPreferredAddress(response.data.placementOrganization, response.data.placementOrganizationAddressId);
+              }
               $scope.view.participantPerson = response.data;
               return initializePersonInfo(response.data)
               .then(function (response) {
