@@ -17,7 +17,6 @@ angular.module('staticApp')
       $scope.cities = [];
       $scope.datePickerOpen = false;
       $scope.minDateOfBirth = new Date();
-      $scope.maxDateOfBirth = new Date();
       
       $scope.isDependentLoading = true;
       $scope.isSavingDependent = false;
@@ -111,9 +110,9 @@ angular.module('staticApp')
 
       $scope.setMaxBirthDate = function (id) {
           var minDate = new moment();
-          if (id.toString() === ConstantsService.dependentChildTypeId) {
+          if (id.toString() === ConstantsService.DependentType.child.id) {
               minDate.subtract(21, 'y');
-          } else if (id.toString() === ConstantsService.dependentSpouseTypeId) {
+          } else if (id.toString() === ConstantsService.DependentType.spouse.id) {
               minDate.subtract(100, 'y');
           }
           $scope.minDateOfBirth = minDate;
