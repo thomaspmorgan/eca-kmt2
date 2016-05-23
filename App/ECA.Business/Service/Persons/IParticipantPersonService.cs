@@ -47,18 +47,11 @@ namespace ECA.Business.Service.Persons
         System.Threading.Tasks.Task<ECA.Business.Queries.Models.Persons.SimpleParticipantPersonDTO> GetParticipantPersonByIdAsync(int projectId, int participantId);
 
         /// <summary>
-        /// Returns the participantPerson by id
+        /// Returns if the person is locked
         /// </summary>
-        /// <param name="personId">The person id to lookup</param>
-        /// <returns>The participantPerson</returns>
-        SimpleParticipantPersonDTO GetParticipantPersonById(int personId);
-
-        /// <summary>
-        /// Returns a participantPerson asyncronously
-        /// </summary>
-        /// <param name="personId">The person id to lookup</param>
-        /// <returns>The participantPerson</returns>
-        Task<SimpleParticipantPersonDTO> GetParticipantPersonByIdAsync(int personId);
+        /// <param name="personId">The person id</param>
+        /// <returns>If the person is locked</returns>
+        Task<bool> GetIsParticipantPersonLockedAsync(int personId);
 
         /// <summary>
         /// Updates a participant person with given updated participant information.
@@ -120,6 +113,11 @@ namespace ECA.Business.Service.Persons
         public Task<SimpleParticipantPersonDTO> GetParticipantPersonByIdAsync(int personId)
         {
             return null;
+        }
+
+        public Task<bool> GetIsParticipantPersonLockedAsync(int personId)
+        {
+            return Task.FromResult<bool>(false);
         }
 
         /// <summary>

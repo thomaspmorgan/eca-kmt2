@@ -1,9 +1,7 @@
 ﻿<div class="row" ng-show="!editMode">
     <div class="col-md-12">
         <div class="pull-right">
-            <a ng-click="editMode = !editMode">
-                <i class="material-icons md-dark md-24 pull-right">edit</i>
-            </a>
+            <sevis-edit ng-disabled="editLocked" ng-click="editPii()"></sevis-edit>
         </div>
     </div>
 </div>

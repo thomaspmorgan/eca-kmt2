@@ -83,23 +83,16 @@ namespace ECA.WebApi.Controllers.Persons
         }
 
         /// <summary>
-        /// Retrieves the participantPerson with the given id
+        /// Retrieves if the person is locked
         /// </summary>
-        /// <param name="personId">The id of the person</param>
-        /// <returns>The participantPerson with the given id</returns>
-        [ResponseType(typeof(SimpleParticipantPersonDTO))]
-        [Route("Project/ParticipantPersons/{personId:int}")]
-        public async Task<IHttpActionResult> GetParticipantPersonByIdAsync(int personId)
+        /// <param name="personId">The person id</param>
+        /// <returns>If the person is locked</returns>
+        [ResponseType(typeof(bool))]
+        [Route("ParticipantPersons/{personId:int}/IsParticipantPersonLocked")]
+        public async Task<IHttpActionResult> GetIsParticipantPersonLockedAsync(int personId)
         {
-            var participantPerson = await this.service.GetParticipantPersonByIdAsync(personId);
-            if (participantPerson != null)
-            {
-                return Ok(participantPerson);
-            }
-            else
-            {
-                return NotFound();
-            }
+            var isParticipantPersonLocked = await service.GetIsParticipantPersonLockedAsync(personId);
+            return Ok(isParticipantPersonLocked);
         }
 
         /// <summary>

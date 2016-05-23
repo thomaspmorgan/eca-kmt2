@@ -75,28 +75,5 @@ namespace ECA.Business.Queries.Persons
                 .Where(p => p.ParticipantId == participantId);
             return query;
         }
-
-        /// <summary>
-        /// Returns the participantPerson by participant id 
-        /// </summary>
-        /// <param name="context">The context to query</param>
-        /// <param name="participantId">The participant id to lookup</param>
-        /// <returns>The participantPerson</returns>
-        public static IQueryable<SimpleParticipantPersonDTO> CreateGetParticipantPersonDTOByIdQuery(EcaContext context, int personId)
-        {
-            Contract.Requires(context != null, "The context must not be null.");
-            var query = (from p in context.ParticipantPersons
-                         where p.Participant.PersonId == personId
-                         select new SimpleParticipantPersonDTO
-                         {
-                             ParticipantId = p.ParticipantId,
-                             SevisId = p.SevisId,
-                             ProjectId = p.Participant.ProjectId,
-                             SevisStatus = p.ParticipantPersonSevisCommStatuses.Count == 0 ? "None" : p.ParticipantPersonSevisCommStatuses.OrderByDescending(s => s.AddedOn).FirstOrDefault().SevisCommStatus.SevisCommStatusName,
-                             SevisStatusId = p.ParticipantPersonSevisCommStatuses.Count == 0 ? 0 : p.ParticipantPersonSevisCommStatuses.OrderByDescending(s => s.AddedOn).FirstOrDefault().SevisCommStatus.SevisCommStatusId
-                         });
-
-            return query;
-        }
     }
 }

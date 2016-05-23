@@ -64,6 +64,15 @@ namespace ECA.WebApi.Test.Controllers.Persons
             Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
         }
 
+        [TestMethod]
+        public async Task TestGetIsParticipantPersonLockedAsync()
+        {
+            service.Setup(x => x.GetIsParticipantPersonLockedAsync(It.IsAny<int>()))
+                .ReturnsAsync(false);
+            var response = await controller.GetIsParticipantPersonLockedAsync(1);
+            Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<bool>));
+        }
+
         #endregion
 
         #region Update
