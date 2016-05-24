@@ -310,6 +310,7 @@ angular.module('staticApp')
           placementOrganizationFilter.reset();
           placementOrganizationFilter = placementOrganizationFilter
                   .skip(0)
+                  .take(10);
 
           if (search && search.length > 0) {
               placementOrganizationFilter = placementOrganizationFilter.like('name', search);
