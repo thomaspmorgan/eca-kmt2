@@ -143,7 +143,7 @@ angular.module('staticApp')
       }
 
       $scope.onIsSingleNameChange = function () {
-          if ($scope.formLastName == "SURNAME / PRIMARY NAME") {
+          if ($scope.formLastName === "SURNAME / PRIMARY NAME") {
               $scope.formLastName = "NAME";
               $scope.newPerson.firstName = null;
               $scope.newPerson.isSingleName = true;
