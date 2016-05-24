@@ -172,6 +172,27 @@
                     }
                 });
 
+                $scope.$watch(function () {
+                    return $scope.exchangevisitorinfo;
+                }, function (newValue, oldValue) {
+                    if (newValue && newValue != oldValue) {
+                        if (!$scope.edit.fieldOfStudies) {
+                            $scope.edit.fieldOfStudies = [];
+                        }
+
+                        if (newValue.fieldOfStudyId) {
+                            var ids = $scope.edit.fieldOfStudies.map(function (fos) { return fos.id; });
+                            var idIndex = ids.indexOf(newValue.fieldOfStudyId);
+                            if (idIndex == -1) {
+                                $scope.edit.fieldOfStudies.push({
+                                    description: newValue.fieldOfStudy,
+                                    id: newValue.fieldOfStudyId
+                                });
+                            }
+                        }
+                    }
+                });
+
                 $scope.$on("$destroy", function (event) {
                     if (angular.isDefined($scope.pageTimeout)) {
                         $timeout.cancel($scope.pageTimeout);
