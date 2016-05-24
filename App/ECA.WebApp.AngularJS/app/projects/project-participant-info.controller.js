@@ -310,13 +310,13 @@ angular.module('staticApp')
           placementOrganizationFilter.reset();
           placementOrganizationFilter = placementOrganizationFilter
                   .skip(0)
+                  .take(10);
 
           if (search && search.length > 0) {
               placementOrganizationFilter = placementOrganizationFilter.like('name', search);
               return loadOrganizations(placementOrganizationFilter)
               .then(function (data) {
                   $scope.view.placementOrganizations = data.results;
-                  console.log('Placement Organizations', data.resuls);
                   return $scope.view.placementOrganizations;
               });
           }
@@ -479,7 +479,6 @@ angular.module('staticApp')
               return initializePersonInfo(response.data)
               .then(function (response) {
                   $scope.view.isLoadingInfo = false;
-                  console.log('Person', $scope.view.participantPerson);
                   return $scope.view.participantPerson;
               });
           })
