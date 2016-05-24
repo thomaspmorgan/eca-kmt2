@@ -60,15 +60,14 @@ angular.module('staticApp')
           }
       };
 
-      $scope.setMaxBirthDate = function (dependentType) {
-          if (dependentType === 3) {
-              // child
-              var today = new Date();
-              $scope.maxDateOfBirth = today.setFullYear(today.getFullYear() - 21);
-          } else {
-              // spouse
-              $scope.maxDateOfBirth = new Date();
+      $scope.setMinBirthDate = function (dependentTypeId) {
+          var minDate = new moment();
+          if (dependentTypeId === ConstantsService.dependentType.child.id) {
+              minDate.subtract(ConstantsService.childDependentMaxAge, 'y'); // child
+          } else if (dependentTypeId === ConstantsService.dependentType.spouse.id) {
+              minDate.subtract(100, 'y'); // spouse
           }
+          $scope.minDateOfBirth = minDate;
       }
 
       $scope.isDependentPlaceOfBirthValid = function ($value) {
@@ -100,17 +99,7 @@ angular.module('staticApp')
               $scope.dependent.birthCountryReasonId = null;
           }
       }
-
-      $scope.setMaxBirthDate = function (id) {
-          var minDate = new moment();
-          if (id.toString() === ConstantsService.dependentChildTypeId) {
-              minDate.subtract(21, 'y');
-          } else if (id.toString() === ConstantsService.dependentSpouseTypeId) {
-              minDate.subtract(100, 'y');
-          }
-          $scope.minDateOfBirth = minDate;
-      };
-
+      
       function loadDependentCities(search) {
           if (search) {
               var params = {
