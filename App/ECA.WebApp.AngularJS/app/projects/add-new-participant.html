@@ -26,6 +26,10 @@
                                 </ui-select-choices>
                             </ui-select>
                         </div>
+                        <label >
+                            <input type="checkbox" ng-model="newPerson.isSingleName" ng-change="onIsSingleNameChange()" ng-disabled="newPerson.selectedDuplicate" tooltip="Checkbox to indicate you only have one name." tooltip-placement="bottom" />
+                            Single Name
+                        </label>
                         <div class="col-md-6">
                             <div class="form-group" ng-hide="newPerson.isSingleName">
                                 <label for="">FIRST / GIVEN NAME<span class="asterisk"> *</span></label>
@@ -72,12 +76,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
 
-                                <label>{{formLastName}}<span class="asterisk">*
-                                        <label style="margin-top:-19px; padding-left:180px;" tooltip="Checkbox to indicate you only have one name." tooltip-placement="bottom">
-                                            <input type="checkbox" ng-model="newPerson.isSingleName" ng-change="onIsSingleNameChange()" ng-disabled="newPerson.selectedDuplicate"/>
-                                            Single Name
-                                        </label>
-                                    </span>
+                                <label>{{formLastName}}<span class="asterisk">*</span>
                                 </label>
 
 
