@@ -149,6 +149,16 @@ namespace ECA.Data
         public History History { get; set; }
 
         /// <summary>
+        /// Gets or sets the placement organization id
+        /// </summary>
+        public int? PlacementOrganizationId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the placement organization address id
+        /// </summary>
+        public int? PlacementOrganizationAddressId { get; set; }
+
+        /// <summary>
         /// Returns the DS2019 file name for the participant id and sevis id.
         /// </summary>
         /// <returns></returns>

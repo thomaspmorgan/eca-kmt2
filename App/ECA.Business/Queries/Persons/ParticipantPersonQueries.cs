@@ -37,7 +37,9 @@ namespace ECA.Business.Queries.Persons
                              HomeInstitution = organizationQuery.Where(x => x.OrganizationId == p.HomeInstitutionId).FirstOrDefault(),
                              HostInstitution = organizationQuery.Where(x => x.OrganizationId == p.HostInstitutionId).FirstOrDefault(),
                              SevisStatus = p.ParticipantPersonSevisCommStatuses.Count == 0 ? "None" : p.ParticipantPersonSevisCommStatuses.OrderByDescending(s => s.AddedOn).FirstOrDefault().SevisCommStatus.SevisCommStatusName,
-                             SevisStatusId = p.ParticipantPersonSevisCommStatuses.Count == 0 ? 0 : p.ParticipantPersonSevisCommStatuses.OrderByDescending(s => s.AddedOn).FirstOrDefault().SevisCommStatus.SevisCommStatusId
+                             SevisStatusId = p.ParticipantPersonSevisCommStatuses.Count == 0 ? 0 : p.ParticipantPersonSevisCommStatuses.OrderByDescending(s => s.AddedOn).FirstOrDefault().SevisCommStatus.SevisCommStatusId,
+                             PlacementOrganization = organizationQuery.Where(x => x.OrganizationId == p.PlacementOrganizationId).FirstOrDefault(),
+                             PlacementOrganizationAddressId = p.PlacementOrganizationAddressId
                          });
             return query;
         }

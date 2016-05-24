@@ -46,10 +46,10 @@ INSERT INTO [dbo].[Project]
            ,1
            ,NULL
            ,2
-           ,NULL
-           ,NULL
-           ,NULL
-           ,NULL)
+           ,0
+           ,0
+           ,0
+           ,0)
 
 
 GO

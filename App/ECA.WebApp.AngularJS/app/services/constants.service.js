@@ -222,6 +222,7 @@ angular.module('staticApp').factory('ConstantsService', function() {
 		ascending: 'ASC',
 		cancelProgramChangesEventName: 'cancelProgramEdit',
 		cancelProjectEventName: 'cancelProjectEdit',
+		childDependentMaxAge: '21',
 		containsAnyComparisonType: 'containsany',
 		descending: 'DESC',
 		emailRegex: '^[_a-zA-Z0-9]+(\.[_a-zA-Z0-9]+)*@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*(\.[a-zA-Z]{2,4})$',
