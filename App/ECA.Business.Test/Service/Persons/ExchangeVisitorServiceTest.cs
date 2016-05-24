@@ -274,6 +274,114 @@ namespace ECA.Business.Test.Service.Persons
         }
 
         [TestMethod]
+        public async Task TestGetExchangeVisitor_CheckIsValidated_ValidatedViaRti()
+        {
+            var projectId = 1805;
+            var participantId = 100;
+            var personId = 11;
+            var person = new Data.Person
+            {
+                PersonId = personId
+            };
+            var project = new Project
+            {
+                ProjectId = projectId,
+                VisitorTypeId = VisitorType.ExchangeVisitor.Id,
+                SevisOrgId = "abcde1234567890",
+            };
+            var programCategory = new ProgramCategory
+            {
+                ProgramCategoryCode = "program category code",
+                ProgramCategoryId = 234
+            };
+            var participant = new Participant
+            {
+                ParticipantId = participantId,
+                Project = project,
+                ProjectId = project.ProjectId,
+                Person = person,
+                PersonId = person.PersonId
+            };
+            project.Participants.Add(participant);
+            var participantExchangeVisitor = new ParticipantExchangeVisitor
+            {
+                ParticipantId = participantId,
+                Participant = participant,
+                ProgramCategoryId = programCategory.ProgramCategoryId,
+                ProgramCategory = programCategory
+            };
+            participant.ParticipantExchangeVisitor = participantExchangeVisitor;
+            var participantPerson = new ParticipantPerson
+            {
+                Participant = participant,
+                ParticipantId = participant.ParticipantId,
+                StartDate = DateTime.UtcNow.AddDays(-1.0),
+                EndDate = DateTime.UtcNow.AddDays(1.0),
+                SevisId = "sevis Id",
+            };
+            var commStatus = new ParticipantPersonSevisCommStatus
+            {
+                ParticipantId = participantId,
+                SevisCommStatusId = SevisCommStatus.ValidatedViaRti.Id
+            };
+            context.Participants.Add(participant);
+            context.Projects.Add(project);
+            context.ParticipantExchangeVisitors.Add(participantExchangeVisitor);
+            context.ParticipantPersons.Add(participantPerson);
+            context.People.Add(person);
+            context.ProgramCategories.Add(programCategory);
+            context.ParticipantPersonSevisCommStatuses.Add(commStatus);
+            using (ShimsContext.Create())
+            {
+                var biographicalDTO = new BiographicalDTO
+                {
+
+                };
+                var dependentBiographicalDTO = new DependentBiographicalDTO
+                {
+
+                };
+                var subjectFieldDTO = new SubjectFieldDTO
+                {
+
+                };
+
+                ECA.Business.Queries.Persons.Fakes.ShimExchangeVisitorQueries.CreateGetBiographicalDataByParticipantIdQueryEcaContextInt32 = (ctx, pId) =>
+                {
+                    return new List<BiographicalDTO> { biographicalDTO }.AsQueryable();
+                };
+                ECA.Business.Queries.Persons.Fakes.ShimExchangeVisitorQueries.CreateGetParticipantDependentsBiographicalQueryEcaContextInt32 = (ctx, pId) =>
+                {
+                    return new List<DependentBiographicalDTO> { dependentBiographicalDTO }.AsQueryable();
+                };
+                ECA.Business.Queries.Persons.Fakes.ShimExchangeVisitorQueries.CreateGetSubjectFieldByParticipantIdQueryEcaContextInt32 = (ctx, pId) =>
+                {
+                    return new List<SubjectFieldDTO> { subjectFieldDTO }.AsQueryable();
+                };
+                System.Data.Entity.Fakes.ShimQueryableExtensions.ToListAsyncOf1IQueryableOfM0<DependentBiographicalDTO>((src) =>
+                {
+                    return Task<List<DependentBiographicalDTO>>.FromResult(src.ToList());
+                });
+                System.Data.Entity.Fakes.ShimQueryableExtensions.FirstOrDefaultAsyncOf1IQueryableOfM0<BiographicalDTO>((src) =>
+                {
+                    return Task<List<BiographicalDTO>>.FromResult(src.FirstOrDefault());
+                });
+                System.Data.Entity.Fakes.ShimQueryableExtensions.FirstOrDefaultAsyncOf1IQueryableOfM0<SubjectFieldDTO>((src) =>
+                {
+                    return Task<List<SubjectFieldDTO>>.FromResult(src.FirstOrDefault());
+                });
+                Action<ExchangeVisitor> tester = (exchangeVisitor) =>
+                {
+                    Assert.IsTrue(exchangeVisitor.IsValidated);
+                };
+                var result = service.GetExchangeVisitor(projectId, participantId);
+                var resultAsync = await service.GetExchangeVisitorAsync(projectId, participantId);
+                tester(result);
+                tester(resultAsync);
+            }
+        }
+
+        [TestMethod]
         public async Task TestGetExchangeVisitor_ProjectIsNotAnExchangeVisitorProject()
         {
             var projectId = 10;

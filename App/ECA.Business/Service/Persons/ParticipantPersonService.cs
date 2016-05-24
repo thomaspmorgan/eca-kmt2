@@ -146,27 +146,25 @@ namespace ECA.Business.Service.Persons
         }
 
         /// <summary>
-        /// Returns a participantPerson
+        /// Gets if the person is locked
         /// </summary>
-        /// <param name="participantId">The participantId to lookup</param>
-        /// <returns>The participantPerson</returns>
-        public SimpleParticipantPersonDTO GetParticipantPersonById(int personId)
+        /// <param name="personId">The person id</param>
+        /// <returns>If the person </returns>
+        public async Task<bool> GetIsParticipantPersonLockedAsync(int personId)
         {
-            var participant = ParticipantPersonQueries.CreateGetParticipantPersonDTOByIdQuery(this.Context, personId).FirstOrDefault();
-            this.logger.Trace("Retrieved participantPerson by id [{0}].", personId);
-            return participant;
-        }
+            var person = await PersonQueries.CreateGetSimplePersonDTOByIdQuery(this.Context, personId).FirstOrDefaultAsync();
+            var isParticipantPersonLocked = false;
+            if (person != null && person.ProjectId.HasValue && person.ParticipantId.HasValue)
+            {
+                var participant = await GetParticipantPersonByIdAsync(person.ProjectId.Value, person.ParticipantId.Value);
+                if (participant != null && participant.SevisStatusId.HasValue && 
+                    Participant.LOCKED_SEVIS_COMM_STATUSES.Contains(participant.SevisStatusId.Value))
+                {
+                    isParticipantPersonLocked = true;
+                }
 
-        /// <summary>
-        /// Returns a participantPerson asyncronously
-        /// </summary>
-        /// <param name="participantId">The participantId to lookup</param>
-        /// <returns>The participantPerson</returns>
-        public Task<SimpleParticipantPersonDTO> GetParticipantPersonByIdAsync(int personId)
-        {
-            var participant = ParticipantPersonQueries.CreateGetParticipantPersonDTOByIdQuery(this.Context, personId).FirstOrDefaultAsync();
-            this.logger.Trace("Retrieved participantPerson by id [{0}].", personId);
-            return participant;
+            }
+            return isParticipantPersonLocked;
         }
 
         #endregion
@@ -204,8 +202,11 @@ namespace ECA.Business.Service.Persons
 
             Organization host = null;
             Organization home = null;
+            Organization placement = null;
             Address hostAddress = null;
             Address homeAddress = null;
+            Address placementAddress = null;
+
             ParticipantStatus participantStatus = null;
             
             if (updatedPerson.HomeInstitutionId.HasValue)
@@ -228,6 +229,17 @@ namespace ECA.Business.Service.Persons
                 {
                     hostAddress = CreateGetAddressByIdQuery(updatedPerson.HostInstitutionAddressId.Value, host.OrganizationId).FirstOrDefault();
                     throwIfModelDoesNotExist(updatedPerson.HostInstitutionAddressId.Value, hostAddress, typeof(Address));
+                }
+            }
+            if (updatedPerson.PlacementOrganizationId.HasValue)
+            {
+                host = CreateGetInstitutionByIdQuery(updatedPerson.PlacementOrganizationId.Value).FirstOrDefault();
+                throwIfModelDoesNotExist(updatedPerson.PlacementOrganizationId.Value, host, typeof(Organization));
+
+                if (updatedPerson.PlacementOrganizationAddressId.HasValue)
+                {
+                    placementAddress = CreateGetAddressByIdQuery(updatedPerson.PlacementOrganizationAddressId.Value, host.OrganizationId).FirstOrDefault();
+                    throwIfModelDoesNotExist(updatedPerson.PlacementOrganizationAddressId.Value, placementAddress, typeof(Address));
                 }
             }
             ParticipantType participantType = Context.ParticipantTypes.Find(updatedPerson.ParticipantTypeId);
@@ -273,8 +285,10 @@ namespace ECA.Business.Service.Persons
 
             Organization host = null;
             Organization home = null;
+            Organization placement = null;
             Address hostAddress = null;
             Address homeAddress = null;
+            Address placementAddress = null;
             ParticipantStatus participantStatus = null;
 
             if (updatedPerson.HomeInstitutionId.HasValue)
@@ -299,6 +313,18 @@ namespace ECA.Business.Service.Persons
                     throwIfModelDoesNotExist(updatedPerson.HostInstitutionAddressId.Value, hostAddress, typeof(Address));
                 }
             }
+            if (updatedPerson.PlacementOrganizationId.HasValue)
+            {
+                host = CreateGetInstitutionByIdQuery(updatedPerson.PlacementOrganizationId.Value).FirstOrDefault();
+                throwIfModelDoesNotExist(updatedPerson.PlacementOrganizationId.Value, host, typeof(Organization));
+
+                if (updatedPerson.PlacementOrganizationAddressId.HasValue)
+                {
+                    placementAddress = CreateGetAddressByIdQuery(updatedPerson.PlacementOrganizationAddressId.Value, host.OrganizationId).FirstOrDefault();
+                    throwIfModelDoesNotExist(updatedPerson.PlacementOrganizationAddressId.Value, placementAddress, typeof(Address));
+                }
+            }
+
             ParticipantType participantType = await Context.ParticipantTypes.FindAsync(updatedPerson.ParticipantTypeId);
             throwIfModelDoesNotExist(updatedPerson.ParticipantTypeId, participantType, typeof(ParticipantType));
 

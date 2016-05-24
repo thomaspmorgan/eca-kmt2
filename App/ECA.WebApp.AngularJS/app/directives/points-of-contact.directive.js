@@ -12,7 +12,6 @@ angular.module('staticApp')
           templateUrl: 'app/directives/points-of-contact.directive.html',
           scope: {
               model: '=model',
-              modelId: '=projectid',
               editMode: '=editmode'
           }
       };

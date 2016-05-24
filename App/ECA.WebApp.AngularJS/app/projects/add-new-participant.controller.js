@@ -18,7 +18,10 @@ angular.module('staticApp')
       $scope.newPerson.selectedDuplicate = undefined;
       $scope.newPerson.isDateOfBirthUnknown = false;
       $scope.newPerson.isPlaceOfBirthUnknown = false;
+      $scope.newPerson.isSingleName = false;
 
+
+      $scope.formLastName = "SURNAME / PRIMARY NAME";
       $scope.unknownCountry = 'Unknown';
 
       // Initialize model for organization tab
@@ -86,6 +89,8 @@ angular.module('staticApp')
           }
       });
 
+
+
       $scope.searchCountries = function (search) {
           loadCountries(search);
       }
@@ -137,6 +142,19 @@ angular.module('staticApp')
           $scope.newPerson.isDateOfBirthEstimated = null;
       }
 
+      $scope.onIsSingleNameChange = function () {
+          if ($scope.formLastName === "SURNAME / PRIMARY NAME") {
+              $scope.formLastName = "NAME";
+              $scope.newPerson.firstName = null;
+              $scope.newPerson.isSingleName = true;
+          }
+          else {
+              $scope.formLastName = "SURNAME / PRIMARY NAME";
+              $scope.newPerson.isSingleName = false;
+          }
+
+      }
+
       function resetDuplicates() {
           $scope.personDuplicates = [];
           $scope.organizationDuplicates = [];
@@ -172,9 +190,11 @@ angular.module('staticApp')
       function getPersonDuplicateParams() {
           var params = {
               limit: 300,
-              filter: [{ property: 'firstName', comparison: 'eq', value: $scope.newPerson.firstName },
-                       { property: 'lastName', comparison: 'eq', value: $scope.newPerson.lastName }]
+              filter: [{ property: 'lastName', comparison: 'eq', value: $scope.newPerson.lastName }]
           };
+          if (!$scope.newPerson.isSingleName) {
+              params.filter.push({ property: 'firstName', comparison: 'eq', value: $scope.newPerson.firstName });
+          }
           if ($scope.newPerson.dateOfBirth) {
               params.filter.push({ property: 'dateOfBirth', comparison: 'eq', value: $scope.newPerson.dateOfBirth });
           }

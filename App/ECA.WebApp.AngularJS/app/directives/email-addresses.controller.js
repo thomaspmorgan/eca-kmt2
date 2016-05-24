@@ -38,6 +38,7 @@ angular.module('staticApp')
               emailAddressType: ConstantsService.emailAddressType.home.value,
               emailAddressTypeId: ConstantsService.emailAddressType.home.id,
               isNew: true,
+              showEditEmail: true,
               isPrimary: false,
               address: ""
           };

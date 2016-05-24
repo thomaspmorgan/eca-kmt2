@@ -7,8 +7,16 @@
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('ViewDependentModalCtrl', function ($scope, $modalInstance, DependentService, DateTimeService,
-                                                    ConstantsService, $stateParams, $q, dependent) {
+  .controller('ViewDependentModalCtrl', function (
+      $scope,
+      $modalInstance,
+      DependentService,
+      DateTimeService,
+      DownloadService,
+      ConstantsService,
+      $stateParams,
+      $q,
+      dependent) {
       
       $scope.dependent = loadDependent(dependent.id);
       $scope.dependentLoading = true;
@@ -33,6 +41,16 @@ angular.module('staticApp')
                     }
                 }
             };
+      }
+
+      $scope.downloadDS2019 = function () {
+          var url = 'People/Dependent/' + dependent.id + '/DS2019File';
+          DownloadService.get(url, 'application/pdf')
+          .then(function () {
+
+          }, function () {
+              NotificationService.showErrorMessage('Unable to download file.');
+          });
       }
 
       $scope.onCloseViewDependentClick = function () {

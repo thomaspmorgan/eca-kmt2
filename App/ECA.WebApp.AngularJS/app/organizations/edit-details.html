@@ -27,7 +27,7 @@
                           maxlength="3000"
                           id="description"
                           class="form-control"
-                          style="min-height:165px;"
+                          rows="7"
                           placeholder="Enter organization description..."
                           required />
                 <div ng-show="form.organizationForm.description.$dirty">
@@ -80,6 +80,7 @@
                                close-on-select="true"
                                ng-model="view.selectedPointsOfContact"
                                theme="select2"
+                               append-to-body="true"
                                on-select="view.updateCollections()"
                                on-remove="view.updateCollections()"
                                append-to-body="true"

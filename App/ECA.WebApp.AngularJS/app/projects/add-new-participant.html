@@ -26,10 +26,14 @@
                                 </ui-select-choices>
                             </ui-select>
                         </div>
+                        <label >
+                            <input type="checkbox" ng-model="newPerson.isSingleName" ng-change="onIsSingleNameChange()" ng-disabled="newPerson.selectedDuplicate" tooltip="Checkbox to indicate you only have one name." tooltip-placement="bottom" />
+                            Single Name
+                        </label>
                         <div class="col-md-6">
-                            <div class="form-group">
+                            <div class="form-group" ng-hide="newPerson.isSingleName">
                                 <label for="">FIRST / GIVEN NAME<span class="asterisk"> *</span></label>
-                                <input ng-model="newPerson.firstName" form-element guidance="First or given name of the participant." type="text" tabindex="2" class="form-control" required ng-disabled="newPerson.selectedDuplicate" ng-change="resetPersonDuplicates()">
+                                <input ng-model="newPerson.firstName" form-element guidance="First or given name of the participant." type="text" tabindex="2" class="form-control" ng-required="!newPerson.isSingleName" ng-disabled="newPerson.selectedDuplicate" ng-change="resetPersonDuplicates()">
                             </div>
                             <div class="form-group">
                                 <label for="">GENDER<span class="asterisk"> *</span></label>
@@ -50,10 +54,10 @@
                                 </div>
                                 <ui-select ng-model="newPerson.cityOfBirth"
                                            name="cityOfBirth"
-                                           theme="select2" 
+                                           theme="select2"
                                            tabindex="6"
                                            ng-disabled="newPerson.isPlaceOfBirthUnknown"
-                                           ng-required="!newPerson.isPlaceOfBirthUnknown"                                           
+                                           ng-required="!newPerson.isPlaceOfBirthUnknown"
                                            on-select="resetPersonDuplicates()">
                                     <ui-select-match placeholder="Select a city of birth...">
                                         {{$select.selected.name}}{{$select.selected.division ? ', ' + $select.selected.division : ''}}{{$select.selected.country ? ' ' + $select.selected.country : ''}}
@@ -66,12 +70,16 @@
                                 </ui-select>
                                 <div ng-show="participantForm.$dirty" class="error">
                                     <div ng-show="participantForm.cityOfBirth.$error.required">Please select a city of birth, or select unknown.</div>
-                                </div>            
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="">SURNAME / PRIMARY NAME<span class="asterisk"> *</span></label>
+
+                                <label>{{formLastName}}<span class="asterisk">*</span>
+                                </label>
+
+
                                 <input ng-model="newPerson.lastName" form-element guidance="Surname or primary name of the participant." tabindex="3" type="text" class="form-control" required ng-disabled="newPerson.selectedDuplicate" ng-change="resetPersonDuplicates()">
                             </div>
                             <div class="form-group">
@@ -116,11 +124,11 @@
                                            ng-change="resetPersonDuplicates()" />
                                     <span class="input-group-btn">
                                         <button class="btn btn-default" ng-click="openDobDatePicker($event)" ng-hide="newPerson.selectedDuplicate || newPerson.isDateOfBirthUnknown" ng-disabled="newPerson.selectedDuplicate || newPerson.isDateOfBirthUnknown"><i class="material-icons md-18">event</i></button>
-                                    </span>                                    
+                                    </span>
                                 </div>
                                 <div class="input-group">
                                     <label>
-                                        <input type="checkbox" ng-model="newPerson.isDateOfBirthEstimated" ng-disabled="newPerson.selectedDuplicate || newPerson.isDateOfBirthUnknown"/>
+                                        <input type="checkbox" ng-model="newPerson.isDateOfBirthEstimated" ng-disabled="newPerson.selectedDuplicate || newPerson.isDateOfBirthUnknown" />
                                         Estimated
                                     </label>
                                 </div>

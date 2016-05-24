@@ -68,6 +68,7 @@ namespace ECA.Business.Test.Service.Persons
                 Contact = contact,
                 ContactId = contact.ContactId,
                 Number = "555-5555",
+                Extension = "123",
                 PhoneNumberId = 3,
                 PhoneNumberType = phoneNumberType,
                 PhoneNumberTypeId = phoneNumberType.PhoneNumberTypeId
@@ -99,6 +100,7 @@ namespace ECA.Business.Test.Service.Persons
                 Assert.AreEqual(phoneNumberType.PhoneNumberTypeName, firstPhoneNumber.PhoneNumberType);
                 Assert.AreEqual(phoneNumber.PhoneNumberId, firstPhoneNumber.Id);
                 Assert.AreEqual(phoneNumber.Number, firstPhoneNumber.Number);
+                Assert.AreEqual(phoneNumber.Extension, firstPhoneNumber.Extension);
                 Assert.AreEqual(contact.ContactId, firstPhoneNumber.ContactId);
                 Assert.IsNull(firstPhoneNumber.PersonId);
             };
@@ -118,8 +120,8 @@ namespace ECA.Business.Test.Service.Persons
                 Assert.IsNull(serviceResult);
             };
 
-            var serviceResults = service.GetContactDTOById(1);
-            var serviceResultsAsync = await service.GetContactDTOByIdAsync(1);
+            var serviceResults = service.GetContactById(1);
+            var serviceResultsAsync = await service.GetContactByIdAsync(1);
             tester(serviceResults);
             tester(serviceResultsAsync);
         }
@@ -158,6 +160,7 @@ namespace ECA.Business.Test.Service.Persons
                 Contact = contact,
                 ContactId = contact.ContactId,
                 Number = "555-5555",
+                Extension = "123",
                 PhoneNumberId = 3,
                 PhoneNumberType = phoneNumberType,
                 PhoneNumberTypeId = phoneNumberType.PhoneNumberTypeId,
@@ -194,6 +197,7 @@ namespace ECA.Business.Test.Service.Persons
                 Assert.AreEqual(phoneNumberType.PhoneNumberTypeName, firstPhoneNumber.PhoneNumberType);
                 Assert.AreEqual(phoneNumber.PhoneNumberId, firstPhoneNumber.Id);
                 Assert.AreEqual(phoneNumber.Number, firstPhoneNumber.Number);
+                Assert.AreEqual(phoneNumber.Extension, firstPhoneNumber.Extension);
                 Assert.AreEqual(contact.ContactId, firstPhoneNumber.ContactId);
                 Assert.IsNull(firstPhoneNumber.PersonId);
                 Assert.IsTrue(firstPhoneNumber.IsPrimary.Value);
@@ -337,7 +341,9 @@ namespace ECA.Business.Test.Service.Persons
             var userId = 1;
             var user = new User(userId);
             var phoneNumber1 = "555-555-1212";
+            var phoneNumber1ext = "123";
             var phoneNumber2 = "123-456-7890";
+            var phoneNumber2ext = "123";
             var email1 = "someone@isp.com";
             var email2 = "me@gmail.com";
             var fullName = "Full Name";
@@ -348,8 +354,8 @@ namespace ECA.Business.Test.Service.Persons
             var newEmail1 = new NewEmailAddress(user, EmailAddressType.Business.Id, email1, isPrimaryEmail);
             var newEmail2 = new NewEmailAddress(user, EmailAddressType.Home.Id, email2, false);
 
-            var newPhone1 = new NewPhoneNumber(user, PhoneNumberType.Cell.Id, phoneNumber1, isPrimaryPhone);
-            var newPhone2 = new NewPhoneNumber(user, PhoneNumberType.Home.Id, phoneNumber2, false);
+            var newPhone1 = new NewPhoneNumber(user, PhoneNumberType.Cell.Id, phoneNumber1, phoneNumber1ext, isPrimaryPhone);
+            var newPhone2 = new NewPhoneNumber(user, PhoneNumberType.Home.Id, phoneNumber2, phoneNumber2ext, false);
 
             var additionalPointOfContact = new AdditionalPointOfContact(user, fullName, position, new List<NewEmailAddress> { newEmail1, newEmail2 }, new List<NewPhoneNumber> { newPhone1, newPhone2 });
 
@@ -409,9 +415,11 @@ namespace ECA.Business.Test.Service.Persons
                 Assert.IsTrue(context.PhoneNumbers.Contains(secondPhone));
                 Assert.AreEqual(newPhone1.PhoneNumberTypeId, firstPhone.PhoneNumberTypeId);
                 Assert.AreEqual(newPhone1.Number, firstPhone.Number);
+                Assert.AreEqual(newPhone1.Extension, firstPhone.Extension);
                 Assert.IsTrue(firstPhone.IsPrimary.Value);
                 Assert.AreEqual(newPhone2.PhoneNumberTypeId, secondPhone.PhoneNumberTypeId);
                 Assert.AreEqual(newPhone2.Number, secondPhone.Number);
+                Assert.AreEqual(newPhone2.Extension, secondPhone.Extension);
                 Assert.IsFalse(secondPhone.IsPrimary.Value);
 
                 Assert.AreEqual(userId, firstPhone.History.CreatedBy);
@@ -713,11 +721,12 @@ namespace ECA.Business.Test.Service.Persons
             var userId = 1;
             var user = new User(userId);
             string phone1 = null;
+            string ext1 = null;
             var fullName = "Full Name";
             var position = "Star Lord";
             var isPrimary = true;
 
-            var newPhone1 = new NewPhoneNumber(user, PhoneNumberType.Cell.Id, phone1, isPrimary);
+            var newPhone1 = new NewPhoneNumber(user, PhoneNumberType.Cell.Id, phone1, ext1, isPrimary);
             var additionalPointOfContact = new AdditionalPointOfContact(user, fullName, position, new List<NewEmailAddress>(), new List<NewPhoneNumber> { newPhone1 });
 
             Action beforeTester = () =>
@@ -748,11 +757,12 @@ namespace ECA.Business.Test.Service.Persons
             var userId = 1;
             var user = new User(userId);
             string phone1 = String.Empty;
+            string ext1 = String.Empty;
             var fullName = "Full Name";
             var position = "Star Lord";
             var isPrimary = true;
 
-            var newPhone1 = new NewPhoneNumber(user, PhoneNumberType.Cell.Id, phone1, isPrimary);
+            var newPhone1 = new NewPhoneNumber(user, PhoneNumberType.Cell.Id, phone1, ext1, isPrimary);
             var additionalPointOfContact = new AdditionalPointOfContact(user, fullName, position, new List<NewEmailAddress>(), new List<NewPhoneNumber> { newPhone1 });
 
             Action beforeTester = () =>
@@ -783,11 +793,12 @@ namespace ECA.Business.Test.Service.Persons
             var userId = 1;
             var user = new User(userId);
             string phone1 = " ";
+            string ext1 = "";
             var fullName = "Full Name";
             var position = "Star Lord";
             var isPrimary = true;
 
-            var newPhone1 = new NewPhoneNumber(user, PhoneNumberType.Cell.Id, phone1, isPrimary);
+            var newPhone1 = new NewPhoneNumber(user, PhoneNumberType.Cell.Id, phone1, ext1, isPrimary);
             var additionalPointOfContact = new AdditionalPointOfContact(user, fullName, position, new List<NewEmailAddress>(), new List<NewPhoneNumber> { newPhone1 });
 
             Action beforeTester = () =>

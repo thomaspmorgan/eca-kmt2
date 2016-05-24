@@ -1,10 +1,6 @@
 ﻿using ECA.Business.Service;
 using ECA.Business.Service.Admin;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics.Contracts;
-using System.Linq;
-using System.Web;
 
 namespace ECA.WebApi.Models.Admin
 {
@@ -31,6 +27,7 @@ namespace ECA.WebApi.Models.Admin
                 updator: updator,
                 id: this.Id,
                 number: this.Number,
+                extension: this.Extension,
                 phoneNumberTypeId: this.PhoneNumberTypeId,
                 isPrimary: this.IsPrimary);
 

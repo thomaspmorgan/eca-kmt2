@@ -122,7 +122,7 @@ namespace ECA.Business.Validation.Sevis.Bio
             && this.ParticipantStartDate < ParticipantPersonsSevisService.GetEarliestNeedsValidationInfoParticipantDate(),
             () =>
             {
-                When(x => !String.IsNullOrWhiteSpace(this.SevisOrgId) && !this.SevisOrgId.ToUpper().StartsWith(G_PROGRAM_PREFIX), () =>
+                When(x => this.SevisOrgId == null || !this.SevisOrgId.ToUpper().StartsWith(G_PROGRAM_PREFIX), () =>
                 {
                     RuleFor(x => x.EmailAddress)
                     .NotNull()

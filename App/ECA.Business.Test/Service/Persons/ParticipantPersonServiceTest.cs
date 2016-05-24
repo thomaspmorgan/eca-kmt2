@@ -247,7 +247,149 @@ namespace ECA.Business.Test.Service.Persons
             afterTester(serviceResults);
             afterTester(serviceResultsAsync);
         }
+        
+        [TestMethod]
+        public async Task TestGetIsParticipantPersonLockedAsync_ParticipantDoesNotExist()
+        {
+            var serviceResults = service.GetIsParticipantPersonLockedAsync(1);
+            Assert.AreEqual(false, serviceResults.Result);
+        }
 
+        [TestMethod]
+        public async Task TestGetIsParticipantPersonLockedAsync_LockedSevisStatus()
+        {
+            var gender = new Gender
+            {
+                GenderId = Gender.Female.Id,
+                GenderName = Gender.Female.Value
+            };
+
+            var person = new Person
+            {
+                PersonId = 1,
+                Gender = gender,
+                GenderId = gender.GenderId
+            };
+
+            var status = new ParticipantStatus
+            {
+                ParticipantStatusId = ParticipantStatus.Active.Id,
+                Status = ParticipantStatus.Active.Value
+            };
+
+            var participant = new Participant
+            {
+                ParticipantId = 1,
+                Person = person,
+                ProjectId = 1,
+                ParticipantStatusId = status.ParticipantStatusId,
+                Status = status
+            };
+
+            var participantPerson = new ParticipantPerson
+            {
+                ParticipantId = 1,
+                Participant = participant
+            };
+
+            var sevisCommStatus = new SevisCommStatus
+            {
+                SevisCommStatusId = SevisCommStatus.SentByBatch.Id,
+                SevisCommStatusName = SevisCommStatus.SentByBatch.Value
+            };
+
+            var participantPersonSevisCommStatus = new ParticipantPersonSevisCommStatus
+            {
+                Id = 1,
+                ParticipantId = participant.ParticipantId,
+                ParticipantPerson = participantPerson,
+                SevisCommStatus = sevisCommStatus,
+                AddedOn = DateTime.UtcNow
+            };
+
+            participant.ParticipantPerson = participantPerson;
+
+            person.Participations.Add(participant);
+            participantPerson.ParticipantPersonSevisCommStatuses.Add(participantPersonSevisCommStatus);
+
+            context.Genders.Add(gender);
+            context.Participants.Add(participant);
+            context.ParticipantPersons.Add(participantPerson);
+            context.ParticipantPersonSevisCommStatuses.Add(participantPersonSevisCommStatus);
+            context.People.Add(person);
+            context.SevisCommStatuses.Add(sevisCommStatus);
+
+            var serviceResults = service.GetIsParticipantPersonLockedAsync(1);
+            Assert.AreEqual(true, serviceResults.Result);
+        }
+
+        [TestMethod]
+        public async Task TestGetIsParticipantPersonLockedAsync_NotLockedSevisStatus()
+        {
+            var gender = new Gender
+            {
+                GenderId = Gender.Female.Id,
+                GenderName = Gender.Female.Value
+            };
+
+            var person = new Person
+            {
+                PersonId = 1,
+                Gender = gender,
+                GenderId = gender.GenderId
+            };
+
+            var status = new ParticipantStatus
+            {
+                ParticipantStatusId = ParticipantStatus.Active.Id,
+                Status = ParticipantStatus.Active.Value
+            };
+
+            var participant = new Participant
+            {
+                ParticipantId = 1,
+                Person = person,
+                ProjectId = 1,
+                ParticipantStatusId = status.ParticipantStatusId,
+                Status = status
+            };
+
+            var participantPerson = new ParticipantPerson
+            {
+                ParticipantId = 1,
+                Participant = participant
+            };
+
+            var sevisCommStatus = new SevisCommStatus
+            {
+                SevisCommStatusId = SevisCommStatus.CreatedByBatch.Id,
+                SevisCommStatusName = SevisCommStatus.CreatedByBatch.Value
+            };
+
+            var participantPersonSevisCommStatus = new ParticipantPersonSevisCommStatus
+            {
+                Id = 1,
+                ParticipantId = participant.ParticipantId,
+                ParticipantPerson = participantPerson,
+                SevisCommStatus = sevisCommStatus,
+                AddedOn = DateTime.UtcNow
+            };
+
+            participant.ParticipantPerson = participantPerson;
+
+            person.Participations.Add(participant);
+            participantPerson.ParticipantPersonSevisCommStatuses.Add(participantPersonSevisCommStatus);
+
+            context.Genders.Add(gender);
+            context.Participants.Add(participant);
+            context.ParticipantPersons.Add(participantPerson);
+            context.ParticipantPersonSevisCommStatuses.Add(participantPersonSevisCommStatus);
+            context.People.Add(person);
+            context.SevisCommStatuses.Add(sevisCommStatus);
+
+            var serviceResults = service.GetIsParticipantPersonLockedAsync(1);
+            Assert.AreEqual(false, serviceResults.Result);
+        }
         #endregion
 
 
@@ -278,6 +420,10 @@ namespace ECA.Business.Test.Service.Persons
             {
                 OrganizationId = 2
             };
+            Organization placement = new Organization
+            {
+                OrganizationId = 3
+            };
             var hostAddress = new Address
             {
                 AddressId = 1,
@@ -289,6 +435,12 @@ namespace ECA.Business.Test.Service.Persons
                 AddressId = 2,
                 Organization = home,
                 OrganizationId = home.OrganizationId
+            };
+            var placementAddress = new Address
+            {
+                AddressId = 3,
+                Organization = placement,
+                OrganizationId = placement.OrganizationId
             };
             var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
             var creatorId = 1;
@@ -317,8 +469,10 @@ namespace ECA.Business.Test.Service.Persons
                 context.ParticipantTypes.Add(individual);
                 context.Organizations.Add(home);
                 context.Organizations.Add(host);
+                context.Organizations.Add(placement);
                 context.Addresses.Add(hostAddress);
                 context.Addresses.Add(homeAddress);
+                context.Addresses.Add(placementAddress);
                 context.Projects.Add(project);
             });
 
@@ -331,14 +485,16 @@ namespace ECA.Business.Test.Service.Persons
                 hostInstitutionId: host.OrganizationId,
                 participantId: participantId,
                 participantStatusId: status.ParticipantStatusId,
-                participantTypeId: individual.ParticipantTypeId
+                participantTypeId: individual.ParticipantTypeId,
+                placementOrganizationId: placement.OrganizationId,
+                placementOrganizationAddressId: placementAddress.AddressId
                 );
             Action beforeUpdateTester = () =>
             {
                 Assert.AreEqual(1, context.Participants.Count());
                 Assert.AreEqual(0, context.ParticipantPersons.Count());
-                Assert.AreEqual(2, context.Addresses.Count());
-                Assert.AreEqual(2, context.Organizations.Count());
+                Assert.AreEqual(3, context.Addresses.Count());
+                Assert.AreEqual(3, context.Organizations.Count());
                 Assert.AreEqual(yesterday, participant.History.RevisedOn);
                 Assert.AreEqual(yesterday, participant.History.CreatedOn);
                 Assert.AreEqual(creatorId, participant.History.RevisedBy);
@@ -351,8 +507,8 @@ namespace ECA.Business.Test.Service.Persons
             {
                 Assert.AreEqual(1, context.Participants.Count());
                 Assert.AreEqual(1, context.ParticipantPersons.Count());
-                Assert.AreEqual(2, context.Addresses.Count());
-                Assert.AreEqual(2, context.Organizations.Count());
+                Assert.AreEqual(3, context.Addresses.Count());
+                Assert.AreEqual(3, context.Organizations.Count());
 
                 var addedParticipantPerson = context.ParticipantPersons.First();
 
@@ -419,6 +575,10 @@ namespace ECA.Business.Test.Service.Persons
             {
                 OrganizationId = 2
             };
+            Organization placement = new Organization
+            {
+                OrganizationId = 3
+            };
             var hostAddress = new Address
             {
                 AddressId = 1,
@@ -430,6 +590,12 @@ namespace ECA.Business.Test.Service.Persons
                 AddressId = 2,
                 Organization = home,
                 OrganizationId = home.OrganizationId
+            };
+            var placementAddress = new Address
+            {
+                AddressId = 3,
+                Organization = placement,
+                OrganizationId = placement.OrganizationId
             };
             var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
             var creatorId = 1;
@@ -464,14 +630,18 @@ namespace ECA.Business.Test.Service.Persons
                 participantPerson.History.CreatedOn = yesterday;
                 participantPerson.History.RevisedOn = yesterday;
 
+                participantPerson.PlacementOrganizationId = placement.OrganizationId;
+
                 context.ParticipantPersons.Add(participantPerson);
                 context.Participants.Add(participant);
                 context.ParticipantStatuses.Add(status);
                 context.ParticipantTypes.Add(individual);
                 context.Organizations.Add(home);
                 context.Organizations.Add(host);
+                context.Organizations.Add(placement);
                 context.Addresses.Add(hostAddress);
                 context.Addresses.Add(homeAddress);
+                context.Addresses.Add(placementAddress);
                 context.Projects.Add(project);
             });
 
@@ -484,14 +654,16 @@ namespace ECA.Business.Test.Service.Persons
                 hostInstitutionId: host.OrganizationId,
                 participantId: participantId,
                 participantStatusId: status.ParticipantStatusId,
-                participantTypeId: individual.ParticipantTypeId
+                participantTypeId: individual.ParticipantTypeId,
+                placementOrganizationId: placement.OrganizationId,
+                placementOrganizationAddressId: placementAddress.AddressId
                 );
             Action beforeUpdateTester = () =>
             {
                 Assert.AreEqual(1, context.Participants.Count());
                 Assert.AreEqual(1, context.ParticipantPersons.Count());
-                Assert.AreEqual(2, context.Addresses.Count());
-                Assert.AreEqual(2, context.Organizations.Count());
+                Assert.AreEqual(3, context.Addresses.Count());
+                Assert.AreEqual(3, context.Organizations.Count());
                 Assert.AreEqual(yesterday, participant.History.RevisedOn);
                 Assert.AreEqual(yesterday, participant.History.CreatedOn);
                 Assert.AreEqual(creatorId, participant.History.RevisedBy);
@@ -514,8 +686,8 @@ namespace ECA.Business.Test.Service.Persons
             {
                 Assert.AreEqual(1, context.Participants.Count());
                 Assert.AreEqual(1, context.ParticipantPersons.Count());
-                Assert.AreEqual(2, context.Addresses.Count());
-                Assert.AreEqual(2, context.Organizations.Count());
+                Assert.AreEqual(3, context.Addresses.Count());
+                Assert.AreEqual(3, context.Organizations.Count());
 
                 Assert.AreEqual(creatorId, participant.History.CreatedBy);
                 Assert.AreEqual(yesterday, participant.History.CreatedOn);
@@ -531,6 +703,7 @@ namespace ECA.Business.Test.Service.Persons
 
                 Assert.AreEqual(home.OrganizationId, participantPerson.HomeInstitutionId);
                 Assert.AreEqual(host.OrganizationId, participantPerson.HostInstitutionId);
+                Assert.AreEqual(placement.OrganizationId, participantPerson.PlacementOrganizationId);
                 Assert.AreEqual(homeAddress.AddressId, participantPerson.HomeInstitutionAddressId);
                 Assert.AreEqual(hostAddress.AddressId, participantPerson.HostInstitutionAddressId);
             };
@@ -622,7 +795,9 @@ namespace ECA.Business.Test.Service.Persons
                 hostInstitutionId: null,
                 participantId: participantId,
                 participantStatusId: status.ParticipantStatusId,
-                participantTypeId: individual.ParticipantTypeId
+                participantTypeId: individual.ParticipantTypeId,
+                placementOrganizationId: null,
+                placementOrganizationAddressId: null
                 );
             context.Revert();
             var message = String.Format("The user with id [{0}] attempted to delete a participant with id [{1}] and project id [{2}] but should have been denied access.",
@@ -728,7 +903,9 @@ namespace ECA.Business.Test.Service.Persons
                 hostInstitutionId: null,
                 participantId: participantId,
                 participantStatusId: status.ParticipantStatusId,
-                participantTypeId: individual.ParticipantTypeId
+                participantTypeId: individual.ParticipantTypeId,
+                placementOrganizationId: null,
+                placementOrganizationAddressId: null
                 );
             context.Revert();
 
@@ -834,7 +1011,9 @@ namespace ECA.Business.Test.Service.Persons
                 hostInstitutionId: null,
                 participantId: participantId,
                 participantStatusId: status.ParticipantStatusId,
-                participantTypeId: individual.ParticipantTypeId
+                participantTypeId: individual.ParticipantTypeId,
+                placementOrganizationId: null,
+                placementOrganizationAddressId: null
                 );
             context.Revert();
 
@@ -862,6 +1041,10 @@ namespace ECA.Business.Test.Service.Persons
             {
                 ParticipantStatusId = ParticipantStatus.Active.Id,
                 Status = ParticipantStatus.Active.Value
+            };
+            Organization home = new Organization()
+            {
+                OrganizationId = 1
             };
             var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
             var createrId = 1;
@@ -895,6 +1078,8 @@ namespace ECA.Business.Test.Service.Persons
                 participantPerson.History.RevisedBy = createrId;
                 participantPerson.History.CreatedOn = yesterday;
                 participantPerson.History.RevisedOn = yesterday;
+
+                participantPerson.HomeInstitutionId = home.OrganizationId;
                 
                 context.Projects.Add(project);
                 context.ParticipantPersons.Add(participantPerson);
@@ -912,7 +1097,9 @@ namespace ECA.Business.Test.Service.Persons
                 hostInstitutionId: null,
                 participantId: participantId,
                 participantStatusId: status.ParticipantStatusId,
-                participantTypeId: individual.ParticipantTypeId
+                participantTypeId: individual.ParticipantTypeId,
+                placementOrganizationId: null,
+                placementOrganizationAddressId: null
                 );
 
             Action tester = () =>
@@ -958,6 +1145,10 @@ namespace ECA.Business.Test.Service.Persons
             {
                 OrganizationId = 2
             };
+            Organization placement = new Organization
+            {
+                OrganizationId = 3
+            };
             var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
             var creatorId = 1;
             var updaterId = 2;
@@ -997,6 +1188,7 @@ namespace ECA.Business.Test.Service.Persons
                 context.ParticipantTypes.Add(individual);
                 context.Organizations.Add(home);
                 context.Organizations.Add(host);
+                context.Organizations.Add(placement);
             });
 
             var updatedPersonParticipant = new UpdatedParticipantPerson(
@@ -1008,7 +1200,9 @@ namespace ECA.Business.Test.Service.Persons
                 hostInstitutionId: host.OrganizationId,
                 participantId: participantId,
                 participantStatusId: status.ParticipantStatusId,
-                participantTypeId: individual.ParticipantTypeId
+                participantTypeId: individual.ParticipantTypeId,
+                placementOrganizationId: placement.OrganizationId,
+                placementOrganizationAddressId: null
                 );
 
             Action tester = () =>
@@ -1056,7 +1250,9 @@ namespace ECA.Business.Test.Service.Persons
                 hostInstitutionId: null,
                 participantId: participantId,
                 participantStatusId: null,
-                participantTypeId: individual.ParticipantTypeId
+                participantTypeId: individual.ParticipantTypeId,
+                placementOrganizationId: null,
+                placementOrganizationAddressId: null
                 );
 
             context.Revert();
@@ -1151,7 +1347,9 @@ namespace ECA.Business.Test.Service.Persons
                 hostInstitutionId: host.OrganizationId,
                 participantId: participantId,
                 participantStatusId: status.ParticipantStatusId,
-                participantTypeId: individual.ParticipantTypeId
+                participantTypeId: individual.ParticipantTypeId,
+                placementOrganizationId: null,
+                placementOrganizationAddressId: null
                 );
 
             context.Revert();
@@ -1188,11 +1386,21 @@ namespace ECA.Business.Test.Service.Persons
             {
                 OrganizationId = 2
             };
+            Organization placement = new Organization
+            {
+                OrganizationId = 3
+            };
             var homeAddress = new Address
             {
                 AddressId = 2,
                 Organization = home,
                 OrganizationId = home.OrganizationId
+            };
+            var placementAddress = new Address
+            {
+                AddressId = 3,
+                Organization = placement,
+                OrganizationId = placement.OrganizationId
             };
             var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
             var creatorId = 1;
@@ -1233,6 +1441,7 @@ namespace ECA.Business.Test.Service.Persons
                 context.ParticipantTypes.Add(individual);
                 context.Organizations.Add(home);
                 context.Addresses.Add(homeAddress);
+                context.Addresses.Add(placementAddress);
                 context.Projects.Add(project);
             });
 
@@ -1245,7 +1454,9 @@ namespace ECA.Business.Test.Service.Persons
                 hostInstitutionId: -1,
                 participantId: participantId,
                 participantStatusId: status.ParticipantStatusId,
-                participantTypeId: individual.ParticipantTypeId
+                participantTypeId: individual.ParticipantTypeId,
+                placementOrganizationId: placement.OrganizationId,
+                placementOrganizationAddressId: placementAddress.AddressId
                 );
 
             context.Revert();
@@ -1286,11 +1497,21 @@ namespace ECA.Business.Test.Service.Persons
             {
                 OrganizationId = 2
             };
+            Organization placement = new Organization
+            {
+                OrganizationId = 3
+            };
             var homeAddress = new Address
             {
                 AddressId = 2,
                 Organization = home,
                 OrganizationId = home.OrganizationId
+            };
+            var placementAddress = new Address
+            {
+                AddressId = 3,
+                Organization = placement,
+                OrganizationId = placement.OrganizationId
             };
             var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
             var creatorId = 1;
@@ -1332,6 +1553,7 @@ namespace ECA.Business.Test.Service.Persons
                 context.Organizations.Add(home);
                 context.Organizations.Add(host);
                 context.Addresses.Add(homeAddress);
+                context.Addresses.Add(placementAddress);
             });
 
             var updatedPersonParticipant = new UpdatedParticipantPerson(
@@ -1343,7 +1565,9 @@ namespace ECA.Business.Test.Service.Persons
                 hostInstitutionId: host.OrganizationId,
                 participantId: participantId,
                 participantStatusId: status.ParticipantStatusId,
-                participantTypeId: individual.ParticipantTypeId
+                participantTypeId: individual.ParticipantTypeId,
+                placementOrganizationId: placement.OrganizationId,
+                placementOrganizationAddressId: placementAddress.AddressId
                 );
 
             context.Revert();
@@ -1384,11 +1608,21 @@ namespace ECA.Business.Test.Service.Persons
             {
                 OrganizationId = 2
             };
+            Organization placement = new Organization
+            {
+                OrganizationId = 3
+            };
             var hostAddress = new Address
             {
                 AddressId = 1,
                 OrganizationId = host.OrganizationId,
                 Organization = host
+            };
+            var placementAddress = new Address
+            {
+                AddressId = 3,
+                OrganizationId = placement.OrganizationId,
+                Organization = placement
             };
             var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
             var creatorId = 1;
@@ -1430,6 +1664,7 @@ namespace ECA.Business.Test.Service.Persons
                 context.Organizations.Add(home);
                 context.Organizations.Add(host);
                 context.Addresses.Add(hostAddress);
+                context.Addresses.Add(placementAddress);
                 context.Projects.Add(project);
             });
 
@@ -1442,7 +1677,9 @@ namespace ECA.Business.Test.Service.Persons
                 hostInstitutionId: host.OrganizationId,
                 participantId: participantId,
                 participantStatusId: status.ParticipantStatusId,
-                participantTypeId: individual.ParticipantTypeId
+                participantTypeId: individual.ParticipantTypeId,
+                placementOrganizationId: placement.OrganizationId,
+                placementOrganizationAddressId: placementAddress.AddressId
                 );
 
             context.Revert();

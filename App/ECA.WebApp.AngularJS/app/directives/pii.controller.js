@@ -29,6 +29,7 @@ angular.module('staticApp')
                  if ($scope.pii.placeOfBirth) {
                      $scope.pii.cityOfBirthId = $scope.pii.placeOfBirth.id;
                  }
+                 $scope.pii_FormLastName = ($scope.pii.isSingleName) ? "NAME" : "LAST NAME";
                  if ($scope.pii.dateOfBirth) {
                      $scope.pii.dateOfBirth = new Date($scope.pii.dateOfBirth);
                      $scope.pii.isDateOfBirthUnknown = false;

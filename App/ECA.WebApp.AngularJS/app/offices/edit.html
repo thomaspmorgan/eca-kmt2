@@ -47,7 +47,7 @@
                           ng-model="view.office.description"
                           placeholder="Enter office description..."
                           maxlength="3000"
-                          style="min-height:165px;"
+                          rows="7"
                           required>
                 </textarea>
                 <div ng-show="form.officeForm.description.$dirty">
@@ -63,6 +63,7 @@
                     <div class="col-md-9">
                         <ui-select ng-model="view.selectedParentOffice"
                                    theme="select2"
+                                   append-to-body="true"
                                    on-select="view.searchParentOffices('')"
                                    on-remove="view.searchParentOffices('')"
                                    style="min-width: 200px;">
@@ -92,6 +93,7 @@
                                    close-on-select="true"
                                    ng-model="view.selectedPointsOfContact"
                                    theme="select2"
+                                   append-to-body="true"
                                    on-select="view.searchPointsOfContact('')"
                                    on-remove="view.searchPointsOfContact('')"
                                    title="Choose a point of contact."

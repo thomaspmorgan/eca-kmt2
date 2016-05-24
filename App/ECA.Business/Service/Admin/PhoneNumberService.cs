@@ -1,5 +1,4 @@
-﻿using ECA.Business.Exceptions;
-using ECA.Business.Queries.Admin;
+﻿using ECA.Business.Queries.Admin;
 using ECA.Business.Queries.Models.Admin;
 using ECA.Business.Queries.Models.Persons;
 using ECA.Core.Exceptions;
@@ -180,6 +179,7 @@ namespace ECA.Business.Service.Admin
             }
             modelToUpdate.PhoneNumberTypeId = updatedPhoneNumber.PhoneNumberTypeId;
             modelToUpdate.Number = updatedPhoneNumber.Number;
+            modelToUpdate.Extension = updatedPhoneNumber.Extension;
             modelToUpdate.IsPrimary = updatedPhoneNumber.IsPrimary;
             updatedPhoneNumber.Audit.SetHistory(modelToUpdate);
             if (updatedPhoneNumber.IsPrimary)

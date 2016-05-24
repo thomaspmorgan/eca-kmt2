@@ -110,10 +110,9 @@ namespace ECA.WebApi.Controllers.Persons
             {
                 var currentUser = userProvider.GetCurrentUser();
                 var businessUser = userProvider.GetBusinessUser(currentUser);
-                var instance = model.ToUpdatePointOfContact(businessUser);
-                var contact = await service.UpdateContactAsync(instance);
+                var contact = await service.UpdateContactAsync(model.ToUpdatePointOfContact(businessUser));
                 await service.SaveChangesAsync();
-                var dto = await service.GetContactByIdAsync(contact.Id);
+                var dto = await service.GetContactByIdAsync(contact.ContactId);
                 return Ok(dto);
             }
             else

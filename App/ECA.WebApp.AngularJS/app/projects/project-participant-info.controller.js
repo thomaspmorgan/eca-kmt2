@@ -36,15 +36,19 @@ angular.module('staticApp')
       $scope.view.participantStatii = [];
       $scope.view.homeInstitutions = [];
       $scope.view.hostInstitutions = [];
+      $scope.view.placementOrganizations = [];
       $scope.view.homeInstitutionAddresses = [];
       $scope.view.hostInstitutionAddresses = [];
+      $scope.view.placementOrganizationAddresses = [];
       $scope.view.selectedHomeInstitutionAddresses = [];
       $scope.view.selectedHostInstitutionAddresses = [];
+      $scope.view.selectedPlacementOrganizationAddresses = [];
       $scope.view.isLoadingEditParticipantInfoRequiredData = false;
       $scope.view.isLoadingInfo = false;
       $scope.view.isSavingUpdate = false;
       $scope.view.participantPerson = null;
       $scope.view.isInfoTabInEditMode = false;
+      $scope.view.editLocked = true;
 
       var notifyStatuses = ConstantsService.sevisStatuChangeAlertIds.split(',');
 
@@ -54,6 +58,10 @@ angular.module('staticApp')
 
       $scope.view.loadHostInstitutions = function ($search) {
           return loadHostInstitutions($search);
+      }
+
+      $scope.view.loadPlacementOrganizations = function ($search) {
+          return loadPlacementOrganizations($search);
       }
 
       $scope.view.onSelectHostInstitution = function ($item, $model) {
@@ -96,12 +104,36 @@ angular.module('staticApp')
           $scope.view.selectedHomeInstitutionAddresses = [$model];
       }
 
+      $scope.view.onSelectPlacementOrganization = function ($item, $model) {
+          $scope.view.selectedPlacementOrganizationAddresses = [];
+          $scope.view.participantPerson.placementOrganizationAddressId = null;
+          if ($model) {
+              $scope.view.participantPerson.placementOrganizationId = $model;
+              return loadOrganizationById($model)
+              .then(function (org) {
+                  $scope.view.placementOrganizationAddresses = org.addresses;
+              });
+          }
+          else {
+              $scope.view.participantPerson.placementOrganizationId = null;
+          }
+      }
+
+      $scope.view.onSelectPlacementOrganizationAddress = function ($item, $model) {
+          $scope.view.participantPerson.placementOrganizationAddressId = $model;
+          $scope.view.selectedPlacementOrganizationAddresses = [$model];
+      }
+
       $scope.view.onRemoveHostInstitutionAddress = function ($item, $model) {
           $scope.view.participantPerson.hostInstitutionAddressId = null;
       }
 
       $scope.view.onRemoveHomeInstitutionAddress = function ($item, $model) {
           $scope.view.participantPerson.homeInstitutionAddressId = null;
+      }
+
+      $scope.view.onRemovePlacementOrganizationAddress = function ($item, $model) {
+          $scope.view.participantPerson.placementOrganizationAddressId = null;
       }
 
       $scope.view.onCancelButtonClick = function () {
@@ -111,13 +143,19 @@ angular.module('staticApp')
               });
       }
 
+      $scope.$watch("personid", function (personId) {
+          ParticipantPersonsService.getIsParticipantPersonLocked(personId)
+          .then(function (response) {
+              $scope.view.editLocked = response.data;
+          });
+          $scope.view.isInfoTabInEditMode = false;
+      });
+
       $scope.editGeneral = function () {
-          if (!$scope.sevisinfo.blockEdit) {
+          if (!$scope.view.editLocked) {
               $scope.view.isInfoTabInEditMode = true;
-          } else {
-              return false;
           }
-      };
+      }
 
       $scope.view.onSaveButtonClick = function () {
           $scope.view.isSavingUpdate = true;
@@ -267,6 +305,23 @@ angular.module('staticApp')
           }
       }
 
+      var placementOrganizationFilter = FilterService.add('project-participant-editinfo-placementorganizationfilter');
+      function loadPlacementOrganizations(search) {
+          placementOrganizationFilter.reset();
+          placementOrganizationFilter = placementOrganizationFilter
+                  .skip(0)
+                  .take(10);
+
+          if (search && search.length > 0) {
+              placementOrganizationFilter = placementOrganizationFilter.like('name', search);
+              return loadOrganizations(placementOrganizationFilter)
+              .then(function (data) {
+                  $scope.view.placementOrganizations = data.results;
+                  return $scope.view.placementOrganizations;
+              });
+          }
+      }
+
       function saveParticipantPerson(participantPerson) {
           return ParticipantPersonsService.updateParticipantPerson(projectId, participantPerson);
       }
@@ -342,6 +397,35 @@ angular.module('staticApp')
           }
       }
 
+      function initializePlacementOrganization(organization) {
+          $scope.view.placementOrganizations = [];
+          $scope.view.placementOrganizationAddresses = [];
+          $scope.view.selectedPlacementOrganizationAddresses = [];
+
+          var placementOrganization = $scope.view.participantPerson.placementOrganization;
+          if (placementOrganization) {
+              placementOrganization.id = placementOrganization.organizationId;
+              return loadOrganizationById(placementOrganization.organizationId)
+              .then(function (org) {
+                  $scope.view.placementOrganizations.push(org);
+                  org.addresses = org.addresses || [];
+                  org.addresses = orderByFilter(org.addresses, '-isPrimary')
+                  angular.forEach(org.addresses, function (orgAddress, index) {
+                      $scope.view.placementOrganizationAddresses.push(orgAddress);
+                  });
+                  if ($scope.view.participantPerson.placementOrganizationAddressId) {
+                      $scope.view.selectedPlacementOrganizationAddresses.push($scope.view.participantPerson.placementOrganizationAddressId);
+                  }
+                  return org;
+              });
+          }
+          else {
+              var dfd = $q.defer();
+              dfd.resolve();
+              return dfd.promise;
+          }
+      }
+
       function getNewParticipantPerson(participantId, participantStatusId, participantTypeId) {
           return {
               participantId: participantId,
@@ -352,7 +436,7 @@ angular.module('staticApp')
       }
 
       function initializePersonInfo(personInfo) {
-          return $q.all([initializeHomeInstitution(personInfo.homeInstitution), initializeHostInstitution(personInfo.hostInstitution)])
+          return $q.all([initializeHomeInstitution(personInfo.homeInstitution), initializeHostInstitution(personInfo.hostInstitution), (initializePlacementOrganization(personInfo.placementOrganization))])
           .then(function (results) {
 
           });
@@ -385,6 +469,11 @@ angular.module('staticApp')
                   response.data.hostInstitutionId = response.data.hostInstitution.organizationId;
                   response.data.hostInstitution.href = StateService.getOrganizationState(response.data.hostInstitution.organizationId);
                   response.data.hostInstitutionAddress = getPreferredAddress(response.data.hostInstitution, response.data.hostInstitutionAddressId);
+              }
+              if (response.data.placementOrganization) {
+                  response.data.placementOrganizationId = response.data.placementOrganization.organizationId;
+                  response.data.placementOrganization.href = StateService.getOrganizationState(response.data.placementOrganization.organizationId);
+                  response.data.placementOrganizationAddress = getPreferredAddress(response.data.placementOrganization, response.data.placementOrganizationAddressId);
               }
               $scope.view.participantPerson = response.data;
               return initializePersonInfo(response.data)

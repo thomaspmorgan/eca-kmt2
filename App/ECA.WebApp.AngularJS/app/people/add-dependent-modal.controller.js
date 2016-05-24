@@ -17,9 +17,9 @@ angular.module('staticApp')
       $scope.countriesResidence = [];
       $scope.cities = [];
       $scope.datePickerOpen = false;
-      $scope.maxDateOfBirth = new Date();
       $scope.isDependentLoading = true;
       $scope.isSavingDependent = false;
+      $scope.minDateOfBirth = new Date();
       
       function saveNewDependent() {
           $scope.isSavingDependent = true;
@@ -54,21 +54,20 @@ angular.module('staticApp')
       };
 
       function setupDependent() {
-          $scope.dependent.personId = $stateParams.personId;
+          $scope.dependent.personId = $scope.person.personId;
           if ($scope.dependent.dateOfBirth) {
               $scope.dependent.dateOfBirth.setUTCHours(0, 0, 0, 0);
           }
       };
 
-      $scope.setMaxBirthDate = function (dependentType) {
-          if (dependentType === 3) {
-              // child
-              var today = new Date();
-              $scope.maxDateOfBirth = today.setFullYear(today.getFullYear() - 21);
-          } else {
-              // spouse
-              $scope.maxDateOfBirth = new Date();
+      $scope.setMinBirthDate = function (dependentTypeId) {
+          var minDate = new moment();
+          if (dependentTypeId === ConstantsService.dependentType.child.id) {
+              minDate.subtract(ConstantsService.childDependentMaxAge, 'y'); // child
+          } else if (dependentTypeId === ConstantsService.dependentType.spouse.id) {
+              minDate.subtract(100, 'y'); // spouse
           }
+          $scope.minDateOfBirth = minDate;
       }
 
       $scope.isDependentPlaceOfBirthValid = function ($value) {
@@ -100,7 +99,7 @@ angular.module('staticApp')
               $scope.dependent.birthCountryReasonId = null;
           }
       }
-
+      
       function loadDependentCities(search) {
           if (search) {
               var params = {

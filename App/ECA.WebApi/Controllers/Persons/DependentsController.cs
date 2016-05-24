@@ -3,10 +3,14 @@ using ECA.Business.Service.Lookup;
 using ECA.Business.Service.Persons;
 using ECA.Core.DynamicLinq;
 using ECA.Core.DynamicLinq.Sorter;
+using ECA.Core.Settings;
+using ECA.WebApi.Custom.Storage;
 using ECA.WebApi.Models.Person;
 using ECA.WebApi.Models.Query;
 using ECA.WebApi.Security;
 using System.Diagnostics.Contracts;
+using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
@@ -28,6 +32,8 @@ namespace ECA.WebApi.Controllers.Persons
         private IDependentTypeService dependentTypeService;
         private IBirthCountryReasonService birthCountryReasonService;
         private IUserProvider userProvider;
+        private IFileStorageHandler storageHandler;
+        private AppSettings appSettings;
 
         /// <summary>
         /// Constructor
@@ -35,9 +41,15 @@ namespace ECA.WebApi.Controllers.Persons
         /// <param name="service"></param>
         /// <param name="dependentTypeService"></param>
         /// <param name="birthCountryReasonService">The birth country reason service</param>
-        /// <param name="userProvider"></param>
-        public DependentsController(IPersonService service, IDependentTypeService dependentTypeService,
-            IBirthCountryReasonService birthCountryReasonService, IUserProvider userProvider)
+        /// <param name="userProvider">The user provider.</param>
+        /// <param name="appSettings">App settings.</param>
+        /// <param name="storageHandler">The storage handler.</param>
+        public DependentsController(IPersonService service, 
+            IDependentTypeService dependentTypeService,
+            IBirthCountryReasonService birthCountryReasonService,
+            IFileStorageHandler storageHandler, 
+            AppSettings appSettings,
+            IUserProvider userProvider)
         {
             Contract.Requires(service != null, "The participant service must not be null.");
             Contract.Requires(dependentTypeService != null, "The dependent type service must not be null.");
@@ -47,6 +59,8 @@ namespace ECA.WebApi.Controllers.Persons
             this.dependentTypeService = dependentTypeService;
             this.birthCountryReasonService = birthCountryReasonService;
             this.userProvider = userProvider;
+            this.appSettings = appSettings;
+            this.storageHandler = storageHandler;
         }
 
         /// <summary>
@@ -67,6 +81,30 @@ namespace ECA.WebApi.Controllers.Persons
             {
                 return NotFound();
             }
+        }
+
+        /// <summary>
+        /// Gets the DS2019 file asyncronously
+        /// </summary>
+        /// <param name="dependentId">The person dependent id.</param>
+        /// <returns>DS2019 file</returns>
+        [Route("People/Dependent/{dependentId:int}/DS2019File")]
+        public async Task<HttpResponseMessage> GetDS2019FileAsync(int dependentId)
+        {
+            var currentUser = userProvider.GetCurrentUser();
+            var businessUser = userProvider.GetBusinessUser(currentUser);
+            var fileName = await service.GetDS2019FileNameAsync(businessUser, dependentId);
+            if (fileName != null)
+            {
+                var container = appSettings.DS2019FileStorageContainer;
+                var message = await storageHandler.GetFileAsync(fileName, container);
+                if (message != null)
+                {
+                    return message;
+                }
+            }
+
+            return Request.CreateErrorResponse(HttpStatusCode.NotFound, "File not found.");
         }
 
         /// <summary>

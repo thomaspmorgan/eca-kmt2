@@ -190,13 +190,40 @@ namespace ECA.Business.Service.Persons
         /// <summary>
         /// Gets DS2019 file name
         /// </summary>
+        /// <param name="user">The user.</param>
         /// <param name="projectId">The project id</param>
         /// <param name="participantId">The participant id</param>
         /// <returns>The DS2019 file name</returns>
-        public async Task<string> GetDS2019FileNameAsync(int projectId, int participantId)
+        public async Task<string> GetDS2019FileNameAsync(User user, int projectId, int participantId)
         {
             String fileName = null;
+            var participant = await Context.Participants.FindAsync(participantId);
+            throwIfModelDoesNotExist(participantId, participant, typeof(Participant));
+            throwSecurityViolationIfParticipantDoesNotBelongToProject(user.Id, projectId, participant);
+
             var participantPerson = await Context.ParticipantPersons.FindAsync(participantId);
+            if (participantPerson != null)
+            {   
+                fileName = participantPerson.DS2019FileName;
+            }
+            return fileName;
+        }
+
+        /// <summary>
+        /// Gets DS2019 file name
+        /// </summary>
+        /// <param name="user">The user.</param>
+        /// <param name="projectId">The project id</param>
+        /// <param name="participantId">The participant id</param>
+        /// <returns>The DS2019 file name</returns>
+        public string GetDS2019FileName(User user, int projectId, int participantId)
+        {
+            String fileName = null;
+            var participant = Context.Participants.Find(participantId);
+            throwIfModelDoesNotExist(participantId, participant, typeof(Participant));
+            throwSecurityViolationIfParticipantDoesNotBelongToProject(user.Id, projectId, participant);
+
+            var participantPerson = Context.ParticipantPersons.Find(participantId);
             if (participantPerson != null)
             {
                 fileName = participantPerson.DS2019FileName;

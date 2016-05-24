@@ -12,8 +12,8 @@
                 <h5>General</h5>
             </div>
             <div class="col-md-4 text-right">
-                <button class="btn btn-success" 
-                        ng-click="view.onSaveButtonClick()" 
+                <button class="btn btn-success"
+                        ng-click="view.onSaveButtonClick()"
                         ng-disabled="view.participantPerson.isSavingUpdate || form.participantInfoForm.$invalid">
                     Save
                 </button>
@@ -191,6 +191,79 @@
                     </div>
                 </div>
             </div>
+            <div class="row row4 form-group">
+                <div class="col-md-6">
+                    <div class="col-md-4 title-label">Placement Organization</div>
+                    <div class="col-md-8">
+                        <ui-select ng-model="view.participantPerson.placementOrganizationId"
+                                   on-select="view.onSelectPlacementOrganization($item, $model)"
+                                   theme="select2">
+                            <ui-select-match placeholder="Select a Placement Organization..." allow-clear="true">
+                                {{$select.selected.name}}
+                            </ui-select-match>
+                            <ui-select-choices repeat="org.organizationId as org in view.placementOrganizations"
+                                               refresh="view.loadPlacementOrganizations($select.search)">
+                                <div ng-bind-html="org.name | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+                        <ui-select multiple
+                                   ng-model="view.selectedPlacementOrganizationAddresses"
+                                   on-select="view.onSelectPlacementOrganizationAddress($item, $model)"
+                                   on-remove="view.onRemovePlacementOrganizationAddress($item, $model)"
+                                   style="margin-top:20px;"
+                                   theme="select2">
+                            <ui-select-match placeholder="Select 1 Placement Organization address...">
+                                <div>
+                                    <div>
+                                        {{$item.addressType}}<span ng-show="$item.isPrimary" style="margin-left:10px;">(Primary)</span>
+                                    </div>
+                                    <div ng-show="$item.street1">
+                                        {{$item.street1}}
+                                    </div>
+                                    <div ng-show="$item.street2">
+                                        {{$item.street2}}
+                                    </div>
+                                    <div ng-show="$item.street3">
+                                        {{$item.street3}}
+                                    </div>
+                                    <div>
+                                        <span ng-show="$item.city">{{$item.city}}</span>
+                                        <span ng-show="$item.city && $item.division">, </span>
+                                        <span ng-show="$item.division">{{$item.division}}</span>
+                                        <span ng-show="$item.postalCode">{{$item.postalCode}}</span>
+                                    </div>
+                                    <div>
+                                        <span ng-show="$item.country">{{$item.country}}</span>
+                                    </div>
+                                </div>
+                            </ui-select-match>
+                            <ui-select-choices repeat="address.addressId as address in view.placementOrganizationAddresses">
+                                <div>
+                                    {{address.addressType}}<span ng-show="address.isPrimary" style="margin-left:10px;">(Primary)</span>
+                                </div>
+                                <div ng-show="address.street1">
+                                    {{address.street1}}
+                                </div>
+                                <div ng-show="address.street2">
+                                    {{address.street2}}
+                                </div>
+                                <div ng-show="address.street3">
+                                    {{address.street3}}
+                                </div>
+                                <div>
+                                    <span ng-show="address.city">{{address.city}}</span>
+                                    <span ng-show="address.city && address.division">, </span>
+                                    <span ng-show="address.division">{{address.division}}</span>
+                                    <span ng-show="address.postalCode">{{address.postalCode}}</span>
+                                </div>
+                                <div>
+                                    <span ng-show="address.country">{{address.country}}</span>
+                                </div>
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                </div>
+            </div>
         </form>
     </div>
     <div ng-show="!view.isInfoTabInEditMode && !view.isLoadingInfo">
@@ -200,11 +273,7 @@
             </div>
             <div class="col-md-4">
                 <div class="pull-right" style="min-width:100px">
-                    <a ng-show="!view.isInfoTabInEditMode" ng-disabled="sevisinfo.blockEdit" ng-click="editGeneral()">
-                        <span tooltip="{{sevisinfo.blockEdit ? 'The participant is currently in a SEVIS Status which does not allow edits' : ''}}">
-                            <i class="material-icons md-dark md-24" style="{{sevisinfo.blockEdit ? 'opacity: .5' : 'opacity: 1'}}; margin-left:30px">edit</i>
-                        </span>
-                    </a>
+                    <sevis-edit ng-show="!view.isInfoTabInEditMode" ng-disabled="view.editLocked" ng-click="editGeneral()"></sevis-edit>
                 </div>
             </div>
         </div>
@@ -281,6 +350,40 @@
                         </div>
                         <div>
                             <span ng-show="view.participantPerson.hostInstitutionAddress.country">{{view.participantPerson.hostInstitutionAddress.country}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row row4">
+            <div class="col-md-6">
+                <div class="col-md-4 title-label">Placement Organization</div>
+                <div class="col-md-8" ng-show="!view.participantPerson.placementOrganization">
+                    None
+                </div>
+                <div class="col-md-8" ng-show="view.participantPerson.placementOrganization">
+                    <a ng-show="view.participantPerson.placementOrganization.name" href="{{view.participantPerson.placementOrganization.name}}">{{view.participantPerson.placementOrganization.name}}</a>
+                    <div style="margin-top:10px;">
+                        <div ng-show="view.participantPerson.placementOrganizationAddress.addressType">
+                            {{view.participantPerson.placementOrganizationAddress.addressType}}<span ng-show="view.participantPerson.placementOrganizationAddress.isPrimary" style="margin-left:10px;">(Primary)</span>
+                        </div>
+                        <div ng-show="view.participantPerson.placementOrganizationAddress.street1">
+                            {{view.participantPerson.placementOrganizationAddress.street1}}
+                        </div>
+                        <div ng-show="view.participantPerson.placementOrganizationAddress.street2">
+                            {{view.participantPerson.placementOrganizationAddress.street2}}
+                        </div>
+                        <div ng-show="view.participantPerson.placementOrganizationAddress.street3">
+                            {{view.participantPerson.placementOrganizationAddress.street3}}
+                        </div>
+                        <div>
+                            <span ng-show="view.participantPerson.placementOrganizationAddress.city">{{view.participantPerson.placementOrganizationAddress.city}}</span>
+                            <span ng-show="view.participantPerson.placementOrganizationAddress.city && view.participantPerson.placementOrganizationAddress.division">, </span>
+                            <span ng-show="view.participantPerson.placementOrganizationAddress.division">{{view.participantPerson.placementOrganizationAddress.division}}</span>
+                            <span ng-show="view.participantPerson.placementOrganizationAddress.postalCode">{{view.participantPerson.placementOrganizationAddress.postalCode}}</span>
+                        </div>
+                        <div>
+                            <span ng-show="view.participantPerson.placementOrganizationAddress.country">{{view.participantPerson.placementOrganizationAddress.country}}</span>
                         </div>
                     </div>
                 </div>

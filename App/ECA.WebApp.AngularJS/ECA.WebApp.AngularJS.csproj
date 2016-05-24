@@ -200,6 +200,8 @@
     <Content Include="app\directives\pii.directive.js" />
     <Content Include="app\directives\programs.directive.html" />
     <Content Include="app\directives\programs.directive.js" />
+    <Content Include="app\directives\sevis-edit.directive.html" />
+    <Content Include="app\directives\sevis-edit.directive.js" />
     <Content Include="app\directives\sevis-funding.directive.html" />
     <Content Include="app\directives\sevis-funding.directive.js" />
     <Content Include="app\directives\snapshots-graphs.controller.js" />
@@ -344,7 +346,6 @@
     <Content Include="app\projects\edit.controller.js" />
     <Content Include="app\projects\overview.controller.js" />
     <Content Include="app\projects\project-participant.controller.js" />
-    <Content Include="app\projects\unsaved-changes.controller.js" />
     <Content Include="app\reports\custom.controller.js" />
     <Content Include="app\directives\snapshots.controller.js" />
     <Content Include="app\directives\social-media.controller.js" />
@@ -434,7 +435,6 @@
     <Content Include="app\projects\select-participant-type.html" />
     <Content Include="app\services\organization.service.js" />
     <Content Include="app\organizations\all-organizations.html" />
-    <Content Include="app\projects\unsaved-changes.html" />
     <Content Include="app\directives\date-picker-popup.directive.js" />
     <Content Include="app\filters\highlight.filter.js" />
     <Content Include="app\services\download.service.js" />

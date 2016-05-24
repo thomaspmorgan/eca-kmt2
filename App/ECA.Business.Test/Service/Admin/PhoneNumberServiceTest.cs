@@ -152,7 +152,7 @@ namespace ECA.Business.Test.Service.Admin
                     PhoneNumberTypeName = PhoneNumberType.Home.Value
                 };
                 var user = new User(userId);
-                var newPhone = new NewPersonPhoneNumber(user, phoneNumberType.PhoneNumberTypeId, "1234", personId, true);
+                var newPhone = new NewPersonPhoneNumber(user, phoneNumberType.PhoneNumberTypeId, "1234", "123", personId, true);
                 Action beforeTester = () =>
                 {
                     Assert.AreEqual(0, context.PhoneNumbers.Count());
@@ -217,7 +217,7 @@ namespace ECA.Business.Test.Service.Admin
                 PhoneNumber primaryPhone1 = null;
                 PhoneNumber primaryPhone2 = null;
                 var user = new User(userId);
-                var newPhone = new NewPersonPhoneNumber(user, phoneNumberType.PhoneNumberTypeId, "1234", personId, true);
+                var newPhone = new NewPersonPhoneNumber(user, phoneNumberType.PhoneNumberTypeId, "1234", "123", personId, true);
                 Action beforeTester = () =>
                 {
                     Assert.AreEqual(2, context.PhoneNumbers.Count());
@@ -288,7 +288,7 @@ namespace ECA.Business.Test.Service.Admin
                     PhoneNumberTypeName = PhoneNumberType.Home.Value
                 };
                 var user = new User(userId);
-                var newPhone = new NewPersonPhoneNumber(user, phoneNumberType.PhoneNumberTypeId, "1234", personId, true);
+                var newPhone = new NewPersonPhoneNumber(user, phoneNumberType.PhoneNumberTypeId, "1234", "123", personId, true);
 
                 context.SetupActions.Add(() =>
                 {
@@ -331,14 +331,16 @@ namespace ECA.Business.Test.Service.Admin
                 PhoneNumber phoneNumber = null;
 
                 var number = "12345";
+                var ext = "123";
                 var isPrimary = true;
-                var updatedPhone = new UpdatedPhoneNumber(user, phoneNumberId, number, type.PhoneNumberTypeId, isPrimary);
+                var updatedPhone = new UpdatedPhoneNumber(user, phoneNumberId, number, ext, type.PhoneNumberTypeId, isPrimary);
 
                 Action afterTester = () =>
                 {
                     Assert.AreEqual(1, context.PhoneNumbers.Count());
                     var firstNumber = context.PhoneNumbers.First();
                     Assert.AreEqual(number, firstNumber.Number);
+                    Assert.AreEqual(ext, firstNumber.Extension);
                     Assert.AreEqual(isPrimary, firstNumber.IsPrimary);
                     Assert.AreEqual(type.PhoneNumberTypeId, firstNumber.PhoneNumberTypeId);
                     Assert.AreEqual(phoneNumberId, firstNumber.PhoneNumberId);
@@ -400,14 +402,16 @@ namespace ECA.Business.Test.Service.Admin
                 PhoneNumber phoneNumber = null;
 
                 var number = "12345";
+                var ext = "123";
                 var isPrimary = true;
-                var updatedPhone = new UpdatedPhoneNumber(user, phoneNumberId, number, type.PhoneNumberTypeId, isPrimary);
+                var updatedPhone = new UpdatedPhoneNumber(user, phoneNumberId, number, ext, type.PhoneNumberTypeId, isPrimary);
 
                 Action afterTester = () =>
                 {
                     Assert.AreEqual(1, context.PhoneNumbers.Count());
                     var firstNumber = context.PhoneNumbers.First();
                     Assert.AreEqual(number, firstNumber.Number);
+                    Assert.AreEqual(ext, firstNumber.Extension);
                     Assert.AreEqual(isPrimary, firstNumber.IsPrimary);
                     Assert.AreEqual(type.PhoneNumberTypeId, firstNumber.PhoneNumberTypeId);
                     Assert.AreEqual(phoneNumberId, firstNumber.PhoneNumberId);
@@ -474,8 +478,9 @@ namespace ECA.Business.Test.Service.Admin
                 PhoneNumber primaryPhone2 = null;
                 PhoneNumber otherPersonPrimaryPhoneNumber = null;
                 var number = "12345";
+                var ext = "123";
                 var isPrimary = true;
-                var updatedPhone = new UpdatedPhoneNumber(user, phoneNumberId, number, type.PhoneNumberTypeId, isPrimary);
+                var updatedPhone = new UpdatedPhoneNumber(user, phoneNumberId, number, ext, type.PhoneNumberTypeId, isPrimary);
 
                 Action beforeTester = () =>
                 {
@@ -535,7 +540,6 @@ namespace ECA.Business.Test.Service.Admin
                 beforeTester();
                 await service.UpdateAsync(updatedPhone);
                 afterTester();
-
             }
         }
 
@@ -558,8 +562,9 @@ namespace ECA.Business.Test.Service.Admin
                 };
 
                 var number = "12345";
+                var ext = "123";
                 var isPrimary = true;
-                var updatedPhone = new UpdatedPhoneNumber(user, phoneNumberId, number, type.PhoneNumberTypeId, isPrimary);
+                var updatedPhone = new UpdatedPhoneNumber(user, phoneNumberId, number, ext, type.PhoneNumberTypeId, isPrimary);
                 
                 Action a = () => service.Update(updatedPhone);
                 Func<Task> f = () => service.UpdateAsync(updatedPhone);

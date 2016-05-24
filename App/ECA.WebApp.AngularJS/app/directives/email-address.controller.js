@@ -23,7 +23,6 @@ angular.module('staticApp')
       $scope.view = {};
       $scope.view.params = $stateParams;
       $scope.view.emailAddressTypes = [];
-      $scope.view.showEditEmailAddress = false;
       $scope.view.isSavingChanges = false;
       $scope.view.isLoadingRequiredData = false;
       var originalEmailAddress = angular.copy($scope.emailAddress);

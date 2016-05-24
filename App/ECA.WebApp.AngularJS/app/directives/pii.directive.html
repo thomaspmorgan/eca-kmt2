@@ -1,9 +1,7 @@
 ﻿<div class="row" ng-show="!editMode">
     <div class="col-md-12">
         <div class="pull-right">
-            <a ng-click="editMode = !editMode">
-                <i class="material-icons md-dark md-24 pull-right">edit</i>
-            </a>
+            <sevis-edit ng-disabled="editLocked" ng-click="editPii()"></sevis-edit>
         </div>
     </div>
 </div>
@@ -28,9 +26,9 @@
                             </div>
                         </div>
                         <div class="form-group row" ng-show="pii.lastName">
-                            <label class="col-md-5 title-label">Last name</label>
+                            <label class="col-md-5 title-label">{{pii_FormLastName}}</label>                            
                             <div class="col-md-7">
-                                {{pii.lastName}}
+                                {{pii.lastName}}                                
                             </div>
                         </div>
                         <div class="form-group row" ng-show="pii.namePrefix">
@@ -173,7 +171,7 @@
             <div class="row">
                 <label class="col-md-4 title-label">Dependents</label>
                 <div class="col-md-8">
-                    <dependents model="pii" modelid="personid" modeltype="'person'" editmode="editMode" />
+                    <dependents model="pii" editmode="editMode" />
                 </div>
             </div>
         </div>
@@ -199,18 +197,22 @@
         </div>
         <form name="piiForm" class="form-horizontal">
             <div class="col-md-6">
-                <div class="form-group row">
+                <div class="form-group row" ng-hide="pii.isSingleName">
                     <label class="col-md-4 title-label">First name <eca-required /></label>
                     <div class="col-md-8">
-                        <input type="text" name="firstName" class="form-control" ng-model="pii.firstName" required />
+                        <input type="text" name="firstName" class="form-control" ng-model="pii.firstName" ng-required="!pii.isSingleName" />
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label class="col-md-4 title-label">Last name <eca-required /></label>
-                    <div class="col-md-8">
-                        <input type="text" name="lastName" class="form-control" ng-model="pii.lastName" required />
+                    <label class="col-md-4 title-label">{{piiFormLastName}}<eca-required /></label>                                            
+                        <div class="col-md-8">
+                            <label tooltip="Checkbox to indicate you only have one name." tooltip-placement="bottom">
+                                <input type="checkbox" ng-model="pii.isSingleName" ng-change="onIsSingleNameChange()" />
+                                Single Name
+                            </label>
+                            <input type="text" name="lastName" class="form-control" ng-model="pii.lastName" required />
+                        </div>
                     </div>
-                </div>
                 <div class="form-group row">
                     <label class="col-md-4 title-label">Name prefix</label>
                     <div class="col-md-8">
@@ -408,10 +410,13 @@
                 <div class="row">
                     <label class="col-md-4 title-label">Dependents</label>
                     <div class="col-md-8">
-                        <dependents model="pii" modelid="personid" modeltype="'person'" editmode="editMode" />
+                        <dependents model="pii" editmode="editMode" />
                     </div>
                 </div>
             </div>
         </form>
     </div>
 </div>
+
+
+

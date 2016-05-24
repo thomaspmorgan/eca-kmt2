@@ -15,6 +15,7 @@ angular.module('staticApp')
         $log,
         filterFilter,
         ContactsService,
+        orderByFilter,
         LookupService,
         NotificationService,
         ConstantsService,
@@ -26,7 +27,6 @@ angular.module('staticApp')
       $scope.view.isSavingPointOfContact = false;
       $scope.view.isLoadingPointsOfContactByFullName = false;
       $scope.view.isDeleting = false;
-      $scope.view.showEditPoc = false;
       
       $scope.view.maxNameLength = 100;
       $scope.view.searchLimit = 30;
@@ -47,9 +47,12 @@ angular.module('staticApp')
                 .then(function (response) {
                     $scope.view.isSavingPointOfContact = false;
                     $scope.view.collapsePocs = true;
-                    $scope.view.collapsePoc = true;
-                    $scope.view.showEditPoc = false;
-                    $scope.model.splice(0, 0, response.data);
+                    $scope.poc.collapsePoc = true;
+                    $scope.poc.showEditPoc = false;
+                    var index = $scope.model.selectedPointsOfContact.map(function (e) { return e.isNew }).indexOf($scope.poc.isNew);
+                    $scope.model.selectedPointsOfContact[index] = response.data;
+                    $scope.model.selectedPointsOfContact = orderByFilter($scope.model.selectedPointsOfContact, '+fullName');
+                    $scope.poc.isNew = false;
                     return response.data;
                 })
                 .catch(function (response) {
@@ -64,10 +67,11 @@ angular.module('staticApp')
                   .then(function (response) {
                       $scope.view.isSavingPointOfContact = false;
                       $scope.view.collapsePocs = true;
-                      $scope.view.collapsePoc = true;
-                      $scope.view.showEditPoc = false;
-                      var index = $scope.model.map(function (e) { return e.id }).indexOf($scope.poc.id);
-                      $scope.model[index] = response.data;
+                      $scope.poc.collapsePoc = true;
+                      $scope.poc.showEditPoc = false;
+                      var index = $scope.model.selectedPointsOfContact.map(function (e) { return e.id }).indexOf($scope.poc.id);
+                      $scope.model.selectedPointsOfContact[index] = response.data;
+                      $scope.model.selectedPointsOfContact = orderByFilter($scope.model.selectedPointsOfContact, '+fullName');
                     return response.data;
                   })
                   .catch(function (response) {
@@ -100,20 +104,20 @@ angular.module('staticApp')
       $scope.view.onSelectContact = function ($item) {
           $scope.poc = $item;
           $scope.poc.isNew = false;
-          $scope.view.showEditPoc = true;
-          $scope.view.collapsePoc = false;
-          var pocs = $scope.model;
+          $scope.poc.showEditPoc = true;
+          $scope.poc.collapsePoc = false;
+          var pocs = $scope.model.selectedPointsOfContact;
           var index = pocs.map(function (e) { return e.isNew }).indexOf(true);
           if (index !== -1) {
               var removedItems = pocs.splice(index, 1);
               pocs.push($scope.poc);
-              $scope.model = pocs;
+              $scope.model.selectedPointsOfContact = orderByFilter(pocs, '+fullName');
           }
       }
 
       $scope.view.onEditPocClick = function (poc) {
-          $scope.view.showEditPoc = true;
-          $scope.view.collapsePoc = false;
+          poc.showEditPoc = true;
+          poc.collapsePoc = false;
       };
       
       $scope.view.removePointsOfContact = function () {
@@ -129,7 +133,7 @@ angular.module('staticApp')
           return ContactsService.delete(poc)
           .then(function (response) {
               $scope.view.isDeleting = false;
-              $scope.view.showEditPoc = false;
+              $scope.poc.showEditPoc = false;
               NotificationService.showSuccessMessage('Successfully deleted the contact.');
               removePointsOfContactFromView(poc);
           })
@@ -143,17 +147,15 @@ angular.module('staticApp')
       
       $scope.view.cancelPointOfContactChanges = function (event, poc) {
           event.preventDefault();
+          poc.showEditPoc = true;
           $scope.view.collapsePocs = true;
-          $scope.view.collapsePoc = true;
-          $scope.view.showEditPoc = false;
+          $scope.poc.collapsePoc = true;
+          $scope.poc.showEditPoc = false;
           if (isNewPoc($scope.poc)) {
               removePointsOfContactFromView($scope.poc);
           }
-          //else {
-          //    $scope.poc = angular.copy(originalPointOfContact);
-          //}
-          var index = $scope.model.map(function (e) { return e.id }).indexOf($scope.poc.id);
-          $scope.model[index] = poc;
+          var index = $scope.model.selectedPointsOfContact.map(function (e) { return e.id }).indexOf($scope.poc.id);
+          $scope.model.selectedPointsOfContact[index] = poc;
       };
 
       function getPocFormDivIdPrefix() {

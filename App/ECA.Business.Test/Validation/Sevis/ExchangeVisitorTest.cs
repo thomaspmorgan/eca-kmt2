@@ -952,6 +952,7 @@ namespace ECA.Business.Test.Validation.Sevis
                 siteOfActivity: siteOfActivity);
 
             Assert.AreEqual(0, exchangeVisitor.GetSEVISEVBatchTypeExchangeVisitor1Collection(sevisUserId, exchangeVisitor).Count());
+            Assert.IsFalse(exchangeVisitor.HasChanges(exchangeVisitor));
         }
 
         [TestMethod]
@@ -1018,6 +1019,74 @@ namespace ECA.Business.Test.Validation.Sevis
             var personVisitorItem = CreateGetItemQuery<SEVISEVBatchTypeExchangeVisitorBiographical>(list).FirstOrDefault();
             Assert.IsNotNull(personVisitorItem);
             Assert.AreEqual(new RequestId(person.ParticipantId, RequestIdType.Participant, RequestActionType.Update).ToString(), personVisitorItem.requestID);
+            Assert.IsTrue(exchangeVisitor.HasChanges(previousExchangeVisitor));
+        }
+
+        [TestMethod]
+        public void TestGetSEVISEVBatchTypeExchangeVisitor1Collection_FullNameHasChanges()
+        {
+            var sevisUserId = "sevisUserId";
+            var birthDate = DateTime.UtcNow;
+            var person = GetPerson(birthDate);
+            var financialInfo = GetFinancialInfo();
+            var occupationCategoryCode = "99";
+            var endDate = DateTime.UtcNow.AddDays(1.0);
+            var startDate = DateTime.UtcNow.AddDays(-1.0);
+            var siteOfActivity = GetSOAAsAddressDTO();
+            List<Dependent> dependents = new List<Dependent>();
+            var testDependent = new TestDependent();
+            dependents.Add(testDependent);
+            var sevisId = "sevis id";
+            var sevisOrgId = "abcde12347890";
+            var isValidated = true;
+
+            var exchangeVisitor = new ExchangeVisitor(
+                sevisId: sevisId,
+                sevisOrgId: sevisOrgId,
+                isValidated: isValidated,
+                person: person,
+                financialInfo: financialInfo,
+                occupationCategoryCode: occupationCategoryCode,
+                programEndDate: endDate,
+                programStartDate: startDate,
+                dependents: dependents,
+                siteOfActivity: siteOfActivity);
+
+            var otherPerson = GetPerson(birthDate);
+            var previousExchangeVisitor = new ExchangeVisitor(
+                sevisId: sevisId,
+                sevisOrgId: sevisOrgId,
+                isValidated: isValidated,
+                person: otherPerson,
+                financialInfo: financialInfo,
+                occupationCategoryCode: occupationCategoryCode,
+                programEndDate: endDate,
+                programStartDate: startDate,
+                dependents: dependents,
+                siteOfActivity: siteOfActivity
+                );
+
+            Action<SEVISEVBatchTypeExchangeVisitor1> propertyTester = (visitor) =>
+            {
+                Assert.IsNotNull(visitor.requestID);
+                Assert.AreEqual(sevisId, visitor.sevisID);
+                Assert.AreEqual(sevisUserId, visitor.userID);
+                Assert.IsFalse(visitor.statusCodeSpecified);
+            };
+            var list = exchangeVisitor.GetSEVISEVBatchTypeExchangeVisitor1Collection(sevisUserId, previousExchangeVisitor).ToList();
+            Assert.AreEqual(0, list.Count);
+
+            var property = typeof(ECA.Business.Validation.Sevis.Bio.FullName).GetProperty(nameof(ECA.Business.Validation.Sevis.Bio.FullName.FirstName));
+            property.SetValue(otherPerson.FullName, "hello world");
+
+            list = exchangeVisitor.GetSEVISEVBatchTypeExchangeVisitor1Collection(sevisUserId, previousExchangeVisitor).ToList();
+            Assert.AreEqual(1, list.Count);
+            list.ForEach(x => propertyTester(x));
+
+            var personVisitorItem = CreateGetItemQuery<SEVISEVBatchTypeExchangeVisitorBiographical>(list).FirstOrDefault();
+            Assert.IsNotNull(personVisitorItem);
+            Assert.AreEqual(new RequestId(person.ParticipantId, RequestIdType.Participant, RequestActionType.Update).ToString(), personVisitorItem.requestID);
+            Assert.IsTrue(exchangeVisitor.HasChanges(previousExchangeVisitor));
         }
 
         [TestMethod]
@@ -1084,6 +1153,7 @@ namespace ECA.Business.Test.Validation.Sevis
             var updatedItem = CreateGetItemQuery<SEVISEVBatchTypeExchangeVisitorFinancialInfo>(list).FirstOrDefault();
             Assert.IsNotNull(updatedItem);
             Assert.AreEqual(new RequestId(person.ParticipantId, RequestIdType.FinancialInfo, RequestActionType.Update).ToString(), updatedItem.requestID);
+            Assert.IsTrue(exchangeVisitor.HasChanges(previousExchangeVisitor));
         }
 
         [TestMethod]
@@ -1162,6 +1232,7 @@ namespace ECA.Business.Test.Validation.Sevis
                 .FirstOrDefault();
             Assert.IsNotNull(editSubjectExchangeVisitorProgramItem);
             Assert.AreEqual(new RequestId(person.ParticipantId, RequestIdType.SubjectField, RequestActionType.Update).ToString(), exchangeVisitorPrograms.First().requestID);
+            Assert.IsTrue(exchangeVisitor.HasChanges(previousExchangeVisitor));
         }
 
         [TestMethod]
@@ -1226,6 +1297,7 @@ namespace ECA.Business.Test.Validation.Sevis
             Assert.IsNull(dependentVisitorItem.UserDefinedA);
             Assert.IsNull(dependentVisitorItem.UserDefinedB);
             Assert.AreEqual(testDependent.GetRequestId().ToString(), dependentVisitorItem.requestID);
+            Assert.IsTrue(exchangeVisitor.HasChanges(previousExchangeVisitor));
         }
 
         [TestMethod]
@@ -1295,6 +1367,7 @@ namespace ECA.Business.Test.Validation.Sevis
             Assert.IsNull(dependentVisitorItem.UserDefinedA);
             Assert.IsNull(dependentVisitorItem.UserDefinedB);
             Assert.AreEqual(testDependent.GetRequestId().ToString(), dependentVisitorItem.requestID);
+            Assert.IsTrue(exchangeVisitor.HasChanges(previousExchangeVisitor));
         }
 
         [TestMethod]
@@ -1340,16 +1413,9 @@ namespace ECA.Business.Test.Validation.Sevis
                 siteOfActivity: siteOfActivity
                 );
 
-            Action<SEVISEVBatchTypeExchangeVisitor1> propertyTester = (visitor) =>
-            {
-                Assert.IsNotNull(visitor.requestID);
-                Assert.AreEqual(sevisId, visitor.sevisID);
-                Assert.AreEqual(sevisUserId, visitor.userID);
-                Assert.IsFalse(visitor.statusCodeSpecified);
-            };
-
             var list = exchangeVisitor.GetSEVISEVBatchTypeExchangeVisitor1Collection(sevisUserId, previousExchangeVisitor).ToList();
             Assert.AreEqual(0, list.Count);
+            Assert.IsFalse(exchangeVisitor.HasChanges(previousExchangeVisitor));
         }
 
         private IQueryable<SEVISEVBatchTypeExchangeVisitor1> CreateGetItemQuery<T>(List<SEVISEVBatchTypeExchangeVisitor1> items)
@@ -1633,6 +1699,364 @@ namespace ECA.Business.Test.Validation.Sevis
             var detail = exchangeVisitor.GetChangeDetail(otherExchangeVisitor);
             Assert.IsTrue(detail.HasChanges());
         }
+        #endregion
+
+        #region HasChanges
+        [TestMethod]
+        public void TestHasChanges_SameInstance()
+        {
+            var sevisUserId = "sevisUserId";
+            var isValidated = true;
+            var person = GetPerson(DateTime.UtcNow);
+            var financialInfo = GetFinancialInfo();
+            var occupationCategoryCode = "99";
+            var endDate = DateTime.UtcNow.AddDays(1.0);
+            var startDate = DateTime.UtcNow.AddDays(-1.0);
+            var siteOfActivity = GetSOAAsAddressDTO();
+            List<Dependent> dependents = new List<Dependent>();
+            var testDependent = new TestDependent();
+            dependents.Add(testDependent);
+            var sevisId = "sevis id";
+            var sevisOrgId = "sevisOrgId";
+
+            var exchangeVisitor = new ExchangeVisitor(
+                sevisId: sevisId,
+                sevisOrgId: sevisOrgId,
+                isValidated: isValidated,
+                person: person,
+                financialInfo: financialInfo,
+                occupationCategoryCode: occupationCategoryCode,
+                programEndDate: endDate,
+                programStartDate: startDate,
+                dependents: dependents,
+                siteOfActivity: siteOfActivity);
+
+            Assert.IsFalse(exchangeVisitor.HasChanges(exchangeVisitor));
+        }
+
+        [TestMethod]
+        public void TestHasChanges_PersonHasChanges()
+        {
+            var sevisUserId = "sevisUserId";
+            var birthDate = DateTime.UtcNow;
+            var person = GetPerson(birthDate);
+            var financialInfo = GetFinancialInfo();
+            var occupationCategoryCode = "99";
+            var endDate = DateTime.UtcNow.AddDays(1.0);
+            var startDate = DateTime.UtcNow.AddDays(-1.0);
+            var siteOfActivity = GetSOAAsAddressDTO();
+            List<Dependent> dependents = new List<Dependent>();
+            var testDependent = new TestDependent();
+            dependents.Add(testDependent);
+            var sevisId = "sevis id";
+            var sevisOrgId = "abcde12347890";
+            var isValidated = true;
+
+            var exchangeVisitor = new ExchangeVisitor(
+                sevisId: sevisId,
+                sevisOrgId: sevisOrgId,
+                isValidated: isValidated,
+                person: person,
+                financialInfo: financialInfo,
+                occupationCategoryCode: occupationCategoryCode,
+                programEndDate: endDate,
+                programStartDate: startDate,
+                dependents: dependents,
+                siteOfActivity: siteOfActivity);
+
+            var otherPerson = GetPerson(birthDate);
+            var previousExchangeVisitor = new ExchangeVisitor(
+                sevisId: sevisId,
+                sevisOrgId: sevisOrgId,
+                isValidated: isValidated,
+                person: otherPerson,
+                financialInfo: financialInfo,
+                occupationCategoryCode: occupationCategoryCode,
+                programEndDate: endDate,
+                programStartDate: startDate,
+                dependents: dependents,
+                siteOfActivity: siteOfActivity
+                );
+            Assert.IsFalse(exchangeVisitor.HasChanges(previousExchangeVisitor));
+
+            var property = typeof(ECA.Business.Validation.Sevis.Bio.Person).GetProperty(nameof(ECA.Business.Validation.Sevis.Bio.Person.BirthCity));
+            property.SetValue(otherPerson, "hello world");
+            Assert.IsTrue(exchangeVisitor.HasChanges(previousExchangeVisitor));
+        }
+
+        [TestMethod]
+        public void TestHasChanges_FullNameHasChanges()
+        {
+            var sevisUserId = "sevisUserId";
+            var birthDate = DateTime.UtcNow;
+            var person = GetPerson(birthDate);
+            var financialInfo = GetFinancialInfo();
+            var occupationCategoryCode = "99";
+            var endDate = DateTime.UtcNow.AddDays(1.0);
+            var startDate = DateTime.UtcNow.AddDays(-1.0);
+            var siteOfActivity = GetSOAAsAddressDTO();
+            List<Dependent> dependents = new List<Dependent>();
+            var testDependent = new TestDependent();
+            dependents.Add(testDependent);
+            var sevisId = "sevis id";
+            var sevisOrgId = "abcde12347890";
+            var isValidated = true;
+
+            var exchangeVisitor = new ExchangeVisitor(
+                sevisId: sevisId,
+                sevisOrgId: sevisOrgId,
+                isValidated: isValidated,
+                person: person,
+                financialInfo: financialInfo,
+                occupationCategoryCode: occupationCategoryCode,
+                programEndDate: endDate,
+                programStartDate: startDate,
+                dependents: dependents,
+                siteOfActivity: siteOfActivity);
+
+            var otherPerson = GetPerson(birthDate);
+            var previousExchangeVisitor = new ExchangeVisitor(
+                sevisId: sevisId,
+                sevisOrgId: sevisOrgId,
+                isValidated: isValidated,
+                person: otherPerson,
+                financialInfo: financialInfo,
+                occupationCategoryCode: occupationCategoryCode,
+                programEndDate: endDate,
+                programStartDate: startDate,
+                dependents: dependents,
+                siteOfActivity: siteOfActivity
+                );
+
+            Action<SEVISEVBatchTypeExchangeVisitor1> propertyTester = (visitor) =>
+            {
+                Assert.IsNotNull(visitor.requestID);
+                Assert.AreEqual(sevisId, visitor.sevisID);
+                Assert.AreEqual(sevisUserId, visitor.userID);
+                Assert.IsFalse(visitor.statusCodeSpecified);
+            };
+            var list = exchangeVisitor.GetSEVISEVBatchTypeExchangeVisitor1Collection(sevisUserId, previousExchangeVisitor).ToList();
+            Assert.IsFalse(exchangeVisitor.HasChanges(previousExchangeVisitor));
+
+            var property = typeof(ECA.Business.Validation.Sevis.Bio.FullName).GetProperty(nameof(ECA.Business.Validation.Sevis.Bio.FullName.FirstName));
+            property.SetValue(otherPerson.FullName, "hello world");
+            Assert.IsTrue(exchangeVisitor.HasChanges(previousExchangeVisitor));
+        }
+
+        [TestMethod]
+        public void TestHasChanges_FinancialInfoHasChanges()
+        {
+            var sevisUserId = "sevisUserId";
+            var isValidated = true;
+            var birthDate = DateTime.UtcNow;
+            var person = GetPerson(birthDate);
+            var financialInfo = GetFinancialInfo();
+            var occupationCategoryCode = "99";
+            var endDate = DateTime.UtcNow.AddDays(1.0);
+            var startDate = DateTime.UtcNow.AddDays(-1.0);
+            var siteOfActivity = GetSOAAsAddressDTO();
+            List<Dependent> dependents = new List<Dependent>();
+            var testDependent = new TestDependent();
+            dependents.Add(testDependent);
+            var sevisId = "sevis id";
+            var sevisOrgId = "sevisOrgId";
+
+            var exchangeVisitor = new ExchangeVisitor(
+                sevisId: sevisId,
+                sevisOrgId: sevisOrgId,
+                isValidated: isValidated,
+                person: person,
+                financialInfo: financialInfo,
+                occupationCategoryCode: occupationCategoryCode,
+                programEndDate: endDate,
+                programStartDate: startDate,
+                dependents: dependents,
+                siteOfActivity: siteOfActivity);
+
+            var otherFinancialInfo = GetFinancialInfo();
+            var previousExchangeVisitor = new ExchangeVisitor(
+                sevisId: sevisId,
+                sevisOrgId: sevisOrgId,
+                isValidated: isValidated,
+                person: person,
+                financialInfo: otherFinancialInfo,
+                occupationCategoryCode: occupationCategoryCode,
+                programEndDate: endDate,
+                programStartDate: startDate,
+                dependents: dependents,
+                siteOfActivity: siteOfActivity
+                );
+            Assert.IsFalse(exchangeVisitor.HasChanges(previousExchangeVisitor));
+            var property = typeof(FinancialInfo).GetProperty(nameof(FinancialInfo.ReceivedUSGovtFunds));
+            property.SetValue(otherFinancialInfo, !financialInfo.ReceivedUSGovtFunds);
+
+            Assert.IsTrue(exchangeVisitor.HasChanges(previousExchangeVisitor));
+        }
+
+        [TestMethod]
+        public void TestHasChanges_SubjectFieldHasChanges()
+        {
+            var sevisUserId = "sevisUserId";
+            var birthDate = DateTime.UtcNow;
+            var person = GetPerson(birthDate);
+            var financialInfo = GetFinancialInfo();
+            var occupationCategoryCode = "99";
+            var endDate = DateTime.UtcNow.AddDays(1.0);
+            var startDate = DateTime.UtcNow.AddDays(-1.0);
+            var siteOfActivity = GetSOAAsAddressDTO();
+            List<Dependent> dependents = new List<Dependent>();
+            var testDependent = new TestDependent();
+            dependents.Add(testDependent);
+            var sevisId = "sevis id";
+            var sevisOrgId = "sevisOrgId";
+            var isValidated = true;
+
+            var exchangeVisitor = new ExchangeVisitor(
+                sevisId: sevisId,
+                sevisOrgId: sevisOrgId,
+                isValidated: isValidated,
+                person: person,
+                financialInfo: financialInfo,
+                occupationCategoryCode: occupationCategoryCode,
+                programEndDate: endDate,
+                programStartDate: startDate,
+                dependents: dependents,
+                siteOfActivity: siteOfActivity);
+
+            var otherPerson = GetPerson(birthDate);
+            var previousExchangeVisitor = new ExchangeVisitor(
+                sevisId: sevisId,
+                sevisOrgId: sevisOrgId,
+                isValidated: isValidated,
+                person: otherPerson,
+                financialInfo: financialInfo,
+                occupationCategoryCode: occupationCategoryCode,
+                programEndDate: endDate,
+                programStartDate: startDate,
+                dependents: dependents,
+                siteOfActivity: siteOfActivity
+                );
+
+            Action<SEVISEVBatchTypeExchangeVisitor1> propertyTester = (visitor) =>
+            {
+                Assert.IsNotNull(visitor.requestID);
+                Assert.AreEqual(sevisId, visitor.sevisID);
+                Assert.AreEqual(sevisUserId, visitor.userID);
+                Assert.IsFalse(visitor.statusCodeSpecified);
+            };
+            var list = exchangeVisitor.GetSEVISEVBatchTypeExchangeVisitor1Collection(sevisUserId, previousExchangeVisitor).ToList();
+            Assert.IsFalse(exchangeVisitor.HasChanges(previousExchangeVisitor));
+
+            var property = typeof(SubjectField).GetProperty(nameof(SubjectField.ForeignFieldOfStudy));
+            property.SetValue(otherPerson.SubjectField, "hello world");
+            Assert.IsTrue(exchangeVisitor.HasChanges(previousExchangeVisitor));
+        }
+
+        [TestMethod]
+        public void TestHasChanges_DependentHasBeenAdded()
+        {
+            var isValidated = true;
+            var sevisUserId = "sevisUserId";
+            var birthDate = DateTime.UtcNow;
+            var person = GetPerson(birthDate);
+            var financialInfo = GetFinancialInfo();
+            var occupationCategoryCode = "99";
+            var endDate = DateTime.UtcNow.AddDays(1.0);
+            var startDate = DateTime.UtcNow.AddDays(-1.0);
+            var siteOfActivity = GetSOAAsAddressDTO();
+            List<Dependent> dependents = new List<Dependent>();
+            var testDependent = new TestDependent();
+            dependents.Add(testDependent);
+            var sevisId = "sevis id";
+            var sevisOrgId = "sevisOrgId";
+
+            var exchangeVisitor = new ExchangeVisitor(
+                sevisId: sevisId,
+                sevisOrgId: sevisOrgId,
+                isValidated: isValidated,
+                person: person,
+                financialInfo: financialInfo,
+                occupationCategoryCode: occupationCategoryCode,
+                programEndDate: endDate,
+                programStartDate: startDate,
+                dependents: dependents,
+                siteOfActivity: siteOfActivity);
+
+
+            var previousExchangeVisitor = new ExchangeVisitor(
+                sevisId: sevisId,
+                sevisOrgId: sevisOrgId,
+                isValidated: isValidated,
+                person: person,
+                financialInfo: financialInfo,
+                occupationCategoryCode: occupationCategoryCode,
+                programEndDate: endDate,
+                programStartDate: startDate,
+                dependents: new List<Dependent>(),
+                siteOfActivity: siteOfActivity
+                );
+            Assert.IsTrue(exchangeVisitor.HasChanges(previousExchangeVisitor));
+        }
+
+        [TestMethod]
+        public void TestHasChanges_DependentHasBeenModified()
+        {
+            var sevisUserId = "sevisUserId";
+            var birthDate = DateTime.UtcNow;
+            var person = GetPerson(birthDate);
+            var financialInfo = GetFinancialInfo();
+            var occupationCategoryCode = "99";
+            var endDate = DateTime.UtcNow.AddDays(1.0);
+            var startDate = DateTime.UtcNow.AddDays(-1.0);
+            var siteOfActivity = GetSOAAsAddressDTO();
+            var testDependent = new TestDependent();
+            var previousTestDependent = new TestDependent();
+            var sevisId = "sevis id";
+            var sevisOrgId = "sevisOrgId";
+            var isValidated = true;
+
+            var exchangeVisitor = new ExchangeVisitor(
+                sevisId: sevisId,
+                sevisOrgId: sevisOrgId,
+                isValidated: isValidated,
+                person: person,
+                financialInfo: financialInfo,
+                occupationCategoryCode: occupationCategoryCode,
+                programEndDate: endDate,
+                programStartDate: startDate,
+                dependents: new List<Dependent> { testDependent },
+                siteOfActivity: siteOfActivity);
+
+
+            var previousExchangeVisitor = new ExchangeVisitor(
+                sevisId: sevisId,
+                sevisOrgId: sevisOrgId,
+                isValidated: isValidated,
+                person: person,
+                financialInfo: financialInfo,
+                occupationCategoryCode: occupationCategoryCode,
+                programEndDate: endDate,
+                programStartDate: startDate,
+                dependents: new List<Dependent> { previousTestDependent },
+                siteOfActivity: siteOfActivity
+                );
+
+            Action<SEVISEVBatchTypeExchangeVisitor1> propertyTester = (visitor) =>
+            {
+                Assert.IsNotNull(visitor.requestID);
+                Assert.AreEqual(sevisId, visitor.sevisID);
+                Assert.AreEqual(sevisUserId, visitor.userID);
+                Assert.IsFalse(visitor.statusCodeSpecified);
+            };
+
+            var list = exchangeVisitor.GetSEVISEVBatchTypeExchangeVisitor1Collection(sevisUserId, previousExchangeVisitor).ToList();
+            Assert.IsFalse(exchangeVisitor.HasChanges(previousExchangeVisitor));
+
+            var property = typeof(Dependent).GetProperty(nameof(Dependent.BirthCity));
+            property.SetValue(testDependent, "hello world");            
+            Assert.IsTrue(exchangeVisitor.HasChanges(previousExchangeVisitor));
+        }
+
         #endregion
 
         [TestMethod]

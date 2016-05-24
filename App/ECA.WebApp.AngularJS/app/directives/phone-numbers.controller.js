@@ -27,6 +27,8 @@ angular.module('staticApp')
       $scope.data.loadPhoneNumberTypesPromise = $q.defer();
       $scope.data.phoneNumberTypes = [];
 
+      //$scope.data.countries = $.fn.intlTelInput.getCountryData();
+      
       $scope.view.onAddPhoneNumberClick = function (phoneNumberableType, entityPhoneNumbers, phoneNumberableId) {
           console.assert(entityPhoneNumbers, 'The entity phone numbers is not defined.');
           console.assert(entityPhoneNumbers instanceof Array, 'The entity phone numbers is defined but must be an array.');
@@ -36,8 +38,10 @@ angular.module('staticApp')
               phoneNumberableType: phoneNumberableType,
               phoneNumberType: ConstantsService.phoneNumberType.home.value,
               phoneNumberTypeId: ConstantsService.phoneNumberType.home.id,
+              showEditPhoneNumber: true,
               isNew: true,
-              number: ""
+              number: "",
+              extension: ""
           };
           entityPhoneNumbers.splice(0, 0, newPhoneNumber);
           $scope.view.collapsePhoneNumbers = false;
@@ -89,5 +93,6 @@ angular.module('staticApp')
               $log.error(message);
           });
       }
-      getPhoneNumberTypes();
+            
+      $q.all(getPhoneNumberTypes());
   });
