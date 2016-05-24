@@ -19,24 +19,24 @@
 <#@ output extension=".js" #>
 <#
 	var types = new List<Type>();
-	types.Add(typeof(LocationType));
-	types.Add(typeof(ProjectStatus));
-	types.Add(typeof(ParticipantType));
-	types.Add(typeof(OrganizationType));
-	types.Add(typeof(OrganizationRole));
-	types.Add(typeof(SocialMediaType));
-	types.Add(typeof(ProgramStatus));
-	types.Add(typeof(MoneyFlowSourceRecipientType));
-	types.Add(typeof(CAM.Data.Permission));
-	types.Add(typeof(CAM.Data.ResourceType));
-	types.Add(typeof(EmailAddressType));
-	types.Add(typeof(PhoneNumberType));
 	types.Add(typeof(DataPointCategory));
 	types.Add(typeof(DataPointProperty));
-	types.Add(typeof(VisitorType));
 	types.Add(typeof(DependentType));
+	types.Add(typeof(EmailAddressType));
+	types.Add(typeof(LocationType));
+	types.Add(typeof(MoneyFlowSourceRecipientType));
+	types.Add(typeof(OrganizationRole));
+	types.Add(typeof(OrganizationType));
+	types.Add(typeof(ParticipantType));
+	types.Add(typeof(CAM.Data.Permission));
+	types.Add(typeof(PhoneNumberType));
+	types.Add(typeof(ProgramStatus));
+	types.Add(typeof(ProjectStatus));
+	types.Add(typeof(CAM.Data.ResourceType));
 	types.Add(typeof(ECA.Business.Validation.Sevis.ErrorPaths.SevisErrorType));
 	types.Add(typeof(SevisCommStatus));
+	types.Add(typeof(SocialMediaType));
+	types.Add(typeof(VisitorType));
 
 	types = types.OrderBy(x => x.Name).ToList();
 	var otherConstants = new Dictionary<string, string>();
@@ -56,8 +56,7 @@
 	otherConstants["fundingSourceType"] = "11";
 	otherConstants["uiGridMaxCellTextLength"] = "35";
 	otherConstants["sevisStatuChangeAlertIds"] = "6,7,11";
-	otherConstants["dependentSpouseTypeId"] = "2";
-	otherConstants["dependentChildTypeId"] = "3";
+	otherConstants["childDependentMaxAge"] = "21";
 
 	otherConstants["removeNewAddressEventName"] = "removeNewAddress";
 	otherConstants["primaryAddressChangedEventName"] = "primaryAddressChanged";

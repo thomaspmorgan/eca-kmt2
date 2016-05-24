@@ -99,7 +99,9 @@ namespace ECA.Business.Service.Persons
                     if (history != null && history.LastSuccessfulModel != null)
                     {
                         var previouslySubmittedExchangeVisitor = ExchangeVisitor.GetExchangeVisitor(history.LastSuccessfulModel);
-                        hasChanges = exchangeVisitor.HasChanges(previouslySubmittedExchangeVisitor);
+                        //either the previous exchange visitor has differences with the exchange visitor, or the previous exchange visitor
+                        //does not have a sevis id i.e. it was just created and now we have a sevis id
+                        hasChanges = exchangeVisitor.HasChanges(previouslySubmittedExchangeVisitor) || String.IsNullOrWhiteSpace(previouslySubmittedExchangeVisitor.SevisId);
                     }
                     else
                     {
@@ -151,7 +153,9 @@ namespace ECA.Business.Service.Persons
                     if (history != null && history.LastSuccessfulModel != null)
                     {
                         var previouslySubmittedExchangeVisitor = ExchangeVisitor.GetExchangeVisitor(history.LastSuccessfulModel);
-                        hasChanges = exchangeVisitor.HasChanges(previouslySubmittedExchangeVisitor);
+                        //either the previous exchange visitor has differences with the exchange visitor, or the previous exchange visitor
+                        //does not have a sevis id i.e. it was just created and now we have a sevis id
+                        hasChanges = exchangeVisitor.HasChanges(previouslySubmittedExchangeVisitor) || String.IsNullOrWhiteSpace(previouslySubmittedExchangeVisitor.SevisId);
                     }
                     else
                     {

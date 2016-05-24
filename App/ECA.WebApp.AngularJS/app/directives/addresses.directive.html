@@ -1,4 +1,13 @@
-﻿<div ng-controller="AddressesCtrl">
+﻿<!-- Fix for autocomplete styling -->
+<style>
+    .dropdown-menu > .active > a, .dropdown-menu > .active > a:hover, .dropdown-menu > .active > a:focus {
+        color: #fff;
+        text-decoration: none;
+        outline: 0;
+        background-color: #337ab7;
+    }
+</style>
+<div ng-controller="AddressesCtrl">
     <div>
         <a ng-click="view.collapseAddresses = !view.collapseAddresses">
             <i class="material-icons md-dark md-24 pull-right" ng-show="view.collapseAddresses">expand_less</i>

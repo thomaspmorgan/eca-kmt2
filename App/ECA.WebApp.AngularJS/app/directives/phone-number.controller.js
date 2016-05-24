@@ -52,11 +52,6 @@ angular.module('staticApp')
           }
       };
 
-      function updatePhoneNumbers(tempId, phoneNumber) {
-          var index = $scope.phoneNumberable.phoneNumbers.map(function (e) { return e.id }).indexOf(tempId);
-          $scope.phoneNumberable.phoneNumbers[index] = phoneNumber;
-      };
-
       $scope.view.cancelPhoneNumberChanges = function () {
           $scope.view.showEditPhoneNumber = false;
           if (isNewPhoneNumber($scope.phoneNumber)) {
@@ -115,6 +110,11 @@ angular.module('staticApp')
                   $scope.phoneNumber.value = "";
               }
           });
+      };
+
+      function updatePhoneNumbers(tempId, phoneNumber) {
+          var index = $scope.phoneNumberable.phoneNumbers.map(function (e) { return e.id }).indexOf(tempId);
+          $scope.phoneNumberable.phoneNumbers[index] = phoneNumber;
       };
 
       function removePhoneNumberFromView(phoneNumber) {

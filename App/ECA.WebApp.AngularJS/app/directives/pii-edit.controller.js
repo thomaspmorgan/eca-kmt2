@@ -84,6 +84,8 @@ angular.module('staticApp')
                  if ($scope.pii.placeOfBirth) {
                      $scope.pii.cityOfBirthId = $scope.pii.placeOfBirth.id;
                  }
+                 $scope.piiFormLastName = ($scope.pii.isSingleName) ? "NAME" : "LAST NAME";
+                 
                  $scope.selectedCountriesOfCitizenship = $scope.pii.countriesOfCitizenship.map(function (obj) {
                      var location = {};
                      location.id = obj.id;
@@ -126,6 +128,19 @@ angular.module('staticApp')
 
       $scope.searchCountries = function (search) {
           return loadCountries(search);
+      }
+
+      $scope.onIsSingleNameChange = function () {
+          if ($scope.piiFormLastName === "LAST NAME") {
+              $scope.piiFormLastName = "NAME";
+              $scope.pii.firstName = null;
+              $scope.pii.isSingleName = true;
+          }
+          else {
+              $scope.piiFormLastName = "LAST NAME";
+              $scope.pii.isSingleName = false;
+          }
+
       }
 
       $scope.onIsPlaceOfBirthUnknownChange = function () {
