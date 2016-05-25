@@ -29,7 +29,7 @@ angular.module('staticApp')
         NotificationService,
         ParticipantService,
         ParticipantPersonsService
-        ) {
+        )  {
 
       $scope.view = {};
       $scope.view.participantTypes = [];
@@ -179,24 +179,24 @@ angular.module('staticApp')
       }
 
       function showSevisUpdateAlert(statusId, sevisInfo) {
-            if (notifyStatuses.indexOf(statusId.toString()) !== -1 && sevisInfo) {
-                var defer = $q.defer();
+          if (notifyStatuses.indexOf(statusId.toString()) !== -1 && sevisInfo) {
+              var defer = $q.defer();
 
-                MessageBox.confirm({
-                    title: 'SEVIS Alert',
-                    message: 'Remember to manually cancel the user in the SEVIS RTI interface',
-                    okText: 'OK',
-                    cancelText: 'Cancel',
-                    hideCancel: true,
-                    okCallback: function () {
-                        defer.resolve();
-                    }
-                });
+              MessageBox.confirm({
+                  title: 'SEVIS Alert',
+                  message: 'Remember to manually cancel the user in the SEVIS RTI interface',
+                  okText: 'OK',
+                  cancelText: 'Cancel',
+                  hideCancel: true,
+                  okCallback: function () {
+                      defer.resolve();
+                  }
+              });
 
-                return defer.promise;
-            } else {
-                return false;
-            }
+              return defer.promise;
+          } else {
+              return false;
+          }
       };
 
       $scope.$watch('participantid', function () {
@@ -209,7 +209,7 @@ angular.module('staticApp')
               });
       });
 
-      function updateParentTableParticipantSevisStatus(participant) {          
+      function updateParentTableParticipantSevisStatus(participant) {
           if ($scope.onparticipantupdated) {
               $scope.onparticipantupdated()(participant);
           }
@@ -310,6 +310,7 @@ angular.module('staticApp')
           placementOrganizationFilter.reset();
           placementOrganizationFilter = placementOrganizationFilter
                   .skip(0)
+                  .take(10);
 
           if (search && search.length > 0) {
               placementOrganizationFilter = placementOrganizationFilter.like('name', search);

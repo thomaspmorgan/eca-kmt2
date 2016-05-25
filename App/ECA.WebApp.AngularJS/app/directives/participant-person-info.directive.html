@@ -193,12 +193,12 @@
             </div>
             <div class="row row4 form-group">
                 <div class="col-md-6">
-                    <div class="col-md-4 title-label">Placement Institution</div>
+                    <div class="col-md-4 title-label">Placement Organization</div>
                     <div class="col-md-8">
                         <ui-select ng-model="view.participantPerson.placementOrganizationId"
                                    on-select="view.onSelectPlacementOrganization($item, $model)"
                                    theme="select2">
-                            <ui-select-match placeholder="Select a Placement Institution..." allow-clear="true">
+                            <ui-select-match placeholder="Select a Placement Organization..." allow-clear="true">
                                 {{$select.selected.name}}
                             </ui-select-match>
                             <ui-select-choices repeat="org.organizationId as org in view.placementOrganizations"
@@ -212,7 +212,7 @@
                                    on-remove="view.onRemovePlacementOrganizationAddress($item, $model)"
                                    style="margin-top:20px;"
                                    theme="select2">
-                            <ui-select-match placeholder="Select 1 Placement Institution address...">
+                            <ui-select-match placeholder="Select 1 Placement Organization address...">
                                 <div>
                                     <div>
                                         {{$item.addressType}}<span ng-show="$item.isPrimary" style="margin-left:10px;">(Primary)</span>
@@ -357,7 +357,7 @@
         </div>
         <div class="row row4">
             <div class="col-md-6">
-                <div class="col-md-4 title-label">Placement Institution</div>
+                <div class="col-md-4 title-label">Placement Organization</div>
                 <div class="col-md-8" ng-show="!view.participantPerson.placementOrganization">
                     None
                 </div>

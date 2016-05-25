@@ -19,7 +19,7 @@
                 </div>
                 <div class="row">
                     <div>
-                        <a ng-click="view.onViewDependentClick(dependent)">{{dependent.value}}</a>
+                        <a ng-click="view.onViewDependentClick(dependent)">{{dependent.value.replace('undefined', '')}}</a>
                         <div class="pull-right" ng-show="editMode">
                             <a ng-show="!view.isDeletingDependent" ng-click="view.showConfirmDelete = true">
                                 <i class="material-icons md-dark">delete</i>

@@ -15,7 +15,7 @@
                         <label for="dependenttype">DEPENDENT TYPE <eca-required /></label>
                         <ui-select name="dependenttype" 
                                    ng-model="dependent.dependentTypeId" 
-                                   on-select="setMaxBirthDate($item.id)"
+                                   on-select="setMinBirthDate($item.id)"
                                    theme="select2" required>
                             <ui-select-match placeholder="Select relationship">
                                 <div>{{$select.selected.name}}</div>
