@@ -835,21 +835,8 @@ angular.module('staticApp')
       });
 
       $scope.showSevisTab = function (participantTypeId) {
-          return (!($scope.project.visitorTypeId == ConstantsService.visitorType.notApplicable.id)
-               && !(participantTypeId == ConstantsService.participantType.foreignNonTravelingParticipant.id ||
-                   participantTypeId == ConstantsService.participantType.uSNonTravelingParticipant.id ||
-                   participantTypeId == ConstantsService.participantType.uSTravelingParticipant.id ||
-                   participantTypeId == ConstantsService.participantType.organizationalParticipant.id ||
-                   participantTypeId == ConstantsService.participantType.otherOrganization.id));
-      };
-
-      $scope.visitorTypeExchangeVisitor = function (participantTypeId) {
-          return ($scope.project.visitorTypeId == ConstantsService.visitorType.exchangeVisitor.id)
-              && !(participantTypeId == ConstantsService.participantType.foreignNonTravelingParticipant.id ||
-                   participantTypeId == ConstantsService.participantType.uSNonTravelingParticipant.id ||
-                   participantTypeId == ConstantsService.participantType.uSTravelingParticipant.id ||
-                   participantTypeId == ConstantsService.participantType.organizationalParticipant.id ||
-                   participantTypeId == ConstantsService.participantType.otherOrganization.id);
+          return (($scope.project.visitorTypeId == ConstantsService.visitorType.exchangeVisitor.id)
+               && (participantTypeId == ConstantsService.participantType.foreignTravelingParticipant.id));
       };
 
       var paginationOptions = {
